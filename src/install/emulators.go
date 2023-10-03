@@ -5,15 +5,13 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam"
 )
 
-// TODO: N64, PSX, PSVITA, XBOX360, RETROARCH
-
-// Install emulator Microsoft Xbox - Xemu
-func Xemu() error {
+// Install emulator for Nintendo Wii U - Cemu
+func Cemu() error {
 
 	err := cli.Command(`
-		flatpak install -y flathub app.xemu.xemu
-		mkdir -p Games/BIOS/XBOX
-		mkdir -p Games/ROMs/XBOX
+		flatpak install -y flathub info.cemu.Cemu
+		mkdir -p Games/BIOS/WIIU
+		mkdir -p Games/ROMs/WIIU
 	`).Run()
 
 	if err != nil {
@@ -21,12 +19,12 @@ func Xemu() error {
 	}
 
 	err = steam.DownloadArtworks(
-		"3182720503",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/fac7fead96dafceaf80c1daffeae82a4.ico",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/a42b7cddd7ebb7c1bced17bddc568d2f.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/b6cd95d53810282d6a734fbb073e9479.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/5b74752b25bd07933b10b2098970f990.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/aa0994c4263018600494efceae69087a.png",
+		"3647450655",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/9308b0d6e5898366a4a986bc33f3d3e7.ico",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/c7a9f13a6c0940277d46706c7ca32601.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/9454c84816d82ed1092f2fe2919a3a8e.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/86fb4d9e1de18ebdb6fc534de828d605.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/d5da28d4865fb92720359db84e0dd0dd.png",
 	)
 
 	return err
@@ -52,6 +50,58 @@ func Citra() error {
 		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/336fd95d2fd675836a5b72a581072934.png",
 		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/585191595ac24404854bbce59d0f54d2.png",
 		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/1d0ba3d7eb612a216c3e4d002deabdb7.png",
+	)
+
+	return err
+}
+
+// Install emulator for Nintendo GameCube and Wii - Dolphin
+func Dolphin() error {
+
+	err := cli.Command(`
+		flatpak install -y flathub org.DolphinEmu.dolphin-emu
+		mkdir -p Games/BIOS/GC
+		mkdir -p Games/BIOS/WII
+		mkdir -p Games/ROMs/GC
+		mkdir -p Games/ROMs/WII
+	`).Run()
+
+	if err != nil {
+		return err
+	}
+
+	err = steam.DownloadArtworks(
+		"4088724280",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/7d2a383e54274888b4b73b97e1aaa491.ico",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/5b5bbd3170c560829391c3db7265ee9b.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/8a07e4382e18e3b9f5d2713aeaefc29b.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/cbec7ddbb30e261abd365bf9f814647d.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/018b1d3ea470dbb00e3dd6438af19bfb.png",
+	)
+
+	return err
+}
+
+// Install emulator for Sega Dreamcast - Flycast
+func Flycast() error {
+
+	err := cli.Command(`
+		flatpak install -y flathub org.flycast.Flycast
+		mkdir -p Games/BIOS/DC
+		mkdir -p Games/ROMs/DC
+	`).Run()
+
+	if err != nil {
+		return err
+	}
+
+	err = steam.DownloadArtworks(
+		"2561959160",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/abebb7c39f4b5e46bbcfab2b565ef32b.ico",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/b9b0c8b6beb69bd0c5a213b9422459ce.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/51cf6e65f8242f989f354bf9dfe5a019.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/46b3feb0521b4d823847ebbd4dd58ea6.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
 	)
 
 	return err
@@ -107,133 +157,6 @@ func MGBA() error {
 	return err
 }
 
-// Install emulator for Nintendo GameCube and Wii - Dolphin
-func Dolphin() error {
-
-	err := cli.Command(`
-		flatpak install -y flathub org.DolphinEmu.dolphin-emu
-		mkdir -p Games/BIOS/GC
-		mkdir -p Games/BIOS/WII
-		mkdir -p Games/ROMs/GC
-		mkdir -p Games/ROMs/WII
-	`).Run()
-
-	if err != nil {
-		return err
-	}
-
-	err = steam.DownloadArtworks(
-		"4088724280",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/7d2a383e54274888b4b73b97e1aaa491.ico",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/5b5bbd3170c560829391c3db7265ee9b.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/8a07e4382e18e3b9f5d2713aeaefc29b.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/cbec7ddbb30e261abd365bf9f814647d.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/018b1d3ea470dbb00e3dd6438af19bfb.png",
-	)
-
-	return err
-}
-
-// Install emulator for Nintendo Switch - Yuzu
-func Yuzu() error {
-
-	err := cli.Command(`
-		flatpak install -y flathub org.yuzu_emu.yuzu
-		mkdir -p Games/BIOS/SWITCH
-		mkdir -p Games/ROMs/SWITCH
-	`).Run()
-
-	if err != nil {
-		return err
-	}
-
-	err = steam.DownloadArtworks(
-		"2259668265",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/2cfa3753d6a524711acb5fce38eeca1a.ico",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/55d46c8717ed1cb7ac23556df1745b4b.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/75aba7a51147cb571a641b8b9f10385e.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/dd66229e57c186b4c13e52a8b3f274b2.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
-	)
-
-	return err
-}
-
-// Install emulator for Nintendo Switch - Ryujinx
-func Ryujinx() error {
-
-	err := cli.Command(`
-		flatpak install -y flathub org.ryujinx.Ryujinx
-		mkdir -p Games/BIOS/SWITCH
-		mkdir -p Games/ROMs/SWITCH
-	`).Run()
-
-	if err != nil {
-		return err
-	}
-
-	err = steam.DownloadArtworks(
-		"3765673273",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/6c7cd904122e623ce625613d6af337c4.ico",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/b948aa07167c9acb17487657e96870e5.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/550d4a283baa604976e81d35d29124df.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/3931532d087eeb1b1c1a96aba6261802.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
-	)
-
-	return err
-}
-
-// Install emulator for Nintendo Wii U - Cemu
-func Cemu() error {
-
-	err := cli.Command(`
-		flatpak install -y flathub info.cemu.Cemu
-		mkdir -p Games/BIOS/WIIU
-		mkdir -p Games/ROMs/WIIU
-	`).Run()
-
-	if err != nil {
-		return err
-	}
-
-	err = steam.DownloadArtworks(
-		"3647450655",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/9308b0d6e5898366a4a986bc33f3d3e7.ico",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/c7a9f13a6c0940277d46706c7ca32601.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/9454c84816d82ed1092f2fe2919a3a8e.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/86fb4d9e1de18ebdb6fc534de828d605.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/d5da28d4865fb92720359db84e0dd0dd.png",
-	)
-
-	return err
-}
-
-// Install emulator for Sega Dreamcast - Flycast
-func Flycast() error {
-
-	err := cli.Command(`
-		flatpak install -y flathub org.flycast.Flycast
-		mkdir -p Games/BIOS/DC
-		mkdir -p Games/ROMs/DC
-	`).Run()
-
-	if err != nil {
-		return err
-	}
-
-	err = steam.DownloadArtworks(
-		"2561959160",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/abebb7c39f4b5e46bbcfab2b565ef32b.ico",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/b9b0c8b6beb69bd0c5a213b9422459ce.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/51cf6e65f8242f989f354bf9dfe5a019.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/46b3feb0521b4d823847ebbd4dd58ea6.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
-	)
-
-	return err
-}
-
 // Install emulator for Sony Playstation 2 - PCSX2
 func PCSX2() error {
 
@@ -254,6 +177,31 @@ func PCSX2() error {
 		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/3123b87d2cede1c04e380a71701ddfe8.png",
 		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/f3a71cf60765edd14269d28819d15327.png",
 		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/9cc25407f209e031babdac7d3c520ccb.png",
+	)
+
+	return err
+}
+
+// Install emulator for Sony Playstation Portable - PPSSPP
+func PPSSPP() error {
+
+	err := cli.Command(`
+		flatpak install -y flathub org.ppsspp.PPSSPP
+		mkdir -p Games/BIOS/PSP
+		mkdir -p Games/ROMs/PSP
+	`).Run()
+
+	if err != nil {
+		return err
+	}
+
+	err = steam.DownloadArtworks(
+		"2676695813",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/2ba3c4b9390cc43edb94e42144729d33.ico",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/e242660df1b69b74dcc7fde711f924ff.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/cf476046d346e8091393001a40a523dc.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/88a52c0d85339a377918fdc1ae9dc922.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/b51ecba56e03d4181e0006ff1e8a5355.png",
 	)
 
 	return err
@@ -284,13 +232,13 @@ func RPCS3() error {
 	return err
 }
 
-// Install emulator for Sony Playstation Portable - PPSSPP
-func PPSSPP() error {
+// Install emulator for Nintendo Switch - Ryujinx
+func Ryujinx() error {
 
 	err := cli.Command(`
-		flatpak install -y flathub org.ppsspp.PPSSPP
-		mkdir -p Games/BIOS/PSP
-		mkdir -p Games/ROMs/PSP
+		flatpak install -y flathub org.ryujinx.Ryujinx
+		mkdir -p Games/BIOS/SWITCH
+		mkdir -p Games/ROMs/SWITCH
 	`).Run()
 
 	if err != nil {
@@ -298,12 +246,62 @@ func PPSSPP() error {
 	}
 
 	err = steam.DownloadArtworks(
-		"2676695813",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/2ba3c4b9390cc43edb94e42144729d33.ico",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/e242660df1b69b74dcc7fde711f924ff.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/cf476046d346e8091393001a40a523dc.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/88a52c0d85339a377918fdc1ae9dc922.png",
-		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/b51ecba56e03d4181e0006ff1e8a5355.png",
+		"3765673273",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/6c7cd904122e623ce625613d6af337c4.ico",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/b948aa07167c9acb17487657e96870e5.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/550d4a283baa604976e81d35d29124df.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/3931532d087eeb1b1c1a96aba6261802.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
+	)
+
+	return err
+}
+
+// Install emulator Microsoft Xbox - Xemu
+func Xemu() error {
+
+	err := cli.Command(`
+		flatpak install -y flathub app.xemu.xemu
+		mkdir -p Games/BIOS/XBOX
+		mkdir -p Games/ROMs/XBOX
+	`).Run()
+
+	if err != nil {
+		return err
+	}
+
+	err = steam.DownloadArtworks(
+		"3182720503",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/fac7fead96dafceaf80c1daffeae82a4.ico",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/a42b7cddd7ebb7c1bced17bddc568d2f.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/b6cd95d53810282d6a734fbb073e9479.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/5b74752b25bd07933b10b2098970f990.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/aa0994c4263018600494efceae69087a.png",
+	)
+
+	return err
+}
+
+// Install emulator for Nintendo Switch - Yuzu
+func Yuzu() error {
+
+	err := cli.Command(`
+		flatpak install -y flathub org.yuzu_emu.yuzu
+		mkdir -p Games/BIOS/SWITCH
+		mkdir -p Games/ROMs/SWITCH
+	`).Run()
+
+	if err != nil {
+		return err
+	}
+
+	err = steam.DownloadArtworks(
+		"2259668265",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/2cfa3753d6a524711acb5fce38eeca1a.ico",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/55d46c8717ed1cb7ac23556df1745b4b.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/75aba7a51147cb571a641b8b9f10385e.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/dd66229e57c186b4c13e52a8b3f274b2.png",
+		"https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
 	)
 
 	return err
