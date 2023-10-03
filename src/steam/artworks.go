@@ -9,17 +9,8 @@ import (
 // Download steam artworks for given app id
 func DownloadArtworks(appId string, icon string, logo string, cover string, banner string, hero string) error {
 
-	// If you dont see the images on Steam
-	// Use the following command to get updated application ids
-	// grep -i "<game-title>" ~/.local/share/Steam/steamapps/appmanifest_*.acf
-
-	// TODO list paths in folder
-	path := "~/.local/share/Steam/userdata/${USER_ID}/config/grid"
-	err := cli.Command(fmt.Sprintf(
-		`mkdir -p %s`,
-		path,
-	)).Run()
-
+	// Retrieve the user data path
+	path, err := GetUserDataPath()
 	if err != nil {
 		return err
 	}
@@ -31,12 +22,17 @@ func DownloadArtworks(appId string, icon string, logo string, cover string, bann
 	// Banner: ${APPID}.png
 	// Hero: ${APPID}_hero_.png
 	err = cli.Command(fmt.Sprintf(`
-		[ "%s" != "" ] && wget -q -O %s/%s.ico %s
-		[ "%s" != "" ] && wget -q -O %s/%s_logo.png %s
-		[ "%s" != "" ] && wget -q -O %s/%sp.png %s
-		[ "%s" != "" ] && wget -q -O %s/%s.png %s
-		[ "%s" != "" ] && wget -q -O %s/%s_hero.png %s
+		# Make sure folder exist
+		mkdir -p %s/config/grid
+
+		# Download images
+		[ "%s" != "" ] && wget -q -O %s/config/grid/%s.ico %s
+		[ "%s" != "" ] && wget -q -O %s/config/grid/%s_logo.png %s
+		[ "%s" != "" ] && wget -q -O %s/config/grid/%sp.png %s
+		[ "%s" != "" ] && wget -q -O %s/config/grid/%s.png %s
+		[ "%s" != "" ] && wget -q -O %s/config/grid/%s_hero.png %s
 		`,
+		path,
 		icon, path, appId, icon,
 		logo, path, appId, logo,
 		cover, path, appId, cover,
