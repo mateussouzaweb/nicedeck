@@ -3,111 +3,87 @@ package main
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
-	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/install"
 )
 
 func main() {
 
-	args := os.Args[1:]
-
-	// Mapping for easy install
-	installMap := map[string]func() error{
-		"xemu":          install.Xemu,
-		"citra":         install.Citra,
-		"melonds":       install.MelonDS,
-		"mgba":          install.MGBA,
-		"dolphin":       install.Dolphin,
-		"yuzu":          install.Yuzu,
-		"ryujinx":       install.Ryujinx,
-		"cemu":          install.Cemu,
-		"flycast":       install.Flycast,
-		"pcsx2":         install.PCSX2,
-		"rpcs3":         install.RPCS3,
-		"ppsspp":        install.PPSSPP,
-		"google-chrome": install.GoogleChrome,
-		"firefox":       install.Firefox,
-		"moonlight":     install.Moonlight,
-		"heroic-games":  install.HeroicGamesLauncher,
-		"lutris":        install.Lutris,
-		"bottles":       install.Bottles,
-		"jellyfin":      install.JellyfinMediaPlayer,
-	}
-
-	// Retrieve home directory
-	home, err := os.UserHomeDir()
+	// Working directory should be home always
+	// This will not affect the shell working directory
+	err := cli.EnsureHome()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	// Check for the presence of games folder
-	if !fs.DirectoryExist(filepath.Join(home, "Games")) {
+	// Create mapping for easy install
+	installMap := map[string]func() error{
+		"bottles":       install.Bottles,
+		"cemu":          install.Cemu,
+		"citra":         install.Citra,
+		"dolphin":       install.Dolphin,
+		"firefox":       install.Firefox,
+		"flycast":       install.Flycast,
+		"google-chrome": install.GoogleChrome,
+		"heroic-games":  install.HeroicGamesLauncher,
+		"jellyfin":      install.JellyfinMediaPlayer,
+		"lutris":        install.Lutris,
+		"melonds":       install.MelonDS,
+		"mgba":          install.MGBA,
+		"moonlight":     install.Moonlight,
+		"pcsx2":         install.PCSX2,
+		"ppsspp":        install.PPSSPP,
+		"rpcs3":         install.RPCS3,
+		"ryujinx":       install.Ryujinx,
+		"xemu":          install.Xemu,
+		"yuzu":          install.Yuzu,
+	}
 
-		// Create base games folder
-		err := cli.Command(fmt.Sprintf(`
-			mkdir -p %s/Games/BIOS
-			mkdir -p %s/Games/ROMs
-			mkdir -p %s/Games/Save
-		`, home, home, home)).Run()
+	args := os.Args[1:]
+	subCommand := cli.Arg(args, "0", "")
 
+	// Version command
+	if subCommand == "version" {
+		fmt.Println("Version 0.0.1")
+		return
+	}
+
+	// Help command
+	if subCommand == "help" {
+		programs := make([]string, 0, len(installMap))
+		for program := range installMap {
+			programs = append(programs, program)
+		}
+
+		fmt.Println("")
+		fmt.Println("nicedeck version                   (show version)")
+		fmt.Println("nicedeck help                      (print this help)")
+		fmt.Println("nicedeck setup                     (install all programs)")
+		fmt.Println("nicedeck install --program=KEY,... (install specific programs)")
+		fmt.Println("")
+		fmt.Println("Available programs to install: ", strings.Join(programs, ", "))
+
+		return
+	}
+
+	// Install command (for specific programs only)
+	if subCommand == "install" {
+
+		// Make sure structure installation is done
+		err = install.Structure()
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
 
-		// Check if must install it on microSD
-		toMicroSD := cli.Read("INSTALL_TO_MICROSD", "Install to MicroSD? (Y/N)", "N")
-		if toMicroSD == "Y" {
+		// Install selected programs
+		programs := cli.Arg(args, "--programs", "")
+		programs = strings.ReplaceAll(programs, " ", "")
 
-			microSDPath := cli.Read("MICROSD_PATH", "What is the path of the MicroSD?", "/run/media/MicroSD")
-			microSDPath = strings.TrimRight(microSDPath, "/")
-
-			err := cli.Command(fmt.Sprintf(`
-				# Remove folders in home to create symlink
-				[ -d "%s/Games/BIOS" ] && rm -r %s/Games/BIOS
-				[ -d "%s/Games/ROMs" ] && rm -r %s/Games/ROMs
-				[ -d "%s/Games/Save" ] && rm -r %s/Games/Save
-
-				# Make sure base folder exist on microSD
-				mkdir -p %s/Games
-
-				# Create symlinks
-				ln -s %s/Games/BIOS %s/Games/BIOS
-				ln -s %s/Games/ROMs %s/Games/ROMs
-				ln -s %s/Games/Save %s/Games/Save`,
-				home, home,
-				home, home,
-				home, home,
-				microSDPath,
-				microSDPath, home,
-				microSDPath, home,
-				microSDPath, home,
-			)).Run()
-
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-		}
-
-	}
-
-	// Move working directory to home folder
-	err = os.Chdir(home)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	// Install specific programs only
-	install := cli.Arg(args, "--install", "")
-	if install != "" {
-		for _, program := range strings.Split(install, ",") {
+		for _, program := range strings.Split(programs, ",") {
 			if command, ok := installMap[program]; ok {
 				err := command()
 				if err != nil {
@@ -115,18 +91,34 @@ func main() {
 					break
 				}
 			} else {
-				fmt.Println("Program not found: ", program)
+				fmt.Println("Program not found to install: ", program)
 			}
 		}
+
+		return
 	}
 
-	// Default action, install all programs
-	for _, command := range installMap {
-		err := command()
+	// Setup command (to install all programs)
+	if subCommand == "setup" {
+
+		// Make sure structure installation is done
+		err = install.Structure()
 		if err != nil {
 			fmt.Println(err)
-			break
+			return
 		}
+
+		// Install each program
+		for _, command := range installMap {
+			err := command()
+			if err != nil {
+				fmt.Println(err)
+				break
+			}
+		}
+
+		return
 	}
 
+	fmt.Println("Unknown command.")
 }
