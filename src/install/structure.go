@@ -46,18 +46,18 @@ func Structure() error {
 
 	// Make symlinks
 	err = cli.Command(fmt.Sprintf(`
-	# Remove folders in home to create symlink
-	[ -d "%s/Games/BIOS" ] && rm -r %s/Games/BIOS
-	[ -d "%s/Games/ROMs" ] && rm -r %s/Games/ROMs
-	[ -d "%s/Games/Save" ] && rm -r %s/Games/Save
+		# Remove folders in home to create symlink
+		[ -d "%s/Games/BIOS" ] && rm -r %s/Games/BIOS
+		[ -d "%s/Games/ROMs" ] && rm -r %s/Games/ROMs
+		[ -d "%s/Games/Save" ] && rm -r %s/Games/Save
 
-	# Make sure base folder exist on microSD
-	mkdir -p %s/Games
+		# Make sure base folder exist on microSD
+		mkdir -p %s/Games
 
-	# Create symlinks
-	ln -s %s/Games/BIOS %s/Games/BIOS
-	ln -s %s/Games/ROMs %s/Games/ROMs
-	ln -s %s/Games/Save %s/Games/Save`,
+		# Create symlinks
+		ln -s %s/Games/BIOS %s/Games/BIOS
+		ln -s %s/Games/ROMs %s/Games/ROMs
+		ln -s %s/Games/Save %s/Games/Save`,
 		home, home,
 		home, home,
 		home, home,

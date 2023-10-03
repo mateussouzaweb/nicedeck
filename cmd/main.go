@@ -59,10 +59,10 @@ func main() {
 		}
 
 		fmt.Println("")
-		fmt.Println("nicedeck version                   (show version)")
-		fmt.Println("nicedeck help                      (print this help)")
-		fmt.Println("nicedeck setup                     (install all programs)")
-		fmt.Println("nicedeck install --program=KEY,... (install specific programs)")
+		fmt.Println("nicedeck version                    (show version)")
+		fmt.Println("nicedeck help                       (print this help)")
+		fmt.Println("nicedeck setup                      (install all programs)")
+		fmt.Println("nicedeck install --programs=KEY,... (install specific program or programs)")
 		fmt.Println("")
 		fmt.Println("Available programs to install: ", strings.Join(programs, ", "))
 
@@ -91,7 +91,7 @@ func main() {
 					break
 				}
 			} else {
-				fmt.Println("Program not found to install: ", program)
+				fmt.Println("Program not found to install:", program)
 			}
 		}
 
