@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
-	"github.com/mateussouzaweb/nicedeck/src/fs"
 )
 
 // Ensure folder structure to install programs
@@ -20,7 +19,7 @@ func Structure() error {
 	}
 
 	// Check for the presence of games folder, if exist, then is ok
-	if fs.ExistDirectory(filepath.Join(home, "Games")) {
+	if cli.ExistDirectory(filepath.Join(home, "Games")) {
 		return nil
 	}
 
