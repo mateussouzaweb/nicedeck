@@ -7,6 +7,7 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/install"
+	"github.com/mateussouzaweb/nicedeck/src/steam"
 )
 
 func main() {
@@ -69,15 +70,34 @@ func main() {
 		return
 	}
 
+	// Retrieve userdata path
+	path, err := steam.GetUserDataPath()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	// Set runtime configs
+	save, err := steam.Use(&steam.Config{
+		ArtworksPath:      path + "/config/grid",
+		ShortcutsFilePath: path + "/config/shortcuts.vdf",
+	})
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	defer save()
+
+	// Make sure structure installation is done
+	err = install.Structure()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
 	// Install command (for specific programs only)
 	if subCommand == "install" {
-
-		// Make sure structure installation is done
-		err = install.Structure()
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
 
 		// Install selected programs
 		programs := cli.Arg(args, "--programs", "")
@@ -100,13 +120,6 @@ func main() {
 
 	// Setup command (to install all programs)
 	if subCommand == "setup" {
-
-		// Make sure structure installation is done
-		err = install.Structure()
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
 
 		// Install each program
 		for _, command := range installMap {

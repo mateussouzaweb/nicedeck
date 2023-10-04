@@ -20,7 +20,7 @@ func Cemu() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "Cemu",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -55,7 +55,7 @@ func Citra() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "Citra",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -88,7 +88,7 @@ func Dolphin() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "Dolphin Emulator",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -119,7 +119,7 @@ func Flycast() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "Flycast",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -150,7 +150,7 @@ func MelonDS() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "MelonDS",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -181,7 +181,7 @@ func MGBA() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "MGBA",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -212,7 +212,7 @@ func PCSX2() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "PCSX2",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -243,7 +243,7 @@ func PPSSPP() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "PPSSPP",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -274,7 +274,7 @@ func RPCS3() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "RPCS3",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -305,7 +305,7 @@ func Ryujinx() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "Ryujinx",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -336,7 +336,7 @@ func Xemu() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "Xemu",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -367,7 +367,7 @@ func Yuzu() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "Yuzu",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",

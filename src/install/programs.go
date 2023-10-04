@@ -18,7 +18,7 @@ func Bottles() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "Bottles",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -47,7 +47,7 @@ func Firefox() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "Firefox",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -76,7 +76,7 @@ func GoogleChrome() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "Google Chrome",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -105,7 +105,7 @@ func HeroicGamesLauncher() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "Heroic Games Launcher",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -134,7 +134,7 @@ func JellyfinMediaPlayer() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "Jellyfin",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -163,7 +163,7 @@ func Lutris() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "Lutris",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -192,7 +192,7 @@ func Moonlight() error {
 	}
 
 	// Add to steam
-	err = steam.AddToSteam(&steam.App{
+	err = steam.AddToShotcuts(&steam.Shortcut{
 		AppName:       "Moonlight Game Streaming",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
