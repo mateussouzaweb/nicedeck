@@ -47,7 +47,7 @@ func AddToShotcuts(shortcut *Shortcut) error {
 	// Logo: ${APPID}_logo.png
 	// Cover: ${APPID}p.png
 	// Banner: ${APPID}.png
-	// Hero: ${APPID}_hero_.png
+	// Hero: ${APPID}_hero.png
 	err := cli.Command(fmt.Sprintf(`
 		# Make sure folder exist
 		mkdir -p %s

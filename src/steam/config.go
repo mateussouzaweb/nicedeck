@@ -3,8 +3,8 @@ package steam
 import (
 	"bytes"
 	"fmt"
+	"os"
 
-	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/vdf"
 )
 
@@ -68,7 +68,7 @@ func Use(config *Config) (func() error, error) {
 		}
 
 		// Write content to file
-		err = cli.WriteFile(_config.ShortcutsFile, content.Bytes(), 0666)
+		err = os.WriteFile(_config.ShortcutsFile, content.Bytes(), 0666)
 		if err != nil {
 			return err
 		}
@@ -77,12 +77,13 @@ func Use(config *Config) (func() error, error) {
 	}
 
 	// Check if file exist
-	if !cli.ExistFile(_config.ShortcutsFile) {
+	info, err := os.Stat(_config.ShortcutsFile)
+	if os.IsNotExist(err) || info.IsDir() {
 		return saveShortcuts, nil
 	}
 
 	// Read file content
-	content, err := cli.ReadFile(_config.ShortcutsFile)
+	content, err := os.ReadFile(_config.ShortcutsFile)
 	if err != nil {
 		return saveShortcuts, err
 	}

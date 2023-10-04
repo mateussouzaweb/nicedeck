@@ -19,7 +19,8 @@ func Structure() error {
 	}
 
 	// Check for the presence of games folder, if exist, then is ok
-	if cli.ExistDirectory(filepath.Join(home, "Games")) {
+	info, err := os.Stat(filepath.Join(home, "Games"))
+	if !os.IsNotExist(err) && info.IsDir() {
 		return nil
 	}
 
