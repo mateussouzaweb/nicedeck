@@ -8,8 +8,20 @@ import (
 	"io"
 )
 
+// Marker of VDF binaries
+const (
+	markerMap         byte = 0x00
+	markerString      byte = 0x01
+	markerNumber      byte = 0x02
+	markerEndOfMap    byte = 0x08
+	markerEndOfString byte = 0x00
+)
+
+// Vdf map
+type Vdf map[string]any
+
 // Read VDF data in buffer
-func readVdf(buffer *bytes.Buffer) (Vdf, error) {
+func ReadVdf(buffer *bytes.Buffer) (Vdf, error) {
 
 	result := Vdf{}
 
@@ -66,7 +78,7 @@ func readNextMap(buffer *bytes.Buffer) (Vdf, error) {
 		}
 
 		// Retrieve appropriated value based on byte type
-		var value interface{}
+		var value any
 		switch b {
 		case markerMap:
 			value, err = readNextMap(buffer)
@@ -100,9 +112,9 @@ func readNextString(buffer *bytes.Buffer) (string, error) {
 }
 
 // Read next number on buffer
-func readNextNumber(buffer *bytes.Buffer) (uint32, error) {
+func readNextNumber(buffer *bytes.Buffer) (uint, error) {
 
-	var value uint32
+	var value uint
 
 	bf := make([]byte, 4)
 	length, err := buffer.Read(bf)
@@ -113,6 +125,6 @@ func readNextNumber(buffer *bytes.Buffer) (uint32, error) {
 		return value, errors.New("invalid number")
 	}
 
-	value = binary.LittleEndian.Uint32(bf)
+	value = uint(binary.LittleEndian.Uint32(bf))
 	return value, nil
 }

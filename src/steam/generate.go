@@ -1,13 +1,12 @@
 package steam
 
 import (
-	"fmt"
 	"hash/crc32"
 )
 
 // Generate preliminarId from given key.
 // Extracted from https://github.com/SteamGridDB/steam-rom-manager
-func GeneratePreliminarId(key string) uint {
+func GeneratePreliminarID(key string) uint {
 	crc32q := crc32.MakeTable(crc32.IEEE)
 	top := crc32.Checksum([]byte(key), crc32q) | 0x80000000
 	result := uint(top)<<32 | 0x02000000
@@ -17,15 +16,14 @@ func GeneratePreliminarId(key string) uint {
 
 // Generate appId - Used for big picture grids.
 // Extracted from https://github.com/SteamGridDB/steam-rom-manager
-func GenerateAppId(key string) string {
-	preliminar := GeneratePreliminarId(key)
-	return fmt.Sprintf("%v", preliminar)
+func GenerateAppID(key string) uint {
+	return GeneratePreliminarID(key)
 }
 
 // Generate shortcutId - Used as appId in shortcuts.vdf.
 // Extracted from https://github.com/SteamGridDB/steam-rom-manager
-func GenerateShortcutId(key string) string {
-	preliminar := GeneratePreliminarId(key)
+func GenerateShortcutID(key string) uint {
+	preliminar := GeneratePreliminarID(key)
 	result := (preliminar >> 32) - 0x100000000
-	return fmt.Sprintf("%v", result)
+	return result
 }

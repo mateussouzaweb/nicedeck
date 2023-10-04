@@ -4,17 +4,18 @@ import (
 	"bytes"
 	"encoding/binary"
 	"errors"
+	"fmt"
 )
 
 // Write VDF result to buffer and return it
-func writeVdf(data Vdf) (*bytes.Buffer, error) {
+func WriteVdf(data Vdf) (*bytes.Buffer, error) {
 
 	buffer := bytes.NewBuffer([]byte{})
 
 	// Iterate over keys
 	for key, value := range data {
 		switch value := value.(type) {
-		case uint32:
+		case uint:
 
 			// Add type
 			err := buffer.WriteByte(markerNumber)
@@ -69,7 +70,7 @@ func writeVdf(data Vdf) (*bytes.Buffer, error) {
 			}
 
 			// Add value
-			mapBuffer, err := writeVdf(value)
+			mapBuffer, err := WriteVdf(value)
 			if err != nil {
 				return nil, err
 			}
@@ -80,7 +81,7 @@ func writeVdf(data Vdf) (*bytes.Buffer, error) {
 			}
 
 		default:
-			return nil, errors.New("unrecognized type")
+			return nil, fmt.Errorf("unrecognized type: %v", value)
 		}
 	}
 
@@ -119,11 +120,11 @@ func writeString(buffer *bytes.Buffer, value string) error {
 }
 
 // Write a buffer with a string value and null terminator
-func writeNumber(buffer *bytes.Buffer, value uint32) error {
+func writeNumber(buffer *bytes.Buffer, value uint) error {
 
 	// Convert to bytes
 	bytes := make([]byte, 4)
-	binary.LittleEndian.PutUint32(bytes, value)
+	binary.LittleEndian.PutUint32(bytes, uint32(value))
 
 	// Append to buffer
 	_, err := buffer.Write(bytes)
