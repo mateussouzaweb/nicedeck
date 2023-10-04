@@ -1,11 +1,11 @@
 # NiceDeck
 
-Steck Deck customizations for a nice experience targered **for advanced users only**.
-This process will automate basic installation without the need of extra softwares.
+Steck Deck customizations for a nice experience targered **for advanced users only, because is experimental**:
 
-All softwares and emulators are flatpak based, because it is official and easier to use / install / update.
-Like softwares, each emulator is flatpak based. You can choose only the desired emulators to install.
-
+- Automatic installation of recomended softwares for general usage and console emulation.
+- All softwares and emulators are flatpak based - because is easier to use / install / update. 
+- You can choose the desired software and emulators to install. 
+- Installed programs will be available on the ``Steam Library``, allowing usage on ``Gaming Mode`` at Steam Deck.
 
 ## Installation and Usage
 
@@ -18,11 +18,14 @@ curl https://mateussouzaweb.github.io/nicedeck/install.sh | bash -
 After the program has been installed, you can install all nice deck experience programs on just the ones that you desire:
 
 ```bash
+# Usage help
+nicedeck help
+
 # Install all
-nicedeck 
+nicedeck setup
 
 # Install specific programs
-nicedeck --install=citra,yuzu
+nicedeck install --programs=citra,yuzu
 ```
 
 ## Folders and Structure
@@ -31,20 +34,9 @@ nicedeck --install=citra,yuzu
 - You can optionally map the MicroSD card path in the install process with symlink to keep this data separated from main drive installation (this is important because by using symbolic links, we can avoid some permissions issues with flatpak along the way).
 - Once you have installed the desired emulators, place the ``BIOS`` and ``ROMs`` for each emulator in their respective folders.
 
-## Application Launcher
-
-Is time to organize the system launcher in Desktop Mode. Right-click on the ``Application Laucher`` icon and select the option ``Edit Applications``. The opened software will allows deep customization of the installed applications on the launcher, including the support for adding new categories (like **Emulators**), renaming apps, removing the not desired ones, sorting and many more. Make the customizations based in your needs.
-
-You can also take the opportunity and add favorites programs to the special favorites section. Open the launcher, right-click in the application and select the ``Add to Favorites`` option.
-
-## Add Programs to Steam
-
-You should now add the softwares and emulators to the Steam. This will allow the use of these programs directly from the ``Gaming Mode``, with all shortcuts and special menus that is available on Steam Deck. For each downloaded software or emulator, open the launcher menu, right-click on the app and choose the ``Add to Steam`` option. Once the apps are added, we can grab their images for nice UI on Steam.
-
 ## Controller Layout
 
 To configure controller layout for each program, make sure you are in ``Gaming Mode`` first:
-
 The most easier layout are for browser like softwares like ``Google Chrome``:
 
 - Open the library, select the software that you desire and open the controller menu. 
@@ -63,6 +55,13 @@ For emulators, you will need to set some custom layouts to allow both gamepad an
 - Finally, close the menu to conclude changes.
 
 Once you have it configured on each program, it time to have a nice experience :D.
+
+
+## Application Launcher
+
+Is time to organize the system launcher in Desktop Mode. Right-click on the ``Application Laucher`` icon and select the option ``Edit Applications``. The opened software will allows deep customization of the installed applications on the launcher, including the support for adding new categories (like **Emulators**), renaming apps, removing the not desired ones, sorting and many more. Make the customizations based in your needs.
+
+You can also take the opportunity and add favorites programs to the special favorites section. Open the launcher, right-click in the application and select the ``Add to Favorites`` option.
 
 ## Final Tips
 
