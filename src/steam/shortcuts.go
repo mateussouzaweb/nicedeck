@@ -36,7 +36,7 @@ type Shortcut struct {
 func AddToShotcuts(shortcut *Shortcut) error {
 
 	// Determine appId
-	shortcut.AppID = GenerateShortcutID(shortcut.Exe + shortcut.AppName)
+	shortcut.AppID = GenerateShortcutID(shortcut.Exe, shortcut.AppName)
 
 	// Set icon path
 	shortcut.Icon = fmt.Sprintf("%s/%v.ico", _config.ArtworksPath, shortcut.AppID)
