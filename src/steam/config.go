@@ -28,7 +28,7 @@ func Use(config *Config) (func() error, error) {
 		}
 
 		// Write content to file
-		err = cli.WriteFile(_config.ShortcutsFile, string(content), 0666)
+		err = cli.WriteFile(_config.ShortcutsFile, content, 0666)
 		if err != nil {
 			return err
 		}
@@ -48,7 +48,7 @@ func Use(config *Config) (func() error, error) {
 	}
 
 	// Map to struct
-	err = vdf.Unmarshal([]byte(content), &_config.Shortcuts)
+	err = vdf.Unmarshal(content, &_config.Shortcuts)
 	if err != nil {
 		return saveShortcuts, err
 	}
