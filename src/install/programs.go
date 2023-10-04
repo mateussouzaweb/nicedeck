@@ -135,7 +135,7 @@ func JellyfinMediaPlayer() error {
 
 	// Add to steam
 	err = steam.AddToShotcuts(&steam.Shortcut{
-		AppName:       "Jellyfin",
+		AppName:       "Jellyfin Media Player",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/com.github.iwalton3.jellyfin-media-player.desktop",
@@ -179,8 +179,8 @@ func Lutris() error {
 	return err
 }
 
-// Install Moonlight
-func Moonlight() error {
+// Install Moonlight Game Streaming
+func MoonlightGameStreaming() error {
 
 	// Install from flatpak
 	err := cli.Command(`

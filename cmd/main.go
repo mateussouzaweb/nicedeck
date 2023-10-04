@@ -34,7 +34,7 @@ func main() {
 		"lutris":        install.Lutris,
 		"melonds":       install.MelonDS,
 		"mgba":          install.MGBA,
-		"moonlight":     install.Moonlight,
+		"moonlight":     install.MoonlightGameStreaming,
 		"pcsx2":         install.PCSX2,
 		"ppsspp":        install.PPSSPP,
 		"rpcs3":         install.RPCS3,

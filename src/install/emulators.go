@@ -259,7 +259,7 @@ func PPSSPP() error {
 	return err
 }
 
-// Install emulator for Sony Playstaion 3 - RPCS3
+// Install emulator for Sony Playstation 3 - RPCS3
 func RPCS3() error {
 
 	// Install from flatpak

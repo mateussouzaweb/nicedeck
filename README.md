@@ -28,6 +28,36 @@ nicedeck setup
 nicedeck install --programs=citra,yuzu
 ```
 
+*Note:* Restart Steam to changes take effect into ``Steam Library``.
+
+## Available Programs:
+
+Softwares:
+
+- Bottles
+- Firefox
+- Google Chrome
+- Heroic Games Launcher
+- Jellyfin Media Player
+- Lutris
+- Moonlight Game Streaming
+
+Emulators:
+
+- Microsoft Xbox - Xemu
+- Nintendo 3DS - Citra
+- Nintendo DS - MelonDS
+- Nintendo Game Boy Advance - mGBA
+- Nintendo GameCube - Dolphin
+- Nintendo Switch - Ryujinx
+- Nintendo Switch - Yuzu
+- Nintendo Wii - Dolphin
+- Nintendo Wii U - Cemu
+- Sega Dreamcast - Flycast
+- Sony Playstation 2 - PCSX2
+- Sony Playstation 3 - RPCS3
+- Sony Playstation Portable - PPSSPP
+
 ## Folders and Structure
 
 - NiceDeck will create the ``$HOME/Games`` folder with basic structure for emulation.
@@ -36,7 +66,7 @@ nicedeck install --programs=citra,yuzu
 
 ## Controller Layout
 
-To configure controller layout for each program, make sure you are in ``Gaming Mode`` first:
+To configure controller layout for each program, make sure you are in ``Gaming Mode`` first.
 The most easier layout are for browser like softwares like ``Google Chrome``:
 
 - Open the library, select the software that you desire and open the controller menu. 
@@ -55,7 +85,6 @@ For emulators, you will need to set some custom layouts to allow both gamepad an
 - Finally, close the menu to conclude changes.
 
 Once you have it configured on each program, it time to have a nice experience :D.
-
 
 ## Application Launcher
 
