@@ -6,9 +6,9 @@ import (
 )
 
 type Config struct {
-	ShortcutsFilePath string
-	ArtworksPath      string
-	Shortcuts         Shortcuts
+	ShortcutsFile string
+	ArtworksPath  string
+	Shortcuts     Shortcuts
 }
 
 var _config *Config
@@ -28,7 +28,7 @@ func Use(config *Config) (func() error, error) {
 		}
 
 		// Write content to file
-		err = cli.WriteFile(_config.ShortcutsFilePath, string(content), 0666)
+		err = cli.WriteFile(_config.ShortcutsFile, string(content), 0666)
 		if err != nil {
 			return err
 		}
@@ -37,12 +37,12 @@ func Use(config *Config) (func() error, error) {
 	}
 
 	// Check if file exist
-	if !cli.ExistFile(_config.ShortcutsFilePath) {
+	if !cli.ExistFile(_config.ShortcutsFile) {
 		return saveShortcuts, nil
 	}
 
 	// Read file content
-	content, err := cli.ReadFile(_config.ShortcutsFilePath)
+	content, err := cli.ReadFile(_config.ShortcutsFile)
 	if err != nil {
 		return saveShortcuts, err
 	}

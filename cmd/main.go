@@ -79,8 +79,8 @@ func main() {
 
 	// Set runtime configs
 	save, err := steam.Use(&steam.Config{
-		ArtworksPath:      path + "/grid",
-		ShortcutsFilePath: path + "/shortcuts.vdf",
+		ArtworksPath:  path + "/grid",
+		ShortcutsFile: path + "/shortcuts.vdf",
 	})
 	if err != nil {
 		fmt.Println(err)
