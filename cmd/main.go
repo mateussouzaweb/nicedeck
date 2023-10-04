@@ -71,7 +71,7 @@ func main() {
 	}
 
 	// Retrieve userdata path
-	path, err := steam.GetUserDataPath()
+	path, err := steam.GetUserPath("/config")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -79,8 +79,8 @@ func main() {
 
 	// Set runtime configs
 	save, err := steam.Use(&steam.Config{
-		ArtworksPath:      path + "/config/grid",
-		ShortcutsFilePath: path + "/config/shortcuts.vdf",
+		ArtworksPath:      path + "/grid",
+		ShortcutsFilePath: path + "/shortcuts.vdf",
 	})
 	if err != nil {
 		fmt.Println(err)
