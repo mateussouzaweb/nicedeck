@@ -2,6 +2,7 @@ package steam
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"os"
 
@@ -9,9 +10,10 @@ import (
 )
 
 type Config struct {
-	ShortcutsFile string
-	ArtworksPath  string
-	Shortcuts     []*Shortcut
+	ArtworksPath  string      `json:"artworksPath"`
+	DebugFile     string      `json:"debugFile"`
+	ShortcutsFile string      `json:"shortcutsFile"`
+	Shortcuts     []*Shortcut `json:"shortcuts"`
 }
 
 func (c *Config) LoadShortcuts() error {
@@ -219,11 +221,42 @@ func (c *Config) SaveShotcuts() error {
 	return nil
 }
 
+// Save updated content on the debug file
+func (c *Config) SaveDebug() error {
+
+	// Save JSON copy for debugging
+	jsonContent, err := json.Marshal(c)
+	if err != nil {
+		return err
+	}
+
+	// Write JSON content to file
+	err = os.WriteFile(c.DebugFile, jsonContent, 0666)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 var _config *Config
 
 // Use given runtime config
 func Use(config *Config) (func() error, error) {
 	_config = config
+
 	err := _config.LoadShortcuts()
-	return _config.SaveShotcuts, err
+	save := func() error {
+		err := _config.SaveDebug()
+		if err != nil {
+			return err
+		}
+		err = _config.SaveShotcuts()
+		if err != nil {
+			return err
+		}
+		return nil
+	}
+
+	return save, err
 }

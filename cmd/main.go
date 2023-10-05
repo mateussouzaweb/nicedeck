@@ -80,6 +80,7 @@ func main() {
 	// Set runtime configs
 	save, err := steam.Use(&steam.Config{
 		ArtworksPath:  path + "/grid",
+		DebugFile:     path + "/niceconfig.json",
 		ShortcutsFile: path + "/shortcuts.vdf",
 	})
 	if err != nil {
