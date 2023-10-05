@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sort"
 
 	"github.com/mateussouzaweb/nicedeck/src/vdf"
 )
@@ -127,6 +128,12 @@ func (c *Config) LoadShortcuts() error {
 
 	}
 
+	// Sort list of shortcuts
+	err = c.SortShortcuts()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -162,6 +169,16 @@ func (c *Config) AddShortcut(shortcut *Shortcut) error {
 	if !found {
 		c.Shortcuts = append(c.Shortcuts, shortcut)
 	}
+
+	return nil
+}
+
+// Sort shortcuts in alphabetical order
+func (c *Config) SortShortcuts() error {
+
+	sort.Slice(c.Shortcuts, func(i int, j int) bool {
+		return c.Shortcuts[i].AppName < c.Shortcuts[j].AppName
+	})
 
 	return nil
 }
@@ -247,14 +264,25 @@ func Use(config *Config) (func() error, error) {
 
 	err := _config.LoadShortcuts()
 	save := func() error {
-		err := _config.SaveDebug()
+
+		// Sort list of shortcuts (again)
+		err := _config.SortShortcuts()
 		if err != nil {
 			return err
 		}
+
+		// Save debug
+		err = _config.SaveDebug()
+		if err != nil {
+			return err
+		}
+
+		// Save shortcuts
 		err = _config.SaveShotcuts()
 		if err != nil {
 			return err
 		}
+
 		return nil
 	}
 
