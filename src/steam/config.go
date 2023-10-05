@@ -225,7 +225,7 @@ func (c *Config) SaveShotcuts() error {
 func (c *Config) SaveDebug() error {
 
 	// Save JSON copy for debugging
-	jsonContent, err := json.Marshal(c)
+	jsonContent, err := json.MarshalIndent(c, "", "  ")
 	if err != nil {
 		return err
 	}
