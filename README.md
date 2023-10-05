@@ -2,8 +2,8 @@
 
 Steck Deck customizations for a nice experience targered **for advanced users only, because is experimental**:
 
-- Automatic installation of recomended softwares for general usage and console emulation.
-- All softwares and emulators are flatpak based - because is easier to use / install / update. 
+- Automatic installation of recomended softwares for general usage, gaming and console emulation.
+- Flatpak based - because is easier to use / install / update. 
 - You can choose the desired software and emulators to install. 
 - Installed programs will be available on the ``Steam Library``, allowing usage on ``Gaming Mode`` at Steam Deck.
 
@@ -34,13 +34,16 @@ nicedeck install --programs=citra,yuzu
 
 Softwares:
 
-- Bottles
 - Firefox
 - Google Chrome
-- Heroic Games Launcher
 - Jellyfin Media Player
-- Lutris
 - Moonlight Game Streaming
+
+Game Launchers:
+
+- Bottles
+- Heroic Games Launcher
+- Lutris
 
 Emulators:
 
