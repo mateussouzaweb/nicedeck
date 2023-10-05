@@ -18,7 +18,7 @@ func Bottles() error {
 	}
 
 	// Add to steam
-	err = steam.AddToShotcuts(&steam.Shortcut{
+	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Bottles",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -47,7 +47,7 @@ func HeroicGamesLauncher() error {
 	}
 
 	// Add to steam
-	err = steam.AddToShotcuts(&steam.Shortcut{
+	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Heroic Games Launcher",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -76,7 +76,7 @@ func Lutris() error {
 	}
 
 	// Add to steam
-	err = steam.AddToShotcuts(&steam.Shortcut{
+	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Lutris",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",

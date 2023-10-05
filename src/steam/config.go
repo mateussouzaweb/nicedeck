@@ -184,7 +184,7 @@ func (c *Config) SortShortcuts() error {
 }
 
 // Save updated content on the shortcuts file
-func (c *Config) SaveShotcuts() error {
+func (c *Config) SaveShortcuts() error {
 
 	// Create vdf from shortcuts
 	shortcuts := make(vdf.Vdf)
@@ -278,7 +278,7 @@ func Use(config *Config) (func() error, error) {
 		}
 
 		// Save shortcuts
-		err = _config.SaveShotcuts()
+		err = _config.SaveShortcuts()
 		if err != nil {
 			return err
 		}

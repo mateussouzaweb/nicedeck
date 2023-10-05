@@ -18,7 +18,7 @@ func Firefox() error {
 	}
 
 	// Add to steam
-	err = steam.AddToShotcuts(&steam.Shortcut{
+	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Firefox",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -47,7 +47,7 @@ func GoogleChrome() error {
 	}
 
 	// Add to steam
-	err = steam.AddToShotcuts(&steam.Shortcut{
+	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Google Chrome",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -76,7 +76,7 @@ func JellyfinMediaPlayer() error {
 	}
 
 	// Add to steam
-	err = steam.AddToShotcuts(&steam.Shortcut{
+	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Jellyfin Media Player",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",
@@ -105,7 +105,7 @@ func MoonlightGameStreaming() error {
 	}
 
 	// Add to steam
-	err = steam.AddToShotcuts(&steam.Shortcut{
+	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Moonlight Game Streaming",
 		Exe:           "/usr/bin/flatpak",
 		StartDir:      "/usr/bin/",

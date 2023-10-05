@@ -33,7 +33,7 @@ type Shortcut struct {
 }
 
 // Add non steam game to the steam shortcuts library
-func AddToShotcuts(shortcut *Shortcut) error {
+func AddToShortcuts(shortcut *Shortcut) error {
 
 	// Get destination for images
 	artworksPath := _config.ArtworksPath
