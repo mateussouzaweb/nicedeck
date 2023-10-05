@@ -64,8 +64,10 @@ func main() {
 		fmt.Println("nicedeck help                       (print this help)")
 		fmt.Println("nicedeck setup                      (install all programs)")
 		fmt.Println("nicedeck install --programs=KEY,... (install specific program or programs)")
+		fmt.Println("nicedeck list-shortcuts             (list steam shortcuts with respective app id)")
 		fmt.Println("")
 		fmt.Println("Available programs to install: ", strings.Join(programs, ", "))
+		fmt.Println("")
 
 		return
 	}
@@ -78,11 +80,13 @@ func main() {
 	}
 
 	// Set runtime configs
-	save, err := steam.Use(&steam.Config{
+	config := &steam.Config{
 		ArtworksPath:  path + "/grid",
 		DebugFile:     path + "/niceconfig.json",
 		ShortcutsFile: path + "/shortcuts.vdf",
-	})
+	}
+
+	save, err := steam.Use(config)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -90,15 +94,37 @@ func main() {
 
 	defer save()
 
-	// Make sure structure installation is done
-	err = install.Structure()
-	if err != nil {
-		fmt.Println(err)
+	// Setup command (to install all programs)
+	if subCommand == "setup" {
+
+		// Make sure structure installation is done
+		err = install.Structure()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		// Install each program
+		for _, command := range installMap {
+			err := command()
+			if err != nil {
+				fmt.Println(err)
+				break
+			}
+		}
+
 		return
 	}
 
 	// Install command (for specific programs only)
 	if subCommand == "install" {
+
+		// Make sure structure installation is done
+		err = install.Structure()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 
 		// Install selected programs
 		programs := cli.Arg(args, "--programs", "")
@@ -119,18 +145,11 @@ func main() {
 		return
 	}
 
-	// Setup command (to install all programs)
-	if subCommand == "setup" {
-
-		// Install each program
-		for _, command := range installMap {
-			err := command()
-			if err != nil {
-				fmt.Println(err)
-				break
-			}
+	// List shortcuts command
+	if subCommand == "list-shortcuts" {
+		for _, shortcut := range config.Shortcuts {
+			fmt.Printf("%s => %v\n", shortcut.AppName, shortcut.AppID)
 		}
-
 		return
 	}
 
