@@ -12,7 +12,7 @@ Steck Deck customizations for a nice experience targered **for advanced users on
 Open Steam Deck in ``Desktop Mode``, launch ``Konsole`` and type the command below to install ``nicedeck``.
 
 ```bash
-curl https://mateussouzaweb.github.io/nicedeck/install.sh | bash -
+curl https://mateussouzaweb.github.io/nicedeck/install | bash -
 ```
 
 After the program has been installed, you can install all nice deck experience programs on just the ones that you desire:

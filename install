@@ -7,6 +7,7 @@ VERSION="v0.0.1"
 REPOSITORY="https://github.com/mateussouzaweb/nicedeck"
 BINARY="$REPOSITORY/releases/download/$VERSION/nicedeck"
 BINARIES="$HOME/.local/bin"
+BASHRC="$HOME/.bashrc"
 
 # Make sure binaries folder exists
 if [ -d "$BINARIES" ]; then
@@ -15,6 +16,13 @@ fi
 
 # Make sure binaries path works
 export PATH="$PATH:$BINARIES"
+
+# Append binaries path to .bashrc if not present 
+if ! grep -q '$HOME/.local/bin' $BASHRC; then
+  echo '' >> $BASHRC
+  echo '# User specific environment' >> $BASHRC
+  echo 'export PATH="$PATH:$HOME/.local/bin"' >> $BASHRC
+fi
 
 # Install nicedeck
 echo "[INFO] Downloading nicedeck..."
