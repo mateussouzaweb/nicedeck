@@ -14,85 +14,25 @@ type Config struct {
 	Shortcuts     []*Shortcut
 }
 
-var _config *Config
+func (c *Config) LoadShortcuts() error {
 
-// Use given runtime config
-func Use(config *Config) (func() error, error) {
-
-	_config = config
-
-	// Save updated content on the shortcuts file
-	saveShortcuts := func() error {
-
-		// Create vdf from shortcuts
-		shortcuts := make(vdf.Vdf)
-		for index, shortcut := range _config.Shortcuts {
-
-			tags := make(vdf.Vdf)
-			for tindex, tag := range shortcut.Tags {
-				position := fmt.Sprintf("%v", tindex)
-				tags[position] = tag
-			}
-
-			item := vdf.Vdf{}
-			item["appid"] = shortcut.AppID
-			item["AppName"] = shortcut.AppName
-			item["Exe"] = shortcut.Exe
-			item["StartDir"] = shortcut.StartDir
-			item["icon"] = shortcut.Icon
-			item["ShortcutPath"] = shortcut.ShortcutPath
-			item["LaunchOptions"] = shortcut.LaunchOptions
-			item["IsHidden"] = shortcut.IsHidden
-			item["AllowDesktopConfig"] = shortcut.AllowDesktopConfig
-			item["AllowOverlay"] = shortcut.AllowOverlay
-			item["OpenVR"] = shortcut.OpenVR
-			item["Devkit"] = shortcut.Devkit
-			item["DevkitGameID"] = shortcut.DevkitGameID
-			item["DevkitOverrideAppID"] = shortcut.DevkitOverrideAppID
-			item["FlatpakAppID"] = shortcut.FlatpakAppID
-			item["LastPlayTime"] = shortcut.LastPlayTime
-			item["tags"] = tags
-
-			position := fmt.Sprintf("%v", index)
-			shortcuts[position] = item
-
-		}
-
-		data := vdf.Vdf{}
-		data["shortcuts"] = shortcuts
-
-		// Transform VDF into bytes
-		content, err := vdf.WriteVdf(data)
-		if err != nil {
-			return err
-		}
-
-		// Write content to file
-		err = os.WriteFile(_config.ShortcutsFile, content.Bytes(), 0666)
-		if err != nil {
-			return err
-		}
-
+	// Check if file exist
+	info, err := os.Stat(c.ShortcutsFile)
+	if os.IsNotExist(err) || info.IsDir() {
 		return nil
 	}
 
-	// Check if file exist
-	info, err := os.Stat(_config.ShortcutsFile)
-	if os.IsNotExist(err) || info.IsDir() {
-		return saveShortcuts, nil
-	}
-
 	// Read file content
-	content, err := os.ReadFile(_config.ShortcutsFile)
+	content, err := os.ReadFile(c.ShortcutsFile)
 	if err != nil {
-		return saveShortcuts, err
+		return err
 	}
 
 	// Read to resulting map
 	buffer := bytes.NewBuffer(content)
 	data, err := vdf.ReadVdf(buffer)
 	if err != nil {
-		return saveShortcuts, err
+		return err
 	}
 
 	// Map to struct of shortcuts
@@ -181,9 +121,109 @@ func Use(config *Config) (func() error, error) {
 			Tags:                tags,
 		}
 
-		_config.Shortcuts = append(_config.Shortcuts, &shortcut)
+		c.Shortcuts = append(c.Shortcuts, &shortcut)
 
 	}
 
-	return saveShortcuts, nil
+	return nil
+}
+
+// Add shortcut to config
+func (c *Config) AddShortcut(shortcut *Shortcut) error {
+
+	// Check if already exist an app with the same reference
+	found := false
+	for index, item := range c.Shortcuts {
+		if item.AppID == shortcut.AppID {
+
+			// Keep current value for some keys
+			shortcut.IsHidden = item.IsHidden
+			shortcut.AllowDesktopConfig = item.AllowDesktopConfig
+			shortcut.AllowOverlay = item.AllowOverlay
+			shortcut.OpenVR = item.OpenVR
+			shortcut.Devkit = item.Devkit
+			shortcut.DevkitGameID = item.DevkitGameID
+			shortcut.DevkitOverrideAppID = item.DevkitOverrideAppID
+			shortcut.FlatpakAppID = item.FlatpakAppID
+			shortcut.LastPlayTime = item.LastPlayTime
+			shortcut.Tags = item.Tags
+
+			// Replace with new object data
+			c.Shortcuts[index] = shortcut
+
+			found = true
+			break
+		}
+	}
+
+	// Append to the list if not exist
+	if !found {
+		c.Shortcuts = append(c.Shortcuts, shortcut)
+	}
+
+	return nil
+}
+
+// Save updated content on the shortcuts file
+func (c *Config) SaveShotcuts() error {
+
+	// Create vdf from shortcuts
+	shortcuts := make(vdf.Vdf)
+	for index, shortcut := range c.Shortcuts {
+
+		tags := make(vdf.Vdf)
+		for tindex, tag := range shortcut.Tags {
+			position := fmt.Sprintf("%v", tindex)
+			tags[position] = tag
+		}
+
+		item := vdf.Vdf{}
+		item["appid"] = shortcut.AppID
+		item["AppName"] = shortcut.AppName
+		item["Exe"] = shortcut.Exe
+		item["StartDir"] = shortcut.StartDir
+		item["icon"] = shortcut.Icon
+		item["ShortcutPath"] = shortcut.ShortcutPath
+		item["LaunchOptions"] = shortcut.LaunchOptions
+		item["IsHidden"] = shortcut.IsHidden
+		item["AllowDesktopConfig"] = shortcut.AllowDesktopConfig
+		item["AllowOverlay"] = shortcut.AllowOverlay
+		item["OpenVR"] = shortcut.OpenVR
+		item["Devkit"] = shortcut.Devkit
+		item["DevkitGameID"] = shortcut.DevkitGameID
+		item["DevkitOverrideAppID"] = shortcut.DevkitOverrideAppID
+		item["FlatpakAppID"] = shortcut.FlatpakAppID
+		item["LastPlayTime"] = shortcut.LastPlayTime
+		item["tags"] = tags
+
+		position := fmt.Sprintf("%v", index)
+		shortcuts[position] = item
+
+	}
+
+	data := vdf.Vdf{}
+	data["shortcuts"] = shortcuts
+
+	// Transform VDF into bytes
+	content, err := vdf.WriteVdf(data)
+	if err != nil {
+		return err
+	}
+
+	// Write content to file
+	err = os.WriteFile(c.ShortcutsFile, content.Bytes(), 0666)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+var _config *Config
+
+// Use given runtime config
+func Use(config *Config) (func() error, error) {
+	_config = config
+	err := _config.LoadShortcuts()
+	return _config.SaveShotcuts, err
 }

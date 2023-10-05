@@ -35,11 +35,14 @@ type Shortcut struct {
 // Add non steam game to the steam shortcuts library
 func AddToShotcuts(shortcut *Shortcut) error {
 
+	// Get destination for images
+	artworksPath := _config.ArtworksPath
+
 	// Determine appId
 	shortcut.AppID = GenerateShortcutID(shortcut.Exe, shortcut.AppName)
 
 	// Set icon path
-	shortcut.Icon = fmt.Sprintf("%s/%v.ico", _config.ArtworksPath, shortcut.AppID)
+	shortcut.Icon = fmt.Sprintf("%s/%v.ico", artworksPath, shortcut.AppID)
 
 	// Download artworks images
 	// Required format
@@ -59,47 +62,17 @@ func AddToShotcuts(shortcut *Shortcut) error {
 		[ "%s" != "" ] && wget -q -O %s/%v.png %s
 		[ "%s" != "" ] && wget -q -O %s/%v_hero.png %s
 		`,
-		_config.ArtworksPath,
-		shortcut.IconURL, _config.ArtworksPath, shortcut.AppID, shortcut.IconURL,
-		shortcut.LogoURL, _config.ArtworksPath, shortcut.AppID, shortcut.LogoURL,
-		shortcut.CoverURL, _config.ArtworksPath, shortcut.AppID, shortcut.CoverURL,
-		shortcut.BannerURL, _config.ArtworksPath, shortcut.AppID, shortcut.BannerURL,
-		shortcut.HeroURL, _config.ArtworksPath, shortcut.AppID, shortcut.HeroURL,
+		artworksPath,
+		shortcut.IconURL, artworksPath, shortcut.AppID, shortcut.IconURL,
+		shortcut.LogoURL, artworksPath, shortcut.AppID, shortcut.LogoURL,
+		shortcut.CoverURL, artworksPath, shortcut.AppID, shortcut.CoverURL,
+		shortcut.BannerURL, artworksPath, shortcut.AppID, shortcut.BannerURL,
+		shortcut.HeroURL, artworksPath, shortcut.AppID, shortcut.HeroURL,
 	)).Run()
 
 	if err != nil {
 		return err
 	}
 
-	// Check if already exist an app with the same reference
-	found := false
-	for index, item := range _config.Shortcuts {
-		if item.AppID == shortcut.AppID {
-
-			// Keep current value for some keys
-			shortcut.IsHidden = item.IsHidden
-			shortcut.AllowDesktopConfig = item.AllowDesktopConfig
-			shortcut.AllowOverlay = item.AllowOverlay
-			shortcut.OpenVR = item.OpenVR
-			shortcut.Devkit = item.Devkit
-			shortcut.DevkitGameID = item.DevkitGameID
-			shortcut.DevkitOverrideAppID = item.DevkitOverrideAppID
-			shortcut.FlatpakAppID = item.FlatpakAppID
-			shortcut.LastPlayTime = item.LastPlayTime
-			shortcut.Tags = item.Tags
-
-			// Replace with new object data
-			_config.Shortcuts[index] = shortcut
-
-			found = true
-			break
-		}
-	}
-
-	// Append to the list if not exist
-	if !found {
-		_config.Shortcuts = append(_config.Shortcuts, shortcut)
-	}
-
-	return nil
+	return _config.AddShortcut(shortcut)
 }
