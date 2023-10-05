@@ -33,10 +33,6 @@ func Cemu() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/d5da28d4865fb92720359db84e0dd0dd.png",
 	})
 
-	if err != nil {
-		return err
-	}
-
 	return err
 }
 
