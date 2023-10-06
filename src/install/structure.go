@@ -25,11 +25,11 @@ func Structure() error {
 	}
 
 	// Create base games folder structure
-	err = cli.Command(fmt.Sprintf(`
-		mkdir -p %s/Games/BIOS
-		mkdir -p %s/Games/ROMs
-		mkdir -p %s/Games/Save
-	`, home, home, home)).Run()
+	err = cli.Command(`
+		mkdir -p $HOME/Games/BIOS
+		mkdir -p $HOME/Games/ROMs
+		mkdir -p $HOME/Games/Save
+	`).Run()
 
 	if err != nil {
 		return err
@@ -48,24 +48,25 @@ func Structure() error {
 	// Make symlinks
 	err = cli.Command(fmt.Sprintf(`
 		# Remove folders in home to create symlink
-		[ -d "%s/Games/BIOS" ] && rm -r %s/Games/BIOS
-		[ -d "%s/Games/ROMs" ] && rm -r %s/Games/ROMs
-		[ -d "%s/Games/Save" ] && rm -r %s/Games/Save
+		[ -d "$HOME/Games/BIOS" ] && rm -r $HOME/Games/BIOS
+		[ -d "$HOME/Games/ROMs" ] && rm -r $HOME/Games/ROMs
+		[ -d "$HOME/Games/Save" ] && rm -r $HOME/Games/Save
 
-		# Make sure base folder exist on microSD
-		mkdir -p %s/Games
+		# Make sure base folders exist on microSD
+		mkdir -p %s/Games/BIOS
+		mkdir -p %s/Games/ROMs
+		mkdir -p %s/Games/Save
 
 		# Create symlinks
-		ln -s %s/Games/BIOS %s/Games/BIOS
-		ln -s %s/Games/ROMs %s/Games/ROMs
-		ln -s %s/Games/Save %s/Games/Save`,
-		home, home,
-		home, home,
-		home, home,
+		ln -s %s/Games/BIOS $HOME/Games/BIOS
+		ln -s %s/Games/ROMs $HOME/Games/ROMs
+		ln -s %s/Games/Save $HOME/Games/Save`,
 		microSDPath,
-		microSDPath, home,
-		microSDPath, home,
-		microSDPath, home,
+		microSDPath,
+		microSDPath,
+		microSDPath,
+		microSDPath,
+		microSDPath,
 	)).Run()
 
 	if err != nil {

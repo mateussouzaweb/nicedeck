@@ -12,14 +12,6 @@ import (
 
 func main() {
 
-	// Working directory should be home always
-	// This will not affect the shell working directory
-	err := cli.EnsureHome()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
 	// Create mapping for easy install
 	installMap := map[string]func() error{
 		"bottles":       install.Bottles,

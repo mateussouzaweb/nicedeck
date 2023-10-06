@@ -11,8 +11,8 @@ func Cemu() error {
 	// Install from flatpak
 	err := cli.Command(`
 		flatpak install -y flathub info.cemu.Cemu
-		mkdir -p Games/BIOS/WIIU
-		mkdir -p Games/ROMs/WIIU
+		mkdir -p $HOME/Games/BIOS/WIIU
+		mkdir -p $HOME/Games/ROMs/WIIU
 	`).Run()
 
 	if err != nil {
@@ -43,8 +43,8 @@ func Citra() error {
 	// Install from flatpak
 	err := cli.Command(`
 		flatpak install -y flathub org.citra_emu.citra
-		mkdir -p Games/BIOS/3DS
-		mkdir -p Games/ROMs/3DS
+		mkdir -p $HOME/Games/BIOS/3DS
+		mkdir -p $HOME/Games/ROMs/3DS
 	`).Run()
 
 	if err != nil {
@@ -75,10 +75,10 @@ func Dolphin() error {
 	// Install from flatpak
 	err := cli.Command(`
 		flatpak install -y flathub org.DolphinEmu.dolphin-emu
-		mkdir -p Games/BIOS/GC
-		mkdir -p Games/BIOS/WII
-		mkdir -p Games/ROMs/GC
-		mkdir -p Games/ROMs/WII
+		mkdir -p $HOME/Games/BIOS/GC
+		mkdir -p $HOME/Games/BIOS/WII
+		mkdir -p $HOME/Games/ROMs/GC
+		mkdir -p $HOME/Games/ROMs/WII
 	`).Run()
 
 	if err != nil {
@@ -109,8 +109,8 @@ func Flycast() error {
 	// Install from flatpak
 	err := cli.Command(`
 		flatpak install -y flathub org.flycast.Flycast
-		mkdir -p Games/BIOS/DC
-		mkdir -p Games/ROMs/DC
+		mkdir -p $HOME/Games/BIOS/DC
+		mkdir -p $HOME/Games/ROMs/DC
 	`).Run()
 
 	if err != nil {
@@ -141,8 +141,8 @@ func MelonDS() error {
 	// Install from flatpak
 	err := cli.Command(`
 		flatpak install -y flathub net.kuribo64.melonDS
-		mkdir -p Games/BIOS/NDS
-		mkdir -p Games/ROMs/NDS
+		mkdir -p $HOME/Games/BIOS/NDS
+		mkdir -p $HOME/Games/ROMs/NDS
 	`).Run()
 
 	if err != nil {
@@ -173,8 +173,8 @@ func MGBA() error {
 	// Install from flatpak
 	err := cli.Command(`
 		flatpak install -y flathub io.mgba.mGBA
-		mkdir -p Games/BIOS/GBA
-		mkdir -p Games/ROMs/GBA
+		mkdir -p $HOME/Games/BIOS/GBA
+		mkdir -p $HOME/Games/ROMs/GBA
 	`).Run()
 
 	if err != nil {
@@ -205,8 +205,8 @@ func PCSX2() error {
 	// Install from flatpak
 	err := cli.Command(`
 		flatpak install -y flathub net.pcsx2.PCSX2
-		mkdir -p Games/BIOS/PS2
-		mkdir -p Games/ROMs/PS2
+		mkdir -p $HOME/Games/BIOS/PS2
+		mkdir -p $HOME/Games/ROMs/PS2
 	`).Run()
 
 	if err != nil {
@@ -237,8 +237,8 @@ func PPSSPP() error {
 	// Install from flatpak
 	err := cli.Command(`
 		flatpak install -y flathub org.ppsspp.PPSSPP
-		mkdir -p Games/BIOS/PSP
-		mkdir -p Games/ROMs/PSP
+		mkdir -p $HOME/Games/BIOS/PSP
+		mkdir -p $HOME/Games/ROMs/PSP
 	`).Run()
 
 	if err != nil {
@@ -269,8 +269,8 @@ func RPCS3() error {
 	// Install from flatpak
 	err := cli.Command(`
 		flatpak install -y flathub net.rpcs3.RPCS3
-		mkdir -p Games/BIOS/PS3
-		mkdir -p Games/ROMs/PS3
+		mkdir -p $HOME/Games/BIOS/PS3
+		mkdir -p $HOME/Games/ROMs/PS3
 	`).Run()
 
 	if err != nil {
@@ -301,8 +301,8 @@ func Ryujinx() error {
 	// Install from flatpak
 	err := cli.Command(`
 		flatpak install -y flathub org.ryujinx.Ryujinx
-		mkdir -p Games/BIOS/SWITCH
-		mkdir -p Games/ROMs/SWITCH
+		mkdir -p $HOME/Games/BIOS/SWITCH
+		mkdir -p $HOME/Games/ROMs/SWITCH
 	`).Run()
 
 	if err != nil {
@@ -333,8 +333,8 @@ func Xemu() error {
 	// Install from flatpak
 	err := cli.Command(`
 		flatpak install -y flathub app.xemu.xemu
-		mkdir -p Games/BIOS/XBOX
-		mkdir -p Games/ROMs/XBOX
+		mkdir -p $HOME/Games/BIOS/XBOX
+		mkdir -p $HOME/Games/ROMs/XBOX
 	`).Run()
 
 	if err != nil {
@@ -365,8 +365,8 @@ func Yuzu() error {
 	// Install from flatpak
 	err := cli.Command(`
 		flatpak install -y flathub org.yuzu_emu.yuzu
-		mkdir -p Games/BIOS/SWITCH
-		mkdir -p Games/ROMs/SWITCH
+		mkdir -p $HOME/Games/BIOS/SWITCH
+		mkdir -p $HOME/Games/ROMs/SWITCH
 	`).Run()
 
 	if err != nil {
