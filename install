@@ -10,7 +10,7 @@ BINARIES="$HOME/.local/bin"
 BASHRC="$HOME/.bashrc"
 
 # Make sure binaries folder exists
-if [ -d "$BINARIES" ]; then
+if [ ! -d "$BINARIES" ]; then
   mkdir -p $BINARIES
 fi
 
