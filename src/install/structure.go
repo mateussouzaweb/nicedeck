@@ -3,7 +3,6 @@ package install
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -12,14 +11,8 @@ import (
 // Ensure folder structure to install programs
 func Structure() error {
 
-	// Retrieve home directory
-	home, err := os.UserHomeDir()
-	if err != nil {
-		return err
-	}
-
 	// Check for the presence of games folder, if exist, then is ok
-	info, err := os.Stat(filepath.Join(home, "Games"))
+	info, err := os.Stat(os.ExpandEnv("$HOME/Games"))
 	if !os.IsNotExist(err) && info.IsDir() {
 		return nil
 	}
