@@ -65,8 +65,15 @@ func main() {
 		return
 	}
 
-	// Retrieve userdata path
-	path, err := steam.GetUserPath("/config")
+	// Retrieve user config path
+	userConfig, err := steam.GetPath("userdata/*/config")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	// Retrieve controller templates path
+	controllerTemplates, err := steam.GetPath("controller_base/templates")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -74,9 +81,10 @@ func main() {
 
 	// Set runtime configs
 	config := &steam.Config{
-		ArtworksPath:  path + "/grid",
-		DebugFile:     path + "/niceconfig.json",
-		ShortcutsFile: path + "/shortcuts.vdf",
+		ArtworksPath:   userConfig + "/grid",
+		DebugFile:      userConfig + "/niceconfig.json",
+		ShortcutsFile:  userConfig + "/shortcuts.vdf",
+		ControllerFile: controllerTemplates + "/controller_neptune_nicedeck.vdf",
 	}
 
 	save, err := steam.Use(config)

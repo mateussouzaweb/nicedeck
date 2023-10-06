@@ -2,6 +2,7 @@ package steam
 
 import (
 	"bytes"
+	"embed"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -11,11 +12,15 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/vdf"
 )
 
+//go:embed resources/*
+var resourcesContent embed.FS
+
 type Config struct {
-	ArtworksPath  string      `json:"artworksPath"`
-	DebugFile     string      `json:"debugFile"`
-	ShortcutsFile string      `json:"shortcutsFile"`
-	Shortcuts     []*Shortcut `json:"shortcuts"`
+	ArtworksPath   string      `json:"artworksPath"`
+	DebugFile      string      `json:"debugFile"`
+	ControllerFile string      `json:"controllerFile"`
+	ShortcutsFile  string      `json:"shortcutsFile"`
+	Shortcuts      []*Shortcut `json:"shortcuts"`
 }
 
 func (c *Config) LoadShortcuts() error {
@@ -262,6 +267,22 @@ func (c *Config) SaveDebug() error {
 	return nil
 }
 
+// Save controller template on steam
+func (c *Config) SaveControllerTemplate() error {
+
+	controllerConfig, err := resourcesContent.ReadFile("resources/controller.vdf")
+	if err != nil {
+		return err
+	}
+
+	err = os.WriteFile(c.ControllerFile, controllerConfig, 0666)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 var _config *Config
 
 // Use given runtime config
@@ -285,6 +306,12 @@ func Use(config *Config) (func() error, error) {
 
 		// Save shortcuts
 		err = _config.SaveShortcuts()
+		if err != nil {
+			return err
+		}
+
+		// Save controller templates
+		err = _config.SaveControllerTemplate()
 		if err != nil {
 			return err
 		}
