@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=EmulationStation DE
+Comment=Frontend for console emulated games
+Icon=$HOME/.emulationstation/icon.png
+Exec=$HOME/Applications/EmulationStation-DE.AppImage %u
+Terminal=false
+Categories=Game;

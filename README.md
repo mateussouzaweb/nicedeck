@@ -42,6 +42,7 @@ Softwares:
 Game Launchers:
 
 - Bottles
+- EmulationStation DE
 - Heroic Games Launcher
 - Lutris
 

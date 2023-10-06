@@ -1,7 +1,11 @@
 package install
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/mateussouzaweb/nicedeck/src/cli"
+	"github.com/mateussouzaweb/nicedeck/src/emulationstation"
 	"github.com/mateussouzaweb/nicedeck/src/steam"
 )
 
@@ -30,6 +34,59 @@ func Bottles() error {
 		CoverURL:      "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/8845e5d69c0f8a1d4b30334afb030214.png",
 		BannerURL:     "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/123a00ca793f7db5b771574116bc061f.png",
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/84bdc10b5cc3b036ce04a562b0e54d61.png",
+	})
+
+	return err
+}
+
+// Install EmulationStation Desktop Edition
+func EmulationStationDE() error {
+
+	// Get latest available version
+	latest, err := emulationstation.GetLatestRelease()
+	if err != nil {
+		return err
+	}
+
+	// Download application
+	directory := os.ExpandEnv("$HOME/Applications")
+	executable := os.ExpandEnv("$HOME/Applications/EmulationStation-DE.AppImage")
+	desktopShortcut := os.ExpandEnv("$HOME/.local/share/applications/emulationstation-de.desktop")
+
+	err = cli.Command(fmt.Sprintf(`
+		mkdir -p %s
+		wget -q -O %s %s
+		chmod +x %s
+		`,
+		directory,
+		executable,
+		latest,
+		executable,
+	)).Run()
+
+	if err != nil {
+		return err
+	}
+
+	// Write configs
+	err = emulationstation.WriteConfigs()
+	if err != nil {
+		return err
+	}
+
+	// Add to steam
+	err = steam.AddToShortcuts(&steam.Shortcut{
+		AppName:       "EmulationStation DE",
+		Exe:           executable,
+		StartDir:      directory,
+		ShortcutPath:  desktopShortcut,
+		LaunchOptions: "",
+		Tags:          []string{"LAUNCHERS"},
+		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/c0829dc52beb665d3e2fd05e36f97f35.ico",
+		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/c3bb9214431dec7ca7d1ebcfeca73236.png",
+		CoverURL:      "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/21bd6ea21e43de6dc80e2bc8917f4ba3.png",
+		BannerURL:     "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/67a900732336f1ce9d0c0496352fa9ab.png",
+		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/9323f21f2098b7288267c785458548b2.png",
 	})
 
 	return err
