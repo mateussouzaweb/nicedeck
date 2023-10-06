@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"slices"
 	"sort"
 
 	"github.com/mateussouzaweb/nicedeck/src/vdf"
@@ -98,12 +99,13 @@ func (c *Config) LoadShortcuts() error {
 			item["tags"] = vdf.Vdf{}
 		}
 
-		// Convert to shortcut
+		// Create tag list
 		var tags []string
 		for _, tag := range item["tags"].(vdf.Vdf) {
 			tags = append(tags, tag.(string))
 		}
 
+		// Convert to manageable shortcut
 		shortcut := Shortcut{
 			AppID:               item["appid"].(uint),
 			AppName:             item["AppName"].(string),
@@ -143,26 +145,30 @@ func (c *Config) AddShortcut(shortcut *Shortcut) error {
 	// Check if already exist an app with the same reference
 	found := false
 	for index, item := range c.Shortcuts {
-		if item.AppID == shortcut.AppID {
-
-			// Keep current value for some keys
-			shortcut.IsHidden = item.IsHidden
-			shortcut.AllowDesktopConfig = item.AllowDesktopConfig
-			shortcut.AllowOverlay = item.AllowOverlay
-			shortcut.OpenVR = item.OpenVR
-			shortcut.Devkit = item.Devkit
-			shortcut.DevkitGameID = item.DevkitGameID
-			shortcut.DevkitOverrideAppID = item.DevkitOverrideAppID
-			shortcut.FlatpakAppID = item.FlatpakAppID
-			shortcut.LastPlayTime = item.LastPlayTime
-			shortcut.Tags = item.Tags
-
-			// Replace with new object data
-			c.Shortcuts[index] = shortcut
-
-			found = true
-			break
+		if item.AppID != shortcut.AppID {
+			continue
 		}
+
+		// Keep current value for some keys
+		shortcut.IsHidden = item.IsHidden
+		shortcut.AllowDesktopConfig = item.AllowDesktopConfig
+		shortcut.AllowOverlay = item.AllowOverlay
+		shortcut.OpenVR = item.OpenVR
+		shortcut.Devkit = item.Devkit
+		shortcut.DevkitGameID = item.DevkitGameID
+		shortcut.DevkitOverrideAppID = item.DevkitOverrideAppID
+		shortcut.FlatpakAppID = item.FlatpakAppID
+		shortcut.LastPlayTime = item.LastPlayTime
+
+		// Merge tags to not lose current ones
+		shortcut.Tags = append(shortcut.Tags, item.Tags...)
+		shortcut.Tags = slices.Compact(shortcut.Tags)
+
+		// Replace with new object data
+		c.Shortcuts[index] = shortcut
+
+		found = true
+		break
 	}
 
 	// Append to the list if not exist
@@ -191,8 +197,8 @@ func (c *Config) SaveShortcuts() error {
 	for index, shortcut := range c.Shortcuts {
 
 		tags := make(vdf.Vdf)
-		for tindex, tag := range shortcut.Tags {
-			position := fmt.Sprintf("%v", tindex)
+		for tagIndex, tag := range shortcut.Tags {
+			position := fmt.Sprintf("%v", tagIndex)
 			tags[position] = tag
 		}
 
