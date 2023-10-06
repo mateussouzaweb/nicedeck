@@ -5,7 +5,7 @@
         <fullname>Sega Dreamcast</fullname>
         <path>%ROMPATH%/DC</path>
         <extension>.chd .CHD .cdi .CDI .iso .ISO .elf .ELF .cue .CUE .gdi .GDI .lst .LST .dat .DAT .m3u .M3U .7z .7Z .zip .ZIP</extension>
-        <command label="Flycast">%EMULATOR_FLYCAST% %ROM%</command>
+        <command label="Flycast">%EMULATOR_FLYCAST% -config window:fullscreen=yes %ROM%</command>
         <platform>dreamcast</platform>
         <theme>dreamcast</theme>
     </system>
@@ -23,7 +23,7 @@
         <fullname>Nintendo GameCube</fullname>
         <path>%ROMPATH%/GC</path>
         <extension>.ciso .CISO .dff .DFF .dol .DOL .elf .ELF .gcm .GCM .gcz .GCZ .iso .ISO .json .JSON .m3u .M3U .rvz .RVZ .tgc .TGC .wad .WAD .wbfs .WBFS .wia .WIA .7z .7Z .zip .ZIP</extension>
-        <command label="Dolphin">%INJECT%=%BASENAME%.esprefix %EMULATOR_DOLPHIN% -b -e %ROM%</command>
+        <command label="Dolphin">%EMULATOR_DOLPHIN% -b -e %ROM%</command>
         <platform>gc</platform>
         <theme>gc</theme>
     </system>
@@ -41,7 +41,7 @@
         <fullname>Nintendo DS</fullname>
         <path>%ROMPATH%/NDS</path>
         <extension>.app .APP .bin .BIN .nds .NDS .7z .7Z .zip .ZIP</extension>
-        <command label="MelonDS">%EMULATOR_MELONDS% %ROM%</command>
+        <command label="MelonDS">%EMULATOR_MELONDS% -f %ROM%</command>
         <platform>nds</platform>
         <theme>nds</theme>
     </system>
@@ -50,7 +50,7 @@
         <fullname>Sony PlayStation 2</fullname>
         <path>%ROMPATH%/PS2</path>
         <extension>.bin .BIN .chd .CHD .ciso .CISO .cso .CSO .dump .DUMP .elf .ELF .gz .GZ .m3u .M3U .mdf .MDF .img .IMG .iso .ISO .isz .ISZ .ngr .NRG</extension>
-        <command label="PCSX2">%EMULATOR_PCSX2% -batch %ROM%</command>
+        <command label="PCSX2">%EMULATOR_PCSX2% -batch -nogui -fullscreen %ROM%</command>
         <platform>ps2</platform>
         <theme>ps2</theme>
     </system>
@@ -68,7 +68,7 @@
         <fullname>Sony PlayStation Portable</fullname>
         <path>%ROMPATH%/PSP</path>
         <extension>.elf .ELF .iso .ISO .cso .CSO .prx .PRX .pbp .PBP .7z .7Z .zip .ZIP</extension>
-        <command label="PPSSPP">%EMULATOR_PPSSPP% %ROM%</command>
+        <command label="PPSSPP">%EMULATOR_PPSSPP% -f -g %ROM%</command>
         <platform>psp</platform>
         <theme>psp</theme>
     </system>
@@ -77,8 +77,8 @@
         <fullname>Nintendo Switch</fullname>
         <path>%ROMPATH%/SWITCH</path>
         <extension>.nca .NCA .nro .NRO .nso .NSO .nsp .NSP .xci .XCI</extension>
-        <command label="Yuzu">%INJECT%=%BASENAME%.esprefix %EMULATOR_YUZU% -f -g %ROM%</command>
-        <command label="Ryujinx">%EMULATOR_RYUJINX% %ROM%</command>
+        <command label="Yuzu">%EMULATOR_YUZU% -f -g %ROM%</command>
+        <command label="Ryujinx">%EMULATOR_RYUJINX% --fullscreen %ROM%</command>
         <platform>switch</platform>
         <theme>switch</theme>
     </system>
@@ -87,7 +87,7 @@
         <fullname>Nintendo Wii</fullname>
         <path>%ROMPATH%/WII</path>
         <extension>.ciso .CISO .dff .DFF .dol .DOL .elf .ELF .gcm .GCM .gcz .GCZ .iso .ISO .json .JSON .m3u .M3U .rvz .RVZ .tgc .TGC .wad .WAD .wbfs .WBFS .wia .WIA .7z .7Z .zip .ZIP</extension>
-        <command label="Dolphin">%INJECT%=%BASENAME%.esprefix %EMULATOR_DOLPHIN% -b -e %ROM%</command>
+        <command label="Dolphin">%EMULATOR_DOLPHIN% -b -e %ROM%</command>
         <platform>wii</platform>
         <theme>wii</theme>
     </system>
@@ -96,7 +96,7 @@
         <fullname>Nintendo Wii U</fullname>
         <path>%ROMPATH%/WIIU</path>
         <extension>.rpx .RPX .wua .WUA .wud .WUD .wux .WUX</extension>
-        <command label="Cemu">%EMULATOR_CEMU% -g %ROM%</command>
+        <command label="Cemu">%EMULATOR_CEMU% -f -g %ROM%</command>
         <platform>wiiu</platform>
         <theme>wiiu</theme>
     </system>
@@ -105,7 +105,7 @@
         <fullname>Microsoft Xbox</fullname>
         <path>%ROMPATH%/XBOX</path>
         <extension>.iso .ISO</extension>
-        <command label="Xemu">%INJECT%=%BASENAME%.esprefix %EMULATOR_XEMU% -dvd_path %ROM%</command>
+        <command label="Xemu">%EMULATOR_XEMU% -full-screen -dvd_path %ROM%</command>
         <platform>xbox</platform>
         <theme>xbox</theme>
     </system>
