@@ -25,7 +25,6 @@ func Structure() error {
 		return cli.Command(`
 			mkdir -p $HOME/Games/BIOS
 			mkdir -p $HOME/Games/ROMs
-			mkdir -p $HOME/Games/Save
 		`).Run()
 	}
 
@@ -38,17 +37,13 @@ func Structure() error {
 		# Make sure base folders exist on microSD
 		mkdir -p %s/Games/BIOS
 		mkdir -p %s/Games/ROMs
-		mkdir -p %s/Games/Save
 
 		# Make sure base folder exist on home
 		mkdir -p $HOME/Games
 
 		# Create symlinks on home from microSD folders
 		ln -s %s/Games/BIOS $HOME/Games/BIOS
-		ln -s %s/Games/ROMs $HOME/Games/ROMs
-		ln -s %s/Games/Save $HOME/Games/Save`,
-		microSDPath,
-		microSDPath,
+		ln -s %s/Games/ROMs $HOME/Games/ROMs`,
 		microSDPath,
 		microSDPath,
 		microSDPath,
