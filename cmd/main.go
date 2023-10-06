@@ -41,7 +41,7 @@ func main() {
 
 	// Version command
 	if subCommand == "version" {
-		fmt.Println("Version 0.0.2")
+		fmt.Println("Version 0.0.3")
 		return
 	}
 
