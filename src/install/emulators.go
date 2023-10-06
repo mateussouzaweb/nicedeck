@@ -10,9 +10,13 @@ func Cemu() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub info.cemu.Cemu
+		# Create folders
 		mkdir -p $HOME/Games/BIOS/WIIU
 		mkdir -p $HOME/Games/ROMs/WIIU
+
+		# Install emulator
+		flatpak install -y flathub info.cemu.Cemu
+		flatpak override info.cemu.Cemu --filesystem=host
 	`).Run()
 
 	if err != nil {
@@ -47,9 +51,13 @@ func Citra() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub org.citra_emu.citra
+		# Create folders
 		mkdir -p $HOME/Games/BIOS/3DS
 		mkdir -p $HOME/Games/ROMs/3DS
+
+		# Install emulator
+		flatpak install -y flathub org.citra_emu.citra
+		flatpak override org.citra_emu.citra --filesystem=host
 	`).Run()
 
 	if err != nil {
@@ -84,11 +92,15 @@ func Dolphin() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub org.DolphinEmu.dolphin-emu
+		# Create folders
 		mkdir -p $HOME/Games/BIOS/GC
 		mkdir -p $HOME/Games/BIOS/WII
 		mkdir -p $HOME/Games/ROMs/GC
 		mkdir -p $HOME/Games/ROMs/WII
+
+		# Install emulator
+		flatpak install -y flathub org.DolphinEmu.dolphin-emu
+		flatpak override org.DolphinEmu.dolphin-emu --filesystem=host
 	`).Run()
 
 	if err != nil {
@@ -123,9 +135,13 @@ func Flycast() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub org.flycast.Flycast
+		# Create folders
 		mkdir -p $HOME/Games/BIOS/DC
 		mkdir -p $HOME/Games/ROMs/DC
+
+		# Install emulator
+		flatpak install -y flathub org.flycast.Flycast
+		flatpak override org.flycast.Flycast --filesystem=host
 	`).Run()
 
 	if err != nil {
@@ -160,9 +176,13 @@ func MelonDS() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub net.kuribo64.melonDS
+		# Create folders
 		mkdir -p $HOME/Games/BIOS/NDS
 		mkdir -p $HOME/Games/ROMs/NDS
+
+		# Install emulator
+		flatpak install -y flathub net.kuribo64.melonDS
+		flatpak override net.kuribo64.melonDS --filesystem=host
 	`).Run()
 
 	if err != nil {
@@ -197,9 +217,13 @@ func MGBA() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub io.mgba.mGBA
+		# Create folders
 		mkdir -p $HOME/Games/BIOS/GBA
 		mkdir -p $HOME/Games/ROMs/GBA
+
+		# Install emulator
+		flatpak install -y flathub io.mgba.mGBA
+		flatpak override io.mgba.mGBA --filesystem=host
 	`).Run()
 
 	if err != nil {
@@ -234,9 +258,13 @@ func PCSX2() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub net.pcsx2.PCSX2
+		# Create folders
 		mkdir -p $HOME/Games/BIOS/PS2
 		mkdir -p $HOME/Games/ROMs/PS2
+
+		# Install emulator
+		flatpak install -y flathub net.pcsx2.PCSX2
+		flatpak override net.pcsx2.PCSX2 --filesystem=host
 	`).Run()
 
 	if err != nil {
@@ -271,9 +299,13 @@ func PPSSPP() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub org.ppsspp.PPSSPP
+		# Create folders
 		mkdir -p $HOME/Games/BIOS/PSP
 		mkdir -p $HOME/Games/ROMs/PSP
+
+		# Install emulator
+		flatpak install -y flathub org.ppsspp.PPSSPP
+		flatpak override org.ppsspp.PPSSPP --filesystem=host
 	`).Run()
 
 	if err != nil {
@@ -308,9 +340,13 @@ func RPCS3() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub net.rpcs3.RPCS3
+		# Create folders
 		mkdir -p $HOME/Games/BIOS/PS3
 		mkdir -p $HOME/Games/ROMs/PS3
+
+		# Install emulator
+		flatpak install -y flathub net.rpcs3.RPCS3
+		flatpak override net.rpcs3.RPCS3 --filesystem=host
 	`).Run()
 
 	if err != nil {
@@ -345,9 +381,13 @@ func Ryujinx() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub org.ryujinx.Ryujinx
+		# Create folders
 		mkdir -p $HOME/Games/BIOS/SWITCH
 		mkdir -p $HOME/Games/ROMs/SWITCH
+
+		# Install emulator
+		flatpak install -y flathub org.ryujinx.Ryujinx
+		flatpak override org.ryujinx.Ryujinx --filesystem=host
 	`).Run()
 
 	if err != nil {
@@ -382,9 +422,13 @@ func Xemu() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub app.xemu.xemu
+		# Create folders
 		mkdir -p $HOME/Games/BIOS/XBOX
 		mkdir -p $HOME/Games/ROMs/XBOX
+
+		# Install emulator
+		flatpak install -y flathub app.xemu.xemu
+		flatpak override app.xemu.xemu --filesystem=host
 	`).Run()
 
 	if err != nil {
@@ -419,9 +463,13 @@ func Yuzu() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub org.yuzu_emu.yuzu
+		# Create folders
 		mkdir -p $HOME/Games/BIOS/SWITCH
 		mkdir -p $HOME/Games/ROMs/SWITCH
+
+		# Install emulator
+		flatpak install -y flathub org.yuzu_emu.yuzu
+		flatpak override org.yuzu_emu.yuzu --filesystem=host
 	`).Run()
 
 	if err != nil {
