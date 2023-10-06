@@ -1,12 +1,17 @@
 # NiceDeck
 
-Steck Deck customizations for a **nice experience** targered **for advanced users only** (experimental software):
+Steam Deck customizations for a **nice experience** targeted **for advanced users only** (experimental software).
+
+NiceDeck is an alternative for automated installations like [EmuDeck](https://github.com/dragoonDorise/EmuDeck) and [RetroDeck](https://github.com/XargonWan/RetroDECK). It tries to keep things as independent as possible by just focusing on installing the programs, while also adding it to the ``Steam Library`` with nice cover images. 
+
+Some features of NiceDeck:
 
 - Automatic installation of recomended softwares for general usage, gaming and console emulation (see below).
 - You can choose the softwares and emulators to install.
 - Oficial installation via flatpak on available applications (because is easier to use and automatically updates).
+- Each software is independent and is maintaned / updated directly by their developers.
 - Opinated and simplified structure for emulators, where you should see only the ``ROMs`` and ``BIOS`` folders for the emulators that you installed.
-- Installed programs will be available on the ``Steam Library``, allowing usage on ``Gaming Mode`` at Steam Deck.
+- Installed programs will be available on the ``Steam Library``, allowing usage on ``Gaming Mode`` at Steam Deck. Nice covers are also expected.
 
 ## Installation and Usage
 
