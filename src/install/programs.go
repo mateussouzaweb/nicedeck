@@ -32,7 +32,12 @@ func Firefox() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/a318166b8539611449bf21ddc297a783.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Firefox installed!\n")
+	return nil
 }
 
 // Install Google Chrome
@@ -62,7 +67,12 @@ func GoogleChrome() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/cae83cfcb1d8a2a4bb17bd1446fb1cee.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Google Chrome installed!\n")
+	return nil
 }
 
 // Install Jellyfin Media Player
@@ -92,7 +102,12 @@ func JellyfinMediaPlayer() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/5e38c6c14e095dd7b30db8c0fdba643a.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Jellyfin Media Player installed!\n")
+	return nil
 }
 
 // Install Moonlight Game Streaming
@@ -122,5 +137,10 @@ func MoonlightGameStreaming() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/0afefa2281c2f8b0b86d6332e2cdbe7d.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Moonlight Game Streaming installed!\n")
+	return nil
 }

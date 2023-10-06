@@ -22,10 +22,20 @@ func Structure() error {
 	// If not, then just create the base games folder structure on home
 	installOnMicroSD := cli.Read("INSTALL_ON_MICROSD", "Install on MicroSD? Y/N", "N")
 	if strings.ToUpper(installOnMicroSD) != "Y" {
-		return cli.Command(`
+		err := cli.Command(`
 			mkdir -p $HOME/Games/BIOS
 			mkdir -p $HOME/Games/ROMs
 		`).Run()
+
+		if err != nil {
+			return err
+		}
+
+		cli.Printf(cli.ColorSuccess,
+			"Folder structure created at %s\n",
+			os.ExpandEnv("$HOME/Games"),
+		)
+		return nil
 	}
 
 	// Get microSD path to install on it
@@ -54,5 +64,10 @@ func Structure() error {
 		return err
 	}
 
+	cli.Printf(cli.ColorSuccess,
+		"Folder structure created at %s with symlinks on %s\n",
+		microSDPath+"/Games",
+		os.ExpandEnv("$HOME/Games"),
+	)
 	return nil
 }

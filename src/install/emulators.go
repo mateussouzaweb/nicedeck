@@ -34,7 +34,12 @@ func Cemu() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/d5da28d4865fb92720359db84e0dd0dd.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Cemu emulator installed!\n")
+	return nil
 }
 
 // Install emulator for Nintendo 3DS - Citra
@@ -66,7 +71,12 @@ func Citra() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/1d0ba3d7eb612a216c3e4d002deabdb7.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Citra emulator installed!\n")
+	return nil
 }
 
 // Install emulator for Nintendo GameCube and Wii - Dolphin
@@ -100,7 +110,12 @@ func Dolphin() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/018b1d3ea470dbb00e3dd6438af19bfb.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Dolphin emulator installed!\n")
+	return nil
 }
 
 // Install emulator for Sega Dreamcast - Flycast
@@ -132,7 +147,12 @@ func Flycast() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Flycast emulator installed!\n")
+	return nil
 }
 
 // Install emulator for Nintendo DS - MelonDS
@@ -164,7 +184,12 @@ func MelonDS() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "MelonDS emulator installed!\n")
+	return nil
 }
 
 // Install emulator for Nintendo Game Boy Advance - mGBA
@@ -196,7 +221,12 @@ func MGBA() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/d470133ccf31f9bfdc1dcb45a30c73b1.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "MGBA emulator installed!\n")
+	return nil
 }
 
 // Install emulator for Sony Playstation 2 - PCSX2
@@ -228,7 +258,12 @@ func PCSX2() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/9cc25407f209e031babdac7d3c520ccb.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "PCSX2 emulator installed!\n")
+	return nil
 }
 
 // Install emulator for Sony Playstation Portable - PPSSPP
@@ -260,7 +295,12 @@ func PPSSPP() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/b51ecba56e03d4181e0006ff1e8a5355.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "PPSSPP emulator installed!\n")
+	return nil
 }
 
 // Install emulator for Sony Playstation 3 - RPCS3
@@ -292,7 +332,12 @@ func RPCS3() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/15c58997f6690dddb7c501e062a2d1ab.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "RPCS3 emulator installed!\n")
+	return nil
 }
 
 // Install emulator for Nintendo Switch - Ryujinx
@@ -324,7 +369,12 @@ func Ryujinx() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Ryujinx emulator installed!\n")
+	return nil
 }
 
 // Install emulator Microsoft Xbox - Xemu
@@ -356,7 +406,12 @@ func Xemu() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/aa0994c4263018600494efceae69087a.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Xemu emulator installed!\n")
+	return nil
 }
 
 // Install emulator for Nintendo Switch - Yuzu
@@ -388,5 +443,10 @@ func Yuzu() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Yuzu emulator installed!\n")
+	return nil
 }

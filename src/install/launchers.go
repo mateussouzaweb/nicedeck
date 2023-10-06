@@ -36,7 +36,12 @@ func Bottles() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/84bdc10b5cc3b036ce04a562b0e54d61.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Bottles installed!\n")
+	return nil
 }
 
 // Install EmulationStation Desktop Edition
@@ -89,7 +94,12 @@ func EmulationStationDE() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/9323f21f2098b7288267c785458548b2.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "EmulationStation DE installed!\n")
+	return nil
 }
 
 // Install Heroic Games Launcher
@@ -119,7 +129,12 @@ func HeroicGamesLauncher() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/bee5ca2551bf346f067a3ac16057bc40.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Heroic Games Launcher installed!\n")
+	return nil
 }
 
 // Install Lutris
@@ -149,5 +164,10 @@ func Lutris() error {
 		HeroURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/3b7f06487067b9aa2393a438dd095edc.png",
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Lutris installed!\n")
+	return nil
 }

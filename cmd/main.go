@@ -120,6 +120,9 @@ func main() {
 			}
 		}
 
+		cli.Printf(cli.ColorSuccess, "All programs installed!\n")
+		cli.Printf(cli.ColorNotice, "Please restart the device to changes take effect.\n")
+
 		return
 	}
 
@@ -156,6 +159,9 @@ func main() {
 				cli.Printf(cli.ColorWarn, "Program not found to install: %s\n", program)
 			}
 		}
+
+		cli.Printf(cli.ColorSuccess, "Programs installed!\n")
+		cli.Printf(cli.ColorNotice, "Please restart the device to changes take effect.\n")
 
 		return
 	}
