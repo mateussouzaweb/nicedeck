@@ -2,7 +2,6 @@ package cli
 
 import (
 	"bufio"
-	"fmt"
 	"os"
 	"strings"
 )
@@ -15,9 +14,9 @@ func Read(env string, question string, defaultValue string) string {
 	if value == "" && question != "" {
 
 		if defaultValue != "" {
-			fmt.Printf("%s (%s) ", question, defaultValue)
+			Printf(ColorNotice, "%s (%s) ", question, defaultValue)
 		} else {
-			fmt.Printf("%s ", question)
+			Printf(ColorNotice, "%s ", question)
 		}
 
 		reader := bufio.NewReader(os.Stdin)

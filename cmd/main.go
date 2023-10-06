@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"strings"
 
@@ -41,7 +40,7 @@ func main() {
 
 	// Version command
 	if subCommand == "version" {
-		fmt.Println("Version 0.0.3")
+		cli.Printf(cli.ColorDefault, "Version 0.0.3\n")
 		return
 	}
 
@@ -52,30 +51,31 @@ func main() {
 			programs = append(programs, program)
 		}
 
-		fmt.Println("")
-		fmt.Println("nicedeck version                    (show version)")
-		fmt.Println("nicedeck help                       (print this help)")
-		fmt.Println("nicedeck setup                      (install all programs)")
-		fmt.Println("nicedeck install --programs=KEY,... (install specific program or programs)")
-		fmt.Println("nicedeck list-shortcuts             (list steam shortcuts with respective app id)")
-		fmt.Println("")
-		fmt.Println("Available programs to install: ", strings.Join(programs, ", "))
-		fmt.Println("")
-
+		cli.Printf(cli.ColorDefault, "\n"+
+			"nicedeck version                    (show version)\n"+
+			"nicedeck help                       (print this help)\n"+
+			"nicedeck setup                      (install all programs)\n"+
+			"nicedeck install --programs=KEY,... (install specific program or programs)\n"+
+			"nicedeck list-shortcuts             (list steam shortcuts with respective app id)\n"+
+			"\n"+
+			"Available programs to install: %s\n"+
+			"\n",
+			strings.Join(programs, ", "),
+		)
 		return
 	}
 
 	// Retrieve user config path
 	userConfig, err := steam.GetPath("userdata/*/config")
 	if err != nil {
-		fmt.Println(err)
+		cli.Printf(cli.ColorFatal, "%s\n", err.Error())
 		return
 	}
 
 	// Retrieve controller templates path
 	controllerTemplates, err := steam.GetPath("controller_base/templates")
 	if err != nil {
-		fmt.Println(err)
+		cli.Printf(cli.ColorFatal, "%s\n", err.Error())
 		return
 	}
 
@@ -89,7 +89,7 @@ func main() {
 
 	save, err := steam.Use(config)
 	if err != nil {
-		fmt.Println(err)
+		cli.Printf(cli.ColorFatal, "%s\n", err.Error())
 		return
 	}
 
@@ -101,7 +101,7 @@ func main() {
 		// Make sure structure installation is done
 		err = install.Structure()
 		if err != nil {
-			fmt.Println(err)
+			cli.Printf(cli.ColorFatal, "%s\n", err.Error())
 			return
 		}
 
@@ -109,7 +109,7 @@ func main() {
 		for _, command := range installMap {
 			err := command()
 			if err != nil {
-				fmt.Println(err)
+				cli.Printf(cli.ColorFatal, "%s\n", err.Error())
 				break
 			}
 		}
@@ -123,7 +123,7 @@ func main() {
 		// Make sure structure installation is done
 		err = install.Structure()
 		if err != nil {
-			fmt.Println(err)
+			cli.Printf(cli.ColorFatal, "%s\n", err.Error())
 			return
 		}
 
@@ -135,11 +135,11 @@ func main() {
 			if command, ok := installMap[program]; ok {
 				err := command()
 				if err != nil {
-					fmt.Println(err)
+					cli.Printf(cli.ColorFatal, "%s\n", err.Error())
 					break
 				}
 			} else {
-				fmt.Println("Program not found to install:", program)
+				cli.Printf(cli.ColorWarn, "Program not found to install: %s\n", program)
 			}
 		}
 
@@ -149,10 +149,10 @@ func main() {
 	// List shortcuts command
 	if subCommand == "list-shortcuts" {
 		for _, shortcut := range config.Shortcuts {
-			fmt.Printf("%s => %v\n", shortcut.AppName, shortcut.AppID)
+			cli.Printf(cli.ColorDefault, "%s => %v\n", shortcut.AppName, shortcut.AppID)
 		}
 		return
 	}
 
-	fmt.Println("Unknown command.")
+	cli.Printf(cli.ColorFatal, "Unknown command: %s\n", subCommand)
 }
