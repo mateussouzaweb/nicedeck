@@ -8,6 +8,33 @@ Steck Deck customizations for a **nice experience** targered **for advanced user
 - Opinated and simplified structure for emulators, where you should see only the ``ROMs`` and ``BIOS`` folders for the emulators that you installed.
 - Installed programs will be available on the ``Steam Library``, allowing usage on ``Gaming Mode`` at Steam Deck.
 
+## Installation and Usage
+
+Open Steam Deck in ``Desktop Mode``, launch ``Konsole`` and type the command below to install ``nicedeck``.
+
+```bash
+# Install the program
+curl https://mateussouzaweb.github.io/nicedeck/install | bash -
+
+# Make it available on current shell
+export PATH="$PATH:$HOME/.local/bin"
+```
+
+After the program has been installed, you can run the setup process:
+
+```bash
+# Usage help
+nicedeck help
+
+# Install all programs
+nicedeck setup
+
+# Install specific programs only
+nicedeck install --programs=citra,yuzu
+```
+
+*Note:* Restart Steam to changes take effect into ``Steam Library``.
+
 ## Important Notes
 
 Folders and Structure:
@@ -37,33 +64,6 @@ Application Launcher:
 - You can also take the opportunity and add favorites programs to the special favorites section. Open the launcher, right-click in the desired application and select the ``Add to Favorites`` option.
 
 Once you have configured the controller layout on each program and run through the setup process, it's time to have a nice experience!
-
-## Installation and Usage
-
-Open Steam Deck in ``Desktop Mode``, launch ``Konsole`` and type the command below to install ``nicedeck``.
-
-```bash
-# Install the program
-curl https://mateussouzaweb.github.io/nicedeck/install | bash -
-
-# Make it available on current shell
-export PATH="$PATH:$HOME/.local/bin"
-```
-
-After the program has been installed, you can run the setup process:
-
-```bash
-# Usage help
-nicedeck help
-
-# Install all programs
-nicedeck setup
-
-# Install specific programs only
-nicedeck install --programs=citra,yuzu
-```
-
-*Note:* Restart Steam to changes take effect into ``Steam Library``.
 
 ## Available Programs:
 
