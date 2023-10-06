@@ -13,8 +13,8 @@
 	{
 		"english"
 		{
-			"Title"		"NiceDeck Gamepad"
-			"Description"		"Custom template from NiceDeck project - use it on emulators."
+			"Title"		"[NICEDECK] - Gamepad"
+			"Description"		"Custom template with Gamepad and Mouse Trackpad - use this profile on emulators and appropriated softwares. Special keys: [L4] Enter Key, [L5] Escape Key, [R4] Left Mouse Click and [R5] Right Mouse Click"
 		}
 	}
 	"group"
