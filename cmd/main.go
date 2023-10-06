@@ -87,16 +87,22 @@ func main() {
 		ControllerFile: controllerTemplates + "/controller_neptune_nicedeck.vdf",
 	}
 
-	save, err := steam.Use(config)
+	saveConfig, err := steam.Use(config)
 	if err != nil {
 		cli.Printf(cli.ColorFatal, "%s\n", err.Error())
 		return
 	}
 
-	defer save()
-
 	// Setup command (to install all programs)
 	if subCommand == "setup" {
+
+		// Save config on finish
+		defer func() {
+			err := saveConfig()
+			if err != nil {
+				cli.Printf(cli.ColorFatal, "%s\n", err.Error())
+			}
+		}()
 
 		// Make sure structure installation is done
 		err = install.Structure()
@@ -119,6 +125,14 @@ func main() {
 
 	// Install command (for specific programs only)
 	if subCommand == "install" {
+
+		// Save config on finish
+		defer func() {
+			err := saveConfig()
+			if err != nil {
+				cli.Printf(cli.ColorFatal, "%s\n", err.Error())
+			}
+		}()
 
 		// Make sure structure installation is done
 		err = install.Structure()
