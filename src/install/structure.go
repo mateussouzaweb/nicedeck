@@ -36,8 +36,8 @@ func Structure() error {
 	}
 
 	// Check if must install it on microSD, if no, then is ok
-	toMicroSD := cli.Read("INSTALL_TO_MICROSD", "Install to MicroSD? (Y/N)", "N")
-	if toMicroSD == "N" {
+	toMicroSD := cli.Read("INSTALL_TO_MICROSD", "Install to MicroSD? Y/N", "N")
+	if strings.ToUpper(toMicroSD) == "N" {
 		return nil
 	}
 
