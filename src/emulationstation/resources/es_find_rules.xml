@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<ruleList>
+    <emulator name="OS-SHELL">
+        <rule type="systempath">
+            <entry>bash</entry>
+            <entry>sh</entry>
+        </rule>
+    </emulator>
+    <emulator name="CEMU">
+        <rule type="systempath">
+            <entry>Cemu-wrapper</entry>
+            <entry>cemu</entry>
+            <entry>Cemu</entry>
+        </rule>
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/info.cemu.Cemu</entry>
+            <entry>~/.local/share/flatpak/exports/bin/info.cemu.Cemu</entry>
+        </rule>
+    </emulator>
+    <emulator name="CITRA">
+        <rule type="systempath">
+            <entry>citra-qt</entry>
+            <entry>citra</entry>
+            <entry>citra-emu.citra-nightly</entry>
+            <entry>org.citra_emu.citra</entry>
+        </rule>
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/org.citra_emu.citra</entry>
+            <entry>~/.local/share/flatpak/exports/bin/org.citra_emu.citra</entry>
+        </rule>
+    </emulator>
+    <emulator name="DOLPHIN">
+        <rule type="systempath">
+            <entry>dolphin-emu</entry>
+            <entry>org.DolphinEmu.dolphin-emu</entry>
+        </rule>
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/org.DolphinEmu.dolphin-emu</entry>
+            <entry>~/.local/share/flatpak/exports/bin/org.DolphinEmu.dolphin-emu</entry>
+        </rule>
+    </emulator>
+    <emulator name="FLYCAST">
+        <rule type="systempath">
+            <entry>flycast</entry>
+            <entry>org.flycast.Flycast</entry>
+        </rule>
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/org.flycast.Flycast</entry>
+            <entry>~/.local/share/flatpak/exports/bin/org.flycast.Flycast</entry>
+        </rule>
+    </emulator>
+    <emulator name="MELONDS">
+        <rule type="systempath">
+            <entry>melonds</entry>
+            <entry>melonDS</entry>
+            <entry>net.kuribo64.melonDS</entry>
+        </rule>
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/net.kuribo64.melonDS</entry>
+            <entry>~/.local/share/flatpak/exports/bin/net.kuribo64.melonDS</entry>
+        </rule>
+    </emulator>
+    <emulator name="MGBA">
+        <rule type="systempath">
+            <entry>mgba</entry>
+            <entry>mgba-qt</entry>
+            <entry>io.mgba.mGBA</entry>
+        </rule>
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/io.mgba.mGBA</entry>
+            <entry>~/.local/share/flatpak/exports/bin/io.mgba.mGBA</entry>
+        </rule>
+    </emulator>
+    <emulator name="PCSX2">
+        <rule type="systempath">
+            <entry>pcsx2-qt</entry>
+        </rule>
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/net.pcsx2.PCSX2</entry>
+            <entry>~/.local/share/flatpak/exports/bin/net.pcsx2.PCSX2</entry>
+        </rule>
+    </emulator>
+    <emulator name="PPSSPP">
+        <rule type="systempath">
+            <entry>ppsspp-emu.ppsspp-sdl</entry>
+            <entry>org.ppsspp.PPSSPP</entry>
+            <entry>PPSSPPSDL</entry>
+            <entry>PPSSPPQt</entry>
+        </rule>
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/org.ppsspp.PPSSPP</entry>
+            <entry>~/.local/share/flatpak/exports/bin/org.ppsspp.PPSSPP</entry>
+        </rule>
+    </emulator>
+    <emulator name="RPCS3">
+        <rule type="systempath">
+            <entry>rpcs3</entry>
+            <entry>net.rpcs3.RPCS3</entry>
+        </rule>
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/net.rpcs3.RPCS3</entry>
+            <entry>~/.local/share/flatpak/exports/bin/net.rpcs3.RPCS3</entry>
+        </rule>
+    </emulator>
+    <emulator name="RYUJINX">
+        <rule type="systempath">
+            <entry>Ryujinx</entry>
+            <entry>org.ryujinx.Ryujinx</entry>
+        </rule>
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/org.ryujinx.Ryujinx</entry>
+            <entry>~/.local/share/flatpak/exports/bin/org.ryujinx.Ryujinx</entry>
+        </rule>
+    </emulator>
+    <emulator name="XEMU">
+        <rule type="systempath">
+            <entry>xemu</entry>
+            <entry>app.xemu.xemu</entry>
+        </rule>
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/app.xemu.xemu</entry>
+            <entry>~/.local/share/flatpak/exports/bin/app.xemu.xemu</entry>
+        </rule>
+    </emulator>
+    <emulator name="YUZU">
+        <rule type="systempath">
+            <entry>yuzu</entry>
+            <entry>org.yuzu_emu.yuzu</entry>
+        </rule>
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/org.yuzu_emu.yuzu</entry>
+            <entry>~/.local/share/flatpak/exports/bin/org.yuzu_emu.yuzu</entry>
+        </rule>
+    </emulator>
+</ruleList>

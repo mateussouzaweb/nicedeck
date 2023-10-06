@@ -1,3 +1,8 @@
 <?xml version="1.0"?>
+<string name="InputControllerType" value="xbox360" />
 <string name="ROMDirectory" value="$HOME/Games/ROMs/" />
-<string name="ThemeSet" value="es-epicnoir" />
+<string name="ThemeAspectRatio" value="automatic" />
+<string name="ThemeColorScheme" value="dark" />
+<string name="ThemeSet" value="modern-es-de" />
+<string name="ThemeTransitions" value="automatic" />
+<string name="ThemeVariant" value="withoutVideos" />

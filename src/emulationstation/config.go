@@ -51,6 +51,23 @@ func WriteConfigs() error {
 		return err
 	}
 
+	// Find Rules
+	findRulesFile := os.ExpandEnv("$HOME/.emulationstation/custom_systems/es_find_rules.xml")
+	findRulesConfig, err := resourcesContent.ReadFile("resources/es_find_rules.xml")
+	if err != nil {
+		return err
+	}
+
+	err = os.MkdirAll(filepath.Dir(findRulesFile), 0774)
+	if err != nil {
+		return err
+	}
+
+	err = os.WriteFile(findRulesFile, replaceVars(findRulesConfig), 0666)
+	if err != nil {
+		return err
+	}
+
 	// Icon
 	iconFile := os.ExpandEnv("$HOME/.emulationstation/icon.png")
 	iconContent, err := resourcesContent.ReadFile("resources/icon.png")
