@@ -40,7 +40,7 @@ func main() {
 
 	// Version command
 	if subCommand == "version" {
-		cli.Printf(cli.ColorDefault, "Version 0.0.4\n")
+		cli.Printf(cli.ColorDefault, "Version 0.0.5\n")
 		return
 	}
 
