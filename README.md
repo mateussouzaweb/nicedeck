@@ -1,6 +1,8 @@
 # NiceDeck
 
-Steam Deck customizations for a **nice experience** targeted **for advanced users only** (experimental software).
+Steam Deck customizations for a **nice experience** targeted **for advanced users only**.
+
+![Nice!](./nice.jpg?raw=true)
 
 NiceDeck is an alternative for automated installations softwares like [EmuDeck](https://github.com/dragoonDorise/EmuDeck) and [RetroDeck](https://github.com/XargonWan/RetroDECK). It tries to keep things as independent as possible by just focusing on installing the programs, while also adding it to the ``Steam Library`` with nice cover images. 
 
