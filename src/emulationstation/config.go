@@ -3,6 +3,7 @@ package emulationstation
 import (
 	"bytes"
 	"embed"
+	"errors"
 	"os"
 	"path/filepath"
 )
@@ -10,6 +11,7 @@ import (
 //go:embed resources/*
 var resourcesContent embed.FS
 
+// Write configs for EmulationStation
 func WriteConfigs() error {
 
 	// Replace special variables
@@ -17,21 +19,28 @@ func WriteConfigs() error {
 		return bytes.ReplaceAll(content, []byte("$HOME"), []byte(os.Getenv("HOME")))
 	}
 
-	// Settings
+	// Settings (write file only if not exist yet)
 	settingsFile := os.ExpandEnv("$HOME/.emulationstation/es_settings.xml")
-	settingsConfig, err := resourcesContent.ReadFile("resources/es_settings.xml")
-	if err != nil {
+	_, err := os.Stat(settingsFile)
+	if err != nil && !errors.Is(err, os.ErrNotExist) {
 		return err
 	}
 
-	err = os.MkdirAll(filepath.Dir(settingsFile), 0774)
-	if err != nil {
-		return err
-	}
+	if errors.Is(err, os.ErrNotExist) {
+		settingsConfig, err := resourcesContent.ReadFile("resources/es_settings.xml")
+		if err != nil {
+			return err
+		}
 
-	err = os.WriteFile(settingsFile, replaceVars(settingsConfig), 0666)
-	if err != nil {
-		return err
+		err = os.MkdirAll(filepath.Dir(settingsFile), 0774)
+		if err != nil {
+			return err
+		}
+
+		err = os.WriteFile(settingsFile, replaceVars(settingsConfig), 0666)
+		if err != nil {
+			return err
+		}
 	}
 
 	// Systems
