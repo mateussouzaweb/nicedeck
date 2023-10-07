@@ -16,7 +16,7 @@ func Cemu() error {
 
 		# Install emulator
 		flatpak install -y flathub info.cemu.Cemu
-		flatpak override info.cemu.Cemu --filesystem=host
+		flatpak override --user --filesystem=host info.cemu.Cemu
 	`).Run()
 
 	if err != nil {
@@ -57,7 +57,7 @@ func Citra() error {
 
 		# Install emulator
 		flatpak install -y flathub org.citra_emu.citra
-		flatpak override org.citra_emu.citra --filesystem=host
+		flatpak override --user --filesystem=host org.citra_emu.citra
 	`).Run()
 
 	if err != nil {
@@ -100,7 +100,7 @@ func Dolphin() error {
 
 		# Install emulator
 		flatpak install -y flathub org.DolphinEmu.dolphin-emu
-		flatpak override org.DolphinEmu.dolphin-emu --filesystem=host
+		flatpak override --user --filesystem=host org.DolphinEmu.dolphin-emu
 	`).Run()
 
 	if err != nil {
@@ -141,7 +141,7 @@ func Flycast() error {
 
 		# Install emulator
 		flatpak install -y flathub org.flycast.Flycast
-		flatpak override org.flycast.Flycast --filesystem=host
+		flatpak override --user --filesystem=host org.flycast.Flycast
 	`).Run()
 
 	if err != nil {
@@ -182,7 +182,7 @@ func MelonDS() error {
 
 		# Install emulator
 		flatpak install -y flathub net.kuribo64.melonDS
-		flatpak override net.kuribo64.melonDS --filesystem=host
+		flatpak override --user --filesystem=host net.kuribo64.melonDS
 	`).Run()
 
 	if err != nil {
@@ -223,7 +223,7 @@ func MGBA() error {
 
 		# Install emulator
 		flatpak install -y flathub io.mgba.mGBA
-		flatpak override io.mgba.mGBA --filesystem=host
+		flatpak override --user --filesystem=host io.mgba.mGBA
 	`).Run()
 
 	if err != nil {
@@ -264,7 +264,7 @@ func PCSX2() error {
 
 		# Install emulator
 		flatpak install -y flathub net.pcsx2.PCSX2
-		flatpak override net.pcsx2.PCSX2 --filesystem=host
+		flatpak override --user --filesystem=host net.pcsx2.PCSX2
 	`).Run()
 
 	if err != nil {
@@ -305,7 +305,7 @@ func PPSSPP() error {
 
 		# Install emulator
 		flatpak install -y flathub org.ppsspp.PPSSPP
-		flatpak override org.ppsspp.PPSSPP --filesystem=host
+		flatpak override --user --filesystem=host org.ppsspp.PPSSPP
 	`).Run()
 
 	if err != nil {
@@ -346,7 +346,7 @@ func RPCS3() error {
 
 		# Install emulator
 		flatpak install -y flathub net.rpcs3.RPCS3
-		flatpak override net.rpcs3.RPCS3 --filesystem=host
+		flatpak override --user --filesystem=host net.rpcs3.RPCS3
 	`).Run()
 
 	if err != nil {
@@ -387,7 +387,7 @@ func Ryujinx() error {
 
 		# Install emulator
 		flatpak install -y flathub org.ryujinx.Ryujinx
-		flatpak override org.ryujinx.Ryujinx --filesystem=host
+		flatpak override --user --filesystem=host org.ryujinx.Ryujinx
 	`).Run()
 
 	if err != nil {
@@ -428,7 +428,7 @@ func Xemu() error {
 
 		# Install emulator
 		flatpak install -y flathub app.xemu.xemu
-		flatpak override app.xemu.xemu --filesystem=host
+		flatpak override --user --filesystem=host app.xemu.xemu
 	`).Run()
 
 	if err != nil {
@@ -469,7 +469,7 @@ func Yuzu() error {
 
 		# Install emulator
 		flatpak install -y flathub org.yuzu_emu.yuzu
-		flatpak override org.yuzu_emu.yuzu --filesystem=host
+		flatpak override --user --filesystem=host org.yuzu_emu.yuzu
 	`).Run()
 
 	if err != nil {
