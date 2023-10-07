@@ -26,10 +26,10 @@ func Cemu() error {
 	// Add to steam
 	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Cemu",
-		Exe:           "/usr/bin/flatpak",
-		StartDir:      "/usr/bin/",
+		StartDir:      "/var/lib/flatpak/exports/bin/",
+		Exe:           "/var/lib/flatpak/exports/bin/info.cemu.Cemu",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/info.cemu.Cemu.desktop",
-		LaunchOptions: "run --branch=stable --arch=x86_64 --command=/app/bin/Cemu-wrapper info.cemu.Cemu",
+		LaunchOptions: "",
 		Tags:          []string{"EMULATORS"},
 		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/9308b0d6e5898366a4a986bc33f3d3e7.ico",
 		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/c7a9f13a6c0940277d46706c7ca32601.png",
@@ -67,10 +67,10 @@ func Citra() error {
 	// Add to steam
 	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Citra",
-		Exe:           "/usr/bin/flatpak",
-		StartDir:      "/usr/bin/",
+		StartDir:      "/var/lib/flatpak/exports/bin/",
+		Exe:           "/var/lib/flatpak/exports/bin/org.citra_emu.citra",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/org.citra_emu.citra.desktop",
-		LaunchOptions: "run --branch=stable --arch=x86_64 --command=citra-qt --file-forwarding org.citra_emu.citra @@ %f @@",
+		LaunchOptions: "",
 		Tags:          []string{"EMULATORS"},
 		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/713586fe8b2dd639aac846e8ac1536a2.ico",
 		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/30c08c3bbfac55eba7678594e5da022e.png",
@@ -110,10 +110,10 @@ func Dolphin() error {
 	// Add to steam
 	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Dolphin Emulator",
-		Exe:           "/usr/bin/flatpak",
-		StartDir:      "/usr/bin/",
+		StartDir:      "/var/lib/flatpak/exports/bin/",
+		Exe:           "/var/lib/flatpak/exports/bin/org.DolphinEmu.dolphin-emu",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/org.DolphinEmu.dolphin-emu.desktop",
-		LaunchOptions: "run --branch=stable --arch=x86_64 --command=/app/bin/dolphin-emu-wrapper org.DolphinEmu.dolphin-emu",
+		LaunchOptions: "",
 		Tags:          []string{"EMULATORS"},
 		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/7d2a383e54274888b4b73b97e1aaa491.ico",
 		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/5b5bbd3170c560829391c3db7265ee9b.png",
@@ -151,10 +151,10 @@ func Flycast() error {
 	// Add to steam
 	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Flycast",
-		Exe:           "/usr/bin/flatpak",
-		StartDir:      "/usr/bin/",
+		StartDir:      "/var/lib/flatpak/exports/bin/",
+		Exe:           "/var/lib/flatpak/exports/bin/org.flycast.Flycast",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/org.flycast.Flycast.desktop",
-		LaunchOptions: "run --branch=stable --arch=x86_64 --command=flycast --file-forwarding org.flycast.Flycast @@ %f @@",
+		LaunchOptions: "",
 		Tags:          []string{"EMULATORS"},
 		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/abebb7c39f4b5e46bbcfab2b565ef32b.ico",
 		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/b9b0c8b6beb69bd0c5a213b9422459ce.png",
@@ -192,10 +192,10 @@ func MelonDS() error {
 	// Add to steam
 	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "MelonDS",
-		Exe:           "/usr/bin/flatpak",
-		StartDir:      "/usr/bin/",
+		StartDir:      "/var/lib/flatpak/exports/bin/",
+		Exe:           "/var/lib/flatpak/exports/bin/net.kuribo64.melonDS",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/net.kuribo64.melonDS.desktop",
-		LaunchOptions: "run --branch=stable --arch=x86_64 --command=melonDS --file-forwarding net.kuribo64.melonDS @@ %f @@",
+		LaunchOptions: "",
 		Tags:          []string{"EMULATORS"},
 		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/9c156653d889d37811915236feed8660.ico",
 		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/173f798d1316395cce2c8ecf98aed4d5.png",
@@ -233,10 +233,10 @@ func MGBA() error {
 	// Add to steam
 	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "MGBA",
-		Exe:           "/usr/bin/flatpak",
-		StartDir:      "/usr/bin/",
+		StartDir:      "/var/lib/flatpak/exports/bin/",
+		Exe:           "/var/lib/flatpak/exports/bin/io.mgba.mGBA",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/io.mgba.mGBA.desktop",
-		LaunchOptions: "run --branch=stable --arch=x86_64 --command=mgba-qt --file-forwarding io.mgba.mGBA @@ %f @@",
+		LaunchOptions: "",
 		Tags:          []string{"EMULATORS"},
 		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/5b46370c9fd40a27ce2b2abc281064de.ico",
 		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/e262b1f197f1a9cca59e0868f1e5c94b.png",
@@ -274,10 +274,10 @@ func PCSX2() error {
 	// Add to steam
 	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "PCSX2",
-		Exe:           "/usr/bin/flatpak",
-		StartDir:      "/usr/bin/",
+		StartDir:      "/var/lib/flatpak/exports/bin/",
+		Exe:           "/var/lib/flatpak/exports/bin/net.pcsx2.PCSX2",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/net.pcsx2.PCSX2.desktop",
-		LaunchOptions: "run --branch=stable --arch=x86_64 --command=pcsx2-qt net.pcsx2.PCSX2",
+		LaunchOptions: "",
 		Tags:          []string{"EMULATORS"},
 		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/9a32ff36c65e8ba30915a21b7bd76506.ico",
 		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/7123c9e46f34491cf4f8eb1a813d8f6e.png",
@@ -315,10 +315,10 @@ func PPSSPP() error {
 	// Add to steam
 	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "PPSSPP",
-		Exe:           "/usr/bin/flatpak",
-		StartDir:      "/usr/bin/",
+		StartDir:      "/var/lib/flatpak/exports/bin/",
+		Exe:           "/var/lib/flatpak/exports/bin/org.ppsspp.PPSSPP",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/org.ppsspp.PPSSPP.desktop",
-		LaunchOptions: "run --branch=stable --arch=x86_64 --command=PPSSPPSDL org.ppsspp.PPSSPP",
+		LaunchOptions: "",
 		Tags:          []string{"EMULATORS"},
 		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/2ba3c4b9390cc43edb94e42144729d33.ico",
 		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/e242660df1b69b74dcc7fde711f924ff.png",
@@ -356,10 +356,10 @@ func RPCS3() error {
 	// Add to steam
 	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "RPCS3",
-		Exe:           "/usr/bin/flatpak",
-		StartDir:      "/usr/bin/",
+		StartDir:      "/var/lib/flatpak/exports/bin/",
+		Exe:           "/var/lib/flatpak/exports/bin/net.rpcs3.RPCS3",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/net.rpcs3.RPCS3.desktop",
-		LaunchOptions: "run --branch=stable --arch=x86_64 --command=rpcs3 --file-forwarding net.rpcs3.RPCS3 @@ %f @@",
+		LaunchOptions: "",
 		Tags:          []string{"EMULATORS"},
 		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/add5aebfcb33a2206b6497d53bc4f309.ico",
 		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/bffc98347ee35b3ead06728d6f073c68.png",
@@ -397,10 +397,10 @@ func Ryujinx() error {
 	// Add to steam
 	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Ryujinx",
-		Exe:           "/usr/bin/flatpak",
-		StartDir:      "/usr/bin/",
+		StartDir:      "/var/lib/flatpak/exports/bin/",
+		Exe:           "/var/lib/flatpak/exports/bin/org.ryujinx.Ryujinx",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/org.ryujinx.Ryujinx.desktop",
-		LaunchOptions: "run --branch=stable --arch=x86_64 --command=ryujinx-wrapper --file-forwarding org.ryujinx.Ryujinx @@ %f @@",
+		LaunchOptions: "",
 		Tags:          []string{"EMULATORS"},
 		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/6c7cd904122e623ce625613d6af337c4.ico",
 		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/b948aa07167c9acb17487657e96870e5.png",
@@ -438,10 +438,10 @@ func Xemu() error {
 	// Add to steam
 	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Xemu",
-		Exe:           "/usr/bin/flatpak",
-		StartDir:      "/usr/bin/",
+		StartDir:      "/var/lib/flatpak/exports/bin/",
+		Exe:           "/var/lib/flatpak/exports/bin/app.xemu.xemu",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/app.xemu.xemu.desktop",
-		LaunchOptions: "run --branch=stable --arch=x86_64 --command=xemu app.xemu.xemu",
+		LaunchOptions: "",
 		Tags:          []string{"EMULATORS"},
 		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/fac7fead96dafceaf80c1daffeae82a4.ico",
 		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/a42b7cddd7ebb7c1bced17bddc568d2f.png",
@@ -479,10 +479,10 @@ func Yuzu() error {
 	// Add to steam
 	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Yuzu",
-		Exe:           "/usr/bin/flatpak",
-		StartDir:      "/usr/bin/",
+		StartDir:      "/var/lib/flatpak/exports/bin/",
+		Exe:           "/var/lib/flatpak/exports/bin/org.yuzu_emu.yuzu",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/org.yuzu_emu.yuzu.desktop",
-		LaunchOptions: "run --branch=stable --arch=x86_64 --command=yuzu-launcher org.yuzu_emu.yuzu",
+		LaunchOptions: "",
 		Tags:          []string{"EMULATORS"},
 		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/2cfa3753d6a524711acb5fce38eeca1a.ico",
 		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/55d46c8717ed1cb7ac23556df1745b4b.png",

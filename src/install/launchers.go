@@ -24,10 +24,10 @@ func Bottles() error {
 	// Add to steam
 	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Bottles",
-		Exe:           "/usr/bin/flatpak",
-		StartDir:      "/usr/bin/",
+		StartDir:      "/var/lib/flatpak/exports/bin/",
+		Exe:           "/var/lib/flatpak/exports/bin/com.usebottles.bottles",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/com.usebottles.bottles.desktop",
-		LaunchOptions: "run --branch=stable --arch=x86_64 --command=bottles --file-forwarding com.usebottles.bottles @@u %u @@",
+		LaunchOptions: "",
 		Tags:          []string{"LAUNCHERS"},
 		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/449ef87e4d3fa1f1f268196b185627dd.ico",
 		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/92491efa7cda6552f740334c9e601855.png",
@@ -117,10 +117,10 @@ func HeroicGamesLauncher() error {
 	// Add to steam
 	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Heroic Games Launcher",
-		Exe:           "/usr/bin/flatpak",
-		StartDir:      "/usr/bin/",
+		StartDir:      "/var/lib/flatpak/exports/bin/",
+		Exe:           "/var/lib/flatpak/exports/bin/com.heroicgameslauncher.hgl",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/com.heroicgameslauncher.hgl.desktop",
-		LaunchOptions: "run --branch=stable --arch=x86_64 --command=heroic-run --file-forwarding com.heroicgameslauncher.hgl @@u %u @@",
+		LaunchOptions: "",
 		Tags:          []string{"LAUNCHERS"},
 		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/ae852ba7ae75fa4c5c7d186a61fcce92.png",
 		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/6eebc030d78d41b6cbcf9067aeda9198.png",
@@ -152,10 +152,10 @@ func Lutris() error {
 	// Add to steam
 	err = steam.AddToShortcuts(&steam.Shortcut{
 		AppName:       "Lutris",
-		Exe:           "/usr/bin/flatpak",
-		StartDir:      "/usr/bin/",
+		StartDir:      "/var/lib/flatpak/exports/bin/",
+		Exe:           "/var/lib/flatpak/exports/bin/net.lutris.Lutris",
 		ShortcutPath:  "/var/lib/flatpak/exports/share/applications/net.lutris.Lutris.desktop",
-		LaunchOptions: "run --branch=stable --arch=x86_64 --command=lutris --file-forwarding net.lutris.Lutris @@u %U @@",
+		LaunchOptions: "",
 		Tags:          []string{"LAUNCHERS"},
 		IconURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/8d060abe1e38ab179742bd3af495f407.png",
 		LogoURL:       "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/bbd451c375fb5b293a9b1f082bf8d024.png",
