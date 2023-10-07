@@ -107,4 +107,4 @@ Console Emulators:
 - Sony Playstation 3 - [RPCS3](https://rpcs3.net)
 - Sony Playstation Portable - [PPSSPP](https://www.ppsspp.org)
 
-Please not that NiceDeck will not offer support for all emulation softwares out there - we focus only on game consoles from the 2000s. If you want to emulate older consoles, please consider (RetroArch)[https://www.retroarch.com] or something else.
+Please not that NiceDeck will not offer support for all emulation softwares out there - we focus only on game consoles from the 2000s. If you want to emulate older consoles, please consider [RetroArch](https://www.retroarch.com) or something else.
