@@ -10,7 +10,7 @@ Some features of NiceDeck:
 
 - Automatic installation of recomended softwares for general usage, gaming and console emulation (see below).
 - You can choose the softwares and emulators to install.
-- Oficial installation via flatpak on available applications (because is easier to use and automatically updates).
+- Official installation via flatpak on available applications (because is easier to use and automatically updates).
 - Each software is independent and is maintaned / updated directly by their developers.
 - Opinated and simplified structure for emulators, where you should see only the ``ROMs`` and ``BIOS`` folders for the emulators that you installed.
 - Installed programs will be available on the ``Steam Library``, allowing usage on ``Gaming Mode`` at Steam Deck. Nice covers are also expected.
@@ -107,4 +107,4 @@ Console Emulators:
 - Sony Playstation 3 - [RPCS3](https://rpcs3.net)
 - Sony Playstation Portable - [PPSSPP](https://www.ppsspp.org)
 
-Please not that NiceDeck will not offer support for all emulation softwares out there - we focus only on game consoles from the 2000s. If you want to emulate older consoles, please consider RetroArch or something else.
+Please not that NiceDeck will not offer support for all emulation softwares out there - we focus only on game consoles from the 2000s. If you want to emulate older consoles, please consider (RetroArch)[https://www.retroarch.com] or something else.
