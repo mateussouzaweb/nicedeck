@@ -75,9 +75,9 @@ Once you have configured the controller layout on each program and run through t
 
 Enjoy!
 
-## Available Programs:
+## Available Softwares
 
-Softwares:
+Programs:
 
 - [Firefox](https://www.mozilla.org/en-US/firefox)
 - [Google Chrome](https://www.google.com/intl/en_us/chrome)
