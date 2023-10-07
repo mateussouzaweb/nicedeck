@@ -25,8 +25,11 @@ func GetPath(path string) (string, error) {
 		if err != nil && !errors.Is(err, os.ErrNotExist) {
 			return "", err
 		}
+		if errors.Is(err, os.ErrNotExist) {
+			continue
+		}
 		if stat.IsDir() {
-			usePath = possiblePath + path
+			usePath = filepath.Join(possiblePath, path)
 			break
 		}
 	}
