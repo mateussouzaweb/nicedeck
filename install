@@ -29,4 +29,4 @@ echo "[INFO] Downloading nicedeck..."
 wget -q $BINARY -O $BINARIES/nicedeck
 chmod +x $BINARIES/nicedeck
 
-echo "[INFO] nicedeck ${VERSION} installed at $BINARIES/nicedeck"
+echo "[INFO] NiceDeck ${VERSION} installed at $BINARIES/nicedeck"
