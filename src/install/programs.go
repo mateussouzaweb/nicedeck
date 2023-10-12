@@ -3,6 +3,7 @@ package install
 import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/steam"
+	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
 // Install Firefox
@@ -17,8 +18,8 @@ func Firefox() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "Firefox",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/org.mozilla.firefox",
@@ -52,8 +53,8 @@ func GoogleChrome() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "Google Chrome",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/com.google.Chrome",
@@ -87,8 +88,8 @@ func JellyfinMediaPlayer() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "Jellyfin Media Player",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/com.github.iwalton3.jellyfin-media-player",
@@ -122,8 +123,8 @@ func MoonlightGameStreaming() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "Moonlight Game Streaming",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/com.moonlight_stream.Moonlight",
