@@ -7,6 +7,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/emulationstation"
 	"github.com/mateussouzaweb/nicedeck/src/steam"
+	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
 // Install Bottles
@@ -21,8 +22,8 @@ func Bottles() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "Bottles",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/com.usebottles.bottles",
@@ -79,8 +80,8 @@ func EmulationStationDE() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "EmulationStation DE",
 		Exe:           executable,
 		StartDir:      directory,
@@ -114,8 +115,8 @@ func HeroicGamesLauncher() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "Heroic Games Launcher",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/com.heroicgameslauncher.hgl",
@@ -149,8 +150,8 @@ func Lutris() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "Lutris",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/net.lutris.Lutris",

@@ -3,6 +3,7 @@ package install
 import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/steam"
+	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
 // Install emulator for Nintendo Wii U - Cemu
@@ -23,8 +24,8 @@ func Cemu() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "Cemu",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/info.cemu.Cemu",
@@ -64,8 +65,8 @@ func Citra() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "Citra",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/org.citra_emu.citra",
@@ -107,8 +108,8 @@ func Dolphin() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "Dolphin Emulator",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/org.DolphinEmu.dolphin-emu",
@@ -148,8 +149,8 @@ func Flycast() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "Flycast",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/org.flycast.Flycast",
@@ -189,8 +190,8 @@ func MelonDS() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "MelonDS",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/net.kuribo64.melonDS",
@@ -230,8 +231,8 @@ func MGBA() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "MGBA",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/io.mgba.mGBA",
@@ -271,8 +272,8 @@ func PCSX2() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "PCSX2",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/net.pcsx2.PCSX2",
@@ -312,8 +313,8 @@ func PPSSPP() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "PPSSPP",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/org.ppsspp.PPSSPP",
@@ -353,8 +354,8 @@ func RPCS3() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "RPCS3",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/net.rpcs3.RPCS3",
@@ -394,8 +395,8 @@ func Ryujinx() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "Ryujinx",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/org.ryujinx.Ryujinx",
@@ -435,8 +436,8 @@ func Xemu() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "Xemu",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/app.xemu.xemu",
@@ -476,8 +477,8 @@ func Yuzu() error {
 		return err
 	}
 
-	// Add to steam
-	err = steam.AddToShortcuts(&steam.Shortcut{
+	// Add to Steam
+	err = steam.AddToShortcuts(&shortcuts.Shortcut{
 		AppName:       "Yuzu",
 		StartDir:      "/var/lib/flatpak/exports/bin/",
 		Exe:           "/var/lib/flatpak/exports/bin/org.yuzu_emu.yuzu",

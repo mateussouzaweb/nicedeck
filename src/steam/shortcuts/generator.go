@@ -1,4 +1,4 @@
-package steam
+package shortcuts
 
 import (
 	"hash/crc32"

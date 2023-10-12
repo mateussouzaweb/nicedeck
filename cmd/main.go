@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"strings"
 
@@ -9,170 +10,188 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam"
 )
 
-func main() {
+// Create mapping for easy install
+var installMap = map[string]func() error{
+	"bottles":          install.Bottles,
+	"cemu":             install.Cemu,
+	"citra":            install.Citra,
+	"dolphin":          install.Dolphin,
+	"emulationstation": install.EmulationStationDE,
+	"firefox":          install.Firefox,
+	"flycast":          install.Flycast,
+	"google-chrome":    install.GoogleChrome,
+	"heroic-games":     install.HeroicGamesLauncher,
+	"jellyfin":         install.JellyfinMediaPlayer,
+	"lutris":           install.Lutris,
+	"melonds":          install.MelonDS,
+	"mgba":             install.MGBA,
+	"moonlight":        install.MoonlightGameStreaming,
+	"pcsx2":            install.PCSX2,
+	"ppsspp":           install.PPSSPP,
+	"rpcs3":            install.RPCS3,
+	"ryujinx":          install.Ryujinx,
+	"xemu":             install.Xemu,
+	"yuzu":             install.Yuzu,
+}
 
-	// Create mapping for easy install
-	installMap := map[string]func() error{
-		"bottles":          install.Bottles,
-		"cemu":             install.Cemu,
-		"citra":            install.Citra,
-		"dolphin":          install.Dolphin,
-		"emulationstation": install.EmulationStationDE,
-		"firefox":          install.Firefox,
-		"flycast":          install.Flycast,
-		"google-chrome":    install.GoogleChrome,
-		"heroic-games":     install.HeroicGamesLauncher,
-		"jellyfin":         install.JellyfinMediaPlayer,
-		"lutris":           install.Lutris,
-		"melonds":          install.MelonDS,
-		"mgba":             install.MGBA,
-		"moonlight":        install.MoonlightGameStreaming,
-		"pcsx2":            install.PCSX2,
-		"ppsspp":           install.PPSSPP,
-		"rpcs3":            install.RPCS3,
-		"ryujinx":          install.Ryujinx,
-		"xemu":             install.Xemu,
-		"yuzu":             install.Yuzu,
+// Version command
+func printVersion() error {
+	cli.Printf(cli.ColorDefault, "Version 0.0.6\n")
+	return nil
+}
+
+// Help command
+func printHelp() error {
+
+	programs := make([]string, 0, len(installMap))
+	for program := range installMap {
+		programs = append(programs, program)
 	}
+
+	cli.Printf(cli.ColorDefault, "\n"+
+		"NiceDeck usage help:\n"+
+		"\n"+
+		"version                    (show version)\n"+
+		"help                       (print this help)\n"+
+		"setup                      (install all programs)\n"+
+		"install --programs=KEY,... (install specific program or programs)\n"+
+		"shortcuts                  (list Steam shortcuts with respective app id)\n"+
+		"\n"+
+		"Available programs to install: %s\n"+
+		"\n",
+		strings.Join(programs, ", "),
+	)
+
+	return nil
+}
+
+// Setup command (to install all programs)
+func runSetup() error {
+
+	// Load Steam library
+	err := steam.Load()
+	if err != nil {
+		return err
+	}
+
+	// Save config on finish
+	defer func() {
+		err := steam.Save()
+		if err != nil {
+			cli.Printf(cli.ColorFatal, "%s\n", err.Error())
+		}
+	}()
+
+	// Make sure has required structure
+	err = install.Structure()
+	if err != nil {
+		return err
+	}
+
+	// Install each program
+	for _, command := range installMap {
+		err := command()
+		if err != nil {
+			return err
+		}
+	}
+
+	cli.Printf(cli.ColorSuccess, "All programs installed!\n")
+	cli.Printf(cli.ColorNotice, "Please restart the device to changes take effect.\n")
+
+	return nil
+}
+
+// Install command (for specific programs only)
+func runInstall() error {
+
+	// Load Steam library
+	err := steam.Load()
+	if err != nil {
+		return err
+	}
+
+	// Save config on finish
+	defer func() {
+		err := steam.Save()
+		if err != nil {
+			cli.Printf(cli.ColorFatal, "%s\n", err.Error())
+		}
+	}()
+
+	// Make sure has required structure
+	err = install.Structure()
+	if err != nil {
+		return err
+	}
+
+	// Install selected programs
+	args := os.Args[1:]
+	programs := cli.Arg(args, "--programs", "")
+	programs = strings.ReplaceAll(programs, " ", "")
+
+	for _, program := range strings.Split(programs, ",") {
+		if command, ok := installMap[program]; ok {
+			err := command()
+			if err != nil {
+				return err
+			}
+		} else {
+			cli.Printf(cli.ColorWarn, "Program not found to install: %s\n", program)
+		}
+	}
+
+	cli.Printf(cli.ColorSuccess, "Programs installed!\n")
+	cli.Printf(cli.ColorNotice, "Please restart the device to changes take effect.\n")
+
+	return nil
+}
+
+// List shortcuts command
+func listShortcuts() error {
+
+	// Load Steam library
+	err := steam.Load()
+	if err != nil {
+		return err
+	}
+
+	// List detected shortcuts
+	for _, shortcut := range steam.GetShortcuts() {
+		cli.Printf(cli.ColorDefault, "%s => %v\n", shortcut.AppName, shortcut.AppID)
+	}
+
+	return nil
+}
+
+// Main command
+func main() {
 
 	args := os.Args[1:]
 	subCommand := cli.Arg(args, "0", "")
 
-	// Version command
-	if subCommand == "version" {
-		cli.Printf(cli.ColorDefault, "Version 0.0.6\n")
-		return
+	var err error
+
+	switch subCommand {
+	case "version":
+		err = printVersion()
+	case "help":
+		err = printHelp()
+	case "setup":
+		err = runSetup()
+	case "install":
+		err = runInstall()
+	case "shortcuts":
+		err = listShortcuts()
+	case "":
+		err = fmt.Errorf("command is required")
+	default:
+		err = fmt.Errorf("unknown command: %s", subCommand)
 	}
 
-	// Help command
-	if subCommand == "help" {
-		programs := make([]string, 0, len(installMap))
-		for program := range installMap {
-			programs = append(programs, program)
-		}
-
-		cli.Printf(cli.ColorDefault, "\n"+
-			"nicedeck version                    (show version)\n"+
-			"nicedeck help                       (print this help)\n"+
-			"nicedeck setup                      (install all programs)\n"+
-			"nicedeck install --programs=KEY,... (install specific program or programs)\n"+
-			"nicedeck list-shortcuts             (list steam shortcuts with respective app id)\n"+
-			"\n"+
-			"Available programs to install: %s\n"+
-			"\n",
-			strings.Join(programs, ", "),
-		)
-		return
-	}
-
-	// Retrieve user config path
-	userConfig, err := steam.GetPath("userdata/*/config")
 	if err != nil {
 		cli.Printf(cli.ColorFatal, "%s\n", err.Error())
 		return
 	}
 
-	// Retrieve controller templates path
-	controllerTemplates, err := steam.GetPath("controller_base/templates")
-	if err != nil {
-		cli.Printf(cli.ColorFatal, "%s\n", err.Error())
-		return
-	}
-
-	// Set runtime configs
-	config := &steam.Config{
-		ArtworksPath:   userConfig + "/grid",
-		DebugFile:      userConfig + "/niceconfig.json",
-		ShortcutsFile:  userConfig + "/shortcuts.vdf",
-		ControllerFile: controllerTemplates + "/controller_neptune_nicedeck.vdf",
-	}
-
-	saveConfig, err := steam.Use(config)
-	if err != nil {
-		cli.Printf(cli.ColorFatal, "%s\n", err.Error())
-		return
-	}
-
-	// Setup command (to install all programs)
-	if subCommand == "setup" {
-
-		// Save config on finish
-		defer func() {
-			err := saveConfig()
-			if err != nil {
-				cli.Printf(cli.ColorFatal, "%s\n", err.Error())
-			}
-		}()
-
-		// Make sure structure installation is done
-		err = install.Structure()
-		if err != nil {
-			cli.Printf(cli.ColorFatal, "%s\n", err.Error())
-			return
-		}
-
-		// Install each program
-		for _, command := range installMap {
-			err := command()
-			if err != nil {
-				cli.Printf(cli.ColorFatal, "%s\n", err.Error())
-				break
-			}
-		}
-
-		cli.Printf(cli.ColorSuccess, "All programs installed!\n")
-		cli.Printf(cli.ColorNotice, "Please restart the device to changes take effect.\n")
-
-		return
-	}
-
-	// Install command (for specific programs only)
-	if subCommand == "install" {
-
-		// Save config on finish
-		defer func() {
-			err := saveConfig()
-			if err != nil {
-				cli.Printf(cli.ColorFatal, "%s\n", err.Error())
-			}
-		}()
-
-		// Make sure structure installation is done
-		err = install.Structure()
-		if err != nil {
-			cli.Printf(cli.ColorFatal, "%s\n", err.Error())
-			return
-		}
-
-		// Install selected programs
-		programs := cli.Arg(args, "--programs", "")
-		programs = strings.ReplaceAll(programs, " ", "")
-
-		for _, program := range strings.Split(programs, ",") {
-			if command, ok := installMap[program]; ok {
-				err := command()
-				if err != nil {
-					cli.Printf(cli.ColorFatal, "%s\n", err.Error())
-					break
-				}
-			} else {
-				cli.Printf(cli.ColorWarn, "Program not found to install: %s\n", program)
-			}
-		}
-
-		cli.Printf(cli.ColorSuccess, "Programs installed!\n")
-		cli.Printf(cli.ColorNotice, "Please restart the device to changes take effect.\n")
-
-		return
-	}
-
-	// List shortcuts command
-	if subCommand == "list-shortcuts" {
-		for _, shortcut := range config.Shortcuts {
-			cli.Printf(cli.ColorDefault, "%s => %v\n", shortcut.AppName, shortcut.AppID)
-		}
-		return
-	}
-
-	cli.Printf(cli.ColorFatal, "Unknown command: %s\n", subCommand)
 }

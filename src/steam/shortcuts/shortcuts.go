@@ -1,53 +1,43 @@
-package steam
+package shortcuts
 
 import (
 	"bytes"
-	"embed"
-	"encoding/json"
 	"fmt"
 	"os"
 	"slices"
 	"sort"
 
-	"github.com/mateussouzaweb/nicedeck/src/vdf"
+	"github.com/mateussouzaweb/nicedeck/src/steam/vdf"
 )
 
-//go:embed resources/*
-var resourcesContent embed.FS
+// Load shortcuts from file
+func LoadFromFile(shortcutsFile string) ([]*Shortcut, error) {
 
-type Config struct {
-	ArtworksPath   string      `json:"artworksPath"`
-	DebugFile      string      `json:"debugFile"`
-	ControllerFile string      `json:"controllerFile"`
-	ShortcutsFile  string      `json:"shortcutsFile"`
-	Shortcuts      []*Shortcut `json:"shortcuts"`
-}
-
-func (c *Config) LoadShortcuts() error {
+	var shortcuts []*Shortcut
 
 	// Check if file exist
-	info, err := os.Stat(c.ShortcutsFile)
+	info, err := os.Stat(shortcutsFile)
 	if os.IsNotExist(err) || info.IsDir() {
-		return nil
+		return shortcuts, nil
 	}
 
 	// Read file content
-	content, err := os.ReadFile(c.ShortcutsFile)
+	content, err := os.ReadFile(shortcutsFile)
 	if err != nil {
-		return err
+		return shortcuts, err
 	}
 
 	// Read to resulting map
 	buffer := bytes.NewBuffer(content)
 	data, err := vdf.ReadVdf(buffer)
 	if err != nil {
-		return err
+		return shortcuts, err
 	}
 
 	// Map to struct of shortcuts
 	// We don't care about positioning
-	shortcuts := data["shortcuts"].(vdf.Vdf)
-	for _, item := range shortcuts {
+	found := data["shortcuts"].(vdf.Vdf)
+	for _, item := range found {
 
 		item := item.(vdf.Vdf)
 
@@ -66,6 +56,33 @@ func (c *Config) LoadShortcuts() error {
 		}
 		if _, ok := item["icon"]; !ok {
 			item["icon"] = ""
+		}
+		if _, ok := item["IconURL"]; !ok {
+			item["IconURL"] = ""
+		}
+		if _, ok := item["Logo"]; !ok {
+			item["Logo"] = ""
+		}
+		if _, ok := item["LogoURL"]; !ok {
+			item["LogoURL"] = ""
+		}
+		if _, ok := item["Cover"]; !ok {
+			item["Cover"] = ""
+		}
+		if _, ok := item["CoverURL"]; !ok {
+			item["CoverURL"] = ""
+		}
+		if _, ok := item["Banner"]; !ok {
+			item["Banner"] = ""
+		}
+		if _, ok := item["BannerURL"]; !ok {
+			item["BannerURL"] = ""
+		}
+		if _, ok := item["Hero"]; !ok {
+			item["Hero"] = ""
+		}
+		if _, ok := item["HeroURL"]; !ok {
+			item["HeroURL"] = ""
 		}
 		if _, ok := item["ShortcutPath"]; !ok {
 			item["ShortcutPath"] = ""
@@ -104,19 +121,33 @@ func (c *Config) LoadShortcuts() error {
 			item["tags"] = vdf.Vdf{}
 		}
 
+		// Create uppercase variation for strange keys
+		item["Icon"] = item["icon"]
+		item["AppID"] = item["appid"]
+		item["Tags"] = item["tags"]
+
 		// Create tag list
 		var tags []string
-		for _, tag := range item["tags"].(vdf.Vdf) {
+		for _, tag := range item["Tags"].(vdf.Vdf) {
 			tags = append(tags, tag.(string))
 		}
 
 		// Convert to manageable shortcut
 		shortcut := Shortcut{
-			AppID:               item["appid"].(uint),
+			AppID:               item["AppID"].(uint),
 			AppName:             item["AppName"].(string),
 			Exe:                 item["Exe"].(string),
 			StartDir:            item["StartDir"].(string),
-			Icon:                item["icon"].(string),
+			Icon:                item["Icon"].(string),
+			IconURL:             item["IconURL"].(string),
+			Logo:                item["Logo"].(string),
+			LogoURL:             item["LogoURL"].(string),
+			Cover:               item["Cover"].(string),
+			CoverURL:            item["CoverURL"].(string),
+			Banner:              item["Banner"].(string),
+			BannerURL:           item["BannerURL"].(string),
+			Hero:                item["Hero"].(string),
+			HeroURL:             item["HeroURL"].(string),
 			ShortcutPath:        item["ShortcutPath"].(string),
 			LaunchOptions:       item["LaunchOptions"].(string),
 			IsHidden:            item["IsHidden"].(uint),
@@ -131,37 +162,25 @@ func (c *Config) LoadShortcuts() error {
 			Tags:                tags,
 		}
 
-		c.Shortcuts = append(c.Shortcuts, &shortcut)
+		shortcuts = append(shortcuts, &shortcut)
 
 	}
 
 	// Sort list of shortcuts
-	err = c.SortShortcuts()
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return SortShortcuts(shortcuts)
 }
 
-// Add shortcut to config
-func (c *Config) AddShortcut(shortcut *Shortcut) error {
+// Add shortcut to the list
+func AddShortcut(shortcuts []*Shortcut, shortcut *Shortcut) ([]*Shortcut, error) {
 
 	// Check if already exist an app with the same reference
 	found := false
-	for index, item := range c.Shortcuts {
+	for index, item := range shortcuts {
 		if item.AppID != shortcut.AppID {
 			continue
 		}
 
 		// Keep current value for some keys
-		shortcut.IsHidden = item.IsHidden
-		shortcut.AllowDesktopConfig = item.AllowDesktopConfig
-		shortcut.AllowOverlay = item.AllowOverlay
-		shortcut.OpenVR = item.OpenVR
-		shortcut.Devkit = item.Devkit
-		shortcut.DevkitGameID = item.DevkitGameID
-		shortcut.DevkitOverrideAppID = item.DevkitOverrideAppID
 		shortcut.FlatpakAppID = item.FlatpakAppID
 		shortcut.LastPlayTime = item.LastPlayTime
 
@@ -170,7 +189,7 @@ func (c *Config) AddShortcut(shortcut *Shortcut) error {
 		shortcut.Tags = slices.Compact(shortcut.Tags)
 
 		// Replace with new object data
-		c.Shortcuts[index] = shortcut
+		shortcuts[index] = shortcut
 
 		found = true
 		break
@@ -178,28 +197,28 @@ func (c *Config) AddShortcut(shortcut *Shortcut) error {
 
 	// Append to the list if not exist
 	if !found {
-		c.Shortcuts = append(c.Shortcuts, shortcut)
+		shortcuts = append(shortcuts, shortcut)
 	}
 
-	return nil
+	return shortcuts, nil
 }
 
 // Sort shortcuts in alphabetical order
-func (c *Config) SortShortcuts() error {
+func SortShortcuts(shortcuts []*Shortcut) ([]*Shortcut, error) {
 
-	sort.Slice(c.Shortcuts, func(i int, j int) bool {
-		return c.Shortcuts[i].AppName < c.Shortcuts[j].AppName
+	sort.Slice(shortcuts, func(i int, j int) bool {
+		return shortcuts[i].AppName < shortcuts[j].AppName
 	})
 
-	return nil
+	return shortcuts, nil
 }
 
-// Save updated content on the shortcuts file
-func (c *Config) SaveShortcuts() error {
+// Save shortcuts list to shortcuts file
+func SaveToFile(shortcuts []*Shortcut, destinationFile string) error {
 
 	// Create vdf from shortcuts
-	shortcuts := make(vdf.Vdf)
-	for index, shortcut := range c.Shortcuts {
+	items := make(vdf.Vdf)
+	for index, shortcut := range shortcuts {
 
 		tags := make(vdf.Vdf)
 		for tagIndex, tag := range shortcut.Tags {
@@ -208,11 +227,9 @@ func (c *Config) SaveShortcuts() error {
 		}
 
 		item := vdf.Vdf{}
-		item["appid"] = shortcut.AppID
 		item["AppName"] = shortcut.AppName
 		item["Exe"] = shortcut.Exe
 		item["StartDir"] = shortcut.StartDir
-		item["icon"] = shortcut.Icon
 		item["ShortcutPath"] = shortcut.ShortcutPath
 		item["LaunchOptions"] = shortcut.LaunchOptions
 		item["IsHidden"] = shortcut.IsHidden
@@ -224,15 +241,32 @@ func (c *Config) SaveShortcuts() error {
 		item["DevkitOverrideAppID"] = shortcut.DevkitOverrideAppID
 		item["FlatpakAppID"] = shortcut.FlatpakAppID
 		item["LastPlayTime"] = shortcut.LastPlayTime
+
+		// item["AppID"] = shortcut.AppID
+		// item["Icon"] = shortcut.Icon
+		// item["IconURL"] = shortcut.IconURL
+		// item["Logo"] = shortcut.Logo
+		// item["LogoURL"] = shortcut.LogoURL
+		// item["Cover"] = shortcut.Cover
+		// item["CoverURL"] = shortcut.CoverURL
+		// item["Banner"] = shortcut.Banner
+		// item["BannerURL"] = shortcut.BannerURL
+		// item["Hero"] = shortcut.Hero
+		// item["HeroURL"] = shortcut.HeroURL
+		// item["Tags"] = tags
+
+		// Keys required to be lowercase
+		item["appid"] = shortcut.AppID
+		item["icon"] = shortcut.Icon
 		item["tags"] = tags
 
 		position := fmt.Sprintf("%v", index)
-		shortcuts[position] = item
+		items[position] = item
 
 	}
 
 	data := vdf.Vdf{}
-	data["shortcuts"] = shortcuts
+	data["shortcuts"] = items
 
 	// Transform VDF into bytes
 	content, err := vdf.WriteVdf(data)
@@ -241,83 +275,10 @@ func (c *Config) SaveShortcuts() error {
 	}
 
 	// Write content to file
-	err = os.WriteFile(c.ShortcutsFile, content.Bytes(), 0666)
+	err = os.WriteFile(destinationFile, content.Bytes(), 0666)
 	if err != nil {
 		return err
 	}
 
 	return nil
-}
-
-// Save updated content on the debug file
-func (c *Config) SaveDebug() error {
-
-	// Save JSON copy for debugging
-	jsonContent, err := json.MarshalIndent(c, "", "  ")
-	if err != nil {
-		return err
-	}
-
-	// Write JSON content to file
-	err = os.WriteFile(c.DebugFile, jsonContent, 0666)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// Save controller template on steam
-func (c *Config) SaveControllerTemplate() error {
-
-	controllerConfig, err := resourcesContent.ReadFile("resources/controller.vdf")
-	if err != nil {
-		return err
-	}
-
-	err = os.WriteFile(c.ControllerFile, controllerConfig, 0666)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-var _config *Config
-
-// Use given runtime config
-func Use(config *Config) (func() error, error) {
-	_config = config
-
-	err := _config.LoadShortcuts()
-	save := func() error {
-
-		// Sort list of shortcuts (again)
-		err := _config.SortShortcuts()
-		if err != nil {
-			return err
-		}
-
-		// Save debug
-		err = _config.SaveDebug()
-		if err != nil {
-			return err
-		}
-
-		// Save shortcuts
-		err = _config.SaveShortcuts()
-		if err != nil {
-			return err
-		}
-
-		// Save controller templates
-		err = _config.SaveControllerTemplate()
-		if err != nil {
-			return err
-		}
-
-		return nil
-	}
-
-	return save, err
 }
