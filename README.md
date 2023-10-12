@@ -1,6 +1,6 @@
 # NiceDeck
 
-Steam Deck customizations for a **nice experience** targeted **for advanced users only**.
+Steam Deck customizations for a **nice gaming experience** - recommended to advanced users only.
 
 ![Nice!](./nice.jpg?raw=true)
 
@@ -8,13 +8,14 @@ NiceDeck is an alternative for automated installations softwares like [EmuDeck](
 
 Some features of NiceDeck:
 
-- Automatic installation of recomended softwares for general usage, gaming and console emulation (see below).
-- You can choose the softwares and emulators to install.
-- Official installation via flatpak on available applications (because is easier to use and automatically updates).
+- Automatic installation of recomended softwares for general usage, gaming and console emulation (see list below).
+- Ability to choose the softwares and emulators to install.
+- Official installation via flatpak on available applications (because is easier to use and updates automatically).
 - Each software is independent and is maintaned / updated directly by their developers.
 - Opinated and simplified structure for emulators, where you should see only the ``ROMs`` and ``BIOS`` folders for the emulators that you installed.
 - Installed programs will be available on the ``Steam Library``, allowing usage on ``Gaming Mode`` at Steam Deck. Nice covers are also expected.
 - A correct and workable ``EmulationStation DE`` settings, with systems and finder rules to run games with flatpak in all emulators.
+- Originally created for Steam Deck, but works on almost any Linux distro.
 
 ## Installation and Usage
 
@@ -108,3 +109,7 @@ Console Emulators:
 - Sony Playstation Portable - [PPSSPP](https://www.ppsspp.org)
 
 Please not that NiceDeck will not offer support for all emulation softwares out there - we focus only on game consoles from the 2000s. If you want to emulate older consoles, please consider [RetroArch](https://www.retroarch.com) or something else.
+
+# Using NiceDeck Outside Steam Deck
+
+You can run NiceDeck in any Linux distribuition that supports ``flatpak`` with [Flathub](https://flathub.org), just make sure to **install and setup Steam first** in order to have the necessary folders of Steam in your system. If you just happen to install Steam via flatpak too, don't worry, ``nicedeck`` will set the necessary settings required to bypass the sandbox limitations of flatpak inside Steam.
