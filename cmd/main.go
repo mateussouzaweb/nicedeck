@@ -51,11 +51,11 @@ func printHelp() error {
 	cli.Printf(cli.ColorDefault, "\n"+
 		"NiceDeck usage help:\n"+
 		"\n"+
-		"version                    (show version)\n"+
-		"help                       (print this help)\n"+
-		"setup                      (install all programs)\n"+
-		"install --programs=KEY,... (install specific program or programs)\n"+
-		"shortcuts                  (list Steam shortcuts with respective app id)\n"+
+		"version               (show version)\n"+
+		"help                  (print this help)\n"+
+		"setup                 (install all programs)\n"+
+		"install $PROGRAM,...  (install specific program or programs)\n"+
+		"shortcuts             (list Steam shortcuts with respective app id)\n"+
 		"\n"+
 		"Available programs to install: %s\n"+
 		"\n",
@@ -127,7 +127,7 @@ func runInstall() error {
 
 	// Install selected programs
 	args := os.Args[1:]
-	programs := cli.Arg(args, "--programs", "")
+	programs := cli.Arg(args, "1", "")
 	programs = strings.ReplaceAll(programs, " ", "")
 
 	for _, program := range strings.Split(programs, ",") {
