@@ -13,13 +13,13 @@ import (
 )
 
 type Config struct {
-	ArtworksPath   string                `json:"artworksPath"`
-	ControllerFile string                `json:"controllerFile"`
-	DebugFile      string                `json:"debugFile"`
-	IsFlatpak      bool                  `json:"isFlatpak"`
-	ShortcutsFile  string                `json:"shortcutsFile"`
-	Shortcuts      []*shortcuts.Shortcut `json:"shortcuts"`
-	SteamPath      string                `json:"steamPath"`
+	ArtworksPath            string                `json:"artworksPath"`
+	ControllerTemplatesPath string                `json:"controllerTemplatesPath"`
+	DebugFile               string                `json:"debugFile"`
+	IsFlatpak               bool                  `json:"isFlatpak"`
+	ShortcutsFile           string                `json:"shortcutsFile"`
+	Shortcuts               []*shortcuts.Shortcut `json:"shortcuts"`
+	SteamPath               string                `json:"steamPath"`
 }
 
 var _config *Config
@@ -123,7 +123,7 @@ func Load() error {
 	}
 
 	// Retrieve controller templates path
-	controllerTemplates, err := GetPath("controller_base/templates")
+	controllerTemplatesPath, err := GetPath("controller_base/templates")
 	if err != nil {
 		return err
 	}
@@ -132,10 +132,10 @@ func Load() error {
 	_config = &Config{}
 	_config.IsFlatpak = isFlatpak
 	_config.SteamPath = steamPath
+	_config.ControllerTemplatesPath = controllerTemplatesPath
 	_config.ArtworksPath = userConfig + "/grid"
 	_config.DebugFile = userConfig + "/niceconfig.json"
 	_config.ShortcutsFile = userConfig + "/shortcuts.vdf"
-	_config.ControllerFile = controllerTemplates + "/controller_neptune_nicedeck.vdf"
 
 	// Load shortcuts
 	shortcutsList, err := shortcuts.LoadFromFile(_config.ShortcutsFile)
@@ -178,8 +178,8 @@ func Save() error {
 		return err
 	}
 
-	// Save controller templates
-	err = controller.SaveTemplate(_config.ControllerFile)
+	// Write controller templates
+	err = controller.WriteTemplates(_config.ControllerTemplatesPath)
 	if err != nil {
 		return err
 	}
