@@ -227,9 +227,20 @@ func SaveToFile(shortcuts []*Shortcut, destinationFile string) error {
 		}
 
 		item := vdf.Vdf{}
+		item["appid"] = shortcut.AppID
 		item["AppName"] = shortcut.AppName
 		item["Exe"] = shortcut.Exe
 		item["StartDir"] = shortcut.StartDir
+		item["icon"] = shortcut.Icon
+		item["IconURL"] = shortcut.IconURL
+		item["Logo"] = shortcut.Logo
+		item["LogoURL"] = shortcut.LogoURL
+		item["Cover"] = shortcut.Cover
+		item["CoverURL"] = shortcut.CoverURL
+		item["Banner"] = shortcut.Banner
+		item["BannerURL"] = shortcut.BannerURL
+		item["Hero"] = shortcut.Hero
+		item["HeroURL"] = shortcut.HeroURL
 		item["ShortcutPath"] = shortcut.ShortcutPath
 		item["LaunchOptions"] = shortcut.LaunchOptions
 		item["IsHidden"] = shortcut.IsHidden
@@ -241,24 +252,12 @@ func SaveToFile(shortcuts []*Shortcut, destinationFile string) error {
 		item["DevkitOverrideAppID"] = shortcut.DevkitOverrideAppID
 		item["FlatpakAppID"] = shortcut.FlatpakAppID
 		item["LastPlayTime"] = shortcut.LastPlayTime
+		item["tags"] = tags
 
+		// Duplicated - steam requires lowercase variation
 		// item["AppID"] = shortcut.AppID
 		// item["Icon"] = shortcut.Icon
-		// item["IconURL"] = shortcut.IconURL
-		// item["Logo"] = shortcut.Logo
-		// item["LogoURL"] = shortcut.LogoURL
-		// item["Cover"] = shortcut.Cover
-		// item["CoverURL"] = shortcut.CoverURL
-		// item["Banner"] = shortcut.Banner
-		// item["BannerURL"] = shortcut.BannerURL
-		// item["Hero"] = shortcut.Hero
-		// item["HeroURL"] = shortcut.HeroURL
 		// item["Tags"] = tags
-
-		// Keys required to be lowercase
-		item["appid"] = shortcut.AppID
-		item["icon"] = shortcut.Icon
-		item["tags"] = tags
 
 		position := fmt.Sprintf("%v", index)
 		items[position] = item
