@@ -40,7 +40,7 @@ func GetLatestRelease() (string, error) {
 	}
 
 	for _, release := range releases.Stable.Packages {
-		if release.Name == "LinuxSteamDeckAppImage" {
+		if release.Name == "LinuxAppImage" {
 			return release.Url, nil
 		}
 	}
