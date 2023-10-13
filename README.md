@@ -115,24 +115,3 @@ Please not that NiceDeck will not offer support for all emulation softwares out 
 You can run NiceDeck in any Linux distribuition that supports ``flatpak`` with [Flathub](https://flathub.org), just make sure to **install and setup Steam first** in order to have the necessary folders of Steam in your system. 
 
 If you just happen to install Steam via flatpak too, don't worry, ``nicedeck`` will set the necessary settings required to bypass the sandbox limitations of flatpak inside Steam.
-
-## Fix Desktop
-
-```bash
-cp /var/lib/flatpak/exports/share/applications/org.yuzu_emu.yuzu.desktop $HOME/.local/share/applications/org.yuzu_emu.yuzu.desktop
-cp /var/lib/flatpak/exports/share/applications/app.xemu.xemu.desktop $HOME/.local/share/applications/app.xemu.xemu.desktop
-cp /var/lib/flatpak/exports/share/applications/io.mgba.mGBA.desktop $HOME/.local/share/applications/io.mgba.mGBA.desktop
-cp /var/lib/flatpak/exports/share/applications/net.kuribo64.melonDS.desktop $HOME/.local/share/applications/net.kuribo64.melonDS.desktop
-
-vim $HOME/.local/share/applications/org.yuzu_emu.yuzu.desktop
-vim $HOME/.local/share/applications/app.xemu.xemu.desktop
-vim $HOME/.local/share/applications/io.mgba.mGBA.desktop
-vim $HOME/.local/share/applications/net.kuribo64.melonDS.desktop
-```
-
-## Ideas 
-
-- Hotkeys or menu on Steam controller
-- Make categories work on Steam
-- Better tabs for Steam
-- Check if we can modify the HTML of Steam
