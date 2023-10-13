@@ -110,8 +110,8 @@ Console Emulators:
 
 Please not that NiceDeck will not offer support for all emulation softwares out there - we focus only on game consoles from the 2000s. If you want to emulate older consoles, please consider [RetroArch](https://www.retroarch.com) or something else.
 
-# Using NiceDeck Outside Steam Deck
+## Using NiceDeck Outside Steam Deck
 
 You can run NiceDeck in any Linux distribuition that supports ``flatpak`` with [Flathub](https://flathub.org), just make sure to **install and setup Steam first** in order to have the necessary folders of Steam in your system. 
 
-If you just happen to install Steam via flatpak too, don't worry, ``nicedeck`` will set the necessary settings required to bypass the sandbox limitations of flatpak inside Steam.
+NOTE: If you installed Steam via flatpak too, don't worry, NiceDeck will set the necessary settings required to bypass the sandbox limitations of flatpak making you able to launch other applications with Steam.
