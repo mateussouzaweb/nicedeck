@@ -2,13 +2,11 @@ name: Publish new release
 
 on:
   push:
-    branches-ignore:
-      - "*"
     tags:
       - "v*.*.*"
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
