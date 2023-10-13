@@ -9,6 +9,8 @@ jobs:
   create-tag:
     runs-on: ubuntu-latest
     if: contains(github.event.head_commit.message, 'Version')
+    permissions:
+      contents: write
     steps:
       - name: Validate if is version commit
         id: validate-commit
