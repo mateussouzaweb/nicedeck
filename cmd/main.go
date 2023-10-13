@@ -36,7 +36,7 @@ var installMap = map[string]func() error{
 
 // Version command
 func printVersion() error {
-	cli.Printf(cli.ColorDefault, "Version 0.0.7\n")
+	cli.Printf(cli.ColorDefault, "Version 0.0.8\n")
 	return nil
 }
 
