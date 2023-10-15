@@ -203,6 +203,30 @@ func AddShortcut(shortcuts []*Shortcut, shortcut *Shortcut) ([]*Shortcut, error)
 	return shortcuts, nil
 }
 
+// Remove shortcut from the list
+func RemoveShortcut(shortcuts []*Shortcut, shortcut *Shortcut) ([]*Shortcut, error) {
+
+	updated := make([]*Shortcut, 0)
+	found := false
+
+	// Instead of appending one by one
+	// We detect the one to remove and add others in batch
+	for index, item := range shortcuts {
+		if item.AppID == shortcut.AppID {
+			updated = append(updated, shortcuts[:index]...)
+			updated = append(updated, shortcuts[index+1:]...)
+			found = true
+			break
+		}
+	}
+	if found {
+		return updated, nil
+	}
+
+	// If not found, then return the same list of shortcuts
+	return shortcuts, nil
+}
+
 // Sort shortcuts in alphabetical order
 func SortShortcuts(shortcuts []*Shortcut) ([]*Shortcut, error) {
 

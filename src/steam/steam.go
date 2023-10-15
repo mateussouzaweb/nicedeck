@@ -247,3 +247,16 @@ func AddToShortcuts(shortcut *shortcuts.Shortcut) error {
 
 	return nil
 }
+
+// Remove program from the Steam shortcuts library
+func RemoveFromShortcuts(shortcut *shortcuts.Shortcut) error {
+
+	var err error
+
+	_config.Shortcuts, err = shortcuts.RemoveShortcut(_config.Shortcuts, shortcut)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
