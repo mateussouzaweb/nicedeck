@@ -18,15 +18,16 @@ func ProcessROMs() error {
 		return err
 	}
 
-	cli.Printf(cli.ColorNotice, "%d ROMs detected\n", len(parsed))
+	total := len(parsed)
+	cli.Printf(cli.ColorNotice, "%d ROMs detected\n", total)
 	cli.Printf(cli.ColorNotice, "This process could take some time, please be patient...\n")
 
 	detected := []string{}
 
 	// Process each ROM to add or update
-	for _, rom := range parsed {
+	for index, rom := range parsed {
 
-		cli.Printf(cli.ColorNotice, "Processing ROM: %s\n", rom.RelativePath)
+		cli.Printf(cli.ColorNotice, "Processing ROM [%d/%d]: %s\n", index+1, total, rom.RelativePath)
 
 		// Add to the list of detected ROMs
 		detected = append(detected, rom.RelativePath)
