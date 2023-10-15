@@ -31,9 +31,9 @@ func ScrapeROM(rom *ROM) (*ScrapeInfo, error) {
 
 	if search.Success && len(search.Data) > 0 {
 		searchResult := search.Data[0]
-		if searchResult.Success && searchResult.Data.ID != 0 {
-			result.ScraperId = searchResult.Data.ID
-			result.Name = searchResult.Data.Name
+		if searchResult.ID != 0 {
+			result.ScraperId = searchResult.ID
+			result.Name = searchResult.Name
 		}
 	}
 
@@ -43,14 +43,14 @@ func ScrapeROM(rom *ROM) (*ScrapeInfo, error) {
 	}
 
 	// Find icon
-	icon, err := api.GetImagesByPlatformAndId(
+	icon, err := api.GetImagesById(
 		"icon",
-		"steam",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
+			Mimes: []string{"image/vnd.microsoft.icon"},
+			Types: []string{"static"},
 			Nsfw:  "false",
 			Humor: "false",
-			Page:  1,
 		},
 	)
 	if err != nil {
@@ -61,14 +61,14 @@ func ScrapeROM(rom *ROM) (*ScrapeInfo, error) {
 	}
 
 	// Find logo
-	logo, err := api.GetImagesByPlatformAndId(
+	logo, err := api.GetImagesById(
 		"logo",
-		"steam",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
+			Mimes: []string{"image/png"},
+			Types: []string{"static"},
 			Nsfw:  "false",
 			Humor: "false",
-			Page:  1,
 		},
 	)
 	if err != nil {
@@ -79,14 +79,14 @@ func ScrapeROM(rom *ROM) (*ScrapeInfo, error) {
 	}
 
 	// Find cover
-	cover, err := api.GetImagesByPlatformAndId(
+	cover, err := api.GetImagesById(
 		"cover",
-		"steam",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
+			Mimes: []string{"image/png"},
+			Types: []string{"static"},
 			Nsfw:  "false",
 			Humor: "false",
-			Page:  1,
 		},
 	)
 	if err != nil {
@@ -97,14 +97,14 @@ func ScrapeROM(rom *ROM) (*ScrapeInfo, error) {
 	}
 
 	// Find banner
-	banner, err := api.GetImagesByPlatformAndId(
+	banner, err := api.GetImagesById(
 		"banner",
-		"steam",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
+			Mimes: []string{"image/png"},
+			Types: []string{"static"},
 			Nsfw:  "false",
 			Humor: "false",
-			Page:  1,
 		},
 	)
 	if err != nil {
@@ -115,14 +115,14 @@ func ScrapeROM(rom *ROM) (*ScrapeInfo, error) {
 	}
 
 	// Find hero
-	hero, err := api.GetImagesByPlatformAndId(
+	hero, err := api.GetImagesById(
 		"hero",
-		"steam",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
+			Mimes: []string{"image/png"},
+			Types: []string{"static"},
 			Nsfw:  "false",
 			Humor: "false",
-			Page:  1,
 		},
 	)
 	if err != nil {
