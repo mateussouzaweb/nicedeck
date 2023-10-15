@@ -7,6 +7,7 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/install"
+	"github.com/mateussouzaweb/nicedeck/src/roms"
 	"github.com/mateussouzaweb/nicedeck/src/steam"
 )
 
@@ -55,6 +56,7 @@ func printHelp() error {
 		"help                  (print this help)\n"+
 		"setup                 (install all programs)\n"+
 		"install $PROGRAM,...  (install specific program or programs)\n"+
+		"roms                  (parse ROMs folder to and add, update or remove ROMs on Steam Library)\n"+
 		"shortcuts             (list Steam shortcuts with respective app id)\n"+
 		"\n"+
 		"Available programs to install: %s\n"+
@@ -141,7 +143,36 @@ func runInstall() error {
 		}
 	}
 
-	cli.Printf(cli.ColorSuccess, "Programs installed!\n")
+	cli.Printf(cli.ColorSuccess, "Process finished!\n")
+	cli.Printf(cli.ColorNotice, "Please restart the device to changes take effect.\n")
+
+	return nil
+}
+
+// ROMs command (to update Steam Library)
+func runROMs() error {
+
+	// Load Steam library
+	err := steam.Load()
+	if err != nil {
+		return err
+	}
+
+	// Save config on finish
+	defer func() {
+		err := steam.Save()
+		if err != nil {
+			cli.Printf(cli.ColorFatal, "%s\n", err.Error())
+		}
+	}()
+
+	// Install ROMs to add/update/remove detected games
+	err = roms.ProcessROMs()
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Process finished!\n")
 	cli.Printf(cli.ColorNotice, "Please restart the device to changes take effect.\n")
 
 	return nil
@@ -181,6 +212,8 @@ func main() {
 		err = runSetup()
 	case "install":
 		err = runInstall()
+	case "roms":
+		err = runROMs()
 	case "shortcuts":
 		err = listShortcuts()
 	case "":
