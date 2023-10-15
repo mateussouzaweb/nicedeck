@@ -64,13 +64,24 @@ type ImageAuthor struct {
 
 // ImageResult struct
 type ImageResult struct {
-	ID     int64       `json:"id"`
-	Score  int64       `json:"score"`
-	Style  string      `json:"style"`
-	URL    string      `json:"url"`
-	Thumb  string      `json:"thumb"`
-	Tags   []string    `json:"tags"`
-	Author ImageAuthor `json:"author"`
+	ID        int64       `json:"id"`
+	Score     int64       `json:"score"`
+	Style     string      `json:"style"`
+	Width     int64       `json:"width"`
+	Height    int64       `json:"height"`
+	Nsfw      bool        `json:"nsfw"`
+	Humor     bool        `json:"humor"`
+	Epilepsy  bool        `json:"epilepsy"`
+	Lock      bool        `json:"lock"`
+	Notes     string      `json:"notes"`
+	Mime      string      `json:"mime"`
+	Language  string      `json:"language"`
+	URL       string      `json:"url"`
+	Thumb     string      `json:"thumb"`
+	UpVotes   int64       `json:"upvotes"`
+	DownVotes int64       `json:"downvotes"`
+	Tags      []string    `json:"tags"`
+	Author    ImageAuthor `json:"author"`
 }
 
 // ImagesByIdResult struct

@@ -2,10 +2,11 @@ package api
 
 // DetailsResult struct
 type DetailsResult struct {
-	ID       int64    `json:"id"`
-	Name     string   `json:"name"`
-	Types    []string `json:"types"`
-	Verified bool     `json:"verified"`
+	ID          int64    `json:"id"`
+	Name        string   `json:"name"`
+	Types       []string `json:"types"`
+	Verified    bool     `json:"verified"`
+	ReleaseDate int64    `json:"release_date"`
 }
 
 // DetailsByIdResult struct

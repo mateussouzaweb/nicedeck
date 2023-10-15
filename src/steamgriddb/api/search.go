@@ -4,12 +4,9 @@ import "net/url"
 
 // SearchByTermResult struct
 type SearchByTermResult struct {
-	Success bool     `json:"success"`
-	Errors  []string `json:"errors"`
-	Data    []struct {
-		Success bool `json:"success"`
-		Data    DetailsResult
-	} `json:"data"`
+	Success bool            `json:"success"`
+	Errors  []string        `json:"errors"`
+	Data    []DetailsResult `json:"data"`
 }
 
 // Search game or application by term or name
