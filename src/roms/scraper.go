@@ -105,11 +105,12 @@ func ScrapeROM(rom *ROM) (*ScrapeInfo, error) {
 		"banner",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
-			Mimes:    []string{"image/png"},
-			Types:    []string{"static"},
-			Nsfw:     "false",
-			Humor:    "false",
-			Epilepsy: "false",
+			Mimes:      []string{"image/png"},
+			Types:      []string{"static"},
+			Dimensions: []string{"920x430", "460x215"},
+			Nsfw:       "false",
+			Humor:      "false",
+			Epilepsy:   "false",
 		},
 	)
 	if err != nil {
