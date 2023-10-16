@@ -39,7 +39,7 @@ func ProcessROMs(includePlatforms string) error {
 
 	// Print initial process information
 	total := len(process)
-	cli.Printf(cli.ColorNotice, "%d ROMs detected to process\n", total)
+	cli.Printf(cli.ColorNotice, "%d ROMs detected to process.\n", total)
 	cli.Printf(cli.ColorNotice, "This could take some time, please be patient...\n")
 
 	// Process each ROM to add or update
@@ -81,7 +81,7 @@ func ProcessROMs(includePlatforms string) error {
 	}
 
 	cli.Printf(cli.ColorNotice, "Scrapping finished.\n")
-	cli.Printf(cli.ColorNotice, "Removing not detect ROMs...\n")
+	cli.Printf(cli.ColorNotice, "Checking for removed ROMs in shortcuts...\n")
 
 	// Remove ROM shortcuts that was not detected in the current run
 	for _, shortcut := range steam.GetShortcuts() {

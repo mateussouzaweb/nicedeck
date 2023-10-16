@@ -80,7 +80,7 @@ func runSetup() error {
 	defer func() {
 		err := steam.Save()
 		if err != nil {
-			cli.Printf(cli.ColorFatal, "%s\n", err.Error())
+			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 		}
 	}()
 
@@ -117,7 +117,7 @@ func runInstall() error {
 	defer func() {
 		err := steam.Save()
 		if err != nil {
-			cli.Printf(cli.ColorFatal, "%s\n", err.Error())
+			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 		}
 	}()
 
@@ -162,7 +162,7 @@ func runROMs() error {
 	defer func() {
 		err := steam.Save()
 		if err != nil {
-			cli.Printf(cli.ColorFatal, "%s\n", err.Error())
+			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 		}
 	}()
 
@@ -227,7 +227,7 @@ func main() {
 	}
 
 	if err != nil {
-		cli.Printf(cli.ColorFatal, "%s\n", err.Error())
+		cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 		return
 	}
 

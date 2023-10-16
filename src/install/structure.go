@@ -31,10 +31,7 @@ func Structure() error {
 			return err
 		}
 
-		cli.Printf(cli.ColorSuccess,
-			"Folder structure created at %s\n",
-			os.ExpandEnv("$HOME/Games"),
-		)
+		cli.Printf(cli.ColorSuccess, "Folder structure created at: %s\n", os.ExpandEnv("$HOME/Games"))
 		return nil
 	}
 
@@ -64,10 +61,8 @@ func Structure() error {
 		return err
 	}
 
-	cli.Printf(cli.ColorSuccess,
-		"Folder structure created at %s with symlinks on %s\n",
-		microSDPath+"/Games",
-		os.ExpandEnv("$HOME/Games"),
-	)
+	cli.Printf(cli.ColorSuccess, "Folder structure created at: %s\n", microSDPath+"/Games")
+	cli.Printf(cli.ColorSuccess, "Symlinks available at: %s\n", os.ExpandEnv("$HOME/Games"))
+
 	return nil
 }
