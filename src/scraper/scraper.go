@@ -47,7 +47,7 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 		"icon",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
-			Mimes:    []string{"image/vnd.microsoft.icon"},
+			Mimes:    []string{"image/png", "image/vnd.microsoft.icon"},
 			Types:    []string{"static"},
 			Nsfw:     "false",
 			Humor:    "false",
@@ -85,7 +85,7 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 		"cover",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
-			Mimes:      []string{"image/png"},
+			Mimes:      []string{"image/png", "image/jpeg"},
 			Types:      []string{"static"},
 			Dimensions: []string{"600x900"},
 			Nsfw:       "false",
@@ -105,7 +105,7 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 		"banner",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
-			Mimes:      []string{"image/png"},
+			Mimes:      []string{"image/png", "image/jpeg"},
 			Types:      []string{"static"},
 			Dimensions: []string{"920x430", "460x215"},
 			Nsfw:       "false",
@@ -125,7 +125,7 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 		"hero",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
-			Mimes:    []string{"image/png"},
+			Mimes:    []string{"image/png", "image/jpeg"},
 			Types:    []string{"static"},
 			Nsfw:     "false",
 			Humor:    "false",

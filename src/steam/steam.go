@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -197,21 +198,44 @@ func AddToShortcuts(shortcut *shortcuts.Shortcut) error {
 		shortcut.Exe = "/usr/bin/flatpak-spawn --host " + shortcut.Exe
 	}
 
-	// Determine appId
+	// Determine appId and artworks path
 	shortcut.AppID = shortcuts.GenerateShortcutID(shortcut.Exe, shortcut.AppName)
-
-	// Set artworks path following required format:
-	// - Icon: ${APPID}.ico
-	// - Logo: ${APPID}_logo.png
-	// - Cover: ${APPID}p.png
-	// - Banner: ${APPID}.png
-	// - Hero: ${APPID}_hero.png
 	artworksPath := _config.ArtworksPath
-	shortcut.Icon = fmt.Sprintf("%s/%v.ico", artworksPath, shortcut.AppID)
-	shortcut.Logo = fmt.Sprintf("%s/%v_logo.png", artworksPath, shortcut.AppID)
-	shortcut.Cover = fmt.Sprintf("%s/%vp.png", artworksPath, shortcut.AppID)
-	shortcut.Banner = fmt.Sprintf("%s/%v.png", artworksPath, shortcut.AppID)
-	shortcut.Hero = fmt.Sprintf("%s/%v_hero.png", artworksPath, shortcut.AppID)
+
+	// Icon: ${APPID}_icon.ico || ${APPID}_icon.png
+	if strings.HasSuffix(shortcut.IconURL, ".png") {
+		shortcut.Icon = fmt.Sprintf("%s/%v_icon.png", artworksPath, shortcut.AppID)
+	} else {
+		shortcut.Icon = fmt.Sprintf("%s/%v_icon.ico", artworksPath, shortcut.AppID)
+	}
+
+	// Logo: ${APPID}_logo.png || ${APPID}_logo.jpg
+	if strings.HasSuffix(shortcut.LogoURL, ".png") {
+		shortcut.Logo = fmt.Sprintf("%s/%v_logo.png", artworksPath, shortcut.AppID)
+	} else {
+		shortcut.Logo = fmt.Sprintf("%s/%v_logo.jpg", artworksPath, shortcut.AppID)
+	}
+
+	// Cover: ${APPID}p.png || ${APPID}p.jpg
+	if strings.HasSuffix(shortcut.CoverURL, ".png") {
+		shortcut.Cover = fmt.Sprintf("%s/%vp.png", artworksPath, shortcut.AppID)
+	} else {
+		shortcut.Cover = fmt.Sprintf("%s/%vp.jpg", artworksPath, shortcut.AppID)
+	}
+
+	// Banner: ${APPID}.png || ${APPID}.jpg
+	if strings.HasSuffix(shortcut.BannerURL, ".png") {
+		shortcut.Banner = fmt.Sprintf("%s/%v.png", artworksPath, shortcut.AppID)
+	} else {
+		shortcut.Banner = fmt.Sprintf("%s/%v.jpg", artworksPath, shortcut.AppID)
+	}
+
+	// Hero: ${APPID}_hero.png || ${APPID}_hero.jpg
+	if strings.HasSuffix(shortcut.HeroURL, ".png") {
+		shortcut.Hero = fmt.Sprintf("%s/%v_hero.png", artworksPath, shortcut.AppID)
+	} else {
+		shortcut.Hero = fmt.Sprintf("%s/%v_hero.jpg", artworksPath, shortcut.AppID)
+	}
 
 	// Create list of images to download
 	images := map[string]string{}
