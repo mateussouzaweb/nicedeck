@@ -22,7 +22,11 @@ func ProcessROMs(includePlatforms string) error {
 	// Also fill detected list including all system ROMs
 	process := []*ROM{}
 	detected := []string{}
-	platforms := strings.Split(strings.ToUpper(includePlatforms), ",")
+	platforms := []string{}
+
+	if includePlatforms != "" {
+		platforms = strings.Split(strings.ToUpper(includePlatforms), ",")
+	}
 
 	for _, rom := range parsed {
 
