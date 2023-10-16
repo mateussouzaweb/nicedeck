@@ -62,10 +62,10 @@ func ProcessROMs(includePlatforms string) error {
 		// Add to Steam
 		err = steam.AddToShortcuts(&shortcuts.Shortcut{
 			AppName:       scrape.Name,
-			Exe:           rom.LaunchCommand,
+			Exe:           "/var/lib/flatpak/exports/bin/" + rom.Emulator,
 			StartDir:      "/var/lib/flatpak/exports/bin/", // Same as main flatpak
 			ShortcutPath:  "",
-			LaunchOptions: "",
+			LaunchOptions: rom.LaunchOptions,
 			IconURL:       scrape.IconURL,
 			LogoURL:       scrape.LogoURL,
 			CoverURL:      scrape.CoverURL,

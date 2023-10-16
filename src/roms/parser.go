@@ -18,7 +18,7 @@ type ROM struct {
 	Platform      string `json:"platform"`
 	Console       string `json:"console"`
 	Emulator      string `json:"emulator"`
-	LaunchCommand string `json:"launchCommand"`
+	LaunchOptions string `json:"launchOptions"`
 }
 
 // Find ROMs in folder and return the list of detected games
@@ -76,7 +76,7 @@ func ParseROMs() ([]*ROM, error) {
 		console := ""
 		emulator := ""
 		extensions := ""
-		launchCommand := ""
+		launchOptions := ""
 
 		// Fill data based on platform
 		// This list is almost a copy of EmulationStation DE systems
@@ -85,62 +85,62 @@ func ParseROMs() ([]*ROM, error) {
 			console = "Sega Dreamcast"
 			emulator = "org.flycast.Flycast"
 			extensions = ".chd .cdi .iso .elf .cue .gdi .lst .dat .m3u .7z .zip"
-			launchCommand = "${EMULATOR} -config window:fullscreen=yes ${ROM}"
+			launchOptions = "-config window:fullscreen=yes \"${ROM}\""
 		case "GBA":
 			console = "Nintendo Game Boy Advance"
 			emulator = "io.mgba.mGBA"
 			extensions = ".agb .bin .cgb .dmg .gb .gba .gbc .sgb .7z .zip"
-			launchCommand = "${EMULATOR} -f ${ROM}"
+			launchOptions = "-f \"${ROM}\""
 		case "GC":
 			console = "Nintendo GameCube"
 			emulator = "org.DolphinEmu.dolphin-emu"
 			extensions = ".ciso .dff .dol .elf .gcm .gcz .iso .json .m3u .rvz .tgc .wad .wbfs .wia .7z .zip"
-			launchCommand = "${EMULATOR} -b -e ${ROM}"
+			launchOptions = "-b -e \"${ROM}\""
 		case "3DS":
 			console = "Nintendo 3DS"
 			emulator = "org.citra_emu.citra"
 			extensions = ".3ds .3dsx .app .axf .cci .cxi .elf .7z .zip"
-			launchCommand = "${EMULATOR} ${ROM}" // No fullscreen option yet
+			launchOptions = "\"${ROM}\"" // No fullscreen option yet
 		case "NDS":
 			console = "Nintendo DS"
 			emulator = "net.kuribo64.melonDS"
 			extensions = ".app .bin .nds .7z .zip"
-			launchCommand = "${EMULATOR} -f ${ROM}"
+			launchOptions = "-f \"${ROM}\""
 		case "PS2":
 			console = "Sony PlayStation 2"
 			emulator = "net.pcsx2.PCSX2"
 			extensions = ".bin .chd .ciso .cso .dump .elf .gz .m3u .mdf .img .iso .isz .ngr"
-			launchCommand = "${EMULATOR} -batch -nogui -fullscreen ${ROM}"
+			launchOptions = "-batch -nogui -fullscreen \"${ROM}\""
 		case "PS3":
 			console = "Sony PlayStation 3"
 			emulator = "net.rpcs3.RPCS3"
 			extensions = ".desktop .ps3 .ps3dir"
-			launchCommand = "${EMULATOR} --no-gui ${ROM}"
+			launchOptions = "--no-gui \"${ROM}\""
 		case "PSP":
 			console = "Sony PlayStation Portable"
 			emulator = "org.ppsspp.PPSSPP"
 			extensions = ".elf .iso .cso .prx .pbp .7z .zip"
-			launchCommand = "${EMULATOR} -f -g ${ROM}"
+			launchOptions = "-f -g \"${ROM}\""
 		case "SWITCH":
 			console = "Nintendo Switch"
 			emulator = "org.yuzu_emu.yuzu" // or org.ryujinx.Ryujinx
 			extensions = "nca .nro .nso .nsp .xci"
-			launchCommand = "${EMULATOR} -f -g ${ROM}" // or --fullscreen
+			launchOptions = "-f -g \"${ROM}\"" // or --fullscreen
 		case "WII":
 			console = "Nintendo Wii"
 			emulator = "org.DolphinEmu.dolphin-emu"
 			extensions = ".ciso .dff .dol .elf .gcm .gcz .iso .json .m3u .rvz .tgc .wad .wbfs .wia .7z .zip"
-			launchCommand = "${EMULATOR} -b -e ${ROM}"
+			launchOptions = "-b -e \"${ROM}\""
 		case "WIIU":
 			console = "Nintendo Wii U"
 			emulator = "info.cemu.Cemu"
 			extensions = ".rpx .wua .wud .wux"
-			launchCommand = "${EMULATOR} -f -g ${ROM}"
+			launchOptions = "-f -g \"${ROM}\""
 		case "XBOX":
 			console = "Microsoft Xbox"
 			emulator = "app.xemu.xemu"
 			extensions = ".iso"
-			launchCommand = "${EMULATOR} -full-screen -dvd_path ${ROM}"
+			launchOptions = "-full-screen -dvd_path \"${ROM}\""
 		}
 
 		// Ignore if could not detect the emulator
@@ -162,10 +162,8 @@ func ParseROMs() ([]*ROM, error) {
 			}
 		}
 
-		// Since all emulators are flatpak based
-		// Is easy to fill the launch command
-		launchCommand = strings.Replace(launchCommand, "${EMULATOR}", "/var/lib/flatpak/exports/bin/"+emulator, 1)
-		launchCommand = strings.Replace(launchCommand, "${ROM}", "'"+path+"'", 1)
+		// Put ROM path in launch options
+		launchOptions = strings.Replace(launchOptions, "${ROM}", path, 1)
 
 		rom := ROM{
 			Path:          path,
@@ -177,7 +175,7 @@ func ParseROMs() ([]*ROM, error) {
 			Console:       console,
 			Platform:      platform,
 			Emulator:      emulator,
-			LaunchCommand: launchCommand,
+			LaunchOptions: launchOptions,
 		}
 
 		results = append(results, &rom)
