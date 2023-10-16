@@ -47,10 +47,11 @@ func ScrapeROM(rom *ROM) (*ScrapeInfo, error) {
 		"icon",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
-			Mimes: []string{"image/vnd.microsoft.icon"},
-			Types: []string{"static"},
-			Nsfw:  "false",
-			Humor: "false",
+			Mimes:    []string{"image/vnd.microsoft.icon"},
+			Types:    []string{"static"},
+			Nsfw:     "false",
+			Humor:    "false",
+			Epilepsy: "false",
 		},
 	)
 	if err != nil {
@@ -65,10 +66,11 @@ func ScrapeROM(rom *ROM) (*ScrapeInfo, error) {
 		"logo",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
-			Mimes: []string{"image/png"},
-			Types: []string{"static"},
-			Nsfw:  "false",
-			Humor: "false",
+			Mimes:    []string{"image/png"},
+			Types:    []string{"static"},
+			Nsfw:     "false",
+			Humor:    "false",
+			Epilepsy: "false",
 		},
 	)
 	if err != nil {
@@ -83,10 +85,11 @@ func ScrapeROM(rom *ROM) (*ScrapeInfo, error) {
 		"cover",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
-			Mimes: []string{"image/png"},
-			Types: []string{"static"},
-			Nsfw:  "false",
-			Humor: "false",
+			Mimes:    []string{"image/png"},
+			Types:    []string{"static"},
+			Nsfw:     "false",
+			Humor:    "false",
+			Epilepsy: "false",
 		},
 	)
 	if err != nil {
@@ -101,10 +104,11 @@ func ScrapeROM(rom *ROM) (*ScrapeInfo, error) {
 		"banner",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
-			Mimes: []string{"image/png"},
-			Types: []string{"static"},
-			Nsfw:  "false",
-			Humor: "false",
+			Mimes:    []string{"image/png"},
+			Types:    []string{"static"},
+			Nsfw:     "false",
+			Humor:    "false",
+			Epilepsy: "false",
 		},
 	)
 	if err != nil {
@@ -119,10 +123,11 @@ func ScrapeROM(rom *ROM) (*ScrapeInfo, error) {
 		"hero",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
-			Mimes: []string{"image/png"},
-			Types: []string{"static"},
-			Nsfw:  "false",
-			Humor: "false",
+			Mimes:    []string{"image/png"},
+			Types:    []string{"static"},
+			Nsfw:     "false",
+			Humor:    "false",
+			Epilepsy: "false",
 		},
 	)
 	if err != nil {
