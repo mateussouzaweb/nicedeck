@@ -1,35 +1,21 @@
-package steam
+package scraper
 
 import (
-	"errors"
 	"net/http"
 	"os"
 	"path/filepath"
+
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 )
-
-// Check if file already exist
-func FileExist(file string) (bool, error) {
-
-	_, err := os.Stat(file)
-	if err != nil && !errors.Is(err, os.ErrNotExist) {
-		return false, err
-	}
-	if errors.Is(err, os.ErrNotExist) {
-		return false, nil
-	}
-
-	return true, nil
-}
 
 // Download file from URL into destination
 func DownloadFile(url string, destinationFile string) error {
 
-	// Check if file exists and if true, skip download process
-	exist, err := FileExist(destinationFile)
+	// Check if file exists and skip download if already exist
+	exist, err := fs.FileExist(destinationFile)
 	if err != nil {
 		return err
-	}
-	if exist {
+	} else if exist {
 		return nil
 	}
 

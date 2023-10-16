@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
+	"github.com/mateussouzaweb/nicedeck/src/scraper"
 	"github.com/mateussouzaweb/nicedeck/src/steam"
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
@@ -52,7 +53,7 @@ func ProcessROMs(includePlatforms string) error {
 		cli.Printf(cli.ColorNotice, "Processing ROM [%d/%d]: %s\n", index+1, total, rom.RelativePath)
 
 		// Scrape additional ROM information
-		scrape, err := ScrapeROM(rom)
+		scrape, err := scraper.ScrapeFromName(rom.Name)
 		if err != nil {
 			return err
 		}

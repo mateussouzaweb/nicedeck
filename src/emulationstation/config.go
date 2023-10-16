@@ -3,9 +3,10 @@ package emulationstation
 import (
 	"bytes"
 	"embed"
-	"errors"
 	"os"
 	"path/filepath"
+
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 )
 
 //go:embed resources/*
@@ -21,12 +22,13 @@ func WriteConfigs() error {
 
 	// Settings (write file only if not exist yet)
 	settingsFile := os.ExpandEnv("$HOME/.emulationstation/es_settings.xml")
-	_, err := os.Stat(settingsFile)
-	if err != nil && !errors.Is(err, os.ErrNotExist) {
+	settingsExist, err := fs.FileExist(settingsFile)
+	if err != nil {
 		return err
 	}
 
-	if errors.Is(err, os.ErrNotExist) {
+	// Create file if not exist
+	if !settingsExist {
 		settingsConfig, err := resourcesContent.ReadFile("resources/es_settings.xml")
 		if err != nil {
 			return err

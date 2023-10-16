@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 )
 
 // Ensure folder structure to install programs
@@ -13,8 +14,11 @@ func Structure() error {
 
 	// Check for the presence of games folder in home
 	// If exist, then is ok and we can skip
-	info, err := os.Stat(os.ExpandEnv("$HOME/Games"))
-	if !os.IsNotExist(err) && info.IsDir() {
+	gamesPath := os.ExpandEnv("$HOME/Games")
+	exist, err := fs.DirectoryExist(gamesPath)
+	if err != nil {
+		return err
+	} else if exist {
 		return nil
 	}
 
@@ -31,7 +35,7 @@ func Structure() error {
 			return err
 		}
 
-		cli.Printf(cli.ColorSuccess, "Folder structure created at: %s\n", os.ExpandEnv("$HOME/Games"))
+		cli.Printf(cli.ColorSuccess, "Folder structure created at: %s\n", gamesPath)
 		return nil
 	}
 
@@ -62,7 +66,7 @@ func Structure() error {
 	}
 
 	cli.Printf(cli.ColorSuccess, "Folder structure created at: %s\n", microSDPath+"/Games")
-	cli.Printf(cli.ColorSuccess, "Symlinks available at: %s\n", os.ExpandEnv("$HOME/Games"))
+	cli.Printf(cli.ColorSuccess, "Symlinks available at: %s\n", gamesPath)
 
 	return nil
 }

@@ -7,6 +7,7 @@ import (
 	"slices"
 	"sort"
 
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/steam/vdf"
 )
 
@@ -16,8 +17,10 @@ func LoadFromFile(shortcutsFile string) ([]*Shortcut, error) {
 	var shortcuts []*Shortcut
 
 	// Check if file exist
-	info, err := os.Stat(shortcutsFile)
-	if os.IsNotExist(err) || info.IsDir() {
+	exist, err := fs.FileExist(shortcutsFile)
+	if err != nil {
+		return shortcuts, err
+	} else if !exist {
 		return shortcuts, nil
 	}
 

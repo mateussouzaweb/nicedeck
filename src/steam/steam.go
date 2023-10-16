@@ -2,12 +2,13 @@ package steam
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
+	"github.com/mateussouzaweb/nicedeck/src/fs"
+	"github.com/mateussouzaweb/nicedeck/src/scraper"
 	"github.com/mateussouzaweb/nicedeck/src/steam/controller"
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
@@ -31,16 +32,12 @@ func SteamIsFlatpak() (bool, error) {
 	systemFile := os.ExpandEnv("$HOME/.local/share/flatpak/exports/bin/com.valvesoftware.Steam")
 	userFile := "/var/lib/flatpak/exports/bin/com.valvesoftware.Steam"
 
-	// Checks what path is available
-	for _, possiblePath := range []string{systemFile, userFile} {
-		stat, err := os.Stat(possiblePath)
-		if err != nil && !errors.Is(err, os.ErrNotExist) {
+	// Checks what possible file exist
+	for _, file := range []string{systemFile, userFile} {
+		exist, err := fs.FileExist(file)
+		if err != nil {
 			return false, err
-		}
-		if errors.Is(err, os.ErrNotExist) {
-			continue
-		}
-		if !stat.IsDir() {
+		} else if exist {
 			return true, nil
 		}
 	}
@@ -59,17 +56,13 @@ func GetPath(path string) (string, error) {
 		os.ExpandEnv("$HOME/snap/steam/common/.local/share/Steam"),
 	}
 
-	// Checks what path is available
+	// Checks what directory path is available
 	usePath := ""
 	for _, possiblePath := range paths {
-		stat, err := os.Stat(possiblePath)
-		if err != nil && !errors.Is(err, os.ErrNotExist) {
+		exist, err := fs.DirectoryExist(possiblePath)
+		if err != nil {
 			return "", err
-		}
-		if errors.Is(err, os.ErrNotExist) {
-			continue
-		}
-		if stat.IsDir() {
+		} else if exist {
 			usePath = filepath.Join(possiblePath, path)
 			break
 		}
@@ -233,7 +226,7 @@ func AddToShortcuts(shortcut *shortcuts.Shortcut) error {
 		if url == "" || destinationFile == "" {
 			continue
 		}
-		err = DownloadFile(url, destinationFile)
+		err = scraper.DownloadFile(url, destinationFile)
 		if err != nil {
 			return err
 		}

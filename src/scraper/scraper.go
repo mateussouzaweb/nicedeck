@@ -1,4 +1,4 @@
-package roms
+package scraper
 
 import (
 	"fmt"
@@ -18,13 +18,13 @@ type ScrapeInfo struct {
 	HeroURL    string `json:"heroUrl"`
 }
 
-// Scrape additional ROM information such as images
-func ScrapeROM(rom *ROM) (*ScrapeInfo, error) {
+// Scrape information such as images from given app or game name
+func ScrapeFromName(name string) (*ScrapeInfo, error) {
 
 	var result ScrapeInfo
 
 	// Find reference and correct name
-	search, err := api.SearchByTerm(rom.Name)
+	search, err := api.SearchByTerm(name)
 	if err != nil {
 		return &result, err
 	}
