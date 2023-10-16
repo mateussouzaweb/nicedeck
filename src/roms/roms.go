@@ -9,8 +9,8 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
-// Parse and process ROMs for all emulators
-func ProcessROMs(includePath string) error {
+// Parse and process ROMs for given platforms
+func ProcessROMs(includePlatforms string) error {
 
 	// Detect ROMs with parser in all folders
 	parsed, err := ParseROMs()
@@ -18,10 +18,11 @@ func ProcessROMs(includePath string) error {
 		return err
 	}
 
-	// Fill list of ROMs to process, based on given include path
+	// Fill list of ROMs to process, based on given included platforms
 	// Also fill detected list including all system ROMs
 	process := []*ROM{}
 	detected := []string{}
+	platforms := strings.Split(strings.ToUpper(includePlatforms), ",")
 
 	for _, rom := range parsed {
 
@@ -30,7 +31,7 @@ func ProcessROMs(includePath string) error {
 		detected = append(detected, rom.RelativePath)
 
 		// Add to the list of ROMs to process if match include path condition
-		if includePath == "" || strings.Contains(rom.Path, includePath) {
+		if len(platforms) == 0 || slices.Contains(platforms, rom.Platform) {
 			process = append(process, rom)
 		}
 
