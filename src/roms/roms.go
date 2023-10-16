@@ -94,7 +94,7 @@ func ProcessROMs(includePlatforms string) error {
 		// Check if ROM is on the list of detected ROMs
 		found := false
 		for _, detectedROM := range detected {
-			if strings.Contains(shortcut.Exe, detectedROM) {
+			if strings.Contains(shortcut.LaunchOptions, detectedROM) {
 				found = true
 				break
 			}
