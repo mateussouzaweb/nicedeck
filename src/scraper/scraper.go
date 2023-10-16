@@ -47,11 +47,12 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 		"icon",
 		fmt.Sprintf("%v", result.ScraperId),
 		&api.ImagesParams{
-			Mimes:    []string{"image/png", "image/vnd.microsoft.icon"},
-			Types:    []string{"static"},
-			Nsfw:     "false",
-			Humor:    "false",
-			Epilepsy: "false",
+			Dimensions: []string{"24", "32", "40", "48", "56", "64", "72", "80", "96", "100", "144", "192"},
+			Mimes:      []string{"image/png", "image/vnd.microsoft.icon"},
+			Types:      []string{"static"},
+			Nsfw:       "false",
+			Humor:      "false",
+			Epilepsy:   "false",
 		},
 	)
 	if err != nil {
