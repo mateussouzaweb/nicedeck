@@ -102,7 +102,7 @@ func ProcessROMs(includePlatforms string) error {
 
 		// Remove when not found
 		if !found {
-			cli.Printf(cli.ColorWarn, "Removing not detected ROM: %s\n", shortcut.AppName)
+			cli.Printf(cli.ColorNotice, "Removing not detected ROM: %s\n", shortcut.AppName)
 			err = steam.RemoveFromShortcuts(shortcut)
 			if err != nil {
 				return err
