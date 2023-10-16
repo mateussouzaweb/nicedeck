@@ -10,27 +10,41 @@ import (
 )
 
 // Parse and process ROMs for all emulators
-func ProcessROMs() error {
+func ProcessROMs(includePath string) error {
 
-	// Detect ROMs with parser
+	// Detect ROMs with parser in all folders
 	parsed, err := ParseROMs()
 	if err != nil {
 		return err
 	}
 
-	total := len(parsed)
-	cli.Printf(cli.ColorNotice, "%d ROMs detected\n", total)
-	cli.Printf(cli.ColorNotice, "This process could take some time, please be patient...\n")
-
+	// Fill list of ROMs to process, based on given include path
+	// Also fill detected list including all system ROMs
+	process := []*ROM{}
 	detected := []string{}
 
-	// Process each ROM to add or update
-	for index, rom := range parsed {
-
-		cli.Printf(cli.ColorNotice, "Processing ROM [%d/%d]: %s\n", index+1, total, rom.RelativePath)
+	for _, rom := range parsed {
 
 		// Add to the list of detected ROMs
+		// We use the ROM relative path because this info can be found in the shortcut
 		detected = append(detected, rom.RelativePath)
+
+		// Add to the list of ROMs to process if match include path condition
+		if includePath == "" || strings.Contains(rom.Path, includePath) {
+			process = append(process, rom)
+		}
+
+	}
+
+	// Print initial process information
+	total := len(process)
+	cli.Printf(cli.ColorNotice, "%d ROMs detected to process\n", total)
+	cli.Printf(cli.ColorNotice, "This could take some time, please be patient...\n")
+
+	// Process each ROM to add or update
+	for index, rom := range process {
+
+		cli.Printf(cli.ColorNotice, "Processing ROM [%d/%d]: %s\n", index+1, total, rom.RelativePath)
 
 		// Scrape additional ROM information
 		scrape, err := ScrapeROM(rom)
@@ -78,9 +92,8 @@ func ProcessROMs() error {
 
 		// Check if ROM is on the list of detected ROMs
 		found := false
-		for _, detectRom := range detected {
-			// We use the ROM relative path because this info can be found in the shortcut.Exe
-			if strings.Contains(shortcut.Exe, detectRom) {
+		for _, detectedROM := range detected {
+			if strings.Contains(shortcut.Exe, detectedROM) {
 				found = true
 				break
 			}

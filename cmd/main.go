@@ -56,8 +56,8 @@ func printHelp() error {
 		"help                  (print this help)\n"+
 		"setup                 (install all programs)\n"+
 		"install $PROGRAM,...  (install specific program or programs)\n"+
-		"roms                  (parse ROMs folder to and add, update or remove ROMs on Steam Library)\n"+
-		"shortcuts             (list Steam shortcuts with respective app id)\n"+
+		"roms $SUBPATH         (parse ROMs folder to add, update or remove ROMs on Steam Library)\n"+
+		"shortcuts             (list Steam shortcuts with respective AppId)\n"+
 		"\n"+
 		"Available programs to install: %s\n"+
 		"\n",
@@ -166,8 +166,12 @@ func runROMs() error {
 		}
 	}()
 
-	// Install ROMs to add/update/remove detected games
-	err = roms.ProcessROMs()
+	// Read advanced program arguments
+	args := os.Args[1:]
+	includePath := cli.Arg(args, "1", "")
+
+	// Process ROMs to add/update/remove
+	err = roms.ProcessROMs(includePath)
 	if err != nil {
 		return err
 	}
