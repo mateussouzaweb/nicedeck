@@ -15,7 +15,7 @@ func Bottles() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub com.usebottles.bottles
+		flatpak install --or-update --assumeyes --noninteractive flathub com.usebottles.bottles
 	`).Run()
 
 	if err != nil {
@@ -108,7 +108,7 @@ func HeroicGamesLauncher() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub com.heroicgameslauncher.hgl
+		flatpak install --or-update --assumeyes --noninteractive flathub com.heroicgameslauncher.hgl
 	`).Run()
 
 	if err != nil {
@@ -143,7 +143,7 @@ func Lutris() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub net.lutris.Lutris
+		flatpak install --or-update --assumeyes --noninteractive flathub net.lutris.Lutris
 	`).Run()
 
 	if err != nil {

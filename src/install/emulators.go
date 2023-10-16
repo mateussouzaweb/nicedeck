@@ -16,7 +16,7 @@ func Cemu() error {
 		mkdir -p $HOME/Games/ROMs/WIIU
 
 		# Install emulator
-		flatpak install -y flathub info.cemu.Cemu
+		flatpak install --or-update --assumeyes --noninteractive flathub info.cemu.Cemu
 		flatpak override --user --filesystem=host info.cemu.Cemu
 	`).Run()
 
@@ -57,7 +57,7 @@ func Citra() error {
 		mkdir -p $HOME/Games/ROMs/3DS
 
 		# Install emulator
-		flatpak install -y flathub org.citra_emu.citra
+		flatpak install --or-update --assumeyes --noninteractive flathub org.citra_emu.citra
 		flatpak override --user --filesystem=host org.citra_emu.citra
 	`).Run()
 
@@ -100,7 +100,7 @@ func Dolphin() error {
 		mkdir -p $HOME/Games/ROMs/WII
 
 		# Install emulator
-		flatpak install -y flathub org.DolphinEmu.dolphin-emu
+		flatpak install --or-update --assumeyes --noninteractive flathub org.DolphinEmu.dolphin-emu
 		flatpak override --user --filesystem=host org.DolphinEmu.dolphin-emu
 	`).Run()
 
@@ -141,7 +141,7 @@ func Flycast() error {
 		mkdir -p $HOME/Games/ROMs/DC
 
 		# Install emulator
-		flatpak install -y flathub org.flycast.Flycast
+		flatpak install --or-update --assumeyes --noninteractive flathub org.flycast.Flycast
 		flatpak override --user --filesystem=host org.flycast.Flycast
 	`).Run()
 
@@ -182,7 +182,7 @@ func MelonDS() error {
 		mkdir -p $HOME/Games/ROMs/NDS
 
 		# Install emulator
-		flatpak install -y flathub net.kuribo64.melonDS
+		flatpak install --or-update --assumeyes --noninteractive flathub net.kuribo64.melonDS
 		flatpak override --user --filesystem=host net.kuribo64.melonDS
 	`).Run()
 
@@ -223,7 +223,7 @@ func MGBA() error {
 		mkdir -p $HOME/Games/ROMs/GBA
 
 		# Install emulator
-		flatpak install -y flathub io.mgba.mGBA
+		flatpak install --or-update --assumeyes --noninteractive flathub io.mgba.mGBA
 		flatpak override --user --filesystem=host io.mgba.mGBA
 	`).Run()
 
@@ -264,7 +264,7 @@ func PCSX2() error {
 		mkdir -p $HOME/Games/ROMs/PS2
 
 		# Install emulator
-		flatpak install -y flathub net.pcsx2.PCSX2
+		flatpak install --or-update --assumeyes --noninteractive flathub net.pcsx2.PCSX2
 		flatpak override --user --filesystem=host net.pcsx2.PCSX2
 	`).Run()
 
@@ -305,7 +305,7 @@ func PPSSPP() error {
 		mkdir -p $HOME/Games/ROMs/PSP
 
 		# Install emulator
-		flatpak install -y flathub org.ppsspp.PPSSPP
+		flatpak install --or-update --assumeyes --noninteractive flathub org.ppsspp.PPSSPP
 		flatpak override --user --filesystem=host org.ppsspp.PPSSPP
 	`).Run()
 
@@ -346,7 +346,7 @@ func RPCS3() error {
 		mkdir -p $HOME/Games/ROMs/PS3
 
 		# Install emulator
-		flatpak install -y flathub net.rpcs3.RPCS3
+		flatpak install --or-update --assumeyes --noninteractive flathub net.rpcs3.RPCS3
 		flatpak override --user --filesystem=host net.rpcs3.RPCS3
 	`).Run()
 
@@ -387,7 +387,7 @@ func Ryujinx() error {
 		mkdir -p $HOME/Games/ROMs/SWITCH
 
 		# Install emulator
-		flatpak install -y flathub org.ryujinx.Ryujinx
+		flatpak install --or-update --assumeyes --noninteractive flathub org.ryujinx.Ryujinx
 		flatpak override --user --filesystem=host org.ryujinx.Ryujinx
 	`).Run()
 
@@ -428,7 +428,7 @@ func Xemu() error {
 		mkdir -p $HOME/Games/ROMs/XBOX
 
 		# Install emulator
-		flatpak install -y flathub app.xemu.xemu
+		flatpak install --or-update --assumeyes --noninteractive flathub app.xemu.xemu
 		flatpak override --user --filesystem=host app.xemu.xemu
 	`).Run()
 
@@ -469,7 +469,7 @@ func Yuzu() error {
 		mkdir -p $HOME/Games/ROMs/SWITCH
 
 		# Install emulator
-		flatpak install -y flathub org.yuzu_emu.yuzu
+		flatpak install --or-update --assumeyes --noninteractive flathub org.yuzu_emu.yuzu
 		flatpak override --user --filesystem=host org.yuzu_emu.yuzu
 	`).Run()
 

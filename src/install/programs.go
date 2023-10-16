@@ -11,7 +11,7 @@ func Firefox() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub org.mozilla.firefox
+		flatpak install --or-update --assumeyes --noninteractive flathub org.mozilla.firefox
 	`).Run()
 
 	if err != nil {
@@ -46,7 +46,7 @@ func GoogleChrome() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub com.google.Chrome
+		flatpak install --or-update --assumeyes --noninteractive flathub com.google.Chrome
 	`).Run()
 
 	if err != nil {
@@ -81,7 +81,7 @@ func JellyfinMediaPlayer() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub com.github.iwalton3.jellyfin-media-player
+		flatpak install --or-update --assumeyes --noninteractive flathub com.github.iwalton3.jellyfin-media-player
 	`).Run()
 
 	if err != nil {
@@ -116,7 +116,7 @@ func MoonlightGameStreaming() error {
 
 	// Install from flatpak
 	err := cli.Command(`
-		flatpak install -y flathub com.moonlight_stream.Moonlight
+		flatpak install --or-update --assumeyes --noninteractive flathub com.moonlight_stream.Moonlight
 	`).Run()
 
 	if err != nil {
