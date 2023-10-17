@@ -22,7 +22,7 @@ type ROM struct {
 }
 
 // Find ROMs in folder and return the list of detected games
-func ParseROMs() ([]*ROM, error) {
+func ParseROMs(options *Options) ([]*ROM, error) {
 
 	var results []*ROM
 
@@ -123,9 +123,14 @@ func ParseROMs() ([]*ROM, error) {
 			launchOptions = "-f -g \"${ROM}\""
 		case "SWITCH":
 			console = "Nintendo Switch"
-			emulator = "org.yuzu_emu.yuzu" // or org.ryujinx.Ryujinx
+			emulator = "org.yuzu_emu.yuzu"
 			extensions = "nca .nro .nso .nsp .xci"
-			launchOptions = "-f -g \"${ROM}\"" // or --fullscreen
+			launchOptions = "-f -g \"${ROM}\""
+
+			if options.UseRyujinx {
+				emulator = "org.ryujinx.Ryujinx"
+				launchOptions = "--fullscreen \"${ROM}\""
+			}
 		case "WII":
 			console = "Nintendo Wii"
 			emulator = "org.DolphinEmu.dolphin-emu"

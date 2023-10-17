@@ -11,16 +11,10 @@ import (
 )
 
 // Filter ROMs that match given requirements and return the list to process
-func FilterROMs(roms []*ROM, includePlatforms string, rebuild bool) []*ROM {
+func FilterROMs(roms []*ROM, options *Options) []*ROM {
 
 	var existing []*ROM
 	var toProcess []*ROM
-
-	// Determine list of platforms to accept processing in the current run
-	platforms := []string{}
-	if includePlatforms != "" {
-		platforms = strings.Split(strings.ToUpper(includePlatforms), ",")
-	}
 
 	// Read current list of ROMs in the Steam library shortcuts
 	for _, shortcut := range steam.GetShortcuts() {
@@ -46,12 +40,12 @@ func FilterROMs(roms []*ROM, includePlatforms string, rebuild bool) []*ROM {
 		addToList := false
 
 		// Add to the list if ROM matches platform condition
-		if len(platforms) == 0 || slices.Contains(platforms, rom.Platform) {
+		if len(options.Platforms) == 0 || slices.Contains(options.Platforms, rom.Platform) {
 			addToList = true
 		}
 
 		// When is not rebuilding, include only new detected ROMs
-		if !rebuild {
+		if !options.Rebuild {
 			for _, item := range existing {
 				if item.RelativePath == rom.RelativePath {
 					addToList = false
@@ -71,10 +65,10 @@ func FilterROMs(roms []*ROM, includePlatforms string, rebuild bool) []*ROM {
 }
 
 // Process ROMs to scrape data and add to Steam shortcuts
-func ProcessROMs(parsed []*ROM, includePlatforms string, rebuld bool) (int, error) {
+func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 
 	// Filter list to know what ROMs process
-	process := FilterROMs(parsed, includePlatforms, rebuld)
+	process := FilterROMs(parsed, options)
 	total := len(process)
 
 	// Skip if not found anything
@@ -182,16 +176,16 @@ func CleanShortcuts(parsed []*ROM) (int, error) {
 }
 
 // Parse and process ROMs for given platforms
-func Process(includePlatforms string, rebuild bool) error {
+func Process(options *Options) error {
 
 	// Detect available ROMs with parser in all folders / systems
-	parsed, err := ParseROMs()
+	parsed, err := ParseROMs(options)
 	if err != nil {
 		return err
 	}
 
 	// Process new ROMs
-	processed, err := ProcessROMs(parsed, includePlatforms, rebuild)
+	processed, err := ProcessROMs(parsed, options)
 	if err != nil {
 		return err
 	}

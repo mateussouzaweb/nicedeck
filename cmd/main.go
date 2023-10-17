@@ -169,10 +169,12 @@ func runROMs() error {
 	// Read advanced command arguments
 	args := os.Args[1:]
 	platforms := cli.Arg(args, "1,--platforms", "")
+	preferences := cli.Arg(args, "--preferences", "")
 	rebuild := cli.Flag(args, "--rebuild", false)
 
 	// Process ROMs to add/update/remove
-	err = roms.Process(platforms, rebuild)
+	options := roms.ToOptions(platforms, preferences, rebuild)
+	err = roms.Process(options)
 	if err != nil {
 		return err
 	}
