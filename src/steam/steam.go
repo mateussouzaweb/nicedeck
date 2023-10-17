@@ -202,18 +202,14 @@ func AddToShortcuts(shortcut *shortcuts.Shortcut) error {
 	shortcut.AppID = shortcuts.GenerateShortcutID(shortcut.Exe, shortcut.AppName)
 	artworksPath := _config.ArtworksPath
 
+	// Logo: ${APPID}_logo.png
+	shortcut.Logo = fmt.Sprintf("%s/%v_logo.png", artworksPath, shortcut.AppID)
+
 	// Icon: ${APPID}_icon.ico || ${APPID}_icon.png
 	if strings.HasSuffix(shortcut.IconURL, ".png") {
 		shortcut.Icon = fmt.Sprintf("%s/%v_icon.png", artworksPath, shortcut.AppID)
 	} else {
 		shortcut.Icon = fmt.Sprintf("%s/%v_icon.ico", artworksPath, shortcut.AppID)
-	}
-
-	// Logo: ${APPID}_logo.png || ${APPID}_logo.jpg
-	if strings.HasSuffix(shortcut.LogoURL, ".png") {
-		shortcut.Logo = fmt.Sprintf("%s/%v_logo.png", artworksPath, shortcut.AppID)
-	} else {
-		shortcut.Logo = fmt.Sprintf("%s/%v_logo.jpg", artworksPath, shortcut.AppID)
 	}
 
 	// Cover: ${APPID}p.png || ${APPID}p.jpg
