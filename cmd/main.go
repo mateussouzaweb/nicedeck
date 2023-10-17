@@ -57,7 +57,7 @@ func printHelp() error {
 		"setup                 (install all programs)\n"+
 		"install $PROGRAM,...  (install specific program or programs)\n"+
 		"roms $PLATFORM,...    (parse ROMs folder to add, update or remove ROMs on Steam Library)\n"+
-		"shortcuts             (list Steam shortcuts with respective AppId)\n"+
+		"shortcuts             (list shortcuts added to the Steam Library)\n"+
 		"\n"+
 		"Available programs to install: %s\n"+
 		"\n",
@@ -192,7 +192,12 @@ func listShortcuts() error {
 	}
 
 	// List detected shortcuts
-	for _, shortcut := range steam.GetShortcuts() {
+	shortcuts := steam.GetShortcuts()
+
+	if len(shortcuts) > 0 {
+		cli.Printf(cli.ColorNotice, "%s => %s\n", "NAME", "APP_ID")
+	}
+	for _, shortcut := range shortcuts {
 		cli.Printf(cli.ColorDefault, "%s => %v\n", shortcut.AppName, shortcut.AppID)
 	}
 
