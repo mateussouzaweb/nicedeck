@@ -12,14 +12,14 @@ func Arg(args []string, keys string, defaultValue string) string {
 	positional := map[string]string{}
 	counter := 0
 
-	// Check for --key=value or key=value like format first
+	// Check for --key=value -key=value or key=value like format first
 	for _, arg := range args {
 		for _, key := range options {
 			if strings.HasPrefix(arg, key+"=") {
 				return strings.TrimPrefix(arg, key+"=")
 			}
 		}
-		if !strings.HasPrefix(arg, "--") {
+		if !strings.HasPrefix(arg, "-") {
 			positional[strconv.Itoa(counter)] = arg
 			counter++
 		}
@@ -32,6 +32,23 @@ func Arg(args []string, keys string, defaultValue string) string {
 		}
 		if value, ok := positional[index]; ok {
 			return value
+		}
+	}
+
+	return defaultValue
+}
+
+// Retrieve boolean flag with given keys
+func Flag(args []string, keys string, defaultValue bool) bool {
+
+	options := strings.Split(keys, ",")
+
+	// Check for --key or -key like format
+	for _, arg := range args {
+		for _, key := range options {
+			if arg == key {
+				return true
+			}
 		}
 	}
 
