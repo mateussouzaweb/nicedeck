@@ -129,7 +129,7 @@ func runInstall() error {
 
 	// Install selected programs
 	args := os.Args[1:]
-	programs := cli.Arg(args, "1", "")
+	programs := cli.Arg(args, "1,--programs", "")
 	programs = strings.ReplaceAll(programs, " ", "")
 
 	for _, program := range strings.Split(programs, ",") {
@@ -168,6 +168,7 @@ func runROMs() error {
 
 	// Read advanced command arguments
 	args := os.Args[1:]
+	platforms := cli.Arg(args, "1,--platforms", "")
 	rebuild := cli.Flag(args, "--rebuild", false)
 
 	// Process ROMs to add/update/remove
