@@ -171,13 +171,10 @@ func runROMs() error {
 	platforms := cli.Arg(args, "1", "")
 
 	// Process ROMs to add/update/remove
-	err = roms.ProcessROMs(platforms)
+	err = roms.Process(platforms, false)
 	if err != nil {
 		return err
 	}
-
-	cli.Printf(cli.ColorSuccess, "Process finished!\n")
-	cli.Printf(cli.ColorNotice, "Please restart the device to changes take effect.\n")
 
 	return nil
 }

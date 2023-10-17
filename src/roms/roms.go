@@ -10,41 +10,81 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
-// Parse and process ROMs for given platforms
-func ProcessROMs(includePlatforms string) error {
+// Filter ROMs that match given requirements and return the list to process
+func FilterROMs(roms []*ROM, includePlatforms string, rebuild bool) []*ROM {
 
-	// Detect ROMs with parser in all folders
-	parsed, err := ParseROMs()
-	if err != nil {
-		return err
-	}
+	var existing []*ROM
+	var toProcess []*ROM
 
-	// Fill list of ROMs to process, based on given included platforms
-	// Also fill detected list including all system ROMs
-	process := []*ROM{}
-	detected := []string{}
+	// Determine list of platforms to accept processing in the current run
 	platforms := []string{}
-
 	if includePlatforms != "" {
 		platforms = strings.Split(strings.ToUpper(includePlatforms), ",")
 	}
 
-	for _, rom := range parsed {
+	// Read current list of ROMs in the Steam library shortcuts
+	for _, shortcut := range steam.GetShortcuts() {
 
-		// Add to the list of detected ROMs
-		// We use the ROM relative path because this info can be found in the shortcut
-		detected = append(detected, rom.RelativePath)
+		// Check if shortcut is managed ROM
+		if !slices.Contains(shortcut.Tags, "ROM") {
+			continue
+		}
 
-		// Add to the list of ROMs to process if match include path condition
-		if len(platforms) == 0 || slices.Contains(platforms, rom.Platform) {
-			process = append(process, rom)
+		// Check if ROM of the shortcut is on the list of ROMs
+		for _, rom := range roms {
+			if strings.Contains(shortcut.LaunchOptions, rom.RelativePath) {
+				existing = append(existing, rom)
+				break
+			}
 		}
 
 	}
 
-	// Print initial process information
+	// Fill the list of ROMs to process
+	for _, rom := range roms {
+
+		addToList := false
+
+		// Add to the list if ROM matches platform condition
+		if len(platforms) == 0 || slices.Contains(platforms, rom.Platform) {
+			addToList = true
+		}
+
+		// When is not rebuilding, include only new detected ROMs
+		if !rebuild {
+			for _, item := range existing {
+				if item.RelativePath == rom.RelativePath {
+					addToList = false
+					break
+				}
+			}
+		}
+
+		// Finally, if valid, add to the list of ROMs to process
+		if addToList {
+			toProcess = append(toProcess, rom)
+		}
+
+	}
+
+	return toProcess
+}
+
+// Process ROMs to scrape data and add to Steam shortcuts
+func ProcessROMs(parsed []*ROM, includePlatforms string, rebuld bool) (int, error) {
+
+	// Filter list to know what ROMs process
+	process := FilterROMs(parsed, includePlatforms, rebuld)
 	total := len(process)
-	cli.Printf(cli.ColorNotice, "%d ROMs detected to process.\n", total)
+
+	// Skip if not found anything
+	if total == 0 {
+		cli.Printf(cli.ColorNotice, "No new ROMs to process.\n")
+		return total, nil
+	}
+
+	// Print initial process information
+	cli.Printf(cli.ColorNotice, "%d new ROMs detected to process.\n", total)
 	cli.Printf(cli.ColorNotice, "This could take some time, please be patient...\n")
 
 	// Process each ROM to add or update
@@ -55,7 +95,7 @@ func ProcessROMs(includePlatforms string) error {
 		// Scrape additional ROM information
 		scrape, err := scraper.ScrapeFromName(rom.Name)
 		if err != nil {
-			return err
+			return total, err
 		}
 
 		// Skip if scrape not found anything...
@@ -80,15 +120,21 @@ func ProcessROMs(includePlatforms string) error {
 		})
 
 		if err != nil {
-			return err
+			return total, err
 		}
 
 	}
 
-	cli.Printf(cli.ColorNotice, "Scrapping finished.\n")
-	cli.Printf(cli.ColorNotice, "Checking for removed ROMs in shortcuts...\n")
+	cli.Printf(cli.ColorNotice, "All ROMs processed.\n")
+	return total, nil
+}
 
-	// Remove ROM shortcuts that was not detected in the current run
+// Clean Steam shortcuts for not found ROMs
+func CleanShortcuts(parsed []*ROM) (int, error) {
+
+	var toRemove []*shortcuts.Shortcut
+
+	// Read current list of ROMs in the Steam library shortcuts
 	for _, shortcut := range steam.GetShortcuts() {
 
 		// Check if shortcut is managed ROM
@@ -96,24 +142,69 @@ func ProcessROMs(includePlatforms string) error {
 			continue
 		}
 
-		// Check if ROM is on the list of detected ROMs
+		// Check if ROM of the shortcut is on the list of ROMs
 		found := false
-		for _, detectedROM := range detected {
-			if strings.Contains(shortcut.LaunchOptions, detectedROM) {
+		for _, rom := range parsed {
+			if strings.Contains(shortcut.LaunchOptions, rom.RelativePath) {
 				found = true
 				break
 			}
 		}
 
-		// Remove when not found
+		// If not found, put on list of shortcuts to remove
 		if !found {
-			cli.Printf(cli.ColorNotice, "Removing not detected ROM: %s\n", shortcut.AppName)
-			err = steam.RemoveFromShortcuts(shortcut)
-			if err != nil {
-				return err
-			}
+			toRemove = append(toRemove, shortcut)
 		}
 
+	}
+
+	// Validate if has shortcuts to remove
+	total := len(toRemove)
+	if total == 0 {
+		return total, nil
+	}
+
+	// Print message when there are ROMs to remove
+	cli.Printf(cli.ColorNotice, "Found removed ROMs. Cleaning shortcuts...\n")
+
+	// Remove ROM shortcuts that was not detected in the list of parsed ROMs
+	for _, shortcut := range toRemove {
+
+		cli.Printf(cli.ColorNotice, "Removing shortcut for not detected ROM: %s\n", shortcut.AppName)
+		err := steam.RemoveFromShortcuts(shortcut)
+		if err != nil {
+			return total, err
+		}
+
+	}
+
+	return total, nil
+}
+
+// Parse and process ROMs for given platforms
+func Process(includePlatforms string, rebuild bool) error {
+
+	// Detect available ROMs with parser in all folders / systems
+	parsed, err := ParseROMs()
+	if err != nil {
+		return err
+	}
+
+	// Process new ROMs
+	processed, err := ProcessROMs(parsed, includePlatforms, rebuild)
+	if err != nil {
+		return err
+	}
+
+	// Remove shortcuts for inexisting ROMs
+	removed, err := CleanShortcuts(parsed)
+	if err != nil {
+		return err
+	}
+
+	if processed > 0 || removed > 0 {
+		cli.Printf(cli.ColorSuccess, "Process finished!\n")
+		cli.Printf(cli.ColorNotice, "Please restart the device to changes take effect.\n")
 	}
 
 	return nil
