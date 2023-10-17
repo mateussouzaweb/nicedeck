@@ -39,8 +39,13 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		"/Updates/", // Updates folder
 		"/Mods/",    // Mods folder
 		"/Others/",  // Folder with games to ignore
+		"/Ignore/",  // Folder with games to ignore
+		"/Hide/",    // Folder with games to ignore
 		"(Disc 2)",  // Disc 2 of some games
 		"(Disc 3)",  // Disc 3 of some games
+		"(Disc 4)",  // Disc 4 of some games
+		"(Disc 5)",  // Disc 5 of some games
+		"(Disc 6)",  // Disc 6 of some games
 		"(Track 2)", // Track 2 of some games
 		"(Track 3)", // Track 3 of some games
 		"(Track 4)", // Track 4 of some games
