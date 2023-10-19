@@ -98,9 +98,12 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 			continue
 		}
 
+		// Determine best name from the shortcut
+		appName := scrape.Name + " [" + rom.Platform + "]"
+
 		// Add to Steam
 		err = steam.AddToShortcuts(&shortcuts.Shortcut{
-			AppName:       scrape.Name,
+			AppName:       appName,
 			Exe:           "/var/lib/flatpak/exports/bin/" + rom.Emulator,
 			StartDir:      "/var/lib/flatpak/exports/bin/", // Same as main flatpak
 			ShortcutPath:  "",
