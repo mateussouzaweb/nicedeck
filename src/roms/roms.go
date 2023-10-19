@@ -2,7 +2,6 @@ package roms
 
 import (
 	"slices"
-	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
@@ -26,7 +25,7 @@ func FilterROMs(roms []*ROM, options *Options) []*ROM {
 
 		// Check if ROM of the shortcut is on the list of ROMs
 		for _, rom := range roms {
-			if strings.Contains(shortcut.LaunchOptions, rom.RelativePath) {
+			if shortcut.RelativePath == rom.RelativePath {
 				existing = append(existing, rom)
 				break
 			}
@@ -113,7 +112,9 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 			CoverURL:      scrape.CoverURL,
 			BannerURL:     scrape.BannerURL,
 			HeroURL:       scrape.HeroURL,
-			Tags:          []string{rom.Console, "ROM"},
+			Platform:      rom.Platform,
+			RelativePath:  rom.RelativePath,
+			Tags:          []string{"ROM"},
 		})
 
 		if err != nil {
@@ -142,7 +143,7 @@ func CleanShortcuts(parsed []*ROM) (int, error) {
 		// Check if ROM of the shortcut is on the list of ROMs
 		found := false
 		for _, rom := range parsed {
-			if strings.Contains(shortcut.LaunchOptions, rom.RelativePath) {
+			if shortcut.RelativePath == rom.RelativePath {
 				found = true
 				break
 			}
@@ -167,7 +168,7 @@ func CleanShortcuts(parsed []*ROM) (int, error) {
 	// Remove ROM shortcuts that was not detected in the list of parsed ROMs
 	for _, shortcut := range toRemove {
 
-		cli.Printf(cli.ColorNotice, "Removing shortcut for not detected ROM: %s\n", shortcut.AppName)
+		cli.Printf(cli.ColorNotice, "Removing shortcut for not detected ROM: %s\n", shortcut.RelativePath)
 		err := steam.RemoveFromShortcuts(shortcut)
 		if err != nil {
 			return total, err

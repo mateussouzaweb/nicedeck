@@ -120,6 +120,12 @@ func LoadFromFile(shortcutsFile string) ([]*Shortcut, error) {
 		if _, ok := item["LastPlayTime"]; !ok {
 			item["LastPlayTime"] = uint(0)
 		}
+		if _, ok := item["Platform"]; !ok {
+			item["Platform"] = ""
+		}
+		if _, ok := item["RelativePath"]; !ok {
+			item["RelativePath"] = ""
+		}
 		if _, ok := item["tags"]; !ok {
 			item["tags"] = vdf.Vdf{}
 		}
@@ -162,6 +168,8 @@ func LoadFromFile(shortcutsFile string) ([]*Shortcut, error) {
 			DevkitOverrideAppID: item["DevkitOverrideAppID"].(uint),
 			FlatpakAppID:        item["FlatpakAppID"].(string),
 			LastPlayTime:        item["LastPlayTime"].(uint),
+			Platform:            item["Platform"].(string),
+			RelativePath:        item["RelativePath"].(string),
 			Tags:                tags,
 		}
 
@@ -279,6 +287,8 @@ func SaveToFile(shortcuts []*Shortcut, destinationFile string) error {
 		item["DevkitOverrideAppID"] = shortcut.DevkitOverrideAppID
 		item["FlatpakAppID"] = shortcut.FlatpakAppID
 		item["LastPlayTime"] = shortcut.LastPlayTime
+		item["Platform"] = shortcut.Platform
+		item["RelativePath"] = shortcut.RelativePath
 		item["tags"] = tags
 
 		// Duplicated - steam requires lowercase variation

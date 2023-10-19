@@ -27,5 +27,7 @@ type Shortcut struct {
 	DevkitOverrideAppID uint     `json:"devkitOverrideAppId"`
 	FlatpakAppID        string   `json:"flatpakAppId"`
 	LastPlayTime        uint     `json:"lastPlayTime"`
+	Platform            string   `json:"platform"`
+	RelativePath        string   `json:"relativePath"`
 	Tags                []string `json:"tags"`
 }
