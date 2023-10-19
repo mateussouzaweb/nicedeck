@@ -114,7 +114,7 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 			HeroURL:       scrape.HeroURL,
 			Platform:      rom.Platform,
 			RelativePath:  rom.RelativePath,
-			Tags:          []string{"ROM"},
+			Tags:          []string{"Gaming", "ROM"},
 		})
 
 		if err != nil {
