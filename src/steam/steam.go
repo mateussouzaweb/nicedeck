@@ -14,6 +14,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
+// Config struct
 type Config struct {
 	ArtworksPath            string                `json:"artworksPath"`
 	ControllerTemplatesPath string                `json:"controllerTemplatesPath"`

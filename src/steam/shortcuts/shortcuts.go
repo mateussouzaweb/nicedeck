@@ -291,7 +291,7 @@ func SaveToFile(shortcuts []*Shortcut, destinationFile string) error {
 		item["RelativePath"] = shortcut.RelativePath
 		item["tags"] = tags
 
-		// Duplicated - steam requires lowercase variation
+		// Duplicated - Steam requires lowercase variation
 		// item["AppID"] = shortcut.AppID
 		// item["Icon"] = shortcut.Icon
 		// item["Tags"] = tags

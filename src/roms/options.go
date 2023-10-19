@@ -7,9 +7,9 @@ import (
 
 // Options struct
 type Options struct {
-	Platforms  []string
-	Rebuild    bool
-	UseRyujinx bool
+	Platforms  []string `json:"platforms"`
+	Rebuild    bool     `json:"rebuild"`
+	UseRyujinx bool     `json:"useRyujinx"`
 }
 
 // Transform values into valid options
