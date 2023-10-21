@@ -12,30 +12,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam"
 )
 
-// Create mapping for easy install
-var installMap = map[string]func() error{
-	"bottles":          install.Bottles,
-	"cemu":             install.Cemu,
-	"citra":            install.Citra,
-	"dolphin":          install.Dolphin,
-	"emulationstation": install.EmulationStationDE,
-	"firefox":          install.Firefox,
-	"flycast":          install.Flycast,
-	"google-chrome":    install.GoogleChrome,
-	"heroic-games":     install.HeroicGamesLauncher,
-	"jellyfin":         install.JellyfinMediaPlayer,
-	"lutris":           install.Lutris,
-	"melonds":          install.MelonDS,
-	"mgba":             install.MGBA,
-	"moonlight":        install.MoonlightGameStreaming,
-	"pcsx2":            install.PCSX2,
-	"ppsspp":           install.PPSSPP,
-	"rpcs3":            install.RPCS3,
-	"ryujinx":          install.Ryujinx,
-	"xemu":             install.Xemu,
-	"yuzu":             install.Yuzu,
-}
-
 // Version command
 func printVersion() error {
 	cli.Printf(cli.ColorDefault, "Version 0.0.9\n")
@@ -79,8 +55,8 @@ func runSetup() error {
 	}
 
 	// Install each program
-	for _, command := range installMap {
-		err := command()
+	for _, program := range install.GetPrograms() {
+		err := install.Install(program.ID)
 		if err != nil {
 			return err
 		}
@@ -115,19 +91,16 @@ func runInstall() error {
 		return err
 	}
 
-	// Install selected programs
+	// Read advanced command arguments
 	args := os.Args[1:]
 	programs := cli.Arg(args, "1,--programs", "")
 	programs = strings.ReplaceAll(programs, " ", "")
 
+	// Install programs in the list
 	for _, program := range strings.Split(programs, ",") {
-		if command, ok := installMap[program]; ok {
-			err := command()
-			if err != nil {
-				return err
-			}
-		} else {
-			cli.Printf(cli.ColorWarn, "Program not found to install: %s\n", program)
+		err := install.Install(program)
+		if err != nil {
+			return err
 		}
 	}
 

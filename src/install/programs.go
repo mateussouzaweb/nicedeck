@@ -1,0 +1,155 @@
+package install
+
+import (
+	"fmt"
+
+	"github.com/mateussouzaweb/nicedeck/src/cli"
+	"github.com/mateussouzaweb/nicedeck/src/steam"
+	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
+)
+
+// Installer function
+type Installer func(shortcut *shortcuts.Shortcut) error
+
+// Program struct
+type Program struct {
+	ID               string    `json:"id"`
+	Name             string    `json:"name"`
+	Description      string    `json:"description"`
+	Tags             []string  `json:"tags"`
+	RequiredFolders  []string  `json:"requiredFolders"`
+	FlatpakAppId     string    `json:"flatpakAppId"`
+	FlatpakOverrides []string  `json:"flatpakOverrides"`
+	IconURL          string    `json:"iconUrl"`
+	LogoURL          string    `json:"logoUrl"`
+	CoverURL         string    `json:"coverUrl"`
+	BannerURL        string    `json:"bannerUrl"`
+	HeroURL          string    `json:"heroUrl"`
+	Installer        Installer `json:"-"`
+}
+
+// Retrieve list of available programs to install
+func GetPrograms() []*Program {
+
+	var programs []*Program
+
+	programs = append(programs, Bottles())
+	programs = append(programs, Cemu())
+	programs = append(programs, Citra())
+	programs = append(programs, Dolphin())
+	programs = append(programs, EmulationStationDE())
+	programs = append(programs, Firefox())
+	programs = append(programs, Flycast())
+	programs = append(programs, GoogleChrome())
+	programs = append(programs, HeroicGamesLauncher())
+	programs = append(programs, JellyfinMediaPlayer())
+	programs = append(programs, Lutris())
+	programs = append(programs, MelonDS())
+	programs = append(programs, MGBA())
+	programs = append(programs, MoonlightGameStreaming())
+	programs = append(programs, PCSX2())
+	programs = append(programs, PPSSPP())
+	programs = append(programs, RPCS3())
+	programs = append(programs, Ryujinx())
+	programs = append(programs, Xemu())
+	programs = append(programs, Yuzu())
+
+	return programs
+}
+
+// Retrieve program with given ID
+func GetProgramById(id string) *Program {
+
+	for _, program := range GetPrograms() {
+		if id == program.ID {
+			return program
+		}
+	}
+
+	return &Program{}
+}
+
+// Install program with given ID
+func Install(id string) error {
+
+	program := GetProgramById(id)
+
+	// Program not found
+	if program.ID == "" {
+		return fmt.Errorf("Program not found: %s", id)
+	}
+
+	// Fill basic Steam shortcut information
+	shortcut := &shortcuts.Shortcut{
+		AppName:   program.Name,
+		Tags:      program.Tags,
+		IconURL:   program.IconURL,
+		LogoURL:   program.LogoURL,
+		CoverURL:  program.CoverURL,
+		BannerURL: program.BannerURL,
+		HeroURL:   program.HeroURL,
+	}
+
+	// Make sure required folders exist
+	if len(program.RequiredFolders) > 0 {
+		for _, folder := range program.RequiredFolders {
+			err := cli.Command(fmt.Sprintf("mkdir -p %s", folder)).Run()
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	// Program is flatpak
+	if program.FlatpakAppId != "" {
+
+		// Install from flatpak
+		err := cli.Command(fmt.Sprintf(
+			"flatpak install --or-update --assumeyes --noninteractive flathub %s",
+			program.FlatpakAppId,
+		)).Run()
+
+		if err != nil {
+			return err
+		}
+
+		// Apply flatpak overrides
+		if len(program.FlatpakOverrides) > 0 {
+			for _, override := range program.FlatpakOverrides {
+				err := cli.Command(fmt.Sprintf(
+					"flatpak override --user %s %s",
+					override, program.FlatpakAppId,
+				)).Run()
+
+				if err != nil {
+					return err
+				}
+			}
+		}
+
+		// Fill shortcut information for flatpak app
+		shortcut.StartDir = "/var/lib/flatpak/exports/bin/"
+		shortcut.Exe = "/var/lib/flatpak/exports/bin/" + program.FlatpakAppId
+		shortcut.ShortcutPath = "/var/lib/flatpak/exports/share/applications/" + program.FlatpakAppId + ".desktop"
+		shortcut.LaunchOptions = ""
+
+	}
+
+	// Program has custom installer script
+	if program.Installer != nil {
+		err := program.Installer(shortcut)
+		if err != nil {
+			return err
+		}
+	}
+
+	// Add to Steam
+	err := steam.AddToShortcuts(shortcut)
+	if err != nil {
+		return err
+	}
+
+	// Print success message
+	cli.Printf(cli.ColorSuccess, "%s installed!\n", program.Name)
+	return nil
+}
