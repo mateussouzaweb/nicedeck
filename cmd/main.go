@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/mateussouzaweb/nicedeck/docs"
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/install"
 	"github.com/mateussouzaweb/nicedeck/src/roms"
@@ -44,26 +45,13 @@ func printVersion() error {
 // Help command
 func printHelp() error {
 
-	programs := make([]string, 0, len(installMap))
-	for program := range installMap {
-		programs = append(programs, program)
+	// Read help content
+	content, err := docs.GetContent("HELP.md", true)
+	if err != nil {
+		return err
 	}
 
-	cli.Printf(cli.ColorDefault, "\n"+
-		"NiceDeck usage help:\n"+
-		"\n"+
-		"version               (show version)\n"+
-		"help                  (print this help)\n"+
-		"setup                 (install all programs)\n"+
-		"install $PROGRAM,...  (install specific program or programs)\n"+
-		"roms $PLATFORM,...    (parse ROMs folder to add, update or remove ROMs on Steam Library)\n"+
-		"shortcuts             (list shortcuts added to the Steam Library)\n"+
-		"\n"+
-		"Available programs to install: %s\n"+
-		"\n",
-		strings.Join(programs, ", "),
-	)
-
+	cli.Printf(cli.ColorDefault, content)
 	return nil
 }
 
