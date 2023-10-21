@@ -61,7 +61,7 @@ The parser can take some time to finish based on the size of your ROMs library i
 
 Wait for the conclusion of the process and we are DONE! You can start gaming!
 
-### Organizing Your Collection inside Steam Library
+## Organizing Your Collection inside Steam Library
 
 After running the parser and opening Steam again, you will notice that the ROMs will be available on the "uncategorized" collection. That is ok for some people, but if you want to make it better, you need to do some manual work - an very easy work...
 
