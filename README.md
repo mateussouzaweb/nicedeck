@@ -52,7 +52,7 @@ Folders and Structure:
 - NiceDeck will create the ``$HOME/Games`` folder with basic structure for emulation.
 - You can optionally map the MicroSD card path in the install process with symlinks on home to keep data separated from main drive.
 - Once you have installed the desired emulators, place the ``BIOS`` and ``ROMs`` for each emulator in their respective folders.
-- Make sure to read the [ROMs documentation](Docs/ROMS.md) to lean how to organize and parser your ROMs.
+- Make sure to read the [ROMs documentation](Docs/ROMS.md) to learn how to organize and parser your ROMs.
 
 Programs:
 
