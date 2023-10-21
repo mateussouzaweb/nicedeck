@@ -11,6 +11,7 @@
             <entry>Cemu-wrapper</entry>
             <entry>cemu</entry>
             <entry>Cemu</entry>
+            <entry>info.cemu.Cemu</entry>
         </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/info.cemu.Cemu</entry>
@@ -74,6 +75,7 @@
     <emulator name="PCSX2">
         <rule type="systempath">
             <entry>pcsx2-qt</entry>
+            <entry>net.pcsx2.PCSX2</entry>
         </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/net.pcsx2.PCSX2</entry>
@@ -82,10 +84,10 @@
     </emulator>
     <emulator name="PPSSPP">
         <rule type="systempath">
-            <entry>ppsspp-emu.ppsspp-sdl</entry>
-            <entry>org.ppsspp.PPSSPP</entry>
             <entry>PPSSPPSDL</entry>
             <entry>PPSSPPQt</entry>
+            <entry>ppsspp-emu.ppsspp-sdl</entry>
+            <entry>org.ppsspp.PPSSPP</entry>
         </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.ppsspp.PPSSPP</entry>
