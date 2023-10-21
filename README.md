@@ -14,6 +14,7 @@ Some features of NiceDeck:
 - Each software is independent and is maintaned / updated directly by their developers.
 - Opinated and simplified structure for emulators, where you should see only the ``ROMs`` and ``BIOS`` folders for the emulators that you installed.
 - Installed programs will be available on the ``Steam Library``, allowing usage on ``Gaming Mode`` at Steam Deck. Nice covers are also expected.
+- Built-in parser to grab information and add ROMs to the ``Steam Library`` automatically.
 - A correct and workable ``EmulationStation DE`` settings, with systems and finder rules to run games with flatpak in all emulators.
 - Originally created for Steam Deck, but works on almost any Linux distro.
 
@@ -51,6 +52,7 @@ Folders and Structure:
 - NiceDeck will create the ``$HOME/Games`` folder with basic structure for emulation.
 - You can optionally map the MicroSD card path in the install process with symlinks on home to keep data separated from main drive.
 - Once you have installed the desired emulators, place the ``BIOS`` and ``ROMs`` for each emulator in their respective folders.
+- Make sure to read the [ROMs documentation](Docs/ROMS.md) to lean how to organize and parser your ROMs.
 
 Programs:
 
@@ -114,4 +116,4 @@ Please not that NiceDeck will not offer support for all emulation softwares out 
 
 You can run NiceDeck in any Linux distribuition that supports ``flatpak`` with [Flathub](https://flathub.org), just make sure to **install and setup Steam first** in order to have the necessary folders of Steam in your system. 
 
-*Note:* If you installed Steam via flatpak too, don't worry, NiceDeck will set the necessary settings required to bypass the sandbox limitations of flatpak making you able to launch other applications with Steam.
+If you installed Steam via flatpak too, don't worry, NiceDeck will set the necessary settings required to bypass the sandbox limitations of flatpak making you able to launch other applications with Steam.
