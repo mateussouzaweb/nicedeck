@@ -2,6 +2,7 @@ package scraper
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/steamgriddb/api"
 )
@@ -33,7 +34,7 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 		searchResult := search.Data[0]
 		if searchResult.ID != 0 {
 			result.ScraperId = searchResult.ID
-			result.Name = searchResult.Name
+			result.Name = strings.Trim(searchResult.Name, " ")
 		}
 	}
 
