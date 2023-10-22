@@ -77,7 +77,7 @@ Open Steam in the **Desktop Mode** and simply use the search bar to filter your 
 
 I do recommend using an Mouse and Keyboard connected to the Steam Deck to run it faster. If can also use the same process to add some games to the favorites.
 
-## Troubeshotting
+## Troubleshooting
 
 **When running the parser, I see the message: "Could not detect ROM information. Skipping..."**\
 This means that the system could not detect which is the game of the ROM based on their file name. The easiest fix is to rename the file with the correct game name. For example:
