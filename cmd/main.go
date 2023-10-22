@@ -154,12 +154,8 @@ func listShortcuts() error {
 
 	// List detected shortcuts
 	shortcuts := steam.GetShortcuts()
-
-	if len(shortcuts) > 0 {
-		cli.Printf(cli.ColorNotice, "%s => %s\n", "NAME", "APP_ID")
-	}
 	for _, shortcut := range shortcuts {
-		cli.Printf(cli.ColorDefault, "%s => %v\n", shortcut.AppName, shortcut.AppID)
+		cli.Printf(cli.ColorDefault, "[%v]: %s\n", shortcut.AppID, shortcut.AppName)
 	}
 
 	return nil
