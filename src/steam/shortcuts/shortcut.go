@@ -2,22 +2,14 @@ package shortcuts
 
 // Shortcut struct
 type Shortcut struct {
+	// Default specs
 	AppID               uint     `json:"appId"`
 	AppName             string   `json:"appName"`
-	Exe                 string   `json:"exe"`
 	StartDir            string   `json:"startDir"`
-	Icon                string   `json:"icon"`
-	IconURL             string   `json:"iconUrl"`
-	Logo                string   `json:"logo"`
-	LogoURL             string   `json:"logoUrl"`
-	Cover               string   `json:"cover"`
-	CoverURL            string   `json:"coverUrl"`
-	Banner              string   `json:"banner"`
-	BannerURL           string   `json:"bannerUrl"`
-	Hero                string   `json:"hero"`
-	HeroURL             string   `json:"heroUrl"`
-	ShortcutPath        string   `json:"shortcutPath"`
+	Exe                 string   `json:"exe"`
 	LaunchOptions       string   `json:"launchOptions"`
+	ShortcutPath        string   `json:"shortcutPath"`
+	Icon                string   `json:"icon"`
 	IsHidden            uint     `json:"isHidden"`
 	AllowDesktopConfig  uint     `json:"allowDesktopConfig"`
 	AllowOverlay        uint     `json:"allowOverlay"`
@@ -27,7 +19,18 @@ type Shortcut struct {
 	DevkitOverrideAppID uint     `json:"devkitOverrideAppId"`
 	FlatpakAppID        string   `json:"flatpakAppId"`
 	LastPlayTime        uint     `json:"lastPlayTime"`
-	Platform            string   `json:"platform"`
-	RelativePath        string   `json:"relativePath"`
 	Tags                []string `json:"tags"`
+
+	// Extended specs
+	IconURL      string `json:"iconUrl"`
+	Logo         string `json:"logo"`
+	LogoURL      string `json:"logoUrl"`
+	Cover        string `json:"cover"`
+	CoverURL     string `json:"coverUrl"`
+	Banner       string `json:"banner"`
+	BannerURL    string `json:"bannerUrl"`
+	Hero         string `json:"hero"`
+	HeroURL      string `json:"heroUrl"`
+	Platform     string `json:"platform"`
+	RelativePath string `json:"relativePath"`
 }

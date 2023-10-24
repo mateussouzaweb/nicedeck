@@ -51,47 +51,20 @@ func LoadFromFile(shortcutsFile string) ([]*Shortcut, error) {
 		if _, ok := item["AppName"]; !ok {
 			item["AppName"] = ""
 		}
-		if _, ok := item["Exe"]; !ok {
-			item["Exe"] = ""
-		}
 		if _, ok := item["StartDir"]; !ok {
 			item["StartDir"] = ""
 		}
-		if _, ok := item["icon"]; !ok {
-			item["icon"] = ""
+		if _, ok := item["Exe"]; !ok {
+			item["Exe"] = ""
 		}
-		if _, ok := item["IconURL"]; !ok {
-			item["IconURL"] = ""
-		}
-		if _, ok := item["Logo"]; !ok {
-			item["Logo"] = ""
-		}
-		if _, ok := item["LogoURL"]; !ok {
-			item["LogoURL"] = ""
-		}
-		if _, ok := item["Cover"]; !ok {
-			item["Cover"] = ""
-		}
-		if _, ok := item["CoverURL"]; !ok {
-			item["CoverURL"] = ""
-		}
-		if _, ok := item["Banner"]; !ok {
-			item["Banner"] = ""
-		}
-		if _, ok := item["BannerURL"]; !ok {
-			item["BannerURL"] = ""
-		}
-		if _, ok := item["Hero"]; !ok {
-			item["Hero"] = ""
-		}
-		if _, ok := item["HeroURL"]; !ok {
-			item["HeroURL"] = ""
+		if _, ok := item["LaunchOptions"]; !ok {
+			item["LaunchOptions"] = ""
 		}
 		if _, ok := item["ShortcutPath"]; !ok {
 			item["ShortcutPath"] = ""
 		}
-		if _, ok := item["LaunchOptions"]; !ok {
-			item["LaunchOptions"] = ""
+		if _, ok := item["icon"]; !ok {
+			item["icon"] = ""
 		}
 		if _, ok := item["IsHidden"]; !ok {
 			item["IsHidden"] = uint(0)
@@ -120,45 +93,25 @@ func LoadFromFile(shortcutsFile string) ([]*Shortcut, error) {
 		if _, ok := item["LastPlayTime"]; !ok {
 			item["LastPlayTime"] = uint(0)
 		}
-		if _, ok := item["Platform"]; !ok {
-			item["Platform"] = ""
-		}
-		if _, ok := item["RelativePath"]; !ok {
-			item["RelativePath"] = ""
-		}
 		if _, ok := item["tags"]; !ok {
 			item["tags"] = vdf.Vdf{}
 		}
 
-		// Create uppercase variation for strange keys
-		item["Icon"] = item["icon"]
-		item["AppID"] = item["appid"]
-		item["Tags"] = item["tags"]
-
 		// Create tag list
 		var tags []string
-		for _, tag := range item["Tags"].(vdf.Vdf) {
+		for _, tag := range item["tags"].(vdf.Vdf) {
 			tags = append(tags, tag.(string))
 		}
 
 		// Convert to manageable shortcut
 		shortcut := Shortcut{
-			AppID:               item["AppID"].(uint),
+			AppID:               item["appid"].(uint),
 			AppName:             item["AppName"].(string),
-			Exe:                 item["Exe"].(string),
 			StartDir:            item["StartDir"].(string),
-			Icon:                item["Icon"].(string),
-			IconURL:             item["IconURL"].(string),
-			Logo:                item["Logo"].(string),
-			LogoURL:             item["LogoURL"].(string),
-			Cover:               item["Cover"].(string),
-			CoverURL:            item["CoverURL"].(string),
-			Banner:              item["Banner"].(string),
-			BannerURL:           item["BannerURL"].(string),
-			Hero:                item["Hero"].(string),
-			HeroURL:             item["HeroURL"].(string),
-			ShortcutPath:        item["ShortcutPath"].(string),
+			Exe:                 item["Exe"].(string),
 			LaunchOptions:       item["LaunchOptions"].(string),
+			ShortcutPath:        item["ShortcutPath"].(string),
+			Icon:                item["icon"].(string),
 			IsHidden:            item["IsHidden"].(uint),
 			AllowDesktopConfig:  item["AllowDesktopConfig"].(uint),
 			AllowOverlay:        item["AllowOverlay"].(uint),
@@ -168,8 +121,6 @@ func LoadFromFile(shortcutsFile string) ([]*Shortcut, error) {
 			DevkitOverrideAppID: item["DevkitOverrideAppID"].(uint),
 			FlatpakAppID:        item["FlatpakAppID"].(string),
 			LastPlayTime:        item["LastPlayTime"].(uint),
-			Platform:            item["Platform"].(string),
-			RelativePath:        item["RelativePath"].(string),
 			Tags:                tags,
 		}
 
@@ -192,6 +143,13 @@ func AddShortcut(shortcuts []*Shortcut, shortcut *Shortcut) ([]*Shortcut, error)
 		}
 
 		// Keep current value for some keys
+		shortcut.IsHidden = item.IsHidden
+		shortcut.AllowDesktopConfig = item.AllowDesktopConfig
+		shortcut.AllowOverlay = item.AllowOverlay
+		shortcut.OpenVR = item.OpenVR
+		shortcut.Devkit = item.Devkit
+		shortcut.DevkitGameID = item.DevkitGameID
+		shortcut.DevkitOverrideAppID = item.DevkitOverrideAppID
 		shortcut.FlatpakAppID = item.FlatpakAppID
 		shortcut.LastPlayTime = item.LastPlayTime
 
@@ -248,6 +206,48 @@ func SortShortcuts(shortcuts []*Shortcut) ([]*Shortcut, error) {
 	return shortcuts, nil
 }
 
+// Merge shortcuts lists into one
+func MergeShortcuts(main []*Shortcut, extra []*Shortcut) []*Shortcut {
+
+	// When match is detected, we always will prefer the extra content
+	// When has not match, append item to the list
+	for _, item := range extra {
+		found := false
+		for _, existing := range main {
+			if existing.AppID == item.AppID {
+				// Steam available data
+				existing.AppName = item.AppName
+				existing.StartDir = item.StartDir
+				existing.Exe = item.Exe
+				existing.LaunchOptions = item.LaunchOptions
+				existing.ShortcutPath = item.ShortcutPath
+				existing.Icon = item.Icon
+				existing.IsHidden = item.IsHidden
+				existing.AllowDesktopConfig = item.AllowDesktopConfig
+				existing.AllowOverlay = item.AllowOverlay
+				existing.OpenVR = item.OpenVR
+				existing.Devkit = item.Devkit
+				existing.DevkitGameID = item.DevkitGameID
+				existing.DevkitOverrideAppID = item.DevkitOverrideAppID
+				existing.FlatpakAppID = item.FlatpakAppID
+				existing.LastPlayTime = item.LastPlayTime
+
+				// Merge tags to not lose current ones
+				existing.Tags = append(existing.Tags, item.Tags...)
+				existing.Tags = slices.Compact(existing.Tags)
+				found = true
+				break
+			}
+		}
+
+		if !found {
+			main = append(main, item)
+		}
+	}
+
+	return main
+}
+
 // Save shortcuts list to shortcuts file
 func SaveToFile(shortcuts []*Shortcut, destinationFile string) error {
 
@@ -264,20 +264,11 @@ func SaveToFile(shortcuts []*Shortcut, destinationFile string) error {
 		item := vdf.Vdf{}
 		item["appid"] = shortcut.AppID
 		item["AppName"] = shortcut.AppName
-		item["Exe"] = shortcut.Exe
 		item["StartDir"] = shortcut.StartDir
-		item["icon"] = shortcut.Icon
-		item["IconURL"] = shortcut.IconURL
-		item["Logo"] = shortcut.Logo
-		item["LogoURL"] = shortcut.LogoURL
-		item["Cover"] = shortcut.Cover
-		item["CoverURL"] = shortcut.CoverURL
-		item["Banner"] = shortcut.Banner
-		item["BannerURL"] = shortcut.BannerURL
-		item["Hero"] = shortcut.Hero
-		item["HeroURL"] = shortcut.HeroURL
-		item["ShortcutPath"] = shortcut.ShortcutPath
+		item["Exe"] = shortcut.Exe
 		item["LaunchOptions"] = shortcut.LaunchOptions
+		item["ShortcutPath"] = shortcut.ShortcutPath
+		item["icon"] = shortcut.Icon
 		item["IsHidden"] = shortcut.IsHidden
 		item["AllowDesktopConfig"] = shortcut.AllowDesktopConfig
 		item["AllowOverlay"] = shortcut.AllowOverlay
@@ -287,14 +278,7 @@ func SaveToFile(shortcuts []*Shortcut, destinationFile string) error {
 		item["DevkitOverrideAppID"] = shortcut.DevkitOverrideAppID
 		item["FlatpakAppID"] = shortcut.FlatpakAppID
 		item["LastPlayTime"] = shortcut.LastPlayTime
-		item["Platform"] = shortcut.Platform
-		item["RelativePath"] = shortcut.RelativePath
 		item["tags"] = tags
-
-		// Duplicated - Steam requires lowercase variation
-		// item["AppID"] = shortcut.AppID
-		// item["Icon"] = shortcut.Icon
-		// item["Tags"] = tags
 
 		position := fmt.Sprintf("%v", index)
 		items[position] = item
