@@ -18,7 +18,7 @@ type Program struct {
 	Description      string    `json:"description"`
 	Tags             []string  `json:"tags"`
 	RequiredFolders  []string  `json:"requiredFolders"`
-	FlatpakAppId     string    `json:"flatpakAppId"`
+	FlatpakAppID     string    `json:"flatpakAppId"`
 	FlatpakOverrides []string  `json:"flatpakOverrides"`
 	IconURL          string    `json:"iconUrl"`
 	LogoURL          string    `json:"logoUrl"`
@@ -58,7 +58,7 @@ func GetPrograms() []*Program {
 }
 
 // Retrieve program with given ID
-func GetProgramById(id string) *Program {
+func GetProgramByID(id string) *Program {
 
 	for _, program := range GetPrograms() {
 		if id == program.ID {
@@ -72,7 +72,7 @@ func GetProgramById(id string) *Program {
 // Install program with given ID
 func Install(id string) error {
 
-	program := GetProgramById(id)
+	program := GetProgramByID(id)
 
 	// Program not found
 	if program.ID == "" {
@@ -101,12 +101,12 @@ func Install(id string) error {
 	}
 
 	// Program is flatpak
-	if program.FlatpakAppId != "" {
+	if program.FlatpakAppID != "" {
 
 		// Install from flatpak
 		err := cli.Command(fmt.Sprintf(
 			"flatpak install --or-update --assumeyes --noninteractive flathub %s",
-			program.FlatpakAppId,
+			program.FlatpakAppID,
 		)).Run()
 
 		if err != nil {
@@ -118,7 +118,7 @@ func Install(id string) error {
 			for _, override := range program.FlatpakOverrides {
 				err := cli.Command(fmt.Sprintf(
 					"flatpak override --user %s %s",
-					override, program.FlatpakAppId,
+					override, program.FlatpakAppID,
 				)).Run()
 
 				if err != nil {
@@ -129,8 +129,8 @@ func Install(id string) error {
 
 		// Fill shortcut information for flatpak app
 		shortcut.StartDir = "/var/lib/flatpak/exports/bin/"
-		shortcut.Exe = "/var/lib/flatpak/exports/bin/" + program.FlatpakAppId
-		shortcut.ShortcutPath = "/var/lib/flatpak/exports/share/applications/" + program.FlatpakAppId + ".desktop"
+		shortcut.Exe = "/var/lib/flatpak/exports/bin/" + program.FlatpakAppID
+		shortcut.ShortcutPath = "/var/lib/flatpak/exports/share/applications/" + program.FlatpakAppID + ".desktop"
 		shortcut.LaunchOptions = ""
 
 	}

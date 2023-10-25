@@ -157,7 +157,7 @@ func AddToShortcuts(shortcut *shortcuts.Shortcut) error {
 		shortcut.Exe = "/usr/bin/flatpak-spawn --host " + shortcut.Exe
 	}
 
-	// Determine appId and artworks path
+	// Determine appID and artworks path
 	shortcut.AppID = shortcuts.GenerateShortcutID(shortcut.Exe, shortcut.AppName)
 	artworksPath := _config.UserConfigPath + "/grid"
 

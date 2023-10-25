@@ -9,7 +9,7 @@ import (
 
 // Docs: https://www.steamgriddb.com/api/v2
 
-const baseUrl = "https://www.steamgriddb.com/api/v2"
+const baseURL = "https://www.steamgriddb.com/api/v2"
 const authorization = "Bearer 68e3c101bac17f05cafc31b437a012e5"
 
 // Make request on SteamGridDB API

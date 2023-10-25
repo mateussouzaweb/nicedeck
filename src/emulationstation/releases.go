@@ -28,7 +28,7 @@ func GetLatestRelease() (string, error) {
 			Packages []struct {
 				Name     string `json:"name"`
 				Filename string `json:"filename"`
-				Url      string `json:"url"`
+				URL      string `json:"url"`
 				Md5      string `json:"md5"`
 			} `json:"packages"`
 		} `json:"stable"`
@@ -41,7 +41,7 @@ func GetLatestRelease() (string, error) {
 
 	for _, release := range releases.Stable.Packages {
 		if release.Name == "LinuxAppImage" {
-			return release.Url, nil
+			return release.URL, nil
 		}
 	}
 

@@ -9,34 +9,34 @@ type DetailsResult struct {
 	ReleaseDate int64    `json:"release_date"`
 }
 
-// DetailsByIdResult struct
-type DetailsByIdResult struct {
+// DetailsByIDResult struct
+type DetailsByIDResult struct {
 	Success bool          `json:"success"`
 	Errors  []string      `json:"errors"`
 	Data    DetailsResult `json:"data"`
 }
 
-// DetailsBySteamAppIdResult struct
-type DetailsBySteamAppIdResult struct {
+// DetailsBySteamAppIDResult struct
+type DetailsBySteamAppIDResult struct {
 	Success bool          `json:"success"`
 	Errors  []string      `json:"errors"`
 	Data    DetailsResult `json:"data"`
 }
 
 // Retrieve game or application details by ID
-func GetDetailsById(id string) (*DetailsByIdResult, error) {
-	endpoint := baseUrl + "/games/id/" + id
-	result := DetailsByIdResult{}
+func GetDetailsByID(id string) (*DetailsByIDResult, error) {
+	endpoint := baseURL + "/games/id/" + id
+	result := DetailsByIDResult{}
 	err := Request("GET", endpoint, &result)
 
 	return &result, err
 }
 
 // Retrieve game or application details by Steam AppID
-func GetDetailsBySteamAppId(appId string) (*DetailsBySteamAppIdResult, error) {
+func GetDetailsBySteamAppID(appID string) (*DetailsBySteamAppIDResult, error) {
 
-	endpoint := baseUrl + "/games/steam/" + appId
-	result := DetailsBySteamAppIdResult{}
+	endpoint := baseURL + "/games/steam/" + appID
+	result := DetailsBySteamAppIDResult{}
 	err := Request("GET", endpoint, &result)
 
 	return &result, err

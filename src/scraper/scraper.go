@@ -10,8 +10,8 @@ import (
 // ScrapeInfo struct
 type ScrapeInfo struct {
 	Name       string `json:"name"`
-	ScraperId  int64  `json:"scraperId"`
-	ShortcutId uint32 `json:"shortcutId"`
+	ScraperID  int64  `json:"scraperId"`
+	ShortcutID uint32 `json:"shortcutId"`
 	IconURL    string `json:"iconUrl"`
 	LogoURL    string `json:"logoUrl"`
 	CoverURL   string `json:"coverUrl"`
@@ -33,20 +33,20 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 	if search.Success && len(search.Data) > 0 {
 		searchResult := search.Data[0]
 		if searchResult.ID != 0 {
-			result.ScraperId = searchResult.ID
+			result.ScraperID = searchResult.ID
 			result.Name = strings.Trim(searchResult.Name, " ")
 		}
 	}
 
 	// Cancel reaming actions if not found
-	if result.ScraperId == 0 {
+	if result.ScraperID == 0 {
 		return &result, nil
 	}
 
 	// Find icon
-	icon, err := api.GetImagesById(
+	icon, err := api.GetImagesByID(
 		"icon",
-		fmt.Sprintf("%v", result.ScraperId),
+		fmt.Sprintf("%v", result.ScraperID),
 		&api.ImagesParams{
 			Dimensions: []string{"24", "32", "40", "48", "56", "64", "72", "80", "96", "100", "144", "192"},
 			Mimes:      []string{"image/png", "image/vnd.microsoft.icon"},
@@ -64,9 +64,9 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 	}
 
 	// Find logo
-	logo, err := api.GetImagesById(
+	logo, err := api.GetImagesByID(
 		"logo",
-		fmt.Sprintf("%v", result.ScraperId),
+		fmt.Sprintf("%v", result.ScraperID),
 		&api.ImagesParams{
 			Mimes:    []string{"image/png"},
 			Types:    []string{"static"},
@@ -83,9 +83,9 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 	}
 
 	// Find cover
-	cover, err := api.GetImagesById(
+	cover, err := api.GetImagesByID(
 		"cover",
-		fmt.Sprintf("%v", result.ScraperId),
+		fmt.Sprintf("%v", result.ScraperID),
 		&api.ImagesParams{
 			Mimes:      []string{"image/png", "image/jpeg"},
 			Types:      []string{"static"},
@@ -103,9 +103,9 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 	}
 
 	// Find banner
-	banner, err := api.GetImagesById(
+	banner, err := api.GetImagesByID(
 		"banner",
-		fmt.Sprintf("%v", result.ScraperId),
+		fmt.Sprintf("%v", result.ScraperID),
 		&api.ImagesParams{
 			Mimes:      []string{"image/png", "image/jpeg"},
 			Types:      []string{"static"},
@@ -123,9 +123,9 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 	}
 
 	// Find hero
-	hero, err := api.GetImagesById(
+	hero, err := api.GetImagesByID(
 		"hero",
-		fmt.Sprintf("%v", result.ScraperId),
+		fmt.Sprintf("%v", result.ScraperID),
 		&api.ImagesParams{
 			Mimes:    []string{"image/png", "image/jpeg"},
 			Types:    []string{"static"},

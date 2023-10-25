@@ -84,20 +84,20 @@ type ImageResult struct {
 	Author    ImageAuthor `json:"author"`
 }
 
-// ImagesByIdResult struct
-type ImagesByIdResult struct {
+// ImagesByIDResult struct
+type ImagesByIDResult struct {
 	Success bool          `json:"success"`
 	Data    []ImageResult `json:"data"`
 }
 
-// ImagesByPlatformAndIdResult struct
-type ImagesByPlatformAndIdResult struct {
+// ImagesByPlatformAndIDResult struct
+type ImagesByPlatformAndIDResult struct {
 	Success bool          `json:"success"`
 	Data    []ImageResult `json:"data"`
 }
 
-// ImagesByPlatformAndMultipleIdsResult struct
-type ImagesByPlatformAndMultipleIdsResult struct {
+// ImagesByPlatformAndMultipleIDsResult struct
+type ImagesByPlatformAndMultipleIDsResult struct {
 	Success bool `json:"success"`
 	Data    []struct {
 		Success bool          `json:"success"`
@@ -107,37 +107,37 @@ type ImagesByPlatformAndMultipleIdsResult struct {
 }
 
 // Retrieve images for game or application by ID
-func GetImagesById(format string, id string, params *ImagesParams) (*ImagesByIdResult, error) {
+func GetImagesByID(format string, id string, params *ImagesParams) (*ImagesByIDResult, error) {
 
-	endpoint := getImagesBaseUrl(format) + "/game/" + id + "?" + params.getQueryParams()
-	result := ImagesByIdResult{}
+	endpoint := getImagesBaseURL(format) + "/game/" + id + "?" + params.getQueryParams()
+	result := ImagesByIDResult{}
 	err := Request("GET", endpoint, &result)
 
 	return &result, err
 }
 
 // Retrieve images for game or application by platform and ID
-func GetImagesByPlatformAndId(format string, platform string, id string, params *ImagesParams) (*ImagesByPlatformAndIdResult, error) {
+func GetImagesByPlatformAndID(format string, platform string, id string, params *ImagesParams) (*ImagesByPlatformAndIDResult, error) {
 
-	endpoint := getImagesBaseUrl(format) + "/" + platform + "/" + id + "?" + params.getQueryParams()
-	result := ImagesByPlatformAndIdResult{}
+	endpoint := getImagesBaseURL(format) + "/" + platform + "/" + id + "?" + params.getQueryParams()
+	result := ImagesByPlatformAndIDResult{}
 	err := Request("GET", endpoint, &result)
 
 	return &result, err
 }
 
 // Retrieve images for games or applications by platform and given IDs
-func GetImagesByPlatformAndMultipleIds(format string, platform string, ids []string, params *ImagesParams) (*ImagesByPlatformAndMultipleIdsResult, error) {
+func GetImagesByPlatformAndMultipleIDs(format string, platform string, ids []string, params *ImagesParams) (*ImagesByPlatformAndMultipleIDsResult, error) {
 
-	endpoint := getImagesBaseUrl(format) + "/" + platform + "/" + strings.Join(ids, ",") + "?" + params.getQueryParams()
-	result := ImagesByPlatformAndMultipleIdsResult{}
+	endpoint := getImagesBaseURL(format) + "/" + platform + "/" + strings.Join(ids, ",") + "?" + params.getQueryParams()
+	result := ImagesByPlatformAndMultipleIDsResult{}
 	err := Request("GET", endpoint, &result)
 
 	return &result, err
 }
 
 // Retrieve base URL for images targeted for image format
-func getImagesBaseUrl(format string) string {
+func getImagesBaseURL(format string) string {
 
 	// Options are: banners, covers, grids, heroes, logos, icons
 	// Fallback to grids if could not detect the format
@@ -148,18 +148,18 @@ func getImagesBaseUrl(format string) string {
 	case "cover":
 	case "grids":
 	case "grid":
-		return baseUrl + "/grids"
+		return baseURL + "/grids"
 	case "heroes":
 	case "hero":
-		return baseUrl + "/heroes"
+		return baseURL + "/heroes"
 	case "logos":
 	case "logo":
-		return baseUrl + "/logos"
+		return baseURL + "/logos"
 	case "icons":
 	case "icon":
-		return baseUrl + "/icons"
+		return baseURL + "/icons"
 	default:
 	}
 
-	return baseUrl + "/grids"
+	return baseURL + "/grids"
 }
