@@ -1,16 +1,55 @@
-name: Publish new release
+name: Release
 
 on:
   push:
-    tags:
-      - "v*.*.*"
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+env:
+  CI: true
+  SAVE_ARTIFACT: false
 
 jobs:
-  release:
-    name: Release
+  check:
+    if: contains(github.event.head_commit.message, 'Version')
+    name: Check Commit
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    steps:
+      - name: Validate if is version commit
+        id: validate-commit
+        run: |
+          REGEX="^Version [0-9]+\.[0-9]+\.[0-9]+$"
+          COMMIT="${{ github.event.head_commit.message }}"
+          [[ $COMMIT =~ $REGEX ]] && exit 0 || exit 1
+
+  create-tag:
+    name: Create Tag
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create and push new tag
+        run: |
+          # Extract tag and version from commit
+          COMMIT="${{ github.event.head_commit.message }}"
+          VERSION="$(echo $COMMIT | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')"
+          TAG="v$VERSION"
+
+          # Create and push new tag
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag -a $TAG -m "Version $VERSION"
+          git push origin $TAG
+
+  release:
+    name: Release Version
+    needs: check
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,7 +62,7 @@ jobs:
       - name: Build package
         run: make build
 
-      - name: Create tag release
+      - name: Create release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
