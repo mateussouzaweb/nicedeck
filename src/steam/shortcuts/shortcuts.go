@@ -154,8 +154,11 @@ func AddShortcut(shortcuts []*Shortcut, shortcut *Shortcut) ([]*Shortcut, error)
 		shortcut.LastPlayTime = item.LastPlayTime
 
 		// Merge tags to not lose current ones
-		shortcut.Tags = append(shortcut.Tags, item.Tags...)
-		shortcut.Tags = slices.Compact(shortcut.Tags)
+		for _, tag := range item.Tags {
+			if !slices.Contains(shortcut.Tags, tag) {
+				shortcut.Tags = append(shortcut.Tags, tag)
+			}
+		}
 
 		// Replace with new object data
 		shortcuts[index] = shortcut
@@ -214,30 +217,36 @@ func MergeShortcuts(main []*Shortcut, extra []*Shortcut) []*Shortcut {
 	for _, item := range extra {
 		found := false
 		for _, existing := range main {
-			if existing.AppID == item.AppID {
-				// Steam available data
-				existing.AppName = item.AppName
-				existing.StartDir = item.StartDir
-				existing.Exe = item.Exe
-				existing.LaunchOptions = item.LaunchOptions
-				existing.ShortcutPath = item.ShortcutPath
-				existing.Icon = item.Icon
-				existing.IsHidden = item.IsHidden
-				existing.AllowDesktopConfig = item.AllowDesktopConfig
-				existing.AllowOverlay = item.AllowOverlay
-				existing.OpenVR = item.OpenVR
-				existing.Devkit = item.Devkit
-				existing.DevkitGameID = item.DevkitGameID
-				existing.DevkitOverrideAppID = item.DevkitOverrideAppID
-				existing.FlatpakAppID = item.FlatpakAppID
-				existing.LastPlayTime = item.LastPlayTime
-
-				// Merge tags to not lose current ones
-				existing.Tags = append(existing.Tags, item.Tags...)
-				existing.Tags = slices.Compact(existing.Tags)
-				found = true
-				break
+			if existing.AppID != item.AppID {
+				continue
 			}
+
+			// Steam available data
+			existing.AppName = item.AppName
+			existing.StartDir = item.StartDir
+			existing.Exe = item.Exe
+			existing.LaunchOptions = item.LaunchOptions
+			existing.ShortcutPath = item.ShortcutPath
+			existing.Icon = item.Icon
+			existing.IsHidden = item.IsHidden
+			existing.AllowDesktopConfig = item.AllowDesktopConfig
+			existing.AllowOverlay = item.AllowOverlay
+			existing.OpenVR = item.OpenVR
+			existing.Devkit = item.Devkit
+			existing.DevkitGameID = item.DevkitGameID
+			existing.DevkitOverrideAppID = item.DevkitOverrideAppID
+			existing.FlatpakAppID = item.FlatpakAppID
+			existing.LastPlayTime = item.LastPlayTime
+
+			// Merge tags to not lose current ones
+			for _, tag := range item.Tags {
+				if !slices.Contains(existing.Tags, tag) {
+					existing.Tags = append(existing.Tags, tag)
+				}
+			}
+
+			found = true
+			break
 		}
 
 		if !found {
