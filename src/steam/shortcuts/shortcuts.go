@@ -221,7 +221,7 @@ func MergeShortcuts(main []*Shortcut, extra []*Shortcut) []*Shortcut {
 				continue
 			}
 
-			// Steam available data
+			// Get available data
 			existing.AppName = item.AppName
 			existing.StartDir = item.StartDir
 			existing.Exe = item.Exe

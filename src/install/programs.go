@@ -79,7 +79,7 @@ func Install(id string) error {
 		return fmt.Errorf("Program not found: %s", id)
 	}
 
-	// Fill basic Steam shortcut information
+	// Fill basic shortcut information
 	shortcut := &shortcuts.Shortcut{
 		AppName:   program.Name,
 		Tags:      program.Tags,
@@ -143,7 +143,7 @@ func Install(id string) error {
 		}
 	}
 
-	// Add to Steam
+	// Add to shortcuts list
 	err := library.AddToShortcuts(shortcut)
 	if err != nil {
 		return err

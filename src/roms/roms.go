@@ -15,7 +15,7 @@ func FilterROMs(roms []*ROM, options *Options) []*ROM {
 	var existing []*ROM
 	var toProcess []*ROM
 
-	// Read current list of ROMs in the Steam library shortcuts
+	// Read current list of ROMs in the library shortcuts
 	for _, shortcut := range library.GetShortcuts() {
 
 		// Check if shortcut is managed ROM
@@ -63,7 +63,7 @@ func FilterROMs(roms []*ROM, options *Options) []*ROM {
 	return toProcess
 }
 
-// Process ROMs to scrape data and add to Steam shortcuts
+// Process ROMs to scrape data and add to shortcuts list
 func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 
 	// Filter list to know what ROMs process
@@ -100,7 +100,7 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 		// Determine best name from the shortcut
 		appName := scrape.Name + " [" + rom.Platform + "]"
 
-		// Add to Steam
+		// Add to shortcuts library
 		err = library.AddToShortcuts(&shortcuts.Shortcut{
 			AppName:       appName,
 			Exe:           "/var/lib/flatpak/exports/bin/" + rom.Emulator,
@@ -127,12 +127,12 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 	return total, nil
 }
 
-// Clean Steam shortcuts for not found ROMs
+// Clean shortcuts for not found ROMs
 func CleanShortcuts(parsed []*ROM) (int, error) {
 
 	var toRemove []*shortcuts.Shortcut
 
-	// Read current list of ROMs in the Steam library shortcuts
+	// Read current list of ROMs in the library shortcuts
 	for _, shortcut := range library.GetShortcuts() {
 
 		// Check if shortcut is managed ROM

@@ -25,7 +25,7 @@ type Config struct {
 
 var _config *Config
 
-// Load Steam data to runtime config
+// Load data to runtime config
 func Load() error {
 
 	// Retrieve Steam base path
@@ -93,9 +93,9 @@ func Load() error {
 		return err
 	}
 
-	// When already exist a list of shortcuts, should merge data
+	// When already exist a list of shortcuts from Steam, we should merge data
 	// The preferencial content always are from the .vdf file
-	// This file can possible be updated by other services or Steam
+	// This file can possible be updated by other services or Steam UI
 	if len(shortcutsList) > 0 {
 		_config.Shortcuts = shortcuts.MergeShortcuts(_config.Shortcuts, shortcutsList)
 	}
@@ -146,7 +146,7 @@ func GetShortcuts() []*shortcuts.Shortcut {
 	return _config.Shortcuts
 }
 
-// Add program to the Steam shortcuts library
+// Add program to the shortcuts list
 func AddToShortcuts(shortcut *shortcuts.Shortcut) error {
 
 	var err error
@@ -221,7 +221,7 @@ func AddToShortcuts(shortcut *shortcuts.Shortcut) error {
 	return nil
 }
 
-// Remove program from the Steam shortcuts library
+// Remove program from the shortcuts list
 func RemoveFromShortcuts(shortcut *shortcuts.Shortcut) error {
 
 	var err error
