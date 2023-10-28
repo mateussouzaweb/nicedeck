@@ -8,8 +8,8 @@ import (
 	"github.com/mateussouzaweb/nicedeck/docs"
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/install"
+	"github.com/mateussouzaweb/nicedeck/src/library"
 	"github.com/mateussouzaweb/nicedeck/src/roms"
-	"github.com/mateussouzaweb/nicedeck/src/steam"
 )
 
 // Version command
@@ -34,15 +34,15 @@ func printHelp() error {
 // Setup command (to install all programs)
 func runSetup() error {
 
-	// Load Steam library
-	err := steam.Load()
+	// Load library
+	err := library.Load()
 	if err != nil {
 		return err
 	}
 
 	// Save config on finish
 	defer func() {
-		err := steam.Save()
+		err := library.Save()
 		if err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 		}
@@ -71,15 +71,15 @@ func runSetup() error {
 // Install command (for specific programs only)
 func runInstall() error {
 
-	// Load Steam library
-	err := steam.Load()
+	// Load library
+	err := library.Load()
 	if err != nil {
 		return err
 	}
 
 	// Save config on finish
 	defer func() {
-		err := steam.Save()
+		err := library.Save()
 		if err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 		}
@@ -110,18 +110,18 @@ func runInstall() error {
 	return nil
 }
 
-// ROMs command (to update Steam Library)
+// ROMs command (to update library)
 func runROMs() error {
 
-	// Load Steam library
-	err := steam.Load()
+	// Load library
+	err := library.Load()
 	if err != nil {
 		return err
 	}
 
 	// Save config on finish
 	defer func() {
-		err := steam.Save()
+		err := library.Save()
 		if err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 		}
@@ -146,14 +146,14 @@ func runROMs() error {
 // List shortcuts command
 func listShortcuts() error {
 
-	// Load Steam library
-	err := steam.Load()
+	// Load library
+	err := library.Load()
 	if err != nil {
 		return err
 	}
 
 	// List detected shortcuts
-	shortcuts := steam.GetShortcuts()
+	shortcuts := library.GetShortcuts()
 	for _, shortcut := range shortcuts {
 		cli.Printf(cli.ColorDefault, "[%v]: %s\n", shortcut.AppID, shortcut.AppName)
 	}

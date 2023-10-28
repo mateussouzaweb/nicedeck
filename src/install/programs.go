@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
-	"github.com/mateussouzaweb/nicedeck/src/steam"
+	"github.com/mateussouzaweb/nicedeck/src/library"
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
@@ -144,7 +144,7 @@ func Install(id string) error {
 	}
 
 	// Add to Steam
-	err := steam.AddToShortcuts(shortcut)
+	err := library.AddToShortcuts(shortcut)
 	if err != nil {
 		return err
 	}

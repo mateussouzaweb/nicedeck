@@ -4,8 +4,8 @@ import (
 	"slices"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
+	"github.com/mateussouzaweb/nicedeck/src/library"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
-	"github.com/mateussouzaweb/nicedeck/src/steam"
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
@@ -16,7 +16,7 @@ func FilterROMs(roms []*ROM, options *Options) []*ROM {
 	var toProcess []*ROM
 
 	// Read current list of ROMs in the Steam library shortcuts
-	for _, shortcut := range steam.GetShortcuts() {
+	for _, shortcut := range library.GetShortcuts() {
 
 		// Check if shortcut is managed ROM
 		if !slices.Contains(shortcut.Tags, "ROM") {
@@ -101,7 +101,7 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 		appName := scrape.Name + " [" + rom.Platform + "]"
 
 		// Add to Steam
-		err = steam.AddToShortcuts(&shortcuts.Shortcut{
+		err = library.AddToShortcuts(&shortcuts.Shortcut{
 			AppName:       appName,
 			Exe:           "/var/lib/flatpak/exports/bin/" + rom.Emulator,
 			StartDir:      "/var/lib/flatpak/exports/bin/", // Same as main flatpak
@@ -133,7 +133,7 @@ func CleanShortcuts(parsed []*ROM) (int, error) {
 	var toRemove []*shortcuts.Shortcut
 
 	// Read current list of ROMs in the Steam library shortcuts
-	for _, shortcut := range steam.GetShortcuts() {
+	for _, shortcut := range library.GetShortcuts() {
 
 		// Check if shortcut is managed ROM
 		if !slices.Contains(shortcut.Tags, "ROM") {
@@ -169,7 +169,7 @@ func CleanShortcuts(parsed []*ROM) (int, error) {
 	for _, shortcut := range toRemove {
 
 		cli.Printf(cli.ColorNotice, "Removing shortcut for not detected ROM: %s\n", shortcut.RelativePath)
-		err := steam.RemoveFromShortcuts(shortcut)
+		err := library.RemoveFromShortcuts(shortcut)
 		if err != nil {
 			return total, err
 		}

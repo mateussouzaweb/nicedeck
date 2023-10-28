@@ -1,4 +1,4 @@
-package steam
+package library
 
 import (
 	"encoding/json"
@@ -9,6 +9,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
+	"github.com/mateussouzaweb/nicedeck/src/steam"
 	"github.com/mateussouzaweb/nicedeck/src/steam/controller"
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
@@ -28,14 +29,14 @@ var _config *Config
 func Load() error {
 
 	// Retrieve Steam base path
-	steamPath, err := GetPath("")
+	steamPath, err := steam.GetPath("")
 	if err != nil {
 		return err
 	}
 
 	// Make sure Steam on flatpak has the necessary permission
 	// We need this to run flatpak-spawn command to comunicate with others flatpak apps
-	isFlatpak, err := IsFlatpak()
+	isFlatpak, err := steam.IsFlatpak()
 	if err != nil {
 		return err
 	} else if isFlatpak {
@@ -47,13 +48,13 @@ func Load() error {
 	}
 
 	// Retrieve user config path
-	userConfigPath, err := GetPath("userdata/*/config")
+	userConfigPath, err := steam.GetPath("userdata/*/config")
 	if err != nil {
 		return err
 	}
 
 	// Retrieve controller templates path
-	controllerTemplatesPath, err := GetPath("controller_base/templates")
+	controllerTemplatesPath, err := steam.GetPath("controller_base/templates")
 	if err != nil {
 		return err
 	}
