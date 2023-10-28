@@ -80,19 +80,19 @@ I do recommend using an Mouse and Keyboard connected to the Steam Deck to run it
 ## Troubleshooting
 
 **When running the parser, I see the message: "Could not detect ROM information. Skipping..."**\
-This means that the system could not detect which is the game of the ROM based on their file name. The easiest fix is to rename the file with the correct game name. For example:
+It means that the system could not detect which is the game of the ROM based on their file name. The easiest fix is to rename the file with the correct game name. For example:
 
 Before: ``MSR - Metropolis Street Racer (USA) (Rev A).cue``\
 After: ``Metropolis Street Racer (USA).cue``
 
 **I got some error while running the parser...**\
-This can happen because the Steam Grid DB service cannot handle all of your request with a valid response time. Simply run the command again and see if the error persist - when you run the command again, the parse will continue from where it has been stopped.
+That can happen because the Steam Grid DB service cannot handle all of your request with a valid response time. Simply run the command again and see if the error persist - when you run the command again, the parse will continue from where it has been stopped.
 
 **The parser runs fine, but some of my games does not have cover images...**\
-This can happen because Steam Grid DB does not have images for all games in the world and someone will need to push artworks for that game in the service. If you can contribute to the project, please consider submit the game cover images to Steam Grid DB via the following link: <https://www.steamgriddb.com/upload>
+That is expected in non popular games. Steam Grid DB does not have images for all games in the world and someone will need to push artworks for that game in the service. If you can contribute to the project, please consider submit the game cover images to Steam Grid DB via the following link: <https://www.steamgriddb.com/upload>
 
 **I don't want all of my games in Steam Library, how to manage which game will go to Steam Library?**\
 As you know, this process is automated and does not have an interface to manage games individually. If you don't want to a game appears in the Library, I should start saying that then you should not had put the games that you do not want to play in the ROMs folder. If by somehow you still want to play a game, but do not want them to appear in the Steam Library, read the organization section again to learn how to do it.
 
 **The controller does not work as intended or do not match the one configured on the emulator...**\
-You have to manually configure the controller layout in the ROM shortcut like you did on the main emulator. The fastest way to do it, it by launching the ROM. Once the ROM is running, press the Steam Menu button and select the menu "Controller Settings" on the running program; select the correct controller layout and apply it - this change will  on the fly.
+You have to manually configure the controller layout in the ROM shortcut like you did on the main emulator. The fastest way to do it, it by launching the ROM. Once the ROM is running, press the Steam Menu button and select the menu "Controller Settings" on the running program; select the correct controller layout and apply it - the change will apply on the fly.
