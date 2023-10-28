@@ -1,6 +1,8 @@
 package api
 
-import "net/url"
+import (
+	"net/url"
+)
 
 // SearchByTermResult struct
 type SearchByTermResult struct {
@@ -12,7 +14,11 @@ type SearchByTermResult struct {
 // Search game or application by term or name
 func SearchByTerm(term string) (*SearchByTermResult, error) {
 
-	endpoint := baseURL + "/search/autocomplete/" + url.QueryEscape(term)
+	// Yes, escape twice for better results
+	term = url.QueryEscape(term)
+	term = url.QueryEscape(term)
+
+	endpoint := baseURL + "/search/autocomplete/" + term
 	result := SearchByTermResult{}
 	err := Request("GET", endpoint, &result)
 
