@@ -98,6 +98,7 @@ Console Emulators:
 
 - Microsoft Xbox - [Xemu](https://xemu.app)
 - Nintendo 3DS - [Citra](https://citra-emu.org)
+- Nintendo 64 - [Simple64](https://simple64.github.io)
 - Nintendo DS - [MelonDS](https://melonds.kuribo64.net)
 - Nintendo Game Boy Advance - [mGBA](https://mgba.io)
 - Nintendo GameCube - [Dolphin](https://dolphin-emu.org)

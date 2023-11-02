@@ -125,6 +125,16 @@
             <entry>~/.local/share/flatpak/exports/bin/org.ryujinx.Ryujinx</entry>
         </rule>
     </emulator>
+    <emulator name="SIMPLE64">
+        <rule type="systempath">
+            <entry>simple64-gui</entry>
+            <entry>io.github.simple64.simple64</entry>
+        </rule>
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/io.github.simple64.simple64</entry>
+            <entry>~/.local/share/flatpak/exports/bin/io.github.simple64.simple64</entry>
+        </rule>
+    </emulator>
     <emulator name="XEMU">
         <rule type="systempath">
             <entry>xemu</entry>

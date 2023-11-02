@@ -37,6 +37,15 @@
         <theme>n3ds</theme>
     </system>
     <system>
+        <name>n64</name>
+        <fullname>Nintendo 64</fullname>
+        <path>%ROMPATH%/N64</path>
+        <extension>.bin .BIN .d64 .D64 .n64 .N64 .ndd .NDD .u1 .U1 .v64 .V64 .z64 .Z64 .7z .7Z .zip .ZIP</extension>
+        <command label="Simple64">%EMULATOR_SIMPLE64% --nogui %ROM%</command>
+        <platform>n64</platform>
+        <theme>n64</theme>
+    </system>
+    <system>
         <name>nds</name>
         <fullname>Nintendo DS</fullname>
         <path>%ROMPATH%/NDS</path>

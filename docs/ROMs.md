@@ -10,6 +10,7 @@ To start, you must copy your ROMs to the Steam Deck. Use the table below to guid
 |---------------------------|-------------|-----------------------------|
 | Microsoft Xbox            | Xemu        | ``$HOME/Games/ROMs/XBOX``   |
 | Nintendo 3DS              | Citra       | ``$HOME/Games/ROMs/3DS``    |
+| Nintendo 64               | Simple64    | ``$HOME/Games/ROMs/N64``    |
 | Nintendo DS               | MelonDS     | ``$HOME/Games/ROMs/DS``     |
 | Nintendo Game Boy Advance | mGBA        | ``$HOME/Games/ROMs/GBA``    |
 | Nintendo GameCube         | Dolphin     | ``$HOME/Games/ROMs/GC``     |

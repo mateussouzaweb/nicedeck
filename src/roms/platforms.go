@@ -44,6 +44,13 @@ func GetPlatforms(options *Options) []*Platform {
 		LaunchOptions: "\"${ROM}\"", // No fullscreen option yet
 	})
 	platforms = append(platforms, &Platform{
+		Name:          "N64",
+		Console:       "Nintendo 64",
+		Emulator:      "io.github.simple64.simple64",
+		Extensions:    ".bin .d64 .n64 .ndd .u1 .v64 .z64 .7z .zip",
+		LaunchOptions: "--nogui \"${ROM}\"",
+	})
+	platforms = append(platforms, &Platform{
 		Name:          "NDS",
 		Console:       "Nintendo DS",
 		Emulator:      "net.kuribo64.melonDS",

@@ -48,5 +48,6 @@ Available programs to install:
 | ppsspp           | PPSSPP                     |
 | rpcs3            | RPCS3                      |
 | ryujinx          | Ryujinx                    |
+| simple64         | Simple64                   |
 | xemu             | Xemu                       |
 | yuzu             | Yuzu                       |

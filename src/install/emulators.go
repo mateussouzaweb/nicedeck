@@ -199,6 +199,24 @@ func Ryujinx() *Program {
 	}
 }
 
+// Installer for Simple64
+func Simple64() *Program {
+	return &Program{
+		ID:               "simple64",
+		Name:             "Simple64",
+		Description:      "Emulator for Nintendo 64",
+		Tags:             []string{"Gaming", "Emulator"},
+		RequiredFolders:  []string{"$HOME/Games/ROMs/N64", "$HOME/Games/BIOS/N64"},
+		FlatpakAppID:     "io.github.simple64.simple64",
+		FlatpakOverrides: []string{"--filesystem=host"},
+		IconURL:          "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/0ace2e260c8163925254bc878b9eb8ca.png",
+		LogoURL:          "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/8f6bf2012d96ef9678f8d3a8f27ce358.png",
+		CoverURL:         "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/48eeb385ea71aadccce10e2d294879b0.png",
+		BannerURL:        "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/e128d1f12ec88795b0a5853d7c754608.png",
+		HeroURL:          "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/73888d1bde775303c1749e63e3312a64.png",
+	}
+}
+
 // Installer for Xemu
 func Xemu() *Program {
 	return &Program{
