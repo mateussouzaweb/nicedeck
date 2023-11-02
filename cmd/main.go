@@ -14,7 +14,7 @@ import (
 
 // Version command
 func printVersion() error {
-	cli.Printf(cli.ColorDefault, "Version 0.0.12\n")
+	cli.Printf(cli.ColorDefault, "Version 0.0.11\n")
 	return nil
 }
 

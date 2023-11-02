@@ -57,8 +57,6 @@ jobs:
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ needs.create-tag.outputs.tag }}
 
       - id: setup-go
         name: Set up Go
