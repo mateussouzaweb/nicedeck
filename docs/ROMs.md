@@ -6,20 +6,21 @@ NiceDeck has the ability to automatically find and add your ROMs to the Steam Li
 
 To start, you must copy your ROMs to the Steam Deck. Use the table below to guide you where you should put your ROMs based on their consoles:
 
-| Console                   | Emulator | ROMs Folder                 |
-|---------------------------|----------|-----------------------------|
-| Microsoft Xbox            | Xemu     | ``$HOME/Games/ROMs/XBOX``   |
-| Nintendo 3DS              | Citra    | ``$HOME/Games/ROMs/3DS``    |
-| Nintendo DS               | MelonDS  | ``$HOME/Games/ROMs/DS``     |
-| Nintendo Game Boy Advance | mGBA     | ``$HOME/Games/ROMs/GBA``    |
-| Nintendo GameCube         | Dolphin  | ``$HOME/Games/ROMs/GC``     |
-| Nintendo Switch           | Yuzu     | ``$HOME/Games/ROMs/SWITCH`` |
-| Nintendo Wii              | Dolphin  | ``$HOME/Games/ROMs/WII``    |
-| Nintendo Wii U            | Cemu     | ``$HOME/Games/ROMs/WIIU``   |
-| Sega Dreamcast            | Flycast  | ``$HOME/Games/ROMs/DC``     |
-| Sony Playstation 2        | PCSX2    | ``$HOME/Games/ROMs/PS2``    |
-| Sony Playstation 3        | RPCS3    | ``$HOME/Games/ROMs/PS3``    |
-| Sony Playstation Portable | PPSSPP   | ``$HOME/Games/ROMs/PSP``    |
+| Console                   | Emulator    | ROMs Folder                 |
+|---------------------------|-------------|-----------------------------|
+| Microsoft Xbox            | Xemu        | ``$HOME/Games/ROMs/XBOX``   |
+| Nintendo 3DS              | Citra       | ``$HOME/Games/ROMs/3DS``    |
+| Nintendo DS               | MelonDS     | ``$HOME/Games/ROMs/DS``     |
+| Nintendo Game Boy Advance | mGBA        | ``$HOME/Games/ROMs/GBA``    |
+| Nintendo GameCube         | Dolphin     | ``$HOME/Games/ROMs/GC``     |
+| Nintendo Switch           | Yuzu        | ``$HOME/Games/ROMs/SWITCH`` |
+| Nintendo Wii              | Dolphin     | ``$HOME/Games/ROMs/WII``    |
+| Nintendo Wii U            | Cemu        | ``$HOME/Games/ROMs/WIIU``   |
+| Sega Dreamcast            | Flycast     | ``$HOME/Games/ROMs/DC``     |
+| Sony Playstation 1        | DuckStation | ``$HOME/Games/ROMs/PS1``    |
+| Sony Playstation 2        | PCSX2       | ``$HOME/Games/ROMs/PS2``    |
+| Sony Playstation 3        | RPCS3       | ``$HOME/Games/ROMs/PS3``    |
+| Sony Playstation Portable | PPSSPP      | ``$HOME/Games/ROMs/PSP``    |
 
 Please note that it's very important to have the ROMs in the correct location. Any ROM outside of these directories will not be parsed by NiceDeck and consequently will not be available on the Steam Library.
 

@@ -46,6 +46,15 @@
         <theme>nds</theme>
     </system>
     <system>
+        <name>ps1</name>
+        <fullname>Sony PlayStation 1</fullname>
+        <path>%ROMPATH%/PS1</path>
+        <extension>.bin .BIN .cbn .CBN .ccd .CCD .chd .CHD .cue .CUE .ecm .ECM .exe .EXE .img .IMG .iso .ISO .m3u .M3U .mdf .MDF .mds .MDS .minipsf .MINIPSF .pbp .PBP .psexe .PSEXE .psf .PSF .toc .TOC .z .Z .znx .ZNX .7z .7Z .zip .ZIP</extension>
+        <command label="DUCKSTATION">%EMULATOR_DUCKSTATION% -batch -fullscreen %ROM%</command>
+        <platform>psx</platform>
+        <theme>psx</theme>
+    </system>
+    <system>
         <name>ps2</name>
         <fullname>Sony PlayStation 2</fullname>
         <path>%ROMPATH%/PS2</path>

@@ -54,6 +54,24 @@ func Dolphin() *Program {
 	}
 }
 
+// Installer for DuckStation
+func DuckStation() *Program {
+	return &Program{
+		ID:               "duckstation",
+		Name:             "DuckStation",
+		Description:      "Emulator for Sony Playtation 1",
+		Tags:             []string{"Gaming", "Emulator"},
+		RequiredFolders:  []string{"$HOME/Games/ROMs/PS1", "$HOME/Games/BIOS/PS1"},
+		FlatpakAppID:     "org.duckstation.DuckStation",
+		FlatpakOverrides: []string{"--filesystem=host"},
+		IconURL:          "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/ff0abbcc0227c9124a804b084d161a2d.ico",
+		LogoURL:          "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/96a0d70498272acfee21d3dbae846113.png",
+		CoverURL:         "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/1f7c9b9e37afcbd79ebff19b17837cad.png",
+		BannerURL:        "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/9c94e659c62b84bf7b39c599b61bc7d3.png",
+		HeroURL:          "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/127f12c937b4baf0a8922eb1384391cf.png",
+	}
+}
+
 // Installer for Flycast
 func Flycast() *Program {
 	return &Program{

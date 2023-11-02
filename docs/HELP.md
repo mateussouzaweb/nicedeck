@@ -33,6 +33,7 @@ Available programs to install:
 | cemu             | Cemu                       |
 | citra            | Citra                      |
 | dolphin          | Dolphin Emulator           |
+| duckstation      | DuckStation                |
 | emulationstation | EmulationStation DE        |
 | firefox          | Firefox                    |
 | flycast          | Flycast                    |

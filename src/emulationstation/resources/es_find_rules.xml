@@ -40,6 +40,17 @@
             <entry>~/.local/share/flatpak/exports/bin/org.DolphinEmu.dolphin-emu</entry>
         </rule>
     </emulator>
+    <emulator name="DUCKSTATION">
+        <rule type="systempath">
+            <entry>duckstation-nogui</entry>
+            <entry>duckstation-qt</entry>
+            <entry>org.duckstation.DuckStation</entry>
+        </rule>
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/org.duckstation.DuckStation</entry>
+            <entry>~/.local/share/flatpak/exports/bin/org.duckstation.DuckStation</entry>
+        </rule>
+    </emulator>
     <emulator name="FLYCAST">
         <rule type="systempath">
             <entry>flycast</entry>

@@ -37,6 +37,7 @@ func GetPrograms() []*Program {
 	programs = append(programs, Cemu())
 	programs = append(programs, Citra())
 	programs = append(programs, Dolphin())
+	programs = append(programs, DuckStation())
 	programs = append(programs, EmulationStationDE())
 	programs = append(programs, Firefox())
 	programs = append(programs, Flycast())

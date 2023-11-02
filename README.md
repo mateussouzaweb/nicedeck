@@ -106,6 +106,7 @@ Console Emulators:
 - Nintendo Wii - [Dolphin](https://dolphin-emu.org)
 - Nintendo Wii U - [Cemu](https://cemu.info)
 - Sega Dreamcast - [Flycast](https://github.com/flyinghead/flycast)
+- Sony Playstation 1 - [DuckStation](https://www.duckstation.org)
 - Sony Playstation 2 - [PCSX2](https://pcsx2.net)
 - Sony Playstation 3 - [RPCS3](https://rpcs3.net)
 - Sony Playstation Portable - [PPSSPP](https://www.ppsspp.org)

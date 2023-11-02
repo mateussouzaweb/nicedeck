@@ -51,6 +51,13 @@ func GetPlatforms(options *Options) []*Platform {
 		LaunchOptions: "-f \"${ROM}\"",
 	})
 	platforms = append(platforms, &Platform{
+		Name:          "PS1",
+		Console:       "Sony PlayStation 1",
+		Emulator:      "org.duckstation.DuckStation",
+		Extensions:    ".bin .cbn .ccd .chd .cue .ecm .exe .img .iso .m3u .mdf .mds .minipsf .pbp .psexe .psf .toc .z .znx .7z .zip",
+		LaunchOptions: "-batch -fullscreen \"${ROM}\"",
+	})
+	platforms = append(platforms, &Platform{
 		Name:          "PS2",
 		Console:       "Sony PlayStation 2",
 		Emulator:      "net.pcsx2.PCSX2",
