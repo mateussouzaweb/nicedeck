@@ -29,6 +29,7 @@ Another important aspect for the ROMs organization, are the exclude patterns ins
 
 - ``$HOME/Games/ROMS/$PLATFORM/Updates`` - Updates folder
 - ``$HOME/Games/ROMS/$PLATFORM/Mods`` - Mods folder
+- ``$HOME/Games/ROMS/$PLATFORM/DLCs`` - DLCs folder
 - ``$HOME/Games/ROMS/$PLATFORM/Ignore`` - Literaly a folder to ignore
 - ``$HOME/Games/ROMS/$PLATFORM/Others`` - Another special folder to ignore
 
