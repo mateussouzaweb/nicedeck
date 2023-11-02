@@ -44,6 +44,7 @@ Available programs to install:
 | lutris           | Lutris                     |
 | melonds          | MelonDS                    |
 | mgba             | mGBA                       |
+| microsoft-edge   | Microsoft Edge             |
 | moonlight        | Moonlight                  |
 | pcsx2            | PCSX2                      |
 | ppsspp           | PPSSPP                     |

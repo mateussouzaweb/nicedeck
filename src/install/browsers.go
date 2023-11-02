@@ -31,3 +31,19 @@ func GoogleChrome() *Program {
 		HeroURL:      "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/cae83cfcb1d8a2a4bb17bd1446fb1cee.png",
 	}
 }
+
+// Installer for Microsoft Edge
+func MicrosoftEdge() *Program {
+	return &Program{
+		ID:           "microsoft-edge",
+		Name:         "Microsoft Edge",
+		Description:  "Web browser",
+		Tags:         []string{"Utilities"},
+		FlatpakAppID: "com.microsoft.Edge",
+		IconURL:      "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/714cb7478d98b1cb51d1f5f515f060c7.png",
+		LogoURL:      "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/cb88c85733fd8241b9190750318f1e59.png",
+		CoverURL:     "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/ca0dadd4ae381d26d4771208c1aa4408.png",
+		BannerURL:    "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/0656137651272c4bc984747f7a3e8c2d.png",
+		HeroURL:      "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/2c81a094d632c8b510c6c676eec4c358.png",
+	}
+}

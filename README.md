@@ -82,10 +82,11 @@ Enjoy!
 
 Programs:
 
+- [Chiaki](https://chiaki.re)
 - [Firefox](https://www.mozilla.org/en-US/firefox)
 - [Google Chrome](https://www.google.com/intl/en_us/chrome)
 - [Jellyfin Media Player](https://jellyfin.org)
-- [Chiaki](https://chiaki.re)
+- [Microsoft Edge](https://www.microsoft.com/en-us/edge)
 - [Moonlight Game Streaming](https://moonlight-stream.org)
 
 Game Launchers:

@@ -48,6 +48,7 @@ func GetPrograms() []*Program {
 	programs = append(programs, Lutris())
 	programs = append(programs, MelonDS())
 	programs = append(programs, MGBA())
+	programs = append(programs, MicrosoftEdge())
 	programs = append(programs, MoonlightGameStreaming())
 	programs = append(programs, PCSX2())
 	programs = append(programs, PPSSPP())
