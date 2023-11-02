@@ -85,6 +85,7 @@ Programs:
 - [Firefox](https://www.mozilla.org/en-US/firefox)
 - [Google Chrome](https://www.google.com/intl/en_us/chrome)
 - [Jellyfin Media Player](https://jellyfin.org)
+- [Chiaki](https://chiaki.re)
 - [Moonlight Game Streaming](https://moonlight-stream.org)
 
 Game Launchers:

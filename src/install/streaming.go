@@ -1,5 +1,21 @@
 package install
 
+// Installer for Chiaki
+func Chiaki() *Program {
+	return &Program{
+		ID:           "chiaki",
+		Name:         "Chiaki",
+		Description:  "Client for PlayStation Remote Play",
+		Tags:         []string{"Gaming", "Streaming"},
+		FlatpakAppID: "re.chiaki.Chiaki",
+		IconURL:      "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/3af6a013ffca8b7e22ce57d00090b754.png",
+		LogoURL:      "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/65602dccbf69f8ef8aafdd4ad7b43bd4.png",
+		CoverURL:     "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/99979b287fe7f91ba35ff69b8fd14233.png",
+		BannerURL:    "https://cdn2.steamgriddb.com/file/sgdb-cdn/grid/5c3867d9390d85c6e708a01196d288f4.png",
+		HeroURL:      "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero/f2b08f23d02d5fff247a41982d44f02e.png",
+	}
+}
+
 // Installer for Jellyfin Media Player
 func JellyfinMediaPlayer() *Program {
 	return &Program{

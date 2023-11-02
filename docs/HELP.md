@@ -31,6 +31,7 @@ Available programs to install:
 |------------------|----------------------------|
 | bottles          | Bottles                    |
 | cemu             | Cemu                       |
+| chiaki           | Chiaki                     |
 | citra            | Citra                      |
 | dolphin          | Dolphin Emulator           |
 | duckstation      | DuckStation                |

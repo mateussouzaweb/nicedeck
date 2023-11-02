@@ -35,6 +35,7 @@ func GetPrograms() []*Program {
 
 	programs = append(programs, Bottles())
 	programs = append(programs, Cemu())
+	programs = append(programs, Chiaki())
 	programs = append(programs, Citra())
 	programs = append(programs, Dolphin())
 	programs = append(programs, DuckStation())
