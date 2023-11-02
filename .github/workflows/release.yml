@@ -31,6 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.tag.outputs.TAG }}
+      version: ${{ steps.tag.outputs.VERSION }}
     steps:
       - id: checkout
         name: Checkout repository
@@ -44,15 +45,9 @@ jobs:
           VERSION="$(echo $COMMIT | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')"
           TAG="v$VERSION"
 
-          # Create and push new tag
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git tag -a $TAG -m "Version $VERSION"
-          git push origin $TAG
-
           # Export information
-          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
           echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
 
   release:
     name: Release Version
