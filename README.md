@@ -80,13 +80,16 @@ Enjoy!
 
 ## Available Softwares
 
-Programs:
+Browsers:
 
-- [Chiaki](https://chiaki.re)
 - [Firefox](https://www.mozilla.org/en-US/firefox)
 - [Google Chrome](https://www.google.com/intl/en_us/chrome)
-- [Jellyfin Media Player](https://jellyfin.org)
 - [Microsoft Edge](https://www.microsoft.com/en-us/edge)
+
+Streaming:
+
+- [Chiaki](https://chiaki.re)
+- [Jellyfin Media Player](https://jellyfin.org)
 - [Moonlight Game Streaming](https://moonlight-stream.org)
 
 Game Launchers:
@@ -114,7 +117,7 @@ Console Emulators:
 - Sony Playstation 3 - [RPCS3](https://rpcs3.net)
 - Sony Playstation Portable - [PPSSPP](https://www.ppsspp.org)
 
-Please not that NiceDeck will not offer support for all emulation softwares out there - we focus only on game consoles from the 2000s. If you want to emulate older consoles, please consider [RetroArch](https://www.retroarch.com) or something else.
+Please not that NiceDeck will not offer support for all emulation softwares out there - we focus only on emulators for single consoles. If you want to emulate older consoles, please consider [RetroArch](https://www.retroarch.com) or something else.
 
 ## Using NiceDeck Outside Steam Deck
 
