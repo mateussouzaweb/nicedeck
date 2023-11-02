@@ -3,6 +3,7 @@ package roms
 import (
 	"os"
 	"path/filepath"
+	"regexp"
 	"slices"
 	"strings"
 )
@@ -39,32 +40,20 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 	// Fill exclude list
 	// Files on these folders will be ignored
 	exclude := []string{
-		"/Updates/",  // Updates folder
-		"/Mods/",     // Mods folder
-		"/DLCs/",     // DLCs folder
-		"/Others/",   // Folder with games to ignore
-		"/Ignore/",   // Folder with games to ignore
-		"/Hide/",     // Folder with games to ignore
-		"(Disc 2)",   // Disc 2 of some games
-		"(Disc 3)",   // Disc 3 of some games
-		"(Disc 4)",   // Disc 4 of some games
-		"(Disc 5)",   // Disc 5 of some games
-		"(Disc 6)",   // Disc 6 of some games
-		"(Track 1)",  // Track 1 of some games
-		"(Track 2)",  // Track 2 of some games
-		"(Track 3)",  // Track 3 of some games
-		"(Track 4)",  // Track 4 of some games
-		"(Track 5)",  // Track 5 of some games
-		"(Track 6)",  // Track 6 of some games
-		"(Track 7)",  // Track 7 of some games
-		"(Track 8)",  // Track 8 of some games
-		"(Track 9)",  // Track 9 of some games
-		"(Track 10)", // Track 10 of some games
-		"(Track 11)", // Track 11 of some games
-		"(Track 12)", // Track 12 of some games
-		"(Track 13)", // Track 13 of some games
-		"(Track 14)", // Track 14 of some games
-		"(Track 15)", // Track 15 of some games
+		"/Updates/", // Updates folder
+		"/Mods/",    // Mods folder
+		"/DLCs/",    // DLCs folder
+		"/Others/",  // Folder with games to ignore
+		"/Ignore/",  // Folder with games to ignore
+		"/Hide/",    // Folder with games to ignore
+	}
+
+	// Files with these name patterns will be ignored
+	excludeRegex := []*regexp.Regexp{
+		regexp.MustCompile("(?i)Disc 0?[2-9]"),     // Disc 02 - 09 of some games
+		regexp.MustCompile("(?i)Disc [1-9][0-9]"),  // Disc 10 - 99 of some games
+		regexp.MustCompile("(?i)Track 0?[1-9]"),    // Track 01 - 09 of some games
+		regexp.MustCompile("(?i)Track [1-9][0-9]"), // Track 10 - 99 of some games
 	}
 
 	// Note: walkDir does not follow symbolic links
@@ -115,6 +104,13 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		// Verification is simple and consider if path contains given term
 		for _, pattern := range exclude {
 			if strings.Contains(strings.ToLower(path), strings.ToLower(pattern)) {
+				return nil
+			}
+		}
+
+		// Check against regex exclusion list
+		for _, pattern := range excludeRegex {
+			if pattern.MatchString(path) {
 				return nil
 			}
 		}
