@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -97,7 +98,34 @@ func Load() error {
 	// The preferencial content always are from the .vdf file
 	// This file can possible be updated by other services or Steam UI
 	if len(shortcutsList) > 0 {
-		_config.Shortcuts = shortcuts.MergeShortcuts(_config.Shortcuts, shortcutsList)
+		_config.Shortcuts = shortcuts.MergeShortcuts(
+			shortcutsList,
+			_config.Shortcuts,
+			func(target *shortcuts.Shortcut, source *shortcuts.Shortcut) {
+
+				// Merge relevant data
+				target.IconURL = source.IconURL
+				target.Logo = source.Logo
+				target.LogoURL = source.LogoURL
+				target.Cover = source.Cover
+				target.CoverURL = source.CoverURL
+				target.Banner = source.Banner
+				target.BannerURL = source.BannerURL
+				target.Hero = source.Hero
+				target.HeroURL = source.HeroURL
+				target.Platform = source.Platform
+				target.RelativePath = source.RelativePath
+
+				// Merge tags to not lose current ones
+				for _, tag := range source.Tags {
+					if !slices.Contains(target.Tags, tag) {
+						target.Tags = append(target.Tags, tag)
+					}
+				}
+
+			},
+			false,
+		)
 	}
 
 	return nil

@@ -209,11 +209,14 @@ func SortShortcuts(shortcuts []*Shortcut) ([]*Shortcut, error) {
 	return shortcuts, nil
 }
 
-// Merge shortcuts lists into one
-func MergeShortcuts(main []*Shortcut, extra []*Shortcut) []*Shortcut {
+// Merge callback with rules to apply between target and source
+type MergeCallback func(target *Shortcut, source *Shortcut)
 
-	// When match is detected, we always will prefer the extra content
-	// When has not match, append item to the list
+// Merge shortcuts lists into one
+func MergeShortcuts(main []*Shortcut, extra []*Shortcut, mergeCallback MergeCallback, appendWhenNotFound bool) []*Shortcut {
+
+	// When match is detected, call callback to merge data
+	// When has not match, it can append the item to the list if option is enabled
 	for _, item := range extra {
 		found := false
 		for _, existing := range main {
@@ -221,35 +224,12 @@ func MergeShortcuts(main []*Shortcut, extra []*Shortcut) []*Shortcut {
 				continue
 			}
 
-			// Get available data
-			existing.AppName = item.AppName
-			existing.StartDir = item.StartDir
-			existing.Exe = item.Exe
-			existing.LaunchOptions = item.LaunchOptions
-			existing.ShortcutPath = item.ShortcutPath
-			existing.Icon = item.Icon
-			existing.IsHidden = item.IsHidden
-			existing.AllowDesktopConfig = item.AllowDesktopConfig
-			existing.AllowOverlay = item.AllowOverlay
-			existing.OpenVR = item.OpenVR
-			existing.Devkit = item.Devkit
-			existing.DevkitGameID = item.DevkitGameID
-			existing.DevkitOverrideAppID = item.DevkitOverrideAppID
-			existing.FlatpakAppID = item.FlatpakAppID
-			existing.LastPlayTime = item.LastPlayTime
-
-			// Merge tags to not lose current ones
-			for _, tag := range item.Tags {
-				if !slices.Contains(existing.Tags, tag) {
-					existing.Tags = append(existing.Tags, tag)
-				}
-			}
-
+			mergeCallback(existing, item)
 			found = true
 			break
 		}
 
-		if !found {
+		if !found && appendWhenNotFound {
 			main = append(main, item)
 		}
 	}
