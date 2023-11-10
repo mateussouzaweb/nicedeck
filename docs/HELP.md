@@ -48,6 +48,7 @@ Available programs to install:
 | moonlight        | Moonlight                  |
 | pcsx2            | PCSX2                      |
 | ppsspp           | PPSSPP                     |
+| prontoplus       | ProtonPlus                 |
 | rpcs3            | RPCS3                      |
 | ryujinx          | Ryujinx                    |
 | simple64         | Simple64                   |

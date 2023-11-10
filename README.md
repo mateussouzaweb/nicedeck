@@ -99,6 +99,10 @@ Game Launchers:
 - [Heroic Games Launcher](https://heroicgameslauncher.com)
 - [Lutris](https://lutris.net)
 
+Utilities:
+
+- [ProntoPlus](https://github.com/Vysp3r/ProtonPlus)
+
 Console Emulators:
 
 - Microsoft Xbox - [Xemu](https://xemu.app)

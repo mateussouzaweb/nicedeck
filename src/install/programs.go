@@ -52,6 +52,7 @@ func GetPrograms() []*Program {
 	programs = append(programs, MoonlightGameStreaming())
 	programs = append(programs, PCSX2())
 	programs = append(programs, PPSSPP())
+	programs = append(programs, ProtonPlus())
 	programs = append(programs, RPCS3())
 	programs = append(programs, Ryujinx())
 	programs = append(programs, Simple64())
