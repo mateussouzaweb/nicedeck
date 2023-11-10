@@ -54,6 +54,11 @@ func Load() error {
 		return err
 	}
 
+	// Make sure zero config is ignored (this is not a valid user)
+	if strings.Contains(userConfigPaths[0], "/0/config") {
+		userConfigPaths = userConfigPaths[1:]
+	}
+
 	// Retrieve controller templates path
 	controllerTemplatesPaths, err := steam.GetPaths("controller_base/templates")
 	if err != nil {
