@@ -25,7 +25,9 @@ Open Steam Deck in ``Desktop Mode``, launch ``Konsole`` and type the command bel
 ```bash
 # Install the program
 curl https://mateussouzaweb.github.io/nicedeck/install | bash -
+```
 
+```bash
 # Make it available on current shell
 export PATH="$PATH:$HOME/.local/bin"
 ```
@@ -35,10 +37,14 @@ After the program has been installed, you can run the setup process:
 ```bash
 # Usage help
 nicedeck help
+```
 
+```bash
 # Install all programs
 nicedeck setup
+```
 
+```bash
 # Install specific programs only
 nicedeck install --programs=citra,yuzu
 ```
