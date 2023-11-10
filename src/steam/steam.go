@@ -28,8 +28,10 @@ func IsFlatpak() (bool, error) {
 	return false, nil
 }
 
-// Retrieve the full Steam path with given additional path
-func GetPath(path string) (string, error) {
+// Retrieve the full Steam paths with given additional pattern
+func GetPaths(pattern string) ([]string, error) {
+
+	var found = []string{}
 
 	// Fill possible locations
 	paths := []string{
@@ -44,28 +46,28 @@ func GetPath(path string) (string, error) {
 	for _, possiblePath := range paths {
 		exist, err := fs.DirectoryExist(possiblePath)
 		if err != nil {
-			return "", err
+			return found, err
 		} else if exist {
-			usePath = filepath.Join(possiblePath, path)
+			usePath = filepath.Join(possiblePath, pattern)
 			break
 		}
 	}
 
 	// Return error if not detected
 	if usePath == "" {
-		return "", fmt.Errorf("could not detect the Steam installation path")
+		return found, fmt.Errorf("could not detect the Steam installation path")
 	}
 
 	// Try to detect the path
 	found, err := filepath.Glob(usePath)
 	if err != nil {
-		return "", err
+		return found, err
 	}
 
 	if len(found) == 0 {
-		return "", fmt.Errorf("could not found the Steam installation path: %s", usePath)
+		return found, fmt.Errorf("could not found the Steam installation path: %s", usePath)
 	}
 
 	// Will return only the first result
-	return found[0], nil
+	return found, nil
 }

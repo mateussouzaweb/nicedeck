@@ -30,7 +30,7 @@ var _config *Config
 func Load() error {
 
 	// Retrieve Steam base path
-	steamPath, err := steam.GetPath("")
+	steamPaths, err := steam.GetPaths("")
 	if err != nil {
 		return err
 	}
@@ -49,13 +49,13 @@ func Load() error {
 	}
 
 	// Retrieve user config path
-	userConfigPath, err := steam.GetPath("userdata/*/config")
+	userConfigPaths, err := steam.GetPaths("userdata/*/config")
 	if err != nil {
 		return err
 	}
 
 	// Retrieve controller templates path
-	controllerTemplatesPath, err := steam.GetPath("controller_base/templates")
+	controllerTemplatesPaths, err := steam.GetPaths("controller_base/templates")
 	if err != nil {
 		return err
 	}
@@ -63,9 +63,9 @@ func Load() error {
 	// Set runtime configs
 	_config = &Config{}
 	_config.IsFlatpak = isFlatpak
-	_config.SteamPath = steamPath
-	_config.UserConfigPath = userConfigPath
-	_config.ControllerTemplatesPath = controllerTemplatesPath
+	_config.SteamPath = steamPaths[0]
+	_config.UserConfigPath = userConfigPaths[0]
+	_config.ControllerTemplatesPath = controllerTemplatesPaths[0]
 
 	// Load config file if exist
 	exist, err := fs.FileExist(_config.UserConfigPath + "/niceconfig.json")
