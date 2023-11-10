@@ -63,7 +63,7 @@ func runSetup() error {
 	}
 
 	cli.Printf(cli.ColorSuccess, "All programs installed!\n")
-	cli.Printf(cli.ColorNotice, "Please restart the device to changes take effect.\n")
+	cli.Printf(cli.ColorNotice, "Please restart Steam or the device to changes take effect.\n")
 
 	return nil
 }
@@ -105,7 +105,7 @@ func runInstall() error {
 	}
 
 	cli.Printf(cli.ColorSuccess, "Process finished!\n")
-	cli.Printf(cli.ColorNotice, "Please restart the device to changes take effect.\n")
+	cli.Printf(cli.ColorNotice, "Please restart Steam or the device to changes take effect.\n")
 
 	return nil
 }

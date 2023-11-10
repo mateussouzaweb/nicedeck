@@ -43,7 +43,7 @@ nicedeck setup
 nicedeck install --programs=citra,yuzu
 ```
 
-*Note:* Restart Steam to changes take effect into ``Steam Library``.
+*Note:* Restart Steam or the device to changes take effect into ``Steam Library``.
 
 ## Important Notes
 
