@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 
 	"github.com/mateussouzaweb/nicedeck/docs"
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -161,8 +163,8 @@ func listShortcuts() error {
 	return nil
 }
 
-// Main command
-func main() {
+// Run program
+func runProgram() error {
 
 	args := os.Args[1:]
 	subCommand := cli.Arg(args, "0", "")
@@ -188,9 +190,36 @@ func main() {
 		err = fmt.Errorf("unknown command: %s", subCommand)
 	}
 
-	if err != nil {
-		cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
-		return
-	}
+	return err
+}
 
+// Main command
+func main() {
+
+	// Exit with proper code
+	exitCode := 0
+	defer os.Exit(exitCode)
+
+	// Graceful shutdown support
+	exit := make(chan os.Signal, 1)
+	done := make(chan bool, 1)
+
+	signal.Notify(exit, os.Interrupt, syscall.SIGTERM)
+
+	// Capture exit (CTRL-C)
+	go func() {
+		<-exit
+		done <- true
+	}()
+
+	// Run the program
+	go func() {
+		if err := runProgram(); err != nil {
+			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
+			exitCode = 1
+		}
+		done <- true
+	}()
+
+	<-done
 }
