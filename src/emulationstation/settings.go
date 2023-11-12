@@ -12,8 +12,8 @@ import (
 //go:embed resources/*
 var resourcesContent embed.FS
 
-// Write configs for EmulationStation
-func WriteConfigs() error {
+// Write settings for EmulationStation
+func WriteSettings() error {
 
 	// Replace special variables
 	replaceVars := func(content []byte) []byte {

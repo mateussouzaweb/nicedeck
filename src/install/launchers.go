@@ -52,8 +52,8 @@ func EmulationStationDE() *Program {
 			return err
 		}
 
-		// Write configs
-		err = emulationstation.WriteConfigs()
+		// Write settings
+		err = emulationstation.WriteSettings()
 		if err != nil {
 			return err
 		}
