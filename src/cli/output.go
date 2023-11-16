@@ -2,8 +2,12 @@ package cli
 
 import (
 	"fmt"
+	"io"
 	"os"
 )
+
+// Output
+var output io.Writer = os.Stdout
 
 // Colors
 var (
@@ -23,16 +27,21 @@ var (
 	ColorSuccess = ColorGreen
 )
 
-// NoColor check if should avoid color output on console
+// Output set the destination for console messages
+func Output(writter io.Writer) {
+	output = writter
+}
+
+// NoColor check if should avoid color output on console messages
 func NoColor() bool {
 	return os.Getenv("NO_COLOR") != "" || os.Getenv("CLICOLOR") == "0"
 }
 
-// Print displays a info to standard output
+// Print a message to console output with color level
 func Printf(color string, format string, args ...any) {
 	if NoColor() {
-		fmt.Printf(format, args...)
+		fmt.Fprintf(output, format, args...)
 	} else {
-		fmt.Printf(color+format+ColorReset, args...)
+		fmt.Fprintf(output, color+format+ColorReset, args...)
 	}
 }
