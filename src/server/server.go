@@ -1,31 +1,23 @@
 package server
 
 import (
-	"embed"
 	"errors"
 	"io/fs"
 	"net/http"
 	"path/filepath"
 	"strings"
-)
 
-//go:embed resources/*
-var resourcesContent embed.FS
+	"github.com/mateussouzaweb/nicedeck/frontend"
+)
 
 // Start the server with given address.
 // Server will serve static resource files by default.
 // Add routes before starting it for more endpoints
 func Start(address string) error {
 
-	// Open file tree with static resources content
-	resourcesFS := fs.FS(resourcesContent)
-	resourcesSub, err := fs.Sub(resourcesFS, "resources")
-	if err != nil {
-		return err
-	}
-
-	// Create file server for static content
-	static := http.FileServer(http.FS(resourcesSub))
+	// Open fs and http handle for static content
+	staticFS := frontend.GetStaticFS()
+	staticHandler := http.FileServer(http.FS(staticFS))
 
 	// Attach server handle
 	mux := http.NewServeMux()
@@ -62,7 +54,7 @@ func Start(address string) error {
 
 		// Check if file exist as directories where discarded in previous line
 		// NOTE: uri will always make sure it is a file, so we do not need to check for
-		file, err := resourcesSub.Open(strings.TrimPrefix(uri, "/"))
+		file, err := staticFS.Open(strings.TrimPrefix(uri, "/"))
 		if err != nil {
 			// Not found when file is not detected
 			if errors.Is(err, fs.ErrNotExist) {
@@ -79,7 +71,7 @@ func Start(address string) error {
 		defer file.Close()
 
 		// Server static files
-		static.ServeHTTP(context.Response, context.Request)
+		staticHandler.ServeHTTP(context.Response, context.Request)
 	})
 
 	return http.ListenAndServe(address, mux)

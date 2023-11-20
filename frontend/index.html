@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <title>NiceDeck</title>
+    <link rel="shortcut icon" href="./img/favicon.png" type="image/png">
+
+    <link rel="stylesheet" href="./styles/app.css">
+    <link rel="stylesheet" href="./styles/console.css">
+    <link rel="stylesheet" href="./styles/form.css">
+    <link rel="stylesheet" href="./styles/header.css">
+    <link rel="stylesheet" href="./styles/nav.css">
+    <link rel="stylesheet" href="./styles/shortcuts.css">
+    <link rel="stylesheet" href="./styles/tabs.css">
+
+</head>
+<body>
+
+    <header class="centered">
+        <div id="logo">
+            <img src="./img/logo.svg" alt="NiceDeck" />
+        </div>
+
+        <div id="version"></div>
+        <div id="shutdown">&#x2716;</div>
+    </header>
+
+    <nav class="centered">
+        <h1>Welcome to NiceDeck</h1>
+        <p>Select the desired option to execute:</p>
+
+        <ul class="tabs">
+            <li data-tab="setup">
+                <span>Setup</span>
+            </li>
+            <li data-tab="install">
+                <span>Install / Update</span>
+            </li>
+            <li data-tab="roms">
+                <span>Process ROMs</span>
+            </li>
+            <li data-tab="shortcuts">
+                <span>Shortcuts</span>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="centered">
+        <section class="tab" id="setup">
+            <form action="#">
+                <div class="group">
+                    <p>Install to MicroSD?</p>
+                    <label class="inline radio">
+                        <input type="radio" name="microsd_install" value="Y" />
+                        <span>Yes</span>
+                    </label>
+                    <label class="inline radio">
+                        <input type="radio" name="microsd_install" value="N" checked="checked" />
+                        <span>No</span>
+                    </label>
+                </div>
+                <div class="group">
+                    <label for="microsd-path">MicroSD path:</label>
+                    <input type="text" name="microsd_path" id="microsd-path" value="/media/run/mmcblk0p1" />
+                </div>
+                <div class="actions">
+                    <button type="submit">Run Setup</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="tab" id="install">
+            <form action="#">
+                <div class="group">
+                    <p>Please select the programs to install or update:</p>
+
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="bottles" checked="checked" />
+                        <span>Bottles</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="cemu" checked="checked" />
+                        <span>Cemu</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="chiaki" checked="checked" />
+                        <span>Chiaki</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="citra" checked="checked" />
+                        <span>Citra</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="dolphin" checked="checked" />
+                        <span>Dolphin Emulator</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="duckstation" checked="checked" />
+                        <span>DuckStation</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="emulationstation" checked="checked" />
+                        <span>EmulationStation DE</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="firefox" checked="checked" />
+                        <span>Firefox</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="flycast" checked="checked" />
+                        <span>Flycast</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="google-chrome" checked="checked" />
+                        <span>Google Chrome</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="heroic-games" checked="checked" />
+                        <span>Heroic Games Launcher</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="jellyfin" checked="checked" />
+                        <span>Jellyfin Media Player</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="lutris" checked="checked" />
+                        <span>Lutris</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="melonds" checked="checked" />
+                        <span>MelonDS</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="mgba" checked="checked" />
+                        <span>mGBA</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="microsoft-edge" checked="checked" />
+                        <span>Microsoft Edge</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="moonlight" checked="checked" />
+                        <span>Moonlight</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="pcsx2" checked="checked" />
+                        <span>PCSX2</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="ppsspp" checked="checked" />
+                        <span>PPSSPP</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="protonplus" checked="checked" />
+                        <span>ProtonPlus</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="rpcs3" checked="checked" />
+                        <span>RPCS3</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="ryujinx" checked="checked" />
+                        <span>Ryujinx</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="simple64" checked="checked" />
+                        <span>Simple64</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="xemu" checked="checked" />
+                        <span>Xemu</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="programs[]" value="yuzu" checked="checked" />
+                        <span>Yuzu</span>
+                    </label>
+                </div>
+                <div class="actions">
+                    <button type="submit">Install Selected</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="tab" id="roms">
+            <form action="#">
+                <div class="group">
+                    <p>Please select the platforms to process:</p>
+
+                    <label class="inline">
+                        <input type="checkbox" name="platforms[]" value="XBOX" checked="checked" />
+                        <span>Microsoft Xbox</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="platforms[]" value="3DS" checked="checked" />
+                        <span>Nintendo 3DS</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="platforms[]" value="N64" checked="checked" />
+                        <span>Nintendo 64</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="platforms[]" value="NDS" checked="checked" />
+                        <span>Nintendo DS</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="platforms[]" value="GBA" checked="checked" />
+                        <span>Nintendo Game Boy Advance</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="platforms[]" value="GC" checked="checked" />
+                        <span>Nintendo GameCube</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="platforms[]" value="SWITCH" checked="checked" />
+                        <span>Nintendo Switch</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="platforms[]" value="WII" checked="checked" />
+                        <span>Nintendo Wii</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="platforms[]" value="WIIU" checked="checked" />
+                        <span>Nintendo Wii U</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="platforms[]" value="DC" checked="checked" />
+                        <span>Sega Dreamcast</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="platforms[]" value="PS1" checked="checked" />
+                        <span>Sony Playstation 1</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="platforms[]" value="PS2" checked="checked" />
+                        <span>Sony Playstation 2</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="platforms[]" value="PS3" checked="checked" />
+                        <span>Sony Playstation 3</span>
+                    </label>
+                    <label class="inline">
+                        <input type="checkbox" name="platforms[]" value="PSP" checked="checked" />
+                        <span>Sony Playstation Portable</span>
+                    </label>
+                </div>
+                <div class="group">
+                    <p>Additional options:</p>
+                    <label class="inline radio">
+                        <input type="checkbox" name="rebuild" value="Y" />
+                        <span>Rebuild</span>
+                    </label>
+                    <label class="inline radio">
+                        <input type="checkbox" name="preferences[]" value="use-ryujinx" />
+                        <span>Use Ryujinx</span>
+                    </label>
+                </div>
+                <div class="actions">
+                    <button type="submit">Process ROMs</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="tab" id="shortcuts">
+            <form action="#">
+                <div class="actions">
+                    <button type="button" id="load">Load Shortcuts</button>
+                </div>
+            </form>
+            <div id="list">
+                <div class="item">
+                    <p>Shortcuts will be visible here...</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <aside class="centered">
+        <div id="console">
+            <div id="toolbar">
+                <div id="icon">>_</div>
+                <button id="clear" type="button">Clear</button>
+            </div>
+            <div id="content"></div>
+            <div id="anchor"></div>
+        </div>
+    </aside>
+
+    <script type="text/javascript" src="./scripts/app.js"></script>
+    <script type="text/javascript" src="./scripts/console.js"></script>
+    <script type="text/javascript" src="./scripts/install.js"></script>
+    <script type="text/javascript" src="./scripts/roms.js"></script>
+    <script type="text/javascript" src="./scripts/setup.js"></script>
+    <script type="text/javascript" src="./scripts/shortcuts.js"></script>
+    <script type="text/javascript" src="./scripts/shutdown.js"></script>
+    <script type="text/javascript" src="./scripts/tabs.js"></script>
+    <script type="text/javascript" src="./scripts/version.js"></script>
+
+</body>
+</html>

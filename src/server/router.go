@@ -7,6 +7,9 @@ import (
 // Handle function
 type Handler func(context *Context) error
 
+// Middleware function
+type Middleware = func(next Handler) Handler
+
 // Route struct
 type Route struct {
 	Method   string
@@ -15,9 +18,22 @@ type Route struct {
 }
 
 var routes []*Route
+var middlewares []Middleware
+
+// Use middleware in routers
+func Use(middleware Middleware) {
+	middlewares = append(middlewares, middleware)
+}
 
 // Add route to server
 func Add(method string, endpoint string, handler Handler) {
+
+	// Apply middlewares
+	for i := range middlewares {
+		handler = middlewares[len(middlewares)-1-i](handler)
+	}
+
+	// Append route
 	routes = append(routes, &Route{
 		Method:   strings.ToUpper(method),
 		Endpoint: endpoint,

@@ -10,7 +10,7 @@ import (
 )
 
 // Ensure folder structure to install programs
-func Structure() error {
+func Structure(installOnMicroSD bool, microSDPath string) error {
 
 	// Check for the presence of games folder in home
 	// If exist, then is ok and we can skip
@@ -24,8 +24,7 @@ func Structure() error {
 
 	// Check if must install it on microSD
 	// If not, then just create the base games folder structure on home
-	installOnMicroSD := cli.Read("INSTALL_ON_MICROSD", "Install on MicroSD? Y/N", "N")
-	if strings.ToUpper(installOnMicroSD) != "Y" {
+	if !installOnMicroSD {
 		err := cli.Command(`
 			mkdir -p $HOME/Games/BIOS
 			mkdir -p $HOME/Games/ROMs
@@ -39,8 +38,7 @@ func Structure() error {
 		return nil
 	}
 
-	// Get microSD path to install on it
-	microSDPath := cli.Read("MICROSD_PATH", "What is the path of the MicroSD?", "/run/media/mmcblk0p1")
+	// Get microSD path to perform install
 	microSDPath = strings.TrimRight(microSDPath, "/")
 
 	// Make symlinks

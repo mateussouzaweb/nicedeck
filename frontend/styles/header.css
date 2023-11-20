@@ -1,0 +1,34 @@
+header {
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+header #logo {
+    flex: 1;
+    max-width: 200px;
+}
+header #logo img {
+    height: auto;
+    width: 100%;
+}
+
+header #version {
+    flex: 0;
+    font-size: 14px;
+    margin-left: auto;
+    padding: 5px 10px;
+    white-space: nowrap;
+}
+
+header #shutdown {
+    background: #000;
+    border-radius: 5px;
+    color: #FFF;
+    cursor: pointer;
+    flex: 0;
+    padding: 5px 10px;
+    text-align: center;
+    vertical-align: middle;
+}

@@ -2,7 +2,6 @@ package roms
 
 import (
 	"slices"
-	"strings"
 )
 
 // Options struct
@@ -13,20 +12,16 @@ type Options struct {
 }
 
 // Transform values into valid options
-func ToOptions(platforms string, preferences string, rebuild bool) *Options {
+func ToOptions(platforms []string, preferences []string, rebuild bool) *Options {
 
 	options := Options{
+		Platforms:  platforms,
 		Rebuild:    rebuild,
 		UseRyujinx: false,
 	}
 
-	if platforms != "" {
-		options.Platforms = strings.Split(strings.ToUpper(platforms), ",")
-	}
-
-	if preferences != "" {
-		keys := strings.Split(preferences, ",")
-		if slices.Contains(keys, "use-ryujinx") {
+	if len(preferences) > 0 {
+		if slices.Contains(preferences, "use-ryujinx") {
 			options.UseRyujinx = true
 		}
 	}

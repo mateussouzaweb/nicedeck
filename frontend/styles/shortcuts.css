@@ -1,0 +1,16 @@
+#shortcuts #list {
+    display: flex;
+    flex-flow: row wrap;
+}
+#shortcuts #list .item {
+    flex: 0 0 25%;
+    padding: 5px;
+}
+#shortcuts #list .item img {
+    height: auto;
+    width: 100%;
+}
+#shortcuts #list .item h4 {
+    margin: 0;
+    padding: 0;
+}

@@ -1,0 +1,9 @@
+nav {
+    display: block;
+}
+nav h1 {
+    margin: 0;
+}
+nav p {
+    margin: 0 0 10px;
+}

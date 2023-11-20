@@ -1,0 +1,51 @@
+form p {
+    margin-top: 0;
+}
+form .group {
+    display: block;
+    margin-bottom: 10px;
+}
+form .group label {
+    display: block;
+    margin-bottom: 5px;
+}
+form .group label.inline {
+    display: inline-block;
+    margin-right: 5px;
+    min-width: 30%;
+    vertical-align: middle;
+}
+form .group label.radio {
+    min-width: auto;
+}
+
+form .group input[type="text"] {
+    background: #FFF;
+    border: 1px solid #000;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 100%;
+    outline: 0;
+    padding: 10px 15px;
+}
+
+form .actions {
+    display: block;
+    margin-top: 20px;
+}
+form .actions:first-child {
+    margin-top: 0;
+}
+form .actions button {
+    background: #000;
+    border: 0;
+    border-radius: 5px;
+    color: #FFF;
+    cursor: pointer;
+    flex: 0 0 auto;
+    font-weight: bold;
+    padding: 15px 25px;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+}
