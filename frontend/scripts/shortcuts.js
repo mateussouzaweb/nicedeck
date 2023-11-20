@@ -1,21 +1,30 @@
 // Shortcuts
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
 
-    on('#shortcuts #load', 'click', async () => {
-        const result = await request('GET', '/api/shortcuts')
-        const data = JSON.parse(result || '[]')
-        const items = data.map((item) => {
-            return `<div class="item">
-                <img loading="lazy" src="${item.coverUrl}" alt="${item.appName}" width="600" height="900"/><br/>
-                <small>${item.appId}</small><br/>
-                <h4>${item.appName}</h4>
-                ${item.platform}
-                ${item.platform ? '<br/>' : ''}
-            </div>`
+    async function loadShortcuts(){
+
+        /** @type {Shortcut[]} */
+        const shortcuts = await requestJson('GET', '/api/shortcuts')
+        const items = shortcuts.map((shortcut) => {
+            return `<article class="item">
+                <img loading="lazy" src="${shortcut.coverUrl}" alt="${shortcut.appName}" width="600" height="900"/><br/>
+                <small>${shortcut.appId}</small><br/>
+                <h4>${shortcut.appName}</h4>
+                ${shortcut.platform}
+                ${shortcut.platform ? '<br/>' : ''}
+            </article>`
         })
 
-        const list = $('#shortcuts #list')
-        list.innerHTML = items.join('')
+        const destination = $('#shortcuts #list')
+        destination.innerHTML = items.join('')
+
+    }
+
+    on('#shortcuts #load', 'click', async (event) => {
+        event.preventDefault()
+        await loadShortcuts()
     })
+
+    await loadShortcuts()
 
 })

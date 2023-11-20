@@ -1,5 +1,5 @@
 // Console output
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
 
     let timeout = null
 
@@ -13,11 +13,13 @@ window.addEventListener('load', () => {
         timeout = window.setTimeout(fetchConsoleOutput, 1000)
     }
 
-    on('#console #clear', 'click', async () => {
+    on('#console #clear', 'click', async (event) => {
+        event.preventDefault()
+
         await request('GET', '/api/clear')
-        fetchConsoleOutput()
+        await fetchConsoleOutput()
     })
 
-    fetchConsoleOutput()
+    await fetchConsoleOutput()
 
 })

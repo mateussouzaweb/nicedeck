@@ -64,3 +64,16 @@ async function request(method, endpoint, data){
     const result = await response.text()
     return result
 }
+
+/**
+ * Make API request and return JSON output
+ * @param {String} method 
+ * @param {String} endpoint 
+ * @param {FormData} data 
+ * @returns 
+ */
+async function requestJson(method, endpoint, data){
+    const result = await request(method, endpoint, data)
+    const json = JSON.parse(result || '{}')
+    return json
+}
