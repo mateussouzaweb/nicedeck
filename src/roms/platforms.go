@@ -86,14 +86,6 @@ func GetPlatforms(options *Options) []*Platform {
 		LaunchOptions: "-f -g \"${ROM}\"",
 	})
 
-	platforms = append(platforms, &Platform{
-		Name:          "SWITCH",
-		Console:       "Nintendo Switch",
-		Emulator:      "org.yuzu_emu.yuzu",
-		Extensions:    "nca .nro .nso .nsp .xci",
-		LaunchOptions: "-f -g \"${ROM}\"",
-	})
-
 	if !options.UseRyujinx {
 		platforms = append(platforms, &Platform{
 			Name:          "SWITCH",
