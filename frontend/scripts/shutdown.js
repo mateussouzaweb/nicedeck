@@ -1,9 +1,9 @@
 // Shutdown support
 window.addEventListener('load', async () => {
 
-    on('#shutdown', 'click', async (event) => {
+    on('#shutdown', 'click', (event) => {
         event.preventDefault()
-        await request('POST', '/app/shutdown')
+        request('POST', '/app/shutdown')
 
         window.setTimeout(() =>{
             window.close()

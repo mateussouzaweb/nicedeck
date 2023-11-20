@@ -7,7 +7,7 @@ header {
 
 header #logo {
     flex: 1;
-    max-width: 200px;
+    max-width: 180px;
 }
 header #logo img {
     height: auto;
@@ -21,6 +21,10 @@ header #version {
     padding: 5px 10px;
     white-space: nowrap;
 }
+header #version a {
+    color: #000;
+    text-decoration: none;
+}
 
 header #shutdown {
     background: #000;
@@ -31,4 +35,5 @@ header #shutdown {
     padding: 5px 10px;
     text-align: center;
     vertical-align: middle;
+    white-space: nowrap;
 }

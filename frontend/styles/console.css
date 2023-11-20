@@ -35,7 +35,7 @@
     font-family: 'Courier New', Courier, monospace;
     line-height: 130%;
     max-height: 300px;
-    min-height: 200px;
+    min-height: 100px;
     overflow-x: hidden;
     overflow-y: auto;
     padding: 0 15px 15px;

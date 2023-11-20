@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="./styles/console.css">
     <link rel="stylesheet" href="./styles/form.css">
     <link rel="stylesheet" href="./styles/header.css">
+    <link rel="stylesheet" href="./styles/install.css">
     <link rel="stylesheet" href="./styles/nav.css">
+    <link rel="stylesheet" href="./styles/roms.css">
     <link rel="stylesheet" href="./styles/shortcuts.css">
     <link rel="stylesheet" href="./styles/tabs.css">
 
@@ -22,8 +24,11 @@
             <img src="./img/logo.svg" alt="NiceDeck" />
         </div>
 
-        <div id="version"></div>
-        <div id="shutdown">&#x2716;</div>
+        <div id="version">
+            <a href="https://github.com/mateussouzaweb/nicedeck"
+                target="_blank" title="Visit Project">Loading...</a>
+        </div>
+        <div id="shutdown" title="Shutdown">&#x2716;</div>
     </header>
 
     <nav class="centered">
@@ -47,15 +52,16 @@
     </nav>
 
     <main class="centered">
+
         <section class="tab" id="setup">
             <form action="#">
                 <div class="group">
                     <p>Install to MicroSD?</p>
-                    <label class="inline radio">
+                    <label class="radio">
                         <input type="radio" name="microsd_install" value="Y" />
                         <span>Yes</span>
                     </label>
-                    <label class="inline radio">
+                    <label class="radio">
                         <input type="radio" name="microsd_install" value="N" checked="checked" />
                         <span>No</span>
                     </label>
@@ -65,7 +71,10 @@
                     <input type="text" name="microsd_path" id="microsd-path" value="/media/run/mmcblk0p1" />
                 </div>
                 <div class="actions">
-                    <button type="submit">Run Setup</button>
+                    <button type="submit">
+                        <span>Run Setup</span>
+                        <span>Processing...</span>
+                    </button>
                 </div>
             </form>
         </section>
@@ -74,10 +83,18 @@
             <form action="#">
                 <div class="group">
                     <p>Please select the programs to install or update:</p>
+                    <p class="mass-actions">
+                        <span class="select-all">SELECT ALL</span>
+                        <span class="separator">/</span>
+                        <span class="clear-all">CLEAR</span>
+                    </p>
                     <div id="programs"></div>
                 </div>
                 <div class="actions">
-                    <button type="submit">Install Selected</button>
+                    <button type="submit">
+                        <span>Install Selected</span>
+                        <span>Processing...</span>
+                    </button>
                 </div>
             </form>
         </section>
@@ -86,21 +103,29 @@
             <form action="#">
                 <div class="group">
                     <p>Please select the platforms to process:</p>
+                    <p class="mass-actions">
+                        <span class="select-all">SELECT ALL</span>
+                        <span class="separator">/</span>
+                        <span class="clear-all">CLEAR</span>
+                    </p>
                     <div id="platforms"></div>
                 </div>
                 <div class="group">
                     <p>Additional options:</p>
-                    <label class="inline radio">
+                    <label class="radio">
                         <input type="checkbox" name="rebuild" value="Y" />
                         <span>Rebuild</span>
                     </label>
-                    <label class="inline radio">
+                    <label class="radio">
                         <input type="checkbox" name="preferences[]" value="use-ryujinx" />
                         <span>Use Ryujinx</span>
                     </label>
                 </div>
                 <div class="actions">
-                    <button type="submit">Process ROMs</button>
+                    <button type="submit">
+                        <span>Process ROMs</span>
+                        <span>Processing...</span>
+                    </button>
                 </div>
             </form>
         </section>
@@ -108,7 +133,10 @@
         <section class="tab" id="shortcuts">
             <form action="#">
                 <div class="actions">
-                    <button type="button" id="load">Refresh Shortcuts</button>
+                    <button type="button" id="load">
+                        <span>Refresh Shortcuts</span>
+                        <span>Loading...</span>
+                    </button>
                 </div>
             </form>
             <div id="list"></div>

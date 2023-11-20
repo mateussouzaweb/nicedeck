@@ -1,0 +1,18 @@
+#roms .mass-actions {
+    font-size: 85%;
+}
+#roms .mass-actions .select-all,
+#roms .mass-actions .clear-all {
+    cursor: pointer;
+}
+#roms .mass-actions .separator {
+    display: inline-block;
+    opacity: 0.15;
+    padding: 0 5px;
+}
+
+#roms #platforms {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0 -5px;
+}

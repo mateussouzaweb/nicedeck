@@ -1,34 +1,11 @@
 form p {
     margin-top: 0;
 }
+
 form .group {
     display: block;
     margin-bottom: 10px;
 }
-form .group label {
-    display: block;
-    margin-bottom: 5px;
-}
-form .group label.inline {
-    display: inline-block;
-    margin-right: 5px;
-    min-width: 30%;
-    vertical-align: middle;
-}
-form .group label.radio {
-    min-width: auto;
-}
-
-form .group input[type="text"] {
-    background: #FFF;
-    border: 1px solid #000;
-    border-radius: 4px;
-    font-family: inherit;
-    font-size: 100%;
-    outline: 0;
-    padding: 10px 15px;
-}
-
 form .actions {
     display: block;
     margin-top: 20px;
@@ -36,7 +13,124 @@ form .actions {
 form .actions:first-child {
     margin-top: 0;
 }
-form .actions button {
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+form label.inline {
+    display: inline-block;
+    margin-right: 5px;
+    min-width: 30%;
+    vertical-align: middle;
+}
+
+form label.radio {
+    display: inline-block;
+    min-width: auto;
+    position: relative;
+    vertical-align: middle;
+}
+form label.radio input {
+    left: 7px;
+    position: absolute;
+    top: 8px;
+    z-index: 2;
+}
+form label.radio input[type="checkbox"] {
+    left: 8px;
+}
+form label.radio span {
+    align-items: center;
+    border: 2px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    flex-flow: row wrap;
+    height: 100%;
+    justify-content: space-between;
+    padding: 5px 10px 5px 40px;
+}
+form label.radio span::before {
+    background: rgba(0, 0, 0, 0.05);
+    border-right: 1px solid rgba(0, 0, 0, 0.15);
+    bottom: 2px;
+    content: '';
+    display: block;
+    left: 2px;
+    position: absolute;
+    top: 2px;
+    width: 33px;
+}
+form label.radio span:hover {
+    box-shadow: 1px 1px 5px rgba(111, 44, 130, 0.25) 
+}
+form label.radio input:checked {
+    opacity: 1;
+}
+form label.radio input:checked + span {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+form label.checkbox {
+    flex: 1;
+    flex-basis: 33.33%;
+    margin: 0;
+    max-width: 33.33%;
+    padding: 5px;
+    position: relative;
+}
+form label.checkbox input {
+    left: 5px;
+    opacity: 0;
+    position: absolute;
+    top: 6px;
+}
+form label.checkbox .area {
+    align-items: center;
+    border: 2px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    flex-flow: row wrap;
+    height: 100%;
+    justify-content: space-between;
+}
+form label.checkbox .area .icon {
+    align-items: center;
+    align-self: stretch;
+    background-color: #000;
+    display: flex;
+    flex: 0;
+    justify-content: center;
+    padding: 10px;
+}
+form label.checkbox .area .info {
+    flex: 1;
+    padding: 10px;
+}
+form label.checkbox .area:hover {
+    box-shadow: 1px 1px 5px rgba(111, 44, 130, 0.25) 
+}
+form label.checkbox input:checked {
+    opacity: 1;
+}
+form label.checkbox input:checked + .area {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+form input[type="text"] {
+    background: #FFF;
+    border: 2px solid #000;
+    border-radius: 4px;
+    box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.25);
+    font-family: inherit;
+    font-size: 100%;
+    outline: 0;
+    padding: 10px 15px;
+}
+
+form button {
     background: #000;
     border: 0;
     border-radius: 5px;
@@ -48,4 +142,13 @@ form .actions button {
     text-align: center;
     vertical-align: middle;
     width: 100%;
+}
+form button span:nth-child(2){
+    display: none;
+}
+form button[disabled] span:nth-child(1){
+    display: none;
+}
+form button[disabled] span:nth-child(2){
+    display: block;
 }

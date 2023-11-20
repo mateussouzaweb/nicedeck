@@ -1,5 +1,7 @@
 nav {
     display: block;
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
 }
 nav h1 {
     margin: 0;

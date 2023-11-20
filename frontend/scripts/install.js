@@ -6,9 +6,17 @@ window.addEventListener('load', async () => {
         /** @type {Program[]} */
         const programs = await requestJson('GET', '/api/programs')
         const options = programs.map((program) => {
-            return `<label class="inline">
-                <input type="checkbox" name="programs[]" value="${program.id}" checked="checked" />
-                <span>${program.name}</span>
+            return `<label class="checkbox">
+                <input type="checkbox" name="programs[]" value="${program.id}" />
+                <div class="area">
+                    <div class="icon">
+                        <img loading="lazy" src="${program.iconUrl}" width="48" height="48" />
+                    </div>
+                    <div class="info">
+                        <b>${program.name}</b><br/>
+                        <small>${program.description}</small>
+                    </div>
+                </div>
             </label>`
         })
 
@@ -17,12 +25,35 @@ window.addEventListener('load', async () => {
 
     }
 
+    on('#install .select-all', 'click', (event) => {
+        event.preventDefault()
+        const parent = event.target.closest('.group')
+        const inputs = $$('input[type="checkbox"]', parent)
+        inputs.map((input) => input.checked = "checked")
+    })
+
+    on('#install .clear-all', 'click', (event) => {
+        event.preventDefault()
+        const parent = event.target.closest('.group')
+        const inputs = $$('input[type="checkbox"]', parent)
+        inputs.map((input) => input.checked = "")
+    })
+
     on('#install form', 'submit', async (event) => {
         event.preventDefault();
 
         const form = $('#install form')
         const data = new FormData(form)
-        await request('POST', '/api/install', data)
+        const button = $('button[type="submit"]', form)
+
+        try {
+            button.disabled = true
+            window.watchConsoleOutput()
+            await request('POST', '/api/install', data)
+        } finally {
+            window.stopConsoleOutput()
+            button.disabled = false
+        }
     })
 
     await loadPrograms()
