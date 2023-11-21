@@ -1,10 +1,21 @@
 // Console output
 window.addEventListener('load', async () => {
 
-    let timeout = null
+    async function runAndCaptureConsole(callback){
+        let interval = null
+        try {
+            await request('POST', '/api/console/capture')
+            interval = window.setInterval(fetchConsoleOutput, 2000)
+            await callback()
+        } finally {
+            window.clearInterval(interval)
+            await request('POST', '/api/console/release')
+            await fetchConsoleOutput()
+        }
+    }
 
     async function fetchConsoleOutput(){
-        const result = await request('GET', '/api/console')
+        const result = await request('GET', '/api/console/output')
         writeConsoleOutput(result)
     }
 
@@ -14,25 +25,13 @@ window.addEventListener('load', async () => {
         content.scrollTop = content.scrollHeight;
     }
 
-    async function watchConsoleOutput(){
-        await fetchConsoleOutput()
-        timeout = window.setTimeout(watchConsoleOutput, 2000)
-    }
-
-    async function stopConsoleOutput() {
-        window.clearTimeout(timeout)
-    }
-
     on('#console #clear', 'click', async (event) => {
         event.preventDefault()
 
-        await request('GET', '/api/clear')
+        await request('POST', '/api/console/clear')
         await fetchConsoleOutput()
     })
 
-    window.fetchConsoleOutput = fetchConsoleOutput
-    window.writeConsoleOutput = writeConsoleOutput
-    window.watchConsoleOutput = watchConsoleOutput
-    window.stopConsoleOutput = stopConsoleOutput
+    window.runAndCaptureConsole = runAndCaptureConsole
 
 })

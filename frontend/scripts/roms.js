@@ -48,10 +48,10 @@ window.addEventListener('load', async () => {
 
         try {
             button.disabled = true
-            window.watchConsoleOutput()
-            await request('POST', '/api/roms', data)
+            window.runAndCaptureConsole(async () => {
+                await request('POST', '/api/roms', data)
+            })
         } finally {
-            window.stopConsoleOutput()
             button.disabled = false
         }
     })

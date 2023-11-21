@@ -48,10 +48,10 @@ window.addEventListener('load', async () => {
 
         try {
             button.disabled = true
-            window.watchConsoleOutput()
-            await request('POST', '/api/install', data)
+            window.runAndCaptureConsole(async () => {
+                await request('POST', '/api/install', data)
+            })
         } finally {
-            window.stopConsoleOutput()
             button.disabled = false
         }
     })

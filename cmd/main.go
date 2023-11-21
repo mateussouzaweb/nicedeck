@@ -217,24 +217,16 @@ func main() {
 		})
 
 		// Logger middleware
-		var buffer bytes.Buffer
-
 		server.Use(func(next server.Handler) server.Handler {
-			noColor := os.Getenv("NO_COLOR")
 			return func(context *server.Context) error {
-				// Set logger to buffer
-				cli.Output(&buffer)
-				os.Setenv("NO_COLOR", "1")
 
 				// Run handler
 				err := next(context)
+
+				// Print message when there is error
 				if err != nil {
 					cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 				}
-
-				// Restore logger to stdout
-				os.Setenv("NO_COLOR", noColor)
-				cli.Output(os.Stdout)
 
 				// Return resulting error
 				return err
@@ -243,10 +235,26 @@ func main() {
 
 		// Any command in routes should output to buffer
 		// This can be read or clear later with endpoint
-		server.Add("GET", "/api/console", func(context *server.Context) error {
+		var buffer bytes.Buffer
+		noColor := os.Getenv("NO_COLOR")
+
+		server.Add("POST", "/api/console/capture", func(context *server.Context) error {
+			cli.Output(&buffer)
+			os.Setenv("NO_COLOR", "1")
+			return context.Status(http.StatusOK).String("OK")
+		})
+
+		server.Add("POST", "/api/console/release", func(context *server.Context) error {
+			os.Setenv("NO_COLOR", noColor)
+			cli.Output(os.Stdout)
+			return context.Status(http.StatusOK).String("OK")
+		})
+
+		server.Add("GET", "/api/console/output", func(context *server.Context) error {
 			return context.Status(http.StatusOK).String(buffer.String())
 		})
-		server.Add("GET", "/api/clear", func(context *server.Context) error {
+
+		server.Add("POST", "/api/console/clear", func(context *server.Context) error {
 			buffer.Reset()
 			return context.Status(http.StatusOK).String("OK")
 		})

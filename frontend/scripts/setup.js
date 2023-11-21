@@ -10,10 +10,10 @@ window.addEventListener('load', () => {
 
         try {
             button.disabled = true
-            window.watchConsoleOutput()
-            await request('POST', '/api/setup', data)
+            window.runAndCaptureConsole(async () => {
+                await request('POST', '/api/setup', data)
+            })
         } finally {
-            window.stopConsoleOutput()
             button.disabled = false
         }
     })

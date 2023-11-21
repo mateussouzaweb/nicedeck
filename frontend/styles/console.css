@@ -5,9 +5,6 @@
     color: #FFF;
     position: relative;
 }
-#console * {
-    overflow-anchor: none;
-}
 #console #toolbar {
     display: flex;
     justify-content: space-between;
@@ -59,10 +56,4 @@
 #console #content::-webkit-scrollbar-thumb:hover,
 #console #content::-webkit-scrollbar-button:hover {
     background-color: #EEE;
-}
-
-#console #anchor {
-    display: block;
-    height: 1px;
-    overflow-anchor: auto;
 }
