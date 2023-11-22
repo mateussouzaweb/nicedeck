@@ -16,3 +16,6 @@
     flex-flow: row wrap;
     margin: 0 -5px;
 }
+#install #programs label.checkbox .icon {
+    min-width: 72px;
+}

@@ -27,6 +27,7 @@ form label.inline {
 
 form label.radio {
     display: inline-block;
+    margin-right: 10px;
     min-width: auto;
     position: relative;
     vertical-align: middle;
@@ -52,7 +53,7 @@ form label.radio span {
     padding: 5px 10px 5px 40px;
 }
 form label.radio span::before {
-    background: rgba(0, 0, 0, 0.05);
+    background: #000;
     border-right: 1px solid rgba(0, 0, 0, 0.15);
     bottom: 2px;
     content: '';
@@ -69,7 +70,7 @@ form label.radio input:checked {
     opacity: 1;
 }
 form label.radio input:checked + span {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: #FFF;
 }
 
 form label.checkbox {
@@ -105,6 +106,10 @@ form label.checkbox .area .icon {
     justify-content: center;
     padding: 10px;
 }
+form label.checkbox .area .icon img {
+    width: 100%;
+    height: auto;
+}
 form label.checkbox .area .info {
     flex: 1;
     padding: 10px;
@@ -116,7 +121,7 @@ form label.checkbox input:checked {
     opacity: 1;
 }
 form label.checkbox input:checked + .area {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: #FFF;
 }
 
 form input[type="text"] {

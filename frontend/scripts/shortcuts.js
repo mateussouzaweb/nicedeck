@@ -11,7 +11,7 @@ window.addEventListener('load', async () => {
             const shortcuts = await requestJson('GET', '/api/shortcuts')
 
             const items = shortcuts.map((shortcut) => {
-                return `<article class="item">
+                return `<article class="item" title="${shortcut.appName}">
                     <img loading="lazy" src="${shortcut.coverUrl}" alt="${shortcut.appName}" width="600" height="900"/><br/>
                     <small>${shortcut.appId}</small><br/>
                     <h4>${shortcut.appName}</h4>
