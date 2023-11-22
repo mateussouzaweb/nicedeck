@@ -12,10 +12,16 @@ window.addEventListener('load', async () => {
 
             const items = shortcuts.map((shortcut) => {
                 return `<article class="item" title="${shortcut.appName}">
-                    <img loading="lazy" src="${shortcut.coverUrl}" alt="${shortcut.appName}" width="600" height="900"/><br/>
-                    <small>${shortcut.appId}</small><br/>
-                    <h4>${shortcut.appName}</h4>
-                    ${shortcut.platform}
+                    <div class="area">
+                        <div class="image">
+                            <img loading="lazy" src="${shortcut.coverUrl}" alt="${shortcut.appName}" width="600" height="900"/>
+                        </div>
+                        <div class="info">
+                            <small>${shortcut.appId}</small><br/>
+                            <h4>${shortcut.appName}</h4>
+                            ${shortcut.platform}
+                        </div>
+                    </div>
                 </article>`
             })
     

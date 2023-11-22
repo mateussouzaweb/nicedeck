@@ -1,17 +1,31 @@
 #shortcuts #list {
+    align-items: stretch;
     display: flex;
     flex-flow: row wrap;
-    margin: 0 -5px;
+    margin: 10px -5px;
 }
 #shortcuts #list .item {
     flex: 0 0 25%;
+    max-width: 25%;
     padding: 5px;
 }
-#shortcuts #list .item img {
+#shortcuts #list .area {
+    background: #FFF;
+    border: 2px solid #000;
+    border-radius: 5px;
+    height: 100%;
+}
+#shortcuts #list .image {
+    display: block;
+}
+#shortcuts #list .image img {
     height: auto;
     width: 100%;
 }
-#shortcuts #list .item h4 {
+#shortcuts #list .info {
+    padding: 10px;
+}
+#shortcuts #list .info h4 {
     margin: 0;
     padding: 0;
 }
