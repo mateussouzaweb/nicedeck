@@ -151,6 +151,9 @@ form button {
 form button span:nth-child(2){
     display: none;
 }
+form button[disabled] {
+    cursor: wait;
+}
 form button[disabled] span:nth-child(1){
     display: none;
 }
