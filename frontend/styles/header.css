@@ -37,3 +37,7 @@ header #shutdown {
     vertical-align: middle;
     white-space: nowrap;
 }
+header #shutdown img {
+    display: inline-block;
+    vertical-align: middle;
+}

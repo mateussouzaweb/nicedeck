@@ -13,9 +13,12 @@
 #console #icon {
     color: #FFF;
     flex: 0;
-    font-family: monospace;
-    font-weight: bold;
     padding: 4px 15px;
+    white-space: nowrap;
+}
+#console #icon img {
+    display: inline-block;
+    vertical-align: middle;
 }
 #console #clear {
     background: transparent;

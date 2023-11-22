@@ -1,6 +1,7 @@
 #shortcuts #list {
     display: flex;
     flex-flow: row wrap;
+    margin: 0 -5px;
 }
 #shortcuts #list .item {
     flex: 0 0 25%;

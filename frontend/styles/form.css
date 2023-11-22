@@ -107,8 +107,8 @@ form label.checkbox .area .icon {
     padding: 10px;
 }
 form label.checkbox .area .icon img {
-    width: 100%;
     height: auto;
+    width: 100%;
 }
 form label.checkbox .area .info {
     flex: 1;
@@ -142,6 +142,7 @@ form button {
     color: #FFF;
     cursor: pointer;
     flex: 0 0 auto;
+    font-size: 100%;
     font-weight: bold;
     padding: 15px 25px;
     text-align: center;
