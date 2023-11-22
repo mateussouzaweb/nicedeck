@@ -10,7 +10,7 @@ window.addEventListener('load', () => {
 
         try {
             button.disabled = true
-            window.runAndCaptureConsole(async () => {
+            await window.runAndCaptureConsole(async () => {
                 await request('POST', '/api/setup', data)
             })
         } finally {
