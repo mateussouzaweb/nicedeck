@@ -2,6 +2,12 @@
 window.addEventListener('load', async () => {
 
     async function runAndCaptureConsole(callback){
+        $('#console').scrollIntoView({
+            behavior: 'smooth',
+            block: 'end',
+            inline: 'nearest' 
+        })
+
         let interval = null
         try {
             await request('POST', '/api/console/capture')
