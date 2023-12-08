@@ -3,14 +3,17 @@ window.addEventListener('load', async () => {
 
     /**
      * Run callback and capture console output
-     * @param {Function} callback 
+     * @param {Boolean} focus
+     * @param {Function} callback
      */
-    async function runAndCaptureConsole(callback) {
-        $('#console').scrollIntoView({
-            behavior: 'smooth',
-            block: 'end',
-            inline: 'nearest'
-        })
+    async function runAndCaptureConsole(focus, callback) {
+        if (focus) {
+            $('#console').scrollIntoView({
+                behavior: 'smooth',
+                block: 'end',
+                inline: 'nearest'
+            })
+        }
 
         let interval = null
         try {

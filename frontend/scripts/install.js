@@ -55,7 +55,7 @@ window.addEventListener('load', async () => {
 
         try {
             button.disabled = true
-            await window.runAndCaptureConsole(async () => {
+            await window.runAndCaptureConsole(true, async () => {
                 await request('POST', '/api/install', body)
                 await request('POST', '/api/library/save')
             })
