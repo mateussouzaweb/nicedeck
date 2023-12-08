@@ -29,6 +29,16 @@
     margin: 0;
     padding: 0;
 }
+#shortcuts #list .info .actions {
+    margin-top: 10px;
+}
+#shortcuts #list .info .actions button {
+    width: auto;
+    padding: 5px 10px;
+}
+#shortcuts #list .info .actions button + button {
+    margin-left: 5px;
+}
 
 #shortcuts .modal .image {
     border: 2px solid transparent;

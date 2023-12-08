@@ -6,7 +6,7 @@ window.addEventListener('load', async () => {
 
     /**
      * Retrieve shortcut by appId
-     * @param {number} appId
+     * @param {Number} appId
      * @returns {Shortcut}
      */
     function getShortcut(appId) {
