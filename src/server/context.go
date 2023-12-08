@@ -8,9 +8,20 @@ import (
 
 // Context struct
 type Context struct {
+	URI        string
 	Request    *http.Request
 	Response   http.ResponseWriter
 	StatusCode int
+}
+
+// Bind body JSON data into destination JSON struct
+func (c *Context) Bind(destination any) error {
+	err := json.NewDecoder(c.Request.Body).Decode(&destination)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Header set the HTTP response header

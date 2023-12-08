@@ -1,6 +1,7 @@
 package server
 
 import (
+	"regexp"
 	"strings"
 )
 
@@ -57,13 +58,19 @@ func Match(method string, endpoint string) Handler {
 			continue
 		}
 
-		// Check endpoint matching
-		if endpoint != route.Endpoint {
-			continue
+		// Single endpoint matching
+		if endpoint == route.Endpoint {
+			return route.Handler
 		}
 
-		// When match, run handler
-		return route.Handler
+		// Regex endpoint matching
+		endpointPattern := strings.ReplaceAll(route.Endpoint, "/", "\\/")
+		endpointRegex := regexp.MustCompile(endpointPattern)
+
+		if endpointRegex.MatchString(endpoint) {
+			return route.Handler
+		}
+
 	}
 
 	return nil

@@ -9,14 +9,14 @@ import (
 
 // ScrapeInfo struct
 type ScrapeInfo struct {
-	Name       string `json:"name"`
-	ScraperID  int64  `json:"scraperId"`
-	ShortcutID uint32 `json:"shortcutId"`
-	IconURL    string `json:"iconUrl"`
-	LogoURL    string `json:"logoUrl"`
-	CoverURL   string `json:"coverUrl"`
-	BannerURL  string `json:"bannerUrl"`
-	HeroURL    string `json:"heroUrl"`
+	Name       string   `json:"name"`
+	ScraperID  int64    `json:"scraperId"`
+	ShortcutID uint32   `json:"shortcutId"`
+	IconURLs   []string `json:"iconUrls"`
+	LogoURLs   []string `json:"logoUrls"`
+	CoverURLs  []string `json:"coverUrls"`
+	BannerURLs []string `json:"bannerUrls"`
+	HeroURLs   []string `json:"heroUrls"`
 }
 
 // Scrape information such as images from given app or game name
@@ -60,7 +60,9 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 		return &result, err
 	}
 	if icon.Success && len(icon.Data) > 0 {
-		result.IconURL = icon.Data[0].URL
+		for _, item := range icon.Data {
+			result.IconURLs = append(result.IconURLs, item.URL)
+		}
 	}
 
 	// Find logo
@@ -79,7 +81,9 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 		return &result, err
 	}
 	if logo.Success && len(logo.Data) > 0 {
-		result.LogoURL = logo.Data[0].URL
+		for _, item := range logo.Data {
+			result.LogoURLs = append(result.LogoURLs, item.URL)
+		}
 	}
 
 	// Find cover
@@ -99,7 +103,9 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 		return &result, err
 	}
 	if cover.Success && len(cover.Data) > 0 {
-		result.CoverURL = cover.Data[0].URL
+		for _, item := range cover.Data {
+			result.CoverURLs = append(result.CoverURLs, item.URL)
+		}
 	}
 
 	// Find banner
@@ -119,7 +125,9 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 		return &result, err
 	}
 	if banner.Success && len(banner.Data) > 0 {
-		result.BannerURL = banner.Data[0].URL
+		for _, item := range banner.Data {
+			result.BannerURLs = append(result.BannerURLs, item.URL)
+		}
 	}
 
 	// Find hero
@@ -138,7 +146,9 @@ func ScrapeFromName(name string) (*ScrapeInfo, error) {
 		return &result, err
 	}
 	if hero.Success && len(hero.Data) > 0 {
-		result.HeroURL = hero.Data[0].URL
+		for _, item := range hero.Data {
+			result.HeroURLs = append(result.HeroURLs, item.URL)
+		}
 	}
 
 	return &result, nil

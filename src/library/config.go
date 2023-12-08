@@ -20,6 +20,7 @@ type Config struct {
 	IsFlatpak               bool                  `json:"isFlatpak"`
 	SteamPath               string                `json:"steamPath"`
 	UserConfigPath          string                `json:"userConfigPath"`
+	UserArtworksPath        string                `json:"userArtworksPath"`
 	ControllerTemplatesPath string                `json:"controllerTemplatesPath"`
 	Shortcuts               []*shortcuts.Shortcut `json:"shortcuts"`
 }
@@ -70,6 +71,7 @@ func Load() error {
 	_config.IsFlatpak = isFlatpak
 	_config.SteamPath = steamPaths[0]
 	_config.UserConfigPath = userConfigPaths[0]
+	_config.UserArtworksPath = userConfigPaths[0] + "/grid"
 	_config.ControllerTemplatesPath = controllerTemplatesPaths[0]
 
 	// Load config file if exist
@@ -174,9 +176,19 @@ func Save() error {
 	return nil
 }
 
+// Retrieve runtime config
+func GetConfig() *Config {
+	return _config
+}
+
 // Retrieve runtime shortcuts
 func GetShortcuts() []*shortcuts.Shortcut {
 	return _config.Shortcuts
+}
+
+// Retrieve runtime shortcut with given appID
+func GetShortcut(appID uint) *shortcuts.Shortcut {
+	return shortcuts.GetShortcut(_config.Shortcuts, appID)
 }
 
 // Add program to the shortcuts list
@@ -193,7 +205,7 @@ func AddToShortcuts(shortcut *shortcuts.Shortcut) error {
 
 	// Determine appID and artworks path
 	shortcut.AppID = shortcuts.GenerateShortcutID(shortcut.Exe, shortcut.AppName)
-	artworksPath := _config.UserConfigPath + "/grid"
+	artworksPath := _config.UserArtworksPath
 
 	// Logo: ${APPID}_logo.png
 	shortcut.Logo = fmt.Sprintf("%s/%v_logo.png", artworksPath, shortcut.AppID)

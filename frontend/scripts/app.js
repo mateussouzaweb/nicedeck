@@ -1,7 +1,7 @@
 /**
  * Retrieve element with given selector
  * @param {String} selector 
- * @param {HTMLElement} parent 
+ * @param {Element} parent 
  * @returns 
  */
 function $(selector, parent){
@@ -14,8 +14,8 @@ function $(selector, parent){
 /**
  * Retrieve elements with given selector
  * @param {String} selector 
- * @param {HTMLElement} parent 
- * @returns {HTMLElement[]}
+ * @param {Element} parent 
+ * @returns {Element[]}
  */
 function $$(selector, parent){
 

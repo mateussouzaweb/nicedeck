@@ -1,6 +1,9 @@
 // Install
 window.addEventListener('load', async () => {
 
+    /**
+     * Load and show available programs in the software
+     */
     async function loadPrograms(){
 
         /** @type {Program[]} */
@@ -43,13 +46,18 @@ window.addEventListener('load', async () => {
         event.preventDefault();
 
         const form = $('#install form')
-        const data = new FormData(form)
         const button = $('button[type="submit"]', form)
+
+        const data = new FormData(form)
+        const body = JSON.stringify({
+            programs: data.getAll('programs[]')
+        })
 
         try {
             button.disabled = true
             await window.runAndCaptureConsole(async () => {
-                await request('POST', '/api/install', data)
+                await request('POST', '/api/install', body)
+                await request('POST', '/api/library/save')
             })
         } finally {
             button.disabled = false

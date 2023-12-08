@@ -1,6 +1,9 @@
 // Shortcuts
 window.addEventListener('load', async () => {
 
+    /**
+     * Load and show current list of user shortcuts
+     */
     async function loadShortcuts(){
 
         const button = $('#shortcuts #load')
@@ -8,13 +11,15 @@ window.addEventListener('load', async () => {
 
         try {
             /** @type {Shortcut[]} */
+            const library = await requestJson('POST', '/api/library/load')
             const shortcuts = await requestJson('GET', '/api/shortcuts')
 
             const items = shortcuts.map((shortcut) => {
+                const coverUrl = String(shortcut.cover).replace(library.userArtworksPath, "/grid/image")
                 return `<article class="item" title="${shortcut.appName}">
                     <div class="area">
                         <div class="image">
-                            <img loading="lazy" src="${shortcut.coverUrl}" alt="${shortcut.appName}" width="600" height="900"/>
+                            <img loading="lazy" src="${coverUrl}" alt="${shortcut.appName}" width="600" height="900"/>
                         </div>
                         <div class="info">
                             <small>${shortcut.appId}</small><br/>

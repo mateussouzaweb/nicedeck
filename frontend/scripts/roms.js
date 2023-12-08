@@ -1,6 +1,9 @@
 // ROMs
 window.addEventListener('load', async () => {
 
+    /**
+     * Load and show available platforms in the software
+     */
     async function loadPlatforms() {
 
         /** @type {Platform[]} */
@@ -43,13 +46,20 @@ window.addEventListener('load', async () => {
         event.preventDefault();
 
         const form = $('#roms form')
-        const data = new FormData(form)
         const button = $('button[type="submit"]', form)
+
+        const data = new FormData(form)
+        const body = JSON.stringify({
+            platforms: data.getAll('platforms[]'),
+            preferences: data.getAll('preferences[]'),
+            rebuild: data.get('rebuild') === 'Y',
+        })
 
         try {
             button.disabled = true
             await window.runAndCaptureConsole(async () => {
-                await request('POST', '/api/roms', data)
+                await request('POST', '/api/roms', body)
+                await request('POST', '/api/library/save')
             })
         } finally {
             button.disabled = false

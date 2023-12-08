@@ -1,6 +1,10 @@
 // Console output
 window.addEventListener('load', async () => {
 
+    /**
+     * Run callback and capture console output
+     * @param {Function} callback 
+     */
     async function runAndCaptureConsole(callback){
         $('#console').scrollIntoView({
             behavior: 'smooth',
@@ -20,11 +24,18 @@ window.addEventListener('load', async () => {
         }
     }
 
+    /**
+     * Fetch the console output and write it
+     */
     async function fetchConsoleOutput(){
         const result = await request('GET', '/api/console/output')
         writeConsoleOutput(result)
     }
 
+    /**
+     * Write console output to target location
+     * @param {String} text 
+     */
     async function writeConsoleOutput(text){
         const content = $('#console #content')
         content.innerHTML = text.split("\n").join("<br/>")

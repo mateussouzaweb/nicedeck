@@ -97,8 +97,29 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 			continue
 		}
 
-		// Determine best name from the shortcut
+		// Determine best name and images for the shortcut
 		appName := scrape.Name + " [" + rom.Platform + "]"
+		iconURL := ""
+		logoURL := ""
+		coverURL := ""
+		bannerURL := ""
+		heroURL := ""
+
+		if len(scrape.IconURLs) > 0 {
+			iconURL = scrape.IconURLs[0]
+		}
+		if len(scrape.LogoURLs) > 0 {
+			logoURL = scrape.LogoURLs[0]
+		}
+		if len(scrape.CoverURLs) > 0 {
+			coverURL = scrape.CoverURLs[0]
+		}
+		if len(scrape.BannerURLs) > 0 {
+			bannerURL = scrape.BannerURLs[0]
+		}
+		if len(scrape.HeroURLs) > 0 {
+			heroURL = scrape.HeroURLs[0]
+		}
 
 		// Add to shortcuts library
 		err = library.AddToShortcuts(&shortcuts.Shortcut{
@@ -107,11 +128,11 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 			StartDir:      "/var/lib/flatpak/exports/bin/", // Same as main flatpak
 			ShortcutPath:  "",
 			LaunchOptions: rom.LaunchOptions,
-			IconURL:       scrape.IconURL,
-			LogoURL:       scrape.LogoURL,
-			CoverURL:      scrape.CoverURL,
-			BannerURL:     scrape.BannerURL,
-			HeroURL:       scrape.HeroURL,
+			IconURL:       iconURL,
+			LogoURL:       logoURL,
+			CoverURL:      coverURL,
+			BannerURL:     bannerURL,
+			HeroURL:       heroURL,
 			Platform:      rom.Platform,
 			RelativePath:  rom.RelativePath,
 			Tags:          []string{"Gaming", "ROM"},
