@@ -4,8 +4,8 @@
  * @param {Element} parent 
  * @returns 
  */
-function $(selector, parent){
-    if( parent ){
+function $(selector, parent) {
+    if (parent) {
         return parent.querySelector(selector)
     }
     return document.querySelector(selector)
@@ -17,11 +17,11 @@ function $(selector, parent){
  * @param {Element} parent 
  * @returns {Element[]}
  */
-function $$(selector, parent){
+function $$(selector, parent) {
 
     const items = []
-    const found = (parent) 
-        ? parent.querySelectorAll(selector) 
+    const found = (parent)
+        ? parent.querySelectorAll(selector)
         : document.querySelectorAll(selector)
 
     if (found instanceof NodeList) {
@@ -39,7 +39,7 @@ function $$(selector, parent){
  * @param {String} event 
  * @param {Function} callback 
  */
-function on(selector, event, callback){
+function on(selector, event, callback) {
     $$(selector).forEach((item) => {
         item.addEventListener(event, async (event) => {
             event.preventDefault()
@@ -55,9 +55,9 @@ function on(selector, event, callback){
  * @param {FormData} data 
  * @returns 
  */
-async function request(method, endpoint, data){
+async function request(method, endpoint, data) {
     const response = await fetch(endpoint, {
-        method: method, 
+        method: method,
         body: data
     })
 
@@ -72,7 +72,7 @@ async function request(method, endpoint, data){
  * @param {FormData} data 
  * @returns 
  */
-async function requestJson(method, endpoint, data){
+async function requestJson(method, endpoint, data) {
     const result = await request(method, endpoint, data)
     const json = JSON.parse(result || '{}')
     return json

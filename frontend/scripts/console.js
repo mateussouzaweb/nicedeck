@@ -5,11 +5,11 @@ window.addEventListener('load', async () => {
      * Run callback and capture console output
      * @param {Function} callback 
      */
-    async function runAndCaptureConsole(callback){
+    async function runAndCaptureConsole(callback) {
         $('#console').scrollIntoView({
             behavior: 'smooth',
             block: 'end',
-            inline: 'nearest' 
+            inline: 'nearest'
         })
 
         let interval = null
@@ -27,7 +27,7 @@ window.addEventListener('load', async () => {
     /**
      * Fetch the console output and write it
      */
-    async function fetchConsoleOutput(){
+    async function fetchConsoleOutput() {
         const result = await request('GET', '/api/console/output')
         writeConsoleOutput(result)
     }
@@ -36,7 +36,7 @@ window.addEventListener('load', async () => {
      * Write console output to target location
      * @param {String} text 
      */
-    async function writeConsoleOutput(text){
+    async function writeConsoleOutput(text) {
         const content = $('#console #content')
         content.innerHTML = text.split("\n").join("<br/>")
         content.scrollTop = content.scrollHeight;

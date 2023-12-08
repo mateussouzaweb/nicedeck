@@ -5,9 +5,9 @@ window.addEventListener('load', async () => {
         event.preventDefault()
         request('POST', '/app/shutdown')
 
-        window.setTimeout(() =>{
+        window.setTimeout(() => {
             window.close()
-        }, 100) 
+        }, 100)
     })
 
 })

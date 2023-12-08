@@ -4,7 +4,7 @@ window.addEventListener('load', async () => {
     /**
      * Load and show available programs in the software
      */
-    async function loadPrograms(){
+    async function loadPrograms() {
 
         /** @type {Program[]} */
         const programs = await requestJson('GET', '/api/programs')

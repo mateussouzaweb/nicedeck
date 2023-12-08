@@ -6,7 +6,7 @@ window.addEventListener('load', () => {
 
         const form = $('#setup form')
         const button = $('button[type="submit"]', form)
-        
+
         const data = new FormData(form)
         const body = JSON.stringify({
             installOnMicroSD: data.get('install_on_microsd') === 'Y',

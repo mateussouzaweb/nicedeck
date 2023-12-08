@@ -4,7 +4,7 @@ window.addEventListener('load', async () => {
     /**
      * Load and show current list of user shortcuts
      */
-    async function loadShortcuts(){
+    async function loadShortcuts() {
 
         const button = $('#shortcuts #load')
         button.disabled = true
