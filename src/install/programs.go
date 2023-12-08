@@ -149,7 +149,7 @@ func Install(id string) error {
 	}
 
 	// Add to shortcuts list
-	err := library.AddToShortcuts(shortcut)
+	err := library.AddToShortcuts(shortcut, false)
 	if err != nil {
 		return err
 	}

@@ -192,7 +192,7 @@ func GetShortcut(appID uint) *shortcuts.Shortcut {
 }
 
 // Add program to the shortcuts list
-func AddToShortcuts(shortcut *shortcuts.Shortcut) error {
+func AddToShortcuts(shortcut *shortcuts.Shortcut, overwriteArtworks bool) error {
 
 	var err error
 
@@ -251,7 +251,7 @@ func AddToShortcuts(shortcut *shortcuts.Shortcut) error {
 		if url == "" || destinationFile == "" {
 			continue
 		}
-		err = scraper.DownloadFile(url, destinationFile)
+		err = scraper.DownloadFile(url, destinationFile, overwriteArtworks)
 		if err != nil {
 			return err
 		}

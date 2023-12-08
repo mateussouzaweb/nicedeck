@@ -9,14 +9,16 @@ import (
 )
 
 // Download file from URL into destination
-func DownloadFile(url string, destinationFile string) error {
+func DownloadFile(url string, destinationFile string, overwriteExisting bool) error {
 
 	// Check if file exists and skip download if already exist
-	exist, err := fs.FileExist(destinationFile)
-	if err != nil {
-		return err
-	} else if exist {
-		return nil
+	if !overwriteExisting {
+		exist, err := fs.FileExist(destinationFile)
+		if err != nil {
+			return err
+		} else if exist {
+			return nil
+		}
 	}
 
 	// Retrieve file from HTTP

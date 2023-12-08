@@ -136,7 +136,7 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 			Platform:      rom.Platform,
 			RelativePath:  rom.RelativePath,
 			Tags:          []string{"Gaming", "ROM"},
-		})
+		}, false)
 
 		if err != nil {
 			return total, err
