@@ -20,6 +20,19 @@ func FileExist(path string) (bool, error) {
 	return false, nil
 }
 
+// Remove file from system if exist
+func RemoveFile(path string) error {
+
+	exist, err := FileExist(path)
+	if err != nil {
+		return err
+	} else if exist {
+		return os.Remove(path)
+	}
+
+	return nil
+}
+
 // Download file from URL into destination
 func DownloadFile(url string, destination string, overwriteExisting bool) error {
 

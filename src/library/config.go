@@ -190,10 +190,8 @@ func GetShortcut(appID uint) *shortcuts.Shortcut {
 	return shortcuts.GetShortcut(_config.Shortcuts, appID)
 }
 
-// Add program to the shortcuts list
-func AddToShortcuts(shortcut *shortcuts.Shortcut, overwriteArtworks bool) error {
-
-	var err error
+// Ensure that shortcut has the correct settings
+func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Check if Steam was installed via flatpak
 	// If yes, then we need to append the flatpak-spawn wrapper
@@ -235,6 +233,52 @@ func AddToShortcuts(shortcut *shortcuts.Shortcut, overwriteArtworks bool) error 
 		shortcut.Hero = fmt.Sprintf("%s/%v_hero.png", artworksPath, shortcut.AppID)
 	} else {
 		shortcut.Hero = fmt.Sprintf("%s/%v_hero.jpg", artworksPath, shortcut.AppID)
+	}
+
+	// Ensure that there is no duplicated images of each artwork
+	// User can switch from .jpg to .png for example, so .jpg must be removed
+	removeDuplicated := func(path string, format string, alternative string) error {
+
+		// Switch parameters when the format file is not found
+		if !strings.HasSuffix(path, format) {
+			correct := alternative
+			alternative = format
+			format = correct
+		}
+
+		// Try to remove the outdated image
+		remove := strings.Replace(path, format, alternative, 1)
+		err := fs.RemoveFile(remove)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
+
+	if err := removeDuplicated(shortcut.Icon, ".png", ".ico"); err != nil {
+		return err
+	}
+	if err := removeDuplicated(shortcut.Cover, ".png", ".jpg"); err != nil {
+		return err
+	}
+	if err := removeDuplicated(shortcut.Banner, ".png", ".jpg"); err != nil {
+		return err
+	}
+	if err := removeDuplicated(shortcut.Hero, ".png", ".jpg"); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Add program to the shortcuts list
+func AddToShortcuts(shortcut *shortcuts.Shortcut, overwriteArtworks bool) error {
+
+	// Make sure shortcut settings is correct
+	err := EnsureShortcut(shortcut)
+	if err != nil {
+		return err
 	}
 
 	// Create list of images to download
