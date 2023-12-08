@@ -75,7 +75,7 @@ window.addEventListener('load', async () => {
         const result = await requestJson('GET', '/api/scrape?term=' + encodeURIComponent(shortcut.appName))
         const html = []
 
-        const append = (type, title, images, width, height) => {
+        const append = (type, title, selected, images, width, height) => {
             html.push(`<div class="group">`)
             html.push(`<h4>${title}</h4>`)
 
@@ -83,7 +83,7 @@ window.addEventListener('load', async () => {
                 html.push(`<p>No images found.</p>`)
             } else {
                 images.forEach((item, index) => {
-                    const checked = index === 0 ? 'checked="checked"' : ''
+                    const checked = index === 0 || selected === item ? 'checked="checked"' : ''
                     html.push(`
                     <label class="radio">
                         <input type="radio" name="${type}" value="${item}" ${checked} />
@@ -100,11 +100,12 @@ window.addEventListener('load', async () => {
         }
 
         html.push(`<p>Scrape results for <b>${shortcut.appName}</b>:</p>`)
-        append('cover', 'Cover Artworks', result.coverUrls, 600, 900)
-        append('banner', 'Banner Artworks', result.bannerUrls, 920, 430)
-        append('icon', 'Icon Artworks', result.iconUrls, 192, 192)
-        append('hero', 'Hero Artworks', result.heroUrls, 600, 900)
-        append('logo', 'Logo Artworks', result.logoUrls, 600, 900)
+        append('cover', 'Cover Artworks', shortcut.coverUrl, result.coverUrls, 600, 900)
+        append('banner', 'Banner Artworks', shortcut.bannerUrl, result.bannerUrls, 920, 430)
+        append('icon', 'Icon Artworks', shortcut.iconUrl, result.iconUrls, 192, 192)
+        append('hero', 'Hero Artworks', shortcut.heroUrl, result.heroUrls, 600, 900)
+        append('logo', 'Logo Artworks', shortcut.logoUrl, result.logoUrls, 600, 900)
+
         content.innerHTML = html.join('')
 
     })
