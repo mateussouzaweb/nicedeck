@@ -9,7 +9,6 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
-	"github.com/mateussouzaweb/nicedeck/src/scraper"
 	"github.com/mateussouzaweb/nicedeck/src/steam"
 	"github.com/mateussouzaweb/nicedeck/src/steam/controller"
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
@@ -251,7 +250,7 @@ func AddToShortcuts(shortcut *shortcuts.Shortcut, overwriteArtworks bool) error 
 		if url == "" || destinationFile == "" {
 			continue
 		}
-		err = scraper.DownloadFile(url, destinationFile, overwriteArtworks)
+		err := fs.DownloadFile(url, destinationFile, overwriteArtworks)
 		if err != nil {
 			return err
 		}
