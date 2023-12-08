@@ -7,8 +7,8 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steamgriddb/api"
 )
 
-// ScrapeInfo struct
-type ScrapeInfo struct {
+// ScrapeResult struct
+type ScrapeResult struct {
 	Name       string   `json:"name"`
 	ScraperID  int64    `json:"scraperId"`
 	ShortcutID uint32   `json:"shortcutId"`
@@ -20,9 +20,9 @@ type ScrapeInfo struct {
 }
 
 // Scrape information such as images from given app or game name
-func ScrapeFromName(name string) (*ScrapeInfo, error) {
+func ScrapeFromName(name string) (*ScrapeResult, error) {
 
-	var result ScrapeInfo
+	var result ScrapeResult
 
 	// Find reference and correct name
 	search, err := api.SearchByTerm(name)

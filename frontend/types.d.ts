@@ -51,3 +51,14 @@ interface Shortcut {
 	platform: string
 	relativePath: string
 }
+
+interface ScrapeResult {
+	name: string
+	scrapeId: number
+	shortcutId: number
+	bannerUrls: string[]
+	coverUrls: string[]
+	heroUrls: string[]
+	iconUrls: string[]
+	logoUrls: string[]
+}

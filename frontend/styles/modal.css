@@ -66,7 +66,7 @@
     z-index: calc(200 + 2);
 }
 .modal .inside {
-    background: #FFF;
+    background: #EAD4EF;
     border: 0;
     border-radius: 0.25em;
     box-shadow: 0 3px 7px rgba(0, 0, 0, 0.20);
@@ -76,6 +76,7 @@
 }
 
 .modal .header {
+    align-items: center;
     background: rgba(0, 0, 0, 0.05);
     border-bottom: 1px solid rgba(0, 0, 0, 0.10);
     border-radius: 0.25em 0.25em 0 0;
@@ -90,25 +91,32 @@
 }
 .modal .header .close {
     font-size: 1.5em;
-    height: 1em;
     justify-self: flex-end;
     line-height: 1em;
+    padding: 5px 10px;
     text-align: center;
-    width: 1em;
+    width: auto;
 }
 .modal .content {
     padding: 1em;
     position: relative;
 }
+.modal .content:last-child {
+    margin-bottom: 0;
+}
 .modal .actions {
-    background: #FFF;
     border-top: 1px solid rgba(0, 0, 0, 0.10);
     border-radius: 0 0 0.25em 0.25em;
     display: flex;
     justify-content: flex-end;
+    margin: 0;
     padding: 1em;
     text-align: right;
 }
-.modal .actions .button {
+.modal .actions button {
     margin-bottom: 0;
+    width: auto;
+}
+.modal .actions button + button {
+    margin-left: 10px;
 }

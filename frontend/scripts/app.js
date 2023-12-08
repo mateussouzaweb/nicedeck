@@ -34,18 +34,19 @@ function $$(selector, parent) {
 }
 
 /**
- * Attach event listener on element by selector
+ * Attach event listener on element with selector
+ * All events are delegated from document 
  * @param {String} selector 
  * @param {String} event 
  * @param {Function} callback 
  */
 function on(selector, event, callback) {
-    $$(selector).forEach((item) => {
-        item.addEventListener(event, async (event) => {
-            event.preventDefault()
-            callback(event)
-        })
-    })
+    document.addEventListener(event, async (event) => {
+        const target = (event.target).closest(selector)
+        if (target) {
+            callback.apply(target, [event, target])
+        }
+    }, false)
 }
 
 /**

@@ -29,3 +29,26 @@
     margin: 0;
     padding: 0;
 }
+
+#shortcuts .modal .image {
+    border: 2px solid transparent;
+    border-radius: 5px;
+    display: block;
+    max-width: 200px;
+    min-width: 64px;
+    opacity: 0.8;
+    padding: 2px;
+}
+#shortcuts .modal .image:hover {
+    opacity: 1;
+}
+#shortcuts .modal .image img {
+    border-radius: 5px;
+    display: block;
+    height: auto;
+    width: 100%;
+}
+#shortcuts .modal input:checked + .image {
+    opacity: 1;
+    border: 2px solid #000;
+}
