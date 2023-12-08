@@ -36,8 +36,6 @@ window.addEventListener('load', async () => {
                         <div class="info">
                             <small>${shortcut.appId}</small><br/>
                             <h4>${shortcut.appName}</h4>
-                            ${shortcut.platform}
-
                             <div class="actions">
                                 <button type="button" data-update-shortcut="${shortcut.appId}">Update</button>
                                 <button type="button" data-delete-shortcut="${shortcut.appId}">Delete</button>
