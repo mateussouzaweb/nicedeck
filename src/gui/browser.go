@@ -66,10 +66,10 @@ func OpenWithBrowser(address string, width int, height int) error {
 	if err != nil {
 		return err
 	} else if exist {
-		return cli.Command(fmt.Sprintf(
+		return RunProcess(fmt.Sprintf(
 			`flatpak run com.google.Chrome %s`,
 			strings.Join(chromeArgs, " "),
-		)).Run()
+		))
 	}
 
 	// Using Firefox
@@ -77,15 +77,37 @@ func OpenWithBrowser(address string, width int, height int) error {
 	if err != nil {
 		return err
 	} else if exist {
-		return cli.Command(fmt.Sprintf(
+		return RunProcess(fmt.Sprintf(
 			`flatpak run org.mozilla.firefox --kiosk %s;`,
 			address,
-		)).Run()
+		))
 	}
 
 	// Fallback to XDG Open
-	return cli.Command(fmt.Sprintf(
+	return RunProcess(fmt.Sprintf(
 		`xdg-open %s;`,
 		address,
-	)).Run()
+	))
+}
+
+// Run process with blocking channel
+func RunProcess(script string) error {
+
+	// Start the command
+	command := cli.Command(script)
+	err := command.Start()
+	if err != nil {
+		return err
+	}
+
+	// Waiting until it closes and report back to main channel
+	finished := make(chan bool, 1)
+
+	go func() {
+		err = command.Wait()
+		finished <- true
+	}()
+
+	<-finished
+	return err
 }

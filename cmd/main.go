@@ -62,6 +62,8 @@ func main() {
 			exitCode = 1
 			done <- true
 		}
+
+		done <- true
 	}()
 
 	<-done
