@@ -34,8 +34,10 @@ window.addEventListener('load', async () => {
                             <img loading="lazy" src="${coverUrl}" alt="${shortcut.appName}" width="600" height="900"/>
                         </div>
                         <div class="info">
-                            <small>${shortcut.appId}</small><br/>
-                            <h4>${shortcut.appName}</h4>
+                            <div class="title">
+                                <small>${shortcut.appId}</small><br/>
+                                <h4>${shortcut.appName}</h4>
+                            </div>
                             <div class="actions">
                                 <button type="button" data-update-shortcut="${shortcut.appId}">Update</button>
                                 <button type="button" data-delete-shortcut="${shortcut.appId}">Delete</button>
@@ -76,12 +78,13 @@ window.addEventListener('load', async () => {
         const html = []
 
         const append = (type, title, selected, images, width, height) => {
-            html.push(`<div class="group">`)
+            html.push(`<section class="${type}-area">`)
             html.push(`<h4>${title}</h4>`)
 
             if (!images || !images.length) {
                 html.push(`<p>No images found.</p>`)
             } else {
+                html.push(`<div class="group">`)
                 images.forEach((item, index) => {
                     const checked = index === 0 || selected === item ? 'checked="checked"' : ''
                     html.push(`
@@ -94,16 +97,17 @@ window.addEventListener('load', async () => {
                     </label>
                     `)
                 })
+                html.push(`</div>`)
             }
 
-            html.push(`</div>`)
+            html.push(`</section>`)
         }
 
         html.push(`<p>Scrape results for <b>${shortcut.appName}</b>:</p>`)
         append('cover', 'Cover Artworks', shortcut.coverUrl, result.coverUrls, 600, 900)
         append('banner', 'Banner Artworks', shortcut.bannerUrl, result.bannerUrls, 920, 430)
-        append('icon', 'Icon Artworks', shortcut.iconUrl, result.iconUrls, 192, 192)
         append('hero', 'Hero Artworks', shortcut.heroUrl, result.heroUrls, 600, 900)
+        append('icon', 'Icon Artworks', shortcut.iconUrl, result.iconUrls, 192, 192)
         append('logo', 'Logo Artworks', shortcut.logoUrl, result.logoUrls, 600, 900)
 
         content.innerHTML = html.join('')
