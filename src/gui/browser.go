@@ -21,7 +21,7 @@ func OpenWithBrowser(address string, width int, height int) error {
 		return nil
 	}
 
-	// Using Chrome
+	// Chrome like args
 	chromeArgs := []string{
 		fmt.Sprintf("--app=%s", address),
 		fmt.Sprintf("--window-size=%d,%d", width, height),
@@ -62,12 +62,35 @@ func OpenWithBrowser(address string, width int, height int) error {
 		"--use-mock-keychain",
 	}
 
+	// Using Google Chrome
 	exist, err := fs.FileExist("/var/lib/flatpak/exports/bin/com.google.Chrome")
 	if err != nil {
 		return err
 	} else if exist {
 		return RunProcess(fmt.Sprintf(
 			`flatpak run com.google.Chrome %s`,
+			strings.Join(chromeArgs, " "),
+		))
+	}
+
+	// Using Microsoft Edge
+	exist, err = fs.FileExist("/var/lib/flatpak/exports/bin/com.microsoft.Edge")
+	if err != nil {
+		return err
+	} else if exist {
+		return RunProcess(fmt.Sprintf(
+			`flatpak run com.microsoft.Edge %s`,
+			strings.Join(chromeArgs, " "),
+		))
+	}
+
+	// Using Brave Browser
+	exist, err = fs.FileExist("/var/lib/flatpak/exports/bin/com.brave.Browser")
+	if err != nil {
+		return err
+	} else if exist {
+		return RunProcess(fmt.Sprintf(
+			`flatpak run com.brave.Browser %s`,
 			strings.Join(chromeArgs, " "),
 		))
 	}
