@@ -33,6 +33,7 @@ func GetPrograms() []*Program {
 
 	var programs []*Program
 
+	programs = append(programs, BraveBrowser())
 	programs = append(programs, Bottles())
 	programs = append(programs, Cemu())
 	programs = append(programs, Chiaki())

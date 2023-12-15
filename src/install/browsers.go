@@ -1,5 +1,21 @@
 package install
 
+// Installer for Brave Browser
+func BraveBrowser() *Program {
+	return &Program{
+		ID:           "brave-browser",
+		Name:         "Brave Browser",
+		Description:  "Web browser",
+		Tags:         []string{"Utilities"},
+		FlatpakAppID: "com.brave.Browser",
+		IconURL:      "https://cdn2.steamgriddb.com/icon/192d80a88b27b3e4115e1a45a782fe1b.png",
+		LogoURL:      "https://cdn2.steamgriddb.com/logo/85b79607444cc565f0214d12c05cc5eb.png",
+		CoverURL:     "https://cdn2.steamgriddb.com/grid/01a0ed0f07ddea7687fefaedb0f32a7b.png",
+		BannerURL:    "https://cdn2.steamgriddb.com/grid/5ac7b3d023885d0d49e05a32f16c3d54.png",
+		HeroURL:      "https://cdn2.steamgriddb.com/hero/776c2a30d4402b8c5126edd7ad111c5e.png",
+	}
+}
+
 // Installer for Firefox
 func Firefox() *Program {
 	return &Program{

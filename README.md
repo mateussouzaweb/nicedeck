@@ -88,6 +88,7 @@ Enjoy!
 
 Browsers:
 
+- [Brave Browser](https://brave.com)
 - [Firefox](https://www.mozilla.org/en-US/firefox)
 - [Google Chrome](https://www.google.com/intl/en_us/chrome)
 - [Microsoft Edge](https://www.microsoft.com/en-us/edge)

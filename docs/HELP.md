@@ -29,6 +29,7 @@ Available programs to install:
 
 | Program ID       | Program Name               |
 |------------------|----------------------------|
+| braver-browser   | Brave Browser              |
 | bottles          | Bottles                    |
 | cemu             | Cemu                       |
 | chiaki           | Chiaki                     |
