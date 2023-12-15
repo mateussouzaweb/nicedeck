@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=NiceDeck
+Comment=System customizations for a nice gaming experience
+Icon=$HOME/.nicedeck/icon.png
+Exec=$HOME/Applications/NiceDeck %u
+Terminal=false
+Categories=Game;
