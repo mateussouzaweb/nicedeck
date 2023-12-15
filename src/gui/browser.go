@@ -16,8 +16,15 @@ func OpenWithBrowser(address string, width int, height int) error {
 
 	// When there no display, cannot open
 	if os.Getenv("DISPLAY") == "" {
+
+		// Display information message
 		cli.Printf(cli.ColorWarn, "Could not detect display, skipping auto open...\n")
 		cli.Printf(cli.ColorWarn, "Please open the link in the navigator: %s\n", address)
+
+		// Create a never ending blocking channel
+		keep := make(chan bool, 1)
+		<-keep
+
 		return nil
 	}
 
@@ -106,11 +113,21 @@ func OpenWithBrowser(address string, width int, height int) error {
 		))
 	}
 
-	// Fallback to XDG Open
-	return RunProcess(fmt.Sprintf(
+	// Fallback to XDG open
+	err = cli.Command(fmt.Sprintf(
 		`xdg-open %s;`,
 		address,
-	))
+	)).Run()
+	if err != nil {
+		return err
+	}
+
+	// XDG open do not keep the process running
+	// So we need to create a never ending blocking channel
+	keep := make(chan bool, 1)
+	<-keep
+
+	return nil
 }
 
 // Run process with blocking channel
