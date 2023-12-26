@@ -215,7 +215,7 @@ func Process(options *Options) error {
 		return err
 	}
 
-	// Remove shortcuts for inexisting ROMs
+	// Remove shortcuts for inexistent ROMs
 	removed, err := CleanShortcuts(parsed)
 	if err != nil {
 		return err

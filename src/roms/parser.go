@@ -78,7 +78,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		relativePath = strings.Replace(relativePath, realRoot+"/", "", 1)
 
 		// Platform is determined by the initial path
-		// This model is simple and also solve cases for games in subfolders
+		// This model is simple and also solve cases for games in sub-folders
 		pathKeys := strings.Split(relativePath, "/")
 		platform := &Platform{}
 
@@ -111,6 +111,14 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		// Check against regex exclusion list
 		for _, pattern := range excludeRegex {
 			if pattern.MatchString(path) {
+				return nil
+			}
+		}
+
+		// Check if same ROM already was found with another extension
+		// This will prevent multiple results for the same ROM
+		for _, item := range results {
+			if item.Platform == platform.Name && item.Name == name {
 				return nil
 			}
 		}
