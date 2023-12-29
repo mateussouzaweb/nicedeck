@@ -19,7 +19,7 @@ type ImagesParams struct {
 	Page       int      `query:"page"`
 }
 
-// Retrieve formated query params
+// Retrieve formatted query params
 func (i *ImagesParams) getQueryParams() string {
 
 	query := url.Values{}
