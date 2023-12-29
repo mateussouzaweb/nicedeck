@@ -42,23 +42,7 @@ Once you decided the best ROM organization for you and copied your ROMs to the S
 
 ## Using the Parser
 
-Simply run one of the following commands to parse your ROMs, scrape data and create the ROM shortcut inside the Steam Library. You also should run this commands again when you update your ROMs content doing actions like adding new games, renaming or removing one of your ROMs:
-
-```bash
-# Parse and scrape data for all platforms / folders
-nicedeck roms
-
-# Parse and scrape data for specific platform(s) only
-nicedeck roms GBA,3DS
-nicedeck roms --platforms=GBA,3DS
-
-# Rebuild everything by parsing again 
-nicedeck roms --rebuild
-
-# Run the parse, but uses Ryujinx for Nintendo Switch emulation
-# Note: Ryujinx is not enabled by the default, you must specify the preference if want to run Nintendo Switch games with Ryujinx.
-nicedeck roms --platforms=SWITCH --preferences=use-ryujinx
-```
+Simply open the program and run the process to parse your ROMs, scrape data and create the ROM shortcut inside the Steam Library. You also should run this same process again when you update your ROMs content doing actions like adding new games, renaming or removing one of your ROMs.
 
 The parser can take some time to finish based on the size of your ROMs library in the first run. When you need to run it again, don't worry, the parser will consider only the new ROMs in the catalog, making the process fast.
 
@@ -75,7 +59,7 @@ Open Steam in the **Desktop Mode** and simply use the search bar to filter your 
 - Right click in one of the games.
 - Under the menu, go to ``Add To`` and select ``New Collection``.
 - Write the name of the collection - ``Nintendo Game Boy Advance`` - and save.
-- When saved, all ROMS of the platform will be added to the created colection.
+- When saved, all ROMS of the platform will be added to the created collection.
 - Repeat the same process on each platform that you are emulating - ``[3DS]``, ``[PS2]``, ``[XBOX]``...
 
 I do recommend using an Mouse and Keyboard connected to the Steam Deck to run it faster. If can also use the same process to add some games to the favorites.

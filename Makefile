@@ -2,8 +2,9 @@ run:
 	go run cmd/main.go
 	
 build:
-	go build -o bin/nicedeck cmd/main.go
+	go build -o bin/NiceDeck cmd/main.go
 
 deploy: build
-	sudo cp bin/nicedeck $(HOME)/.local/bin/nicedeck
-	sudo chmod +x $(HOME)/.local/bin/nicedeck
+	mkdir -p $(HOME)/Applications
+	cp bin/NiceDeck $(HOME)/Applications/NiceDeck
+	chmod +x $(HOME)/Applications/NiceDeck

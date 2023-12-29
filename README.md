@@ -8,11 +8,11 @@ NiceDeck is an alternative for automated installations softwares like [EmuDeck](
 
 Some features of NiceDeck:
 
-- Automatic installation of recomended softwares for general usage, gaming and console emulation (see list below).
+- Automatic installation of recommended softwares for general usage, gaming and console emulation (see list below).
 - Ability to choose the softwares and emulators to install.
 - Official installation via flatpak on available applications (because is easier to use and updates automatically).
-- Each software is independent and is maintaned / updated directly by their developers.
-- Opinated and simplified structure for emulators, where you should see only the ``ROMs`` and ``BIOS`` folders for the emulators that you installed.
+- Each software is independent and is maintained / updated directly by their developers.
+- Simplified structure for emulators, where you should see only the ``ROMs`` and ``BIOS`` folders for the emulators that you installed.
 - Installed programs will be available on the ``Steam Library``, allowing usage on ``Gaming Mode`` at Steam Deck. Nice covers are also expected.
 - Built-in parser to grab information and add ROMs to the ``Steam Library`` automatically.
 - A correct and workable ``EmulationStation DE`` settings, with systems and finder rules to run games with flatpak in all emulators.
@@ -20,34 +20,14 @@ Some features of NiceDeck:
 
 ## Installation and Usage
 
-Open Steam Deck in ``Desktop Mode``, launch ``Konsole`` and type the command below to install ``nicedeck``:
+Open Steam Deck in ``Desktop Mode``, launch ``Konsole`` and type the command below to install ``NiceDeck``:
 
 ```bash
-# Install the program
+# Install the program and run it
 curl https://mateussouzaweb.github.io/nicedeck/install | bash -
 ```
 
-```bash
-# Make it available on current shell
-export PATH="$PATH:$HOME/.local/bin"
-```
-
-After the program has been installed, you can run the setup process:
-
-```bash
-# Usage help
-nicedeck help
-```
-
-```bash
-# Install all programs
-nicedeck setup
-```
-
-```bash
-# Install specific programs only
-nicedeck install --programs=citra,yuzu
-```
+Once the programs open, run the initial setup process and install the desired programs. You can also parse ROMs and manage Steam Shortcuts from the GUI.
 
 *Note:* Restart Steam or the device to changes take effect into ``Steam Library``.
 
@@ -132,6 +112,6 @@ Please not that NiceDeck will not offer support for all emulation softwares out 
 
 ## Using NiceDeck Outside Steam Deck
 
-You can run NiceDeck in any Linux distribuition that supports ``flatpak`` with [Flathub](https://flathub.org), just make sure to **install and setup Steam first** in order to have the necessary folders of Steam in your system. 
+You can run NiceDeck in any Linux distribution that supports ``flatpak`` with [Flathub](https://flathub.org), just make sure to **install and setup Steam first** in order to have the necessary folders of Steam in your system. 
 
 If you installed Steam via flatpak too, don't worry, NiceDeck will set the necessary settings required to bypass the sandbox limitations of flatpak making you able to launch other applications with Steam.

@@ -5,28 +5,22 @@ set -u
 
 VERSION="v0.0.12"
 REPOSITORY="https://github.com/mateussouzaweb/nicedeck"
-BINARY="$REPOSITORY/releases/download/$VERSION/nicedeck"
-BINARIES="$HOME/.local/bin"
-BASHRC="$HOME/.bashrc"
+BINARY="$REPOSITORY/releases/download/$VERSION/NiceDeck"
+APPLICATIONS="$HOME/Applications"
+DESTINATION="$APPLICATIONS/NiceDeck"
 
-# Make sure binaries folder exists
-if [ ! -d "$BINARIES" ]; then
-  mkdir -p $BINARIES
+# Make sure applications folder exists
+if [ ! -d "$APPLICATIONS" ]; then
+  mkdir -p $APPLICATIONS
 fi
 
-# Make sure binaries path works
-export PATH="$PATH:$BINARIES"
+# Install NiceDeck
+echo "[INFO] Downloading NiceDeck..."
+wget -q $BINARY -O $DESTINATION
+chmod +x $DESTINATION
 
-# Append binaries path to .bashrc if not present 
-if ! grep -q '$HOME/.local/bin' $BASHRC; then
-  echo '' >> $BASHRC
-  echo '# User specific environment' >> $BASHRC
-  echo 'export PATH="$PATH:$HOME/.local/bin"' >> $BASHRC
-fi
+echo "[INFO] NiceDeck ${VERSION} installed at $DESTINATION"
 
-# Install nicedeck
-echo "[INFO] Downloading nicedeck..."
-wget -q $BINARY -O $BINARIES/nicedeck
-chmod +x $BINARIES/nicedeck
-
-echo "[INFO] NiceDeck ${VERSION} installed at $BINARIES/nicedeck"
+# Run the program
+echo "[INFO] Running the program...
+./$DESTINATION
