@@ -30,7 +30,7 @@ func DesktopInstall() error {
 	exist, err = fs.FileExist(desktopShortcut)
 	if err != nil {
 		return err
-	} else if exist {
+	} else if !exist {
 		return WriteDesktopShortcut()
 	}
 
