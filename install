@@ -22,5 +22,5 @@ chmod +x $DESTINATION
 echo "[INFO] NiceDeck $VERSION installed at $DESTINATION"
 
 # Run the program
-echo "[INFO] Running the program...
+echo "[INFO] Running the program..."
 ./$DESTINATION
