@@ -27,7 +27,7 @@ Open Steam Deck in ``Desktop Mode``, launch ``Konsole`` and type the command bel
 curl https://mateussouzaweb.github.io/nicedeck/install | bash -
 ```
 
-Once the programs open, run the initial setup process and install the desired programs. You can also parse ROMs and manage Steam Shortcuts from the GUI.
+The program will open and you can finally run the initial setup process. After the setup process, install the desired programs, parse your ROMs or manage Steam shortcuts from GUI.
 
 *Note:* Restart Steam or the device to changes take effect into ``Steam Library``.
 
