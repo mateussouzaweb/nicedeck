@@ -13,7 +13,7 @@ window.addEventListener('load', async () => {
                 <input type="checkbox" name="programs[]" value="${program.id}" />
                 <div class="area">
                     <div class="icon">
-                        <img loading="lazy" src="${program.iconUrl}" alt="${program.name}" width="96" height="96" />
+                        <img loading="lazy" src="/img/programs/${program.id}.png" alt="${program.name}" width="96" height="96" />
                     </div>
                     <div class="info">
                         <b>${program.name}</b><br/>
