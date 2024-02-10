@@ -85,6 +85,9 @@ func Install(id string) error {
 		return fmt.Errorf("Program not found: %s", id)
 	}
 
+	// Print step message
+	cli.Printf(cli.ColorNotice, "Installing %s!\n", program.Name)
+
 	// Fill basic shortcut information
 	shortcut := &shortcuts.Shortcut{
 		AppName:   program.Name,
