@@ -67,7 +67,7 @@ func main() {
 	// We should wait for the serve goes up first
 	go func() {
 		<-ready
-		err := gui.OpenWithBrowser("http://"+address, 1200, 700)
+		err := gui.OpenWithBrowser("http://"+address, 1280, 700)
 		if err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 			exitCode = 1
