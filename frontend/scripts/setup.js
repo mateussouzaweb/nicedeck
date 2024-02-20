@@ -2,7 +2,7 @@
 window.addEventListener('load', () => {
 
     on('#setup form', 'submit', async (event) => {
-        event.preventDefault();
+        event.preventDefault()
 
         const form = $('#setup form')
         const button = $('button[type="submit"]', form)
@@ -20,6 +20,8 @@ window.addEventListener('load', () => {
                 await request('POST', '/api/library/load')
                 await request('POST', '/api/library/save')
             })
+        } catch (error) {
+            window.showError(error)
         } finally {
             button.disabled = false
         }

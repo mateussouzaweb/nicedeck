@@ -42,7 +42,7 @@ window.addEventListener('load', async () => {
     async function writeConsoleOutput(text) {
         const content = $('#console #content')
         content.innerHTML = text.split("\n").join("<br/>")
-        content.scrollTop = content.scrollHeight;
+        content.scrollTop = content.scrollHeight
     }
 
     on('#console #clear', 'click', async (event) => {

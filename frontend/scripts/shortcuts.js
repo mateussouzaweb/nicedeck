@@ -58,6 +58,7 @@ window.addEventListener('load', async () => {
         } finally {
             button.disabled = false
         }
+
     }
 
     on('#shortcuts [data-update-shortcut]', 'click', async (event) => {
@@ -73,44 +74,51 @@ window.addEventListener('load', async () => {
         content.innerHTML = '<p>Loading data, please wait...</p>'
         window.showModal(modal)
 
-        /** @type {ScrapeResult} */
-        const result = await requestJson('GET', '/api/scrape?term=' + encodeURIComponent(shortcut.appName))
-        const html = []
+        try {
 
-        const append = (type, title, selected, images, width, height) => {
-            html.push(`<section class="${type}-area">`)
-            html.push(`<h4>${title}</h4>`)
+            /** @type {ScrapeResult} */
+            const result = await requestJson('GET', '/api/scrape?term=' + encodeURIComponent(shortcut.appName))
+            const html = []
 
-            if (!images || !images.length) {
-                html.push(`<p>No images found.</p>`)
-            } else {
-                html.push(`<div class="group">`)
-                images.forEach((item, index) => {
-                    const checked = index === 0 || selected === item ? 'checked="checked"' : ''
-                    html.push(`
-                    <label class="radio">
-                        <input type="radio" name="${type}" value="${item}" ${checked} />
-                        <div class="image">
-                            <img loading="lazy" src="${item}" alt="Image ${index}" 
-                            width="${width}" height="${height}"/>
-                        </div>
-                    </label>
-                    `)
-                })
-                html.push(`</div>`)
+            const append = (type, title, selected, images, width, height) => {
+                html.push(`<section class="${type}-area">`)
+                html.push(`<h4>${title}</h4>`)
+
+                if (!images || !images.length) {
+                    html.push(`<p>No images found.</p>`)
+                } else {
+                    html.push(`<div class="group">`)
+                    images.forEach((item, index) => {
+                        const checked = index === 0 || selected === item ? 'checked="checked"' : ''
+                        html.push(`
+                        <label class="radio">
+                            <input type="radio" name="${type}" value="${item}" ${checked} />
+                            <div class="image">
+                                <img loading="lazy" src="${item}" alt="Image ${index}" 
+                                width="${width}" height="${height}"/>
+                            </div>
+                        </label>
+                        `)
+                    })
+                    html.push(`</div>`)
+                }
+
+                html.push(`</section>`)
             }
 
-            html.push(`</section>`)
+            html.push(`<p>Scrape results for <b>${shortcut.appName}</b>:</p>`)
+            append('cover', 'Cover Artworks', shortcut.coverUrl, result.coverUrls, 600, 900)
+            append('banner', 'Banner Artworks', shortcut.bannerUrl, result.bannerUrls, 920, 430)
+            append('hero', 'Hero Artworks', shortcut.heroUrl, result.heroUrls, 600, 900)
+            append('icon', 'Icon Artworks', shortcut.iconUrl, result.iconUrls, 192, 192)
+            append('logo', 'Logo Artworks', shortcut.logoUrl, result.logoUrls, 600, 900)
+
+            content.innerHTML = html.join('')
+
+        } catch (error) {
+            window.showError(error)
+            window.hideModal(modal)
         }
-
-        html.push(`<p>Scrape results for <b>${shortcut.appName}</b>:</p>`)
-        append('cover', 'Cover Artworks', shortcut.coverUrl, result.coverUrls, 600, 900)
-        append('banner', 'Banner Artworks', shortcut.bannerUrl, result.bannerUrls, 920, 430)
-        append('hero', 'Hero Artworks', shortcut.heroUrl, result.heroUrls, 600, 900)
-        append('icon', 'Icon Artworks', shortcut.iconUrl, result.iconUrls, 192, 192)
-        append('logo', 'Logo Artworks', shortcut.logoUrl, result.logoUrls, 600, 900)
-
-        content.innerHTML = html.join('')
 
     })
 
@@ -156,6 +164,8 @@ window.addEventListener('load', async () => {
                 await request('POST', '/api/library/save')
             })
             await loadShortcuts()
+        } catch (error) {
+            window.showError(error)
         } finally {
             button.disabled = false
         }
@@ -166,7 +176,7 @@ window.addEventListener('load', async () => {
 
     on('#shortcuts #modal-delete-shortcut form', 'submit', async (event) => {
 
-        event.preventDefault();
+        event.preventDefault()
 
         const modal = $('#modal-delete-shortcut')
         const button = $('button[type="submit"]', modal)
@@ -184,6 +194,8 @@ window.addEventListener('load', async () => {
                 await request('POST', '/api/library/save')
             })
             await loadShortcuts()
+        } catch (error) {
+            window.showError(error)
         } finally {
             button.disabled = false
         }
@@ -194,9 +206,18 @@ window.addEventListener('load', async () => {
 
     on('#shortcuts #load', 'click', async (event) => {
         event.preventDefault()
-        await loadShortcuts()
+
+        try {
+            await loadShortcuts()
+        } catch (error) {
+            window.showError(error)
+        }
     })
 
-    await loadShortcuts()
+    try {
+        await loadShortcuts()
+    } catch (error) {
+        window.showError(error)
+    }
 
 })

@@ -43,7 +43,7 @@ window.addEventListener('load', async () => {
     })
 
     on('#roms form', 'submit', async (event) => {
-        event.preventDefault();
+        event.preventDefault()
 
         const form = $('#roms form')
         const button = $('button[type="submit"]', form)
@@ -61,11 +61,17 @@ window.addEventListener('load', async () => {
                 await request('POST', '/api/roms', body)
                 await request('POST', '/api/library/save')
             })
+        } catch (error) {
+            window.showError(error)
         } finally {
             button.disabled = false
         }
     })
 
-    await loadPlatforms()
+    try {
+        await loadPlatforms()
+    } catch (error) {
+        window.showError(error)
+    }
 
 })

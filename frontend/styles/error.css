@@ -1,0 +1,28 @@
+#error .alert {
+    background: #c42222;
+    border: 1px solid #950909;
+    color: #FFF;
+    padding: 10px;
+    text-align: center;
+    margin: 10px 0;
+    position: relative;
+}
+#error .alert p {
+    margin: 0;
+    padding: 0 50px 0 0;
+}
+#error .alert #close {
+    background: rgba(0, 0, 0, 0.15);
+    border-left: 1px solid #950909;
+    color: #FFF;
+    cursor: pointer;
+    flex: 0;
+    font-weight: bold;
+    font-size: 120%;
+    padding: 7px 15px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+}
