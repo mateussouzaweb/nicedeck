@@ -21,7 +21,7 @@ func WriteSettings() error {
 	}
 
 	// Settings (write file only if not exist yet)
-	settingsFile := os.ExpandEnv("$HOME/.emulationstation/es_settings.xml")
+	settingsFile := os.ExpandEnv("$HOME/ES-DE/settings/es_settings.xml")
 	settingsExist, err := fs.FileExist(settingsFile)
 	if err != nil {
 		return err
@@ -46,7 +46,7 @@ func WriteSettings() error {
 	}
 
 	// Systems
-	systemsFile := os.ExpandEnv("$HOME/.emulationstation/custom_systems/es_systems.xml")
+	systemsFile := os.ExpandEnv("$HOME/ES-DE/custom_systems/es_systems.xml")
 	systemsConfig, err := resourcesContent.ReadFile("resources/es_systems.xml")
 	if err != nil {
 		return err
@@ -63,7 +63,7 @@ func WriteSettings() error {
 	}
 
 	// Find Rules
-	findRulesFile := os.ExpandEnv("$HOME/.emulationstation/custom_systems/es_find_rules.xml")
+	findRulesFile := os.ExpandEnv("$HOME/ES-DE/custom_systems/es_find_rules.xml")
 	findRulesConfig, err := resourcesContent.ReadFile("resources/es_find_rules.xml")
 	if err != nil {
 		return err
@@ -80,7 +80,7 @@ func WriteSettings() error {
 	}
 
 	// Icon
-	iconFile := os.ExpandEnv("$HOME/.emulationstation/icon.png")
+	iconFile := os.ExpandEnv("$HOME/ES-DE/icon.png")
 	iconContent, err := resourcesContent.ReadFile("resources/icon.png")
 	if err != nil {
 		return err
