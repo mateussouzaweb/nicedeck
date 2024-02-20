@@ -333,7 +333,7 @@ func scrapeData(context *Context) error {
 
 	result.Status = "OK"
 	result.Result = data
-	return context.Status(200).JSON(data)
+	return context.Status(200).JSON(result)
 }
 
 // Setup server endpoints
