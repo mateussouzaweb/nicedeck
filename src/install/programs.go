@@ -86,7 +86,7 @@ func Install(id string) error {
 	}
 
 	// Print step message
-	cli.Printf(cli.ColorNotice, "Installing %s!\n", program.Name)
+	cli.Printf(cli.ColorNotice, "Installing %s...\n", program.Name)
 
 	// Fill basic shortcut information
 	shortcut := &shortcuts.Shortcut{
