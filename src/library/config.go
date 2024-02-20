@@ -188,6 +188,11 @@ func GetConfig() *Config {
 
 // Retrieve runtime shortcuts
 func GetShortcuts() []*shortcuts.Shortcut {
+
+	if _config.Shortcuts == nil {
+		_config.Shortcuts = make([]*shortcuts.Shortcut, 0)
+	}
+
 	return _config.Shortcuts
 }
 
