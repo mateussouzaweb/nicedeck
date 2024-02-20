@@ -50,8 +50,10 @@ window.addEventListener('load', async () => {
             })
 
             if (!items.length) {
-                items.push(`<article class="item">
-                    <p>No shortcuts to show here yet...</p>
+                items.push(`<article class="item message">
+                    <div class="area">
+                        No library shortcuts to display here yet...
+                    </div>
                 </article>`)
             }
 

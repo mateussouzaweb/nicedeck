@@ -4,6 +4,7 @@
     flex-flow: row wrap;
     margin: 10px -5px;
 }
+
 #shortcuts #list .item {
     flex: 0 0 25%;
     max-width: 20%;
@@ -16,6 +17,17 @@
     border-radius: 5px;
     height: 100%;
 }
+
+#shortcuts #list .item.message {
+    flex-basis: 100%;
+    max-width: unset;
+}
+#shortcuts #list .item.message .area {
+    border-width: 1px;
+    padding: 10px;
+    text-align: center;
+}
+
 #shortcuts #list .image {
     display: block;
 }
@@ -23,6 +35,7 @@
     height: auto;
     width: 100%;
 }
+
 #shortcuts #list .info .title {
     padding: 10px;
 }
