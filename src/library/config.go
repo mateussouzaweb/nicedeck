@@ -24,7 +24,7 @@ type Config struct {
 	Shortcuts               []*shortcuts.Shortcut `json:"shortcuts"`
 }
 
-var _config *Config
+var _config Config
 
 // Load data to runtime config
 func Load() error {
@@ -32,7 +32,7 @@ func Load() error {
 	// Retrieve Steam base path
 	steamPaths, err := steam.GetPaths("")
 	if err != nil {
-		return err
+		return fmt.Errorf("could not detect Steam - please make sure to install Steam first: %s", err)
 	}
 
 	// Make sure Steam on flatpak has the necessary permission
@@ -51,7 +51,7 @@ func Load() error {
 	// Retrieve user config path
 	userConfigPaths, err := steam.GetPaths("userdata/*/config")
 	if err != nil {
-		return err
+		return fmt.Errorf("could not detect Steam user configuration - please make sure to login into Steam first: %s", err)
 	}
 
 	// Make sure zero config is ignored (this is not a valid user)
@@ -66,7 +66,7 @@ func Load() error {
 	}
 
 	// Set runtime configs
-	_config = &Config{}
+	_config = Config{}
 	_config.IsFlatpak = isFlatpak
 	_config.SteamPath = steamPaths[0]
 	_config.UserConfigPath = userConfigPaths[0]
@@ -87,7 +87,7 @@ func Load() error {
 
 		// Fill config information from file content when available
 		// This file contains the extended state for shortcuts
-		err = json.Unmarshal(content, _config)
+		err = json.Unmarshal(content, &_config)
 		if err != nil {
 			return err
 		}
@@ -142,6 +142,12 @@ func Save() error {
 
 	var err error
 
+	// Check if library was loaded
+	if _config.SteamPath == "" {
+		err = fmt.Errorf("cannot save library because Steam was not detected")
+		return err
+	}
+
 	// Sort list of shortcuts (again)
 	_config.Shortcuts, err = shortcuts.SortShortcuts(_config.Shortcuts)
 	if err != nil {
@@ -177,7 +183,7 @@ func Save() error {
 
 // Retrieve runtime config
 func GetConfig() *Config {
-	return _config
+	return &_config
 }
 
 // Retrieve runtime shortcuts
@@ -192,6 +198,14 @@ func GetShortcut(appID uint) *shortcuts.Shortcut {
 
 // Ensure that shortcut has the correct settings
 func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
+
+	var err error
+
+	// Check if library was loaded
+	if _config.SteamPath == "" {
+		err = fmt.Errorf("cannot process library shortcut because Steam was not properly detected")
+		return err
+	}
 
 	// Check if Steam was installed via flatpak
 	// If yes, then we need to append the flatpak-spawn wrapper
@@ -248,7 +262,7 @@ func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 
 		// Try to remove the outdated image
 		remove := strings.Replace(path, format, alternative, 1)
-		err := fs.RemoveFile(remove)
+		err = fs.RemoveFile(remove)
 		if err != nil {
 			return err
 		}
@@ -256,16 +270,16 @@ func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 		return nil
 	}
 
-	if err := removeDuplicated(shortcut.Icon, ".png", ".ico"); err != nil {
+	if err = removeDuplicated(shortcut.Icon, ".png", ".ico"); err != nil {
 		return err
 	}
-	if err := removeDuplicated(shortcut.Cover, ".png", ".jpg"); err != nil {
+	if err = removeDuplicated(shortcut.Cover, ".png", ".jpg"); err != nil {
 		return err
 	}
-	if err := removeDuplicated(shortcut.Banner, ".png", ".jpg"); err != nil {
+	if err = removeDuplicated(shortcut.Banner, ".png", ".jpg"); err != nil {
 		return err
 	}
-	if err := removeDuplicated(shortcut.Hero, ".png", ".jpg"); err != nil {
+	if err = removeDuplicated(shortcut.Hero, ".png", ".jpg"); err != nil {
 		return err
 	}
 
@@ -275,8 +289,15 @@ func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 // Add program to the shortcuts list
 func AddToShortcuts(shortcut *shortcuts.Shortcut, overwriteArtworks bool) error {
 
+	var err error
+
+	if _config.SteamPath == "" {
+		err = fmt.Errorf("cannot add library shortcut because Steam was not properly detected")
+		return err
+	}
+
 	// Make sure shortcut settings is correct
-	err := EnsureShortcut(shortcut)
+	err = EnsureShortcut(shortcut)
 	if err != nil {
 		return err
 	}
@@ -313,6 +334,11 @@ func AddToShortcuts(shortcut *shortcuts.Shortcut, overwriteArtworks bool) error 
 func RemoveFromShortcuts(shortcut *shortcuts.Shortcut) error {
 
 	var err error
+
+	if _config.SteamPath == "" {
+		err = fmt.Errorf("cannot remove library shortcut because Steam was not properly detected")
+		return err
+	}
 
 	_config.Shortcuts, err = shortcuts.RemoveShortcut(_config.Shortcuts, shortcut)
 	if err != nil {

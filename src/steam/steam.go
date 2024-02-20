@@ -55,7 +55,7 @@ func GetPaths(pattern string) ([]string, error) {
 
 	// Return error if not detected
 	if usePath == "" {
-		return found, fmt.Errorf("could not detect the Steam installation path")
+		return found, fmt.Errorf("could not found the Steam installation path")
 	}
 
 	// Try to detect the path
@@ -65,7 +65,7 @@ func GetPaths(pattern string) ([]string, error) {
 	}
 
 	if len(found) == 0 {
-		return found, fmt.Errorf("could not found the Steam installation path: %s", usePath)
+		return found, fmt.Errorf("could not found path: %s", usePath)
 	}
 
 	// Will return only the first result
