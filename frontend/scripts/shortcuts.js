@@ -22,8 +22,10 @@ window.addEventListener('load', async () => {
         button.disabled = true
 
         try {
-            /** @type {Shortcut[]} */
+
             const library = await requestJson('POST', '/api/library/load')
+
+            /** @type {Shortcut[]} */
             shortcuts = await requestJson('GET', '/api/shortcuts')
 
             const items = shortcuts.map((shortcut) => {
@@ -77,9 +79,9 @@ window.addEventListener('load', async () => {
         try {
 
             /** @type {ScrapeResult} */
-            const result = await requestJson('GET', '/api/scrape?term=' + encodeURIComponent(shortcut.appName))
-            const html = []
+            const scrape = await requestJson('GET', '/api/scrape?term=' + encodeURIComponent(shortcut.appName))
 
+            const html = []
             const append = (type, title, selected, images, width, height) => {
                 html.push(`<section class="${type}-area">`)
                 html.push(`<h4>${title}</h4>`)
@@ -94,7 +96,7 @@ window.addEventListener('load', async () => {
                         <label class="radio">
                             <input type="radio" name="${type}" value="${item}" ${checked} />
                             <div class="image">
-                                <img loading="lazy" src="${item}" alt="Image ${index}" 
+                                <img loading="lazy" src="${item}" alt="Image ${index}"
                                 width="${width}" height="${height}"/>
                             </div>
                         </label>
@@ -107,11 +109,11 @@ window.addEventListener('load', async () => {
             }
 
             html.push(`<p>Scrape results for <b>${shortcut.appName}</b>:</p>`)
-            append('cover', 'Cover Artworks', shortcut.coverUrl, result.coverUrls, 600, 900)
-            append('banner', 'Banner Artworks', shortcut.bannerUrl, result.bannerUrls, 920, 430)
-            append('hero', 'Hero Artworks', shortcut.heroUrl, result.heroUrls, 600, 900)
-            append('icon', 'Icon Artworks', shortcut.iconUrl, result.iconUrls, 192, 192)
-            append('logo', 'Logo Artworks', shortcut.logoUrl, result.logoUrls, 600, 900)
+            append('cover', 'Cover Artworks', shortcut.coverUrl, scrape.result.coverUrls, 600, 900)
+            append('banner', 'Banner Artworks', shortcut.bannerUrl, scrape.result.bannerUrls, 920, 430)
+            append('hero', 'Hero Artworks', shortcut.heroUrl, scrape.result.heroUrls, 600, 900)
+            append('icon', 'Icon Artworks', shortcut.iconUrl, scrape.result.iconUrls, 192, 192)
+            append('logo', 'Logo Artworks', shortcut.logoUrl, scrape.result.logoUrls, 600, 900)
 
             content.innerHTML = html.join('')
 
@@ -160,8 +162,8 @@ window.addEventListener('load', async () => {
         try {
             button.disabled = true
             await window.runAndCaptureConsole(false, async () => {
-                await request('POST', '/api/shortcut/modify', body)
-                await request('POST', '/api/library/save')
+                await requestJson('POST', '/api/shortcut/modify', body)
+                await requestJson('POST', '/api/library/save')
             })
             await loadShortcuts()
         } catch (error) {
@@ -190,8 +192,8 @@ window.addEventListener('load', async () => {
         try {
             button.disabled = true
             await window.runAndCaptureConsole(false, async () => {
-                await request('POST', '/api/shortcut/modify', body)
-                await request('POST', '/api/library/save')
+                await requestJson('POST', '/api/shortcut/modify', body)
+                await requestJson('POST', '/api/library/save')
             })
             await loadShortcuts()
         } catch (error) {

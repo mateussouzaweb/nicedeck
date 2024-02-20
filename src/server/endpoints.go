@@ -25,7 +25,10 @@ var staticFS fs.FS
 var gridHandler http.Handler
 var staticHandler http.Handler
 
+// Load library result
 type LoadLibraryResult struct {
+	Status           string `json:"status"`
+	Error            string `json:"error"`
 	SteamPath        string `json:"steamPath"`
 	UserConfigPath   string `json:"userConfigPath"`
 	UserArtworksPath string `json:"userArtworksPath"`
@@ -34,10 +37,14 @@ type LoadLibraryResult struct {
 // Load library action
 func loadLibrary(context *Context) error {
 
+	result := LoadLibraryResult{}
+
 	// Load user library
 	err := library.Load()
 	if err != nil {
-		return err
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
 	}
 
 	// Create FS with loaded artworks path
@@ -46,25 +53,35 @@ func loadLibrary(context *Context) error {
 	gridHandler = http.FileServer(http.FS(gridFS))
 
 	// Print loaded data
-	result := LoadLibraryResult{
-		SteamPath:        library.GetConfig().SteamPath,
-		UserArtworksPath: library.GetConfig().UserArtworksPath,
-		UserConfigPath:   library.GetConfig().UserConfigPath,
-	}
+	result.Status = "OK"
+	result.SteamPath = library.GetConfig().SteamPath
+	result.UserArtworksPath = library.GetConfig().UserArtworksPath
+	result.UserConfigPath = library.GetConfig().UserConfigPath
 
 	return context.Status(200).JSON(result)
+}
+
+// Save library result
+type SaveLibraryResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
 }
 
 // Save library action
 func saveLibrary(context *Context) error {
 
+	result := SaveLibraryResult{}
+
 	// Save user library
 	err := library.Save()
 	if err != nil {
-		return err
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
 	}
 
-	return context.Status(200).String("OK")
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
 }
 
 // List shortcuts action
@@ -96,20 +113,33 @@ type ModifyShortcutData struct {
 	HeroURL   string `json:"heroUrl"`
 }
 
+// Modify shortcut result
+type ModifyShortcutResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
 // Modify shortcut action
 func modifyShortcut(context *Context) error {
+
+	result := ModifyShortcutResult{}
 
 	// Bind data
 	data := ModifyShortcutData{}
 	err := context.Bind(&data)
 	if err != nil {
-		return err
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
 	}
 
 	// Find shortcut reference
 	shortcut := library.GetShortcut(data.AppID)
 	if shortcut.AppID == 0 {
-		return fmt.Errorf("could not found shortcut with appID: %v", data.AppID)
+		err := fmt.Errorf("could not found shortcut with appID: %v", data.AppID)
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
 	}
 
 	// Update shortcut
@@ -132,7 +162,9 @@ func modifyShortcut(context *Context) error {
 
 		err := library.AddToShortcuts(shortcut, true)
 		if err != nil {
-			return err
+			result.Status = "ERROR"
+			result.Error = err.Error()
+			return context.Status(400).JSON(result)
 		}
 
 		cli.Printf(cli.ColorSuccess, "Shortcut %v updated!\n", shortcut.AppID)
@@ -142,13 +174,16 @@ func modifyShortcut(context *Context) error {
 	if data.Action == "delete" {
 		err := library.RemoveFromShortcuts(shortcut)
 		if err != nil {
-			return err
+			result.Status = "ERROR"
+			result.Error = err.Error()
+			return context.Status(400).JSON(result)
 		}
 
 		cli.Printf(cli.ColorSuccess, "Shortcut %v removed!\n", shortcut.AppID)
 	}
 
-	return context.Status(200).String("OK")
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
 }
 
 // Run setup data
@@ -157,24 +192,38 @@ type RunSetupData struct {
 	MicroSDPath      string `json:"microSDPath"`
 }
 
+// Run setup result
+type RunSetupResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
 // Run setup action (to install all programs)
 func runSetup(context *Context) error {
+
+	result := RunSetupResult{}
 
 	// Bind data
 	data := RunSetupData{}
 	err := context.Bind(&data)
 	if err != nil {
-		return err
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
 	}
 
 	// Run setup by making sure has required structure
 	err = install.Structure(data.InstallOnMicroSD, data.MicroSDPath)
 	if err != nil {
-		return err
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
 	}
 
 	cli.Printf(cli.ColorSuccess, "Setup completed!\n")
-	return context.Status(200).String("OK")
+
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
 }
 
 // Run install data
@@ -182,28 +231,41 @@ type RunInstallData struct {
 	Programs []string `json:"programs"`
 }
 
+// Run install result
+type RunInstallResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
 // Run install action (for specific programs only)
 func runInstall(context *Context) error {
+
+	result := RunInstallResult{}
 
 	// Bind data
 	data := RunInstallData{}
 	err := context.Bind(&data)
 	if err != nil {
-		return err
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
 	}
 
 	// Install programs in the list
 	for _, program := range data.Programs {
 		err := install.Install(program)
 		if err != nil {
-			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
+			result.Status = "ERROR"
+			result.Error = err.Error()
+			return context.Status(400).JSON(result)
 		}
 	}
 
 	cli.Printf(cli.ColorSuccess, "Process finished!\n")
 	cli.Printf(cli.ColorNotice, "Please restart Steam or the device to changes take effect.\n")
 
-	return context.Status(200).String("OK")
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
 }
 
 // Process ROMs data
@@ -213,39 +275,65 @@ type ProcessROMsData struct {
 	Rebuild     bool     `json:"rebuild"`
 }
 
+// Process ROMS result
+type ProcessROMsResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
 // Process ROMs action (to update library)
 func processROMs(context *Context) error {
+
+	result := ProcessROMsResult{}
 
 	// Bind data
 	data := ProcessROMsData{}
 	err := context.Bind(&data)
 	if err != nil {
-		return err
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
 	}
 
 	// Process ROMs to add/update/remove
 	options := roms.ToOptions(data.Platforms, data.Preferences, data.Rebuild)
 	err = roms.Process(options)
 	if err != nil {
-		return err
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
 	}
 
-	return context.Status(200).String("OK")
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
+}
+
+// Scrape data result
+type ScrapeDataResult struct {
+	Status string                `json:"status"`
+	Error  string                `json:"error"`
+	Result *scraper.ScrapeResult `json:"result"`
 }
 
 // Scrape data action
 func scrapeData(context *Context) error {
 
+	result := ScrapeDataResult{}
+
 	// Bind data
 	term := context.Request.URL.Query().Get("term")
 
 	// Scrape term data
-	result, err := scraper.ScrapeFromName(term)
+	data, err := scraper.ScrapeFromName(term)
 	if err != nil {
-		return err
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
 	}
 
-	return context.Status(200).JSON(result)
+	result.Status = "OK"
+	result.Result = data
+	return context.Status(200).JSON(data)
 }
 
 // Setup server endpoints

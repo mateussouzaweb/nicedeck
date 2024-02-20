@@ -58,8 +58,8 @@ window.addEventListener('load', async () => {
         try {
             button.disabled = true
             await window.runAndCaptureConsole(true, async () => {
-                await request('POST', '/api/roms', body)
-                await request('POST', '/api/library/save')
+                await requestJson('POST', '/api/roms', body)
+                await requestJson('POST', '/api/library/save')
             })
         } catch (error) {
             window.showError(error)

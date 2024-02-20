@@ -10,10 +10,6 @@ window.addEventListener('load', async () => {
         version.innerHTML = result
     }
 
-    try {
-        await loadVersion()
-    } catch (error) {
-        window.showError(error)
-    }
+    await loadVersion()
 
 })

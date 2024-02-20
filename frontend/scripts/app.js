@@ -76,5 +76,10 @@ async function request(method, endpoint, data) {
 async function requestJson(method, endpoint, data) {
     const result = await request(method, endpoint, data)
     const json = JSON.parse(result || '{}')
+
+    if (json.error) {
+        throw new Error(json.error);
+    }
+
     return json
 }

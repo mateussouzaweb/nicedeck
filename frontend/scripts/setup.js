@@ -16,9 +16,9 @@ window.addEventListener('load', () => {
         try {
             button.disabled = true
             await window.runAndCaptureConsole(true, async () => {
-                await request('POST', '/api/setup', body)
-                await request('POST', '/api/library/load')
-                await request('POST', '/api/library/save')
+                await requestJson('POST', '/api/setup', body)
+                await requestJson('POST', '/api/library/load')
+                await requestJson('POST', '/api/library/save')
             })
         } catch (error) {
             window.showError(error)
