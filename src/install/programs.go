@@ -82,7 +82,7 @@ func Install(id string) error {
 
 	// Program not found
 	if program.ID == "" {
-		return fmt.Errorf("Program not found: %s", id)
+		return fmt.Errorf("program not found: %s", id)
 	}
 
 	// Print step message
