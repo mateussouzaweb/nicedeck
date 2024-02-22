@@ -19,9 +19,13 @@ window.addEventListener('load', async () => {
     async function loadShortcuts() {
 
         const button = $('#shortcuts #load')
-        button.disabled = true
+
+        if (button.disabled) {
+            return
+        }
 
         try {
+            button.disabled = true
 
             const library = await requestJson('POST', '/api/library/load')
 
@@ -146,8 +150,12 @@ window.addEventListener('load', async () => {
         event.preventDefault()
 
         const modal = $('#modal-update-shortcut')
-        const button = $('button[type="submit"]', modal)
         const form = $('form', modal)
+        const button = $('button[type="submit"]', form)
+
+        if (button.disabled) {
+            return
+        }
 
         const shortcut = getShortcut(modal.dataset.shortcut)
         const data = new FormData(form)
@@ -183,7 +191,12 @@ window.addEventListener('load', async () => {
         event.preventDefault()
 
         const modal = $('#modal-delete-shortcut')
-        const button = $('button[type="submit"]', modal)
+        const form = $('form', modal)
+        const button = $('button[type="submit"]', form)
+
+        if (button.disabled) {
+            return
+        }
 
         const shortcut = getShortcut(modal.dataset.shortcut)
         const body = JSON.stringify({

@@ -48,6 +48,10 @@ window.addEventListener('load', async () => {
         const form = $('#roms form')
         const button = $('button[type="submit"]', form)
 
+        if (button.disabled) {
+            return
+        }
+
         const data = new FormData(form)
         const body = JSON.stringify({
             platforms: data.getAll('platforms[]'),
