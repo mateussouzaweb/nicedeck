@@ -60,8 +60,8 @@ func Start(address string, ready chan bool) error {
 	server := &http.Server{
 		Addr:         address,
 		Handler:      mux,
-		ReadTimeout:  5 * time.Second,
-		WriteTimeout: 10 * time.Second,
+		ReadTimeout:  0 * time.Second,
+		WriteTimeout: 0 * time.Second,
 		IdleTimeout:  120 * time.Second,
 	}
 
