@@ -114,4 +114,4 @@ Please not that NiceDeck will not offer support for all emulation softwares out 
 
 You can run NiceDeck in any Linux distribution that supports ``flatpak`` with [Flathub](https://flathub.org), just make sure to **install and setup Steam first** in order to have the necessary folders of Steam in your system. 
 
-If you installed Steam via flatpak too, don't worry, NiceDeck will set the necessary settings required to bypass the sandbox limitations of flatpak making you able to launch other applications with Steam.
+If you installed Steam via flatpak too, don't worry, NiceDeck will set the necessary settings required to bypass the sandbox limitations of flatpak making you able to launch other applications with Steam - requires ``flatpak-xdg-utils`` package installed.
