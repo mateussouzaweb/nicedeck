@@ -378,17 +378,6 @@ func Setup(version string) error {
 		}
 	})
 
-	// Prevent cache middleware
-	Use(func(next Handler) Handler {
-		return func(context *Context) error {
-			context.Header("Cache-Control", "no-cache, no-store, must-revalidate;")
-			context.Header("Pragma", "no-cache")
-			context.Header("Expires", "0")
-			context.Header("X-Content-Type-Options", "nosniff")
-			return next(context)
-		}
-	})
-
 	// Any command in routes should output to buffer
 	// This can be read or clear later with endpoint
 	var buffer bytes.Buffer
@@ -440,6 +429,12 @@ func Setup(version string) error {
 
 	// Grid image request
 	Add("GET", "/grid/image/(.*)", func(context *Context) error {
+
+		// Prevent cache headers
+		context.Header("Cache-Control", "no-cache, no-store, must-revalidate;")
+		context.Header("Pragma", "no-cache")
+		context.Header("Expires", "0")
+		context.Header("X-Content-Type-Options", "nosniff")
 
 		// Check if requested file exist
 		filename := strings.TrimPrefix(context.URI, "/grid/image/")
