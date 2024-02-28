@@ -65,10 +65,10 @@
     border: 0;
     border-radius: 0.25em;
     box-shadow: 0 3px 7px rgba(0, 0, 0, 0.20);
-    margin: auto;
     max-height: 100%;
-    overflow: auto;
-    overscroll-behavior-y: contain;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
 }
 .modal .close {
     cursor: pointer;
@@ -97,6 +97,8 @@
     width: auto;
 }
 .modal .content {
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
     padding: 1em;
     position: relative;
 }
