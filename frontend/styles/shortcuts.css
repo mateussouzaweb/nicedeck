@@ -60,10 +60,8 @@
     margin: 10px 0 5px;
 }
 #shortcuts .modal .group {
-    max-height: 300px;
     display: flex;
     flex-wrap: wrap;
-    overflow: auto;
 }
 #shortcuts .modal .radio {
     flex: 1;
