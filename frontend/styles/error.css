@@ -1,11 +1,18 @@
 #error .alert {
     background: #c42222;
     border: 1px solid #950909;
+    border-radius: 5px;
     color: #FFF;
+    margin: 10px 5px;
     padding: 10px;
-    text-align: center;
-    margin: 10px 0;
     position: relative;
+    text-align: center;
+}
+#error .alert:first-child {
+    margin-top: 0;
+}
+#error .alert:last-child {
+    margin-bottom: 20px;
 }
 #error .alert p {
     margin: 0;
@@ -17,15 +24,15 @@
 #error .alert #close {
     background: rgba(0, 0, 0, 0.15);
     border-left: 1px solid #950909;
+    bottom: 0;
     color: #FFF;
     cursor: pointer;
     flex: 0;
-    font-weight: bold;
     font-size: 120%;
+    font-weight: bold;
     padding: 7px 15px;
     position: absolute;
-    top: 0;
     right: 0;
-    bottom: 0;
+    top: 0;
     z-index: 2;
 }
