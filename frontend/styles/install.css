@@ -11,11 +11,31 @@
     padding: 0 5px;
 }
 
-#install #programs {
+#install #programs .group {
     display: flex;
     flex-flow: row wrap;
     margin: 0 -5px;
 }
+#install #programs .group + .group {
+    margin-top: 20px;
+}
+
+#install #programs .group-info {
+    display: flex;
+    align-items: center;
+    flex-basis: 100%;
+    margin: 5px;
+}
+#install #programs .group-info h4 {
+    margin: 0 20px 0 0;
+    flex: 0;
+    font-size: 1.25rem;
+}
+#install #programs .group-info p {
+    margin: 0;
+    flex: 1;
+}
+
 #install #programs label.checkbox .icon {
     min-width: 72px;
 }

@@ -8,23 +8,53 @@ window.addEventListener('load', async () => {
 
         /** @type {Program[]} */
         const programs = await requestJson('GET', '/api/programs')
-        const options = programs.map((program) => {
-            return `<label class="checkbox" title="${program.name}">
-                <input type="checkbox" name="programs[]" value="${program.id}" />
-                <div class="area">
-                    <div class="icon">
-                        <img loading="lazy" src="/img/programs/${program.id}.png" alt="${program.name}" width="96" height="96" />
+
+        const html = []
+        const append = (category) => {
+            html.push(
+            `<section class="group">
+                <div class="group-info">
+                    <h4>${category}</h4>
+                    <p class="mass-actions">
+                        <span class="select-all">SELECT ALL</span>
+                        <span class="separator">/</span>
+                        <span class="clear-all">CLEAR</span>
+                    </p>
+                </div>`)
+
+            programs.map((program) => {
+                if( program.category !== category ){
+                    return
+                }
+
+                html.push(
+                `<label class="checkbox" title="${program.name}">
+                    <input type="checkbox" name="programs[]" value="${program.id}" />
+                    <div class="area">
+                        <div class="icon">
+                            <img loading="lazy" src="/img/programs/${program.id}.png" alt="${program.name}" width="96" height="96" />
+                        </div>
+                        <div class="info">
+                            <b>${program.name}</b><br/>
+                            <small>${program.description}</small>
+                        </div>
                     </div>
-                    <div class="info">
-                        <b>${program.name}</b><br/>
-                        <small>${program.description}</small>
-                    </div>
-                </div>
-            </label>`
-        })
+                </label>`)
+            })
+
+            html.push(`</section>`)
+        }
+
+        const categories = programs.map((program) => {
+            return program.category
+        }).filter((value, index, array) => {
+            return array.indexOf(value) === index
+        }).sort()
+
+        categories.map((category) => append(category))
 
         const destination = $('#install #programs')
-        destination.innerHTML = options.join('')
+        destination.innerHTML = html.join('')
 
     }
 

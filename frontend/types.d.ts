@@ -2,6 +2,7 @@ interface Program {
     id: string
     name: string
     description: string
+	category: string
     tags: string[]
     requiredFolders: string[]
     flatpakAppId: string
