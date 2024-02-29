@@ -16,6 +16,7 @@ type Program struct {
 	ID               string    `json:"id"`
 	Name             string    `json:"name"`
 	Description      string    `json:"description"`
+	Category         string    `json:"category"`
 	Tags             []string  `json:"tags"`
 	RequiredFolders  []string  `json:"requiredFolders"`
 	FlatpakAppID     string    `json:"flatpakAppId"`
