@@ -13,8 +13,8 @@ window.addEventListener('load', () => {
 
         const data = new FormData(form)
         const body = JSON.stringify({
-            installOnMicroSD: data.get('install_on_microsd') === 'Y',
-            microSDPath: data.get('microsd_path')
+            useSymlink: data.get('use_symlink') === 'Y',
+            storagePath: data.get('storage_path')
         })
 
         try {

@@ -62,19 +62,19 @@
         <section class="tab" id="setup">
             <form action="#">
                 <div class="group">
-                    <p>Install on MicroSD?</p>
+                    <p>Install on external storage or MicroSD?</p>
                     <label class="radio">
-                        <input type="radio" name="install_on_microsd" value="Y" />
+                        <input type="radio" name="use_symlink" value="Y" />
                         <span>Yes</span>
                     </label>
                     <label class="radio">
-                        <input type="radio" name="install_on_microsd" value="N" checked="checked" />
+                        <input type="radio" name="use_symlink" value="N" checked="checked" />
                         <span>No</span>
                     </label>
                 </div>
                 <div class="group">
-                    <label for="microsd-path">MicroSD path:</label>
-                    <input type="text" name="microsd_path" id="microsd-path" value="/media/run/mmcblk0p1" />
+                    <label for="storage-path">External storage or MicroSD path:</label>
+                    <input type="text" name="storage_path" id="storage-path" value="/media/run/mmcblk0p1" />
                 </div>
                 <div class="actions">
                     <button type="submit">

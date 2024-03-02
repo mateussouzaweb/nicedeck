@@ -188,8 +188,8 @@ func modifyShortcut(context *Context) error {
 
 // Run setup data
 type RunSetupData struct {
-	InstallOnMicroSD bool   `json:"installOnMicroSD"`
-	MicroSDPath      string `json:"microSDPath"`
+	UseSymlink  bool   `json:"useSymlink"`
+	StoragePath string `json:"storagePath"`
 }
 
 // Run setup result
@@ -213,7 +213,7 @@ func runSetup(context *Context) error {
 	}
 
 	// Run setup by making sure has required structure
-	err = install.Structure(data.InstallOnMicroSD, data.MicroSDPath)
+	err = install.Structure(data.UseSymlink, data.StoragePath)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
