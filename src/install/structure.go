@@ -19,6 +19,8 @@ func Structure(useSymlink bool, storagePath string) error {
 	if err != nil {
 		return err
 	} else if exist {
+		cli.Printf(cli.ColorWarn, "Setup skipped...\n")
+		cli.Printf(cli.ColorWarn, "Folder structure already exists at %s\n", gamesPath)
 		return nil
 	}
 
@@ -34,6 +36,7 @@ func Structure(useSymlink bool, storagePath string) error {
 			return err
 		}
 
+		cli.Printf(cli.ColorSuccess, "Setup completed!\n")
 		cli.Printf(cli.ColorSuccess, "Folder structure created at: %s\n", gamesPath)
 		return nil
 	}
@@ -63,6 +66,7 @@ func Structure(useSymlink bool, storagePath string) error {
 		return err
 	}
 
+	cli.Printf(cli.ColorSuccess, "Setup completed!\n")
 	cli.Printf(cli.ColorSuccess, "Folder structure created at: %s\n", storagePath+"/Games")
 	cli.Printf(cli.ColorSuccess, "Symlinks available at: %s\n", gamesPath)
 

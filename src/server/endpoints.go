@@ -220,8 +220,6 @@ func runSetup(context *Context) error {
 		return context.Status(400).JSON(result)
 	}
 
-	cli.Printf(cli.ColorSuccess, "Setup completed!\n")
-
 	result.Status = "OK"
 	return context.Status(200).JSON(result)
 }
