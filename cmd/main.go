@@ -11,7 +11,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/server"
 )
 
-var version = "Version 0.0.17"
+var version = "Version 0.0.18"
 var address = "127.0.0.1:14935"
 
 // Main command
