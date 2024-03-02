@@ -89,24 +89,24 @@ window.addEventListener('load', async () => {
 
             const html = []
             const append = (type, title, selected, images, width, height) => {
-                html.push(`<section class="${type}-area">`)
-                html.push(`<h4>${title}</h4>`)
+                html.push(
+                `<section class="group group-${type}">
+                    <h4>${title}</h4>`)
 
                 if (!images || !images.length) {
-                    html.push(`<p>No images found.</p>`)
+                    html.push(`<p class="alert">No images were found for this artwork type.</p>`)
                 } else {
-                    html.push(`<div class="group">`)
+                    html.push(`<div class="options">`)
                     images.forEach((item, index) => {
-                        const checked = index === 0 || selected === item ? 'checked="checked"' : ''
-                        html.push(`
-                        <label class="radio">
+                        const checked = selected === item ? 'checked="checked"' : ''
+                        html.push(
+                        `<label class="radio">
                             <input type="radio" name="${type}" value="${item}" ${checked} />
                             <div class="image">
                                 <img loading="lazy" src="${item}" alt="Image ${index}"
                                 width="${width}" height="${height}"/>
                             </div>
-                        </label>
-                        `)
+                        </label>`)
                     })
                     html.push(`</div>`)
                 }

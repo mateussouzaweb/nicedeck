@@ -56,12 +56,14 @@
 #shortcuts #modal-update-shortcut .container {
     max-width: 860px;
 }
-#shortcuts .modal h4 {
-    margin: 10px 0 5px;
+
+#shortcuts .modal .group h4 {
+    margin: 0 0 10px 0;
 }
-#shortcuts .modal .group {
+#shortcuts .modal .options {
     display: flex;
     flex-wrap: wrap;
+    margin: 0 -2px;
 }
 #shortcuts .modal .radio {
     flex: 1;
@@ -70,20 +72,29 @@
     min-width: 20%;
     width: 100%;
 }
-#shortcuts .modal section.banner-area .radio,
-#shortcuts .modal section.hero-area .radio {
+#shortcuts .modal section.group-banner .radio,
+#shortcuts .modal section.group-hero .radio {
     max-width: 33.33%;
     min-width: 33.33%;
 }
-#shortcuts .modal section.icon-area .radio {
+#shortcuts .modal section.group-icon .radio {
     max-width: 10%;
     min-width: 10%;
+}
+
+#shortcuts .modal .alert {
+    background: rgba(245, 220, 170, 0.30);
+    border: 1px solid #cf9e20;
+    border-radius: 5px;
+    margin: 15px 0;
+    padding: 15px;
 }
 
 #shortcuts .modal .image {
     border: 2px solid transparent;
     border-radius: 5px;
     display: block;
+    height: 100%;
     min-width: 64px;
     opacity: 0.75;
     padding: 2px;
