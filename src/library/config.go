@@ -216,7 +216,9 @@ func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 	// If yes, then we need to append the flatpak-spawn wrapper
 	// This is necessary to have access to host commands
 	if _config.IsFlatpak {
-		shortcut.Exe = "/usr/bin/flatpak-spawn --host " + shortcut.Exe
+		if !strings.HasPrefix(shortcut.Exe, "/usr/bin/flatpak-spawn") {
+			shortcut.Exe = "/usr/bin/flatpak-spawn --host " + shortcut.Exe
+		}
 	}
 
 	// Determine appID and artworks path
