@@ -108,7 +108,14 @@ window.addEventListener('load', async () => {
                             </div>
                         </label>`)
                     })
-                    html.push(`</div>`)
+                    html.push(
+                        `<label class="radio">
+                            <input type="radio" name="${type}" value="" ${!selected ? 'checked="checked"' : ''} />
+                            <div class="image">
+                                <div class="no-image">No Image</div>
+                            </div>
+                        </label>
+                    </div>`)
                 }
 
                 html.push(`</section>`)
