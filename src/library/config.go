@@ -222,70 +222,88 @@ func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 	// Determine appID and artworks path
 	shortcut.AppID = shortcuts.GenerateShortcutID(shortcut.Exe, shortcut.AppName)
 	artworksPath := _config.UserArtworksPath
+	remove := []string{}
 
 	// Logo: ${APPID}_logo.png
-	shortcut.Logo = fmt.Sprintf("%s/%v_logo.png", artworksPath, shortcut.AppID)
+	logoPng := fmt.Sprintf("%s/%v_logo.png", artworksPath, shortcut.AppID)
+
+	if shortcut.LogoURL != "" {
+		shortcut.Logo = logoPng
+	} else {
+		shortcut.Logo = ""
+		remove = append(remove, logoPng)
+	}
 
 	// Icon: ${APPID}_icon.ico || ${APPID}_icon.png
+	iconPng := fmt.Sprintf("%s/%v_icon.png", artworksPath, shortcut.AppID)
+	iconIco := fmt.Sprintf("%s/%v_icon.ico", artworksPath, shortcut.AppID)
+
 	if strings.HasSuffix(shortcut.IconURL, ".png") {
-		shortcut.Icon = fmt.Sprintf("%s/%v_icon.png", artworksPath, shortcut.AppID)
+		shortcut.Icon = iconPng
+		remove = append(remove, iconIco)
+	} else if shortcut.IconURL != "" {
+		shortcut.Icon = iconIco
+		remove = append(remove, iconPng)
 	} else {
-		shortcut.Icon = fmt.Sprintf("%s/%v_icon.ico", artworksPath, shortcut.AppID)
+		shortcut.Icon = ""
+		remove = append(remove, iconPng)
+		remove = append(remove, iconIco)
 	}
 
 	// Cover: ${APPID}p.png || ${APPID}p.jpg
+	coverPng := fmt.Sprintf("%s/%vp.png", artworksPath, shortcut.AppID)
+	coverJpg := fmt.Sprintf("%s/%vp.jpg", artworksPath, shortcut.AppID)
+
 	if strings.HasSuffix(shortcut.CoverURL, ".png") {
-		shortcut.Cover = fmt.Sprintf("%s/%vp.png", artworksPath, shortcut.AppID)
+		shortcut.Cover = coverPng
+		remove = append(remove, coverJpg)
+	} else if shortcut.CoverURL != "" {
+		shortcut.Cover = coverJpg
+		remove = append(remove, coverPng)
 	} else {
-		shortcut.Cover = fmt.Sprintf("%s/%vp.jpg", artworksPath, shortcut.AppID)
+		shortcut.Cover = ""
+		remove = append(remove, coverPng)
+		remove = append(remove, coverJpg)
 	}
 
 	// Banner: ${APPID}.png || ${APPID}.jpg
+	bannerPng := fmt.Sprintf("%s/%v.png", artworksPath, shortcut.AppID)
+	bannerJpg := fmt.Sprintf("%s/%v.jpg", artworksPath, shortcut.AppID)
+
 	if strings.HasSuffix(shortcut.BannerURL, ".png") {
-		shortcut.Banner = fmt.Sprintf("%s/%v.png", artworksPath, shortcut.AppID)
+		shortcut.Banner = bannerPng
+		remove = append(remove, bannerJpg)
+	} else if shortcut.BannerURL != "" {
+		shortcut.Banner = bannerJpg
+		remove = append(remove, bannerPng)
 	} else {
-		shortcut.Banner = fmt.Sprintf("%s/%v.jpg", artworksPath, shortcut.AppID)
+		shortcut.Banner = ""
+		remove = append(remove, bannerPng)
+		remove = append(remove, bannerJpg)
 	}
 
 	// Hero: ${APPID}_hero.png || ${APPID}_hero.jpg
+	heroPng := fmt.Sprintf("%s/%v_hero.png", artworksPath, shortcut.AppID)
+	heroJpg := fmt.Sprintf("%s/%v_hero.jpg", artworksPath, shortcut.AppID)
+
 	if strings.HasSuffix(shortcut.HeroURL, ".png") {
-		shortcut.Hero = fmt.Sprintf("%s/%v_hero.png", artworksPath, shortcut.AppID)
+		shortcut.Hero = heroPng
+		remove = append(remove, heroJpg)
+	} else if shortcut.HeroURL != "" {
+		shortcut.Hero = heroJpg
+		remove = append(remove, heroPng)
 	} else {
-		shortcut.Hero = fmt.Sprintf("%s/%v_hero.jpg", artworksPath, shortcut.AppID)
+		shortcut.Hero = ""
+		remove = append(remove, heroPng)
+		remove = append(remove, heroJpg)
 	}
 
-	// Ensure that there is no duplicated images of each artwork
-	// User can switch from .jpg to .png for example, so .jpg must be removed
-	removeDuplicated := func(path string, format string, alternative string) error {
-
-		// Switch parameters when the format file is not found
-		if !strings.HasSuffix(path, format) {
-			correct := alternative
-			alternative = format
-			format = correct
-		}
-
-		// Try to remove the outdated image
-		remove := strings.Replace(path, format, alternative, 1)
-		err = fs.RemoveFile(remove)
+	// Remove duplicated or unnecessary images
+	for _, file := range remove {
+		err = fs.RemoveFile(file)
 		if err != nil {
 			return err
 		}
-
-		return nil
-	}
-
-	if err = removeDuplicated(shortcut.Icon, ".png", ".ico"); err != nil {
-		return err
-	}
-	if err = removeDuplicated(shortcut.Cover, ".png", ".jpg"); err != nil {
-		return err
-	}
-	if err = removeDuplicated(shortcut.Banner, ".png", ".jpg"); err != nil {
-		return err
-	}
-	if err = removeDuplicated(shortcut.Hero, ".png", ".jpg"); err != nil {
-		return err
 	}
 
 	return nil

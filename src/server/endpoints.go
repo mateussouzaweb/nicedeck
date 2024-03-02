@@ -144,21 +144,11 @@ func modifyShortcut(context *Context) error {
 
 	// Update shortcut
 	if data.Action == "update" {
-		if data.IconURL != "" {
-			shortcut.IconURL = data.IconURL
-		}
-		if data.LogoURL != "" {
-			shortcut.LogoURL = data.LogoURL
-		}
-		if data.CoverURL != "" {
-			shortcut.CoverURL = data.CoverURL
-		}
-		if data.BannerURL != "" {
-			shortcut.BannerURL = data.BannerURL
-		}
-		if data.HeroURL != "" {
-			shortcut.HeroURL = data.HeroURL
-		}
+		shortcut.IconURL = data.IconURL
+		shortcut.LogoURL = data.LogoURL
+		shortcut.CoverURL = data.CoverURL
+		shortcut.BannerURL = data.BannerURL
+		shortcut.HeroURL = data.HeroURL
 
 		err := library.AddToShortcuts(shortcut, true)
 		if err != nil {
