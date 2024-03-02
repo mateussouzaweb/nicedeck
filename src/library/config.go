@@ -363,6 +363,26 @@ func RemoveFromShortcuts(shortcut *shortcuts.Shortcut) error {
 		return err
 	}
 
+	// Remove all images of the shortcut
+	images := []string{
+		shortcut.Icon,
+		shortcut.Logo,
+		shortcut.Cover,
+		shortcut.Banner,
+		shortcut.Hero,
+	}
+
+	for _, file := range images {
+		if file == "" {
+			continue
+		}
+		err = fs.RemoveFile(file)
+		if err != nil {
+			return err
+		}
+	}
+
+	// Remove the shortcut from list
 	_config.Shortcuts, err = shortcuts.RemoveShortcut(_config.Shortcuts, shortcut)
 	if err != nil {
 		return err
