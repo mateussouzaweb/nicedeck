@@ -69,6 +69,21 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 			return nil
 		}
 
+		// Check against exclusion list
+		// Verification is simple and consider if path contains given term
+		for _, pattern := range exclude {
+			if strings.Contains(strings.ToLower(path), strings.ToLower(pattern)) {
+				return nil
+			}
+		}
+
+		// Check against regex exclusion list
+		for _, pattern := range excludeRegex {
+			if pattern.MatchString(path) {
+				return nil
+			}
+		}
+
 		directory := filepath.Dir(path)
 		file := filepath.Base(path)
 		extension := filepath.Ext(path)
@@ -98,21 +113,6 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		valid := strings.Split(platform.Extensions, " ")
 		if !slices.Contains(valid, strings.ToLower(extension)) {
 			return nil
-		}
-
-		// Check against exclusion list
-		// Verification is simple and consider if path contains given term
-		for _, pattern := range exclude {
-			if strings.Contains(strings.ToLower(path), strings.ToLower(pattern)) {
-				return nil
-			}
-		}
-
-		// Check against regex exclusion list
-		for _, pattern := range excludeRegex {
-			if pattern.MatchString(path) {
-				return nil
-			}
 		}
 
 		// Check if same ROM already was found with another extension
