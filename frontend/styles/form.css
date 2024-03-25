@@ -54,14 +54,15 @@ form label.radio span {
 }
 form label.radio span::before {
     background: #000;
+    border-radius: 5px 0 0 5px;
     border-right: 1px solid rgba(0, 0, 0, 0.15);
-    bottom: 2px;
+    bottom: 0px;
     content: '';
     display: block;
-    left: 2px;
+    left: 0px;
     position: absolute;
-    top: 2px;
-    width: 33px;
+    top: 0px;
+    width: 35px;
 }
 form label.radio span:hover {
     box-shadow: 1px 1px 5px rgba(111, 44, 130, 0.25) 
