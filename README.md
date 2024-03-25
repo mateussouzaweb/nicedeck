@@ -88,7 +88,7 @@ Game Launchers:
 
 Utilities:
 
-- [ProntoPlus](https://github.com/Vysp3r/ProtonPlus)
+- [ProtonPlus](https://github.com/Vysp3r/ProtonPlus)
 
 Console Emulators:
 
