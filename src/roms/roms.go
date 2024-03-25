@@ -1,6 +1,7 @@
 package roms
 
 import (
+	"path/filepath"
 	"slices"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -122,10 +123,11 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 		}
 
 		// Add to shortcuts library
+		startDir := filepath.Dir(rom.Program)
 		err = library.AddToShortcuts(&shortcuts.Shortcut{
 			AppName:       appName,
-			Exe:           "/var/lib/flatpak/exports/bin/" + rom.Emulator,
-			StartDir:      "/var/lib/flatpak/exports/bin/", // Same as main flatpak
+			Exe:           rom.Program,
+			StartDir:      startDir,
 			ShortcutPath:  "",
 			LaunchOptions: rom.LaunchOptions,
 			IconURL:       iconURL,

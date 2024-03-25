@@ -19,6 +19,7 @@ type ROM struct {
 	Platform      string `json:"platform"`
 	Console       string `json:"console"`
 	Emulator      string `json:"emulator"`
+	Program       string `json:"program"`
 	LaunchOptions string `json:"launchOptions"`
 }
 
@@ -92,25 +93,38 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		relativePath := strings.Replace(path, root+"/", "", 1)
 		relativePath = strings.Replace(relativePath, realRoot+"/", "", 1)
 
-		// Platform is determined by the initial path
-		// This model is simple and also solve cases for games in sub-folders
-		pathKeys := strings.Split(relativePath, "/")
+		// Platform and emulator are determined by the folder initial path
+		// This model also solve cases for games in sub-folders
 		platform := &Platform{}
+		emulator := &Emulator{}
 
 		for _, item := range platforms {
-			if pathKeys[0] == item.Name {
-				platform = item
+			for _, itemEmulator := range item.Emulators {
+				folders := strings.Split(strings.ToLower(itemEmulator.Folders), " ")
+				for _, folder := range folders {
+					if strings.HasPrefix(strings.ToLower(relativePath), folder) {
+						platform = item
+						emulator = itemEmulator
+						break
+					}
+				}
+				if emulator.Name != "" {
+					break
+				}
+			}
+
+			if emulator.Name != "" {
 				break
 			}
 		}
 
 		// Ignore if could not detect the emulator
-		if platform.Emulator == "" {
+		if emulator.Name == "" {
 			return nil
 		}
 
 		// Validate if extension is in the valid list
-		valid := strings.Split(platform.Extensions, " ")
+		valid := strings.Split(emulator.Extensions, " ")
 		if !slices.Contains(valid, strings.ToLower(extension)) {
 			return nil
 		}
@@ -124,7 +138,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		}
 
 		// Put ROM path in launch options
-		launchOptions := strings.Replace(platform.LaunchOptions, "${ROM}", path, 1)
+		launchOptions := strings.Replace(emulator.LaunchOptions, "${ROM}", path, 1)
 
 		rom := ROM{
 			Path:          path,
@@ -135,7 +149,8 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 			Name:          name,
 			Console:       platform.Console,
 			Platform:      platform.Name,
-			Emulator:      platform.Emulator,
+			Emulator:      emulator.Name,
+			Program:       emulator.Program,
 			LaunchOptions: launchOptions,
 		}
 

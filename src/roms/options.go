@@ -1,29 +1,19 @@
 package roms
 
-import (
-	"slices"
-)
-
 // Options struct
 type Options struct {
-	Platforms  []string `json:"platforms"`
-	Rebuild    bool     `json:"rebuild"`
-	UseRyujinx bool     `json:"useRyujinx"`
+	Platforms   []string `json:"platforms"`
+	Preferences []string `json:"preferences"`
+	Rebuild     bool     `json:"rebuild"`
 }
 
 // Transform values into valid options
 func ToOptions(platforms []string, preferences []string, rebuild bool) *Options {
 
 	options := Options{
-		Platforms:  platforms,
-		Rebuild:    rebuild,
-		UseRyujinx: false,
-	}
-
-	if len(preferences) > 0 {
-		if slices.Contains(preferences, "use-ryujinx") {
-			options.UseRyujinx = true
-		}
+		Platforms:   platforms,
+		Rebuild:     rebuild,
+		Preferences: preferences,
 	}
 
 	return &options
