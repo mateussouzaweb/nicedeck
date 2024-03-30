@@ -3,7 +3,7 @@
 set -e
 set -u
 
-VERSION="v0.0.18"
+VERSION="v0.0.19"
 REPOSITORY="https://github.com/mateussouzaweb/nicedeck"
 BINARY="$REPOSITORY/releases/download/$VERSION/NiceDeck"
 APPLICATIONS="$HOME/Applications"
