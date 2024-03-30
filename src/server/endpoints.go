@@ -143,7 +143,7 @@ func launchShortcut(context *Context) error {
 		shortcut.StartDir,
 		shortcut.Exe,
 		shortcut.LaunchOptions,
-	)).Run()
+	)).Start()
 
 	if err != nil {
 		result.Status = "ERROR"
