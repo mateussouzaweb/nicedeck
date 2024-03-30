@@ -98,6 +98,8 @@ window.addEventListener('load', async () => {
         } finally {
             button.disabled = false
         }
+
+        await window.loadShortcuts()
     })
 
     try {
