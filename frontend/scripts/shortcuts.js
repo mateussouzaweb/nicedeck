@@ -48,6 +48,7 @@ window.addEventListener('load', async () => {
                                 <h4>${shortcut.appName}</h4>
                             </div>
                             <div class="actions">
+                                <button type="button" data-launch-shortcut="${shortcut.appId}">Launch</button>
                                 <button type="button" data-update-shortcut="${shortcut.appId}">Update</button>
                                 <button type="button" data-delete-shortcut="${shortcut.appId}">Delete</button>
                             </div>
@@ -71,6 +72,31 @@ window.addEventListener('load', async () => {
         }
 
     }
+
+    on('#shortcuts [data-launch-shortcut]', 'click', async (event) => {
+        event.preventDefault()
+
+        const button = event.target.closest('[data-launch-shortcut]')
+        const shortcut = getShortcut(button.dataset.launchShortcut)
+        const body = JSON.stringify({
+            appId: shortcut.appId
+        })
+
+        if (button.disabled) {
+            return
+        }
+
+        try {
+            button.disabled = true
+            await window.runAndCaptureConsole(false, async () => {
+                await requestJson('POST', '/api/shortcut/launch', body)
+            })
+        } catch (error) {
+            window.showError(error)
+        } finally {
+            button.disabled = false
+        }
+    })
 
     on('#shortcuts [data-update-shortcut]', 'click', async (event) => {
 

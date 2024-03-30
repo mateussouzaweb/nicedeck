@@ -102,6 +102,59 @@ func listShortcuts(context *Context) error {
 	return context.Status(http.StatusOK).JSON(shortcuts)
 }
 
+// Launch shortcut data
+type LaunchShortcutData struct {
+	AppID uint `json:"appId"`
+}
+
+// Launch shortcut result
+type LaunchShortcutResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
+// Launch shortcut action
+func launchShortcut(context *Context) error {
+
+	result := LaunchShortcutResult{}
+
+	// Bind data
+	data := LaunchShortcutData{}
+	err := context.Bind(&data)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Find shortcut reference
+	shortcut := library.GetShortcut(data.AppID)
+	if shortcut.AppID == 0 {
+		err := fmt.Errorf("could not found shortcut with appID: %v", data.AppID)
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Launch the shortcut
+	cli.Printf(cli.ColorSuccess, "Launching %v\n", shortcut.AppName)
+	err = cli.Command(fmt.Sprintf(
+		`cd %s; %s %s`,
+		shortcut.StartDir,
+		shortcut.Exe,
+		shortcut.LaunchOptions,
+	)).Run()
+
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
+}
+
 // Modify shortcut data
 type ModifyShortcutData struct {
 	Action    string `json:"action"`
@@ -404,6 +457,7 @@ func Setup(version string) error {
 	Add("GET", "/api/scrape", scrapeData)
 	Add("POST", "/api/library/load", loadLibrary)
 	Add("POST", "/api/library/save", saveLibrary)
+	Add("POST", "/api/shortcut/launch", launchShortcut)
 	Add("POST", "/api/shortcut/modify", modifyShortcut)
 	Add("POST", "/api/setup", runSetup)
 	Add("POST", "/api/install", runInstall)
