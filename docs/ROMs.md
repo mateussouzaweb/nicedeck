@@ -23,17 +23,23 @@ To start, you must copy your ROMs to the Steam Deck. Use the table below to guid
 | Sony Playstation 3        | RPCS3       | ``$HOME/Games/ROMs/PS3``    |
 | Sony Playstation Portable | PPSSPP      | ``$HOME/Games/ROMs/PSP``    |
 
-Please note that it's very important to have the ROMs in the correct location. Any ROM outside of these directories will not be parsed by NiceDeck and consequently will not be available on the Steam Library.
+Please note that it's very important to have the ROMs in the correct location. Any ROM outside of these directories will not be parsed by NiceDeck and consequently will not be available on the Steam Library as direct shortcut to the game.
 
-Another important aspect for the ROMs organization, are the exclude patterns inside the ROMs folder. Please keep in mind that the parser will ignore any content where the path follows the following patterns:
+If you want to enforce an specific emulator for a subset of ROMs, you should create a subfolder with the emulator name to enforce it:
+
+- ``$HOME/Games/ROMS/SWITCH/Ryujinx`` - Games that always should use the Ryujinx emulator
+- ``$HOME/Games/ROMS/SWITCH/Yuzu`` - Games that always should use the Yuzu emulator
+- ``$HOME/Games/ROMS/SWITCH`` - Games that should use the default emulator for that platform
+
+Another important aspect for the ROMs organization are the exclude patterns. Please keep in mind that the parser will ignore any content where the path follows the following patterns:
 
 - ``$HOME/Games/ROMS/$PLATFORM/Updates`` - Updates folder
 - ``$HOME/Games/ROMS/$PLATFORM/Mods`` - Mods folder
 - ``$HOME/Games/ROMS/$PLATFORM/DLCs`` - DLCs folder
-- ``$HOME/Games/ROMS/$PLATFORM/Ignore`` - Literaly a folder to ignore
+- ``$HOME/Games/ROMS/$PLATFORM/Ignore`` - Literally a folder to ignore
 - ``$HOME/Games/ROMS/$PLATFORM/Others`` - Another special folder to ignore
 
-You also must know that **every available ROM** inside will be added to the Steam Library. If you want to put only a few games in the Steam Library, you MUST organize your ROMs. Take for example the following organization using the ``GBA`` platform to parse only the favorite games:
+You also must know that **every available ROM** inside the included folders will be added to the Steam Library. If you want to put only a few games in the Steam Library, you MUST organize your ROMs. Take for example the following organization using the ``GBA`` platform to parse only the favorite games:
 
 - ``$HOME/Games/ROMS/GBA/Favorites`` - Games that will be included on parser
 - ``$HOME/Games/ROMS/GBA/Others`` - Others non-favorite games that will be ignored by the parser
