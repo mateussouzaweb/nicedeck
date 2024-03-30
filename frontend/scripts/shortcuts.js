@@ -83,14 +83,22 @@ window.addEventListener('load', async () => {
         event.preventDefault()
 
         const button = event.target.closest('[data-launch-shortcut]')
-        const shortcut = getShortcut(button.dataset.launchShortcut)
-        const body = JSON.stringify({
-            appId: shortcut.appId
-        })
 
         if (button.disabled) {
             return
         }
+
+        const modal = $('#modal-launch-shortcut')
+        const content = $('.content', modal)
+        const shortcut = getShortcut(button.dataset.launchShortcut)
+        
+        modal.dataset.shortcut = shortcut.appId
+        content.innerHTML = `<p>Launching <b>${shortcut.appName}</b>...</p>`
+        window.showModal(modal)
+
+        const body = JSON.stringify({
+            appId: shortcut.appId
+        })
 
         try {
             button.disabled = true
@@ -102,6 +110,10 @@ window.addEventListener('load', async () => {
         } finally {
             button.disabled = false
         }
+
+        window.setTimeout(() => {
+            window.hideModal(modal)
+        }, 1000)
     })
 
     on('#shortcuts [data-update-shortcut]', 'click', async (event) => {
