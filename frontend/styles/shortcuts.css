@@ -12,9 +12,12 @@
     padding: 5px;
 }
 #shortcuts #list .area {
+    align-items: stretch;
     background: #FFF;
     border: 2px solid #000;
     border-radius: 5px;
+    display: flex;
+    flex-flow: column;
     height: 100%;
 }
 
@@ -32,11 +35,19 @@
     display: block;
 }
 #shortcuts #list .image img {
+    display: block;
     height: auto;
     width: 100%;
 }
 
+#shortcuts #list .info {
+    align-items: stretch;
+    display: flex;
+    flex: 1;
+    flex-flow: column;
+}
 #shortcuts #list .info .title {
+    flex: 1;
     padding: 10px;
 }
 #shortcuts #list .info .title h4 {
@@ -44,13 +55,23 @@
     padding: 0;
 }
 #shortcuts #list .info .actions {
+    border-radius: 0 0 5px 5px;
+    border-top: 1px solid #CCC;
+    display: flex;
+    justify-content: stretch;
     margin-top: 0;
     padding: 10px 9px;
 }
 #shortcuts #list .info .actions button {
+    flex: 1;
     margin: 1px;
-    padding: 5px 10px;
+    padding: 5px;
+    text-align: center;
     width: auto;
+}
+#shortcuts #list .info .actions button img {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 #shortcuts #modal-update-shortcut .container {
