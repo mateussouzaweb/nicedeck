@@ -48,13 +48,13 @@ window.addEventListener('load', async () => {
                                 <h4>${shortcut.appName}</h4>
                             </div>
                             <div class="actions">
-                                <button type="button" data-launch-shortcut="${shortcut.appId}">
+                                <button type="button" data-launch-shortcut="${shortcut.appId}" title="Launch">
                                     <img src="./img/icons/launch.svg" alt="Launch" width="24" height="24" />
                                 </button>
-                                <button type="button" data-update-shortcut="${shortcut.appId}">
+                                <button type="button" data-update-shortcut="${shortcut.appId}" title="Update">
                                     <img src="./img/icons/update.svg" alt="Update" width="24" height="24" />
                                 </button>
-                                <button type="button" data-delete-shortcut="${shortcut.appId}">
+                                <button type="button" data-delete-shortcut="${shortcut.appId}" title="Delete">
                                     <img src="./img/icons/delete.svg" alt="Delete" width="24" height="24" />
                                 </button>
                             </div>
