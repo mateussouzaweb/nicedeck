@@ -99,20 +99,33 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		emulator := &Emulator{}
 
 		for _, item := range platforms {
+			// Ignore platforms without emulators
+			if len(item.Emulators) == 0 {
+				continue
+			}
+
+			// Special case to enforce an specific emulator
+			// Check for platform folder with emulator name in subfolder
 			for _, itemEmulator := range item.Emulators {
-				folders := strings.Split(strings.ToLower(itemEmulator.Folders), " ")
-				for _, folder := range folders {
-					if strings.HasPrefix(strings.ToLower(relativePath), folder) {
-						platform = item
-						emulator = itemEmulator
-						break
-					}
-				}
-				if emulator.Name != "" {
+				subfolder := strings.ReplaceAll(itemEmulator.Name, " ", "-")
+				folder := strings.ToLower(item.Folder + subfolder + "/")
+				if strings.HasPrefix(strings.ToLower(relativePath), folder) {
+					platform = item
+					emulator = itemEmulator
 					break
 				}
 			}
+			if emulator.Name != "" {
+				break
+			}
 
+			// Default case for main platform emulator
+			// Check for platform folder in relative path
+			if strings.HasPrefix(strings.ToLower(relativePath), strings.ToLower(item.Folder)) {
+				platform = item
+				emulator = item.Emulators[0]
+				break
+			}
 			if emulator.Name != "" {
 				break
 			}
