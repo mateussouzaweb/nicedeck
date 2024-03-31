@@ -16,3 +16,13 @@ body {
     max-width: 980px;
     padding: 10px;
 }
+
+#welcome h1 {
+    margin-top: 0;
+}
+#welcome p {
+    margin: 0 0 10px;
+}
+#welcome ul {
+    padding-left: 20px;
+}
