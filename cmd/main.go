@@ -7,7 +7,6 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/gui"
-	"github.com/mateussouzaweb/nicedeck/src/nicedeck"
 	"github.com/mateussouzaweb/nicedeck/src/server"
 )
 
@@ -32,16 +31,6 @@ func main() {
 	go func() {
 		<-exit
 		done <- true
-	}()
-
-	// Perform desktop install
-	go func() {
-		err := nicedeck.DesktopInstall()
-		if err != nil {
-			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
-			exitCode = 1
-			done <- true
-		}
 	}()
 
 	// Run the program server

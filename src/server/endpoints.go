@@ -16,6 +16,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/install"
 	"github.com/mateussouzaweb/nicedeck/src/library"
+	"github.com/mateussouzaweb/nicedeck/src/nicedeck"
 	"github.com/mateussouzaweb/nicedeck/src/roms"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
 )
@@ -257,6 +258,14 @@ func runSetup(context *Context) error {
 
 	// Run setup by making sure has required structure
 	err = install.Structure(data.UseSymlink, data.StoragePath)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Perform desktop install
+	err = nicedeck.DesktopInstall()
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
