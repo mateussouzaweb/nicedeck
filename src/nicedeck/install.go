@@ -26,7 +26,7 @@ func DesktopInstall() error {
 	}
 
 	// Check if desktop shortcut exist or create one
-	desktopShortcut := os.ExpandEnv("$HOME/.local/share/applications/nicedeck.desktop")
+	desktopShortcut := os.ExpandEnv("$HOME/.local/share/applications/com.mateussouzaweb.NiceDeck.desktop")
 	exist, err = fs.FileExist(desktopShortcut)
 	if err != nil {
 		return err
@@ -63,8 +63,8 @@ func WriteDesktopShortcut() error {
 	}
 
 	// Desktop shortcut
-	desktopShortcutFile := os.ExpandEnv("$HOME/.local/share/applications/nicedeck.desktop")
-	desktopShortcutContent, err := resourcesContent.ReadFile("resources/nicedeck.desktop")
+	desktopShortcutFile := os.ExpandEnv("$HOME/.local/share/applications/com.mateussouzaweb.NiceDeck.desktop")
+	desktopShortcutContent, err := resourcesContent.ReadFile("resources/com.mateussouzaweb.NiceDeck.desktop")
 	if err != nil {
 		return err
 	}
