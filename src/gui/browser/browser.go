@@ -1,8 +1,7 @@
-package gui
+package browser
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -12,21 +11,7 @@ import (
 // Open UI with best available browser mode
 // We use browser to avoid the need of having to write code for UI application
 // Is not perfect, but is good enough for what we need
-func OpenWithBrowser(address string, width int, height int) error {
-
-	// When there no display, cannot open
-	if os.Getenv("DISPLAY") == "" {
-
-		// Display information message
-		cli.Printf(cli.ColorWarn, "Could not detect display, skipping auto open...\n")
-		cli.Printf(cli.ColorWarn, "Please open the link in the navigator: %s\n", address)
-
-		// Create a never ending blocking channel
-		keep := make(chan bool, 1)
-		<-keep
-
-		return nil
-	}
+func Open(address string, width int, height int) error {
 
 	// Chrome like args
 	chromeArgs := []string{
