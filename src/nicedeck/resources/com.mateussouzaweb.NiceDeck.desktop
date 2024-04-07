@@ -2,7 +2,7 @@
 Type=Application
 Name=NiceDeck
 Comment=System customizations for a nice gaming experience
-Icon=$HOME/.local/share/nicedeck/icon.png
+Icon=$HOME/.local/share/nicedeck/nicedeck.svg
 TryExec=$HOME/Applications/NiceDeck
 Exec=$HOME/Applications/NiceDeck %u
 Terminal=false

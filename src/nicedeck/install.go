@@ -46,8 +46,8 @@ func WriteDesktopShortcut() error {
 	}
 
 	// Icon
-	iconFile := os.ExpandEnv("$HOME/.local/share/nicedeck/icon.png")
-	iconContent, err := resourcesContent.ReadFile("resources/icon.png")
+	iconFile := os.ExpandEnv("$HOME/.local/share/nicedeck/nicedeck.svg")
+	iconContent, err := resourcesContent.ReadFile("resources/nicedeck.svg")
 	if err != nil {
 		return err
 	}
