@@ -17,7 +17,7 @@ func DesktopInstall() error {
 
 	// Check if executable exist first
 	// If not exist, ignore self installer
-	executable := os.ExpandEnv("$HOME/Applications/NiceDeck")
+	executable := os.ExpandEnv("$HOME/Applications/NiceDeck.AppImage")
 	exist, err := fs.FileExist(executable)
 	if err != nil {
 		return err
@@ -31,14 +31,14 @@ func DesktopInstall() error {
 	if err != nil {
 		return err
 	} else if !exist {
-		return WriteDesktopShortcut()
+		return WriteDesktopShortcut(executable)
 	}
 
 	return nil
 }
 
 // Write desktop shortcut for NiceDeck
-func WriteDesktopShortcut() error {
+func WriteDesktopShortcut(executableFile string) error {
 
 	// Replace special variables
 	replaceVars := func(content []byte) []byte {
@@ -73,6 +73,14 @@ func WriteDesktopShortcut() error {
 	if err != nil {
 		return err
 	}
+
+	// Match executable with AppImage location
+	desktopShortcutContent = replaceVars(desktopShortcutContent)
+	desktopShortcutContent = bytes.ReplaceAll(
+		desktopShortcutContent,
+		[]byte("Exec=nicedeck"),
+		[]byte("Exec="+executableFile),
+	)
 
 	err = os.WriteFile(desktopShortcutFile, replaceVars(desktopShortcutContent), 0774)
 	if err != nil {
