@@ -64,9 +64,14 @@ jobs:
         with:
           go-version: 1.21.1
 
-      - id: build
-        name: Build package
-        run: make build
+      - id: setup-dependencies
+        name: Setup dependencies
+        run: |
+          sudo apt install -y libfuse2 libgtk-4-dev libwebkitgtk-6.0-dev
+
+      - id: build-app-image
+        name: Build app image
+        run: make app-image
 
       - id: release
         name: Create release
@@ -77,4 +82,5 @@ jobs:
           prerelease: false
           files: |
             LICENSE.md
-            bin/*
+            bin/nicedeck
+            bin/NiceDeck-*.AppImage
