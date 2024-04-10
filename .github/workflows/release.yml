@@ -65,13 +65,25 @@ jobs:
           go-version: 1.21.1
 
       - id: setup-dependencies
-        name: Setup dependencies
+        name: Set up dependencies
         run: |
-          sudo apt install -y libfuse2 libgtk-4-dev libwebkitgtk-6.0-dev
+          make deps
 
-      - id: build-app-image
-        name: Build app image
-        run: make app-image
+      - id: build-bin
+        name: Build binary app
+        run: |
+          make build
+
+      - id: setup-flatpak-dependencies
+        name: Setup flatpak dependencies
+        run: |
+          make flatpak-deps
+
+      - id: build-flatpak
+        name: Build flatpak app
+        run: |
+          make flatpak-build
+          make flatpak-bundle
 
       - id: release
         name: Create release
@@ -83,4 +95,4 @@ jobs:
           files: |
             LICENSE.md
             bin/nicedeck
-            bin/NiceDeck-*.AppImage
+            bin/nicedeck.flatpak

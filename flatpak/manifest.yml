@@ -1,0 +1,33 @@
+id: com.mateussouzaweb.NiceDeck
+runtime: org.gnome.Platform
+runtime-version: '46'
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.golang
+command: nicedeck
+finish-args:
+  - --device=dri
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=network
+  - --share=ipc
+  - --talk-name=org.freedesktop.Flatpak
+  - --filesystem=host
+  - --filesystem=home
+  - --filesystem=/run/media
+modules:
+  - name: nicedeck
+    builddir: true
+    buildsystem: simple
+    build-commands:
+      - /usr/lib/sdk/golang/bin/go build -o flatpak/nicedeck cmd/main.go
+      - install -Dm00755 flatpak/nicedeck /app/bin/nicedeck
+      - mkdir -p /app/share/icons/hicolor/scalable/apps
+      - mkdir -p /app/share/applications/
+      - mkdir -p /app/share/metainfo/
+      - cp flatpak/nicedeck.svg /app/share/icons/hicolor/scalable/apps/com.mateussouzaweb.NiceDeck.svg
+      - cp flatpak/nicedeck.desktop /app/share/applications/com.mateussouzaweb.NiceDeck.desktop
+      - cp flatpak/metainfo.xml /app/share/metainfo/com.mateussouzaweb.NiceDeck.metainfo.xml
+    sources:
+      - type: dir
+        path: ../

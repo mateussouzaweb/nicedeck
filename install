@@ -5,9 +5,9 @@ set -u
 
 VERSION="v0.0.19"
 REPOSITORY="https://github.com/mateussouzaweb/nicedeck"
-BINARY="$REPOSITORY/releases/download/$VERSION/NiceDeck.AppImage"
+BINARY="$REPOSITORY/releases/download/$VERSION/nicedeck"
 APPLICATIONS="$HOME/Applications"
-DESTINATION="$APPLICATIONS/NiceDeck.AppImage"
+DESTINATION="$APPLICATIONS/nicedeck"
 
 # Make sure applications folder exists
 if [ ! -d "$APPLICATIONS" ]; then

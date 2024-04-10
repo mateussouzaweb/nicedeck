@@ -1,30 +1,36 @@
-LINUX_DEPLOY_SRC = https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-LINUX_DEPLOY_PLUGIN_GTK_SRC = https://raw.githubusercontent.com/linuxdeploy/linuxdeploy-plugin-gtk/master/linuxdeploy-plugin-gtk.sh
+deps:
+	sudo apt install -y libgtk-4-dev libwebkitgtk-6.0-dev
 
 run:
 	go run cmd/main.go
-	
-build:
-	mkdir -p bin/
-	go build -o bin/nicedeck cmd/main.go
-
-app-image: clean build
-	wget $(LINUX_DEPLOY_SRC) -O bin/LinuxDeploy.AppImage
-	wget $(LINUX_DEPLOY_PLUGIN_GTK_SRC) -O bin/linuxdeploy-plugin-gtk.sh
-	chmod +x bin/LinuxDeploy.AppImage bin/linuxdeploy-plugin-gtk.sh
-	./bin/LinuxDeploy.AppImage \
-		--appdir bin/AppDir \
-		--executable bin/nicedeck \
-		--desktop-file src/nicedeck/resources/com.mateussouzaweb.NiceDeck.desktop \
-		--icon-file src/nicedeck/resources/nicedeck.svg \
-		--plugin gtk \
-		--output appimage
-	mv ./NiceDeck-*.AppImage bin/
-
-deploy: app-image
-	mkdir -p $(HOME)/Applications
-	cp bin/NiceDeck-*.AppImage $(HOME)/Applications/NiceDeck.AppImage
-	chmod +x $(HOME)/Applications/NiceDeck.AppImage
 
 clean:
 	[ -d bin/ ] && rm -r bin/ || true
+
+build: clean
+	mkdir -p bin/
+	go build -o bin/nicedeck cmd/main.go
+
+install: build
+	mkdir -p $(HOME)/Applications
+	cp bin/nicedeck $(HOME)/Applications/NiceDeck
+	chmod +x $(HOME)/Applications/NiceDeck
+	$(HOME)/Applications/NiceDeck
+
+flatpak-deps:
+	sudo apt install -y flatpak flatpak-builder
+	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+	flatpak install flathub org.gnome.Platform//46
+	flatpak install flathub org.gnome.Sdk//46
+	flatpak install flathub org.freedesktop.Sdk.Extension.golang//23.08
+
+flatpak-build:
+	flatpak-builder --force-clean --repo=.flatpak-repository .flatpak-build-dir flatpak/manifest.yml
+
+flatpak-bundle:
+	mkdir -p bin/
+	flatpak build-bundle .flatpak-repository bin/nicedeck.flatpak com.mateussouzaweb.NiceDeck
+
+flatpak-install:
+	flatpak-builder --user --install --force-clean .flatpak-build-dir flatpak/manifest.yml
+	flatpak run com.mateussouzaweb.NiceDeck

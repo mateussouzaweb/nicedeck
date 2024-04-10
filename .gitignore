@@ -17,5 +17,10 @@
 # Binaries
 /bin/*
 
+# Flatpak build 
+.flatpak-builder
+.flatpak-build-dir
+.flatpak-repository
+
 # Debug files
 __debug_bin
