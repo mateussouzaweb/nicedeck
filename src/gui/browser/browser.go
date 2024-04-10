@@ -8,9 +8,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 )
 
-// Open UI with best available browser mode
-// We use browser to avoid the need of having to write code for UI application
-// Is not perfect, but is good enough for what we need
+// Open UI in browser mode with best available browser
 func Open(address string, width int, height int) error {
 
 	// Chrome like args

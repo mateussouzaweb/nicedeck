@@ -36,7 +36,7 @@ func Load() error {
 	}
 
 	// Make sure Steam on flatpak has the necessary permission
-	// We need this to run flatpak-spawn command to comunicate with others flatpak apps
+	// We need this to run flatpak-spawn command to communicate with others flatpak apps
 	isFlatpak, err := steam.IsFlatpak()
 	if err != nil {
 		return err

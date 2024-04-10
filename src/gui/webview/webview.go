@@ -8,8 +8,9 @@ package webview
 // #include "webview.h"
 import "C"
 
-// Open webview application by calling it from c++ app
+// Open UI in webview mode
 func Open(address string, width int, height int) error {
+	// Open webview application by calling it from c++ code
 	C.start_application(0, nil)
 	return nil
 }

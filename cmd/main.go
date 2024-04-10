@@ -56,7 +56,8 @@ func main() {
 	// We should wait for the serve goes up first
 	go func() {
 		<-ready
-		err := gui.Open("http://"+address, 1280, 720)
+		mode := cli.Arg(os.Args[1:], "--mode", "webview")
+		err := gui.Open(mode, "http://"+address, 1280, 720)
 		if err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 			exitCode = 1
