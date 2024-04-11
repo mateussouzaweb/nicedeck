@@ -7,3 +7,12 @@ TryExec=nicedeck
 Exec=nicedeck %u
 Terminal=false
 Categories=Game
+
+[Desktop Action Browser]
+Name=Browse Mode
+Exec=nicedeck --mode=browser
+
+[Desktop Action Headless]
+Name=Headless Mode
+Exec=nicedeck --mode=headless
+Terminal=true
