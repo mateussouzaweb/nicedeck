@@ -139,12 +139,8 @@ func launchShortcut(context *Context) error {
 
 	// Launch the shortcut
 	cli.Printf(cli.ColorSuccess, "Launching: %v\n", shortcut.AppName)
-	err = cli.Command(fmt.Sprintf(
-		`cd %s; %s %s`,
-		shortcut.StartDir,
-		shortcut.Exe,
-		shortcut.LaunchOptions,
-	)).Start()
+	script := fmt.Sprintf(`cd %s; %s %s`, shortcut.StartDir, shortcut.Exe, shortcut.LaunchOptions)
+	err = cli.Command(script).Start()
 
 	if err != nil {
 		result.Status = "ERROR"

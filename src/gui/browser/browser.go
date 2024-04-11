@@ -104,10 +104,8 @@ func Open(address string, width int, height int) error {
 	}
 
 	// Fallback to XDG open
-	err = cli.Command(fmt.Sprintf(
-		`xdg-open %s;`,
-		address,
-	)).Run()
+	script := fmt.Sprintf(`xdg-open %s`, address)
+	err = cli.Command(script).Run()
 	if err != nil {
 		return err
 	}

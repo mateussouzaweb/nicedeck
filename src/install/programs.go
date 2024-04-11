@@ -115,11 +115,12 @@ func Install(id string) error {
 	if program.FlatpakAppID != "" {
 
 		// Install from flatpak
-		err := cli.Command(fmt.Sprintf(
+		script := fmt.Sprintf(
 			"flatpak install --or-update --assumeyes --noninteractive flathub %s",
 			program.FlatpakAppID,
-		)).Run()
+		)
 
+		err := cli.Command(script).Run()
 		if err != nil {
 			return err
 		}
@@ -127,11 +128,8 @@ func Install(id string) error {
 		// Apply flatpak overrides
 		if len(program.FlatpakOverrides) > 0 {
 			for _, override := range program.FlatpakOverrides {
-				err := cli.Command(fmt.Sprintf(
-					"flatpak override --user %s %s",
-					override, program.FlatpakAppID,
-				)).Run()
-
+				script := fmt.Sprintf("flatpak override --user %s %s", override, program.FlatpakAppID)
+				err := cli.Command(script).Run()
 				if err != nil {
 					return err
 				}
