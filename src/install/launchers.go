@@ -1,12 +1,11 @@
 package install
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 
-	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/emulationstation"
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
@@ -40,15 +39,13 @@ func EmulationStationDE() *Program {
 
 		// Download application
 		executable := os.ExpandEnv("$HOME/Applications/EmulationStation-DE.AppImage")
-		desktopShortcut := os.ExpandEnv("$HOME/.local/share/applications/emulationstation-de.desktop")
+		err = fs.DownloadFile(latest, executable, true)
+		if err != nil {
+			return err
+		}
 
-		err = cli.Command(fmt.Sprintf(
-			`wget -q -O %s %s; chmod +x %s`,
-			executable,
-			latest,
-			executable,
-		)).Run()
-
+		// Make sure is executable
+		err = os.Chmod(executable, 0775)
 		if err != nil {
 			return err
 		}
@@ -60,6 +57,7 @@ func EmulationStationDE() *Program {
 		}
 
 		// Fill shortcut information
+		desktopShortcut := os.ExpandEnv("$HOME/.local/share/applications/emulationstation-de.desktop")
 		shortcut.Exe = executable
 		shortcut.StartDir = filepath.Dir(executable)
 		shortcut.ShortcutPath = desktopShortcut
