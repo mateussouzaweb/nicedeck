@@ -6,39 +6,31 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mateussouzaweb/nicedeck/src/fs"
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 )
 
 //go:embed resources/*
 var resourcesContent embed.FS
 
-// Desktop install for NiceDeck
-func DesktopInstall() error {
-
-	// Check if executable exist first
-	// If not exist, ignore self installer
-	executable := os.ExpandEnv("$HOME/Applications/NiceDeck.AppImage")
-	exist, err := fs.FileExist(executable)
-	if err != nil {
-		return err
-	} else if !exist {
-		return nil
-	}
-
-	// Check if desktop shortcut exist or create one
-	desktopShortcut := os.ExpandEnv("$HOME/.local/share/applications/com.mateussouzaweb.NiceDeck.desktop")
-	exist, err = fs.FileExist(desktopShortcut)
-	if err != nil {
-		return err
-	} else if !exist {
-		return WriteDesktopShortcut(executable)
-	}
-
-	return nil
+// Check if program is running inside flatpak
+func IsRunningInsideFlatpak() bool {
+	return os.Getenv("FLATPAK_ID") == "com.mateussouzaweb.NiceDeck"
 }
 
 // Write desktop shortcut for NiceDeck
-func WriteDesktopShortcut(executableFile string) error {
+func WriteDesktopShortcut() error {
+
+	// Check if is running via flatpak
+	if IsRunningInsideFlatpak() {
+		cli.Printf(cli.ColorWarn, "NiceDeck is running via Flatpak\n")
+		cli.Printf(cli.ColorWarn, "Cannot install desktop shortcut. Skipping...\n")
+	}
+
+	// Retrieve executable file
+	executableFile, err := os.Executable()
+	if err != nil {
+		return err
+	}
 
 	// Replace special variables
 	replaceVars := func(content []byte) []byte {
@@ -74,7 +66,7 @@ func WriteDesktopShortcut(executableFile string) error {
 		return err
 	}
 
-	// Match executable with AppImage location
+	// Match executable with real location
 	desktopShortcutContent = replaceVars(desktopShortcutContent)
 	desktopShortcutContent = bytes.ReplaceAll(
 		desktopShortcutContent,
@@ -86,6 +78,8 @@ func WriteDesktopShortcut(executableFile string) error {
 	if err != nil {
 		return err
 	}
+
+	cli.Printf(cli.ColorSuccess, "Desktop shortcut created at: %s\n", desktopShortcutFile)
 
 	return nil
 }
