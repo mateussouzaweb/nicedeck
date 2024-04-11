@@ -56,7 +56,7 @@ func WriteDesktopShortcut() error {
 		return err
 	}
 
-	err = os.MkdirAll(filepath.Dir(desktopShortcutFile), 0774)
+	err = os.MkdirAll(filepath.Dir(desktopShortcutFile), 0700)
 	if err != nil {
 		return err
 	}
@@ -68,7 +68,7 @@ func WriteDesktopShortcut() error {
 		[]byte("Exec="+executableFile),
 	)
 
-	err = os.WriteFile(desktopShortcutFile, desktopShortcutContent, 0774)
+	err = os.WriteFile(desktopShortcutFile, desktopShortcutContent, 0644)
 	if err != nil {
 		return err
 	}

@@ -98,12 +98,12 @@ func WriteSettings() error {
 		return err
 	}
 
-	err = os.MkdirAll(filepath.Dir(desktopShortcutFile), 0774)
+	err = os.MkdirAll(filepath.Dir(desktopShortcutFile), 0700)
 	if err != nil {
 		return err
 	}
 
-	err = os.WriteFile(desktopShortcutFile, replaceVars(desktopShortcutContent), 0774)
+	err = os.WriteFile(desktopShortcutFile, replaceVars(desktopShortcutContent), 0644)
 	if err != nil {
 		return err
 	}
