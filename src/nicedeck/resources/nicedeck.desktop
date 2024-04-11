@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=NiceDeck
-Comment=System customizations for a nice gaming experience
+Comment=Steam Deck companion app for console emulation
 Icon=nicedeck
 TryExec=nicedeck
 Exec=nicedeck %u

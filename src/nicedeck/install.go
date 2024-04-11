@@ -50,8 +50,8 @@ func WriteDesktopShortcut() error {
 	}
 
 	// Desktop shortcut
-	desktopShortcutFile := os.ExpandEnv("$HOME/.local/share/applications/com.mateussouzaweb.NiceDeck.desktop")
-	desktopShortcutContent, err := resourcesContent.ReadFile("resources/com.mateussouzaweb.NiceDeck.desktop")
+	desktopShortcutFile := os.ExpandEnv("$HOME/.local/share/applications/nicedeck.desktop")
+	desktopShortcutContent, err := resourcesContent.ReadFile("resources/nicedeck.desktop")
 	if err != nil {
 		return err
 	}
