@@ -32,11 +32,6 @@ func WriteDesktopShortcut() error {
 		return err
 	}
 
-	// Replace special variables
-	replaceVars := func(content []byte) []byte {
-		return bytes.ReplaceAll(content, []byte("$HOME"), []byte(os.Getenv("HOME")))
-	}
-
 	// Icon
 	iconFile := os.ExpandEnv("$HOME/.local/share/icons/hicolor/scalable/apps/nicedeck.svg")
 	iconContent, err := resourcesContent.ReadFile("resources/nicedeck.svg")
@@ -67,14 +62,13 @@ func WriteDesktopShortcut() error {
 	}
 
 	// Match executable with real location
-	desktopShortcutContent = replaceVars(desktopShortcutContent)
 	desktopShortcutContent = bytes.ReplaceAll(
 		desktopShortcutContent,
 		[]byte("Exec=nicedeck"),
 		[]byte("Exec="+executableFile),
 	)
 
-	err = os.WriteFile(desktopShortcutFile, replaceVars(desktopShortcutContent), 0774)
+	err = os.WriteFile(desktopShortcutFile, desktopShortcutContent, 0774)
 	if err != nil {
 		return err
 	}
