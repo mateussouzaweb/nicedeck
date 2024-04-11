@@ -6,15 +6,16 @@ sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
 command: nicedeck
 finish-args:
-  - --device=dri
+  - --device=all
   - --socket=wayland
   - --socket=fallback-x11
   - --share=network
   - --share=ipc
   - --talk-name=org.freedesktop.Flatpak
   - --filesystem=host
-  - --filesystem=home
-  - --filesystem=/run/media
+  - --filesystem=~/.steam/steam
+  - --filesystem=~/.local/share/Steam
+  - --filesystem=~/.var/app/com.valvesoftware.Steam
 modules:
   - name: nicedeck
     builddir: true
