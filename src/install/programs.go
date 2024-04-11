@@ -2,6 +2,7 @@ package install
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/library"
@@ -103,7 +104,7 @@ func Install(id string) error {
 	// Make sure required folders exist
 	if len(program.RequiredFolders) > 0 {
 		for _, folder := range program.RequiredFolders {
-			err := cli.Command(fmt.Sprintf("mkdir -p %s", folder)).Run()
+			err := os.MkdirAll(os.ExpandEnv(folder), 0755)
 			if err != nil {
 				return err
 			}
