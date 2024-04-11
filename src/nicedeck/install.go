@@ -12,18 +12,14 @@ import (
 //go:embed resources/*
 var resourcesContent embed.FS
 
-// Check if program is running inside flatpak
-func IsRunningInsideFlatpak() bool {
-	return os.Getenv("FLATPAK_ID") == "com.mateussouzaweb.NiceDeck"
-}
-
 // Write desktop shortcut for NiceDeck
 func WriteDesktopShortcut() error {
 
 	// Check if is running via flatpak
-	if IsRunningInsideFlatpak() {
+	if os.Getenv("FLATPAK_ID") == "com.mateussouzaweb.NiceDeck" {
 		cli.Printf(cli.ColorWarn, "NiceDeck is running via Flatpak\n")
 		cli.Printf(cli.ColorWarn, "Cannot install desktop shortcut. Skipping...\n")
+		return nil
 	}
 
 	// Retrieve executable file
