@@ -3,7 +3,7 @@
     <id>com.mateussouzaweb.NiceDeck</id>
     <name>NiceDeck</name>
     <summary>Steam Deck companion app for console emulation</summary>
-    <developer id="mateussouzaweb.com">
+    <developer id="com.mateussouzaweb">
         <name>Mateus Souza</name>
     </developer>
     <metadata_license>MIT</metadata_license>
