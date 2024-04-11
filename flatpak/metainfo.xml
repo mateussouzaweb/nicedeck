@@ -6,6 +6,7 @@
     <developer id="com.mateussouzaweb">
         <name>Mateus Souza</name>
     </developer>
+    <developer_name>Mateus Souza</developer_name>
     <metadata_license>MIT</metadata_license>
     <project_license>MIT</project_license>
     <recommends>
