@@ -10,7 +10,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/server"
 )
 
-var version = "Version 0.0.19"
+var version = "0.0.19"
 var address = "127.0.0.1:14935"
 
 // Main command
