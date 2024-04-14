@@ -9,12 +9,12 @@ import (
 )
 
 // Open UI in browser mode with best available browser
-func Open(address string, width int, height int) error {
+func Open(url string) error {
 
 	// Chrome like args
 	chromeArgs := []string{
-		fmt.Sprintf("--app=%s", address),
-		fmt.Sprintf("--window-size=%d,%d", width, height),
+		fmt.Sprintf("--app=%s", url),
+		fmt.Sprintf("--window-size=%d,%d", 1280, 800),
 		"--window-position=center",
 		"--bwsi",
 		"--allow-insecure-localhost",
@@ -99,12 +99,12 @@ func Open(address string, width int, height int) error {
 	} else if exist {
 		return RunProcess(fmt.Sprintf(
 			`flatpak run org.mozilla.firefox --kiosk %s;`,
-			address,
+			url,
 		))
 	}
 
 	// Fallback to XDG open
-	script := fmt.Sprintf(`xdg-open %s`, address)
+	script := fmt.Sprintf(`xdg-open %s`, url)
 	err = cli.Command(script).Run()
 	if err != nil {
 		return err

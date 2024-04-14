@@ -57,7 +57,7 @@ func main() {
 	go func() {
 		<-ready
 		mode := cli.Arg(os.Args[1:], "--mode", "webview")
-		err := gui.Open(mode, "http://"+address, 1280, 720)
+		err := gui.Open(mode, "http://"+address, version)
 		if err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 			exitCode = 1
