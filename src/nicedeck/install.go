@@ -16,7 +16,7 @@ var resourcesContent embed.FS
 func WriteDesktopShortcut() error {
 
 	// Check if is running via flatpak
-	if os.Getenv("FLATPAK_ID") == "com.mateussouzaweb.NiceDeck" {
+	if os.Getenv("FLATPAK_ID") != "" {
 		cli.Printf(cli.ColorWarn, "NiceDeck is running via Flatpak\n")
 		cli.Printf(cli.ColorWarn, "Cannot install desktop shortcut. Skipping...\n")
 		return nil

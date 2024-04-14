@@ -12,7 +12,7 @@ func Command(script string) *exec.Cmd {
 	cmd := exec.Command("/bin/bash", "-c", script)
 
 	// Apply flatpak-spawn if application is running inside flatpak
-	if os.Getenv("FLATPAK_ID") == "com.mateussouzaweb.NiceDeck" {
+	if os.Getenv("FLATPAK_ID") != "" {
 		script = strings.Replace(script, "/usr/bin/flatpak-spawn --host", "", 1)
 		cmd = exec.Command("/usr/bin/flatpak-spawn", "--host", "/bin/bash", "-c", script)
 	}
