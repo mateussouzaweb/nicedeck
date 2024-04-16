@@ -1,4 +1,4 @@
-package webview
+package gtk
 
 // Required packages:
 // sudo apt install -y libgtk-4-dev libwebkitgtk-6.0-dev
@@ -11,7 +11,7 @@ package webview
 import "C"
 import "unsafe"
 
-// Open UI in webview mode
+// Open UI as GTK application mode
 func Open(url string, version string) error {
 
 	appName := C.CString("NiceDeck")
