@@ -1,3 +1,6 @@
+#ifndef GUI_GTK_WEBVIEW_HEADER
+#define GUI_GTK_WEBVIEW_HEADER
+
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include <webkit/webkit.h>
@@ -137,3 +140,5 @@ int start_app(
 
   return status;
 }
+
+#endif

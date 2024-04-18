@@ -7,7 +7,7 @@ package gtk
 // #cgo pkg-config: gtk4 webkitgtk-6.0
 // #include <stdio.h>
 // #include <stdlib.h>
-// #include "webview.h"
+// #include "webview.hpp"
 import "C"
 import "unsafe"
 
