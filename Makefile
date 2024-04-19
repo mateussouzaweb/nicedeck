@@ -1,5 +1,6 @@
 deps:
 	sudo apt install -y libgtk-4-dev libwebkitgtk-6.0-dev
+	sudo apt install -y qt6-base-dev qt6-webengine-dev
 
 run:
 	go run cmd/main.go
