@@ -7,7 +7,8 @@ package gtk
 // #cgo pkg-config: gtk4 webkitgtk-6.0
 // #include <stdio.h>
 // #include <stdlib.h>
-// #include "webview.hpp"
+// #include <stdbool.h>
+// #include "wrapper.hpp"
 import "C"
 import "unsafe"
 
@@ -35,7 +36,7 @@ func Open(url string, version string) error {
 		C.free(unsafe.Pointer(appVersion))
 	}()
 
-	C.start_app(
+	C.start_gtk_app_wrapper(
 		appName,
 		appID,
 		appIcon,
