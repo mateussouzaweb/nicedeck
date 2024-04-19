@@ -10,10 +10,15 @@ package qt
 // #include <stdbool.h>
 // #include "wrapper.hpp"
 import "C"
-import "unsafe"
+import (
+	"runtime"
+	"unsafe"
+)
 
 // Open UI in QT application mode
 func Open(url string, version string) error {
+
+	runtime.LockOSThread()
 
 	appVendor := C.CString("com.mateussouzaweb")
 	appName := C.CString("NiceDeck")

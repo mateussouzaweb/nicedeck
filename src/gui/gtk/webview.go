@@ -10,10 +10,15 @@ package gtk
 // #include <stdbool.h>
 // #include "wrapper.hpp"
 import "C"
-import "unsafe"
+import (
+	"runtime"
+	"unsafe"
+)
 
 // Open UI as GTK application mode
 func Open(url string, version string) error {
+
+	runtime.LockOSThread()
 
 	appName := C.CString("NiceDeck")
 	appID := C.CString("com.mateussouzaweb.NiceDeck")
