@@ -7,7 +7,8 @@ package qt
 // #cgo pkg-config: Qt6Core Qt6Widgets Qt6Network Qt6WebEngineCore Qt6WebEngineWidgets
 // #include <stdio.h>
 // #include <stdlib.h>
-// #include "webview.hpp"
+// #include <stdbool.h>
+// #include "wrapper.hpp"
 import "C"
 import "unsafe"
 
@@ -37,7 +38,7 @@ func Open(url string, version string) error {
 		C.free(unsafe.Pointer(appVersion))
 	}()
 
-	C.start_app(
+	C.start_qt_app_wrapper(
 		appVendor,
 		appName,
 		appID,
