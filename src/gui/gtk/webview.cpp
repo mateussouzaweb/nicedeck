@@ -21,7 +21,6 @@ typedef struct {
     int windowWidth;
     int windowHeight;
     bool developMode;
-    bool showInspector;
 } WebApplication;
 
 // On quit activated callback
@@ -81,7 +80,7 @@ static void on_activate_app(GtkApplication *app, gpointer data)
     webkit_settings_set_enable_developer_extras(instance->settings, instance->developMode);
 
     // Show inspector
-    if( instance->developMode && instance->showInspector ){
+    if( instance->developMode ){
         instance->inspector = webkit_web_view_get_inspector(WEBKIT_WEB_VIEW(instance->webview));
         webkit_web_inspector_show(WEBKIT_WEB_INSPECTOR(instance->inspector));
     }
@@ -103,8 +102,7 @@ int start_gtk_app(
     bool windowDecorated,
     int windowWidth, 
     int windowHeight,
-    bool developMode,
-    bool showInspector
+    bool developMode
 )
 {
     // WebApplication struct instance
@@ -122,7 +120,6 @@ int start_gtk_app(
     instance.windowWidth = windowWidth;
     instance.windowHeight = windowHeight;
     instance.developMode = developMode;
-    instance.showInspector = showInspector;
 
     // Create GTK application
     instance.app = gtk_application_new(appId, G_APPLICATION_DEFAULT_FLAGS);

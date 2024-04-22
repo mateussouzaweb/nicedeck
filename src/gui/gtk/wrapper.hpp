@@ -17,8 +17,7 @@ extern "C" {
         bool windowDecorated,
         int windowWidth,
         int windowHeight,
-        bool developMode,
-        bool showInspector
+        bool developMode
     );
 #ifdef __cplusplus
 }

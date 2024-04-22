@@ -12,8 +12,7 @@ int start_gtk_app (
     bool windowDecorated,
     int windowWidth,
     int windowHeight,
-    bool developMode,
-    bool showInspector
+    bool developMode
 );
 
 #endif
