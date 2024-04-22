@@ -15,8 +15,7 @@ int start_qt_app_wrapper (
     bool windowDecorated,
     int windowWidth,
     int windowHeight,
-    bool developMode,
-    bool showInspector
+    bool developMode
 ){
     return start_qt_app(
         appVendor, 
@@ -30,7 +29,6 @@ int start_qt_app_wrapper (
         windowDecorated,
         windowWidth,
         windowHeight,
-        developMode,
-        showInspector
+        developMode
     );
 }

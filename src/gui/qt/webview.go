@@ -32,7 +32,6 @@ func Open(url string, version string) error {
 	windowWidth := (C.int)(1280)
 	windowHeight := (C.int)(800)
 	developMode := (C.bool)(true)
-	showInspector := (C.bool)(false)
 
 	defer func() {
 		C.free(unsafe.Pointer(appVendor))
@@ -56,7 +55,6 @@ func Open(url string, version string) error {
 		windowWidth,
 		windowHeight,
 		developMode,
-		showInspector,
 	)
 
 	return nil
