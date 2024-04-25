@@ -7,19 +7,43 @@ ul.tabs {
 }
 ul.tabs li {
     background: #000;
-    border: 0;
+    border: 1px solid #000;
     border-radius: 5px;
     color: #FFF;
     cursor: pointer;
-    flex: 0 0 auto;
+    flex: 1 1 auto;
     font-weight: bold;
     margin: 5px;
-    padding: 15px 25px;
+    padding: 10px 20px;
     text-align: center;
     vertical-align: middle;
 }
-ul.tabs span {
+ul.tabs li img {
+    display: inline-block;
+    vertical-align: middle;
+}
+ul.tabs li span {
+    display: inline-block;
+    padding: 5px;
+    vertical-align: middle;
     white-space: nowrap;
+}
+ul.tabs li.active {
+    background: #FFF;
+    color: #000;
+}
+ul.tabs li.active img {
+    filter: invert();
+}
+
+ul.tabs li#shutdown {
+    flex: 0;
+    padding: 12px 10px;
+    white-space: nowrap;
+}
+ul.tabs li#shutdown img {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 section.tab {

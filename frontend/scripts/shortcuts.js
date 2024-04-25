@@ -138,7 +138,7 @@ window.addEventListener('load', async () => {
             const append = (type, title, selected, images, width, height) => {
                 html.push(
                 `<section class="group group-${type}">
-                    <h4>${title}</h4>`)
+                    <h4>${title}:</h4>`)
 
                 if (!images || !images.length) {
                     html.push(`<p class="alert">No images were found for this artwork type.</p>`)
@@ -168,7 +168,6 @@ window.addEventListener('load', async () => {
                 html.push(`</section>`)
             }
 
-            html.push(`<p>Scrape results for <b>${shortcut.appName}</b>:</p>`)
             append('cover', 'Cover Artworks', shortcut.coverUrl, scrape.result.coverUrls, 600, 900)
             append('banner', 'Banner Artworks', shortcut.bannerUrl, scrape.result.bannerUrls, 920, 430)
             append('hero', 'Hero Artworks', shortcut.heroUrl, scrape.result.heroUrls, 600, 900)

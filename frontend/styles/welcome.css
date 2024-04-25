@@ -1,0 +1,12 @@
+#welcome h1 {
+    margin-top: 0;
+}
+#welcome p {
+    margin: 0 0 10px;
+}
+#welcome ul {
+    padding-left: 20px;
+}
+#welcome ul li {
+    padding-bottom: 5px;
+}

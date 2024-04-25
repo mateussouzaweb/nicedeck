@@ -114,7 +114,12 @@
 }
 
 #shortcuts .modal .group h4 {
+    font-weight: normal;
     margin: 0 0 10px 0;
+}
+#shortcuts .modal input, 
+#shortcuts .modal textarea {
+    width: 100%;
 }
 #shortcuts .modal .options {
     display: flex;
