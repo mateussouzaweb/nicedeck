@@ -18,8 +18,8 @@ func Open(mode string, url string, version string) error {
 	} else if mode == "browser" {
 		return browser.Open(url)
 	} else if mode != "headless" {
-		cli.Printf(cli.ColorWarn, "Unknown GUI launch mode: %s", mode)
-		cli.Printf(cli.ColorWarn, "Falling back to headless mode...")
+		cli.Printf(cli.ColorWarn, "Unknown GUI launch mode: %s\n", mode)
+		cli.Printf(cli.ColorWarn, "Falling back to headless mode...\n")
 	}
 
 	return headless.Open(url)
