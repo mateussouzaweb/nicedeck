@@ -16,6 +16,7 @@ finish-args:
   - --filesystem=~/.steam/steam
   - --filesystem=~/.local/share/Steam
   - --filesystem=~/.var/app/com.valvesoftware.Steam
+  - --env=LC_ALL=en_US.UTF-8
 modules:
   - name: nicedeck
     builddir: true
