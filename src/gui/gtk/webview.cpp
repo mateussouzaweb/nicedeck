@@ -9,7 +9,6 @@ typedef struct {
     GtkWidget *window;
     GtkWidget *webview;
     WebKitSettings *settings;
-    WebKitWebInspector *inspector;
     const char *appName;
     const char *appId;
     const char *appIcon;
@@ -78,12 +77,6 @@ static void on_activate_app(GtkApplication *app, gpointer data)
     webkit_settings_set_enable_html5_local_storage(instance->settings, true);
     webkit_settings_set_enable_write_console_messages_to_stdout(instance->settings, false);
     webkit_settings_set_enable_developer_extras(instance->settings, instance->developMode);
-
-    // Show inspector
-    if( instance->developMode ){
-        instance->inspector = webkit_web_view_get_inspector(WEBKIT_WEB_VIEW(instance->webview));
-        webkit_web_inspector_show(WEBKIT_WEB_INSPECTOR(instance->inspector));
-    }
 
     // Load target URL
     webkit_web_view_load_uri(WEBKIT_WEB_VIEW(instance->webview), instance->appUrl);
