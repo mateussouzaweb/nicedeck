@@ -154,13 +154,17 @@ func launchShortcut(context *Context) error {
 
 // Modify shortcut data
 type ModifyShortcutData struct {
-	Action    string `json:"action"`
-	AppID     uint   `json:"appId"`
-	IconURL   string `json:"iconUrl"`
-	LogoURL   string `json:"logoUrl"`
-	CoverURL  string `json:"coverUrl"`
-	BannerURL string `json:"bannerUrl"`
-	HeroURL   string `json:"heroUrl"`
+	Action        string `json:"action"`
+	AppID         uint   `json:"appId"`
+	AppName       string `json:"appName"`
+	StartDir      string `json:"startDir"`
+	Exe           string `json:"exe"`
+	LaunchOptions string `json:"launchOptions"`
+	IconURL       string `json:"iconUrl"`
+	LogoURL       string `json:"logoUrl"`
+	CoverURL      string `json:"coverUrl"`
+	BannerURL     string `json:"bannerUrl"`
+	HeroURL       string `json:"heroUrl"`
 }
 
 // Modify shortcut result
@@ -194,6 +198,10 @@ func modifyShortcut(context *Context) error {
 
 	// Update shortcut
 	if data.Action == "update" {
+		shortcut.AppName = data.AppName
+		shortcut.StartDir = data.StartDir
+		shortcut.Exe = data.Exe
+		shortcut.LaunchOptions = data.LaunchOptions
 		shortcut.IconURL = data.IconURL
 		shortcut.LogoURL = data.LogoURL
 		shortcut.CoverURL = data.CoverURL

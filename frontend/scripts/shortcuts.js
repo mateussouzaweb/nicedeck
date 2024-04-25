@@ -135,6 +135,25 @@ window.addEventListener('load', async () => {
             const scrape = await requestJson('GET', '/api/scrape?term=' + encodeURIComponent(shortcut.appName))
 
             const html = []
+            html.push(
+                `<div class="group">
+                    <label>Name:</label>
+                    <input type="text" name="appName" value="${shortcut.appName}" />
+                </div>
+                <div class="group">
+                    <label>Start Directory:</label>
+                    <input type="text" name="startDir" value="${shortcut.startDir}" />
+                </div>
+                <div class="group">
+                    <label>Executable:</label>
+                    <input type="text" name="exe" value="${shortcut.exe}" />
+                </div>
+                <div class="group">
+                    <label>Launch Options:</label>
+                    <textarea name="launchOptions">${shortcut.launchOptions}</textarea>
+                </div>
+                `)
+
             const append = (type, title, selected, images, width, height) => {
                 html.push(
                 `<section class="group group-${type}">
@@ -215,6 +234,10 @@ window.addEventListener('load', async () => {
         const body = JSON.stringify({
             action: 'update',
             appId: shortcut.appId,
+            appName: data.get('appName'),
+            startDir: data.get('startDir'),
+            exe: data.get('exe'),
+            launchOptions: data.get('launchOptions'),
             iconUrl: data.get('icon'),
             logoUrl: data.get('logo'),
             coverUrl: data.get('cover'),
