@@ -382,6 +382,44 @@ func scrapeData(context *Context) error {
 	return context.Status(200).JSON(result)
 }
 
+// Open link data
+type OpenLinkData struct {
+	Link string `json:"link"`
+}
+
+// Open link result
+type OpenLinkResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
+// Open link action
+func openLink(context *Context) error {
+
+	result := OpenLinkResult{}
+
+	// Bind data
+	data := OpenLinkData{}
+	err := context.Bind(&data)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Call xdg-open to use favorite browser
+	script := fmt.Sprintf(`xdg-open %s`, data.Link)
+	err = cli.Command(script).Run()
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
+}
+
 // Setup server endpoints
 func Setup(version string) error {
 
@@ -467,6 +505,7 @@ func Setup(version string) error {
 	Add("POST", "/api/setup", runSetup)
 	Add("POST", "/api/install", runInstall)
 	Add("POST", "/api/roms", processROMs)
+	Add("POST", "/api/link/open", openLink)
 
 	// Capture shutdown request
 	Add("POST", "/app/shutdown", func(context *Context) error {
