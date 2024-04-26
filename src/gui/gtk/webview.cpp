@@ -86,14 +86,14 @@ static void on_activate_app(GtkApplication *app, gpointer data)
 // Start application
 int start_gtk_app(
     const char *appName,
-    const char *appId, 
-    const char *appIcon, 
+    const char *appId,
+    const char *appIcon,
     const char *appUrl,
     const char *appVersion,
     bool windowFullScreen,
     bool windowMaximized,
     bool windowDecorated,
-    int windowWidth, 
+    int windowWidth,
     int windowHeight,
     bool developMode
 )
@@ -115,7 +115,11 @@ int start_gtk_app(
     instance.developMode = developMode;
 
     // Create GTK application
-    instance.app = gtk_application_new(appId, G_APPLICATION_DEFAULT_FLAGS);
+    #if GLIB_CHECK_VERSION(2, 74, 0)
+        instance.app = gtk_application_new(appId, G_APPLICATION_DEFAULT_FLAGS);
+    #else
+        instance.app = gtk_application_new(appId, G_APPLICATION_FLAGS_NONE);
+    #endif
 
     // Attach signal callbacks
     g_signal_connect(instance.app, "startup", G_CALLBACK(on_startup_app), &instance);
