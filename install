@@ -5,7 +5,8 @@ set -u
 
 VERSION="v0.0.19"
 REPOSITORY="https://github.com/mateussouzaweb/nicedeck"
-BINARY="$REPOSITORY/releases/download/$VERSION/nicedeck"
+FILE="$REPOSITORY/releases/download/$VERSION/nicedeck"
+
 APPLICATIONS="$HOME/Applications"
 DESTINATION="$APPLICATIONS/nicedeck"
 
@@ -14,13 +15,34 @@ if [ ! -d "$APPLICATIONS" ]; then
   mkdir -p $APPLICATIONS
 fi
 
-# Install NiceDeck
-echo "[INFO] Downloading NiceDeck..."
-wget -q $BINARY -O $DESTINATION
-chmod +x $DESTINATION
+# Use flatpak when available
+# Otherwise, install from binary
+if [ -x "$(command -v flatpak)" ]; then
 
-echo "[INFO] NiceDeck $VERSION installed at $DESTINATION"
+  # Download the program
+  FILE="$FILE.flatpak"
+  DESTINATION="$DESTINATION.flatpak"
+  wget -q $FILE -O $DESTINATION
 
-# Run the program
-echo "[INFO] Running the program..."
-$DESTINATION
+  # Install the program
+  flatpak install --assumeyes $DESTINATION
+  rm $DESTINATION
+
+  # Run the program
+  echo "[INFO] NiceDeck $VERSION installed with flatpak"
+  echo "[INFO] Running the program..."
+  flatpak run com.mateussouzaweb.NiceDeck
+
+else
+
+  # Download the program
+  echo "[INFO] Downloading NiceDeck..."
+  wget -q $BINARY -O $DESTINATION
+  chmod +x $DESTINATION
+
+  # Run the program
+  echo "[INFO] NiceDeck $VERSION installed at $DESTINATION"
+  echo "[INFO] Running the program..."
+  $DESTINATION
+
+fi
