@@ -49,8 +49,27 @@ jobs:
           echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
           echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
 
-  build-release:
-    name: Build Release
+  create-release:
+    name: Create Release
+    needs: extract-information
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout
+        name: Checkout repository
+        uses: actions/checkout@v4
+      - id: create-release
+        name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${{ needs.extract-information.outputs.tag }} \
+            --title "Version ${{ needs.extract-information.outputs.version }}" \
+            --latest \
+            --generate-notes \
+            LICENSE.md
+
+  build-binary:
+    name: Build Binary
     needs: extract-information
     runs-on: ubuntu-latest
     steps:
@@ -66,34 +85,41 @@ jobs:
 
       - id: setup-dependencies
         name: Setup dependencies
-        run: |
-          make deps
+        run: make deps
 
       - id: build-binary
         name: Build binary app
-        run: |
-          make build
+        run: make build
+
+      - id: upload-binary
+        name: Upload binary app
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload ${{ needs.extract-information.outputs.tag }} bin/nicedeck
+
+  build-flatpak:
+    name: Build Flatpak
+    needs: extract-information
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout
+        name: Checkout repository
+        uses: actions/checkout@v4
 
       - id: setup-flatpak-dependencies
         name: Setup flatpak dependencies
-        run: |
-          make flatpak-deps
+        run: make flatpak-deps
 
       - id: build-flatpak
         name: Build flatpak app
-        run: |
-          make flatpak-build
-          make flatpak-bundle
+        run: make flatpak-build
 
-      - id: create-release
-        name: Create release
+      - id: bundle-flatpak
+        name: Bundle flatpak app
+        run: make flatpak-bundle
+
+      - id: upload-flatpak
+        name: Upload flatpak app
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release create ${{ needs.extract-information.outputs.tag }} \
-            --title "Version ${{ needs.extract-information.outputs.version }}" \
-            --latest \
-            --generate-notes \
-            LICENSE.md \
-            bin/nicedeck \
-            bin/nicedeck.flatpak
+        run: gh release upload ${{ needs.extract-information.outputs.tag }} bin/nicedeck.flatpak
