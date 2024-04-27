@@ -1,6 +1,6 @@
 # NiceDeck
 
-Steam Deck customizations for a **nice gaming experience** - recommended to advanced users only.
+Steam Deck companion app for console emulation, better gaming experience and additional software support.
 
 ![Nice!](./nice.jpg?raw=true)
 
