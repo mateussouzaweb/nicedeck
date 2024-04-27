@@ -18,21 +18,3 @@ install: build
 	cp bin/nicedeck $(HOME)/Applications/NiceDeck
 	chmod +x $(HOME)/Applications/NiceDeck
 	$(HOME)/Applications/NiceDeck
-
-flatpak-deps:
-	sudo apt install -y flatpak flatpak-builder
-	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-	flatpak install -y flathub org.gnome.Platform//46
-	flatpak install -y flathub org.gnome.Sdk//46
-	flatpak install -y flathub org.freedesktop.Sdk.Extension.golang//23.08
-
-flatpak-build:
-	flatpak-builder --force-clean --repo=.flatpak-repository .flatpak-build-dir flatpak/manifest.yml
-
-flatpak-bundle:
-	mkdir -p bin/
-	flatpak build-bundle .flatpak-repository bin/nicedeck.flatpak com.mateussouzaweb.NiceDeck
-
-flatpak-install:
-	flatpak-builder --user --install --force-clean .flatpak-build-dir flatpak/manifest.yml
-	flatpak run com.mateussouzaweb.NiceDeck

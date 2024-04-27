@@ -96,30 +96,3 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release upload ${{ needs.extract-information.outputs.tag }} bin/nicedeck
-
-  build-flatpak:
-    name: Build Flatpak
-    needs: [extract-information, create-release]
-    runs-on: ubuntu-latest
-    steps:
-      - id: checkout
-        name: Checkout repository
-        uses: actions/checkout@v4
-
-      - id: setup-flatpak-dependencies
-        name: Setup flatpak dependencies
-        run: make flatpak-deps
-
-      - id: build-flatpak
-        name: Build flatpak app
-        run: make flatpak-build
-
-      - id: bundle-flatpak
-        name: Bundle flatpak app
-        run: make flatpak-bundle
-
-      - id: upload-flatpak
-        name: Upload flatpak app
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload ${{ needs.extract-information.outputs.tag }} bin/nicedeck.flatpak
