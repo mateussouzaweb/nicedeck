@@ -79,9 +79,9 @@ jobs:
 
       - id: setup-go
         name: Setup Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v5
         with:
-          go-version: 1.21.1
+          go-version: '1.21.1'
 
       - id: setup-dependencies
         name: Setup dependencies
