@@ -30,8 +30,8 @@ jobs:
     needs: check-commit
     runs-on: ubuntu-latest
     outputs:
-      tag: ${{ steps.tag.outputs.TAG }}
-      version: ${{ steps.tag.outputs.VERSION }}
+      tag: ${{ steps.extract.outputs.TAG }}
+      version: ${{ steps.extract.outputs.VERSION }}
     steps:
       - id: checkout
         name: Checkout repository
@@ -70,7 +70,7 @@ jobs:
 
   build-binary:
     name: Build Binary
-    needs: extract-information
+    needs: [extract-information, create-release]
     runs-on: ubuntu-latest
     steps:
       - id: checkout
@@ -99,7 +99,7 @@ jobs:
 
   build-flatpak:
     name: Build Flatpak
-    needs: extract-information
+    needs: [extract-information, create-release]
     runs-on: ubuntu-latest
     steps:
       - id: checkout

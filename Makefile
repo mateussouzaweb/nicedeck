@@ -22,9 +22,9 @@ install: build
 flatpak-deps:
 	sudo apt install -y flatpak flatpak-builder
 	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-	flatpak install flathub org.gnome.Platform//46
-	flatpak install flathub org.gnome.Sdk//46
-	flatpak install flathub org.freedesktop.Sdk.Extension.golang//23.08
+	flatpak install -y flathub org.gnome.Platform//46
+	flatpak install -y flathub org.gnome.Sdk//46
+	flatpak install -y flathub org.freedesktop.Sdk.Extension.golang//23.08
 
 flatpak-build:
 	flatpak-builder --force-clean --repo=.flatpak-repository .flatpak-build-dir flatpak/manifest.yml
