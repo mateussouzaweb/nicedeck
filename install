@@ -17,7 +17,7 @@ fi
 
 # Download the program
 echo "[INFO] Downloading NiceDeck..."
-wget -q $BINARY -O $DESTINATION
+wget -q $FILE -O $DESTINATION
 chmod +x $DESTINATION
 
 # Run the program
