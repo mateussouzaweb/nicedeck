@@ -105,7 +105,8 @@ func listShortcuts(context *Context) error {
 
 // Launch shortcut data
 type LaunchShortcutData struct {
-	AppID uint `json:"appId"`
+	AppID    uint   `json:"appId"`
+	Launcher string `json:"launcher"`
 }
 
 // Launch shortcut result
@@ -137,9 +138,20 @@ func launchShortcut(context *Context) error {
 		return context.Status(400).JSON(result)
 	}
 
+	// Determine best launch script based on launcher
+	// Launch with system by default
+	script := fmt.Sprintf(`cd %s; %s %s`, shortcut.StartDir, shortcut.Exe, shortcut.LaunchOptions)
+
+	if data.Launcher == "steam" {
+		if library.GetConfig().IsFlatpak {
+			script = fmt.Sprintf(`flatpak run com.valvesoftware.Steam steam -applaunch %v`, shortcut.AppID)
+		} else {
+			script = fmt.Sprintf(`steam -applaunch %v`, shortcut.AppID)
+		}
+	}
+
 	// Launch the shortcut
 	cli.Printf(cli.ColorSuccess, "Launching: %v\n", shortcut.AppName)
-	script := fmt.Sprintf(`cd %s; %s %s`, shortcut.StartDir, shortcut.Exe, shortcut.LaunchOptions)
 	err = cli.Command(script).Start()
 
 	if err != nil {

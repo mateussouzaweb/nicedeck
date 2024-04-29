@@ -97,7 +97,8 @@ window.addEventListener('load', async () => {
         window.showModal(modal)
 
         const body = JSON.stringify({
-            appId: shortcut.appId
+            appId: shortcut.appId,
+            launcher: "steam"
         })
 
         try {
