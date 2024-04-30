@@ -7,21 +7,25 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/gui/headless"
 )
 
-// Open UI with best available GUI mode
-func Open(mode string, url string, version string, developmentMode bool) error {
+// Open GUI with selected display mode
+func Open(displayMode string, url string, version string, developmentMode bool) error {
 
-	// if mode == "qt" {
+	switch displayMode {
+	// case "qt":
 	// 	return qt.Open(url, version, developmentMode)
-	// }
-
-	if mode == "gtk" {
+	case "gtk":
 		return gtk.Open(url, version, developmentMode)
-	} else if mode == "browser" {
+	case "browser":
 		return browser.Open(url, developmentMode)
-	} else if mode != "headless" {
-		cli.Printf(cli.ColorWarn, "Unknown GUI launch mode: %s\n", mode)
+	case "headless":
+		return headless.Open(url)
+	case "":
+		cli.Printf(cli.ColorWarn, "GUI display mode not defined.\n")
 		cli.Printf(cli.ColorWarn, "Falling back to headless mode...\n")
+		return headless.Open(url)
+	default:
+		cli.Printf(cli.ColorWarn, "Unknown GUI display mode: %s\n", displayMode)
+		cli.Printf(cli.ColorWarn, "Falling back to headless mode...\n")
+		return headless.Open(url)
 	}
-
-	return headless.Open(url)
 }
