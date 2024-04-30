@@ -13,7 +13,7 @@ int start_qt_app (
     bool windowDecorated,
     int windowWidth,
     int windowHeight,
-    bool developMode
+    bool developmentMode
 );
 
 #endif

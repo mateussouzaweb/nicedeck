@@ -14,7 +14,7 @@ int start_gtk_app_wrapper (
     bool windowDecorated,
     int windowWidth,
     int windowHeight,
-    bool developMode
+    bool developmentMode
 ){
     return start_gtk_app(
         appName, 
@@ -27,6 +27,6 @@ int start_gtk_app_wrapper (
         windowDecorated,
         windowWidth,
         windowHeight,
-        developMode
+        developmentMode
     );
 }

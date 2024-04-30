@@ -16,7 +16,7 @@ import (
 )
 
 // Open UI as GTK application mode
-func Open(url string, version string) error {
+func Open(url string, version string, developmentMode bool) error {
 
 	runtime.LockOSThread()
 
@@ -30,7 +30,6 @@ func Open(url string, version string) error {
 	windowDecorated := (C.bool)(true)
 	windowWidth := (C.int)(1280)
 	windowHeight := (C.int)(800)
-	developMode := (C.bool)(true)
 
 	defer func() {
 		C.free(unsafe.Pointer(appName))
@@ -51,7 +50,7 @@ func Open(url string, version string) error {
 		windowDecorated,
 		windowWidth,
 		windowHeight,
-		developMode,
+		(C.bool)(developmentMode),
 	)
 
 	return nil

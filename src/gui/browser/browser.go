@@ -9,7 +9,7 @@ import (
 )
 
 // Open UI in browser mode with best available browser
-func Open(url string) error {
+func Open(url string, developmentMode bool) error {
 
 	// Chrome like args
 	chromeArgs := []string{
@@ -54,9 +54,16 @@ func Open(url string) error {
 		"--safebrowsing-disable-auto-update",
 		"--safe-mode",
 		"--password-store=basic",
-		"--remote-allow-origins=*",
-		"--remote-debugging-port=0",
 		"--use-mock-keychain",
+	}
+
+	// Extra development flags
+	if developmentMode {
+		chromeArgs = append(
+			chromeArgs,
+			"--remote-allow-origins=*",
+			"--remote-debugging-port=0",
+		)
 	}
 
 	// Using Google Chrome

@@ -33,6 +33,10 @@ func main() {
 		done <- true
 	}()
 
+	// Retrieve program options
+	displayMode := cli.Arg(os.Args[1:], "--gui", "gtk")
+	developmentMode := cli.Flag(os.Args[1:], "--dev", false)
+
 	// Run the program server
 	go func() {
 		err := server.Setup(version)
@@ -56,8 +60,7 @@ func main() {
 	// We should wait for the serve goes up first
 	go func() {
 		<-ready
-		mode := cli.Arg(os.Args[1:], "--mode", "gtk")
-		err := gui.Open(mode, "http://"+address, version)
+		err := gui.Open(displayMode, "http://"+address, version, developmentMode)
 		if err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 			exitCode = 1

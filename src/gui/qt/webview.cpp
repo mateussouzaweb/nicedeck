@@ -23,7 +23,7 @@ typedef struct {
     bool windowDecorated;
     int windowWidth;
     int windowHeight;
-    bool developMode;
+    bool developmentMode;
 } WebApplication;
 
 // Start application
@@ -39,7 +39,7 @@ int start_qt_app (
     bool windowDecorated,
     int windowWidth,
     int windowHeight,
-    bool developMode
+    bool developmentMode
 ){
     // WebApplication struct instance
     static WebApplication instance;
@@ -56,7 +56,7 @@ int start_qt_app (
     instance.windowDecorated = windowDecorated;
     instance.windowWidth = windowWidth;
     instance.windowHeight = windowHeight;
-    instance.developMode = developMode;
+    instance.developmentMode = developmentMode;
 
     // Create application
     char* argv[] = {};
@@ -101,7 +101,7 @@ int start_qt_app (
     contextLog.setFilterRules("*.info=false");
 
     // Enable developer mode
-    if (instance.developMode){
+    if (instance.developmentMode){
         qputenv("QTWEBENGINE_REMOTE_DEBUGGING", "0.0.0.0:9090");
     }
 

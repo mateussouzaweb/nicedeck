@@ -19,7 +19,7 @@ typedef struct {
     bool windowDecorated;
     int windowWidth;
     int windowHeight;
-    bool developMode;
+    bool developmentMode;
 } WebApplication;
 
 // On quit activated callback
@@ -76,7 +76,7 @@ static void on_activate_app(GtkApplication *app, gpointer data)
     webkit_settings_set_javascript_can_access_clipboard(instance->settings, true);
     webkit_settings_set_enable_html5_local_storage(instance->settings, true);
     webkit_settings_set_enable_write_console_messages_to_stdout(instance->settings, false);
-    webkit_settings_set_enable_developer_extras(instance->settings, instance->developMode);
+    webkit_settings_set_enable_developer_extras(instance->settings, instance->developmentMode);
 
     // Load target URL
     webkit_web_view_load_uri(WEBKIT_WEB_VIEW(instance->webview), instance->appUrl);
@@ -95,7 +95,7 @@ int start_gtk_app(
     bool windowDecorated,
     int windowWidth,
     int windowHeight,
-    bool developMode
+    bool developmentMode
 )
 {
     // WebApplication struct instance
@@ -112,7 +112,7 @@ int start_gtk_app(
     instance.windowDecorated = windowDecorated;
     instance.windowWidth = windowWidth;
     instance.windowHeight = windowHeight;
-    instance.developMode = developMode;
+    instance.developmentMode = developmentMode;
 
     // Create GTK application
     #if GLIB_CHECK_VERSION(2, 74, 0)
