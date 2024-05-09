@@ -36,11 +36,13 @@ ul.tabs li.active img {
     filter: invert();
 }
 
+ul.tabs li[data-tab="welcome"],
 ul.tabs li#shutdown {
     flex: 0;
-    padding: 12px 10px;
+    padding: 12px 15px;
     white-space: nowrap;
 }
+ul.tabs li[data-tab="welcome"] img,
 ul.tabs li#shutdown img {
     display: inline-block;
     vertical-align: middle;
@@ -48,7 +50,7 @@ ul.tabs li#shutdown img {
 
 section.tab {
     display: none;
-    padding: 10px 0;
+    padding: 30px 0;
 }
 section.tab.active {
     display: block;

@@ -20,194 +20,199 @@
 </head>
 <body>
 
-    <header class="centered">
-        <div id="logo">
-            <img src="./img/logo.svg" alt="NiceDeck" />
+    <header>
+        <div class="centered">
+
+            <div id="error"></div>
+
+            <nav>
+                <ul class="tabs">
+                    <li data-tab="welcome" title="Welcome">
+                        <img src="./img/icons/welcome.svg" alt="Welcome" width="24" height="24" />
+                    </li>
+                    <li data-tab="setup" title="Setup">
+                        <img src="./img/icons/setup.svg" alt="Setup" width="24" height="24" />
+                        <span>Setup</span>
+                    </li>
+                    <li data-tab="install" title="Install / Update">
+                        <img src="./img/icons/install.svg" alt="Install / Update" width="24" height="24" />
+                        <span>Install / Update</span>
+                    </li>
+                    <li data-tab="roms" title="Process ROMS">
+                        <img src="./img/icons/roms.svg" alt="Process ROMS" width="24" height="24" />
+                        <span>Process ROMs</span>
+                    </li>
+                    <li data-tab="shortcuts" title="Shortcuts">
+                        <img src="./img/icons/shortcuts.svg" alt="Shortcuts" width="24" height="24" />
+                        <span>Shortcuts</span>
+                    </li>
+                    <li id="shutdown" title="Shutdown">
+                        <img src="./img/icons/shutdown.svg" alt="Shutdown" width="24" height="24" />
+                    </li>
+                </ul>
+            </nav>
+
         </div>
     </header>
 
-    <aside id="error"></aside>
+    <main>
+        <div class="centered">
 
-    <nav class="centered">
-        <ul class="tabs">
-            <li data-tab="setup">
-                <img src="./img/icons/setup.svg" alt="Setup" width="24" height="24" />
-                <span>Setup</span>
-            </li>
-            <li data-tab="install">
-                <img src="./img/icons/install.svg" alt="Install / Update" width="24" height="24" />
-                <span>Install / Update</span>
-            </li>
-            <li data-tab="roms">
-                <img src="./img/icons/roms.svg" alt="Process ROMS" width="24" height="24" />
-                <span>Process ROMs</span>
-            </li>
-            <li data-tab="shortcuts">
-                <img src="./img/icons/shortcuts.svg" alt="Shortcuts" width="24" height="24" />
-                <span>Shortcuts</span>
-            </li>
-            <li id="shutdown" title="Shutdown">
-                <img src="./img/icons/shutdown.svg" alt="Shutdown" width="24" height="24" />
-            </li>
-        </ul>
-    </nav>
+            <section class="tab active" id="welcome">
+                <h1>Welcome to NiceDeck!</h1>
+                <p>Select the desired option to execute in the navigation menu.</p>
 
-    <main class="centered">
+                <ul>
+                    <li>First time running this application? Go to the <b>setup</b> process first.</li>
+                    <li>You can install applications and emulators from the <b>install / update</b> section.</li>
+                    <li>Automatically add your ROMs to the Steam Library at the <b>process ROMs</b> section.</li>
+                    <li>You can also customize each ROM individually on the <b>shortcuts</b> tab.</li>
+                    <li>Check the <b>console</b> area below to keep track of the task progress.</li>
+                </ul>
 
-        <section class="tab active" id="welcome">
-            <h1>Welcome to NiceDeck!</h1>
-            <p>Select the desired option to execute in the navigation menu.</p>
+                <p>Have a nice gaming experience! :D</p>
+            </section>
 
-            <ul>
-                <li>First time running this application? Go to the <b>setup</b> process first.</li>
-                <li>You can install applications and emulators from the <b>install / update</b> section.</li>
-                <li>Automatically add your ROMs to the Steam Library at the <b>process ROMs</b> section.</li>
-                <li>You can also customize each ROM individually on the <b>shortcuts</b> tab.</li>
-                <li>Check the <b>console</b> area below to keep track of the task progress.</li>
-            </ul>
+            <section class="tab" id="setup">
+                <form action="#">
+                    <div class="group">
+                        <p>Install on external storage or MicroSD?</p>
+                        <label class="radio">
+                            <input type="radio" name="use_symlink" value="Y" />
+                            <span>Yes</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="use_symlink" value="N" checked="checked" />
+                            <span>No</span>
+                        </label>
+                    </div>
+                    <div class="group">
+                        <label for="storage-path">External storage or MicroSD path:</label>
+                        <input type="text" name="storage_path" id="storage-path" value="/media/run/mmcblk0p1" />
+                    </div>
+                    <div class="actions">
+                        <button type="submit">
+                            <span>Run Setup</span>
+                            <span>Processing...</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
 
-            <p>Have a nice gaming experience! :D</p>
-        </section>
+            <section class="tab" id="install">
+                <form action="#">
+                    <div class="group">
+                        <p>Please select the programs to install or update:</p>
+                        <div id="programs"></div>
+                    </div>
+                    <div class="actions">
+                        <button type="submit">
+                            <span>Install Selected</span>
+                            <span>Processing...</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
 
-        <section class="tab" id="setup">
-            <form action="#">
-                <div class="group">
-                    <p>Install on external storage or MicroSD?</p>
-                    <label class="radio">
-                        <input type="radio" name="use_symlink" value="Y" />
-                        <span>Yes</span>
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="use_symlink" value="N" checked="checked" />
-                        <span>No</span>
-                    </label>
-                </div>
-                <div class="group">
-                    <label for="storage-path">External storage or MicroSD path:</label>
-                    <input type="text" name="storage_path" id="storage-path" value="/media/run/mmcblk0p1" />
-                </div>
-                <div class="actions">
-                    <button type="submit">
-                        <span>Run Setup</span>
-                        <span>Processing...</span>
-                    </button>
-                </div>
-            </form>
-        </section>
+            <section class="tab" id="roms">
+                <form action="#">
+                    <div class="group">
+                        <p>Please select the platforms to process:</p>
+                        <p class="mass-actions">
+                            <span class="select-all">SELECT ALL</span>
+                            <span class="separator">/</span>
+                            <span class="clear-all">CLEAR</span>
+                        </p>
+                        <div id="platforms"></div>
+                    </div>
+                    <div class="group">
+                        <p>Additional options:</p>
+                        <label class="radio">
+                            <input type="checkbox" name="rebuild" value="Y" />
+                            <span>Rebuild</span>
+                        </label>
+                        <label class="radio">
+                            <input type="checkbox" name="preferences[]" value="use-ryujinx" />
+                            <span>Use Ryujinx</span>
+                        </label>
+                    </div>
+                    <div class="actions">
+                        <button type="submit">
+                            <span>Process ROMs</span>
+                            <span>Processing...</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
 
-        <section class="tab" id="install">
-            <form action="#">
-                <div class="group">
-                    <p>Please select the programs to install or update:</p>
-                    <div id="programs"></div>
-                </div>
-                <div class="actions">
-                    <button type="submit">
-                        <span>Install Selected</span>
-                        <span>Processing...</span>
-                    </button>
-                </div>
-            </form>
-        </section>
+            <section class="tab" id="shortcuts">
+                <form action="#">
+                    <div class="actions">
+                        <button type="button" id="load">
+                            <span>Refresh Shortcuts</span>
+                            <span>Loading...</span>
+                        </button>
+                    </div>
+                    <div id="list"></div>
+                </form>
 
-        <section class="tab" id="roms">
-            <form action="#">
-                <div class="group">
-                    <p>Please select the platforms to process:</p>
-                    <p class="mass-actions">
-                        <span class="select-all">SELECT ALL</span>
-                        <span class="separator">/</span>
-                        <span class="clear-all">CLEAR</span>
-                    </p>
-                    <div id="platforms"></div>
-                </div>
-                <div class="group">
-                    <p>Additional options:</p>
-                    <label class="radio">
-                        <input type="checkbox" name="rebuild" value="Y" />
-                        <span>Rebuild</span>
-                    </label>
-                    <label class="radio">
-                        <input type="checkbox" name="preferences[]" value="use-ryujinx" />
-                        <span>Use Ryujinx</span>
-                    </label>
-                </div>
-                <div class="actions">
-                    <button type="submit">
-                        <span>Process ROMs</span>
-                        <span>Processing...</span>
-                    </button>
-                </div>
-            </form>
-        </section>
-
-        <section class="tab" id="shortcuts">
-            <form action="#">
-                <div class="actions">
-                    <button type="button" id="load">
-                        <span>Refresh Shortcuts</span>
-                        <span>Loading...</span>
-                    </button>
-                </div>
-                <div id="list"></div>
-            </form>
-
-            <div class="modal hidden" id="modal-launch-shortcut">
-                <div class="backdrop"></div>
-                <div class="container">
-                    <div class="inside">
-                        <button type="button" class="close">&times;</button>
-                        <div class="content"></div>
+                <div class="modal hidden" id="modal-launch-shortcut">
+                    <div class="backdrop"></div>
+                    <div class="container">
+                        <div class="inside">
+                            <button type="button" class="close">&times;</button>
+                            <div class="content"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal hidden" id="modal-update-shortcut">
-                <div class="backdrop"></div>
-                <div class="container">
-                    <form action="#" class="inside">
-                        <div class="header">
-                            <h3>Update Shortcut</h3>
-                            <button type="button" class="close">&times;</button>
-                        </div>
-                        <div class="content"></div>
-                        <div class="actions">
-                            <button type="submit">
-                                <span>Update Shortcut</span>
-                                <span>Processing...</span>
-                            </button>
-                            <button type="button" class="close">Cancel</button>
-                        </div>
-                    </form>
+                <div class="modal hidden" id="modal-update-shortcut">
+                    <div class="backdrop"></div>
+                    <div class="container">
+                        <form action="#" class="inside">
+                            <div class="header">
+                                <h3>Update Shortcut</h3>
+                                <button type="button" class="close">&times;</button>
+                            </div>
+                            <div class="content"></div>
+                            <div class="actions">
+                                <button type="submit">
+                                    <span>Update Shortcut</span>
+                                    <span>Processing...</span>
+                                </button>
+                                <button type="button" class="close">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <div class="modal hidden" id="modal-delete-shortcut">
-                <div class="backdrop"></div>
-                <div class="container">
-                    <form action="#" class="inside">
-                        <div class="header">
-                            <h3>Delete Shortcut</h3>
-                            <button type="button" class="close">&times;</button>
-                        </div>
-                        <div class="content"></div>
-                        <div class="actions">
-                            <button type="submit">
-                                <span>Yes, Delete</span>
-                                <span>Processing...</span>
-                            </button>
-                            <button type="button" class="close">Cancel</button>
-                        </div>
-                    </form>
+                <div class="modal hidden" id="modal-delete-shortcut">
+                    <div class="backdrop"></div>
+                    <div class="container">
+                        <form action="#" class="inside">
+                            <div class="header">
+                                <h3>Delete Shortcut</h3>
+                                <button type="button" class="close">&times;</button>
+                            </div>
+                            <div class="content"></div>
+                            <div class="actions">
+                                <button type="submit">
+                                    <span>Yes, Delete</span>
+                                    <span>Processing...</span>
+                                </button>
+                                <button type="button" class="close">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
+        </div>
     </main>
 
-    <aside class="centered">
-        <div id="console">
+    <aside id="console">
+        <div class="centered">
             <div id="toolbar">
                 <div id="icon">
-                    <img src="./img/icons/console.svg" alt="Console" width="24" height="24" />    
+                    <img src="./img/icons/console.svg" alt="Console" width="24" height="24" />
                 </div>
                 <button id="clear" type="button">Clear</button>
             </div>
@@ -215,11 +220,16 @@
         </div>
     </aside>
 
-    <footer class="centered">
-        <span id="version">
-            <a href="https://github.com/mateussouzaweb/nicedeck"
+    <footer>
+        <div class="centered">
+            <div id="logo">
+                <img src="./img/logo.svg" alt="NiceDeck" />
+            </div>
+            <span id="version">
+                <a href="https://github.com/mateussouzaweb/nicedeck"
                 target="_blank" title="Visit Project">Loading...</a>
-        </span>
+            </span>
+        </div>
     </footer>
 
     <script type="text/javascript" src="./scripts/app.js"></script>

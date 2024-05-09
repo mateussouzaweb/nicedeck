@@ -18,28 +18,24 @@ body {
 }
 
 header {
+    background: #cdb3d3;
+    border-bottom: 1px solid #000;
+}
+
+footer .centered {
     align-items: center;
     display: flex;
-    flex-wrap: nowrap;
+    flex-flow: column;
     justify-content: center;
+    text-align: center;
 }
-header #logo {
+footer #logo {
     flex: 1 1 auto;
     max-width: 180px;
 }
-header #logo img {
+footer #logo img {
     height: auto;
     width: 100%;
-}
-
-nav {
-    display: block;
-    padding-bottom: 0 !important;
-    padding-top: 0 !important;
-}
-
-footer {
-    text-align: center;
 }
 footer #version a {
     color: #7c7c7c;
