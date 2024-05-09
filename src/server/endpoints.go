@@ -441,10 +441,10 @@ func openLink(context *Context) error {
 }
 
 // Setup server endpoints
-func Setup(version string) error {
+func Setup(version string, developmentMode bool) error {
 
 	// Load static FS
-	staticFS = frontend.GetStaticFS()
+	staticFS = frontend.GetStaticFS(developmentMode)
 	staticHandler = http.FileServer(http.FS(staticFS))
 
 	// Access log middleware

@@ -39,7 +39,7 @@ func main() {
 
 	// Run the program server
 	go func() {
-		err := server.Setup(version)
+		err := server.Setup(version, developmentMode)
 		if err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 			exitCode = 1
