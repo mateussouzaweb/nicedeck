@@ -95,4 +95,9 @@ jobs:
         name: Upload binary app
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload ${{ needs.extract-information.outputs.tag }} bin/nicedeck
+        run: |
+          TAG="${{ needs.extract-information.outputs.tag }}"
+          gh release upload $TAG \
+            bin/nicedeck \
+            bin/nicedeck-gtk \
+            bin/nicedeck-qt
