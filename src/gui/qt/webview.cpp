@@ -59,8 +59,9 @@ int start_qt_app (
     instance.developmentMode = developmentMode;
 
     // Create application
-    char* argv[] = {};
-    int argc = 0;
+    std::string title = instance.appName;
+    char* argv[] = { title.data() };
+    int argc = 1;
 
     QApplication app(argc, argv);
     instance.app = &app;
