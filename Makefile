@@ -11,7 +11,9 @@ clean:
 
 build: clean
 	mkdir -p bin/
-	go build -o bin/nicedeck cmd/main.go
+	go build -tags=browser -o bin/nicedeck cmd/main.go
+	go build -tags=gtk -o bin/nicedeck-gtk cmd/main.go
+	go build -tags=qt -o bin/nicedeck-qt cmd/main.go
 
 install: build
 	mkdir -p $(HOME)/Applications

@@ -34,7 +34,7 @@ func main() {
 	}()
 
 	// Retrieve program options
-	displayMode := cli.Arg(os.Args[1:], "--gui", "gtk")
+	displayMode := cli.Arg(os.Args[1:], "--gui", "")
 	developmentMode := cli.Flag(os.Args[1:], "--dev", false)
 
 	// Run the program server
