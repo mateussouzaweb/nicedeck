@@ -4,7 +4,7 @@ set -e
 set -u
 
 # Set variables
-VERSION="v0.0.20"
+VERSION="v0.0.21"
 REPOSITORY="https://github.com/mateussouzaweb/nicedeck"
 FILE="$REPOSITORY/releases/download/$VERSION/nicedeck"
 APPLICATIONS="$HOME/Applications"
