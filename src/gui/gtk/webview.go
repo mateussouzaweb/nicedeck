@@ -2,7 +2,7 @@ package gtk
 
 // Required packages:
 // sudo apt install -y libgtk-4-dev libwebkitgtk-6.0-dev
-// sudo dnf install -y gtk-4-devel webkitgtk-6.0-devel
+// sudo dnf install -y gtk4-devel webkitgtk6.0-devel
 
 // #cgo pkg-config: gtk4 webkitgtk-6.0
 // #include <stdio.h>
