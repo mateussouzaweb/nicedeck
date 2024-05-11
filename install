@@ -8,7 +8,7 @@ DESTINATION="$APPLICATIONS/NiceDeck"
 REPOSITORY="https://github.com/mateussouzaweb/nicedeck"
 RELEASES="$REPOSITORY/releases/download"
 FILE="nicedeck"
-VERSION="v0.0.21"
+VERSION="v0.0.22"
 
 # Determine file and version based on parameters
 # First parameter define build and you can use 'gtk' or 'qt' builds
