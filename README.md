@@ -23,8 +23,10 @@ Some features of NiceDeck:
 Open Steam Deck in ``Desktop Mode``, launch ``Konsole`` and type the command below to install ``NiceDeck``:
 
 ```bash
-# Install the program and run it
-curl https://mateussouzaweb.github.io/nicedeck/install | bash -
+# Install the program and run it.
+# You can customized GUI and version with the parameters as:
+# curl ... | bash -s [gui] [version] 
+curl https://mateussouzaweb.github.io/nicedeck/install | bash -s
 ```
 
 The program will open and you can finally run the initial setup process. After the setup process, install the desired programs, parse your ROMs or manage Steam shortcuts from GUI.
