@@ -3,6 +3,7 @@ package install
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/library"
@@ -22,6 +23,7 @@ type Program struct {
 	RequiredFolders  []string  `json:"requiredFolders"`
 	FlatpakAppID     string    `json:"flatpakAppId"`
 	FlatpakOverrides []string  `json:"flatpakOverrides"`
+	FlatpakArguments []string  `json:"FlatpakArguments"`
 	IconURL          string    `json:"iconUrl"`
 	LogoURL          string    `json:"logoUrl"`
 	CoverURL         string    `json:"coverUrl"`
@@ -141,6 +143,11 @@ func Install(id string) error {
 		shortcut.Exe = "/var/lib/flatpak/exports/bin/" + program.FlatpakAppID
 		shortcut.ShortcutPath = "/var/lib/flatpak/exports/share/applications/" + program.FlatpakAppID + ".desktop"
 		shortcut.LaunchOptions = ""
+
+		// Append shortcut launch arguments
+		if len(program.FlatpakArguments) > 0 {
+			shortcut.LaunchOptions = strings.Join(program.FlatpakArguments, " ")
+		}
 
 	}
 
