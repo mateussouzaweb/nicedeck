@@ -18,5 +18,5 @@ RUN apt update && apt install -y \
 COPY --from=golang:latest /usr/local/go/ /usr/local/go/
 ENV PATH="/usr/local/go/bin:${PATH}"
 
-# Create app directory
+# Set command
 CMD ["/bin/bash"]
