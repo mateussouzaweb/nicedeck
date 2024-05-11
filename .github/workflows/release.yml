@@ -87,6 +87,11 @@ jobs:
         name: Setup dependencies
         run: make deps
 
+      - id: setup-environment
+        name: Setup environment
+        run: |
+          export PKG_CONFIG_PATH="/usr/local/lib:/usr/lib64/pkgconfig:/usr/share/pkgconfig"
+
       - id: build-binary
         name: Build binary app
         run: make build
