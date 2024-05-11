@@ -90,7 +90,7 @@ jobs:
       - id: setup-environment
         name: Setup environment
         run: |
-          export PKG_CONFIG_PATH="/usr/local/lib:/usr/lib64/pkgconfig:/usr/share/pkgconfig"
+          export PKG_CONFIG_PATH="/usr/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/share/pkgconfig"
 
       - id: build-binary
         name: Build binary app
