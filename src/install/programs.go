@@ -47,6 +47,7 @@ func GetPrograms() []*Program {
 	programs = append(programs, EmulationStationDE())
 	programs = append(programs, Firefox())
 	programs = append(programs, Flycast())
+	programs = append(programs, GeForceNow())
 	programs = append(programs, GoogleChrome())
 	programs = append(programs, HeroicGamesLauncher())
 	programs = append(programs, JellyfinMediaPlayer())

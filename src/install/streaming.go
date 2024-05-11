@@ -17,6 +17,30 @@ func Chiaki() *Program {
 	}
 }
 
+// Installer for GeForce NOW
+func GeForceNow() *Program {
+	return &Program{
+		ID:               "geforce-now",
+		Name:             "GeForce NOW",
+		Description:      "Client for GeForce Now",
+		Category:         "Gaming",
+		Tags:             []string{"Gaming", "Streaming"},
+		FlatpakAppID:     "com.google.Chrome",
+		FlatpakOverrides: []string{"--filesystem=/run/udev:ro"},
+		FlatpakArguments: []string{
+			"--window-size=1024,640",
+			"--force-device-scale-factor=1.25",
+			"--device-scale-factor=1.25",
+			"--app=https://play.geforcenow.com",
+		},
+		IconURL:   "https://cdn2.steamgriddb.com/icon/3632435cf99eec2a53ee7e4d8eeab451.png",
+		LogoURL:   "https://cdn2.steamgriddb.com/logo/ee1c568adf7b9181213c80f9e917dd1f.png",
+		CoverURL:  "https://cdn2.steamgriddb.com/grid/acc90c264f09d151c7a09da4c06877e8.png",
+		BannerURL: "https://cdn2.steamgriddb.com/grid/8cd586dd25cd66b50db63e51b5f44dcd.png",
+		HeroURL:   "https://cdn2.steamgriddb.com/hero/5e7e6e76699ea804c65b0c37974c660c.jpg",
+	}
+}
+
 // Installer for Jellyfin Media Player
 func JellyfinMediaPlayer() *Program {
 	return &Program{
