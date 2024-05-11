@@ -62,6 +62,7 @@ func GetPrograms() []*Program {
 	programs = append(programs, RPCS3())
 	programs = append(programs, Ryujinx())
 	programs = append(programs, Simple64())
+	programs = append(programs, XboxCloudGaming())
 	programs = append(programs, Xemu())
 	programs = append(programs, Yuzu())
 

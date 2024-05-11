@@ -74,3 +74,27 @@ func MoonlightGameStreaming() *Program {
 		HeroURL:      "https://cdn2.steamgriddb.com/hero/0afefa2281c2f8b0b86d6332e2cdbe7d.png",
 	}
 }
+
+// Installer for Xbox Cloud Gaming
+func XboxCloudGaming() *Program {
+	return &Program{
+		ID:               "xbox-cloud-gaming",
+		Name:             "Xbox Cloud Gaming",
+		Description:      "Client for Xbox Cloud Gaming",
+		Category:         "Gaming",
+		Tags:             []string{"Gaming", "Streaming"},
+		FlatpakAppID:     "com.microsoft.Edge",
+		FlatpakOverrides: []string{"--filesystem=/run/udev:ro"},
+		FlatpakArguments: []string{
+			"--window-size=1024,640",
+			"--force-device-scale-factor=1.25",
+			"--device-scale-factor=1.25",
+			"--app=https://www.xbox.com/play",
+		},
+		IconURL:   "https://cdn2.steamgriddb.com/icon/164f545c22e17e5e9298b1c84b9e3e1e.png",
+		LogoURL:   "https://cdn2.steamgriddb.com/logo/e3667b435e999b653dba291634579db1.png",
+		CoverURL:  "https://cdn2.steamgriddb.com/grid/8a0657375c4d4024a7d9d5cc84b3c490.png",
+		BannerURL: "https://cdn2.steamgriddb.com/grid/2b16dcbe37a15a4932affb27447d7e21.png",
+		HeroURL:   "https://cdn2.steamgriddb.com/hero/f6ba16107e08c04fc684308ab18d207a.png",
+	}
+}
