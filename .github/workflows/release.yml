@@ -75,6 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/mateussouzaweb/nicedeck:master
+      options: --user 1001
     steps:
       - id: checkout
         name: Checkout repository
