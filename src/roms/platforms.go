@@ -1,7 +1,5 @@
 package roms
 
-import "slices"
-
 // Emulator struct
 type Emulator struct {
 	Name          string `json:"name"`
@@ -149,22 +147,17 @@ func GetPlatforms(options *Options) []*Platform {
 		Console: "Nintendo Switch",
 		Folder:  "SWITCH/",
 		Emulators: []*Emulator{{
-			Name:          "Yuzu",
-			Program:       "/var/lib/flatpak/exports/bin/org.yuzu_emu.yuzu",
-			Extensions:    "nca .nro .nso .nsp .xci",
-			LaunchOptions: "-f -g \"${ROM}\"",
-		}, {
 			Name:          "Ryujinx",
 			Program:       "/var/lib/flatpak/exports/bin/org.ryujinx.Ryujinx",
 			Extensions:    "nca .nro .nso .nsp .xci",
 			LaunchOptions: "--fullscreen \"${ROM}\"",
+		}, {
+			Name:          "Yuzu",
+			Program:       "/var/lib/flatpak/exports/bin/org.yuzu_emu.yuzu",
+			Extensions:    "nca .nro .nso .nsp .xci",
+			LaunchOptions: "-f -g \"${ROM}\"",
 		}},
 	})
-
-	if slices.Contains(options.Preferences, "use-ryujinx") {
-		index := len(platforms) - 1
-		slices.Reverse(platforms[index].Emulators)
-	}
 
 	platforms = append(platforms, &Platform{
 		Name:    "WII",
