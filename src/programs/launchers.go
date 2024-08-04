@@ -1,11 +1,11 @@
-package install
+package programs
 
 import (
 	"os"
 	"path/filepath"
 
-	"github.com/mateussouzaweb/nicedeck/src/emulationstation"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
+	"github.com/mateussouzaweb/nicedeck/src/programs/emulationstation"
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 

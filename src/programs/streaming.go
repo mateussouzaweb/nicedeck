@@ -1,4 +1,4 @@
-package install
+package programs
 
 // Installer for Chiaki
 func Chiaki() *Program {

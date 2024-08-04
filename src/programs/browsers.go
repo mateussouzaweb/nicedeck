@@ -1,4 +1,4 @@
-package install
+package programs
 
 // Installer for Brave Browser
 func BraveBrowser() *Program {

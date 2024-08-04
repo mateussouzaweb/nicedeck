@@ -1,4 +1,4 @@
-package roms
+package platforms
 
 // Emulator struct
 type Emulator struct {

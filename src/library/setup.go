@@ -1,4 +1,4 @@
-package install
+package library
 
 import (
 	"os"
@@ -8,8 +8,8 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 )
 
-// Ensure folder structure to install programs
-func Structure(useSymlink bool, storagePath string) error {
+// Setup library structure to install programs
+func Setup(useSymlink bool, storagePath string) error {
 
 	// Check for the presence of games folder in home
 	// If exist, then is ok and we can skip

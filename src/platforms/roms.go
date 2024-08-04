@@ -1,4 +1,4 @@
-package roms
+package platforms
 
 import (
 	"path/filepath"

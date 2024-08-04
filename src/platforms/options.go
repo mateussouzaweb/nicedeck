@@ -1,4 +1,4 @@
-package roms
+package platforms
 
 // Options struct
 type Options struct {

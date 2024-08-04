@@ -1,4 +1,4 @@
-package install
+package programs
 
 // Installer for ProtonPlus
 func ProtonPlus() *Program {

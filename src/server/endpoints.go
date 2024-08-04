@@ -14,10 +14,10 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/frontend"
 	"github.com/mateussouzaweb/nicedeck/src/cli"
-	"github.com/mateussouzaweb/nicedeck/src/install"
 	"github.com/mateussouzaweb/nicedeck/src/library"
-	"github.com/mateussouzaweb/nicedeck/src/nicedeck"
-	"github.com/mateussouzaweb/nicedeck/src/roms"
+	"github.com/mateussouzaweb/nicedeck/src/platforms"
+	"github.com/mateussouzaweb/nicedeck/src/programs"
+	"github.com/mateussouzaweb/nicedeck/src/programs/nicedeck"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
 )
 
@@ -87,13 +87,13 @@ func saveLibrary(context *Context) error {
 
 // List shortcuts action
 func listPrograms(context *Context) error {
-	data := install.GetPrograms()
+	data := programs.GetPrograms()
 	return context.Status(http.StatusOK).JSON(data)
 }
 
 // List platforms action
 func listPlatforms(context *Context) error {
-	data := roms.GetPlatforms(&roms.Options{})
+	data := platforms.GetPlatforms(&platforms.Options{})
 	return context.Status(http.StatusOK).JSON(data)
 }
 
@@ -273,7 +273,7 @@ func runSetup(context *Context) error {
 	}
 
 	// Run setup by making sure has required structure
-	err = install.Structure(data.UseSymlink, data.StoragePath)
+	err = library.Setup(data.UseSymlink, data.StoragePath)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -319,7 +319,7 @@ func runInstall(context *Context) error {
 
 	// Install programs in the list
 	for _, program := range data.Programs {
-		err := install.Install(program)
+		err := programs.Install(program)
 		if err != nil {
 			result.Status = "ERROR"
 			result.Error = err.Error()
@@ -362,8 +362,8 @@ func processROMs(context *Context) error {
 	}
 
 	// Process ROMs to add/update/remove
-	options := roms.ToOptions(data.Platforms, data.Preferences, data.Rebuild)
-	err = roms.Process(options)
+	options := platforms.ToOptions(data.Platforms, data.Preferences, data.Rebuild)
+	err = platforms.Process(options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
