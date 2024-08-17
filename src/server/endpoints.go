@@ -361,7 +361,7 @@ func syncState(context *Context) error {
 	}
 
 	// Process synchronization
-	options := platforms.ToOptions(data.Platforms, data.Preferences, false)
+	options := platforms.ToOptions(data.Platforms, data.Preferences)
 	err = platforms.SyncState(options)
 	if err != nil {
 		result.Status = "ERROR"
@@ -377,7 +377,6 @@ func syncState(context *Context) error {
 type ProcessROMsData struct {
 	Platforms   []string `json:"platforms"`
 	Preferences []string `json:"preferences"`
-	Rebuild     bool     `json:"rebuild"`
 }
 
 // Process ROMS result
@@ -401,7 +400,7 @@ func processROMs(context *Context) error {
 	}
 
 	// Process ROMs to add/update/remove
-	options := platforms.ToOptions(data.Platforms, data.Preferences, data.Rebuild)
+	options := platforms.ToOptions(data.Platforms, data.Preferences)
 	err = platforms.Process(options)
 	if err != nil {
 		result.Status = "ERROR"

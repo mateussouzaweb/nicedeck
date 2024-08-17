@@ -4,15 +4,13 @@ package platforms
 type Options struct {
 	Platforms   []string `json:"platforms"`
 	Preferences []string `json:"preferences"`
-	Rebuild     bool     `json:"rebuild"`
 }
 
 // Transform values into valid options
-func ToOptions(platforms []string, preferences []string, rebuild bool) *Options {
+func ToOptions(platforms []string, preferences []string) *Options {
 
 	options := Options{
 		Platforms:   platforms,
-		Rebuild:     rebuild,
 		Preferences: preferences,
 	}
 

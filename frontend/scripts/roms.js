@@ -55,8 +55,7 @@ window.addEventListener('load', async () => {
         const data = new FormData(form)
         const body = JSON.stringify({
             platforms: data.getAll('platforms[]'),
-            preferences: data.getAll('preferences[]'),
-            rebuild: data.get('rebuild') === 'Y',
+            preferences: data.getAll('preferences[]')
         })
 
         try {
@@ -70,7 +69,7 @@ window.addEventListener('load', async () => {
         } finally {
             button.disabled = false
         }
-        
+
         await window.loadShortcuts()
     })
 

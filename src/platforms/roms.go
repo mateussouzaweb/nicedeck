@@ -13,6 +13,9 @@ import (
 // Filter ROMs that match given requirements and return the list to process
 func FilterROMs(roms []*ROM, options *Options) []*ROM {
 
+	// Rebuild option will include every ROM in the platform
+	rebuild := slices.Contains(options.Preferences, "rebuild")
+
 	var existing []*ROM
 	var toProcess []*ROM
 
@@ -45,7 +48,7 @@ func FilterROMs(roms []*ROM, options *Options) []*ROM {
 		}
 
 		// When is not rebuilding, include only new detected ROMs
-		if !options.Rebuild {
+		if !rebuild {
 			for _, item := range existing {
 				if item.RelativePath == rom.RelativePath {
 					addToList = false
