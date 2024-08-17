@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="./styles/modal.css">
     <link rel="stylesheet" href="./styles/roms.css">
     <link rel="stylesheet" href="./styles/shortcuts.css">
+    <link rel="stylesheet" href="./styles/state.css">
     <link rel="stylesheet" href="./styles/tabs.css">
     <link rel="stylesheet" href="./styles/welcome.css">
 
@@ -38,9 +39,13 @@
                         <img src="./img/icons/install.svg" alt="Install / Update" width="24" height="24" />
                         <span>Install / Update</span>
                     </li>
-                    <li data-tab="roms" title="Process ROMS">
-                        <img src="./img/icons/roms.svg" alt="Process ROMS" width="24" height="24" />
-                        <span>Process ROMs</span>
+                    <li data-tab="roms" title="ROMS">
+                        <img src="./img/icons/roms.svg" alt="ROMS" width="24" height="24" />
+                        <span>ROMs</span>
+                    </li>
+                    <li data-tab="state" title="State">
+                        <img src="./img/icons/state.svg" alt="State" width="24" height="24" />
+                        <span>State</span>
                     </li>
                     <li data-tab="shortcuts" title="Shortcuts">
                         <img src="./img/icons/shortcuts.svg" alt="Shortcuts" width="24" height="24" />
@@ -66,6 +71,7 @@
                     <li>First time running this application? Go to the <b>setup</b> process first.</li>
                     <li>You can install applications and emulators from the <b>install / update</b> section.</li>
                     <li>Automatically add your ROMs to the Steam Library at the <b>process ROMs</b> section.</li>
+                    <li>Need to save or restore your progress in games? Use the <b>state</b> section.</li>
                     <li>You can also customize each ROM individually on the <b>shortcuts</b> tab.</li>
                     <li>Check the <b>console</b> area below to keep track of the task progress.</li>
                 </ul>
@@ -117,7 +123,7 @@
             <section class="tab" id="roms">
                 <form action="#">
                     <div class="group">
-                        <p>Please select the platforms to process:</p>
+                        <p>Please select the platforms to process ROMs:</p>
                         <p class="mass-actions">
                             <span class="select-all">SELECT ALL</span>
                             <span class="separator">/</span>
@@ -135,6 +141,37 @@
                     <div class="actions">
                         <button type="submit">
                             <span>Process ROMs</span>
+                            <span>Processing...</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="tab" id="state">
+                <form action="#">
+                    <div class="group">
+                        <p>Please choose the action to perform:</p>
+                        <label class="radio">
+                            <input type="radio" name="preferences[]" value="dump-state" checked="checked" />
+                            <span>Save State</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="preferences[]" value="restore-state" />
+                            <span>Restore State</span>
+                        </label>
+                    </div>
+                    <div class="group">
+                        <p>Please select the platforms to perform the action:</p>
+                        <p class="mass-actions">
+                            <span class="select-all">SELECT ALL</span>
+                            <span class="separator">/</span>
+                            <span class="clear-all">CLEAR</span>
+                        </p>
+                        <div id="platforms"></div>
+                    </div>
+                    <div class="actions">
+                        <button type="submit">
+                            <span>Synchronize State</span>
                             <span>Processing...</span>
                         </button>
                     </div>
@@ -237,6 +274,7 @@
     <script type="text/javascript" src="./scripts/setup.js"></script>
     <script type="text/javascript" src="./scripts/shortcuts.js"></script>
     <script type="text/javascript" src="./scripts/shutdown.js"></script>
+    <script type="text/javascript" src="./scripts/state.js"></script>
     <script type="text/javascript" src="./scripts/tabs.js"></script>
     <script type="text/javascript" src="./scripts/version.js"></script>
     <script type="text/javascript" src="./scripts/external.js"></script>

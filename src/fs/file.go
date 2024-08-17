@@ -2,6 +2,7 @@ package fs
 
 import (
 	"errors"
+	"io"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -31,6 +32,62 @@ func RemoveFile(path string) error {
 	}
 
 	return nil
+}
+
+// Copy file from given source path into destination path
+func CopyFile(source string, destination string) error {
+
+	var err error
+
+	// Open source file
+	sourceFile, err := os.Open(source)
+	if err != nil {
+		return err
+	}
+
+	defer func() {
+		if e := sourceFile.Close(); e != nil {
+			err = e
+		}
+	}()
+
+	// Open destination file
+	destinationFile, err := os.Create(destination)
+	if err != nil {
+		return err
+	}
+
+	defer func() {
+		if e := destinationFile.Close(); e != nil {
+			err = e
+		}
+	}()
+
+	// Copy content from source to destination
+	_, err = io.Copy(destinationFile, sourceFile)
+	if err != nil {
+		return err
+	}
+
+	// Write data to file
+	err = destinationFile.Sync()
+	if err != nil {
+		return err
+	}
+
+	// Get permissions from source path
+	stat, err := os.Stat(source)
+	if err != nil {
+		return err
+	}
+
+	// Apply copied permissions to file
+	err = os.Chmod(destination, stat.Mode())
+	if err != nil {
+		return err
+	}
+
+	return err
 }
 
 // Download file from URL into destination

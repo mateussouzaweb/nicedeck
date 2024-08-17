@@ -334,6 +334,45 @@ func runInstall(context *Context) error {
 	return context.Status(200).JSON(result)
 }
 
+// Sync state data
+type SyncStateData struct {
+	Platforms   []string `json:"platforms"`
+	Preferences []string `json:"preferences"`
+}
+
+// Sync state result
+type SyncStateResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
+// Sync state action
+func syncState(context *Context) error {
+
+	result := SyncStateResult{}
+
+	// Bind data
+	data := SyncStateData{}
+	err := context.Bind(&data)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Process synchronization
+	options := platforms.ToOptions(data.Platforms, data.Preferences, false)
+	err = platforms.SyncState(options)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
+}
+
 // Process ROMs data
 type ProcessROMsData struct {
 	Platforms   []string `json:"platforms"`
@@ -524,6 +563,7 @@ func Setup(version string, developmentMode bool) error {
 	Add("POST", "/api/shortcut/modify", modifyShortcut)
 	Add("POST", "/api/setup", runSetup)
 	Add("POST", "/api/install", runInstall)
+	Add("POST", "/api/sync/state", syncState)
 	Add("POST", "/api/roms", processROMs)
 	Add("POST", "/api/link/open", openLink)
 
