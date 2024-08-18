@@ -3,6 +3,6 @@ Type=Application
 Name=EmulationStation DE
 Comment=Frontend for console emulated games
 Icon=$HOME/ES-DE/icon.png
-Exec=$HOME/Applications/EmulationStation-DE.AppImage %u
+Exec=$APPLICATIONS/EmulationStation-DE.AppImage %u
 Terminal=false
 Categories=Game;

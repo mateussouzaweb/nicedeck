@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <string name="InputControllerType" value="xbox360" />
-<string name="ROMDirectory" value="$HOME/Games/ROMs/" />
+<string name="ROMDirectory" value="$ROMS/" />
 <string name="Theme" value="linear-es-de" />
 <string name="ThemeAspectRatio" value="automatic" />
 <string name="ThemeColorScheme" value="dark" />

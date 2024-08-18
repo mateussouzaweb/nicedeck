@@ -6,43 +6,45 @@ NiceDeck has the ability to automatically find and add your ROMs to the Steam Li
 
 To start, you must copy your ROMs to the Steam Deck. Use the table below to guide you where you should put your ROMs based on their consoles:
 
-| Console                   | Emulator    | ROMs Folder                 |
-|---------------------------|-------------|-----------------------------|
-| Microsoft Xbox            | Xemu        | ``$HOME/Games/ROMs/XBOX``   |
-| Nintendo 3DS              | Citra       | ``$HOME/Games/ROMs/3DS``    |
-| Nintendo 64               | Simple64    | ``$HOME/Games/ROMs/N64``    |
-| Nintendo DS               | MelonDS     | ``$HOME/Games/ROMs/DS``     |
-| Nintendo Game Boy Advance | mGBA        | ``$HOME/Games/ROMs/GBA``    |
-| Nintendo GameCube         | Dolphin     | ``$HOME/Games/ROMs/GC``     |
-| Nintendo Switch           | Yuzu        | ``$HOME/Games/ROMs/SWITCH`` |
-| Nintendo Wii              | Dolphin     | ``$HOME/Games/ROMs/WII``    |
-| Nintendo Wii U            | Cemu        | ``$HOME/Games/ROMs/WIIU``   |
-| Sega Dreamcast            | Flycast     | ``$HOME/Games/ROMs/DC``     |
-| Sony Playstation 1        | DuckStation | ``$HOME/Games/ROMs/PS1``    |
-| Sony Playstation 2        | PCSX2       | ``$HOME/Games/ROMs/PS2``    |
-| Sony Playstation 3        | RPCS3       | ``$HOME/Games/ROMs/PS3``    |
-| Sony Playstation Portable | PPSSPP      | ``$HOME/Games/ROMs/PSP``    |
+NOTE: ``$ROMS`` represents your ROMs directory, located at ``$HOME/Games/ROMs``.
+
+| Console                   | Emulator    | ROMs Folder      |
+|---------------------------|-------------|------------------|
+| Microsoft Xbox            | Xemu        | ``$ROMS/XBOX``   |
+| Nintendo 3DS              | Citra       | ``$ROMS/3DS``    |
+| Nintendo 64               | Simple64    | ``$ROMS/N64``    |
+| Nintendo DS               | MelonDS     | ``$ROMS/DS``     |
+| Nintendo Game Boy Advance | mGBA        | ``$ROMS/GBA``    |
+| Nintendo GameCube         | Dolphin     | ``$ROMS/GC``     |
+| Nintendo Switch           | Yuzu        | ``$ROMS/SWITCH`` |
+| Nintendo Wii              | Dolphin     | ``$ROMS/WII``    |
+| Nintendo Wii U            | Cemu        | ``$ROMS/WIIU``   |
+| Sega Dreamcast            | Flycast     | ``$ROMS/DC``     |
+| Sony Playstation 1        | DuckStation | ``$ROMS/PS1``    |
+| Sony Playstation 2        | PCSX2       | ``$ROMS/PS2``    |
+| Sony Playstation 3        | RPCS3       | ``$ROMS/PS3``    |
+| Sony Playstation Portable | PPSSPP      | ``$ROMS/PSP``    |
 
 Please note that it's very important to have the ROMs in the correct location. Any ROM outside of these directories will not be parsed by NiceDeck and consequently will not be available on the Steam Library as direct shortcut to the game.
 
 If you want to enforce an specific emulator for a subset of ROMs, you should create a subfolder with the emulator name to enforce it:
 
-- ``$HOME/Games/ROMS/SWITCH/Ryujinx`` - Games that always should use the Ryujinx emulator
-- ``$HOME/Games/ROMS/SWITCH/Yuzu`` - Games that always should use the Yuzu emulator
-- ``$HOME/Games/ROMS/SWITCH`` - Games that should use the default emulator for that platform
+- ``$ROMS/SWITCH/Ryujinx`` - Games that always should use the Ryujinx emulator
+- ``$ROMS/SWITCH/Yuzu`` - Games that always should use the Yuzu emulator
+- ``$ROMS/SWITCH`` - Games that should use the default emulator for that platform
 
 Another important aspect for the ROMs organization are the exclude patterns. Please keep in mind that the parser will ignore any content where the path follows the following patterns:
 
-- ``$HOME/Games/ROMS/$PLATFORM/Updates`` - Updates folder
-- ``$HOME/Games/ROMS/$PLATFORM/Mods`` - Mods folder
-- ``$HOME/Games/ROMS/$PLATFORM/DLCs`` - DLCs folder
-- ``$HOME/Games/ROMS/$PLATFORM/Ignore`` - Literally a folder to ignore
-- ``$HOME/Games/ROMS/$PLATFORM/Others`` - Another special folder to ignore
+- ``$ROMS/$PLATFORM/Updates`` - Updates folder
+- ``$ROMS/$PLATFORM/Mods`` - Mods folder
+- ``$ROMS/$PLATFORM/DLCs`` - DLCs folder
+- ``$ROMS/$PLATFORM/Ignore`` - Literally a folder to ignore
+- ``$ROMS/$PLATFORM/Others`` - Another special folder to ignore
 
 You also must know that **every available ROM** inside the included folders will be added to the Steam Library. If you want to put only a few games in the Steam Library, you MUST organize your ROMs. Take for example the following organization using the ``GBA`` platform to parse only the favorite games:
 
-- ``$HOME/Games/ROMS/GBA/Favorites`` - Games that will be included on parser
-- ``$HOME/Games/ROMS/GBA/Others`` - Others non-favorite games that will be ignored by the parser
+- ``$ROMS/GBA/Favorites`` - Games that will be included on parser
+- ``$ROMS/GBA/Others`` - Others non-favorite games that will be ignored by the parser
 
 Once you decided the best ROM organization for you and copied your ROMs to the Steam Deck, it's time to run the parser.
 

@@ -1,7 +1,6 @@
 package emulationstation
 
 import (
-	"bytes"
 	"embed"
 	"os"
 	"path/filepath"
@@ -14,11 +13,6 @@ var resourcesContent embed.FS
 
 // Write settings for EmulationStation
 func WriteSettings() error {
-
-	// Replace special variables
-	replaceVars := func(content []byte) []byte {
-		return bytes.ReplaceAll(content, []byte("$HOME"), []byte(os.Getenv("HOME")))
-	}
 
 	// Settings (write file only if not exist yet)
 	settingsFile := os.ExpandEnv("$HOME/ES-DE/settings/es_settings.xml")
@@ -39,7 +33,8 @@ func WriteSettings() error {
 			return err
 		}
 
-		err = os.WriteFile(settingsFile, replaceVars(settingsConfig), 0666)
+		settingsConfig = []byte(os.ExpandEnv(string(settingsConfig)))
+		err = os.WriteFile(settingsFile, settingsConfig, 0666)
 		if err != nil {
 			return err
 		}
@@ -57,7 +52,7 @@ func WriteSettings() error {
 		return err
 	}
 
-	err = os.WriteFile(systemsFile, replaceVars(systemsConfig), 0666)
+	err = os.WriteFile(systemsFile, systemsConfig, 0666)
 	if err != nil {
 		return err
 	}
@@ -74,7 +69,7 @@ func WriteSettings() error {
 		return err
 	}
 
-	err = os.WriteFile(findRulesFile, replaceVars(findRulesConfig), 0666)
+	err = os.WriteFile(findRulesFile, findRulesConfig, 0666)
 	if err != nil {
 		return err
 	}
@@ -103,7 +98,8 @@ func WriteSettings() error {
 		return err
 	}
 
-	err = os.WriteFile(desktopShortcutFile, replaceVars(desktopShortcutContent), 0644)
+	desktopShortcutContent = []byte(os.ExpandEnv(string(desktopShortcutContent)))
+	err = os.WriteFile(desktopShortcutFile, desktopShortcutContent, 0644)
 	if err != nil {
 		return err
 	}

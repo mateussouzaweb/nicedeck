@@ -29,7 +29,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 	var results []*ROM
 
 	// Get ROMs path
-	root := os.ExpandEnv("$HOME/Games/ROMs")
+	root := os.ExpandEnv("$ROMS")
 	realRoot, err := filepath.EvalSymlinks(root)
 	if err != nil {
 		return results, err

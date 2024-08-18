@@ -1,6 +1,7 @@
 package platforms
 
 import (
+	"os"
 	"slices"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -26,19 +27,19 @@ func GetStates(options *Options) []*State {
 		Emulator:    "Ryujinx",
 		Type:        "folder",
 		Source:      "$HOME/.config/Ryujinx/bis/user/save",
-		Destination: "$HOME/Games/State/Ryujinx/bis/user/save",
+		Destination: "$STATE/Ryujinx/bis/user/save",
 	}, &State{
 		Platform:    "SWITCH",
 		Emulator:    "Ryujinx",
 		Type:        "folder",
 		Source:      "$HOME/.config/Ryujinx/bis/user/saveMeta",
-		Destination: "$HOME/Games/State/Ryujinx/bis/user/saveMeta",
+		Destination: "$STATE/Ryujinx/bis/user/saveMeta",
 	}, &State{
 		Platform:    "SWITCH",
 		Emulator:    "Ryujinx",
 		Type:        "file",
 		Source:      "$HOME/.config/Ryujinx/system/Profiles.json",
-		Destination: "$HOME/Games/State/Ryujinx/system/Profiles.json",
+		Destination: "$STATE/Ryujinx/system/Profiles.json",
 	})
 
 	return states
@@ -67,12 +68,12 @@ func SyncState(options *Options) error {
 		// }
 
 		// Fill source and destination information
-		source := state.Source
-		destination := state.Destination
+		source := os.ExpandEnv(state.Source)
+		destination := os.ExpandEnv(state.Destination)
 
 		if restoreState {
-			source = state.Destination
-			destination = state.Source
+			source = os.ExpandEnv(state.Destination)
+			destination = os.ExpandEnv(state.Source)
 		}
 
 		// Process file or folder state

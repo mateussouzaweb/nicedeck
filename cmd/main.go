@@ -37,6 +37,13 @@ func main() {
 	displayMode := cli.Arg(os.Args[1:], "--gui", "")
 	developmentMode := cli.Flag(os.Args[1:], "--dev", false)
 
+	// Expose environment variables for internal usage
+	os.Setenv("APPLICATIONS", os.ExpandEnv("$HOME/Applications"))
+	os.Setenv("GAMES", os.ExpandEnv("$HOME/Games"))
+	os.Setenv("BIOS", os.ExpandEnv("$HOME/Games/BIOS"))
+	os.Setenv("ROMS", os.ExpandEnv("$HOME/Games/ROMs"))
+	os.Setenv("STATE", os.ExpandEnv("$HOME/Games/STATE"))
+
 	// Run the program server
 	go func() {
 		err := server.Setup(version, developmentMode)

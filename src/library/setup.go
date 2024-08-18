@@ -11,9 +11,13 @@ import (
 // Setup library structure to install programs
 func Setup(useSymlink bool, storagePath string) error {
 
-	// Check for the presence of games folder in home
+	gamesPath := os.ExpandEnv("$GAMES")
+	BIOSPath := os.ExpandEnv("$BIOS")
+	ROMsPath := os.ExpandEnv("$ROMS")
+	statePath := os.ExpandEnv("$STATE")
+
+	// Check for the presence of games folder
 	// If exist, then is ok and we can skip
-	gamesPath := os.ExpandEnv("$HOME/Games")
 	exist, err := fs.DirectoryExist(gamesPath)
 	if err != nil {
 		return err
@@ -23,14 +27,11 @@ func Setup(useSymlink bool, storagePath string) error {
 		return nil
 	}
 
-	// Start by making sure base folder exist on home
+	// Start by making sure games folder exist
 	err = os.MkdirAll(gamesPath, 0755)
 	if err != nil {
 		return err
 	}
-
-	BIOSPath := filepath.Join(gamesPath, "BIOS")
-	ROMsPath := filepath.Join(gamesPath, "ROMs")
 
 	// Check if must install it on another location with symlink
 	// If not, then just create the base games folder structure on home
@@ -45,23 +46,40 @@ func Setup(useSymlink bool, storagePath string) error {
 			return err
 		}
 
+		err = os.MkdirAll(statePath, 0755)
+		if err != nil {
+			return err
+		}
+
 		cli.Printf(cli.ColorSuccess, "Setup completed!\n")
 		cli.Printf(cli.ColorSuccess, "Folder structure created at: %s\n", gamesPath)
 		return nil
 	}
 
 	// Get storage path to perform install
-	storagePath = filepath.Join(storagePath, "Games")
-	storageBIOSPath := filepath.Join(storagePath, "BIOS")
-	storageROMsPath := filepath.Join(storagePath, "ROMs")
+	// This mode will use symbolic links
+	storageGamesPath := filepath.Join(storagePath, "Games")
+	storageBIOSPath := filepath.Join(storagePath, "Games/BIOS")
+	storageROMsPath := filepath.Join(storagePath, "Games/ROMs")
+	storageStatePath := filepath.Join(storagePath, "Games/STATE")
 
 	// Make sure base folders exist on storage path
+	err = os.MkdirAll(storageGamesPath, 0755)
+	if err != nil {
+		return err
+	}
+
 	err = os.MkdirAll(storageBIOSPath, 0755)
 	if err != nil {
 		return err
 	}
 
 	err = os.MkdirAll(storageROMsPath, 0755)
+	if err != nil {
+		return err
+	}
+
+	err = os.MkdirAll(storageStatePath, 0755)
 	if err != nil {
 		return err
 	}
@@ -77,8 +95,13 @@ func Setup(useSymlink bool, storagePath string) error {
 		return err
 	}
 
+	err = os.Symlink(storageStatePath, statePath)
+	if err != nil {
+		return err
+	}
+
 	cli.Printf(cli.ColorSuccess, "Setup completed!\n")
-	cli.Printf(cli.ColorSuccess, "Folder structure created at: %s\n", storagePath+"/Games")
+	cli.Printf(cli.ColorSuccess, "Folder structure created at: %s\n", storageGamesPath)
 	cli.Printf(cli.ColorSuccess, "Symlinks available at: %s\n", gamesPath)
 
 	return nil

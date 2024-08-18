@@ -38,7 +38,7 @@ func EmulationStationDE() *Program {
 		}
 
 		// Download application
-		executable := os.ExpandEnv("$HOME/Applications/EmulationStation-DE.AppImage")
+		executable := os.ExpandEnv("$APPLICATIONS/EmulationStation-DE.AppImage")
 		err = fs.DownloadFile(latest, executable, true)
 		if err != nil {
 			return err
@@ -72,7 +72,7 @@ func EmulationStationDE() *Program {
 		Description:     "Frontend for browsing and launching emulated games",
 		Category:        "Gaming",
 		Tags:            []string{"Gaming", "Emulator", "Launcher"},
-		RequiredFolders: []string{"$HOME/Applications"},
+		RequiredFolders: []string{"$APPLICATIONS"},
 		IconURL:         "https://cdn2.steamgriddb.com/icon/c0829dc52beb665d3e2fd05e36f97f35.ico",
 		LogoURL:         "https://cdn2.steamgriddb.com/logo/c3bb9214431dec7ca7d1ebcfeca73236.png",
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/21bd6ea21e43de6dc80e2bc8917f4ba3.png",
