@@ -60,13 +60,6 @@ func SyncState(options *Options) error {
 			continue
 		}
 
-		// Check if should process this emulator
-		// if len(options.Emulators) > 0 {
-		// 	if !slices.Contains(options.Emulators, state.Emulator) {
-		// 		continue
-		// 	}
-		// }
-
 		// Fill source and destination information
 		source := os.ExpandEnv(state.Source)
 		destination := os.ExpandEnv(state.Destination)
