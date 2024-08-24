@@ -23,6 +23,18 @@ func GetPlatforms(options *Options) []*Platform {
 	platforms := []*Platform{}
 
 	platforms = append(platforms, &Platform{
+		Name:    "3DS",
+		Console: "Nintendo 3DS",
+		Folder:  "3DS/",
+		Emulators: []*Emulator{{
+			Name:          "Citra",
+			Program:       "/var/lib/flatpak/exports/bin/org.citra_emu.citra",
+			Extensions:    ".3ds .3dsx .app .axf .cci .cxi .elf .7z .zip",
+			LaunchOptions: "\"${ROM}\"", // No full-screen option
+		}},
+	})
+
+	platforms = append(platforms, &Platform{
 		Name:    "DC",
 		Console: "Sega Dreamcast",
 		Folder:  "DC/",
@@ -55,18 +67,6 @@ func GetPlatforms(options *Options) []*Platform {
 			Program:       "/var/lib/flatpak/exports/bin/org.DolphinEmu.dolphin-emu",
 			Extensions:    ".ciso .dff .dol .elf .gcm .gcz .iso .json .m3u .rvz .tgc .wad .wbfs .wia .7z .zip",
 			LaunchOptions: "-b -e \"${ROM}\"",
-		}},
-	})
-
-	platforms = append(platforms, &Platform{
-		Name:    "3DS",
-		Console: "Nintendo 3DS",
-		Folder:  "3DS/",
-		Emulators: []*Emulator{{
-			Name:          "Citra",
-			Program:       "/var/lib/flatpak/exports/bin/org.citra_emu.citra",
-			Extensions:    ".3ds .3dsx .app .axf .cci .cxi .elf .7z .zip",
-			LaunchOptions: "\"${ROM}\"", // No full-screen option
 		}},
 	})
 
