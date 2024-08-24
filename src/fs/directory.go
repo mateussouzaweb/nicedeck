@@ -47,7 +47,6 @@ func CopyDirectory(source string, destination string) error {
 
 	// Process list of entries, but skip symbolic links
 	for _, entry := range entries {
-
 		sourcePath := filepath.Join(source, entry.Name())
 		destinationPath := filepath.Join(destination, entry.Name())
 

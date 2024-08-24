@@ -51,6 +51,12 @@ func CopyFile(source string, destination string) error {
 		}
 	}()
 
+	// Ensure destination path exist
+	err = os.MkdirAll(filepath.Dir(destination), 0755)
+	if err != nil {
+		return err
+	}
+
 	// Open destination file
 	destinationFile, err := os.Create(destination)
 	if err != nil {
@@ -111,12 +117,13 @@ func DownloadFile(url string, destination string, overwriteExisting bool) error 
 
 	defer response.Body.Close()
 
-	// Make sure file is created and writable
+	// Ensure that destination folder exists
 	err = os.MkdirAll(filepath.Dir(destination), 0774)
 	if err != nil {
 		return err
 	}
 
+	// Make sure file is created and writable
 	file, err := os.Create(destination)
 	if err != nil {
 		return err
