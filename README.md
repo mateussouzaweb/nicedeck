@@ -15,6 +15,7 @@ Some features of NiceDeck:
 - Simplified structure for emulators, where you should see only the ``ROMs`` and ``BIOS`` folders for the emulators that you installed.
 - Installed programs will be available on the ``Steam Library``, allowing usage on ``Gaming Mode`` at Steam Deck. Nice covers are also expected.
 - Built-in parser to grab information and add ROMs to the ``Steam Library`` automatically.
+- Built-in tool to backup and restore saved games progress and states on each emulator.
 - A correct and workable ``EmulationStation DE`` settings, with systems and finder rules to run games with flatpak in all emulators.
 - Originally created for Steam Deck, but works on almost any Linux distro.
 
