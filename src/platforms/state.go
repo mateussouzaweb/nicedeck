@@ -295,5 +295,6 @@ func SyncState(options *Options) error {
 		}
 	}
 
+	cli.Printf(cli.ColorNotice, "State synchronized.\n")
 	return nil
 }
