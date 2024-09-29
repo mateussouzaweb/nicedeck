@@ -124,7 +124,7 @@ func Install(id string) error {
 			program.FlatpakAppID,
 		)
 
-		err := cli.Command(script).Run()
+		err := cli.Run(script)
 		if err != nil {
 			return err
 		}
@@ -133,7 +133,7 @@ func Install(id string) error {
 		if len(program.FlatpakOverrides) > 0 {
 			for _, override := range program.FlatpakOverrides {
 				script := fmt.Sprintf("flatpak override --user %s %s", override, program.FlatpakAppID)
-				err := cli.Command(script).Run()
+				err := cli.Run(script)
 				if err != nil {
 					return err
 				}

@@ -1,6 +1,8 @@
 package cli
 
 import (
+	"bytes"
+	"fmt"
 	"os"
 	"os/exec"
 	"strings"
@@ -23,4 +25,19 @@ func Command(script string) *exec.Cmd {
 	cmd.Stderr = os.Stderr
 
 	return cmd
+}
+
+// Run script and return captured error if there is any
+func Run(script string) error {
+
+	var stderr bytes.Buffer
+	cmd := Command(script)
+	cmd.Stderr = &stderr
+
+	err := cmd.Run()
+	if err != nil {
+		return fmt.Errorf("%w: %s", err, stderr.String())
+	}
+
+	return nil
 }

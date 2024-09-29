@@ -42,7 +42,7 @@ func Load() error {
 		return err
 	} else if isFlatpak {
 		script := "flatpak override --user --talk-name=org.freedesktop.Flatpak com.valvesoftware.Steam"
-		err = cli.Command(script).Run()
+		err = cli.Run(script)
 		if err != nil {
 			return err
 		}

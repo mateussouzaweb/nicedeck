@@ -112,7 +112,7 @@ func Open(url string, developmentMode bool) error {
 
 	// Fallback to XDG open
 	script := fmt.Sprintf(`xdg-open %s`, url)
-	err = cli.Command(script).Run()
+	err = cli.Run(script)
 	if err != nil {
 		return err
 	}
