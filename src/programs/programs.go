@@ -121,7 +121,7 @@ func Install(id string) error {
 
 		// Install from flatpak
 		script := fmt.Sprintf(
-			"flatpak install --or-update --assumeyes --noninteractive flathub %s",
+			"flatpak install --or-update --assumeyes --noninteractive --system flathub %s",
 			program.FlatpakAppID,
 		)
 
