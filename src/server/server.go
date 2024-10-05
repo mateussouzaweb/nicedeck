@@ -53,9 +53,6 @@ func Start(address string, ready chan bool) error {
 		return err
 	}
 
-	// Listener is ready
-	ready <- true
-
 	// Attach server to listener
 	server := &http.Server{
 		Addr:         address,
@@ -65,5 +62,14 @@ func Start(address string, ready chan bool) error {
 		IdleTimeout:  120 * time.Second,
 	}
 
-	return server.Serve(listener)
+	err = server.Serve(listener)
+	if err != nil {
+		return err
+	}
+
+	// Wait additional time and set listener as ready
+	time.Sleep(100 * time.Millisecond)
+	ready <- true
+
+	return nil
 }
