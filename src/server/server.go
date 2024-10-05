@@ -62,14 +62,6 @@ func Start(address string, ready chan bool) error {
 		IdleTimeout:  120 * time.Second,
 	}
 
-	err = server.Serve(listener)
-	if err != nil {
-		return err
-	}
-
-	// Wait additional time and set listener as ready
-	time.Sleep(100 * time.Millisecond)
 	ready <- true
-
-	return nil
+	return server.Serve(listener)
 }

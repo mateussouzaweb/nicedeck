@@ -4,6 +4,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/gui"
@@ -67,6 +68,8 @@ func main() {
 	// We should wait for the serve goes up first
 	go func() {
 		<-ready
+		time.Sleep(100 * time.Millisecond)
+
 		err := gui.Open(displayMode, "http://"+address, version, developmentMode)
 		if err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
