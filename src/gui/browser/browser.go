@@ -105,7 +105,7 @@ func Open(url string, developmentMode bool) error {
 		return err
 	} else if exist {
 		return RunProcess(fmt.Sprintf(
-			`flatpak run org.mozilla.firefox --kiosk %s;`,
+			`flatpak run org.mozilla.firefox --kiosk %s`,
 			url,
 		))
 	}
