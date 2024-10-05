@@ -5,7 +5,7 @@
         <fullname>Sega Dreamcast</fullname>
         <path>%ROMPATH%/DC</path>
         <extension>.chd .CHD .cdi .CDI .iso .ISO .elf .ELF .cue .CUE .gdi .GDI .lst .LST .dat .DAT .m3u .M3U .7z .7Z .zip .ZIP</extension>
-        <command label="Flycast">%EMULATOR_FLYCAST% -config window:fullscreen=yes %ROM%</command>
+        <command label="FLYCAST">%EMULATOR_FLYCAST% -config window:fullscreen=yes %ROM%</command>
         <platform>dreamcast</platform>
         <theme>dreamcast</theme>
     </system>
@@ -14,7 +14,7 @@
         <fullname>Nintendo Game Boy Advance</fullname>
         <path>%ROMPATH%/GBA</path>
         <extension>.agb .AGB .bin .BIN .cgb .CGB .dmg .DMG .gb .GB .gba .GBA .gbc .GBC .sgb .SGB .7z .7Z .zip .ZIP</extension>
-        <command label="mGBA">%EMULATOR_MGBA% -f %ROM%</command>
+        <command label="MGBA">%EMULATOR_MGBA% -f %ROM%</command>
         <platform>gba</platform>
         <theme>gba</theme>
     </system>
@@ -23,7 +23,7 @@
         <fullname>Nintendo GameCube</fullname>
         <path>%ROMPATH%/GC</path>
         <extension>.ciso .CISO .dff .DFF .dol .DOL .elf .ELF .gcm .GCM .gcz .GCZ .iso .ISO .json .JSON .m3u .M3U .rvz .RVZ .tgc .TGC .wad .WAD .wbfs .WBFS .wia .WIA .7z .7Z .zip .ZIP</extension>
-        <command label="Dolphin">%EMULATOR_DOLPHIN% -b -e %ROM%</command>
+        <command label="DOLPHIN">%EMULATOR_DOLPHIN% -b -e %ROM%</command>
         <platform>gc</platform>
         <theme>gc</theme>
     </system>
@@ -32,8 +32,8 @@
         <fullname>Nintendo 3DS</fullname>
         <path>%ROMPATH%/3DS</path>
         <extension>.3ds .3DS .3dsx .3DSX .app .APP .axf .AXF .cci .CCI .cxi .CXI .elf .ELF .7z .7Z .zip .ZIP</extension>
-        <command label="Lime3DS">%EMULATOR_LIME3DS% %ROM%</command>
-        <command label="Citra">%EMULATOR_CITRA% %ROM%</command>
+        <command label="LIME3DS">%EMULATOR_LIME3DS% %ROM%</command>
+        <command label="CITRA">%EMULATOR_CITRA% %ROM%</command>
         <platform>n3ds</platform>
         <theme>n3ds</theme>
     </system>
@@ -42,7 +42,7 @@
         <fullname>Nintendo 64</fullname>
         <path>%ROMPATH%/N64</path>
         <extension>.bin .BIN .d64 .D64 .n64 .N64 .ndd .NDD .u1 .U1 .v64 .V64 .z64 .Z64 .7z .7Z .zip .ZIP</extension>
-        <command label="Simple64">%EMULATOR_SIMPLE64% --nogui %ROM%</command>
+        <command label="SIMPLE64">%EMULATOR_SIMPLE64% --nogui %ROM%</command>
         <platform>n64</platform>
         <theme>n64</theme>
     </system>
@@ -51,7 +51,7 @@
         <fullname>Nintendo DS</fullname>
         <path>%ROMPATH%/NDS</path>
         <extension>.app .APP .bin .BIN .nds .NDS .7z .7Z .zip .ZIP</extension>
-        <command label="MelonDS">%EMULATOR_MELONDS% -f %ROM%</command>
+        <command label="MELONDS">%EMULATOR_MELONDS% -f %ROM%</command>
         <platform>nds</platform>
         <theme>nds</theme>
     </system>
@@ -96,8 +96,8 @@
         <fullname>Nintendo Switch</fullname>
         <path>%ROMPATH%/SWITCH</path>
         <extension>.nca .NCA .nro .NRO .nso .NSO .nsp .NSP .xci .XCI</extension>
-        <command label="Yuzu">%EMULATOR_YUZU% -f -g %ROM%</command>
-        <command label="Ryujinx">%EMULATOR_RYUJINX% --fullscreen %ROM%</command>
+        <command label="RYUJINX">%EMULATOR_RYUJINX% --fullscreen %ROM%</command>
+        <command label="YUZU">%EMULATOR_YUZU% -f -g %ROM%</command>
         <platform>switch</platform>
         <theme>switch</theme>
     </system>
@@ -106,7 +106,7 @@
         <fullname>Nintendo Wii</fullname>
         <path>%ROMPATH%/WII</path>
         <extension>.ciso .CISO .dff .DFF .dol .DOL .elf .ELF .gcm .GCM .gcz .GCZ .iso .ISO .json .JSON .m3u .M3U .rvz .RVZ .tgc .TGC .wad .WAD .wbfs .WBFS .wia .WIA .7z .7Z .zip .ZIP</extension>
-        <command label="Dolphin">%EMULATOR_DOLPHIN% -b -e %ROM%</command>
+        <command label="DOLPHIN">%EMULATOR_DOLPHIN% -b -e %ROM%</command>
         <platform>wii</platform>
         <theme>wii</theme>
     </system>
@@ -115,7 +115,7 @@
         <fullname>Nintendo Wii U</fullname>
         <path>%ROMPATH%/WIIU</path>
         <extension>.rpx .RPX .wua .WUA .wud .WUD .wux .WUX</extension>
-        <command label="Cemu">%EMULATOR_CEMU% -f -g %ROM%</command>
+        <command label="CEMU">%EMULATOR_CEMU% -f -g %ROM%</command>
         <platform>wiiu</platform>
         <theme>wiiu</theme>
     </system>
@@ -124,7 +124,7 @@
         <fullname>Microsoft Xbox</fullname>
         <path>%ROMPATH%/XBOX</path>
         <extension>.iso .ISO</extension>
-        <command label="Xemu">%EMULATOR_XEMU% -full-screen -dvd_path %ROM%</command>
+        <command label="XEMU">%EMULATOR_XEMU% -full-screen -dvd_path %ROM%</command>
         <platform>xbox</platform>
         <theme>xbox</theme>
     </system>
