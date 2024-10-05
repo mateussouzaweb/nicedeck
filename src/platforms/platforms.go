@@ -27,6 +27,11 @@ func GetPlatforms(options *Options) []*Platform {
 		Console: "Nintendo 3DS",
 		Folder:  "3DS/",
 		Emulators: []*Emulator{{
+			Name:          "Lime3DS",
+			Program:       "/var/lib/flatpak/exports/bin/io.github.lime3ds.Lime3DS",
+			Extensions:    ".3ds .3dsx .app .axf .cci .cxi .elf .7z .zip",
+			LaunchOptions: "\"${ROM}\"", // No full-screen option
+		}, {
 			Name:          "Citra",
 			Program:       "/var/lib/flatpak/exports/bin/org.citra_emu.citra",
 			Extensions:    ".3ds .3dsx .app .axf .cci .cxi .elf .7z .zip",

@@ -95,6 +95,25 @@ func Flycast() *Program {
 	}
 }
 
+// Installer for Lime3DS
+func Lime3DS() *Program {
+	return &Program{
+		ID:               "lime3ds",
+		Name:             "Lime3DS",
+		Description:      "Emulator for Nintendo 3DS",
+		Category:         "Emulators",
+		Tags:             []string{"Gaming", "Emulator"},
+		RequiredFolders:  []string{"$ROMS/3DS", "$BIOS/3DS"},
+		FlatpakAppID:     "io.github.lime3ds.Lime3DS",
+		FlatpakOverrides: []string{"--filesystem=host"},
+		IconURL:          "https://cdn2.steamgriddb.com/icon/0dc64a4b9b4c8d205734751c155d528f.png",
+		LogoURL:          "https://cdn2.steamgriddb.com/logo/9e6cafbef4b54b72de537851e6aaf6b8.png",
+		CoverURL:         "https://cdn2.steamgriddb.com/grid/012c10e6c703bc4a009d10d95dbd95be.png",
+		BannerURL:        "https://cdn2.steamgriddb.com/grid/1cdcecbcc8ce18ffdb147b29928b5781.png",
+		HeroURL:          "https://cdn2.steamgriddb.com/hero/ae8c643004d25250b521d4f7fc01c354.png",
+	}
+}
+
 // Installer for MelonDS
 func MelonDS() *Program {
 	return &Program{

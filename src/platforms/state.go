@@ -26,6 +26,21 @@ func GetStates(options *Options) []*State {
 	// - Simple64 (cannot be configured as it does not provide options)
 	states := []*State{}
 
+	// Lime3DS
+	states = append(states, &State{
+		Platform:    "3DS",
+		Emulator:    "Lime3DS",
+		Type:        "folder",
+		Source:      "$HOME/.var/app/io.github.lime3ds.Lime3DS/data/lime3ds-emu/sdmc",
+		Destination: "$STATE/Lime3DS/lime3ds-emu/sdmc",
+	}, &State{
+		Platform:    "3DS",
+		Emulator:    "Lime3DS",
+		Type:        "folder",
+		Source:      "$HOME/.var/app/io.github.lime3ds.Lime3DS/data/lime3ds-emu/states",
+		Destination: "$STATE/Lime3DS/lime3ds-emu/states",
+	})
+
 	// Citra
 	states = append(states, &State{
 		Platform:    "3DS",

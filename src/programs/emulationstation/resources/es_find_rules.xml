@@ -61,6 +61,16 @@
             <entry>~/.local/share/flatpak/exports/bin/org.flycast.Flycast</entry>
         </rule>
     </emulator>
+    <emulator name="LIME3DS">
+        <rule type="systempath">
+            <entry>lime3ds</entry>
+            <entry>io.github.lime3ds.Lime3DS</entry>
+        </rule>
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/io.github.lime3ds.Lime3DS</entry>
+            <entry>~/.local/share/flatpak/exports/bin/io.github.lime3ds.Lime3DS</entry>
+        </rule>
+    </emulator>
     <emulator name="MELONDS">
         <rule type="systempath">
             <entry>melonds</entry>
