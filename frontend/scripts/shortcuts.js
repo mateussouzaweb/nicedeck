@@ -29,8 +29,9 @@ window.addEventListener('load', async () => {
 
             const library = await requestJson('POST', '/api/library/load')
 
-            /** @type {Shortcut[]} */
-            shortcuts = await requestJson('GET', '/api/shortcuts')
+            /** @type {ShortcutsRequestResult} */
+            const request = await requestJson('GET', '/api/shortcuts')
+            shortcuts = request.data
 
             const items = shortcuts.map((shortcut) => {
                 const coverUrl = (shortcut.cover)
@@ -132,8 +133,9 @@ window.addEventListener('load', async () => {
 
         try {
 
-            /** @type {ScrapeResult} */
-            const scrape = await requestJson('GET', '/api/scrape?term=' + encodeURIComponent(shortcut.appName))
+            /** @type {ScrapeRequestResult} */
+            const request = await requestJson('GET', '/api/scrape?term=' + encodeURIComponent(shortcut.appName))
+            const scrape = request.result
 
             const html = []
             html.push(
@@ -188,11 +190,11 @@ window.addEventListener('load', async () => {
                 html.push(`</section>`)
             }
 
-            append('cover', 'Cover Artworks', shortcut.coverUrl, scrape.result.coverUrls, 600, 900)
-            append('banner', 'Banner Artworks', shortcut.bannerUrl, scrape.result.bannerUrls, 920, 430)
-            append('hero', 'Hero Artworks', shortcut.heroUrl, scrape.result.heroUrls, 600, 900)
-            append('icon', 'Icon Artworks', shortcut.iconUrl, scrape.result.iconUrls, 192, 192)
-            append('logo', 'Logo Artworks', shortcut.logoUrl, scrape.result.logoUrls, 600, 900)
+            append('cover', 'Cover Artworks', shortcut.coverUrl, scrape.coverUrls, 600, 900)
+            append('banner', 'Banner Artworks', shortcut.bannerUrl, scrape.bannerUrls, 920, 430)
+            append('hero', 'Hero Artworks', shortcut.heroUrl, scrape.heroUrls, 600, 900)
+            append('icon', 'Icon Artworks', shortcut.iconUrl, scrape.iconUrls, 192, 192)
+            append('logo', 'Logo Artworks', shortcut.logoUrl, scrape.logoUrls, 600, 900)
 
             content.innerHTML = html.join('')
 

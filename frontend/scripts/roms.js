@@ -6,8 +6,10 @@ window.addEventListener('load', async () => {
      */
     async function loadPlatforms() {
 
-        /** @type {Platform[]} */
-        const platforms = await requestJson('GET', '/api/platforms')
+        /** @type {PlatformsRequestResult} */
+        const request = await requestJson('GET', '/api/platforms')
+        const platforms = request.data
+
         const options = platforms.map((platform) => {
             const console = platform.console.toLowerCase().replaceAll(' ', '-')
             return `<label class="checkbox" title="${platform.console}">
@@ -70,7 +72,11 @@ window.addEventListener('load', async () => {
             button.disabled = false
         }
 
-        await window.loadShortcuts()
+        try {
+            await window.loadShortcuts()
+        } catch (error) {
+            window.showError(error)
+        }
     })
 
     try {

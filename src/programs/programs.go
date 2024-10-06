@@ -33,7 +33,7 @@ type Program struct {
 }
 
 // Retrieve list of available programs to install
-func GetPrograms() []*Program {
+func GetPrograms() ([]*Program, error) {
 
 	var programs []*Program
 
@@ -67,25 +67,33 @@ func GetPrograms() []*Program {
 	programs = append(programs, Xemu())
 	programs = append(programs, Yuzu())
 
-	return programs
+	return programs, nil
 }
 
 // Retrieve program with given ID
-func GetProgramByID(id string) *Program {
+func GetProgramByID(id string) (*Program, error) {
 
-	for _, program := range GetPrograms() {
+	programs, err := GetPrograms()
+	if err != nil {
+		return &Program{}, err
+	}
+
+	for _, program := range programs {
 		if id == program.ID {
-			return program
+			return program, nil
 		}
 	}
 
-	return &Program{}
+	return &Program{}, nil
 }
 
 // Install program with given ID
 func Install(id string) error {
 
-	program := GetProgramByID(id)
+	program, err := GetProgramByID(id)
+	if err != nil {
+		return err
+	}
 
 	// Program not found
 	if program.ID == "" {
@@ -163,7 +171,7 @@ func Install(id string) error {
 	}
 
 	// Add to shortcuts list
-	err := library.AddToShortcuts(shortcut, false)
+	err = library.AddToShortcuts(shortcut, false)
 	if err != nil {
 		return err
 	}

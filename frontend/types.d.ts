@@ -15,12 +15,24 @@ interface Program {
     heroUrl: string
 }
 
+interface ProgramsRequestResult {
+	status: string
+	error: string
+	data: Program[]
+}
+
 interface Platform {
     name: string
 	console: string
 	emulator: string
 	extensions: string
 	launchOptions: string
+}
+
+interface PlatformsRequestResult {
+	status: string
+	error: string
+	data: Platform[]
 }
 
 interface Shortcut {
@@ -54,7 +66,13 @@ interface Shortcut {
 	relativePath: string
 }
 
-interface ScrapeResult {
+interface ShortcutsRequestResult {
+	status: string
+	error: string
+	data: Shortcut[]
+}
+
+interface ScrapeData {
 	name: string
 	scrapeId: number
 	shortcutId: number
@@ -63,4 +81,10 @@ interface ScrapeResult {
 	heroUrls: string[]
 	iconUrls: string[]
 	logoUrls: string[]
+}
+
+interface ScrapeRequestResult {
+	status: string
+	error: string
+	result: ScrapeData
 }

@@ -6,8 +6,9 @@ window.addEventListener('load', async () => {
      */
     async function loadPrograms() {
 
-        /** @type {Program[]} */
-        const programs = await requestJson('GET', '/api/programs')
+        /** @type {ProgramsRequestResult} */
+        const request = await requestJson('GET', '/api/programs')
+        const programs = request.data
 
         const html = []
         const append = (category) => {
@@ -99,7 +100,11 @@ window.addEventListener('load', async () => {
             button.disabled = false
         }
 
-        await window.loadShortcuts()
+        try {
+            await window.loadShortcuts()
+        } catch (error) {
+            window.showError(error)
+        }
     })
 
     try {

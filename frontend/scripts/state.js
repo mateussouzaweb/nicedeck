@@ -6,8 +6,10 @@ window.addEventListener('load', async () => {
      */
     async function loadPlatforms() {
 
-        /** @type {Platform[]} */
-        const platforms = await requestJson('GET', '/api/platforms')
+        /** @type {PlatformsRequestResult} */
+        const request = await requestJson('GET', '/api/platforms')
+        const platforms = request.data
+
         const options = platforms.map((platform) => {
             const console = platform.console.toLowerCase().replaceAll(' ', '-')
             return `<label class="checkbox" title="${platform.console}">

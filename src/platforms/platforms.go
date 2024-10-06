@@ -18,7 +18,7 @@ type Platform struct {
 
 // Retrieve system platform specs.
 // This list is almost a copy of EmulationStation DE systems
-func GetPlatforms(options *Options) []*Platform {
+func GetPlatforms(options *Options) ([]*Platform, error) {
 
 	platforms := []*Platform{}
 
@@ -200,5 +200,5 @@ func GetPlatforms(options *Options) []*Platform {
 		}},
 	})
 
-	return platforms
+	return platforms, nil
 }

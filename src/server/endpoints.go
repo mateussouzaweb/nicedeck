@@ -19,6 +19,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 	"github.com/mateussouzaweb/nicedeck/src/programs/nicedeck"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
+	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
 var gridFS fs.FS
@@ -85,22 +86,70 @@ func saveLibrary(context *Context) error {
 	return context.Status(200).JSON(result)
 }
 
-// List shortcuts action
+// List platforms result
+type ListProgramsResult struct {
+	Status string              `json:"status"`
+	Error  string              `json:"error"`
+	Data   []*programs.Program `json:"data"`
+}
+
+// List programs action
 func listPrograms(context *Context) error {
-	data := programs.GetPrograms()
-	return context.Status(http.StatusOK).JSON(data)
+
+	result := ListProgramsResult{}
+
+	// Retrieve programs
+	data, err := programs.GetPrograms()
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	result.Status = "OK"
+	result.Data = data
+	return context.Status(http.StatusOK).JSON(result)
+}
+
+// List platforms result
+type ListPlatformsResult struct {
+	Status string                `json:"status"`
+	Error  string                `json:"error"`
+	Data   []*platforms.Platform `json:"data"`
 }
 
 // List platforms action
 func listPlatforms(context *Context) error {
-	data := platforms.GetPlatforms(&platforms.Options{})
-	return context.Status(http.StatusOK).JSON(data)
+
+	result := ListPlatformsResult{}
+
+	// Retrieve platforms
+	data, err := platforms.GetPlatforms(&platforms.Options{})
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	result.Status = "OK"
+	result.Data = data
+	return context.Status(http.StatusOK).JSON(result)
+}
+
+// List shortcuts result
+type ListShortcutsResult struct {
+	Status string                `json:"status"`
+	Error  string                `json:"error"`
+	Data   []*shortcuts.Shortcut `json:"data"`
 }
 
 // List shortcuts action
 func listShortcuts(context *Context) error {
-	shortcuts := library.GetShortcuts()
-	return context.Status(http.StatusOK).JSON(shortcuts)
+	data := library.GetShortcuts()
+	result := ListShortcutsResult{}
+	result.Status = "OK"
+	result.Data = data
+	return context.Status(http.StatusOK).JSON(result)
 }
 
 // Launch shortcut data

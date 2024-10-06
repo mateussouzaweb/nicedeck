@@ -36,7 +36,10 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 	}
 
 	// Retrieve platforms
-	platforms := GetPlatforms(options)
+	platforms, err := GetPlatforms(options)
+	if err != nil {
+		return results, err
+	}
 
 	// Fill exclude list
 	// Files on these folders will be ignored
