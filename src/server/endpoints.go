@@ -29,11 +29,11 @@ var staticHandler http.Handler
 
 // Load library result
 type LoadLibraryResult struct {
-	Status           string `json:"status"`
-	Error            string `json:"error"`
-	SteamPath        string `json:"steamPath"`
-	UserConfigPath   string `json:"userConfigPath"`
-	UserArtworksPath string `json:"userArtworksPath"`
+	Status       string `json:"status"`
+	Error        string `json:"error"`
+	SteamPath    string `json:"steamPath"`
+	ConfigPath   string `json:"configPath"`
+	ArtworksPath string `json:"artworksPath"`
 }
 
 // Load library action
@@ -50,15 +50,15 @@ func loadLibrary(context *Context) error {
 	}
 
 	// Create FS with loaded artworks path
-	artworksPath := library.GetConfig().UserArtworksPath
+	artworksPath := library.GetConfig().ArtworksPath
 	gridFS = os.DirFS(artworksPath)
 	gridHandler = http.FileServer(http.FS(gridFS))
 
 	// Print loaded data
 	result.Status = "OK"
 	result.SteamPath = library.GetConfig().SteamPath
-	result.UserArtworksPath = library.GetConfig().UserArtworksPath
-	result.UserConfigPath = library.GetConfig().UserConfigPath
+	result.ConfigPath = library.GetConfig().ConfigPath
+	result.ArtworksPath = library.GetConfig().ArtworksPath
 
 	return context.Status(200).JSON(result)
 }

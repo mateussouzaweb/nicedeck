@@ -18,8 +18,8 @@ import (
 type Config struct {
 	IsFlatpak               bool                  `json:"isFlatpak"`
 	SteamPath               string                `json:"steamPath"`
-	UserConfigPath          string                `json:"userConfigPath"`
-	UserArtworksPath        string                `json:"userArtworksPath"`
+	ConfigPath              string                `json:"configPath"`
+	ArtworksPath            string                `json:"artworksPath"`
 	ControllerTemplatesPath string                `json:"controllerTemplatesPath"`
 	Shortcuts               []*shortcuts.Shortcut `json:"shortcuts"`
 }
@@ -49,14 +49,14 @@ func Load() error {
 	}
 
 	// Retrieve user config path
-	userConfigPaths, err := steam.GetPaths("userdata/*/config")
+	configPaths, err := steam.GetPaths("userdata/*/config")
 	if err != nil {
 		return fmt.Errorf("could not detect Steam user configuration - please make sure to login into Steam first: %s", err)
 	}
 
 	// Make sure zero config is ignored (this is not a valid user)
-	if strings.Contains(userConfigPaths[0], "/0/config") {
-		userConfigPaths = userConfigPaths[1:]
+	if strings.Contains(configPaths[0], "/0/config") {
+		configPaths = configPaths[1:]
 	}
 
 	// Retrieve controller templates path
@@ -69,18 +69,18 @@ func Load() error {
 	_config = Config{}
 	_config.IsFlatpak = isFlatpak
 	_config.SteamPath = steamPaths[0]
-	_config.UserConfigPath = userConfigPaths[0]
-	_config.UserArtworksPath = userConfigPaths[0] + "/grid"
+	_config.ConfigPath = configPaths[0]
+	_config.ArtworksPath = configPaths[0] + "/grid"
 	_config.ControllerTemplatesPath = controllerTemplatesPaths[0]
 
 	// Load config file if exist
-	exist, err := fs.FileExist(_config.UserConfigPath + "/niceconfig.json")
+	exist, err := fs.FileExist(_config.ConfigPath + "/niceconfig.json")
 	if err != nil {
 		return err
 	} else if exist {
 
 		// Read config file content
-		content, err := os.ReadFile(_config.UserConfigPath + "/niceconfig.json")
+		content, err := os.ReadFile(_config.ConfigPath + "/niceconfig.json")
 		if err != nil {
 			return err
 		}
@@ -95,7 +95,7 @@ func Load() error {
 	}
 
 	// Load shortcuts from file
-	shortcutsList, err := shortcuts.LoadFromFile(_config.UserConfigPath + "/shortcuts.vdf")
+	shortcutsList, err := shortcuts.LoadFromFile(_config.ConfigPath + "/shortcuts.vdf")
 	if err != nil {
 		return err
 	}
@@ -161,13 +161,13 @@ func Save() error {
 	}
 
 	// Write JSON content to config file
-	err = os.WriteFile(_config.UserConfigPath+"/niceconfig.json", jsonContent, 0666)
+	err = os.WriteFile(_config.ConfigPath+"/niceconfig.json", jsonContent, 0666)
 	if err != nil {
 		return err
 	}
 
 	// Save shortcuts file
-	err = shortcuts.SaveToFile(_config.Shortcuts, _config.UserConfigPath+"/shortcuts.vdf")
+	err = shortcuts.SaveToFile(_config.Shortcuts, _config.ConfigPath+"/shortcuts.vdf")
 	if err != nil {
 		return err
 	}
@@ -223,7 +223,7 @@ func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Determine appID and artworks path
 	shortcut.AppID = shortcuts.GenerateShortcutID(shortcut.Exe, shortcut.AppName)
-	artworksPath := _config.UserArtworksPath
+	artworksPath := _config.ArtworksPath
 	remove := []string{}
 
 	// Logo: ${APPID}_logo.png

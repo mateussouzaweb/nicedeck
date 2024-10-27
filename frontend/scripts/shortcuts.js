@@ -35,7 +35,7 @@ window.addEventListener('load', async () => {
 
             const items = shortcuts.map((shortcut) => {
                 const coverUrl = (shortcut.cover)
-                    ? String(shortcut.cover).replace(library.userArtworksPath, "/grid/image")
+                    ? String(shortcut.cover).replace(library.artworksPath, "/grid/image")
                     : './img/default/cover.png'
 
                 return `<article class="item shortcut" title="${shortcut.appName}">
