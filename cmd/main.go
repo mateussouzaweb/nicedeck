@@ -12,7 +12,6 @@ import (
 )
 
 var version = "0.0.25"
-var address = "127.0.0.1:14935"
 
 // Main command
 func main() {
@@ -37,6 +36,7 @@ func main() {
 	// Retrieve program options
 	displayMode := cli.Arg(os.Args[1:], "--gui", "")
 	developmentMode := cli.Flag(os.Args[1:], "--dev", false)
+	listenAddress := cli.Arg(os.Args[1:], "--address", "127.0.0.1:14935")
 
 	// Expose environment variables for internal usage
 	os.Setenv("APPLICATIONS", os.ExpandEnv("$HOME/Applications"))
@@ -54,7 +54,7 @@ func main() {
 			done <- true
 		}
 
-		err = server.Start(address, ready)
+		err = server.Start(listenAddress, ready)
 		if err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 			exitCode = 1
@@ -70,7 +70,7 @@ func main() {
 		<-ready
 		time.Sleep(100 * time.Millisecond)
 
-		err := gui.Open(displayMode, "http://"+address, version, developmentMode)
+		err := gui.Open(displayMode, "http://"+listenAddress, version, developmentMode)
 		if err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 			exitCode = 1
