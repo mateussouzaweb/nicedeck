@@ -9,24 +9,28 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam/controller"
 )
 
-// Check if Steam installation was done via flatpak
-func IsFlatpak() (bool, error) {
+// Check the runtime that Steam installation is running
+func GetRuntime() (string, error) {
 
-	// App can be installed on system or user
-	systemFile := "/var/lib/flatpak/exports/bin/com.valvesoftware.Steam"
-	userFile := os.ExpandEnv("$HOME/.local/share/flatpak/exports/bin/com.valvesoftware.Steam")
-
-	// Checks what possible file exist
-	for _, file := range []string{systemFile, userFile} {
-		exist, err := fs.FileExist(file)
-		if err != nil {
-			return false, err
-		} else if exist {
-			return true, nil
-		}
+	// Check flatpak --system install
+	flatpakSystemFile := "/var/lib/flatpak/exports/bin/com.valvesoftware.Steam"
+	exist, err := fs.FileExist(flatpakSystemFile)
+	if err != nil {
+		return "", err
+	} else if exist {
+		return "flatpak", nil
 	}
 
-	return false, nil
+	// Check flatpak --user install
+	flatpakUserFile := os.ExpandEnv("$HOME/.local/share/flatpak/exports/bin/com.valvesoftware.Steam")
+	exist, err = fs.FileExist(flatpakUserFile)
+	if err != nil {
+		return "", err
+	} else if exist {
+		return "flatpak", nil
+	}
+
+	return "native", nil
 }
 
 // Retrieve the absolute Steam path
@@ -70,14 +74,14 @@ func Setup() error {
 
 	// Make sure Steam on flatpak has the necessary permission
 	// We need this to run flatpak-spawn command to communicate with others flatpak apps
-	isFlatpak, err := IsFlatpak()
+	steamRuntime, err := GetRuntime()
 	if err != nil {
-		return fmt.Errorf("could not determine if Steam is from Flatpak: %s", err)
-	} else if isFlatpak {
+		return fmt.Errorf("could not determine the Steam runtime: %s", err)
+	} else if steamRuntime == "flatpak" {
 		script := "flatpak override --user --talk-name=org.freedesktop.Flatpak com.valvesoftware.Steam"
 		err = cli.Run(script)
 		if err != nil {
-			return fmt.Errorf("could not perform Steam setup for Flatpak: %s", err)
+			return fmt.Errorf("could not perform Steam setup with flatpak runtime: %s", err)
 		}
 	}
 

@@ -16,8 +16,8 @@ import (
 
 // Config struct
 type Config struct {
-	IsFlatpak    bool                  `json:"isFlatpak"`
 	SteamPath    string                `json:"steamPath"`
+	SteamRuntime string                `json:"steamRuntime"`
 	ConfigPath   string                `json:"configPath"`
 	ArtworksPath string                `json:"artworksPath"`
 	Shortcuts    []*shortcuts.Shortcut `json:"shortcuts"`
@@ -32,7 +32,7 @@ func Load() error {
 
 	// Set default runtime configs
 	_config = Config{
-		IsFlatpak:    false,
+		SteamRuntime: "",
 		SteamPath:    "",
 		ConfigPath:   os.ExpandEnv("$GAMES/NICE"),
 		ArtworksPath: os.ExpandEnv("$GAMES/NICE/artworks"),
@@ -50,10 +50,10 @@ func Load() error {
 		cli.Printf(cli.ColorWarn, "Please make sure to install and login into Steam first.\n")
 	} else {
 
-		// Check if Steam is running with Flatpak
-		isFlatpak, err := steam.IsFlatpak()
+		// Check how Steam is running
+		steamRuntime, err := steam.GetRuntime()
 		if err != nil {
-			return fmt.Errorf("could not determine if Steam is from Flatpak: %s", err)
+			return fmt.Errorf("could not determine Steam runtime: %s", err)
 		}
 
 		// Retrieve users config path on Steam
@@ -72,8 +72,8 @@ func Load() error {
 		}
 
 		// Set runtime configs
-		_config.IsFlatpak = isFlatpak
 		_config.SteamPath = steamPath
+		_config.SteamRuntime = steamRuntime
 		_config.ConfigPath = configPaths[0]
 		_config.ArtworksPath = configPaths[0] + "/grid"
 
@@ -209,7 +209,7 @@ func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 	// Check if Steam was installed via flatpak
 	// If yes, then we need to append the flatpak-spawn wrapper
 	// This is necessary to have access to host commands
-	if _config.IsFlatpak {
+	if _config.SteamRuntime == "flatpak" {
 		if !strings.HasPrefix(shortcut.Exe, "/usr/bin/flatpak-spawn") {
 			shortcut.Exe = "/usr/bin/flatpak-spawn --host " + shortcut.Exe
 		}

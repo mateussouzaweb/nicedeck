@@ -193,7 +193,7 @@ func launchShortcut(context *Context) error {
 	script := fmt.Sprintf(`cd %s; %s %s`, shortcut.StartDir, shortcut.Exe, shortcut.LaunchOptions)
 
 	if data.Launcher == "steam" {
-		if library.GetConfig().IsFlatpak {
+		if library.GetConfig().SteamRuntime == "flatpak" {
 			script = fmt.Sprintf(`flatpak run com.valvesoftware.Steam steam -applaunch %v`, shortcut.AppID)
 		} else {
 			script = fmt.Sprintf(`steam -applaunch %v`, shortcut.AppID)
