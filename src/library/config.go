@@ -4,24 +4,23 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"slices"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/steam"
-	"github.com/mateussouzaweb/nicedeck/src/steam/controller"
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
 // Config struct
 type Config struct {
-	IsFlatpak               bool                  `json:"isFlatpak"`
-	SteamPath               string                `json:"steamPath"`
-	ConfigPath              string                `json:"configPath"`
-	ArtworksPath            string                `json:"artworksPath"`
-	ControllerTemplatesPath string                `json:"controllerTemplatesPath"`
-	Shortcuts               []*shortcuts.Shortcut `json:"shortcuts"`
+	IsFlatpak    bool                  `json:"isFlatpak"`
+	SteamPath    string                `json:"steamPath"`
+	ConfigPath   string                `json:"configPath"`
+	ArtworksPath string                `json:"artworksPath"`
+	Shortcuts    []*shortcuts.Shortcut `json:"shortcuts"`
 }
 
 var _config Config
@@ -29,49 +28,56 @@ var _config Config
 // Load data to runtime config
 func Load() error {
 
+	var err error
+
+	// Set default runtime configs
+	_config = Config{
+		IsFlatpak:    false,
+		SteamPath:    "",
+		ConfigPath:   os.ExpandEnv("$GAMES/NICE"),
+		ArtworksPath: os.ExpandEnv("$GAMES/NICE/artworks"),
+	}
+
 	// Retrieve Steam base path
-	steamPaths, err := steam.GetPaths("")
+	steamPath, err := steam.GetPath()
 	if err != nil {
-		return fmt.Errorf("could not detect Steam - please make sure to install Steam first: %s", err)
+		return fmt.Errorf("could not detect Steam installation: %s", err)
 	}
 
-	// Make sure Steam on flatpak has the necessary permission
-	// We need this to run flatpak-spawn command to communicate with others flatpak apps
-	isFlatpak, err := steam.IsFlatpak()
-	if err != nil {
-		return err
-	} else if isFlatpak {
-		script := "flatpak override --user --talk-name=org.freedesktop.Flatpak com.valvesoftware.Steam"
-		err = cli.Run(script)
+	// Tweak config based on Steam detection
+	if steamPath == "" {
+		cli.Printf(cli.ColorWarn, "Steam installation was not detected.\n")
+		cli.Printf(cli.ColorWarn, "Please make sure to install and login into Steam first.\n")
+	} else {
+
+		// Check if Steam is running with Flatpak
+		isFlatpak, err := steam.IsFlatpak()
 		if err != nil {
-			return err
+			return fmt.Errorf("could not determine if Steam is from Flatpak: %s", err)
 		}
-	}
 
-	// Retrieve user config path
-	configPaths, err := steam.GetPaths("userdata/*/config")
-	if err != nil {
-		return fmt.Errorf("could not detect Steam user configuration - please make sure to login into Steam first: %s", err)
-	}
+		// Retrieve users config path on Steam
+		// Steam can contains more than one user, but we manage only one
+		configPaths, err := filepath.Glob(steamPath + "/userdata/*/config")
+		if err != nil {
+			return fmt.Errorf("could not detect Steam user configuration: %s", err)
+		}
+		if len(configPaths) == 0 {
+			return fmt.Errorf("could not detect Steam user configuration: please make sure to login into Steam first")
+		}
 
-	// Make sure zero config is ignored (this is not a valid user)
-	if strings.Contains(configPaths[0], "/0/config") {
-		configPaths = configPaths[1:]
-	}
+		// Make sure zero config is ignored (this is not a valid user)
+		if strings.Contains(configPaths[0], "/0/config") {
+			configPaths = configPaths[1:]
+		}
 
-	// Retrieve controller templates path
-	controllerTemplatesPaths, err := steam.GetPaths("controller_base/templates")
-	if err != nil {
-		return err
-	}
+		// Set runtime configs
+		_config.IsFlatpak = isFlatpak
+		_config.SteamPath = steamPath
+		_config.ConfigPath = configPaths[0]
+		_config.ArtworksPath = configPaths[0] + "/grid"
 
-	// Set runtime configs
-	_config = Config{}
-	_config.IsFlatpak = isFlatpak
-	_config.SteamPath = steamPaths[0]
-	_config.ConfigPath = configPaths[0]
-	_config.ArtworksPath = configPaths[0] + "/grid"
-	_config.ControllerTemplatesPath = controllerTemplatesPaths[0]
+	}
 
 	// Load config file if exist
 	exist, err := fs.FileExist(_config.ConfigPath + "/niceconfig.json")
@@ -100,7 +106,7 @@ func Load() error {
 		return err
 	}
 
-	// When already exist a list of shortcuts from Steam, we should merge data
+	// When already exist a list of shortcuts from file, we should merge data
 	// The preferencial content always are from the .vdf file
 	// This file can possible be updated by other services or Steam UI
 	if len(shortcutsList) > 0 {
@@ -142,12 +148,6 @@ func Save() error {
 
 	var err error
 
-	// Check if library was loaded
-	if _config.SteamPath == "" {
-		err = fmt.Errorf("cannot save library because Steam was not detected")
-		return err
-	}
-
 	// Sort list of shortcuts (again)
 	_config.Shortcuts, err = shortcuts.SortShortcuts(_config.Shortcuts)
 	if err != nil {
@@ -160,6 +160,12 @@ func Save() error {
 		return err
 	}
 
+	// Make sure config folder path exist
+	err = os.MkdirAll(_config.ConfigPath, 0774)
+	if err != nil {
+		return err
+	}
+
 	// Write JSON content to config file
 	err = os.WriteFile(_config.ConfigPath+"/niceconfig.json", jsonContent, 0666)
 	if err != nil {
@@ -168,12 +174,6 @@ func Save() error {
 
 	// Save shortcuts file
 	err = shortcuts.SaveToFile(_config.Shortcuts, _config.ConfigPath+"/shortcuts.vdf")
-	if err != nil {
-		return err
-	}
-
-	// Write controller templates
-	err = controller.WriteTemplates(_config.ControllerTemplatesPath)
 	if err != nil {
 		return err
 	}
@@ -205,12 +205,6 @@ func GetShortcut(appID uint) *shortcuts.Shortcut {
 func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 
 	var err error
-
-	// Check if library was loaded
-	if _config.SteamPath == "" {
-		err = fmt.Errorf("cannot process library shortcut because Steam was not properly detected")
-		return err
-	}
 
 	// Check if Steam was installed via flatpak
 	// If yes, then we need to append the flatpak-spawn wrapper
@@ -316,11 +310,6 @@ func AddToShortcuts(shortcut *shortcuts.Shortcut, overwriteArtworks bool) error 
 
 	var err error
 
-	if _config.SteamPath == "" {
-		err = fmt.Errorf("cannot add library shortcut because Steam was not properly detected")
-		return err
-	}
-
 	// Make sure shortcut settings is correct
 	err = EnsureShortcut(shortcut)
 	if err != nil {
@@ -359,11 +348,6 @@ func AddToShortcuts(shortcut *shortcuts.Shortcut, overwriteArtworks bool) error 
 func RemoveFromShortcuts(shortcut *shortcuts.Shortcut) error {
 
 	var err error
-
-	if _config.SteamPath == "" {
-		err = fmt.Errorf("cannot remove library shortcut because Steam was not properly detected")
-		return err
-	}
 
 	// Remove all images of the shortcut
 	images := []string{

@@ -19,6 +19,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 	"github.com/mateussouzaweb/nicedeck/src/programs/nicedeck"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
+	"github.com/mateussouzaweb/nicedeck/src/steam"
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
@@ -321,8 +322,16 @@ func runSetup(context *Context) error {
 		return context.Status(400).JSON(result)
 	}
 
-	// Run setup by making sure has required structure
+	// Run library setup by making sure has required structure
 	err = library.Setup(data.UseSymlink, data.StoragePath)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Run Steam setup by making sure has required settings
+	err = steam.Setup()
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
