@@ -85,9 +85,6 @@ func LoadFromFile(shortcutsFile string) ([]*Shortcut, error) {
 		if _, ok := item["DevkitOverrideAppID"]; !ok {
 			item["DevkitOverrideAppID"] = uint(0)
 		}
-		if _, ok := item["FlatpakAppID"]; !ok {
-			item["FlatpakAppID"] = ""
-		}
 		if _, ok := item["LastPlayTime"]; !ok {
 			item["LastPlayTime"] = uint(0)
 		}
@@ -117,7 +114,6 @@ func LoadFromFile(shortcutsFile string) ([]*Shortcut, error) {
 			Devkit:              item["Devkit"].(uint),
 			DevkitGameID:        item["DevkitGameID"].(string),
 			DevkitOverrideAppID: item["DevkitOverrideAppID"].(uint),
-			FlatpakAppID:        item["FlatpakAppID"].(string),
 			LastPlayTime:        item["LastPlayTime"].(uint),
 			Tags:                tags,
 		}
@@ -158,7 +154,6 @@ func SaveToFile(shortcuts []*Shortcut, destinationFile string) error {
 		item["Devkit"] = shortcut.Devkit
 		item["DevkitGameID"] = shortcut.DevkitGameID
 		item["DevkitOverrideAppID"] = shortcut.DevkitOverrideAppID
-		item["FlatpakAppID"] = shortcut.FlatpakAppID
 		item["LastPlayTime"] = shortcut.LastPlayTime
 		item["tags"] = tags
 

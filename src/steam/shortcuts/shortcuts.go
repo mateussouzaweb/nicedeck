@@ -35,7 +35,6 @@ func AddShortcut(shortcuts []*Shortcut, shortcut *Shortcut) ([]*Shortcut, error)
 		shortcut.Devkit = item.Devkit
 		shortcut.DevkitGameID = item.DevkitGameID
 		shortcut.DevkitOverrideAppID = item.DevkitOverrideAppID
-		shortcut.FlatpakAppID = item.FlatpakAppID
 		shortcut.LastPlayTime = item.LastPlayTime
 
 		// Merge tags to not lose current ones

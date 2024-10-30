@@ -36,22 +36,21 @@ interface PlatformsRequestResult {
 }
 
 interface Shortcut {
-    appId: number     
-	appName: string   
-	startDir: string   
-	exe: string 
-	launchOptions: string  
-	shortcutPath: string   
-	icon: string  
-	isHidden: number     
-	allowDesktopConfig: number     
-	allowOverlay: number     
-	openVr: number    
-	devkit: number    
-	devkitGameId: string   
-	devkitOverrideAppId: number     
-	flatpakAppId: string   
-	lastPlayTime: number     
+    appId: number
+	appName: string
+	startDir: string
+	exe: string
+	launchOptions: string
+	shortcutPath: string
+	icon: string
+	isHidden: number
+	allowDesktopConfig: number
+	allowOverlay: number
+	openVr: number
+	devkit: number
+	devkitGameId: string
+	devkitOverrideAppId: number
+	lastPlayTime: number
 	tags: string[]
 	iconUrl: string
 	logo: string
