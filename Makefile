@@ -5,7 +5,7 @@ deps:
 	sudo apt install -y qt6-base-dev qt6-webengine-dev
 
 run:
-	go run -tags=browser cmd/main.go --dev
+	go run -tags=browser cmd/main.go --dev --gui=headless
 
 clean:
 	[ -d bin/ ] && rm -r bin/ || true
