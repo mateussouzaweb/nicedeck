@@ -7,6 +7,8 @@ window.addEventListener('load', async () => {
      */
     function showError(error) {
 
+        console.error(error)
+
         const area = $('#error')
         const html = `<div class="alert">
             <p>${error.message}</p>
