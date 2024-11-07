@@ -41,23 +41,6 @@ func GeForceNow() *Program {
 	}
 }
 
-// Installer for Jellyfin Media Player
-func JellyfinMediaPlayer() *Program {
-	return &Program{
-		ID:           "jellyfin",
-		Name:         "Jellyfin Media Player",
-		Description:  "Client for Jellyfin Server",
-		Category:     "Streaming",
-		Tags:         []string{"Utilities", "Streaming"},
-		FlatpakAppID: "com.github.iwalton3.jellyfin-media-player",
-		IconURL:      "https://cdn2.steamgriddb.com/icon/bbe2977a4c5b136df752894d93b44c72.png",
-		LogoURL:      "https://cdn2.steamgriddb.com/logo/c84389bbba219be3e13b80f9376a0db7.png",
-		CoverURL:     "https://cdn2.steamgriddb.com/grid/43174d6e1d2f2791af4925de27e813af.png",
-		BannerURL:    "https://cdn2.steamgriddb.com/grid/717a3aabd77351296bbf24f7274a4d6e.png",
-		HeroURL:      "https://cdn2.steamgriddb.com/hero/5e38c6c14e095dd7b30db8c0fdba643a.png",
-	}
-}
-
 // Installer for Moonlight Game Streaming
 func MoonlightGameStreaming() *Program {
 	return &Program{

@@ -80,7 +80,6 @@ Streaming:
 
 - [Chiaki](https://chiaki.re)
 - [GeForce NOW](https://www.nvidia.com/geforce-now)
-- [Jellyfin Media Player](https://jellyfin.org)
 - [Moonlight Game Streaming](https://moonlight-stream.org)
 - [Xbox Cloud Gaming](https://www.xbox.com/cloud-gaming)
 
