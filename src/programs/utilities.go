@@ -6,7 +6,7 @@ func ProtonPlus() *Program {
 		ID:           "protonplus",
 		Name:         "ProtonPlus",
 		Description:  "Wine and Proton-based compatiblity tools manager",
-		Category:     "Utilities",
+		Category:     "Gaming",
 		Tags:         []string{"Gaming", "Utilities"},
 		FlatpakAppID: "com.vysp3r.ProtonPlus",
 		IconURL:      "https://cdn2.steamgriddb.com/icon/fe13849d9b9437c5a61a1760ada2a5a6.png",
