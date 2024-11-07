@@ -17,9 +17,10 @@
     margin: 0 -5px;
 }
 
-#roms #platforms label.checkbox {
-    flex-basis: 10%;
-    max-width: 10%;
+#roms #platforms label.checkbox,
+#roms #platforms .fill {
+    flex: 1 1 10%;
+    min-width: 90px;
 }
 #roms #platforms label.checkbox .area {
     flex-flow: column;

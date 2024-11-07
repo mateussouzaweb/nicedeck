@@ -43,6 +43,9 @@ window.addEventListener('load', async () => {
                 </label>`)
             })
 
+            html.push(`<div class="fill"></div>`)
+            html.push(`<div class="fill"></div>`)
+            html.push(`<div class="fill"></div>`)
             html.push(`</section>`)
         }
 

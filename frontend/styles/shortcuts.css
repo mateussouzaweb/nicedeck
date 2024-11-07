@@ -17,10 +17,10 @@
     position: relative;
 }
 #shortcuts #filters .platforms > label {
+    align-items: center;
     background: #FFF;
     border: 1px solid #000;
     border-radius: 4px;
-    align-items: center;
     display: flex;
     flex: 1;
     flex-wrap: nowrap;
@@ -74,8 +74,8 @@
 
 #shortcuts #filters .actions {
     flex: 1 0 auto;
-    max-width: 140px;
     margin: 0;
+    max-width: 140px;
 }
 #shortcuts #filters .actions button {
     line-height: 1.35rem;
@@ -89,10 +89,12 @@
     margin: 10px -5px;
 }
 
+#shortcuts #list .item,
+#shortcuts #list .fill {
+    flex: 1 1 20%;
+    min-width: 180px;
+}
 #shortcuts #list .item {
-    flex: 0 0 25%;
-    max-width: 20%;
-    min-width: 150px;
     padding: 5px;
 }
 #shortcuts #list .area {
@@ -201,14 +203,20 @@
     font-weight: normal;
     margin: 0 0 10px 0;
 }
-#shortcuts .modal input, 
+#shortcuts .modal input[type="text"], 
 #shortcuts .modal textarea {
     width: 100%;
 }
 #shortcuts .modal .options {
+    background: #FFF;
+    border-radius: 5px;
+    border: 1px solid #000;
     display: flex;
     flex-wrap: wrap;
     margin: 0 -2px;
+    max-height: 260px;
+    overflow: auto;
+    padding: 10px;
 }
 #shortcuts .modal .radio {
     flex: 1;
@@ -264,6 +272,7 @@
     width: 100%;
 }
 #shortcuts .modal input:checked + .image {
-    opacity: 1;
+    background: #d9b6e1;
     border: 2px solid #000;
+    opacity: 1;
 }

@@ -25,6 +25,18 @@ window.addEventListener('load', async () => {
             </label>`
         })
 
+        // Empty elements for flexbox
+        options.push('<div class="fill"></div>')
+        options.push('<div class="fill"></div>')
+        options.push('<div class="fill"></div>')
+        options.push('<div class="fill"></div>')
+        options.push('<div class="fill"></div>')
+        options.push('<div class="fill"></div>')
+        options.push('<div class="fill"></div>')
+        options.push('<div class="fill"></div>')
+        options.push('<div class="fill"></div>')
+        options.push('<div class="fill"></div>')
+
         const destination = $('#state #platforms')
         destination.innerHTML = options.join('')
 

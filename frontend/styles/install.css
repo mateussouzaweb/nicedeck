@@ -36,6 +36,12 @@
     flex: 1;
 }
 
+#install #programs label.checkbox,
+#install #programs .fill {
+    flex: 1;
+    min-width: 260px;
+    max-width: unset;
+}
 #install #programs label.checkbox .icon {
     min-width: 72px;
 }

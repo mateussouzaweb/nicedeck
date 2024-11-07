@@ -119,6 +119,13 @@ window.addEventListener('load', async () => {
                         No library shortcuts to display here yet...
                     </div>
                 </article>`)
+            } else {
+                // Empty elements for flexbox
+                items.push('<div class="fill"></div>')
+                items.push('<div class="fill"></div>')
+                items.push('<div class="fill"></div>')
+                items.push('<div class="fill"></div>')
+                items.push('<div class="fill"></div>')
             }
 
             const destination = $('#shortcuts #list')

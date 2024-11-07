@@ -1,6 +1,6 @@
 ul.tabs {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     list-style: none;
     margin: 0 -5px;
     padding: 0;
@@ -54,4 +54,10 @@ section.tab {
 }
 section.tab.active {
     display: block;
+}
+
+@media (max-width: 930px) {
+    ul.tabs li > span {
+        display: none;
+    }
 }
