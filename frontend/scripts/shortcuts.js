@@ -14,6 +14,27 @@ window.addEventListener('load', async () => {
     }
 
     /**
+     * Load and show available platforms in the software
+     */
+    async function loadPlatforms() {
+
+        /** @type {PlatformsRequestResult} */
+        const request = await requestJson('GET', '/api/platforms')
+        const platforms = request.data
+
+        const options = platforms.map((platform) => {
+            return `<label class="radio" title="${platform.console}">
+                <input type="checkbox" name="platforms[]" value="${platform.name}" />
+                <span>${platform.name}</span>
+            </label>`
+        })
+
+        const destination = $('#shortcuts .platforms .dropdown')
+        destination.innerHTML = options.join('')
+
+    }
+
+    /**
      * Load and show current list of user shortcuts
      */
     async function loadShortcuts() {
@@ -33,7 +54,35 @@ window.addEventListener('load', async () => {
             const request = await requestJson('GET', '/api/shortcuts')
             shortcuts = request.data
 
-            const items = shortcuts.map((shortcut) => {
+            const platforms = $$('#shortcuts .platforms input:checked')
+            const search = $('#shortcuts .search input')
+            const filters = platforms.map((input) => {
+                return input.value
+            })
+
+            const items = shortcuts.filter((shortcut) => {
+                if (!filters.length) {
+                    return true
+                }
+                for (const filter of filters) {
+                    if (shortcut.appName.includes(filter)) {
+                        return true
+                    }
+                }
+                return false
+            })
+            .filter((shortcut) => {
+                if (!search.value.length) {
+                    return true
+                }
+                return String(shortcut.appName).toLowerCase().includes(
+                    String(search.value).toLowerCase()
+                )
+            })
+            .filter((shortcut) => {
+                return shortcut !== null
+            })
+            .map((shortcut) => {
                 const coverUrl = (shortcut.cover)
                     ? String(shortcut.cover).replace(library.artworksPath, "/grid/image")
                     : './img/default/cover.png'
@@ -80,6 +129,24 @@ window.addEventListener('load', async () => {
 
     }
 
+    on('#shortcuts #filters input', 'change', async () => {
+        try {
+            await loadShortcuts()
+        } catch (error) {
+            window.showError(error)
+        }
+    })
+
+    on('#shortcuts > form', 'submit', async (event) => {
+        event.preventDefault()
+
+        try {
+            await loadShortcuts()
+        } catch (error) {
+            window.showError(error)
+        }
+    })
+
     on('#shortcuts [data-launch-shortcut]', 'click', async (event) => {
         event.preventDefault()
 
@@ -92,7 +159,7 @@ window.addEventListener('load', async () => {
         const modal = $('#modal-launch-shortcut')
         const content = $('.content', modal)
         const shortcut = getShortcut(button.dataset.launchShortcut)
-        
+
         modal.dataset.shortcut = shortcut.appId
         content.innerHTML = `<p>Launching <b>${shortcut.appName}</b>...</p>`
         window.showModal(modal)
@@ -221,7 +288,6 @@ window.addEventListener('load', async () => {
     })
 
     on('#shortcuts #modal-update-shortcut form', 'submit', async (event) => {
-
         event.preventDefault()
 
         const modal = $('#modal-update-shortcut')
@@ -266,7 +332,6 @@ window.addEventListener('load', async () => {
     })
 
     on('#shortcuts #modal-delete-shortcut form', 'submit', async (event) => {
-
         event.preventDefault()
 
         const modal = $('#modal-delete-shortcut')
@@ -312,6 +377,12 @@ window.addEventListener('load', async () => {
 
     try {
         await loadShortcuts()
+    } catch (error) {
+        window.showError(error)
+    }
+
+    try {
+        await loadPlatforms()
     } catch (error) {
         window.showError(error)
     }

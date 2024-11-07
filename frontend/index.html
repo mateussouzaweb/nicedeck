@@ -180,11 +180,26 @@
 
             <section class="tab" id="shortcuts">
                 <form action="#">
-                    <div class="actions">
-                        <button type="button" id="load">
-                            <span>Refresh Shortcuts</span>
-                            <span>Loading...</span>
-                        </button>
+                    <div id="filters">
+                        <div class="platforms">
+                            <label for="platforms">
+                                <span>Platforms</span>
+                                <img src="./img/icons/platforms.svg" alt="" width="24" height="24" />
+                            </label>
+                            <div class="dropdown"></div>
+                        </div>
+                        <div class="search">
+                            <input type="text" 
+                                name="search" 
+                                placeholder="Search..."
+                                autocomplete="off" />
+                        </div>
+                        <div class="actions">
+                            <button type="button" id="load">
+                                <span>Refresh</span>
+                                <span>Loading...</span>
+                            </button>
+                        </div>
                     </div>
                     <div id="list"></div>
                 </form>
