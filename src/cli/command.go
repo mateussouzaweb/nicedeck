@@ -16,7 +16,7 @@ func Command(script string) *exec.Cmd {
 	cmd := exec.Command("/bin/bash", "-c", script)
 
 	// Apply flatpak-spawn if application is running inside flatpak
-	if os.Getenv("FLATPAK_ID") != "" {
+	if GetEnv("FLATPAK_ID", "") != "" {
 		cmd = exec.Command("/usr/bin/flatpak-spawn", "--host", "/bin/bash", "-c", script)
 	}
 

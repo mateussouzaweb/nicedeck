@@ -581,16 +581,16 @@ func Setup(version string, developmentMode bool) error {
 	// Any command in routes should output to buffer
 	// This can be read or clear later with endpoint
 	var buffer bytes.Buffer
-	noColor := os.Getenv("NO_COLOR")
+	noColor := cli.GetEnv("NO_COLOR", "")
 
 	Add("POST", "/api/console/capture", func(context *Context) error {
 		cli.Output(&buffer)
-		os.Setenv("NO_COLOR", "1")
+		cli.SetEnv("NO_COLOR", "1", true)
 		return context.Status(http.StatusOK).String("OK")
 	})
 
 	Add("POST", "/api/console/release", func(context *Context) error {
-		os.Setenv("NO_COLOR", noColor)
+		cli.SetEnv("NO_COLOR", noColor, true)
 		cli.Output(os.Stdout)
 		return context.Status(http.StatusOK).String("OK")
 	})
