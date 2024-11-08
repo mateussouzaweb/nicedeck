@@ -39,11 +39,11 @@ func main() {
 	listenAddress := cli.Arg(os.Args[1:], "--address", "127.0.0.1:14935")
 
 	// Expose environment variables for internal usage
-	os.Setenv("APPLICATIONS", os.ExpandEnv("$HOME/Applications"))
-	os.Setenv("GAMES", os.ExpandEnv("$HOME/Games"))
-	os.Setenv("BIOS", os.ExpandEnv("$HOME/Games/BIOS"))
-	os.Setenv("ROMS", os.ExpandEnv("$HOME/Games/ROMs"))
-	os.Setenv("STATE", os.ExpandEnv("$HOME/Games/STATE"))
+	cli.SetEnv("APPLICATIONS", os.ExpandEnv("$HOME/Applications"), false)
+	cli.SetEnv("GAMES", os.ExpandEnv("$HOME/Games"), false)
+	cli.SetEnv("BIOS", os.ExpandEnv("$GAMES/BIOS"), false)
+	cli.SetEnv("ROMS", os.ExpandEnv("$GAMES/ROMs"), false)
+	cli.SetEnv("STATE", os.ExpandEnv("$GAMES/STATE"), false)
 
 	// Run the program server
 	go func() {
