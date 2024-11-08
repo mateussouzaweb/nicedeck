@@ -3,6 +3,8 @@ package steam
 import (
 	"fmt"
 	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -11,6 +13,12 @@ import (
 
 // Check the runtime that Steam installation is running
 func GetRuntime() (string, error) {
+
+	// Check from environment variable
+	fromEnv := cli.GetEnv("STEAM_RUNTIME", "")
+	if fromEnv != "" {
+		return fromEnv, nil
+	}
 
 	// Check flatpak --system install
 	flatpakSystemFile := "/var/lib/flatpak/exports/bin/com.valvesoftware.Steam"
@@ -36,6 +44,12 @@ func GetRuntime() (string, error) {
 // Retrieve the absolute Steam path
 func GetPath() (string, error) {
 
+	// Check from environment variable
+	fromEnv := cli.GetEnv("STEAM_PATH", "")
+	if fromEnv != "" {
+		return fromEnv, nil
+	}
+
 	// Fill possible locations
 	paths := []string{
 		os.ExpandEnv("$HOME/.steam/steam"),
@@ -55,6 +69,43 @@ func GetPath() (string, error) {
 	}
 
 	return "", nil
+}
+
+// Retrieve Steam user config path
+func GetConfigPath() (string, error) {
+
+	// Check from environment variable
+	fromEnv := cli.GetEnv("STEAM_USER_CONFIG_PATH", "")
+	if fromEnv != "" {
+		return fromEnv, nil
+	}
+
+	// Retrieve Steam base path
+	steamPath, err := GetPath()
+	if err != nil {
+		return "", fmt.Errorf("could not detect Steam installation: %s", err)
+	}
+
+	// Steam can contains more than one user
+	// At this time, we manage only the first user
+	configPaths, err := filepath.Glob(steamPath + "/userdata/*/config")
+	if err != nil {
+		return "", fmt.Errorf("could not detect Steam user configuration: %s", err)
+	}
+
+	// Make sure zero config is ignored (this is not a valid user)
+	if len(configPaths) > 0 {
+		if strings.Contains(configPaths[0], "/0/config") {
+			configPaths = configPaths[1:]
+		}
+	}
+
+	// Check if results was found
+	if len(configPaths) == 0 {
+		return "", fmt.Errorf("no users detected, please make sure to login into Steam first")
+	}
+
+	return configPaths[0], nil
 }
 
 // Perform Steam setup

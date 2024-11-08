@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"path/filepath"
 	"slices"
 	"strings"
 
@@ -30,53 +29,36 @@ func Load() error {
 
 	var err error
 
-	// Set default runtime configs
-	_config = Config{
-		SteamRuntime: "",
-		SteamPath:    "",
-		ConfigPath:   os.ExpandEnv("$GAMES/NICE"),
-		ArtworksPath: os.ExpandEnv("$GAMES/NICE/artworks"),
-	}
-
 	// Retrieve Steam base path
 	steamPath, err := steam.GetPath()
 	if err != nil {
 		return fmt.Errorf("could not detect Steam installation: %s", err)
 	}
 
-	// Tweak config based on Steam detection
-	if steamPath == "" {
+	// Check how Steam is running
+	steamRuntime, err := steam.GetRuntime()
+	if err != nil {
+		return fmt.Errorf("could not determine Steam runtime: %s", err)
+	}
+
+	// Retrieve Steam user config path
+	configPath, err := steam.GetConfigPath()
+	if err != nil {
+		return fmt.Errorf("could not detect Steam user config path: %s", err)
+	}
+
+	// Set default runtime configs
+	_config = Config{
+		SteamPath:    steamPath,
+		SteamRuntime: steamRuntime,
+		ConfigPath:   configPath,
+		ArtworksPath: configPath + "/grid",
+	}
+
+	// Show message based on Steam detection
+	if _config.SteamPath == "" {
 		cli.Printf(cli.ColorWarn, "Steam installation was not detected.\n")
 		cli.Printf(cli.ColorWarn, "Please make sure to install and login into Steam first.\n")
-	} else {
-
-		// Check how Steam is running
-		steamRuntime, err := steam.GetRuntime()
-		if err != nil {
-			return fmt.Errorf("could not determine Steam runtime: %s", err)
-		}
-
-		// Retrieve users config path on Steam
-		// Steam can contains more than one user, but we manage only one
-		configPaths, err := filepath.Glob(steamPath + "/userdata/*/config")
-		if err != nil {
-			return fmt.Errorf("could not detect Steam user configuration: %s", err)
-		}
-		if len(configPaths) == 0 {
-			return fmt.Errorf("could not detect Steam user configuration: please make sure to login into Steam first")
-		}
-
-		// Make sure zero config is ignored (this is not a valid user)
-		if strings.Contains(configPaths[0], "/0/config") {
-			configPaths = configPaths[1:]
-		}
-
-		// Set runtime configs
-		_config.SteamPath = steamPath
-		_config.SteamRuntime = steamRuntime
-		_config.ConfigPath = configPaths[0]
-		_config.ArtworksPath = configPaths[0] + "/grid"
-
 	}
 
 	// Load config file if exist
