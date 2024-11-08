@@ -51,15 +51,15 @@ func loadLibrary(context *Context) error {
 	}
 
 	// Create FS with loaded artworks path
-	artworksPath := library.GetConfig().ArtworksPath
-	gridFS = os.DirFS(artworksPath)
+	config := library.GetConfig()
+	gridFS = os.DirFS(config.ArtworksPath)
 	gridHandler = http.FileServer(http.FS(gridFS))
 
 	// Print loaded data
 	result.Status = "OK"
-	result.SteamPath = library.GetConfig().SteamPath
-	result.ConfigPath = library.GetConfig().ConfigPath
-	result.ArtworksPath = library.GetConfig().ArtworksPath
+	result.SteamPath = config.SteamPath
+	result.ConfigPath = config.ConfigPath
+	result.ArtworksPath = config.ArtworksPath
 
 	return context.Status(200).JSON(result)
 }
