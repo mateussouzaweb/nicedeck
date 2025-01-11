@@ -38,6 +38,15 @@ func GetRuntime() (string, error) {
 		return "flatpak", nil
 	}
 
+	// Check from snap install
+	snapFile := os.ExpandEnv("/snap/bin/steam")
+	exist, err = fs.FileExist(snapFile)
+	if err != nil {
+		return "", err
+	} else if exist {
+		return "snap", nil
+	}
+
 	return "native", nil
 }
 
