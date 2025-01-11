@@ -15,8 +15,8 @@ import (
 
 // Config struct
 type Config struct {
-	SteamPath    string                `json:"steamPath"`
 	SteamRuntime string                `json:"steamRuntime"`
+	SteamPath    string                `json:"steamPath"`
 	ConfigPath   string                `json:"configPath"`
 	ArtworksPath string                `json:"artworksPath"`
 	Shortcuts    []*shortcuts.Shortcut `json:"shortcuts"`
@@ -29,16 +29,16 @@ func Load() error {
 
 	var err error
 
-	// Retrieve Steam base path
-	steamPath, err := steam.GetPath()
-	if err != nil {
-		return fmt.Errorf("could not detect Steam installation: %s", err)
-	}
-
 	// Check how Steam is running
 	steamRuntime, err := steam.GetRuntime()
 	if err != nil {
 		return fmt.Errorf("could not determine Steam runtime: %s", err)
+	}
+
+	// Retrieve Steam base path
+	steamPath, err := steam.GetPath()
+	if err != nil {
+		return fmt.Errorf("could not detect Steam installation: %s", err)
 	}
 
 	// Retrieve Steam user config path
@@ -49,8 +49,8 @@ func Load() error {
 
 	// Set default runtime configs
 	_config = Config{
-		SteamPath:    steamPath,
 		SteamRuntime: steamRuntime,
+		SteamPath:    steamPath,
 		ConfigPath:   configPath,
 		ArtworksPath: configPath + "/grid",
 	}

@@ -32,6 +32,7 @@ var staticHandler http.Handler
 type LoadLibraryResult struct {
 	Status       string `json:"status"`
 	Error        string `json:"error"`
+	SteamRuntime string `json:"steamRuntime"`
 	SteamPath    string `json:"steamPath"`
 	ConfigPath   string `json:"configPath"`
 	ArtworksPath string `json:"artworksPath"`
@@ -57,6 +58,7 @@ func loadLibrary(context *Context) error {
 
 	// Print loaded data
 	result.Status = "OK"
+	result.SteamRuntime = config.SteamRuntime
 	result.SteamPath = config.SteamPath
 	result.ConfigPath = config.ConfigPath
 	result.ArtworksPath = config.ArtworksPath
