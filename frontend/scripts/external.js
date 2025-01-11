@@ -18,14 +18,16 @@ window.addEventListener('load', async () => {
             return
         }
 
-        const body = JSON.stringify({
+        /** @type {OpenLinkData} */
+        const body = {
             link: link.href
-        })
+        }
 
         try {
             link.disabled = true
             await window.runAndCaptureConsole(true, async () => {
-                await requestJson('POST', '/api/link/open', body)
+                /** @type {OpenLinkResult} */
+                await requestJson('POST', '/api/link/open', JSON.stringify(body))
             })
         } catch (error) {
             window.showError(error)

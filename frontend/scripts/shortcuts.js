@@ -18,7 +18,7 @@ window.addEventListener('load', async () => {
      */
     async function loadPlatforms() {
 
-        /** @type {PlatformsRequestResult} */
+        /** @type {ListPlatformsResult} */
         const request = await requestJson('GET', '/api/platforms')
         const platforms = request.data
 
@@ -48,9 +48,10 @@ window.addEventListener('load', async () => {
         try {
             button.disabled = true
 
+            /** @type {LoadLibraryResult} */
             const library = await requestJson('POST', '/api/library/load')
 
-            /** @type {ShortcutsRequestResult} */
+            /** @type {ListShortcutsResult} */
             const request = await requestJson('GET', '/api/shortcuts')
             shortcuts = request.data
 
@@ -171,15 +172,17 @@ window.addEventListener('load', async () => {
         content.innerHTML = `<p>Launching <b>${shortcut.appName}</b>...</p>`
         window.showModal(modal)
 
-        const body = JSON.stringify({
+        /** @type {LaunchShortcutData} */
+        const body = {
             appId: shortcut.appId,
             launcher: "steam"
-        })
+        }
 
         try {
             button.disabled = true
             await window.runAndCaptureConsole(false, async () => {
-                await requestJson('POST', '/api/shortcut/launch', body)
+                /** @type {LaunchShortcutResult} */
+                await requestJson('POST', '/api/shortcut/launch', JSON.stringify(body))
             })
         } catch (error) {
             window.showError(error)
@@ -207,7 +210,7 @@ window.addEventListener('load', async () => {
 
         try {
 
-            /** @type {ScrapeRequestResult} */
+            /** @type {ScrapeDataResult} */
             const request = await requestJson('GET', '/api/scrape?term=' + encodeURIComponent(shortcut.appName))
             const scrape = request.result
 
@@ -307,7 +310,9 @@ window.addEventListener('load', async () => {
 
         const shortcut = getShortcut(modal.dataset.shortcut)
         const data = new FormData(form)
-        const body = JSON.stringify({
+
+        /** @type {ModifyShortcutData} */
+        const body = {
             action: 'update',
             appId: shortcut.appId,
             appName: data.get('appName'),
@@ -319,12 +324,14 @@ window.addEventListener('load', async () => {
             coverUrl: data.get('cover'),
             bannerUrl: data.get('banner'),
             heroUrl: data.get('hero')
-        })
+        }
 
         try {
             button.disabled = true
             await window.runAndCaptureConsole(false, async () => {
-                await requestJson('POST', '/api/shortcut/modify', body)
+                /** @type {ModifyShortcutResult} */
+                await requestJson('POST', '/api/shortcut/modify', JSON.stringify(body))
+                /** @type {SaveLibraryResult} */
                 await requestJson('POST', '/api/library/save')
             })
             await loadShortcuts()
@@ -350,15 +357,19 @@ window.addEventListener('load', async () => {
         }
 
         const shortcut = getShortcut(modal.dataset.shortcut)
-        const body = JSON.stringify({
+
+        /** @type {ModifyShortcutData} */
+        const body = {
             action: 'delete',
             appId: shortcut.appId
-        })
+        }
 
         try {
             button.disabled = true
             await window.runAndCaptureConsole(false, async () => {
-                await requestJson('POST', '/api/shortcut/modify', body)
+                /** @type {ModifyShortcutResult} */
+                await requestJson('POST', '/api/shortcut/modify', JSON.stringify(body))
+                /** @type {SaveLibraryResult} */
                 await requestJson('POST', '/api/library/save')
             })
             await loadShortcuts()

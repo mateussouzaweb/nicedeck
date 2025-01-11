@@ -6,7 +6,7 @@ window.addEventListener('load', async () => {
      */
     async function loadPrograms() {
 
-        /** @type {ProgramsRequestResult} */
+        /** @type {ListProgramsResult} */
         const request = await requestJson('GET', '/api/programs')
         const programs = request.data
 
@@ -87,14 +87,18 @@ window.addEventListener('load', async () => {
         }
 
         const data = new FormData(form)
-        const body = JSON.stringify({
+
+        /** @type {RunInstallData} */
+        const body = {
             programs: data.getAll('programs[]')
-        })
+        }
 
         try {
             button.disabled = true
             await window.runAndCaptureConsole(true, async () => {
-                await requestJson('POST', '/api/install', body)
+                /** @type {RunInstallResult} */
+                await requestJson('POST', '/api/install', JSON.stringify(body))
+                /** @type {SaveLibraryResult} */
                 await requestJson('POST', '/api/library/save')
             })
         } catch (error) {

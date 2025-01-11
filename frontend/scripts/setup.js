@@ -12,16 +12,21 @@ window.addEventListener('load', () => {
         }
 
         const data = new FormData(form)
-        const body = JSON.stringify({
+
+        /** @type {RunSetupData} */
+        const body = {
             useSymlink: data.get('use_symlink') === 'Y',
             storagePath: data.get('storage_path')
-        })
+        }
 
         try {
             button.disabled = true
             await window.runAndCaptureConsole(true, async () => {
-                await requestJson('POST', '/api/setup', body)
+                /** @type {RunSetupResult} */
+                await requestJson('POST', '/api/setup', JSON.stringify(body))
+                /** @type {LoadLibraryResult} */
                 await requestJson('POST', '/api/library/load')
+                /** @type {SaveLibraryResult} */
                 await requestJson('POST', '/api/library/save')
             })
         } catch (error) {

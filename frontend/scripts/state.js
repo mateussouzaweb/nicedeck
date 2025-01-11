@@ -6,7 +6,7 @@ window.addEventListener('load', async () => {
      */
     async function loadPlatforms() {
 
-        /** @type {PlatformsRequestResult} */
+        /** @type {ListPlatformsResult} */
         const request = await requestJson('GET', '/api/platforms')
         const platforms = request.data
 
@@ -67,15 +67,18 @@ window.addEventListener('load', async () => {
         }
 
         const data = new FormData(form)
-        const body = JSON.stringify({
+
+        /** @type {SyncStateData} */
+        const body = {
             platforms: data.getAll('platforms[]'),
             preferences: data.getAll('preferences[]')
-        })
+        }
 
         try {
             button.disabled = true
             await window.runAndCaptureConsole(true, async () => {
-                await requestJson('POST', '/api/sync/state', body)
+                /** @type {SyncStateResult} */
+                await requestJson('POST', '/api/sync/state', JSON.stringify(body))
             })
         } catch (error) {
             window.showError(error)
