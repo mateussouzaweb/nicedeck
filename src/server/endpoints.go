@@ -525,9 +525,8 @@ func openLink(context *Context) error {
 		return context.Status(400).JSON(result)
 	}
 
-	// Call xdg-open to use favorite browser
-	script := fmt.Sprintf(`xdg-open %s`, data.Link)
-	err = cli.Run(script)
+	// Call open from system favorite browser
+	err = cli.Open(data.Link)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()

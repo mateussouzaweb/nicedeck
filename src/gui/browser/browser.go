@@ -110,14 +110,13 @@ func Open(url string, developmentMode bool) error {
 		))
 	}
 
-	// Fallback to XDG open
-	script := fmt.Sprintf(`xdg-open %s`, url)
-	err = cli.Run(script)
+	// Fallback to system open command
+	err = cli.Open(url)
 	if err != nil {
 		return err
 	}
 
-	// XDG open do not keep the process running
+	// Open may not keep the process running
 	// So we need to create a never ending blocking channel
 	keep := make(chan bool, 1)
 	<-keep
