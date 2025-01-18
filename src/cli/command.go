@@ -41,3 +41,25 @@ func Run(script string) error {
 
 	return nil
 }
+
+// Start process with blocking channel
+func Start(script string) error {
+
+	// Start the command
+	command := Command(script)
+	err := command.Start()
+	if err != nil {
+		return err
+	}
+
+	// Waiting until it closes and report back to main channel
+	finished := make(chan bool, 1)
+
+	go func() {
+		err = command.Wait()
+		finished <- true
+	}()
+
+	<-finished
+	return err
+}

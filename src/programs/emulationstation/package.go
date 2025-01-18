@@ -1,9 +1,12 @@
 package emulationstation
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
@@ -72,4 +75,13 @@ func (p *Package) Installed() (bool, error) {
 // Return executable file path
 func (p *Package) Executable() string {
 	return os.ExpandEnv("$APPLICATIONS/EmulationStation-DE.AppImage")
+}
+
+// Run installed program
+func (p *Package) Run(args []string) error {
+	return cli.Start(fmt.Sprintf(
+		`exec %s %s`,
+		p.Executable(),
+		strings.Join(args, " "),
+	))
 }

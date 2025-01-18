@@ -14,6 +14,7 @@ type Package interface {
 	Install(shortcut *shortcuts.Shortcut) error
 	Installed() (bool, error)
 	Executable() string
+	Run(args []string) error
 }
 
 // Program struct

@@ -80,3 +80,12 @@ func (f *Flatpak) Executable() string {
 		f.AppID,
 	)
 }
+
+// Run installed program
+func (f *Flatpak) Run(args []string) error {
+	return cli.Start(fmt.Sprintf(
+		`flatpak run %s %s`,
+		f.AppID,
+		strings.Join(args, " "),
+	))
+}
