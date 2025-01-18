@@ -3,33 +3,33 @@ package programs
 import (
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/library"
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
-// Installer function
-type Installer func(shortcut *shortcuts.Shortcut) error
+// Package interface
+type Package interface {
+	Install(shortcut *shortcuts.Shortcut) error
+	Installed() (bool, error)
+	Executable() string
+}
 
 // Program struct
 type Program struct {
-	ID               string    `json:"id"`
-	Name             string    `json:"name"`
-	Description      string    `json:"description"`
-	Category         string    `json:"category"`
-	Tags             []string  `json:"tags"`
-	RequiredFolders  []string  `json:"requiredFolders"`
-	FlatpakAppID     string    `json:"flatpakAppId"`
-	FlatpakOverrides []string  `json:"flatpakOverrides"`
-	FlatpakArguments []string  `json:"FlatpakArguments"`
-	IconURL          string    `json:"iconUrl"`
-	LogoURL          string    `json:"logoUrl"`
-	CoverURL         string    `json:"coverUrl"`
-	BannerURL        string    `json:"bannerUrl"`
-	HeroURL          string    `json:"heroUrl"`
-	Installer        Installer `json:"-"`
+	ID              string   `json:"id"`
+	Name            string   `json:"name"`
+	Description     string   `json:"description"`
+	Category        string   `json:"category"`
+	Tags            []string `json:"tags"`
+	RequiredFolders []string `json:"requiredFolders"`
+	IconURL         string   `json:"iconUrl"`
+	LogoURL         string   `json:"logoUrl"`
+	CoverURL        string   `json:"coverUrl"`
+	BannerURL       string   `json:"bannerUrl"`
+	HeroURL         string   `json:"heroUrl"`
+	Package         Package  `json:"-"`
 }
 
 // Retrieve list of available programs to install
@@ -102,6 +102,16 @@ func Install(id string) error {
 	// Print step message
 	cli.Printf(cli.ColorNotice, "Installing %s...\n", program.Name)
 
+	// Make sure required folders exist
+	if len(program.RequiredFolders) > 0 {
+		for _, folder := range program.RequiredFolders {
+			err := os.MkdirAll(os.ExpandEnv(folder), 0755)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	// Fill basic shortcut information
 	shortcut := &shortcuts.Shortcut{
 		AppName:   program.Name,
@@ -113,60 +123,10 @@ func Install(id string) error {
 		HeroURL:   program.HeroURL,
 	}
 
-	// Make sure required folders exist
-	if len(program.RequiredFolders) > 0 {
-		for _, folder := range program.RequiredFolders {
-			err := os.MkdirAll(os.ExpandEnv(folder), 0755)
-			if err != nil {
-				return err
-			}
-		}
-	}
-
-	// Program is flatpak
-	if program.FlatpakAppID != "" {
-
-		// Install from flatpak
-		script := fmt.Sprintf(
-			"flatpak install --or-update --assumeyes --noninteractive --system flathub %s",
-			program.FlatpakAppID,
-		)
-
-		err := cli.Run(script)
-		if err != nil {
-			return err
-		}
-
-		// Apply flatpak overrides
-		if len(program.FlatpakOverrides) > 0 {
-			for _, override := range program.FlatpakOverrides {
-				script := fmt.Sprintf("flatpak override --user %s %s", override, program.FlatpakAppID)
-				err := cli.Run(script)
-				if err != nil {
-					return err
-				}
-			}
-		}
-
-		// Fill shortcut information for flatpak app
-		shortcut.StartDir = "/var/lib/flatpak/exports/bin/"
-		shortcut.Exe = "/var/lib/flatpak/exports/bin/" + program.FlatpakAppID
-		shortcut.ShortcutPath = "/var/lib/flatpak/exports/share/applications/" + program.FlatpakAppID + ".desktop"
-		shortcut.LaunchOptions = ""
-
-		// Append shortcut launch arguments
-		if len(program.FlatpakArguments) > 0 {
-			shortcut.LaunchOptions = strings.Join(program.FlatpakArguments, " ")
-		}
-
-	}
-
-	// Program has custom installer script
-	if program.Installer != nil {
-		err := program.Installer(shortcut)
-		if err != nil {
-			return err
-		}
+	// Run program installation with shortcut
+	err = program.Package.Install(shortcut)
+	if err != nil {
+		return err
 	}
 
 	// Add to shortcuts list

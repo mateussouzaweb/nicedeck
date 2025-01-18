@@ -6,9 +6,6 @@ interface Program {
 	category: string
 	tags: string[]
 	requiredFolders: string[]
-	flatpakAppId: string
-	flatpakOverrides: string[]
-	flatpakArguments: string[]
 	iconUrl: string
 	logoUrl: string
 	coverUrl: string
