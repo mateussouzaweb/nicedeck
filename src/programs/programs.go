@@ -11,6 +11,7 @@ import (
 
 // Package interface
 type Package interface {
+	Available() bool
 	Install(shortcut *shortcuts.Shortcut) error
 	Installed() (bool, error)
 	Executable() string
@@ -98,6 +99,11 @@ func Install(id string) error {
 	// Program not found
 	if program.ID == "" {
 		return fmt.Errorf("program not found: %s", id)
+	}
+
+	// Program not available
+	if program.Package.Available() {
+		return fmt.Errorf("program is not available to install: %s", id)
 	}
 
 	// Print step message

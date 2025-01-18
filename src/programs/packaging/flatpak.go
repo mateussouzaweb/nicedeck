@@ -17,6 +17,11 @@ type Flatpak struct {
 	Arguments []string `json:"arguments"`
 }
 
+// Return if package is available
+func (f *Flatpak) Available() bool {
+	return cli.IsLinux()
+}
+
 // Install program with flatpak
 func (f *Flatpak) Install(shortcut *shortcuts.Shortcut) error {
 

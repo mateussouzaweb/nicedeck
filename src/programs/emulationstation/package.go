@@ -15,6 +15,11 @@ import (
 type Package struct {
 }
 
+// Return if package is available
+func (p *Package) Available() bool {
+	return cli.IsLinux()
+}
+
 // Install program with archive
 func (p *Package) Install(shortcut *shortcuts.Shortcut) error {
 
