@@ -13,11 +13,6 @@ import (
 
 // Package struct
 type Package struct {
-	AppID       string `json:"appId"`
-	Format      string `json:"format"`
-	Source      string `json:"source"`
-	Destination string `json:"destination"`
-	Launcher    string `json:"launcher"`
 }
 
 // Install program with archive
