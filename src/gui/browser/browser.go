@@ -2,17 +2,23 @@ package browser
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
-	"github.com/mateussouzaweb/nicedeck/src/fs"
+	"github.com/mateussouzaweb/nicedeck/src/programs"
 )
 
 // Open UI in browser mode with best available browser
 func Open(url string, developmentMode bool) error {
 
-	// Chrome like args
-	chromeArgs := []string{
+	// Using Google Chrome, Microsoft Edge or Brave Browser
+	chromiumPrograms := []string{
+		"google-chrome",
+		"microsoft-edge",
+		"brave-browser",
+	}
+
+	// Args for chromium programs
+	chromiumArgs := []string{
 		fmt.Sprintf("--app=%s", url),
 		fmt.Sprintf("--window-size=%d,%d", 1280, 800),
 		"--window-position=center",
@@ -59,55 +65,46 @@ func Open(url string, developmentMode bool) error {
 
 	// Extra development flags
 	if developmentMode {
-		chromeArgs = append(
-			chromeArgs,
+		chromiumArgs = append(
+			chromiumArgs,
 			"--remote-allow-origins=*",
 			"--remote-debugging-port=0",
 		)
 	}
 
-	// Using Google Chrome
-	exist, err := fs.FileExist("/var/lib/flatpak/exports/bin/com.google.Chrome")
-	if err != nil {
-		return err
-	} else if exist {
-		return RunProcess(fmt.Sprintf(
-			`flatpak run com.google.Chrome %s`,
-			strings.Join(chromeArgs, " "),
-		))
-	}
+	// Run the first available browser
+	for _, programID := range chromiumPrograms {
+		program, err := programs.GetProgramByID(programID)
+		if err != nil {
+			return err
+		}
 
-	// Using Microsoft Edge
-	exist, err = fs.FileExist("/var/lib/flatpak/exports/bin/com.microsoft.Edge")
-	if err != nil {
-		return err
-	} else if exist {
-		return RunProcess(fmt.Sprintf(
-			`flatpak run com.microsoft.Edge %s`,
-			strings.Join(chromeArgs, " "),
-		))
-	}
-
-	// Using Brave Browser
-	exist, err = fs.FileExist("/var/lib/flatpak/exports/bin/com.brave.Browser")
-	if err != nil {
-		return err
-	} else if exist {
-		return RunProcess(fmt.Sprintf(
-			`flatpak run com.brave.Browser %s`,
-			strings.Join(chromeArgs, " "),
-		))
+		if program.Package.Available() {
+			installed, err := program.Package.Installed()
+			if err != nil {
+				return err
+			} else if installed {
+				return program.Package.Run(chromiumArgs)
+			}
+		}
 	}
 
 	// Using Firefox
-	exist, err = fs.FileExist("/var/lib/flatpak/exports/bin/org.mozilla.firefox")
+	program, err := programs.GetProgramByID("firefox")
 	if err != nil {
 		return err
-	} else if exist {
-		return RunProcess(fmt.Sprintf(
-			`flatpak run org.mozilla.firefox --kiosk %s`,
-			url,
-		))
+	}
+
+	if program.Package.Available() {
+		installed, err := program.Package.Installed()
+		if err != nil {
+			return err
+		} else if installed {
+			return program.Package.Run([]string{
+				"--kiosk",
+				url,
+			})
+		}
 	}
 
 	// Fallback to system open command
@@ -122,26 +119,4 @@ func Open(url string, developmentMode bool) error {
 	<-keep
 
 	return nil
-}
-
-// Run process with blocking channel
-func RunProcess(script string) error {
-
-	// Start the command
-	command := cli.Command(script)
-	err := command.Start()
-	if err != nil {
-		return err
-	}
-
-	// Waiting until it closes and report back to main channel
-	finished := make(chan bool, 1)
-
-	go func() {
-		err = command.Wait()
-		finished <- true
-	}()
-
-	<-finished
-	return err
 }
