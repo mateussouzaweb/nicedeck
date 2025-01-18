@@ -126,10 +126,10 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 		}
 
 		// Add to shortcuts library
-		startDir := filepath.Dir(rom.Program)
+		startDir := filepath.Dir(rom.Executable)
 		err = library.AddToShortcuts(&shortcuts.Shortcut{
 			AppName:       appName,
-			Exe:           rom.Program,
+			Exe:           rom.Executable,
 			StartDir:      startDir,
 			ShortcutPath:  "",
 			LaunchOptions: rom.LaunchOptions,

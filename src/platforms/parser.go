@@ -6,6 +6,8 @@ import (
 	"regexp"
 	"slices"
 	"strings"
+
+	"github.com/mateussouzaweb/nicedeck/src/programs"
 )
 
 // ROM struct
@@ -19,7 +21,7 @@ type ROM struct {
 	Platform      string `json:"platform"`
 	Console       string `json:"console"`
 	Emulator      string `json:"emulator"`
-	Program       string `json:"program"`
+	Executable    string `json:"executable"`
 	LaunchOptions string `json:"launchOptions"`
 }
 
@@ -153,7 +155,14 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 			}
 		}
 
+		// Find target program from the emulator
+		program, err := programs.GetProgramByID(emulator.Program)
+		if err != nil {
+			return err
+		}
+
 		// Put ROM path in launch options
+		executable := program.Package.Executable()
 		launchOptions := strings.Replace(emulator.LaunchOptions, "${ROM}", path, 1)
 
 		rom := ROM{
@@ -166,7 +175,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 			Console:       platform.Console,
 			Platform:      platform.Name,
 			Emulator:      emulator.Name,
-			Program:       emulator.Program,
+			Executable:    executable,
 			LaunchOptions: launchOptions,
 		}
 
