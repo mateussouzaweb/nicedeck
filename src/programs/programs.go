@@ -6,6 +6,7 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/library"
+	"github.com/mateussouzaweb/nicedeck/src/programs/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
@@ -38,7 +39,9 @@ type Program struct {
 func GetPrograms() ([]*Program, error) {
 
 	var programs []*Program
+	var available []*Program
 
+	// Retrieve all possible programs
 	programs = append(programs, BraveBrowser())
 	programs = append(programs, Bottles())
 	programs = append(programs, Cemu())
@@ -68,15 +71,26 @@ func GetPrograms() ([]*Program, error) {
 	programs = append(programs, Xemu())
 	programs = append(programs, Yuzu())
 
-	return programs, nil
+	// Filter to return only available programs
+	for _, program := range programs {
+		if program.Package.Available() {
+			available = append(available, program)
+		}
+	}
+
+	return available, nil
 }
 
 // Retrieve program with given ID
 func GetProgramByID(id string) (*Program, error) {
 
 	programs, err := GetPrograms()
+	notFound := &Program{
+		Package: &packaging.Missing{},
+	}
+
 	if err != nil {
-		return &Program{}, err
+		return notFound, err
 	}
 
 	for _, program := range programs {
@@ -85,7 +99,7 @@ func GetProgramByID(id string) (*Program, error) {
 		}
 	}
 
-	return &Program{}, nil
+	return notFound, nil
 }
 
 // Install program with given ID
@@ -102,7 +116,7 @@ func Install(id string) error {
 	}
 
 	// Program not available
-	if program.Package.Available() {
+	if !program.Package.Available() {
 		return fmt.Errorf("program is not available to install: %s", id)
 	}
 

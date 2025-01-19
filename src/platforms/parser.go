@@ -90,11 +90,11 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 			}
 		}
 
+		// Parse basic ROM information
 		directory := filepath.Dir(path)
 		file := filepath.Base(path)
 		extension := filepath.Ext(path)
 		name := strings.TrimSuffix(file, extension)
-
 		relativePath := strings.Replace(path, root+"/", "", 1)
 		relativePath = strings.Replace(relativePath, realRoot+"/", "", 1)
 
@@ -120,6 +120,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 			for _, itemEmulator := range item.Emulators {
 				subfolder := strings.ReplaceAll(itemEmulator.Name, " ", "-")
 				folder := strings.ToLower(item.Folder + subfolder + "/")
+
 				if strings.HasPrefix(strings.ToLower(relativePath), folder) {
 					platform = item
 					emulator = itemEmulator
@@ -131,9 +132,20 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 			}
 
 			// Default case that will use the main platform emulator
-			platform = item
-			emulator = item.Emulators[0]
-			break
+			// Using the first emulator that is available for the system
+			for _, itemEmulator := range item.Emulators {
+				program, err := programs.GetProgramByID(itemEmulator.Program)
+				if err != nil {
+					return err
+				} else if program.Package.Available() {
+					platform = item
+					emulator = itemEmulator
+					break
+				}
+			}
+			if emulator.Name != "" {
+				break
+			}
 		}
 
 		// Ignore if could not detect the emulator
@@ -156,9 +168,12 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		}
 
 		// Find target program from the emulator
+		// Ignore when program package is not available for the system
 		program, err := programs.GetProgramByID(emulator.Program)
 		if err != nil {
 			return err
+		} else if !program.Package.Available() {
+			return nil
 		}
 
 		// Put ROM path in launch options
@@ -180,7 +195,6 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		}
 
 		results = append(results, &rom)
-
 		return nil
 	})
 

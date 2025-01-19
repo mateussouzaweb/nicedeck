@@ -77,9 +77,7 @@ func Open(url string, developmentMode bool) error {
 		program, err := programs.GetProgramByID(programID)
 		if err != nil {
 			return err
-		}
-
-		if program.Package.Available() {
+		} else if program.Package.Available() {
 			installed, err := program.Package.Installed()
 			if err != nil {
 				return err
@@ -93,9 +91,7 @@ func Open(url string, developmentMode bool) error {
 	program, err := programs.GetProgramByID("firefox")
 	if err != nil {
 		return err
-	}
-
-	if program.Package.Available() {
+	} else if program.Package.Available() {
 		installed, err := program.Package.Installed()
 		if err != nil {
 			return err
