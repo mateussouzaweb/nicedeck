@@ -555,7 +555,13 @@ func Setup(version string, developmentMode bool) error {
 
 			// Print access log
 			elapsed := strconv.FormatInt(int64(end/time.Microsecond), 10)
-			fmt.Printf("[%s] %s - %sms\n", context.Request.Method, context.Request.RequestURI, elapsed)
+			fmt.Printf(
+				"[%s] %s - %d - %sms\n",
+				context.Request.Method,
+				context.Request.RequestURI,
+				context.StatusCode,
+				elapsed,
+			)
 
 			// Return resulting error
 			return err
