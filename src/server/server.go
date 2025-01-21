@@ -34,17 +34,17 @@ func Start(address string, ready chan bool) error {
 		// Check for matching endpoints
 		handler := Match(request.Method, uri)
 
-		// When found match, run handler
-		if handler != nil {
-			err := handler(context)
-			if err != nil {
-				context.Status(http.StatusInternalServerError).Error(err)
-			}
-			return
+		// Grab 404 route when handle not found
+		// Must ensure that 404 will always be found
+		if handler == nil {
+			handler = Match("GET", "/404")
 		}
 
-		// Return 404 if not found
-		context.Status(http.StatusNotFound).String(http.StatusText(http.StatusNotFound))
+		// Run handler
+		err := handler(context)
+		if err != nil {
+			context.Status(http.StatusInternalServerError).Error(err)
+		}
 	})
 
 	// Initiate listener

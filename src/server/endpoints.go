@@ -666,6 +666,13 @@ func Setup(version string, developmentMode bool) error {
 		return nil
 	})
 
+	// 404 handle
+	Add("GET", "/404", func(context *Context) error {
+		notFound := http.StatusText(http.StatusNotFound)
+		context.Status(http.StatusNotFound).String(notFound)
+		return nil
+	})
+
 	// Static file request
 	// Open fs and http handle for static content
 	Add("GET", "/(.*)", func(context *Context) error {
