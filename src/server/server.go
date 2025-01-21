@@ -19,6 +19,8 @@ func Start(address string, ready chan bool) error {
 
 		// Get clean URI
 		uri := filepath.Clean(request.URL.Path)
+		uri = filepath.ToSlash(uri)
+
 		if len(uri) > 1 {
 			uri = strings.TrimSuffix(uri, "/")
 		}
