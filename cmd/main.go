@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/gui"
 	"github.com/mateussouzaweb/nicedeck/src/server"
 )
@@ -39,11 +40,11 @@ func main() {
 	listenAddress := cli.Arg(os.Args[1:], "--address", "127.0.0.1:14935")
 
 	// Expose environment variables for internal usage
-	cli.SetEnv("APPLICATIONS", os.ExpandEnv("$HOME/Applications"), false)
-	cli.SetEnv("GAMES", os.ExpandEnv("$HOME/Games"), false)
-	cli.SetEnv("BIOS", os.ExpandEnv("$GAMES/BIOS"), false)
-	cli.SetEnv("ROMS", os.ExpandEnv("$GAMES/ROMs"), false)
-	cli.SetEnv("STATE", os.ExpandEnv("$GAMES/STATE"), false)
+	cli.SetEnv("APPLICATIONS", fs.ExpandPath("$HOME/Applications"), false)
+	cli.SetEnv("GAMES", fs.ExpandPath("$HOME/Games"), false)
+	cli.SetEnv("BIOS", fs.ExpandPath("$GAMES/BIOS"), false)
+	cli.SetEnv("ROMS", fs.ExpandPath("$GAMES/ROMs"), false)
+	cli.SetEnv("STATE", fs.ExpandPath("$GAMES/STATE"), false)
 
 	// Run the program server
 	go func() {

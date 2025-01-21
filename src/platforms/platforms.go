@@ -25,7 +25,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	platforms = append(platforms, &Platform{
 		Name:    "3DS",
 		Console: "Nintendo 3DS",
-		Folder:  "3DS/",
+		Folder:  "3DS",
 		Emulators: []*Emulator{{
 			Name:          "Lime3DS",
 			Program:       "lime3ds",
@@ -42,7 +42,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	platforms = append(platforms, &Platform{
 		Name:    "DC",
 		Console: "Sega Dreamcast",
-		Folder:  "DC/",
+		Folder:  "DC",
 		Emulators: []*Emulator{{
 			Name:          "Flycast",
 			Program:       "flycast",
@@ -54,7 +54,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	platforms = append(platforms, &Platform{
 		Name:    "GBA",
 		Console: "Nintendo Game Boy Advance",
-		Folder:  "GBA/",
+		Folder:  "GBA",
 		Emulators: []*Emulator{{
 			Name:          "MGBA",
 			Program:       "mgba",
@@ -66,7 +66,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	platforms = append(platforms, &Platform{
 		Name:    "GC",
 		Console: "Nintendo GameCube",
-		Folder:  "GC/",
+		Folder:  "GC",
 		Emulators: []*Emulator{{
 			Name:          "Dolphin Emulator",
 			Program:       "dolphin",
@@ -78,7 +78,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	platforms = append(platforms, &Platform{
 		Name:    "N64",
 		Console: "Nintendo 64",
-		Folder:  "N64/",
+		Folder:  "N64",
 		Emulators: []*Emulator{{
 			Name:          "Simple64",
 			Program:       "simple64",
@@ -90,7 +90,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	platforms = append(platforms, &Platform{
 		Name:    "NDS",
 		Console: "Nintendo DS",
-		Folder:  "NDS/",
+		Folder:  "NDS",
 		Emulators: []*Emulator{{
 			Name:          "MelonDS",
 			Program:       "melonds",
@@ -102,7 +102,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	platforms = append(platforms, &Platform{
 		Name:    "PS1",
 		Console: "Sony PlayStation 1",
-		Folder:  "PS1/",
+		Folder:  "PS1",
 		Emulators: []*Emulator{{
 			Name:          "DuckStation",
 			Program:       "duckstation",
@@ -114,7 +114,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	platforms = append(platforms, &Platform{
 		Name:    "PS2",
 		Console: "Sony PlayStation 2",
-		Folder:  "PS2/",
+		Folder:  "PS2",
 		Emulators: []*Emulator{{
 			Name:          "PCSX2",
 			Program:       "pcsx2",
@@ -126,7 +126,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	platforms = append(platforms, &Platform{
 		Name:    "PS3",
 		Console: "Sony PlayStation 3",
-		Folder:  "PS3/",
+		Folder:  "PS3",
 		Emulators: []*Emulator{{
 			Name:          "RPCS3",
 			Program:       "rpcs3",
@@ -138,7 +138,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	platforms = append(platforms, &Platform{
 		Name:    "PSP",
 		Console: "Sony PlayStation Portable",
-		Folder:  "PSP/",
+		Folder:  "PSP",
 		Emulators: []*Emulator{{
 			Name:          "PPSSPP",
 			Program:       "ppsspp",
@@ -150,7 +150,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	platforms = append(platforms, &Platform{
 		Name:    "SWITCH",
 		Console: "Nintendo Switch",
-		Folder:  "SWITCH/",
+		Folder:  "SWITCH",
 		Emulators: []*Emulator{{
 			Name:          "Ryujinx",
 			Program:       "ryujinx",
@@ -167,7 +167,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	platforms = append(platforms, &Platform{
 		Name:    "WII",
 		Console: "Nintendo Wii",
-		Folder:  "WII/",
+		Folder:  "WII",
 		Emulators: []*Emulator{{
 			Name:          "Dolphin",
 			Program:       "dolphin",
@@ -179,7 +179,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	platforms = append(platforms, &Platform{
 		Name:    "WIIU",
 		Console: "Nintendo Wii U",
-		Folder:  "WIIU/",
+		Folder:  "WIIU",
 		Emulators: []*Emulator{{
 			Name:          "Cemu",
 			Program:       "cemu",
@@ -191,7 +191,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	platforms = append(platforms, &Platform{
 		Name:    "XBOX",
 		Console: "Microsoft Xbox",
-		Folder:  "XBOX/",
+		Folder:  "XBOX",
 		Emulators: []*Emulator{{
 			Name:          "Xemu",
 			Program:       "xemu",

@@ -11,10 +11,10 @@ import (
 // Setup library structure to install programs
 func Setup(useSymlink bool, storagePath string) error {
 
-	gamesPath := os.ExpandEnv("$GAMES")
-	BIOSPath := os.ExpandEnv("$BIOS")
-	ROMsPath := os.ExpandEnv("$ROMS")
-	statePath := os.ExpandEnv("$STATE")
+	gamesPath := fs.ExpandPath("$GAMES")
+	BIOSPath := fs.ExpandPath("$BIOS")
+	ROMsPath := fs.ExpandPath("$ROMS")
+	statePath := fs.ExpandPath("$STATE")
 
 	// Check for the presence of games folder
 	// If exist, then is ok and we can skip
@@ -59,9 +59,9 @@ func Setup(useSymlink bool, storagePath string) error {
 	// Get storage path to perform install
 	// This mode will use symbolic links
 	storageGamesPath := filepath.Join(storagePath, "Games")
-	storageBIOSPath := filepath.Join(storagePath, "Games/BIOS")
-	storageROMsPath := filepath.Join(storagePath, "Games/ROMs")
-	storageStatePath := filepath.Join(storagePath, "Games/STATE")
+	storageBIOSPath := filepath.Join(storagePath, "Games", "BIOS")
+	storageROMsPath := filepath.Join(storagePath, "Games", "ROMs")
+	storageStatePath := filepath.Join(storagePath, "Games", "STATE")
 
 	// Make sure base folders exist on storage path
 	err = os.MkdirAll(storageGamesPath, 0755)

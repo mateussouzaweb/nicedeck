@@ -2,7 +2,6 @@ package steam
 
 import (
 	"fmt"
-	"os"
 	"path/filepath"
 	"strings"
 
@@ -21,7 +20,7 @@ func GetRuntime() (string, error) {
 	}
 
 	// Check flatpak --system install
-	flatpakSystemFile := "/var/lib/flatpak/exports/bin/com.valvesoftware.Steam"
+	flatpakSystemFile := fs.NormalizePath("/var/lib/flatpak/exports/bin/com.valvesoftware.Steam")
 	exist, err := fs.FileExist(flatpakSystemFile)
 	if err != nil {
 		return "", err
@@ -30,7 +29,7 @@ func GetRuntime() (string, error) {
 	}
 
 	// Check flatpak --user install
-	flatpakUserFile := os.ExpandEnv("$HOME/.local/share/flatpak/exports/bin/com.valvesoftware.Steam")
+	flatpakUserFile := fs.ExpandPath("$HOME/.local/share/flatpak/exports/bin/com.valvesoftware.Steam")
 	exist, err = fs.FileExist(flatpakUserFile)
 	if err != nil {
 		return "", err
@@ -39,7 +38,7 @@ func GetRuntime() (string, error) {
 	}
 
 	// Check from snap install
-	snapFile := os.ExpandEnv("/snap/bin/steam")
+	snapFile := fs.NormalizePath("/snap/bin/steam")
 	exist, err = fs.FileExist(snapFile)
 	if err != nil {
 		return "", err
@@ -56,15 +55,15 @@ func GetPath() (string, error) {
 	// Check from environment variable
 	fromEnv := cli.GetEnv("STEAM_PATH", "")
 	if fromEnv != "" {
-		return fromEnv, nil
+		return fs.ExpandPath(fromEnv), nil
 	}
 
 	// Fill possible locations
 	paths := []string{
-		os.ExpandEnv("$HOME/.steam/steam"),
-		os.ExpandEnv("$HOME/.local/share/Steam"),
-		os.ExpandEnv("$HOME/.var/app/com.valvesoftware.Steam/.steam/steam"),
-		os.ExpandEnv("$HOME/snap/steam/common/.local/share/Steam"),
+		fs.ExpandPath("$HOME/.steam/steam"),
+		fs.ExpandPath("$HOME/.local/share/Steam"),
+		fs.ExpandPath("$HOME/.var/app/com.valvesoftware.Steam/.steam/steam"),
+		fs.ExpandPath("$HOME/snap/steam/common/.local/share/Steam"),
 	}
 
 	// Checks what directory path is available
@@ -86,7 +85,7 @@ func GetConfigPath() (string, error) {
 	// Check from environment variable
 	fromEnv := cli.GetEnv("STEAM_USER_CONFIG_PATH", "")
 	if fromEnv != "" {
-		return fromEnv, nil
+		return fs.ExpandPath(fromEnv), nil
 	}
 
 	// Retrieve Steam base path
@@ -97,14 +96,16 @@ func GetConfigPath() (string, error) {
 
 	// Steam can contains more than one user
 	// At this time, we manage only the first user
-	configPaths, err := filepath.Glob(steamPath + "/userdata/*/config")
+	globPath := fs.NormalizePath(steamPath + "/userdata/*/config")
+	configPaths, err := filepath.Glob(globPath)
 	if err != nil {
 		return "", fmt.Errorf("could not detect Steam user configuration: %s", err)
 	}
 
 	// Make sure zero config is ignored (this is not a valid user)
 	if len(configPaths) > 0 {
-		if strings.Contains(configPaths[0], "/0/config") {
+		invalidPath := fs.NormalizePath("/0/config")
+		if strings.Contains(configPaths[0], invalidPath) {
 			configPaths = configPaths[1:]
 		}
 	}
@@ -146,7 +147,7 @@ func Setup() error {
 	}
 
 	// Write controller templates
-	controllerTemplatesPaths := steamPath + "/controller_base/templates"
+	controllerTemplatesPaths := filepath.Join(steamPath, "controller_base", "templates")
 	err = controller.WriteTemplates(controllerTemplatesPaths)
 	if err != nil {
 		return fmt.Errorf("could not perform Steam controller setup: %s", err)

@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 )
 
 //go:embed resources/*
@@ -29,8 +30,9 @@ func WriteDesktopShortcut() error {
 	}
 
 	// Icon
-	iconFile := os.ExpandEnv("$HOME/.local/share/icons/hicolor/scalable/apps/nicedeck.svg")
-	iconContent, err := resourcesContent.ReadFile("resources/nicedeck.svg")
+	iconFile := fs.ExpandPath("$HOME/.local/share/icons/hicolor/scalable/apps/nicedeck.svg")
+	iconContentSource := fs.NormalizePath("resources/nicedeck.svg")
+	iconContent, err := resourcesContent.ReadFile(iconContentSource)
 	if err != nil {
 		return err
 	}
@@ -46,8 +48,9 @@ func WriteDesktopShortcut() error {
 	}
 
 	// Desktop shortcut
-	desktopShortcutFile := os.ExpandEnv("$HOME/.local/share/applications/nicedeck.desktop")
-	desktopShortcutContent, err := resourcesContent.ReadFile("resources/nicedeck.desktop")
+	desktopShortcutFile := fs.ExpandPath("$HOME/.local/share/applications/nicedeck.desktop")
+	desktopShortcutContentSource := fs.NormalizePath("resources/nicedeck.desktop")
+	desktopShortcutContent, err := resourcesContent.ReadFile(desktopShortcutContentSource)
 	if err != nil {
 		return err
 	}

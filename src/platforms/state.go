@@ -1,7 +1,6 @@
 package platforms
 
 import (
-	"os"
 	"slices"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -262,12 +261,12 @@ func SyncState(options *Options) error {
 		}
 
 		// Fill source and destination information
-		source := os.ExpandEnv(state.Source)
-		destination := os.ExpandEnv(state.Destination)
+		source := fs.ExpandPath(state.Source)
+		destination := fs.ExpandPath(state.Destination)
 
 		if restoreState {
-			source = os.ExpandEnv(state.Destination)
-			destination = os.ExpandEnv(state.Source)
+			source = fs.ExpandPath(state.Destination)
+			destination = fs.ExpandPath(state.Source)
 		}
 
 		// Process file or folder state

@@ -12,8 +12,9 @@ var resourcesContent embed.FS
 // Write controller templates on Steam at given destination path
 func WriteTemplates(destinationPath string) error {
 
-	controllerFile := destinationPath + "/controller_neptune_nicedeck.vdf"
-	controllerConfig, err := resourcesContent.ReadFile("resources/controller.vdf")
+	controllerFile := filepath.Join(destinationPath, "controller_neptune_nicedeck.vdf")
+	controllerConfigSource := filepath.Join("resources", "controller.vdf")
+	controllerConfig, err := resourcesContent.ReadFile(controllerConfigSource)
 	if err != nil {
 		return err
 	}

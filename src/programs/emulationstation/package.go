@@ -49,7 +49,7 @@ func (p *Package) Install(shortcut *shortcuts.Shortcut) error {
 	}
 
 	// Fill shortcut information
-	desktopShortcut := os.ExpandEnv("$HOME/.local/share/applications/emulationstation-de.desktop")
+	desktopShortcut := fs.ExpandPath("$HOME/.local/share/applications/emulationstation-de.desktop")
 	shortcut.Exe = executable
 	shortcut.StartDir = filepath.Dir(executable)
 	shortcut.ShortcutPath = desktopShortcut
@@ -74,7 +74,7 @@ func (p *Package) Installed() (bool, error) {
 
 // Return executable file path
 func (p *Package) Executable() string {
-	return os.ExpandEnv("$APPLICATIONS/EmulationStation-DE.AppImage")
+	return fs.ExpandPath("$APPLICATIONS/EmulationStation-DE.AppImage")
 }
 
 // Run installed program

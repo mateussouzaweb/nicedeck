@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"slices"
 	"strings"
 
@@ -15,11 +16,13 @@ import (
 
 // Config struct
 type Config struct {
-	SteamRuntime string                `json:"steamRuntime"`
-	SteamPath    string                `json:"steamPath"`
-	ConfigPath   string                `json:"configPath"`
-	ArtworksPath string                `json:"artworksPath"`
-	Shortcuts    []*shortcuts.Shortcut `json:"shortcuts"`
+	SteamRuntime  string                `json:"steamRuntime"`
+	SteamPath     string                `json:"steamPath"`
+	ConfigPath    string                `json:"configPath"`
+	ArtworksPath  string                `json:"artworksPath"`
+	StateFile     string                `json:"stateFile"`
+	ShortcutsFile string                `json:"shortcutsFile"`
+	Shortcuts     []*shortcuts.Shortcut `json:"shortcuts"`
 }
 
 var _config Config
@@ -49,10 +52,12 @@ func Load() error {
 
 	// Set default runtime configs
 	_config = Config{
-		SteamRuntime: steamRuntime,
-		SteamPath:    steamPath,
-		ConfigPath:   configPath,
-		ArtworksPath: configPath + "/grid",
+		SteamRuntime:  steamRuntime,
+		SteamPath:     steamPath,
+		ConfigPath:    configPath,
+		ArtworksPath:  filepath.Join(configPath, "grid"),
+		StateFile:     filepath.Join(configPath, "niceconfig.json"),
+		ShortcutsFile: filepath.Join(configPath, "shortcuts.vdf"),
 	}
 
 	// Show message based on Steam detection
@@ -62,13 +67,13 @@ func Load() error {
 	}
 
 	// Load config file if exist
-	exist, err := fs.FileExist(_config.ConfigPath + "/niceconfig.json")
+	exist, err := fs.FileExist(_config.StateFile)
 	if err != nil {
 		return err
 	} else if exist {
 
 		// Read config file content
-		content, err := os.ReadFile(_config.ConfigPath + "/niceconfig.json")
+		content, err := os.ReadFile(_config.StateFile)
 		if err != nil {
 			return err
 		}
@@ -83,7 +88,7 @@ func Load() error {
 	}
 
 	// Load shortcuts from file
-	shortcutsList, err := shortcuts.LoadFromFile(_config.ConfigPath + "/shortcuts.vdf")
+	shortcutsList, err := shortcuts.LoadFromFile(_config.ShortcutsFile)
 	if err != nil {
 		return err
 	}
@@ -149,13 +154,13 @@ func Save() error {
 	}
 
 	// Write JSON content to config file
-	err = os.WriteFile(_config.ConfigPath+"/niceconfig.json", jsonContent, 0666)
+	err = os.WriteFile(_config.StateFile, jsonContent, 0666)
 	if err != nil {
 		return err
 	}
 
 	// Save shortcuts file
-	err = shortcuts.SaveToFile(_config.Shortcuts, _config.ConfigPath+"/shortcuts.vdf")
+	err = shortcuts.SaveToFile(_config.Shortcuts, _config.ShortcutsFile)
 	if err != nil {
 		return err
 	}
@@ -204,6 +209,7 @@ func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Logo: ${APPID}_logo.png
 	logoPng := fmt.Sprintf("%s/%v_logo.png", artworksPath, shortcut.AppID)
+	logoPng = fs.NormalizePath(logoPng)
 
 	if shortcut.LogoURL != "" {
 		shortcut.Logo = logoPng
@@ -214,7 +220,10 @@ func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Icon: ${APPID}_icon.ico || ${APPID}_icon.png
 	iconPng := fmt.Sprintf("%s/%v_icon.png", artworksPath, shortcut.AppID)
+	iconPng = fs.NormalizePath(iconPng)
+
 	iconIco := fmt.Sprintf("%s/%v_icon.ico", artworksPath, shortcut.AppID)
+	iconIco = fs.NormalizePath(iconIco)
 
 	if strings.HasSuffix(shortcut.IconURL, ".png") {
 		shortcut.Icon = iconPng
@@ -230,7 +239,10 @@ func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Cover: ${APPID}p.png || ${APPID}p.jpg
 	coverPng := fmt.Sprintf("%s/%vp.png", artworksPath, shortcut.AppID)
+	coverPng = fs.NormalizePath(coverPng)
+
 	coverJpg := fmt.Sprintf("%s/%vp.jpg", artworksPath, shortcut.AppID)
+	coverJpg = fs.NormalizePath(coverJpg)
 
 	if strings.HasSuffix(shortcut.CoverURL, ".png") {
 		shortcut.Cover = coverPng
@@ -246,7 +258,10 @@ func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Banner: ${APPID}.png || ${APPID}.jpg
 	bannerPng := fmt.Sprintf("%s/%v.png", artworksPath, shortcut.AppID)
+	bannerPng = fs.NormalizePath(bannerPng)
+
 	bannerJpg := fmt.Sprintf("%s/%v.jpg", artworksPath, shortcut.AppID)
+	bannerJpg = fs.NormalizePath(bannerJpg)
 
 	if strings.HasSuffix(shortcut.BannerURL, ".png") {
 		shortcut.Banner = bannerPng
@@ -262,7 +277,10 @@ func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Hero: ${APPID}_hero.png || ${APPID}_hero.jpg
 	heroPng := fmt.Sprintf("%s/%v_hero.png", artworksPath, shortcut.AppID)
+	heroPng = fs.NormalizePath(heroPng)
+
 	heroJpg := fmt.Sprintf("%s/%v_hero.jpg", artworksPath, shortcut.AppID)
+	heroJpg = fs.NormalizePath(heroJpg)
 
 	if strings.HasSuffix(shortcut.HeroURL, ".png") {
 		shortcut.Hero = heroPng

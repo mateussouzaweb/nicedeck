@@ -15,7 +15,7 @@ var resourcesContent embed.FS
 func WriteSettings() error {
 
 	// Settings (write file only if not exist yet)
-	settingsFile := os.ExpandEnv("$HOME/ES-DE/settings/es_settings.xml")
+	settingsFile := fs.ExpandPath("$HOME/ES-DE/settings/es_settings.xml")
 	settingsExist, err := fs.FileExist(settingsFile)
 	if err != nil {
 		return err
@@ -23,7 +23,8 @@ func WriteSettings() error {
 
 	// Create file if not exist
 	if !settingsExist {
-		settingsConfig, err := resourcesContent.ReadFile("resources/es_settings.xml")
+		settingsConfigSource := fs.NormalizePath("resources/es_settings.xml")
+		settingsConfig, err := resourcesContent.ReadFile(settingsConfigSource)
 		if err != nil {
 			return err
 		}
@@ -41,8 +42,9 @@ func WriteSettings() error {
 	}
 
 	// Systems
-	systemsFile := os.ExpandEnv("$HOME/ES-DE/custom_systems/es_systems.xml")
-	systemsConfig, err := resourcesContent.ReadFile("resources/es_systems.xml")
+	systemsFile := fs.ExpandPath("$HOME/ES-DE/custom_systems/es_systems.xml")
+	systemsConfigSource := fs.NormalizePath("resources/es_systems.xml")
+	systemsConfig, err := resourcesContent.ReadFile(systemsConfigSource)
 	if err != nil {
 		return err
 	}
@@ -58,8 +60,9 @@ func WriteSettings() error {
 	}
 
 	// Find Rules
-	findRulesFile := os.ExpandEnv("$HOME/ES-DE/custom_systems/es_find_rules.xml")
-	findRulesConfig, err := resourcesContent.ReadFile("resources/es_find_rules.xml")
+	findRulesFile := fs.ExpandPath("$HOME/ES-DE/custom_systems/es_find_rules.xml")
+	findRulesConfigSource := fs.NormalizePath("resources/es_find_rules.xml")
+	findRulesConfig, err := resourcesContent.ReadFile(findRulesConfigSource)
 	if err != nil {
 		return err
 	}
@@ -75,8 +78,9 @@ func WriteSettings() error {
 	}
 
 	// Icon
-	iconFile := os.ExpandEnv("$HOME/ES-DE/icon.png")
-	iconContent, err := resourcesContent.ReadFile("resources/icon.png")
+	iconFile := fs.ExpandPath("$HOME/ES-DE/icon.png")
+	iconContentSource := fs.NormalizePath("resources/icon.png")
+	iconContent, err := resourcesContent.ReadFile(iconContentSource)
 	if err != nil {
 		return err
 	}
@@ -87,8 +91,9 @@ func WriteSettings() error {
 	}
 
 	// Desktop shortcut
-	desktopShortcutFile := os.ExpandEnv("$HOME/.local/share/applications/emulationstation-de.desktop")
-	desktopShortcutContent, err := resourcesContent.ReadFile("resources/emulationstation-de.desktop")
+	desktopShortcutFile := fs.ExpandPath("$HOME/.local/share/applications/emulationstation-de.desktop")
+	desktopShortcutContentSource := fs.NormalizePath("resources/emulationstation-de.desktop")
+	desktopShortcutContent, err := resourcesContent.ReadFile(desktopShortcutContentSource)
 	if err != nil {
 		return err
 	}

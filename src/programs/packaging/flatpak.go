@@ -50,11 +50,12 @@ func (f *Flatpak) Install(shortcut *shortcuts.Shortcut) error {
 	// Fill shortcut information for flatpak app
 	executable := f.Executable()
 	startDir := filepath.Dir(executable)
-	shortcutDir := "/var/lib/flatpak/exports/share/applications"
+	shortcutDir := fs.NormalizePath("/var/lib/flatpak/exports/share/applications")
+	shortcutPath := filepath.Join(shortcutDir, f.AppID+".desktop")
 
 	shortcut.StartDir = startDir
 	shortcut.Exe = executable
-	shortcut.ShortcutPath = shortcutDir + "/" + f.AppID + ".desktop"
+	shortcut.ShortcutPath = shortcutPath
 	shortcut.LaunchOptions = ""
 
 	// Append shortcut launch arguments
@@ -79,10 +80,10 @@ func (f *Flatpak) Installed() (bool, error) {
 
 // Return executable file path
 func (f *Flatpak) Executable() string {
-	return fmt.Sprintf(
+	return fs.NormalizePath(fmt.Sprintf(
 		`/var/lib/flatpak/exports/bin/%s`,
 		f.AppID,
-	)
+	))
 }
 
 // Run installed program

@@ -7,6 +7,7 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 )
 
@@ -31,7 +32,8 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 	var results []*ROM
 
 	// Get ROMs path
-	root := os.ExpandEnv("$ROMS")
+	separator := string(os.PathSeparator)
+	root := fs.ExpandPath("$ROMS")
 	realRoot, err := filepath.EvalSymlinks(root)
 	if err != nil {
 		return results, err
@@ -46,12 +48,12 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 	// Fill exclude list
 	// Files on these folders will be ignored
 	exclude := []string{
-		"/Updates/", // Updates folder
-		"/Mods/",    // Mods folder
-		"/DLCs/",    // DLCs folder
-		"/Others/",  // Folder with games to ignore
-		"/Ignore/",  // Folder with games to ignore
-		"/Hide/",    // Folder with games to ignore
+		fs.NormalizePath("/Updates/"), // Updates folder
+		fs.NormalizePath("/Mods/"),    // Mods folder
+		fs.NormalizePath("/DLCs/"),    // DLCs folder
+		fs.NormalizePath("/Others/"),  // Folder with games to ignore
+		fs.NormalizePath("/Ignore/"),  // Folder with games to ignore
+		fs.NormalizePath("/Hide/"),    // Folder with games to ignore
 	}
 
 	// Files with these name patterns will be ignored
@@ -95,8 +97,10 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		file := filepath.Base(path)
 		extension := filepath.Ext(path)
 		name := strings.TrimSuffix(file, extension)
-		relativePath := strings.Replace(path, root+"/", "", 1)
-		relativePath = strings.Replace(relativePath, realRoot+"/", "", 1)
+
+		// Ensure a valid relative path
+		relativePath := strings.Replace(path, root+separator, "", 1)
+		relativePath = strings.Replace(relativePath, realRoot+separator, "", 1)
 
 		// Platform and emulator are determined by the folder initial path
 		// This model also solve cases for games in sub-folders
@@ -111,17 +115,20 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 
 			// Skip if platform folder prefix is not present in path
 			// Means that the ROM belongs to another platform...
-			if !strings.HasPrefix(strings.ToLower(relativePath), strings.ToLower(item.Folder)) {
+			// Please note that is important to check folder with path separator
+			if !strings.HasPrefix(strings.ToLower(relativePath), strings.ToLower(item.Folder+separator)) {
 				continue
 			}
 
 			// Special case to enforce an specific emulator of the platform
 			// The condition is to have the emulator name as subfolder
+			// Please note that is important to check subfolder with path separator
 			for _, itemEmulator := range item.Emulators {
 				subfolder := strings.ReplaceAll(itemEmulator.Name, " ", "-")
-				folder := strings.ToLower(item.Folder + subfolder + "/")
+				subfolder = filepath.Join(item.Folder, subfolder)
+				subfolder = strings.ToLower(subfolder + separator)
 
-				if strings.HasPrefix(strings.ToLower(relativePath), folder) {
+				if strings.HasPrefix(strings.ToLower(relativePath), subfolder) {
 					platform = item
 					emulator = itemEmulator
 					break

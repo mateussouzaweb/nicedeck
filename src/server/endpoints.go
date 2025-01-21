@@ -648,6 +648,7 @@ func Setup(version string, developmentMode bool) error {
 
 		// Check if requested file exist
 		filename := strings.TrimPrefix(context.URI, "/grid/image/")
+		filename = strings.ReplaceAll(filename, "/", string(os.PathSeparator))
 		file, err := gridFS.Open(filename)
 		if err == nil {
 			defer file.Close()
