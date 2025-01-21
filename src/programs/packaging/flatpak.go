@@ -67,8 +67,7 @@ func (f *Flatpak) Install(shortcut *shortcuts.Shortcut) error {
 
 // Installed verification
 func (f *Flatpak) Installed() (bool, error) {
-	systemFile := f.Executable()
-	exist, err := fs.FileExist(systemFile)
+	exist, err := fs.FileExist(f.Executable())
 	if err != nil {
 		return false, err
 	} else if exist {

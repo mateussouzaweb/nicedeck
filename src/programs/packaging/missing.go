@@ -14,7 +14,7 @@ func (m *Missing) Available() bool {
 	return false
 }
 
-// Install program with flatpak
+// Install program
 func (m *Missing) Install(shortcut *shortcuts.Shortcut) error {
 	return fmt.Errorf("cannot be installed, package is missing")
 }
