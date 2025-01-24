@@ -23,8 +23,7 @@ func WriteSettings() error {
 
 	// Create file if not exist
 	if !settingsExist {
-		settingsConfigSource := fs.NormalizePath("resources/es_settings.xml")
-		settingsConfig, err := resourcesContent.ReadFile(settingsConfigSource)
+		settingsConfig, err := resourcesContent.ReadFile("resources/es_settings.xml")
 		if err != nil {
 			return err
 		}
@@ -43,8 +42,7 @@ func WriteSettings() error {
 
 	// Systems
 	systemsFile := fs.ExpandPath("$HOME/ES-DE/custom_systems/es_systems.xml")
-	systemsConfigSource := fs.NormalizePath("resources/es_systems.xml")
-	systemsConfig, err := resourcesContent.ReadFile(systemsConfigSource)
+	systemsConfig, err := resourcesContent.ReadFile("resources/es_systems.xml")
 	if err != nil {
 		return err
 	}
@@ -61,8 +59,7 @@ func WriteSettings() error {
 
 	// Find Rules
 	findRulesFile := fs.ExpandPath("$HOME/ES-DE/custom_systems/es_find_rules.xml")
-	findRulesConfigSource := fs.NormalizePath("resources/es_find_rules.xml")
-	findRulesConfig, err := resourcesContent.ReadFile(findRulesConfigSource)
+	findRulesConfig, err := resourcesContent.ReadFile("resources/es_find_rules.xml")
 	if err != nil {
 		return err
 	}
@@ -79,8 +76,7 @@ func WriteSettings() error {
 
 	// Icon
 	iconFile := fs.ExpandPath("$HOME/ES-DE/icon.png")
-	iconContentSource := fs.NormalizePath("resources/icon.png")
-	iconContent, err := resourcesContent.ReadFile(iconContentSource)
+	iconContent, err := resourcesContent.ReadFile("resources/icon.png")
 	if err != nil {
 		return err
 	}
@@ -92,8 +88,7 @@ func WriteSettings() error {
 
 	// Desktop shortcut
 	desktopShortcutFile := fs.ExpandPath("$HOME/.local/share/applications/emulationstation-de.desktop")
-	desktopShortcutContentSource := fs.NormalizePath("resources/emulationstation-de.desktop")
-	desktopShortcutContent, err := resourcesContent.ReadFile(desktopShortcutContentSource)
+	desktopShortcutContent, err := resourcesContent.ReadFile("resources/emulationstation-de.desktop")
 	if err != nil {
 		return err
 	}

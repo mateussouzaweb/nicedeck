@@ -13,8 +13,7 @@ var resourcesContent embed.FS
 func WriteTemplates(destinationPath string) error {
 
 	controllerFile := filepath.Join(destinationPath, "controller_neptune_nicedeck.vdf")
-	controllerConfigSource := filepath.Join("resources", "controller.vdf")
-	controllerConfig, err := resourcesContent.ReadFile(controllerConfigSource)
+	controllerConfig, err := resourcesContent.ReadFile("resources/controller.vdf")
 	if err != nil {
 		return err
 	}
