@@ -39,6 +39,11 @@ func main() {
 	developmentMode := cli.Flag(os.Args[1:], "--dev", false)
 	listenAddress := cli.Arg(os.Args[1:], "--address", "127.0.0.1:14935")
 
+	// Define needed variables for Windows
+	if cli.IsWindows() {
+		cli.SetEnv("HOME", fs.ExpandPath("${HOMEDRIVE}${HOMEPATH}"), false)
+	}
+
 	// Expose environment variables for internal usage
 	cli.SetEnv("APPLICATIONS", fs.ExpandPath("$HOME/Applications"), false)
 	cli.SetEnv("GAMES", fs.ExpandPath("$HOME/Games"), false)

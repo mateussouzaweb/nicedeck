@@ -11,13 +11,23 @@ import (
 // Command creates a new command struct
 func Command(script string) *exec.Cmd {
 
-	// Ensure a clean script when outside flatpak
-	script = strings.Replace(script, "/usr/bin/flatpak-spawn --host", "", 1)
-	cmd := exec.Command("/bin/bash", "-c", script)
+	var cmd *exec.Cmd
 
-	// Apply flatpak-spawn if application is running inside flatpak
-	if GetEnv("FLATPAK_ID", "") != "" {
-		cmd = exec.Command("/usr/bin/flatpak-spawn", "--host", "/bin/bash", "-c", script)
+	// Use PowerShell on Windows
+	// Use Bash on MacOS and Linux
+	if IsWindows() {
+		cmd = exec.Command("powershell", script)
+	} else if IsMacOS() {
+		cmd = exec.Command("bash", "-c", script)
+	} else {
+		// Ensure a clean script when outside flatpak
+		script = strings.Replace(script, "/usr/bin/flatpak-spawn --host", "", 1)
+		cmd = exec.Command("/bin/bash", "-c", script)
+
+		// Apply flatpak-spawn if application is running inside flatpak
+		if GetEnv("FLATPAK_ID", "") != "" {
+			cmd = exec.Command("/usr/bin/flatpak-spawn", "--host", "/bin/bash", "-c", script)
+		}
 	}
 
 	cmd.Stdin = os.Stdin

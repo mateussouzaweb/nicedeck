@@ -192,7 +192,12 @@ func launchShortcut(context *Context) error {
 
 	// Determine best launch script based on launcher
 	// Launch with system by default
-	script := fmt.Sprintf(`cd %s; %s %s`, shortcut.StartDir, shortcut.Exe, shortcut.LaunchOptions)
+	script := fmt.Sprintf(
+		`cd %s; %s %s`,
+		shortcut.StartDir,
+		shortcut.Exe,
+		shortcut.LaunchOptions,
+	)
 
 	if data.Launcher == "steam" {
 		if library.GetConfig().SteamRuntime == "flatpak" {

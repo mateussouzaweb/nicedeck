@@ -27,7 +27,7 @@ func (f *Flatpak) Install(shortcut *shortcuts.Shortcut) error {
 
 	// Install with CLI command
 	script := fmt.Sprintf(
-		"flatpak install --or-update --assumeyes --noninteractive --system flathub %s",
+		`flatpak install --or-update --assumeyes --noninteractive --system flathub %s`,
 		f.AppID,
 	)
 
@@ -39,7 +39,7 @@ func (f *Flatpak) Install(shortcut *shortcuts.Shortcut) error {
 	// Apply flatpak overrides
 	if len(f.Overrides) > 0 {
 		for _, override := range f.Overrides {
-			script := fmt.Sprintf("flatpak override --user %s %s", override, f.AppID)
+			script := fmt.Sprintf(`flatpak override --user %s %s`, override, f.AppID)
 			err := cli.Run(script)
 			if err != nil {
 				return err
