@@ -11,29 +11,20 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
-// Package interface
-type Package interface {
-	Available() bool
-	Install(shortcut *shortcuts.Shortcut) error
-	Installed() (bool, error)
-	Executable() string
-	Run(args []string) error
-}
-
 // Program struct
 type Program struct {
-	ID              string   `json:"id"`
-	Name            string   `json:"name"`
-	Description     string   `json:"description"`
-	Category        string   `json:"category"`
-	Tags            []string `json:"tags"`
-	RequiredFolders []string `json:"requiredFolders"`
-	IconURL         string   `json:"iconUrl"`
-	LogoURL         string   `json:"logoUrl"`
-	CoverURL        string   `json:"coverUrl"`
-	BannerURL       string   `json:"bannerUrl"`
-	HeroURL         string   `json:"heroUrl"`
-	Package         Package  `json:"-"`
+	ID              string            `json:"id"`
+	Name            string            `json:"name"`
+	Description     string            `json:"description"`
+	Category        string            `json:"category"`
+	Tags            []string          `json:"tags"`
+	RequiredFolders []string          `json:"requiredFolders"`
+	IconURL         string            `json:"iconUrl"`
+	LogoURL         string            `json:"logoUrl"`
+	CoverURL        string            `json:"coverUrl"`
+	BannerURL       string            `json:"bannerUrl"`
+	HeroURL         string            `json:"heroUrl"`
+	Package         packaging.Package `json:"-"`
 }
 
 // Retrieve list of available programs to install
