@@ -37,6 +37,23 @@ func (f *Flatpak) RuntimeDir() string {
 	}
 }
 
+// Apply program overrides
+func (f *Flatpak) ApplyOverrides() error {
+	if len(f.Overrides) == 0 {
+		return nil
+	}
+
+	for _, override := range f.Overrides {
+		script := fmt.Sprintf(`flatpak override --user %s %s`, override, f.AppID)
+		err := cli.Run(script)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 // Install program
 func (f *Flatpak) Install(shortcut *shortcuts.Shortcut) error {
 
@@ -53,14 +70,9 @@ func (f *Flatpak) Install(shortcut *shortcuts.Shortcut) error {
 	}
 
 	// Apply flatpak overrides
-	if len(f.Overrides) > 0 {
-		for _, override := range f.Overrides {
-			script := fmt.Sprintf(`flatpak override --user %s %s`, override, f.AppID)
-			err := cli.Run(script)
-			if err != nil {
-				return err
-			}
-		}
+	err = f.ApplyOverrides()
+	if err != nil {
+		return err
 	}
 
 	// Fill shortcut information for flatpak app
