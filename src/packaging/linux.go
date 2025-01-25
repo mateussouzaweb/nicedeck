@@ -20,6 +20,11 @@ func (l *Linux) Available() bool {
 	return cli.IsLinux()
 }
 
+// Return package runtime
+func (l *Linux) Runtime() string {
+	return "native"
+}
+
 // Install program
 func (l *Linux) Install(shortcut *shortcuts.Shortcut) error {
 	return fmt.Errorf("cannot perform package installations")

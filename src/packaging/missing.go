@@ -14,6 +14,11 @@ func (m *Missing) Available() bool {
 	return false
 }
 
+// Return package runtime
+func (m *Missing) Runtime() string {
+	return "none"
+}
+
 // Install program
 func (m *Missing) Install(shortcut *shortcuts.Shortcut) error {
 	return fmt.Errorf("cannot perform package installations")

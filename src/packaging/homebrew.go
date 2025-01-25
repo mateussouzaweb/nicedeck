@@ -20,6 +20,11 @@ func (h *Homebrew) Available() bool {
 	return cli.IsMacOS()
 }
 
+// Return package runtime
+func (h *Homebrew) Runtime() string {
+	return "native"
+}
+
 // Install program
 func (h *Homebrew) Install(shortcut *shortcuts.Shortcut) error {
 	return cli.Run(fmt.Sprintf(

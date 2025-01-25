@@ -20,6 +20,11 @@ func (m *MacOS) Available() bool {
 	return cli.IsMacOS()
 }
 
+// Return package runtime
+func (m *MacOS) Runtime() string {
+	return "native"
+}
+
 // Install program
 func (m *MacOS) Install(shortcut *shortcuts.Shortcut) error {
 	return fmt.Errorf("cannot perform package installations")

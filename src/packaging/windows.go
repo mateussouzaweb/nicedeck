@@ -20,6 +20,11 @@ func (w *Windows) Available() bool {
 	return cli.IsWindows()
 }
 
+// Return package runtime
+func (w *Windows) Runtime() string {
+	return "native"
+}
+
 // Install program
 func (w *Windows) Install(shortcut *shortcuts.Shortcut) error {
 	return fmt.Errorf("cannot perform package installations")

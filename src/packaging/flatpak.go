@@ -22,6 +22,11 @@ func (f *Flatpak) Available() bool {
 	return cli.IsLinux()
 }
 
+// Return package runtime
+func (f *Flatpak) Runtime() string {
+	return "flatpak"
+}
+
 // Install program
 func (f *Flatpak) Install(shortcut *shortcuts.Shortcut) error {
 

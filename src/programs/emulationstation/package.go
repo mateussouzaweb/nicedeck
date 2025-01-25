@@ -20,6 +20,11 @@ func (p *Package) Available() bool {
 	return cli.IsLinux()
 }
 
+// Return package runtime
+func (p *Package) Runtime() string {
+	return "appimage"
+}
+
 // Install program
 func (p *Package) Install(shortcut *shortcuts.Shortcut) error {
 

@@ -20,6 +20,11 @@ func (w *WinGet) Available() bool {
 	return cli.IsWindows()
 }
 
+// Return package runtime
+func (w *WinGet) Runtime() string {
+	return "native"
+}
+
 // Install program
 func (w *WinGet) Install(shortcut *shortcuts.Shortcut) error {
 	return cli.Run(fmt.Sprintf(

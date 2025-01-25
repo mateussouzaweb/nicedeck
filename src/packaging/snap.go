@@ -23,6 +23,11 @@ func (s *Snap) Available() bool {
 	return cli.IsLinux()
 }
 
+// Return package runtime
+func (s *Snap) Runtime() string {
+	return "snap"
+}
+
 // Install program
 func (s *Snap) Install(shortcut *shortcuts.Shortcut) error {
 
