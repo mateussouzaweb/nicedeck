@@ -18,7 +18,8 @@ func ProtonPlus() *Program {
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/f38705891f01bda4bd16551f42ff7c0a.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/bc6f714aa3dfeef9320a838b79515c2d.png",
 		Package: packaging.Available(&packaging.Flatpak{
-			AppID: "com.vysp3r.ProtonPlus",
+			Namespace: "system",
+			AppID:     "com.vysp3r.ProtonPlus",
 		}),
 	}
 }

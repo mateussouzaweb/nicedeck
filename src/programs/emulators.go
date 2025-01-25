@@ -19,6 +19,7 @@ func Cemu() *Program {
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/86fb4d9e1de18ebdb6fc534de828d605.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/d5da28d4865fb92720359db84e0dd0dd.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "info.cemu.Cemu",
 			Overrides: []string{"--filesystem=host"},
 		}),
@@ -40,6 +41,7 @@ func Citra() *Program {
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/585191595ac24404854bbce59d0f54d2.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/1d0ba3d7eb612a216c3e4d002deabdb7.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "org.citra_emu.citra",
 			Overrides: []string{"--filesystem=host"},
 		}),
@@ -61,6 +63,7 @@ func Dolphin() *Program {
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/cbec7ddbb30e261abd365bf9f814647d.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/018b1d3ea470dbb00e3dd6438af19bfb.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "org.DolphinEmu.dolphin-emu",
 			Overrides: []string{"--filesystem=host"},
 		}),
@@ -82,6 +85,7 @@ func DuckStation() *Program {
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/9c94e659c62b84bf7b39c599b61bc7d3.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/127f12c937b4baf0a8922eb1384391cf.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "org.duckstation.DuckStation",
 			Overrides: []string{"--filesystem=host"},
 		}),
@@ -103,6 +107,7 @@ func Flycast() *Program {
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/46b3feb0521b4d823847ebbd4dd58ea6.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "org.flycast.Flycast",
 			Overrides: []string{"--filesystem=host"},
 		}),
@@ -124,6 +129,7 @@ func Lime3DS() *Program {
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/1cdcecbcc8ce18ffdb147b29928b5781.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/ae8c643004d25250b521d4f7fc01c354.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "io.github.lime3ds.Lime3DS",
 			Overrides: []string{"--filesystem=host"},
 		}),
@@ -145,6 +151,7 @@ func MelonDS() *Program {
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/0ec19bac435cd0ab3fcd2160491b0c7b.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "net.kuribo64.melonDS",
 			Overrides: []string{"--filesystem=host"},
 		}),
@@ -166,6 +173,7 @@ func MGBA() *Program {
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/7088b9d5b6a444224cf6380dcfe61554.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/d470133ccf31f9bfdc1dcb45a30c73b1.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "io.mgba.mGBA",
 			Overrides: []string{"--filesystem=host"},
 		}),
@@ -187,6 +195,7 @@ func PCSX2() *Program {
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/f3a71cf60765edd14269d28819d15327.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/9cc25407f209e031babdac7d3c520ccb.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "net.pcsx2.PCSX2",
 			Overrides: []string{"--filesystem=host"},
 		}),
@@ -208,6 +217,7 @@ func PPSSPP() *Program {
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/88a52c0d85339a377918fdc1ae9dc922.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/b51ecba56e03d4181e0006ff1e8a5355.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "org.ppsspp.PPSSPP",
 			Overrides: []string{"--filesystem=host"},
 		}),
@@ -229,6 +239,7 @@ func RPCS3() *Program {
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/cddaf8b03288749c50afecad7ac3c9a4.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/15c58997f6690dddb7c501e062a2d1ab.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "net.rpcs3.RPCS3",
 			Overrides: []string{"--filesystem=host"},
 		}),
@@ -250,6 +261,7 @@ func Ryujinx() *Program {
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/3931532d087eeb1b1c1a96aba6261802.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "org.ryujinx.Ryujinx",
 			Overrides: []string{"--filesystem=host"},
 		}),
@@ -271,6 +283,7 @@ func Simple64() *Program {
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/e128d1f12ec88795b0a5853d7c754608.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/73888d1bde775303c1749e63e3312a64.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "io.github.simple64.simple64",
 			Overrides: []string{"--filesystem=host"},
 		}),
@@ -292,6 +305,7 @@ func Xemu() *Program {
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/5b74752b25bd07933b10b2098970f990.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/aa0994c4263018600494efceae69087a.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "app.xemu.xemu",
 			Overrides: []string{"--filesystem=host"},
 		}),
@@ -313,6 +327,7 @@ func Yuzu() *Program {
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/dd66229e57c186b4c13e52a8b3f274b2.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "org.yuzu_emu.yuzu",
 			Overrides: []string{"--filesystem=host"},
 		}),

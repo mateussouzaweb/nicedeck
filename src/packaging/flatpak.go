@@ -12,6 +12,7 @@ import (
 
 // Flatpak struct
 type Flatpak struct {
+	Namespace string   `json:"namespace"`
 	AppID     string   `json:"appId"`
 	Overrides []string `json:"overrides"`
 	Arguments []string `json:"arguments"`
@@ -27,12 +28,22 @@ func (f *Flatpak) Runtime() string {
 	return "flatpak"
 }
 
+// Retrieve runtime directory based on namespace level
+func (f *Flatpak) RuntimeDir() string {
+	if f.Namespace == "user" {
+		return fs.ExpandPath("$HOME/.local/share/flatpak")
+	} else {
+		return fs.NormalizePath("/var/lib/flatpak")
+	}
+}
+
 // Install program
 func (f *Flatpak) Install(shortcut *shortcuts.Shortcut) error {
 
 	// Install with CLI command
 	script := fmt.Sprintf(
-		`flatpak install --or-update --assumeyes --noninteractive --system flathub %s`,
+		`flatpak install --or-update --assumeyes --noninteractive --%s flathub %s`,
+		f.Namespace,
 		f.AppID,
 	)
 
@@ -55,9 +66,9 @@ func (f *Flatpak) Install(shortcut *shortcuts.Shortcut) error {
 	// Fill shortcut information for flatpak app
 	executable := f.Executable()
 	startDir := filepath.Dir(executable)
-	shortcutDir := fs.NormalizePath("/var/lib/flatpak/exports/share/applications")
+	shortcutDir := fs.NormalizePath("exports/share/applications")
 	shortcutName := fmt.Sprintf("%s.desktop", f.AppID)
-	shortcutPath := filepath.Join(shortcutDir, shortcutName)
+	shortcutPath := filepath.Join(f.RuntimeDir(), shortcutDir, shortcutName)
 
 	shortcut.StartDir = startDir
 	shortcut.Exe = executable
@@ -87,7 +98,8 @@ func (f *Flatpak) Installed() (bool, error) {
 // Return executable file path
 func (f *Flatpak) Executable() string {
 	return fs.NormalizePath(fmt.Sprintf(
-		`/var/lib/flatpak/exports/bin/%s`,
+		`%s/exports/bin/%s`,
+		f.RuntimeDir(),
 		f.AppID,
 	))
 }

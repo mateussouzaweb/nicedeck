@@ -19,7 +19,8 @@ func Bottles() *Program {
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/123a00ca793f7db5b771574116bc061f.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/84bdc10b5cc3b036ce04a562b0e54d61.png",
 		Package: packaging.Available(&packaging.Flatpak{
-			AppID: "com.usebottles.bottles",
+			Namespace: "system",
+			AppID:     "com.usebottles.bottles",
 		}),
 	}
 }
@@ -56,7 +57,8 @@ func HeroicGamesLauncher() *Program {
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/94e8e64cdefe77dcc168855c54f14acd.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/bee5ca2551bf346f067a3ac16057bc40.png",
 		Package: packaging.Available(&packaging.Flatpak{
-			AppID: "com.heroicgameslauncher.hgl",
+			Namespace: "system",
+			AppID:     "com.heroicgameslauncher.hgl",
 		}),
 	}
 }
@@ -75,7 +77,8 @@ func Lutris() *Program {
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/3c5bf5a314017c84acae32394125cf26.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/3b7f06487067b9aa2393a438dd095edc.png",
 		Package: packaging.Available(&packaging.Flatpak{
-			AppID: "net.lutris.Lutris",
+			Namespace: "system",
+			AppID:     "net.lutris.Lutris",
 		}),
 	}
 }

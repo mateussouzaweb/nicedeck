@@ -18,7 +18,8 @@ func Chiaki() *Program {
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/5c3867d9390d85c6e708a01196d288f4.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/f2b08f23d02d5fff247a41982d44f02e.png",
 		Package: packaging.Available(&packaging.Flatpak{
-			AppID: "re.chiaki.Chiaki",
+			Namespace: "system",
+			AppID:     "re.chiaki.Chiaki",
 		}),
 	}
 }
@@ -37,6 +38,7 @@ func GeForceNow() *Program {
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/8cd586dd25cd66b50db63e51b5f44dcd.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/5e7e6e76699ea804c65b0c37974c660c.jpg",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "com.google.Chrome",
 			Overrides: []string{"--filesystem=/run/udev:ro"},
 			Arguments: []string{
@@ -63,7 +65,8 @@ func MoonlightGameStreaming() *Program {
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/8a8f67cacf3e3d2d63614f515a2079b8.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/0afefa2281c2f8b0b86d6332e2cdbe7d.png",
 		Package: packaging.Available(&packaging.Flatpak{
-			AppID: "com.moonlight_stream.Moonlight",
+			Namespace: "system",
+			AppID:     "com.moonlight_stream.Moonlight",
 		}),
 	}
 }
@@ -82,6 +85,7 @@ func XboxCloudGaming() *Program {
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/2b16dcbe37a15a4932affb27447d7e21.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/f6ba16107e08c04fc684308ab18d207a.png",
 		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
 			AppID:     "com.microsoft.Edge",
 			Overrides: []string{"--filesystem=/run/udev:ro"},
 			Arguments: []string{
