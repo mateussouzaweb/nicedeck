@@ -39,7 +39,18 @@ func EmulationStationDE() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/21bd6ea21e43de6dc80e2bc8917f4ba3.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/67a900732336f1ce9d0c0496352fa9ab.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/9323f21f2098b7288267c785458548b2.png",
-		Package:         packaging.Available(&emulationstation.Package{}),
+		Package: packaging.Available(&packaging.AppImage{
+			AppID:   "emulationstation-de",
+			AppName: "EmulationStation-DE.AppImage",
+			BeforeInstall: func(a *packaging.AppImage) error {
+				latest, err := emulationstation.GetLatestRelease("LinuxAppImage")
+				a.AppURL = latest
+				return err
+			},
+			AfterInstall: func(a *packaging.AppImage) error {
+				return emulationstation.WriteSettings()
+			},
+		}),
 	}
 }
 

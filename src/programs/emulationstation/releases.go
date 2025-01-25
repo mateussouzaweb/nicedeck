@@ -8,7 +8,7 @@ import (
 )
 
 // Get latest release package available
-func GetLatestRelease() (string, error) {
+func GetLatestRelease(releaseType string) (string, error) {
 
 	endpoint := "https://gitlab.com/es-de/emulationstation-de/-/raw/master/latest_release.json"
 	res, err := http.Get(endpoint)
@@ -40,7 +40,7 @@ func GetLatestRelease() (string, error) {
 	}
 
 	for _, release := range releases.Stable.Packages {
-		if release.Name == "LinuxAppImage" {
+		if release.Name == releaseType {
 			return release.URL, nil
 		}
 	}
