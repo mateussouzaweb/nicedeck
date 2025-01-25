@@ -35,9 +35,10 @@ func main() {
 	}()
 
 	// Retrieve program options
-	displayMode := cli.Arg(os.Args[1:], "--gui", "qt")
+	displayMode := cli.Arg(os.Args[1:], "--gui", "")
 	developmentMode := cli.Flag(os.Args[1:], "--dev", false)
 	listenAddress := cli.Arg(os.Args[1:], "--address", "127.0.0.1:14935")
+	targetURL := "http://" + listenAddress
 
 	// Define needed variables for Windows
 	if cli.IsWindows() {
@@ -76,14 +77,11 @@ func main() {
 		<-ready
 		time.Sleep(100 * time.Millisecond)
 
-		err := gui.Open(displayMode, "http://"+listenAddress, version, developmentMode)
-		if err != nil {
+		if err := gui.Open(displayMode, targetURL); err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 			exitCode = 1
 			done <- true
 		}
-
-		done <- true
 	}()
 
 	<-done
