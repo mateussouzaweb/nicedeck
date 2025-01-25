@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/mateussouzaweb/nicedeck/src/steamgriddb/api"
+	"github.com/mateussouzaweb/nicedeck/src/scraper/steamgriddb"
 )
 
 // ScrapeResult struct
@@ -25,7 +25,7 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 	var result ScrapeResult
 
 	// Find reference and correct name
-	search, err := api.SearchByTerm(name)
+	search, err := steamgriddb.SearchByTerm(name)
 	if err != nil {
 		return &result, err
 	}
@@ -44,10 +44,10 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 	}
 
 	// Find icon
-	icon, err := api.GetImagesByID(
+	icon, err := steamgriddb.GetImagesByID(
 		"icon",
 		fmt.Sprintf("%v", result.ScraperID),
-		&api.ImagesParams{
+		&steamgriddb.ImagesParams{
 			Dimensions: []string{"24", "32", "40", "48", "56", "64", "72", "80", "96", "100", "144", "192"},
 			Mimes:      []string{"image/png", "image/vnd.microsoft.icon"},
 			Types:      []string{"static"},
@@ -66,10 +66,10 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 	}
 
 	// Find logo
-	logo, err := api.GetImagesByID(
+	logo, err := steamgriddb.GetImagesByID(
 		"logo",
 		fmt.Sprintf("%v", result.ScraperID),
-		&api.ImagesParams{
+		&steamgriddb.ImagesParams{
 			Mimes:    []string{"image/png"},
 			Types:    []string{"static"},
 			Nsfw:     "false",
@@ -87,10 +87,10 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 	}
 
 	// Find cover
-	cover, err := api.GetImagesByID(
+	cover, err := steamgriddb.GetImagesByID(
 		"cover",
 		fmt.Sprintf("%v", result.ScraperID),
-		&api.ImagesParams{
+		&steamgriddb.ImagesParams{
 			Mimes:      []string{"image/png", "image/jpeg"},
 			Types:      []string{"static"},
 			Dimensions: []string{"600x900"},
@@ -109,10 +109,10 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 	}
 
 	// Find banner
-	banner, err := api.GetImagesByID(
+	banner, err := steamgriddb.GetImagesByID(
 		"banner",
 		fmt.Sprintf("%v", result.ScraperID),
-		&api.ImagesParams{
+		&steamgriddb.ImagesParams{
 			Mimes:      []string{"image/png", "image/jpeg"},
 			Types:      []string{"static"},
 			Dimensions: []string{"920x430", "460x215"},
@@ -131,10 +131,10 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 	}
 
 	// Find hero
-	hero, err := api.GetImagesByID(
+	hero, err := steamgriddb.GetImagesByID(
 		"hero",
 		fmt.Sprintf("%v", result.ScraperID),
-		&api.ImagesParams{
+		&steamgriddb.ImagesParams{
 			Mimes:    []string{"image/png", "image/jpeg"},
 			Types:    []string{"static"},
 			Nsfw:     "false",

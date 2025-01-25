@@ -1,4 +1,4 @@
-package api
+package steamgriddb
 
 // DetailsResult struct
 type DetailsResult struct {

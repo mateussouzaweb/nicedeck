@@ -1,4 +1,4 @@
-package api
+package steamgriddb
 
 import (
 	"encoding/json"
