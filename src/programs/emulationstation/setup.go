@@ -5,14 +5,23 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 )
 
 //go:embed resources/*
 var resourcesContent embed.FS
 
+// Perform setup for EmulationStation
+func Setup() error {
+	if cli.IsLinux() {
+		return WriteLinuxSettings()
+	}
+	return nil
+}
+
 // Write settings for EmulationStation
-func WriteSettings() error {
+func WriteLinuxSettings() error {
 
 	// Settings (write file only if not exist yet)
 	settingsFile := fs.ExpandPath("$HOME/ES-DE/settings/es_settings.xml")

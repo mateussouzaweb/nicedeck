@@ -13,8 +13,16 @@ import (
 //go:embed resources/*
 var resourcesContent embed.FS
 
+// Perform setup for NiceDeck
+func Setup() error {
+	if cli.IsLinux() {
+		return WriteLinuxDesktopShortcut()
+	}
+	return nil
+}
+
 // Write desktop shortcut for NiceDeck
-func WriteDesktopShortcut() error {
+func WriteLinuxDesktopShortcut() error {
 
 	// Check if is running via flatpak
 	if cli.GetEnv("FLATPAK_ID", "") != "" {

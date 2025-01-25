@@ -48,7 +48,7 @@ func EmulationStationDE() *Program {
 				return err
 			},
 			AfterInstall: func(a *packaging.AppImage) error {
-				return emulationstation.WriteSettings()
+				return emulationstation.Setup()
 			},
 		}),
 	}

@@ -344,8 +344,8 @@ func runSetup(context *Context) error {
 		return context.Status(400).JSON(result)
 	}
 
-	// Perform desktop install
-	err = nicedeck.WriteDesktopShortcut()
+	// Run NiceDeck setup by making sure has required settings
+	err = nicedeck.Setup()
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
