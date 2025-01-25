@@ -23,7 +23,7 @@ func Setup(useSymlink bool, storagePath string) error {
 		return err
 	} else if exist {
 		cli.Printf(cli.ColorWarn, "Setup skipped...\n")
-		cli.Printf(cli.ColorWarn, "Folder structure already exists at %s\n", gamesPath)
+		cli.Printf(cli.ColorWarn, "Folder structure already exists at: %s\n", gamesPath)
 		return nil
 	}
 

@@ -92,7 +92,7 @@ func Init(version string, developmentMode bool, address string, ready chan bool,
 
 	// If address already is in use, skip server init
 	if addressInUse {
-		cli.Printf(cli.ColorWarn, "Server already is running from another instance\n")
+		cli.Printf(cli.ColorWarn, "Server already is running from another instance.\n")
 		cli.Printf(cli.ColorWarn, "Skipping server startup and closing current process...\n")
 		ready <- true
 

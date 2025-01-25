@@ -18,7 +18,7 @@ func WriteDesktopShortcut() error {
 
 	// Check if is running via flatpak
 	if cli.GetEnv("FLATPAK_ID", "") != "" {
-		cli.Printf(cli.ColorWarn, "NiceDeck is running via Flatpak\n")
+		cli.Printf(cli.ColorWarn, "NiceDeck is running via Flatpak.\n")
 		cli.Printf(cli.ColorWarn, "No need to install desktop shortcut. Skipping...\n")
 		return nil
 	}
