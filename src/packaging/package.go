@@ -23,3 +23,18 @@ func Available(args ...Package) Package {
 
 	return &Missing{}
 }
+
+// Retrieve first installed package
+func Installed(args ...Package) Package {
+
+	for _, item := range args {
+		if !item.Available() {
+			continue
+		}
+		if installed, _ := item.Installed(); installed {
+			return item
+		}
+	}
+
+	return &Missing{}
+}
