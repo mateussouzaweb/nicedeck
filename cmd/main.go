@@ -53,7 +53,7 @@ func main() {
 
 	// Run the program server
 	go func() {
-		err := server.Setup(version, developmentMode)
+		err := server.Setup(version, developmentMode, done)
 		if err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 			exitCode = 1

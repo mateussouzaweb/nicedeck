@@ -9,7 +9,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"syscall"
 	"time"
 
 	"github.com/mateussouzaweb/nicedeck/frontend"
@@ -543,7 +542,7 @@ func openLink(context *Context) error {
 }
 
 // Setup server endpoints
-func Setup(version string, developmentMode bool) error {
+func Setup(version string, developmentMode bool, shutdown chan bool) error {
 
 	// Load static FS
 	staticFS = frontend.GetStaticFS(developmentMode)
@@ -638,7 +637,7 @@ func Setup(version string, developmentMode bool) error {
 
 	// Capture shutdown request
 	Add("POST", "/app/shutdown", func(context *Context) error {
-		syscall.Kill(syscall.Getpid(), syscall.SIGTERM)
+		shutdown <- true
 		return nil
 	})
 
