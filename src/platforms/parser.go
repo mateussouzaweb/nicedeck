@@ -7,6 +7,7 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 )
@@ -64,6 +65,8 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		regexp.MustCompile("(?i)Track [1-9][0-9]"), // Track 10 - 99 of some games
 	}
 
+	cli.Printf(cli.ColorNotice, "Checking for ROMs available at: %s\n", realRoot)
+
 	// Note: walkDir does not follow symbolic links
 	err = filepath.WalkDir(realRoot, func(path string, dir os.DirEntry, err error) error {
 
@@ -77,21 +80,6 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 			return nil
 		}
 
-		// Check against exclusion list
-		// Verification is simple and consider if path contains given term
-		for _, pattern := range exclude {
-			if strings.Contains(strings.ToLower(path), strings.ToLower(pattern)) {
-				return nil
-			}
-		}
-
-		// Check against regex exclusion list
-		for _, pattern := range excludeRegex {
-			if pattern.MatchString(path) {
-				return nil
-			}
-		}
-
 		// Parse basic ROM information
 		directory := filepath.Dir(path)
 		file := filepath.Base(path)
@@ -101,6 +89,24 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		// Ensure a valid relative path
 		relativePath := strings.Replace(path, root+separator, "", 1)
 		relativePath = strings.Replace(relativePath, realRoot+separator, "", 1)
+		cli.Printf(cli.ColorWarn, "Detected: %s\n", relativePath)
+
+		// Check against exclusion list
+		// Verification is simple and consider if path contains given term
+		for _, pattern := range exclude {
+			if strings.Contains(strings.ToLower(path), strings.ToLower(pattern)) {
+				cli.Printf(cli.ColorWarn, "Skipped: file is in the exclude list\n")
+				return nil
+			}
+		}
+
+		// Check against regex exclusion list
+		for _, pattern := range excludeRegex {
+			if pattern.MatchString(path) {
+				cli.Printf(cli.ColorWarn, "Skipped: file is in the exclude list\n")
+				return nil
+			}
+		}
 
 		// Platform and emulator are determined by the folder initial path
 		// This model also solve cases for games in sub-folders
@@ -157,12 +163,14 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 
 		// Ignore if could not detect the emulator
 		if emulator.Name == "" {
+			cli.Printf(cli.ColorWarn, "Skipped: no emulator found for ROM\n")
 			return nil
 		}
 
 		// Validate if extension is in the valid list
 		valid := strings.Split(emulator.Extensions, " ")
 		if !slices.Contains(valid, strings.ToLower(extension)) {
+			cli.Printf(cli.ColorWarn, "Skipped: invalid ROM format for %s emulator\n", emulator.Name)
 			return nil
 		}
 
@@ -170,6 +178,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		// This will prevent multiple results for the same ROM
 		for _, item := range results {
 			if item.Platform == platform.Name && item.Name == name {
+				cli.Printf(cli.ColorWarn, "Skipped: multiple results detected for %s\n", name)
 				return nil
 			}
 		}
@@ -180,6 +189,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		if err != nil {
 			return err
 		} else if !program.Package.Available() {
+			cli.Printf(cli.ColorWarn, "Skipped: %s emulator program not available\n", emulator.Name)
 			return nil
 		}
 
@@ -201,6 +211,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 			LaunchOptions: launchOptions,
 		}
 
+		cli.Printf(cli.ColorSuccess, "Valid: ROM is valid for %s emulator\n", emulator.Name)
 		results = append(results, &rom)
 		return nil
 	})
