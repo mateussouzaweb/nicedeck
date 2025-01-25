@@ -7,7 +7,6 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
-	"github.com/mateussouzaweb/nicedeck/src/gui"
 	"github.com/mateussouzaweb/nicedeck/src/server"
 )
 
@@ -61,11 +60,19 @@ func main() {
 		}
 	}()
 
-	// Open UI with server address
+	// Open UI with target URL
 	go func() {
 		<-ready
-		err := gui.Open(displayMode, targetURL)
-		if err != nil {
+
+		// Headless mode
+		if displayMode == "headless" {
+			cli.Printf(cli.ColorWarn, "Running in headless mode...\n")
+			cli.Printf(cli.ColorWarn, "Please open the following link in the navigator to use the app: %s\n", targetURL)
+			return
+		}
+
+		// Browser mode
+		if err := cli.Open(targetURL); err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 			exitCode = 1
 			done <- true
