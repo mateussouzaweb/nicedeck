@@ -35,7 +35,7 @@ func main() {
 	}()
 
 	// Retrieve program options
-	displayMode := cli.Arg(os.Args[1:], "--gui", "")
+	displayMode := cli.Arg(os.Args[1:], "--gui", "qt")
 	developmentMode := cli.Flag(os.Args[1:], "--dev", false)
 	listenAddress := cli.Arg(os.Args[1:], "--address", "127.0.0.1:14935")
 
