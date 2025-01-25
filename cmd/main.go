@@ -4,7 +4,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -21,10 +20,10 @@ func main() {
 	exitCode := 0
 	defer os.Exit(exitCode)
 
-	// Graceful shutdown support
+	// Graceful init and shutdown support
 	exit := make(chan os.Signal, 1)
-	done := make(chan bool, 1)
 	ready := make(chan bool, 1)
+	done := make(chan bool, 1)
 
 	signal.Notify(exit, os.Interrupt, syscall.SIGTERM)
 
@@ -52,31 +51,21 @@ func main() {
 	cli.SetEnv("ROMS", fs.ExpandPath("$GAMES/ROMs"), false)
 	cli.SetEnv("STATE", fs.ExpandPath("$GAMES/STATE"), false)
 
-	// Setup the server
+	// Init server
 	go func() {
-		if err := server.Setup(version, developmentMode); err != nil {
+		err := server.Init(version, developmentMode, listenAddress, ready, done)
+		if err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 			exitCode = 1
+			done <- true
 		}
-		done <- true
-	}()
-
-	// Start the server
-	go func() {
-		if err := server.Start(listenAddress, ready); err != nil {
-			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
-			exitCode = 1
-		}
-		done <- true
 	}()
 
 	// Open UI with server address
-	// We should wait for the serve goes up first
 	go func() {
 		<-ready
-		time.Sleep(100 * time.Millisecond)
-
-		if err := gui.Open(displayMode, targetURL); err != nil {
+		err := gui.Open(displayMode, targetURL)
+		if err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 			exitCode = 1
 			done <- true
