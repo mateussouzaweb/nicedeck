@@ -542,7 +542,7 @@ func openLink(context *Context) error {
 }
 
 // Setup server endpoints
-func Setup(version string, developmentMode bool, shutdown chan bool) error {
+func Setup(version string, developmentMode bool) error {
 
 	// Load static FS
 	staticFS = frontend.GetStaticFS(developmentMode)
@@ -635,12 +635,6 @@ func Setup(version string, developmentMode bool, shutdown chan bool) error {
 	Add("POST", "/api/roms", processROMs)
 	Add("POST", "/api/link/open", openLink)
 
-	// Capture shutdown request
-	Add("POST", "/app/shutdown", func(context *Context) error {
-		shutdown <- true
-		return nil
-	})
-
 	// Grid image request
 	Add("GET", "/grid/image/(.*)", func(context *Context) error {
 
@@ -691,5 +685,13 @@ func Setup(version string, developmentMode bool, shutdown chan bool) error {
 		return nil
 	})
 
+	// Capture shutdown request
+	shutdown := make(chan bool, 1)
+	Add("POST", "/app/shutdown", func(context *Context) error {
+		shutdown <- true
+		return nil
+	})
+
+	<-shutdown
 	return nil
 }

@@ -52,22 +52,21 @@ func main() {
 	cli.SetEnv("ROMS", fs.ExpandPath("$GAMES/ROMs"), false)
 	cli.SetEnv("STATE", fs.ExpandPath("$GAMES/STATE"), false)
 
-	// Run the program server
+	// Setup the server
 	go func() {
-		err := server.Setup(version, developmentMode, done)
-		if err != nil {
+		if err := server.Setup(version, developmentMode); err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 			exitCode = 1
-			done <- true
 		}
+		done <- true
+	}()
 
-		err = server.Start(listenAddress, ready)
-		if err != nil {
+	// Start the server
+	go func() {
+		if err := server.Start(listenAddress, ready); err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 			exitCode = 1
-			done <- true
 		}
-
 		done <- true
 	}()
 
