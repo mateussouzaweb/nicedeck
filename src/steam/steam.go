@@ -7,8 +7,34 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
+	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/steam/controller"
 )
+
+// Retrieve Steam package
+func GetPackage() packaging.Package {
+	return packaging.Installed(&packaging.Flatpak{
+		Namespace: "system",
+		AppID:     "com.valvesoftware.Steam",
+		Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
+	}, &packaging.Flatpak{
+		Namespace: "user",
+		AppID:     "com.valvesoftware.Steam",
+		Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
+	}, &packaging.Snap{
+		AppID:  "steam",
+		AppBin: "steam",
+	}, &packaging.Linux{
+		AppID:  "steam",
+		AppBin: "/usr/share/bin/steam",
+	}, &packaging.Homebrew{
+		AppID:   "steam",
+		AppName: "Steam.app",
+	}, &packaging.WinGet{
+		AppID:  "Valve.Steam",
+		AppExe: "$HOMEDRIVE\\Program Files (x86)\\Steam\\Steam.exe",
+	})
+}
 
 // Check the runtime that Steam installation is running
 func GetRuntime() (string, error) {
@@ -19,34 +45,9 @@ func GetRuntime() (string, error) {
 		return fromEnv, nil
 	}
 
-	// Check flatpak --system install
-	flatpakSystemFile := fs.NormalizePath("/var/lib/flatpak/exports/bin/com.valvesoftware.Steam")
-	exist, err := fs.FileExist(flatpakSystemFile)
-	if err != nil {
-		return "", err
-	} else if exist {
-		return "flatpak", nil
-	}
-
-	// Check flatpak --user install
-	flatpakUserFile := fs.ExpandPath("$HOME/.local/share/flatpak/exports/bin/com.valvesoftware.Steam")
-	exist, err = fs.FileExist(flatpakUserFile)
-	if err != nil {
-		return "", err
-	} else if exist {
-		return "flatpak", nil
-	}
-
-	// Check from snap install
-	snapFile := fs.NormalizePath("/snap/bin/steam")
-	exist, err = fs.FileExist(snapFile)
-	if err != nil {
-		return "", err
-	} else if exist {
-		return "snap", nil
-	}
-
-	return "native", nil
+	// Check from packaging program
+	program := GetPackage()
+	return program.Runtime(), nil
 }
 
 // Retrieve the absolute Steam path
@@ -85,7 +86,7 @@ func GetPath() (string, error) {
 func GetConfigPath() (string, error) {
 
 	// Check from environment variable
-	fromEnv := cli.GetEnv("STEAM_USER_CONFIG_PATH", "")
+	fromEnv := cli.GetEnv("STEAM_CONFIG_PATH", "")
 	if fromEnv != "" {
 		return fs.ExpandPath(fromEnv), nil
 	}
@@ -124,28 +125,13 @@ func GetConfigPath() (string, error) {
 func Setup() error {
 
 	// Retrieve Steam base path
+	// Skip if Steam installation was not found
 	steamPath, err := GetPath()
 	if err != nil {
 		return fmt.Errorf("could not detect Steam installation: %s", err)
-	}
-
-	// Skip if Steam installation was not found
-	if steamPath == "" {
+	} else if steamPath == "" {
 		cli.Printf(cli.ColorWarn, "Steam not detected, skipping Steam setup process...\n")
 		return nil
-	}
-
-	// Make sure Steam on flatpak has the necessary permission
-	// We need this to run flatpak-spawn command to communicate with others flatpak apps
-	steamRuntime, err := GetRuntime()
-	if err != nil {
-		return fmt.Errorf("could not determine the Steam runtime: %s", err)
-	} else if steamRuntime == "flatpak" {
-		script := "flatpak override --user --talk-name=org.freedesktop.Flatpak com.valvesoftware.Steam"
-		err = cli.Run(script)
-		if err != nil {
-			return fmt.Errorf("could not perform Steam setup with flatpak runtime: %s", err)
-		}
 	}
 
 	// Write controller templates
@@ -153,6 +139,14 @@ func Setup() error {
 	err = controller.WriteTemplates(controllerTemplatesPaths)
 	if err != nil {
 		return fmt.Errorf("could not perform Steam controller setup: %s", err)
+	}
+
+	// Make sure Steam on flatpak has the necessary permission
+	if _, ok := GetPackage().(*packaging.Flatpak); ok {
+		err := GetPackage().(*packaging.Flatpak).ApplyOverrides()
+		if err != nil {
+			return fmt.Errorf("could not perform Steam runtime setup: %s", err)
+		}
 	}
 
 	return nil
