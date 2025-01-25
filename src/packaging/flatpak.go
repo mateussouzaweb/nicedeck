@@ -22,7 +22,7 @@ func (f *Flatpak) Available() bool {
 	return cli.IsLinux()
 }
 
-// Install program with flatpak
+// Install program
 func (f *Flatpak) Install(shortcut *shortcuts.Shortcut) error {
 
 	// Install with CLI command
@@ -51,7 +51,8 @@ func (f *Flatpak) Install(shortcut *shortcuts.Shortcut) error {
 	executable := f.Executable()
 	startDir := filepath.Dir(executable)
 	shortcutDir := fs.NormalizePath("/var/lib/flatpak/exports/share/applications")
-	shortcutPath := filepath.Join(shortcutDir, f.AppID+".desktop")
+	shortcutName := fmt.Sprintf("%s.desktop", f.AppID)
+	shortcutPath := filepath.Join(shortcutDir, shortcutName)
 
 	shortcut.StartDir = startDir
 	shortcut.Exe = executable

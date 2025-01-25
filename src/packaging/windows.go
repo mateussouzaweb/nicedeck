@@ -9,28 +9,24 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
-// WinGet struct
-type WinGet struct {
+// Windows struct
+type Windows struct {
 	AppID  string `json:"appId"`
 	AppExe string `json:"appExe"`
 }
 
 // Return if package is available
-func (w *WinGet) Available() bool {
+func (w *Windows) Available() bool {
 	return cli.IsWindows()
 }
 
-// Install program with WinGet
-func (w *WinGet) Install(shortcut *shortcuts.Shortcut) error {
-	return cli.Run(fmt.Sprintf(
-		`winget list %s || winget install --accept-package-agreements --accept-source-agreements --disable-interactivity --exact --id %s`,
-		w.AppID,
-		w.AppID,
-	))
+// Install program
+func (w *Windows) Install(shortcut *shortcuts.Shortcut) error {
+	return fmt.Errorf("cannot perform package installations")
 }
 
 // Installed verification
-func (w *WinGet) Installed() (bool, error) {
+func (w *Windows) Installed() (bool, error) {
 	exist, err := fs.FileExist(w.Executable())
 	if err != nil {
 		return false, err
@@ -42,12 +38,12 @@ func (w *WinGet) Installed() (bool, error) {
 }
 
 // Return executable file path
-func (w *WinGet) Executable() string {
+func (w *Windows) Executable() string {
 	return fs.ExpandPath(w.AppExe)
 }
 
 // Run installed program
-func (w *WinGet) Run(args []string) error {
+func (w *Windows) Run(args []string) error {
 	if len(args) > 0 {
 		return cli.Start(fmt.Sprintf(
 			`Start-Process -FilePath "%s" -ArgumentList "%s" -PassThru -Wait`,

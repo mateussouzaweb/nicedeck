@@ -1,8 +1,8 @@
 package programs
 
 import (
+	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/programs/emulationstation"
-	"github.com/mateussouzaweb/nicedeck/src/programs/packaging"
 )
 
 // Installer for Bottles

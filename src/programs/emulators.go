@@ -1,7 +1,7 @@
 package programs
 
 import (
-	"github.com/mateussouzaweb/nicedeck/src/programs/packaging"
+	"github.com/mateussouzaweb/nicedeck/src/packaging"
 )
 
 // Installer for Cemu

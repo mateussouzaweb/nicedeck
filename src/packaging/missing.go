@@ -16,7 +16,7 @@ func (m *Missing) Available() bool {
 
 // Install program
 func (m *Missing) Install(shortcut *shortcuts.Shortcut) error {
-	return fmt.Errorf("cannot be installed, package is missing")
+	return fmt.Errorf("cannot perform package installations")
 }
 
 // Installed verification

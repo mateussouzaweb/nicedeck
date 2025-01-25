@@ -9,28 +9,25 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
-// Brew struct
-type Brew struct {
+// MacOS struct
+type MacOS struct {
 	AppID   string `json:"appId"`
 	AppName string `json:"appName"`
 }
 
 // Return if package is available
-func (b *Brew) Available() bool {
+func (m *MacOS) Available() bool {
 	return cli.IsMacOS()
 }
 
-// Install program with brew
-func (b *Brew) Install(shortcut *shortcuts.Shortcut) error {
-	return cli.Run(fmt.Sprintf(
-		`brew install --cask %s`,
-		b.AppID,
-	))
+// Install program
+func (m *MacOS) Install(shortcut *shortcuts.Shortcut) error {
+	return fmt.Errorf("cannot perform package installations")
 }
 
 // Installed verification
-func (b *Brew) Installed() (bool, error) {
-	exist, err := fs.FileExist(b.Executable())
+func (m *MacOS) Installed() (bool, error) {
+	exist, err := fs.FileExist(m.Executable())
 	if err != nil {
 		return false, err
 	} else if exist {
@@ -41,18 +38,18 @@ func (b *Brew) Installed() (bool, error) {
 }
 
 // Return executable file path
-func (b *Brew) Executable() string {
+func (m *MacOS) Executable() string {
 	return fs.NormalizePath(fmt.Sprintf(
-		`/Applications/%s.app`,
-		b.AppName,
+		`/Applications/%s`,
+		m.AppName,
 	))
 }
 
 // Run installed program
-func (b *Brew) Run(args []string) error {
+func (m *MacOS) Run(args []string) error {
 	return cli.Start(fmt.Sprintf(
 		`open -n %s --args %s`,
-		b.Executable(),
+		m.Executable(),
 		strings.Join(args, " "),
 	))
 }

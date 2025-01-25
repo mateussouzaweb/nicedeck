@@ -20,7 +20,7 @@ func (p *Package) Available() bool {
 	return cli.IsLinux()
 }
 
-// Install program with archive
+// Install program
 func (p *Package) Install(shortcut *shortcuts.Shortcut) error {
 
 	// Get latest available version

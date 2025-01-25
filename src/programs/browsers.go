@@ -1,7 +1,7 @@
 package programs
 
 import (
-	"github.com/mateussouzaweb/nicedeck/src/programs/packaging"
+	"github.com/mateussouzaweb/nicedeck/src/packaging"
 )
 
 // Installer for Brave Browser
@@ -19,9 +19,9 @@ func BraveBrowser() *Program {
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/776c2a30d4402b8c5126edd7ad111c5e.png",
 		Package: packaging.Available(&packaging.Flatpak{
 			AppID: "com.brave.Browser",
-		}, &packaging.Brew{
+		}, &packaging.Homebrew{
 			AppID:   "brave-browser",
-			AppName: "Brave Browser",
+			AppName: "Brave Browser.app",
 		}, &packaging.WinGet{
 			AppID:  "Brave.Brave",
 			AppExe: "$HOMEDRIVE\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe",
@@ -44,9 +44,9 @@ func Firefox() *Program {
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/a318166b8539611449bf21ddc297a783.png",
 		Package: packaging.Available(&packaging.Flatpak{
 			AppID: "org.mozilla.firefox",
-		}, &packaging.Brew{
+		}, &packaging.Homebrew{
 			AppID:   "firefox",
-			AppName: "Firefox",
+			AppName: "Firefox.app",
 		}, &packaging.WinGet{
 			AppID:  "Mozilla.Firefox",
 			AppExe: "$HOMEDRIVE\\Program Files (x86)\\Mozilla Firefox\\firefox.exe",
@@ -69,9 +69,9 @@ func GoogleChrome() *Program {
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/cae83cfcb1d8a2a4bb17bd1446fb1cee.png",
 		Package: packaging.Available(&packaging.Flatpak{
 			AppID: "com.google.Chrome",
-		}, &packaging.Brew{
+		}, &packaging.Homebrew{
 			AppID:   "google-chrome",
-			AppName: "Google Chrome",
+			AppName: "Google Chrome.app",
 		}, &packaging.WinGet{
 			AppID:  "Google.Chrome",
 			AppExe: "$HOMEDRIVE\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
@@ -94,9 +94,9 @@ func MicrosoftEdge() *Program {
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/2c81a094d632c8b510c6c676eec4c358.png",
 		Package: packaging.Available(&packaging.Flatpak{
 			AppID: "com.microsoft.Edge",
-		}, &packaging.Brew{
+		}, &packaging.Homebrew{
 			AppID:   "microsoft-edge",
-			AppName: "Microsoft Edge",
+			AppName: "Microsoft Edge.app",
 		}, &packaging.WinGet{
 			AppID:  "Microsoft.Edge",
 			AppExe: "$HOMEDRIVE\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
