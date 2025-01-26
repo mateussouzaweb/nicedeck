@@ -54,6 +54,27 @@ func Citra() *Program {
 	}
 }
 
+// Installer for Citron
+func Citron() *Program {
+	return &Program{
+		ID:              "citron",
+		Name:            "Citron",
+		Description:     "Emulator for Nintendo Switch",
+		Category:        "Emulators",
+		Tags:            []string{"Gaming", "Emulator"},
+		RequiredFolders: []string{"$ROMS/SWITCH", "$BIOS/SWITCH"},
+		IconURL:         "https://cdn2.steamgriddb.com/icon/e47cf05ff3fa2a1a4a4ee22e02ade796.png",
+		LogoURL:         "https://cdn2.steamgriddb.com/logo/bc14e96f34edcda0aa5d04b3634405d2.png",
+		CoverURL:        "https://cdn2.steamgriddb.com/grid/f9065c4db2e5945e8e71e94234119a62.png",
+		BannerURL:       "https://cdn2.steamgriddb.com/grid/c4d3e48c9b104390b762019ccd9174e5.png",
+		HeroURL:         "https://cdn2.steamgriddb.com/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
+		Package: packaging.Available(&packaging.Windows{
+			AppID:  "Citron.Portable",
+			AppExe: "$APPLICATIONS\\Citron\\citron.exe",
+		}),
+	}
+}
+
 // Installer for Dolphin
 func Dolphin() *Program {
 	return &Program{

@@ -113,6 +113,7 @@ Console Emulators:
 - Nintendo GameCube - [Dolphin](https://dolphin-emu.org)
 - Nintendo Switch - [Ryujinx](https://ryujinx.org)
 - Nintendo Switch - [Yuzu](https://yuzu-emu.org)
+- Nintendo Switch - [Citron](https://citron-emu.org)
 - Nintendo Wii - [Dolphin](https://dolphin-emu.org)
 - Nintendo Wii U - [Cemu](https://cemu.info)
 - Sega Dreamcast - [Flycast](https://github.com/flyinghead/flycast)

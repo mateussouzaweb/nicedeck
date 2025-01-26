@@ -8,25 +8,25 @@ To start, you must copy your ROMs to the Steam Deck. Use the table below to guid
 
 NOTE: ``$ROMS`` represents your ROMs directory, located at ``$HOME/Games/ROMs``.
 
-| Console                   | Emulator          | ROMs Folder       |
-|---------------------------|-------------------|-------------------|
-| Microsoft Xbox            | Xemu              | ``$ROMS/XBOX``    |
-| Microsoft Xbox 360        | Xemu              | ``$ROMS/XBOX360`` |
-| Nintendo 3DS              | Lime3DS / Citra   | ``$ROMS/3DS``     |
-| Nintendo 64               | Simple64          | ``$ROMS/N64``     |
-| Nintendo DS               | MelonDS           | ``$ROMS/DS``      |
-| Nintendo Game Boy Advance | mGBA              | ``$ROMS/GBA``     |
-| Nintendo GameCube         | Dolphin           | ``$ROMS/GC``      |
-| Nintendo Switch           | Ryujinx / Yuzu    | ``$ROMS/SWITCH``  |
-| Nintendo Wii              | Dolphin           | ``$ROMS/WII``     |
-| Nintendo Wii U            | Cemu              | ``$ROMS/WIIU``    |
-| Sega Dreamcast            | Flycast / Redream | ``$ROMS/DC``      |
-| Sony Playstation 1        | DuckStation       | ``$ROMS/PS1``     |
-| Sony Playstation 2        | PCSX2             | ``$ROMS/PS2``     |
-| Sony Playstation 3        | RPCS3             | ``$ROMS/PS3``     |
-| Sony Playstation 4        | ShadPS4           | ``$ROMS/PS4``     |
-| Sony Playstation Portable | PPSSPP            | ``$ROMS/PSP``     |
-| Sony Playstation Vita     | Vita3K            | ``$ROMS/PSVITA``  |
+| Console                   | Emulator                | ROMs Folder       |
+|---------------------------|-------------------------|-------------------|
+| Microsoft Xbox            | Xemu                    | ``$ROMS/XBOX``    |
+| Microsoft Xbox 360        | Xemu                    | ``$ROMS/XBOX360`` |
+| Nintendo 3DS              | Lime3DS / Citra         | ``$ROMS/3DS``     |
+| Nintendo 64               | Simple64                | ``$ROMS/N64``     |
+| Nintendo DS               | MelonDS                 | ``$ROMS/DS``      |
+| Nintendo Game Boy Advance | mGBA                    | ``$ROMS/GBA``     |
+| Nintendo GameCube         | Dolphin                 | ``$ROMS/GC``      |
+| Nintendo Switch           | Ryujinx / Yuzu / Citron | ``$ROMS/SWITCH``  |
+| Nintendo Wii              | Dolphin                 | ``$ROMS/WII``     |
+| Nintendo Wii U            | Cemu                    | ``$ROMS/WIIU``    |
+| Sega Dreamcast            | Flycast / Redream       | ``$ROMS/DC``      |
+| Sony Playstation 1        | DuckStation             | ``$ROMS/PS1``     |
+| Sony Playstation 2        | PCSX2                   | ``$ROMS/PS2``     |
+| Sony Playstation 3        | RPCS3                   | ``$ROMS/PS3``     |
+| Sony Playstation 4        | ShadPS4                 | ``$ROMS/PS4``     |
+| Sony Playstation Portable | PPSSPP                  | ``$ROMS/PSP``     |
+| Sony Playstation Vita     | Vita3K                  | ``$ROMS/PSVITA``  |
 
 Please note that it's very important to have the ROMs in the correct location. Any ROM outside of these directories will not be parsed by NiceDeck and consequently will not be available on the Steam Library as direct shortcut to the game.
 
