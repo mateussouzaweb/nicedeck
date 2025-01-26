@@ -1,23 +1,29 @@
-deps:
-	sudo apt update
-	sudo apt install -y build-essential g++ pkg-config
-	sudo apt install -y libgtk-4-dev libwebkitgtk-6.0-dev
-	sudo apt install -y qt6-base-dev qt6-webengine-dev
+ARCH=$(shell go env GOARCH)
+SYSTEM=$(shell go env GOOS)
 
 run:
-	go run -tags=browser cmd/main.go --dev --gui=headless
+	go run cmd/main.go --dev --gui=headless
 
 clean:
 	[ -d bin/ ] && rm -r bin/ || true
 
 build: clean
 	mkdir -p bin/
-	go build -tags=browser -o bin/nicedeck cmd/main.go
-	go build -tags=gtk -o bin/nicedeck-gtk cmd/main.go
-	go build -tags=qt -o bin/nicedeck-qt cmd/main.go
 
-install: build
-	mkdir -p $(HOME)/Applications
-	cp bin/nicedeck $(HOME)/Applications/NiceDeck
-	chmod +x $(HOME)/Applications/NiceDeck
-	$(HOME)/Applications/NiceDeck
+	# Linux
+	GOOS=linux GOARCH=amd64 \
+	go build -o bin/nicedeck-linux-amd64 cmd/main.go
+	GOOS=linux GOARCH=arm64 \
+	go build -o bin/nicedeck-linux-arm64 cmd/main.go
+
+	# MacOS
+	GOOS=darwin GOARCH=amd64 \
+	go build -o bin/nicedeck-macos-amd64 cmd/main.go
+	GOOS=darwin GOARCH=arm64 \
+	go build -o bin/nicedeck-macos-arm64 cmd/main.go
+
+	# Windows
+	GOOS=windows GOARCH=amd64 \
+	go build -ldflags="-H windowsgui" -o bin/nicedeck-windows-amd64.exe cmd/main.go
+	GOOS=windows GOARCH=arm64 \
+	go build -ldflags="-H windowsgui" -o bin/nicedeck-windows-arm64.exe cmd/main.go

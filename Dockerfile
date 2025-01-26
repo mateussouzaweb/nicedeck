@@ -10,9 +10,7 @@ ENV LANG en_US.utf8
 
 # Install system dependencies
 RUN apt update && apt install -y \
-    build-essential g++ pkg-config git curl wget \
-    libgtk-4-dev libwebkitgtk-6.0-dev \
-    qt6-base-dev qt6-webengine-dev
+    build-essential g++ pkg-config git curl wget
 
 # Install GitHub CLI
 RUN mkdir -p -m 755 /etc/apt/keyrings \

@@ -91,7 +91,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG="${{ needs.extract-information.outputs.tag }}"
-          gh release upload $TAG \
-            bin/nicedeck \
-            bin/nicedeck-gtk \
-            bin/nicedeck-qt
+          gh release upload $TAG $(echo bin/nicedeck-*)
