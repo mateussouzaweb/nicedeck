@@ -254,6 +254,27 @@ func PPSSPP() *Program {
 	}
 }
 
+// Installer for Redream
+func Redream() *Program {
+	return &Program{
+		ID:              "redream",
+		Name:            "Redream",
+		Description:     "Emulator for Sega Dreamcast",
+		Category:        "Emulators",
+		Tags:            []string{"Gaming", "Emulator"},
+		RequiredFolders: []string{"$ROMS/DC", "$BIOS/DC"},
+		IconURL:         "https://cdn2.steamgriddb.com/icon/e1878879f60985631df0dc2da79396a0.ico",
+		LogoURL:         "https://cdn2.steamgriddb.com/logo/6c11cb78b7bbb5c22d5f5271b5494381.png",
+		CoverURL:        "https://cdn2.steamgriddb.com/grid/dd5fbbf85c3198ece6dcd86166c58439.png",
+		BannerURL:       "https://cdn2.steamgriddb.com/grid/2e834824cdba6141dcb14688597a26fa.png",
+		HeroURL:         "https://cdn2.steamgriddb.com/hero/4853deb8a06838c502fc6cb6ce91f704.png",
+		Package: packaging.Available(&packaging.Windows{
+			AppID:  "Redream.Portable",
+			AppExe: "$APPLICATIONS\\Redream\\redream.exe",
+		}),
+	}
+}
+
 // Installer for RPCS3
 func RPCS3() *Program {
 	return &Program{
@@ -329,6 +350,27 @@ func Simple64() *Program {
 	}
 }
 
+// Installer for Vita3K
+func Vita3K() *Program {
+	return &Program{
+		ID:              "vita3k",
+		Name:            "Vita3k",
+		Description:     "Emulator for Sony Playstation Vita",
+		Category:        "Emulators",
+		Tags:            []string{"Gaming", "Emulator"},
+		RequiredFolders: []string{"$ROMS/PSVITA", "$BIOS/PSVITA"},
+		IconURL:         "https://cdn2.steamgriddb.com/icon/1a4a5f89e71e4bb9973355c964a950b4.ico",
+		LogoURL:         "https://cdn2.steamgriddb.com/logo/654798fc20b6d08b12236106fff87920.png",
+		CoverURL:        "https://cdn2.steamgriddb.com/grid/d371697094a73577074c10fb6688f2ff.png",
+		BannerURL:       "https://cdn2.steamgriddb.com/grid/a1357c62042fedf5f0a71ebacfe5987d.png",
+		HeroURL:         "https://cdn2.steamgriddb.com/hero/5e98be1eed79374e1edd72f4b1d838b4.png",
+		Package: packaging.Available(&packaging.Windows{
+			AppID:  "Vita3K.Portable",
+			AppExe: "$APPLICATIONS\\Vita3K\\Vita3K.exe",
+		}),
+	}
+}
+
 // Installer for Xemu
 func Xemu() *Program {
 	return &Program{
@@ -350,6 +392,30 @@ func Xemu() *Program {
 		}, &packaging.Windows{
 			AppID:  "Xemu.Portable",
 			AppExe: "$APPLICATIONS\\Xemu\\xemu.exe",
+		}),
+	}
+}
+
+// Installer for Xenia
+func Xenia() *Program {
+	return &Program{
+		ID:              "xenia",
+		Name:            "Xenia",
+		Description:     "Emulator for Microsoft Xbox 360",
+		Category:        "Emulators",
+		Tags:            []string{"Gaming", "Emulator"},
+		RequiredFolders: []string{"$ROMS/XBOX360", "$BIOS/XBOX360"},
+		IconURL:         "https://cdn2.steamgriddb.com/icon/420c841038c492fed4d19999a813009d.ico",
+		LogoURL:         "https://cdn2.steamgriddb.com/logo/fac05328668f599efe18e76cdb284aab.png",
+		CoverURL:        "https://cdn2.steamgriddb.com/grid/e43e55468f8cfee48d517b2c49cecd08.png",
+		BannerURL:       "https://cdn2.steamgriddb.com/grid/1962bcb00dc1bf1b5bcb334257ff3701.png",
+		HeroURL:         "https://cdn2.steamgriddb.com/hero/2958ef004a18f50b380a87d1cfe5366d.png",
+		Package: packaging.Available(&packaging.Windows{
+			AppID:  "Xenia.Portable",
+			AppExe: "$APPLICATIONS\\Xenia\\xenia_canary.exe",
+		}, &packaging.Windows{
+			AppID:  "Xenia.Portable",
+			AppExe: "$APPLICATIONS\\Xenia\\xenia.exe",
 		}),
 	}
 }

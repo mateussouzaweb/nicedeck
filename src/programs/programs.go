@@ -56,11 +56,14 @@ func GetPrograms() ([]*Program, error) {
 	programs = append(programs, PCSX2())
 	programs = append(programs, PPSSPP())
 	programs = append(programs, ProtonPlus())
+	programs = append(programs, Redream())
 	programs = append(programs, RPCS3())
 	programs = append(programs, Ryujinx())
 	programs = append(programs, Simple64())
+	programs = append(programs, Vita3K())
 	programs = append(programs, XboxCloudGaming())
 	programs = append(programs, Xemu())
+	programs = append(programs, Xenia())
 	programs = append(programs, Yuzu())
 
 	// Filter to return only available programs

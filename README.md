@@ -97,6 +97,7 @@ Utilities:
 Console Emulators:
 
 - Microsoft Xbox - [Xemu](https://xemu.app)
+- Microsoft Xbox 360 - [Xenia](https://xenia.jp)
 - Nintendo 3DS - [Lime3DS](https://lime3ds.github.io)
 - Nintendo 3DS - [Citra](https://citra-emu.org)
 - Nintendo 64 - [Simple64](https://simple64.github.io)
@@ -108,10 +109,12 @@ Console Emulators:
 - Nintendo Wii - [Dolphin](https://dolphin-emu.org)
 - Nintendo Wii U - [Cemu](https://cemu.info)
 - Sega Dreamcast - [Flycast](https://github.com/flyinghead/flycast)
+- Sega Dreamcast - [Redream](https://redream.io)
 - Sony Playstation 1 - [DuckStation](https://www.duckstation.org)
 - Sony Playstation 2 - [PCSX2](https://pcsx2.net)
 - Sony Playstation 3 - [RPCS3](https://rpcs3.net)
 - Sony Playstation Portable - [PPSSPP](https://www.ppsspp.org)
+- Sony Playstation Vita - [Vita3k](https://vita3k.org)
 
 Please not that NiceDeck will not offer support for all emulation softwares out there - we focus only on emulators for single consoles. If you want to emulate older consoles, please consider [RetroArch](https://www.retroarch.com) or something else.
 

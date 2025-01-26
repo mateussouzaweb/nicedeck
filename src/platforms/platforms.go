@@ -48,6 +48,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Program:       "flycast",
 			Extensions:    ".chd .cdi .iso .elf .cue .gdi .lst .dat .m3u .7z .zip",
 			LaunchOptions: "-config window:fullscreen=yes \"${ROM}\"",
+		}, {
+			Name:          "Redream",
+			Program:       "redream",
+			Extensions:    ".chd .cdi .cue .gdi .7z",
+			LaunchOptions: "-b -e \"${ROM}\"",
 		}},
 	})
 
@@ -148,6 +153,18 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Name:    "PSVITA",
+		Console: "Sony PlayStation Vita",
+		Folder:  "PSVITA",
+		Emulators: []*Emulator{{
+			Name:          "Vita3K",
+			Program:       "vita3k",
+			Extensions:    ".vpk",
+			LaunchOptions: "-F -r \"${ROM}\"",
+		}},
+	})
+
+	platforms = append(platforms, &Platform{
 		Name:    "SWITCH",
 		Console: "Nintendo Switch",
 		Folder:  "SWITCH",
@@ -197,6 +214,18 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Program:       "xemu",
 			Extensions:    ".iso",
 			LaunchOptions: "-full-screen -dvd_path \"${ROM}\"",
+		}},
+	})
+
+	platforms = append(platforms, &Platform{
+		Name:    "XBOX360",
+		Console: "Microsoft Xbox 360",
+		Folder:  "XBOX360",
+		Emulators: []*Emulator{{
+			Name:          "Xenia",
+			Program:       "xenia",
+			Extensions:    ".iso .zar",
+			LaunchOptions: "\"${ROM}\"",
 		}},
 	})
 
