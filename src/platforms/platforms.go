@@ -141,6 +141,18 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Name:    "PS4",
+		Console: "Sony PlayStation 4",
+		Folder:  "PS4",
+		Emulators: []*Emulator{{
+			Name:          "ShadPS4",
+			Program:       "shadps4",
+			Extensions:    ".desktop",
+			LaunchOptions: "-g \"${ROM}\"",
+		}},
+	})
+
+	platforms = append(platforms, &Platform{
 		Name:    "PSP",
 		Console: "Sony PlayStation Portable",
 		Folder:  "PSP",

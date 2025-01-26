@@ -59,6 +59,7 @@ func GetPrograms() ([]*Program, error) {
 	programs = append(programs, Redream())
 	programs = append(programs, RPCS3())
 	programs = append(programs, Ryujinx())
+	programs = append(programs, ShadPS4())
 	programs = append(programs, Simple64())
 	programs = append(programs, Vita3K())
 	programs = append(programs, XboxCloudGaming())

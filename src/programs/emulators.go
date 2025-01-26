@@ -325,6 +325,31 @@ func Ryujinx() *Program {
 	}
 }
 
+// Installer for ShadPS4
+func ShadPS4() *Program {
+	return &Program{
+		ID:              "shadps4",
+		Name:            "ShadPS4",
+		Description:     "Emulator for Sony Playstation 4",
+		Category:        "Emulators",
+		Tags:            []string{"Gaming", "Emulator"},
+		RequiredFolders: []string{"$ROMS/PS4", "$BIOS/PS4"},
+		IconURL:         "https://cdn2.steamgriddb.com/icon/3c7941e8f5200be6925e75ed4063311a.png",
+		LogoURL:         "https://cdn2.steamgriddb.com/logo/6c70dccf452364ce8e5a9c44c88dd6c1.png",
+		CoverURL:        "https://cdn2.steamgriddb.com/grid/72251a01ac19b84c2208c2a6f18a17da.png",
+		BannerURL:       "https://cdn2.steamgriddb.com/grid/21483d9d9aca5bd442f292cef7bab951.png",
+		HeroURL:         "https://cdn2.steamgriddb.com/hero/cc5e9cea0a79b962c20a9231e65a06ef.jpg",
+		Package: packaging.Available(&packaging.Flatpak{
+			Namespace: "system",
+			AppID:     "net.shadps4.shadPS4",
+			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "ShadPS4.Portable",
+			AppExe: "$APPLICATIONS\\ShadPS4\\shadPS4.exe",
+		}),
+	}
+}
+
 // Installer for Simple64
 func Simple64() *Program {
 	return &Program{

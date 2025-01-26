@@ -24,6 +24,7 @@ NOTE: ``$ROMS`` represents your ROMs directory, located at ``$HOME/Games/ROMs``.
 | Sony Playstation 1        | DuckStation       | ``$ROMS/PS1``     |
 | Sony Playstation 2        | PCSX2             | ``$ROMS/PS2``     |
 | Sony Playstation 3        | RPCS3             | ``$ROMS/PS3``     |
+| Sony Playstation 4        | ShadPS4           | ``$ROMS/PS4``     |
 | Sony Playstation Portable | PPSSPP            | ``$ROMS/PSP``     |
 | Sony Playstation Vita     | Vita3K            | ``$ROMS/PSVITA``  |
 
