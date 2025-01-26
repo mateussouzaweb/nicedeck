@@ -21,16 +21,23 @@ Some features of NiceDeck:
 
 ## Installation and Usage
 
-Open Steam Deck in ``Desktop Mode``, launch ``Konsole`` and type the command below to install ``NiceDeck``:
+NOTE: You need go into ``Desktop Mode`` in Steam Deck to follow these instructions.
 
-```bash
-# Install the program and run it.
-# You can customized GUI and version with the parameters as:
-# curl ... | bash -s [gui] [version] 
-curl https://mateussouzaweb.github.io/nicedeck/install | bash -s
-```
+- Go to the project [RELEASES](https://github.com/mateussouzaweb/nicedeck/releases) page.
+- Download the latest version of NiceDeck for your operation system:
+    - Steam Deck: ``nicedeck-linux-amd64``.
+    - Linux x86: ``nicedeck-linux-amd64``.
+    - Linux ARM: ``nicedeck-linux-arm64``.
+    - MacOS Apple Silicon: ``nicedeck-macos-arm64``.
+    - MacOS Intel: ``nicedeck-macos-amd64``.
+    - Windows x86: ``nicedeck-windows-amd64.exe``.
+    - Windows ARM: ``nicedeck-windows-arm64.exe``.
+- On Linux and MacOS, make sure that the file executable: 
+    - From file navigator, open the file properties and check the *executable* field.
+    - From terminal, run the command  like ``chmod +x $FILE``.
+- Double click on the program to start it.
 
-The program will open and you can finally run the initial setup process. After the setup process, install the desired programs, parse your ROMs or manage Steam shortcuts from GUI.
+Once you follow these instructions, the program will open and you can finally run the initial setup process. After the setup process, install the desired programs, parse your ROMs or manage Steam shortcuts from the GUI.
 
 *Note:* Restart Steam or the device to changes take effect into ``Steam Library``.
 
@@ -113,6 +120,7 @@ Console Emulators:
 - Sony Playstation 1 - [DuckStation](https://www.duckstation.org)
 - Sony Playstation 2 - [PCSX2](https://pcsx2.net)
 - Sony Playstation 3 - [RPCS3](https://rpcs3.net)
+- Sony Playstation 4 - [ShadPS4](https://shadps4.net)
 - Sony Playstation Portable - [PPSSPP](https://www.ppsspp.org)
 - Sony Playstation Vita - [Vita3k](https://vita3k.org)
 
