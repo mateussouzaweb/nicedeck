@@ -22,6 +22,9 @@ func Cemu() *Program {
 			Namespace: "system",
 			AppID:     "info.cemu.Cemu",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "Cemu.Portable",
+			AppExe: "$APPLICATIONS\\Cemu\\Cemu.exe",
 		}),
 	}
 }
@@ -44,6 +47,9 @@ func Citra() *Program {
 			Namespace: "system",
 			AppID:     "org.citra_emu.citra",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "Citra.Portable",
+			AppExe: "$APPLICATIONS\\Citra\\citra.exe",
 		}),
 	}
 }
@@ -66,6 +72,9 @@ func Dolphin() *Program {
 			Namespace: "system",
 			AppID:     "org.DolphinEmu.dolphin-emu",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "Dolphin.Portable",
+			AppExe: "$APPLICATIONS\\Dolphin\\Dolphin.exe",
 		}),
 	}
 }
@@ -88,6 +97,9 @@ func DuckStation() *Program {
 			Namespace: "system",
 			AppID:     "org.duckstation.DuckStation",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "DuckStation.Portable",
+			AppExe: "$APPLICATIONS\\DuckStation\\duckstation-qt-x64-ReleaseLTCG.exe",
 		}),
 	}
 }
@@ -110,6 +122,9 @@ func Flycast() *Program {
 			Namespace: "system",
 			AppID:     "org.flycast.Flycast",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "Flycast.Portable",
+			AppExe: "$APPLICATIONS\\Flycast\\flycast.exe",
 		}),
 	}
 }
@@ -132,6 +147,9 @@ func Lime3DS() *Program {
 			Namespace: "system",
 			AppID:     "io.github.lime3ds.Lime3DS",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "Lime3DS.Portable",
+			AppExe: "$APPLICATIONS\\Lime3DS\\lime3ds.exe",
 		}),
 	}
 }
@@ -154,6 +172,9 @@ func MelonDS() *Program {
 			Namespace: "system",
 			AppID:     "net.kuribo64.melonDS",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "MelonDS.Portable",
+			AppExe: "$APPLICATIONS\\MelonDS\\melonDS.exe",
 		}),
 	}
 }
@@ -176,6 +197,9 @@ func MGBA() *Program {
 			Namespace: "system",
 			AppID:     "io.mgba.mGBA",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "mBGA.Portable",
+			AppExe: "$APPLICATIONS\\MGBA\\mGBA.exe",
 		}),
 	}
 }
@@ -198,6 +222,9 @@ func PCSX2() *Program {
 			Namespace: "system",
 			AppID:     "net.pcsx2.PCSX2",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "PCSX2.Portable",
+			AppExe: "$APPLICATIONS\\PCSX2\\pcsx2-qt.exe",
 		}),
 	}
 }
@@ -220,6 +247,9 @@ func PPSSPP() *Program {
 			Namespace: "system",
 			AppID:     "org.ppsspp.PPSSPP",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "PPSSPP.Portable",
+			AppExe: "$APPLICATIONS\\PPSSPP\\PPSSPPWindows64.exe",
 		}),
 	}
 }
@@ -242,6 +272,9 @@ func RPCS3() *Program {
 			Namespace: "system",
 			AppID:     "net.rpcs3.RPCS3",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "RPCS3.Portable",
+			AppExe: "$APPLICATIONS\\RPCS3\\rpcs3.exe",
 		}),
 	}
 }
@@ -264,6 +297,9 @@ func Ryujinx() *Program {
 			Namespace: "system",
 			AppID:     "org.ryujinx.Ryujinx",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "Ryujinx.Portable",
+			AppExe: "$APPLICATIONS\\Ryujinx\\Ryujinx.exe",
 		}),
 	}
 }
@@ -286,6 +322,9 @@ func Simple64() *Program {
 			Namespace: "system",
 			AppID:     "io.github.simple64.simple64",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "Simple64.Portable",
+			AppExe: "$APPLICATIONS\\Simple64\\simple64-gui.exe",
 		}),
 	}
 }
@@ -308,6 +347,9 @@ func Xemu() *Program {
 			Namespace: "system",
 			AppID:     "app.xemu.xemu",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "Xemu.Portable",
+			AppExe: "$APPLICATIONS\\Xemu\\xemu.exe",
 		}),
 	}
 }
@@ -330,6 +372,9 @@ func Yuzu() *Program {
 			Namespace: "system",
 			AppID:     "org.yuzu_emu.yuzu",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.Windows{
+			AppID:  "Yuzu.Portable",
+			AppExe: "$APPLICATIONS\\Yuzu\\yuzu.exe",
 		}),
 	}
 }
