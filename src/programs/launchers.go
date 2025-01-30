@@ -40,7 +40,7 @@ func EmulationStationDE() *Program {
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/9323f21f2098b7288267c785458548b2.png",
 		Package: packaging.Available(&packaging.AppImage{
 			AppID:   "emulationstation-de",
-			AppName: "EmulationStation-DE.AppImage",
+			AppName: "$APPLICATIONS/EmulationStation-DE.AppImage",
 			BeforeInstall: func(a *packaging.AppImage) error {
 				latest, err := emulationstation.GetLatestRelease("LinuxAppImage")
 				a.AppURL = latest

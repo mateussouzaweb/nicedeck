@@ -89,10 +89,7 @@ func (a *AppImage) Installed() (bool, error) {
 
 // Return executable file path
 func (a *AppImage) Executable() string {
-	return fs.ExpandPath(fmt.Sprintf(
-		`$APPLICATIONS/%s`,
-		a.AppName,
-	))
+	return fs.ExpandPath(a.AppName)
 }
 
 // Run installed program
