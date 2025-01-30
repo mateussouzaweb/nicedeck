@@ -22,6 +22,9 @@ func Cemu() *Program {
 			Namespace: "system",
 			AppID:     "info.cemu.Cemu",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.MacOS{
+			AppID:   "cemu.portable",
+			AppName: "$EMULATORS/Cemu.app",
 		}, &packaging.Windows{
 			AppID:  "Cemu.Portable",
 			AppExe: "$EMULATORS\\Cemu\\Cemu.exe",
@@ -47,6 +50,9 @@ func Citra() *Program {
 			Namespace: "system",
 			AppID:     "org.citra_emu.citra",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.MacOS{
+			AppID:   "citra.portable",
+			AppName: "$EMULATORS/Citra/citra-qt.app",
 		}, &packaging.Windows{
 			AppID:  "Citra.Portable",
 			AppExe: "$EMULATORS\\Citra\\citra.exe",
@@ -93,6 +99,9 @@ func Dolphin() *Program {
 			Namespace: "system",
 			AppID:     "org.DolphinEmu.dolphin-emu",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.MacOS{
+			AppID:   "dolphin.portable",
+			AppName: "$EMULATORS/Dolphin.app",
 		}, &packaging.Windows{
 			AppID:  "Dolphin.Portable",
 			AppExe: "$EMULATORS\\Dolphin\\Dolphin.exe",
@@ -118,6 +127,9 @@ func DuckStation() *Program {
 			Namespace: "system",
 			AppID:     "org.duckstation.DuckStation",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.MacOS{
+			AppID:   "duckstation.portable",
+			AppName: "$EMULATORS/DuckStation.app",
 		}, &packaging.Windows{
 			AppID:  "DuckStation.Portable",
 			AppExe: "$EMULATORS\\DuckStation\\duckstation-qt-x64-ReleaseLTCG.exe",
@@ -143,6 +155,9 @@ func Flycast() *Program {
 			Namespace: "system",
 			AppID:     "org.flycast.Flycast",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.MacOS{
+			AppID:   "flycast.portable",
+			AppName: "$EMULATORS/Flycast.app",
 		}, &packaging.Windows{
 			AppID:  "Flycast.Portable",
 			AppExe: "$EMULATORS\\Flycast\\flycast.exe",
@@ -168,6 +183,9 @@ func Lime3DS() *Program {
 			Namespace: "system",
 			AppID:     "io.github.lime3ds.Lime3DS",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.MacOS{
+			AppID:   "lime3ds.portable",
+			AppName: "$EMULATORS/Lime3DS/lime3ds.app",
 		}, &packaging.Windows{
 			AppID:  "Lime3DS.Portable",
 			AppExe: "$EMULATORS\\Lime3DS\\lime3ds.exe",
@@ -193,6 +211,9 @@ func MelonDS() *Program {
 			Namespace: "system",
 			AppID:     "net.kuribo64.melonDS",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.MacOS{
+			AppID:   "melonds.portable",
+			AppName: "$EMULATORS/MelonDS.app",
 		}, &packaging.Windows{
 			AppID:  "MelonDS.Portable",
 			AppExe: "$EMULATORS\\MelonDS\\melonDS.exe",
@@ -218,6 +239,9 @@ func MGBA() *Program {
 			Namespace: "system",
 			AppID:     "io.mgba.mGBA",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.MacOS{
+			AppID:   "mgba.portable",
+			AppName: "$EMULATORS/MGBA.app",
 		}, &packaging.Windows{
 			AppID:  "MGBA.Portable",
 			AppExe: "$EMULATORS\\MGBA\\mGBA.exe",
@@ -243,6 +267,9 @@ func PCSX2() *Program {
 			Namespace: "system",
 			AppID:     "net.pcsx2.PCSX2",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.MacOS{
+			AppID:   "pcsx2.portable",
+			AppName: "$EMULATORS/PCSX2.app",
 		}, &packaging.Windows{
 			AppID:  "PCSX2.Portable",
 			AppExe: "$EMULATORS\\PCSX2\\pcsx2-qt.exe",
@@ -268,6 +295,9 @@ func PPSSPP() *Program {
 			Namespace: "system",
 			AppID:     "org.ppsspp.PPSSPP",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.MacOS{
+			AppID:   "ppsspp.portable",
+			AppName: "$EMULATORS/PPSSPP.app",
 		}, &packaging.Windows{
 			AppID:  "PPSSPP.Portable",
 			AppExe: "$EMULATORS\\PPSSPP\\PPSSPPWindows64.exe",
@@ -289,7 +319,10 @@ func Redream() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/dd5fbbf85c3198ece6dcd86166c58439.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/2e834824cdba6141dcb14688597a26fa.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/4853deb8a06838c502fc6cb6ce91f704.png",
-		Package: packaging.Available(&packaging.Windows{
+		Package: packaging.Available(&packaging.MacOS{
+			AppID:   "redream.portable",
+			AppName: "$EMULATORS/Redream.app",
+		}, &packaging.Windows{
 			AppID:  "Redream.Portable",
 			AppExe: "$EMULATORS\\Redream\\redream.exe",
 		}),
@@ -314,6 +347,9 @@ func RPCS3() *Program {
 			Namespace: "system",
 			AppID:     "net.rpcs3.RPCS3",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.MacOS{
+			AppID:   "rpcs3.portable",
+			AppName: "$EMULATORS/RPCS3.app",
 		}, &packaging.Windows{
 			AppID:  "RPCS3.Portable",
 			AppExe: "$EMULATORS\\RPCS3\\rpcs3.exe",
@@ -339,6 +375,9 @@ func Ryujinx() *Program {
 			Namespace: "system",
 			AppID:     "org.ryujinx.Ryujinx",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.MacOS{
+			AppID:   "ryujinx.portable",
+			AppName: "$EMULATORS/Ryujinx.app",
 		}, &packaging.Windows{
 			AppID:  "Ryujinx.Portable",
 			AppExe: "$EMULATORS\\Ryujinx\\Ryujinx.exe",
@@ -364,6 +403,9 @@ func ShadPS4() *Program {
 			Namespace: "system",
 			AppID:     "net.shadps4.shadPS4",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.MacOS{
+			AppID:   "shadps4.portable",
+			AppName: "$EMULATORS/ShadPS4.app",
 		}, &packaging.Windows{
 			AppID:  "ShadPS4.Portable",
 			AppExe: "$EMULATORS\\ShadPS4\\shadPS4.exe",
@@ -410,7 +452,10 @@ func Vita3K() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/d371697094a73577074c10fb6688f2ff.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/a1357c62042fedf5f0a71ebacfe5987d.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/5e98be1eed79374e1edd72f4b1d838b4.png",
-		Package: packaging.Available(&packaging.Windows{
+		Package: packaging.Available(&packaging.MacOS{
+			AppID:   "vita3k.portable",
+			AppName: "$EMULATORS/Vita3K.app",
+		}, &packaging.Windows{
 			AppID:  "Vita3K.Portable",
 			AppExe: "$EMULATORS\\Vita3K\\Vita3K.exe",
 		}),
@@ -435,6 +480,9 @@ func Xemu() *Program {
 			Namespace: "system",
 			AppID:     "app.xemu.xemu",
 			Overrides: []string{"--filesystem=host"},
+		}, &packaging.MacOS{
+			AppID:   "xemu.portable",
+			AppName: "$EMULATORS/Xemu.app",
 		}, &packaging.Windows{
 			AppID:  "Xemu.Portable",
 			AppExe: "$EMULATORS\\Xemu\\xemu.exe",
