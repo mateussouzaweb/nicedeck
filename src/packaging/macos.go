@@ -44,10 +44,7 @@ func (m *MacOS) Installed() (bool, error) {
 
 // Return executable file path
 func (m *MacOS) Executable() string {
-	return fs.NormalizePath(fmt.Sprintf(
-		`/Applications/%s`,
-		m.AppName,
-	))
+	return fs.ExpandPath(m.AppName)
 }
 
 // Run installed program
