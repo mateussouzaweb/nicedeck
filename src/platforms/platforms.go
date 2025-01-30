@@ -242,7 +242,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "Xenia",
 			Program:       "xenia",
 			Extensions:    ".iso .zar",
-			LaunchOptions: "\"${ROM}\"",
+			LaunchOptions: "--fullscreen=true \"${ROM}\"",
 		}},
 	})
 
