@@ -48,9 +48,10 @@ func main() {
 	// Expose environment variables for internal usage
 	cli.SetEnv("GAMES", fs.ExpandPath("$HOME/Games"), false)
 	cli.SetEnv("APPLICATIONS", fs.ExpandPath("$GAMES/Applications"), false)
+	cli.SetEnv("EMULATORS", fs.ExpandPath("$GAMES/Emulators"), false)
 	cli.SetEnv("BIOS", fs.ExpandPath("$GAMES/BIOS"), false)
 	cli.SetEnv("ROMS", fs.ExpandPath("$GAMES/ROMs"), false)
-	cli.SetEnv("STATE", fs.ExpandPath("$GAMES/STATE"), false)
+	cli.SetEnv("STATE", fs.ExpandPath("$GAMES/State"), false)
 
 	// Init server
 	go func() {

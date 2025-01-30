@@ -32,10 +32,11 @@ func Setup(useSymlink bool, storagePath string) error {
 	// Maps folders and optional symbolic links
 	symlinkPath := filepath.Join(storagePath, "Games")
 	mappedPaths := map[string]string{
-		fs.ExpandPath("$APPLICATIONS"): filepath.Join(symlinkPath, "APPLICATIONS"),
+		fs.ExpandPath("$APPLICATIONS"): filepath.Join(symlinkPath, "Applications"),
+		fs.ExpandPath("$EMULATORS"):    filepath.Join(symlinkPath, "Emulators"),
 		fs.ExpandPath("$BIOS"):         filepath.Join(symlinkPath, "BIOS"),
 		fs.ExpandPath("$ROMS"):         filepath.Join(symlinkPath, "ROMs"),
-		fs.ExpandPath("$STATE"):        filepath.Join(symlinkPath, "STATE"),
+		fs.ExpandPath("$STATE"):        filepath.Join(symlinkPath, "State"),
 	}
 
 	// Create folders or links based on user choice

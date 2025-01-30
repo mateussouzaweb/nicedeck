@@ -24,7 +24,7 @@ func Cemu() *Program {
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
 			AppID:  "Cemu.Portable",
-			AppExe: "$APPLICATIONS\\Cemu\\Cemu.exe",
+			AppExe: "$EMULATORS\\Cemu\\Cemu.exe",
 		}),
 	}
 }
@@ -49,7 +49,7 @@ func Citra() *Program {
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
 			AppID:  "Citra.Portable",
-			AppExe: "$APPLICATIONS\\Citra\\citra.exe",
+			AppExe: "$EMULATORS\\Citra\\citra.exe",
 		}),
 	}
 }
@@ -70,7 +70,7 @@ func Citron() *Program {
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
 		Package: packaging.Available(&packaging.Windows{
 			AppID:  "Citron.Portable",
-			AppExe: "$APPLICATIONS\\Citron\\citron.exe",
+			AppExe: "$EMULATORS\\Citron\\citron.exe",
 		}),
 	}
 }
@@ -95,7 +95,7 @@ func Dolphin() *Program {
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
 			AppID:  "Dolphin.Portable",
-			AppExe: "$APPLICATIONS\\Dolphin\\Dolphin.exe",
+			AppExe: "$EMULATORS\\Dolphin\\Dolphin.exe",
 		}),
 	}
 }
@@ -120,7 +120,7 @@ func DuckStation() *Program {
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
 			AppID:  "DuckStation.Portable",
-			AppExe: "$APPLICATIONS\\DuckStation\\duckstation-qt-x64-ReleaseLTCG.exe",
+			AppExe: "$EMULATORS\\DuckStation\\duckstation-qt-x64-ReleaseLTCG.exe",
 		}),
 	}
 }
@@ -145,7 +145,7 @@ func Flycast() *Program {
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
 			AppID:  "Flycast.Portable",
-			AppExe: "$APPLICATIONS\\Flycast\\flycast.exe",
+			AppExe: "$EMULATORS\\Flycast\\flycast.exe",
 		}),
 	}
 }
@@ -170,7 +170,7 @@ func Lime3DS() *Program {
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
 			AppID:  "Lime3DS.Portable",
-			AppExe: "$APPLICATIONS\\Lime3DS\\lime3ds.exe",
+			AppExe: "$EMULATORS\\Lime3DS\\lime3ds.exe",
 		}),
 	}
 }
@@ -195,7 +195,7 @@ func MelonDS() *Program {
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
 			AppID:  "MelonDS.Portable",
-			AppExe: "$APPLICATIONS\\MelonDS\\melonDS.exe",
+			AppExe: "$EMULATORS\\MelonDS\\melonDS.exe",
 		}),
 	}
 }
@@ -219,8 +219,8 @@ func MGBA() *Program {
 			AppID:     "io.mgba.mGBA",
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
-			AppID:  "mBGA.Portable",
-			AppExe: "$APPLICATIONS\\MGBA\\mGBA.exe",
+			AppID:  "MGBA.Portable",
+			AppExe: "$EMULATORS\\MGBA\\mGBA.exe",
 		}),
 	}
 }
@@ -245,7 +245,7 @@ func PCSX2() *Program {
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
 			AppID:  "PCSX2.Portable",
-			AppExe: "$APPLICATIONS\\PCSX2\\pcsx2-qt.exe",
+			AppExe: "$EMULATORS\\PCSX2\\pcsx2-qt.exe",
 		}),
 	}
 }
@@ -270,7 +270,7 @@ func PPSSPP() *Program {
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
 			AppID:  "PPSSPP.Portable",
-			AppExe: "$APPLICATIONS\\PPSSPP\\PPSSPPWindows64.exe",
+			AppExe: "$EMULATORS\\PPSSPP\\PPSSPPWindows64.exe",
 		}),
 	}
 }
@@ -291,7 +291,7 @@ func Redream() *Program {
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/4853deb8a06838c502fc6cb6ce91f704.png",
 		Package: packaging.Available(&packaging.Windows{
 			AppID:  "Redream.Portable",
-			AppExe: "$APPLICATIONS\\Redream\\redream.exe",
+			AppExe: "$EMULATORS\\Redream\\redream.exe",
 		}),
 	}
 }
@@ -316,7 +316,7 @@ func RPCS3() *Program {
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
 			AppID:  "RPCS3.Portable",
-			AppExe: "$APPLICATIONS\\RPCS3\\rpcs3.exe",
+			AppExe: "$EMULATORS\\RPCS3\\rpcs3.exe",
 		}),
 	}
 }
@@ -341,7 +341,7 @@ func Ryujinx() *Program {
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
 			AppID:  "Ryujinx.Portable",
-			AppExe: "$APPLICATIONS\\Ryujinx\\Ryujinx.exe",
+			AppExe: "$EMULATORS\\Ryujinx\\Ryujinx.exe",
 		}),
 	}
 }
@@ -366,7 +366,7 @@ func ShadPS4() *Program {
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
 			AppID:  "ShadPS4.Portable",
-			AppExe: "$APPLICATIONS\\ShadPS4\\shadPS4.exe",
+			AppExe: "$EMULATORS\\ShadPS4\\shadPS4.exe",
 		}),
 	}
 }
@@ -391,7 +391,7 @@ func Simple64() *Program {
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
 			AppID:  "Simple64.Portable",
-			AppExe: "$APPLICATIONS\\Simple64\\simple64-gui.exe",
+			AppExe: "$EMULATORS\\Simple64\\simple64-gui.exe",
 		}),
 	}
 }
@@ -412,7 +412,7 @@ func Vita3K() *Program {
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/5e98be1eed79374e1edd72f4b1d838b4.png",
 		Package: packaging.Available(&packaging.Windows{
 			AppID:  "Vita3K.Portable",
-			AppExe: "$APPLICATIONS\\Vita3K\\Vita3K.exe",
+			AppExe: "$EMULATORS\\Vita3K\\Vita3K.exe",
 		}),
 	}
 }
@@ -437,7 +437,7 @@ func Xemu() *Program {
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
 			AppID:  "Xemu.Portable",
-			AppExe: "$APPLICATIONS\\Xemu\\xemu.exe",
+			AppExe: "$EMULATORS\\Xemu\\xemu.exe",
 		}),
 	}
 }
@@ -458,10 +458,10 @@ func Xenia() *Program {
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/2958ef004a18f50b380a87d1cfe5366d.png",
 		Package: packaging.Available(&packaging.Windows{
 			AppID:  "Xenia.Portable",
-			AppExe: "$APPLICATIONS\\Xenia\\xenia_canary.exe",
+			AppExe: "$EMULATORS\\Xenia\\xenia_canary.exe",
 		}, &packaging.Windows{
 			AppID:  "Xenia.Portable",
-			AppExe: "$APPLICATIONS\\Xenia\\xenia.exe",
+			AppExe: "$EMULATORS\\Xenia\\xenia.exe",
 		}),
 	}
 }
@@ -486,7 +486,7 @@ func Yuzu() *Program {
 			Overrides: []string{"--filesystem=host"},
 		}, &packaging.Windows{
 			AppID:  "Yuzu.Portable",
-			AppExe: "$APPLICATIONS\\Yuzu\\yuzu.exe",
+			AppExe: "$EMULATORS\\Yuzu\\yuzu.exe",
 		}),
 	}
 }
