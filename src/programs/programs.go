@@ -19,6 +19,7 @@ type Program struct {
 	Category        string            `json:"category"`
 	Tags            []string          `json:"tags"`
 	RequiredFolders []string          `json:"requiredFolders"`
+	Website         string            `json:"website"`
 	IconURL         string            `json:"iconUrl"`
 	LogoURL         string            `json:"logoUrl"`
 	CoverURL        string            `json:"coverUrl"`
