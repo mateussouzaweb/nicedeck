@@ -32,7 +32,7 @@ func GetPackage() packaging.Package {
 		AppName: "Steam.app",
 	}, &packaging.WinGet{
 		AppID:  "Valve.Steam",
-		AppExe: "$HOMEDRIVE\\Program Files (x86)\\Steam\\Steam.exe",
+		AppExe: "$PROGRAMS_X86\\Steam\\Steam.exe",
 	})
 }
 
@@ -66,7 +66,7 @@ func GetPath() (string, error) {
 		fs.ExpandPath("$HOME/.var/app/com.valvesoftware.Steam/.steam/steam"),
 		fs.ExpandPath("$HOME/snap/steam/common/.local/share/Steam"),
 		fs.ExpandPath("$HOME/Library/Application Support/Steam"),
-		fs.ExpandPath("$HOMEDRIVE\\Program Files (x86)\\Steam"),
+		fs.ExpandPath("$PROGRAMS_X86\\Steam"),
 	}
 
 	// Checks what directory path is available

@@ -25,7 +25,7 @@ func BraveBrowser() *Program {
 			AppName: "Brave Browser.app",
 		}, &packaging.WinGet{
 			AppID:  "Brave.Brave",
-			AppExe: "$HOMEDRIVE\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe",
+			AppExe: "$PROGRAMS\\BraveSoftware\\Brave-Browser\\Application\\brave.exe",
 		}),
 	}
 }
@@ -51,7 +51,7 @@ func Firefox() *Program {
 			AppName: "Firefox.app",
 		}, &packaging.WinGet{
 			AppID:  "Mozilla.Firefox",
-			AppExe: "$HOMEDRIVE\\Program Files (x86)\\Mozilla Firefox\\firefox.exe",
+			AppExe: "$PROGRAMS_X86\\Mozilla Firefox\\firefox.exe",
 		}),
 	}
 }
@@ -77,7 +77,7 @@ func GoogleChrome() *Program {
 			AppName: "Google Chrome.app",
 		}, &packaging.WinGet{
 			AppID:  "Google.Chrome",
-			AppExe: "$HOMEDRIVE\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+			AppExe: "$PROGRAMS_X86\\Google\\Chrome\\Application\\chrome.exe",
 		}),
 	}
 }
@@ -103,7 +103,7 @@ func MicrosoftEdge() *Program {
 			AppName: "Microsoft Edge.app",
 		}, &packaging.WinGet{
 			AppID:  "Microsoft.Edge",
-			AppExe: "$HOMEDRIVE\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+			AppExe: "$PROGRAMS_X86\\Microsoft\\Edge\\Application\\msedge.exe",
 		}),
 	}
 }

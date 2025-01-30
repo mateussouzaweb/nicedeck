@@ -41,6 +41,8 @@ func main() {
 	// On Windows, map home folder to installation driver
 	if cli.IsWindows() {
 		cli.SetEnv("HOME", fs.ExpandPath("$HOMEDRIVE"), false)
+		cli.SetEnv("PROGRAMS", fs.ExpandPath("$HOMEDRIVE\\Program Files"), false)
+		cli.SetEnv("PROGRAMS_X86", fs.ExpandPath("$HOMEDRIVE\\Program Files (x86)"), false)
 	}
 
 	// Expose environment variables for internal usage
