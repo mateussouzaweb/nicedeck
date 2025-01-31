@@ -74,6 +74,17 @@ func GetStates(options *Options) []*State {
 		},
 	})
 
+	// Redream
+	states = append(states, &State{
+		Platform: "DC",
+		Emulator: "Redream",
+		Type:     "folder",
+		Path:     "$STATE/Redream/saves",
+		Source: []string{
+			"$EMULATORS/Redream/saves",
+		},
+	})
+
 	// MGBA requires configuration to work:
 	// - Go to Tools > Settings > Paths
 	// - Set save games location as $HOME/.var/app/io.mgba.mGBA/save
@@ -187,6 +198,17 @@ func GetStates(options *Options) []*State {
 		},
 	})
 
+	// ShadPS4
+	states = append(states, &State{
+		Platform: "PS4",
+		Emulator: "ShadPS4",
+		Type:     "folder",
+		Path:     "$STATE/ShadPS4/saves",
+		Source: []string{
+			"$HOME/.local/share/shadps4/saves",
+		},
+	})
+
 	// PPSSPP
 	states = append(states, &State{
 		Platform: "PSP",
@@ -203,6 +225,28 @@ func GetStates(options *Options) []*State {
 		Path:     "$STATE/PPSSPP/ppsspp/PSP/PPSSPP_STATE",
 		Source: []string{
 			"$HOME/.var/app/org.ppsspp.PPSSPP/config/ppsspp/PSP/PPSSPP_STATE",
+		},
+	})
+
+	// Vita3K
+	states = append(states, &State{
+		Platform: "PSVITA",
+		Emulator: "Vita3K",
+		Type:     "folder",
+		Path:     "$STATE/Vita3K/ux0/user/00/savedata",
+		Source: []string{
+			"$HOME/.local/share/Vita3K/Vita3K/ux0/user/00/savedata",
+		},
+	})
+
+	// Citron
+	states = append(states, &State{
+		Platform: "SWITCH",
+		Emulator: "Citron",
+		Type:     "folder",
+		Path:     "$STATE/Citron/nand/user/save",
+		Source: []string{
+			"$HOME/.local/share/citron/nand/user/save",
 		},
 	})
 
@@ -293,6 +337,20 @@ func GetStates(options *Options) []*State {
 		Path:     "$STATE/Xemu/xemu/xemu/xbox_hdd.qcow2",
 		Source: []string{
 			"$HOME/.var/app/app.xemu.xemu/data/xemu/xemu/xbox_hdd.qcow2",
+		},
+	})
+
+	// Xenia
+	// Save file is expected to be in the Documents folder
+	// However, user can also put this file in Xenia/ folder
+	states = append(states, &State{
+		Platform: "XBOX360",
+		Emulator: "Xenia",
+		Type:     "file",
+		Path:     "$STATE/Xenia/content",
+		Source: []string{
+			"$USERHOME\\Documents\\xenia\\content",
+			"$EMULATORS\\Xenia\\content",
 		},
 	})
 
