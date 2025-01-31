@@ -12,6 +12,30 @@ type Package interface {
 	Run(args []string) error
 }
 
+// Find best package match based on availability with installed prioritization
+func Best(args ...Package) Package {
+
+	var available []Package
+
+	for _, item := range args {
+		if item.Available() {
+			available = append(available, item)
+		}
+	}
+
+	if len(available) == 0 {
+		return &Missing{}
+	}
+
+	for _, item := range available {
+		if installed, _ := item.Installed(); installed {
+			return item
+		}
+	}
+
+	return available[0]
+}
+
 // Retrieve first available package
 func Available(args ...Package) Package {
 
