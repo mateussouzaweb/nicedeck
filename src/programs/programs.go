@@ -38,7 +38,7 @@ func GetPrograms() ([]*Program, error) {
 	programs = append(programs, BraveBrowser())
 	programs = append(programs, Bottles())
 	programs = append(programs, Cemu())
-	programs = append(programs, Chiaki())
+	programs = append(programs, ChiakiNG())
 	programs = append(programs, Citra())
 	programs = append(programs, Dolphin())
 	programs = append(programs, DuckStation())

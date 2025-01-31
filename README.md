@@ -85,7 +85,7 @@ Browsers:
 
 Streaming:
 
-- [Chiaki](https://chiaki.re)
+- [Chiaki NG](https://streetpea.github.io/chiaki-ng)
 - [GeForce NOW](https://www.nvidia.com/geforce-now)
 - [Moonlight Game Streaming](https://moonlight-stream.org)
 - [Xbox Cloud Gaming](https://www.xbox.com/cloud-gaming)

@@ -4,23 +4,23 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 )
 
-// Installer for Chiaki
-func Chiaki() *Program {
+// Installer for Chiaki-NG
+func ChiakiNG() *Program {
 	return &Program{
-		ID:          "chiaki",
-		Name:        "Chiaki",
+		ID:          "chiaki-ng",
+		Name:        "Chiaki-NG",
 		Description: "Client for PlayStation Remote Play",
 		Category:    "Streaming",
 		Tags:        []string{"Gaming", "Streaming"},
-		Website:     "https://chiaki.re",
-		IconURL:     "https://cdn2.steamgriddb.com/icon/3af6a013ffca8b7e22ce57d00090b754.png",
-		LogoURL:     "https://cdn2.steamgriddb.com/logo/65602dccbf69f8ef8aafdd4ad7b43bd4.png",
-		CoverURL:    "https://cdn2.steamgriddb.com/grid/99979b287fe7f91ba35ff69b8fd14233.png",
-		BannerURL:   "https://cdn2.steamgriddb.com/grid/5c3867d9390d85c6e708a01196d288f4.png",
-		HeroURL:     "https://cdn2.steamgriddb.com/hero/f2b08f23d02d5fff247a41982d44f02e.png",
+		Website:     "https://streetpea.github.io/chiaki-ng/",
+		IconURL:     "https://cdn2.steamgriddb.com/icon/c58aa7403da471ad796cf64288404006.png",
+		LogoURL:     "https://cdn2.steamgriddb.com/logo/fdd3817fb0cf38c24dd377286b1d7e41.png",
+		CoverURL:    "https://cdn2.steamgriddb.com/grid/346cf5bb8dff3e90e2c4df81a83701cf.png",
+		BannerURL:   "https://cdn2.steamgriddb.com/grid/9111ec4aae8cd54acf89f011eee3c164.png",
+		HeroURL:     "https://cdn2.steamgriddb.com/hero/9884dfd73a2471545e0c3f8c14177a04.png",
 		Package: packaging.Available(&packaging.Flatpak{
 			Namespace: "system",
-			AppID:     "re.chiaki.Chiaki",
+			AppID:     "io.github.streetpea.Chiaki4deck",
 		}),
 	}
 }
