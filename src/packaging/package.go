@@ -37,18 +37,6 @@ func Best(args ...Package) Package {
 	return available[0]
 }
 
-// Retrieve first available package
-func Available(args ...Package) Package {
-
-	for _, item := range args {
-		if item.Available() {
-			return item
-		}
-	}
-
-	return &Missing{}
-}
-
 // Retrieve first installed package
 func Installed(args ...Package) Package {
 

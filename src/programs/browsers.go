@@ -18,7 +18,7 @@ func BraveBrowser() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/01a0ed0f07ddea7687fefaedb0f32a7b.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/5ac7b3d023885d0d49e05a32f16c3d54.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/776c2a30d4402b8c5126edd7ad111c5e.png",
-		Package: packaging.Available(&packaging.Flatpak{
+		Package: packaging.Best(&packaging.Flatpak{
 			Namespace: "system",
 			AppID:     "com.brave.Browser",
 		}, &packaging.Homebrew{
@@ -45,7 +45,7 @@ func Firefox() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/4529f985441a035ae4a107b8862ba4dd.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/9384fe92aef7ea0128be2c916ed07cea.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/a318166b8539611449bf21ddc297a783.png",
-		Package: packaging.Available(&packaging.Flatpak{
+		Package: packaging.Best(&packaging.Flatpak{
 			Namespace: "system",
 			AppID:     "org.mozilla.firefox",
 		}, &packaging.Homebrew{
@@ -72,7 +72,7 @@ func GoogleChrome() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/d45c26607db83f6f14b09dd70123913b.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/d40c243072a2d2957b3484e775f1f925.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/cae83cfcb1d8a2a4bb17bd1446fb1cee.png",
-		Package: packaging.Available(&packaging.Flatpak{
+		Package: packaging.Best(&packaging.Flatpak{
 			Namespace: "system",
 			AppID:     "com.google.Chrome",
 		}, &packaging.Homebrew{
@@ -99,7 +99,7 @@ func MicrosoftEdge() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/ca0dadd4ae381d26d4771208c1aa4408.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/0656137651272c4bc984747f7a3e8c2d.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/2c81a094d632c8b510c6c676eec4c358.png",
-		Package: packaging.Available(&packaging.Flatpak{
+		Package: packaging.Best(&packaging.Flatpak{
 			Namespace: "system",
 			AppID:     "com.microsoft.Edge",
 		}, &packaging.Homebrew{

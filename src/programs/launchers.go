@@ -19,7 +19,7 @@ func Bottles() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/8845e5d69c0f8a1d4b30334afb030214.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/123a00ca793f7db5b771574116bc061f.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/84bdc10b5cc3b036ce04a562b0e54d61.png",
-		Package: packaging.Available(&packaging.Flatpak{
+		Package: packaging.Best(&packaging.Flatpak{
 			Namespace: "system",
 			AppID:     "com.usebottles.bottles",
 		}),
@@ -40,7 +40,7 @@ func EmulationStationDE() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/21bd6ea21e43de6dc80e2bc8917f4ba3.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/67a900732336f1ce9d0c0496352fa9ab.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/9323f21f2098b7288267c785458548b2.png",
-		Package: packaging.Available(&packaging.AppImage{
+		Package: packaging.Best(&packaging.AppImage{
 			AppID:   "emulationstation-de",
 			AppName: "$APPLICATIONS/EmulationStation-DE.AppImage",
 			BeforeInstall: func(a *packaging.AppImage) error {
@@ -69,7 +69,7 @@ func HeroicGamesLauncher() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/2b1c6cedeaf9571589e3dc9d51ba20e5.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/94e8e64cdefe77dcc168855c54f14acd.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/bee5ca2551bf346f067a3ac16057bc40.png",
-		Package: packaging.Available(&packaging.Flatpak{
+		Package: packaging.Best(&packaging.Flatpak{
 			Namespace: "system",
 			AppID:     "com.heroicgameslauncher.hgl",
 		}),
@@ -90,7 +90,7 @@ func Lutris() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/3b0d861c2cf5ed4d7b139ee277c8a04a.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/3c5bf5a314017c84acae32394125cf26.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/3b7f06487067b9aa2393a438dd095edc.png",
-		Package: packaging.Available(&packaging.Flatpak{
+		Package: packaging.Best(&packaging.Flatpak{
 			Namespace: "system",
 			AppID:     "net.lutris.Lutris",
 		}),
