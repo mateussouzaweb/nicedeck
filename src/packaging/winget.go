@@ -29,8 +29,7 @@ func (w *WinGet) Runtime() string {
 // Install program
 func (w *WinGet) Install() error {
 	return cli.Run(fmt.Sprintf(
-		`winget list %s || winget install --accept-package-agreements --accept-source-agreements --disable-interactivity --exact --id %s`,
-		w.AppID,
+		`winget install --accept-package-agreements --accept-source-agreements --disable-interactivity --exact --id %s`,
 		w.AppID,
 	))
 }
