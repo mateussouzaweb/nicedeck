@@ -43,6 +43,7 @@
     scrollbar-color: #FFF #212121;
     scrollbar-width: thin;
     width: 100%;
+    word-break: break-all;
 }
 #console #content::-webkit-scrollbar {
     height: 15px;
