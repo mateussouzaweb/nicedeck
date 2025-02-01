@@ -16,7 +16,7 @@ Some features of NiceDeck:
 - Installed programs will be available on the ``Steam Library``, allowing usage on ``Gaming Mode`` at Steam Deck. Nice covers are also expected.
 - Built-in parser to grab information and add ROMs to the ``Steam Library`` automatically.
 - Built-in tool to backup and restore saved games progress and states on each emulator.
-- A correct and workable ``EmulationStation DE`` settings, with systems and finder rules to run games with flatpak in all emulators.
+- A correct and workable ``ES-DE`` settings, with systems and finder rules to run games with flatpak in all emulators.
 - Originally created for Steam Deck, but works on almost any Linux distro.
 
 ## Installation and Usage
@@ -24,7 +24,7 @@ Some features of NiceDeck:
 NOTE: You need go into ``Desktop Mode`` in Steam Deck to follow these instructions.
 
 - Go to the project [RELEASES](https://github.com/mateussouzaweb/nicedeck/releases) page.
-- Download the latest version of NiceDeck for your operation system:
+- Download the latest version of NiceDeck for your operating system:
     - Steam Deck: ``nicedeck-linux-amd64``.
     - Linux x86: ``nicedeck-linux-amd64``.
     - Linux ARM: ``nicedeck-linux-arm64``.
@@ -52,7 +52,7 @@ Folders and Structure:
 
 Programs:
 
-- With the exception of ``EmulationStation DE``, NiceDeck **will not pre-configure additional softwares and emulators**.
+- With the exception of ``ES-DE``, NiceDeck **will not pre-configure additional softwares and emulators**.
 - This means that you should run configuration process of the emulation, including placing BIOS files and tweak settings before using it. 
 - Consult the official guide of each program if you need assistance to correctly configure it.
 - Some programs will require a secondary switch to ``Desktop Mode`` in order to configure advanced settings given the limitations of ``Gaming Mode``. 
@@ -93,7 +93,7 @@ Streaming:
 Game Launchers:
 
 - [Bottles](https://usebottles.com)
-- [EmulationStation DE](https://es-de.org)
+- [ES-DE](https://es-de.org)
 - [Heroic Games Launcher](https://heroicgameslauncher.com)
 - [Lutris](https://lutris.net)
 

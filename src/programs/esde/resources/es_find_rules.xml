@@ -2,167 +2,177 @@
 <ruleList>
     <emulator name="OS-SHELL">
         <rule type="systempath">
+            <entry>zsh</entry>
             <entry>bash</entry>
             <entry>sh</entry>
+            <entry>cmd.exe</entry>
         </rule>
     </emulator>
     <emulator name="CEMU">
-        <rule type="systempath">
-            <entry>Cemu-wrapper</entry>
-            <entry>cemu</entry>
-            <entry>Cemu</entry>
-            <entry>info.cemu.Cemu</entry>
-        </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/info.cemu.Cemu</entry>
             <entry>~/.local/share/flatpak/exports/bin/info.cemu.Cemu</entry>
+            <entry>$EMULATORS/Cemu.AppImage</entry>
+            <entry>$EMULATORS/Cemu.app</entry>
+            <entry>$EMULATORS\Cemu\Cemu.exe</entry>
         </rule>
     </emulator>
     <emulator name="CITRA">
-        <rule type="systempath">
-            <entry>citra-qt</entry>
-            <entry>citra</entry>
-            <entry>citra-emu.citra-nightly</entry>
-            <entry>org.citra_emu.citra</entry>
-        </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.citra_emu.citra</entry>
             <entry>~/.local/share/flatpak/exports/bin/org.citra_emu.citra</entry>
+            <entry>$EMULATORS/Citra/citra-qt.AppImage</entry>
+            <entry>$EMULATORS/Citra/citra-qt.app</entry>
+            <entry>$EMULATORS\Citra\citra.exe</entry>
+        </rule>
+    </emulator>
+    <emulator name="CITRON">
+        <rule type="staticpath">
+            <entry>$EMULATORS/Citron.AppImage</entry>
+            <entry>$EMULATORS\Citron\citron.exe</entry>
         </rule>
     </emulator>
     <emulator name="DOLPHIN">
-        <rule type="systempath">
-            <entry>dolphin-emu</entry>
-            <entry>org.DolphinEmu.dolphin-emu</entry>
-        </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.DolphinEmu.dolphin-emu</entry>
             <entry>~/.local/share/flatpak/exports/bin/org.DolphinEmu.dolphin-emu</entry>
+            <entry>$EMULATORS/Dolphin.AppImage</entry>
+            <entry>$EMULATORS/Dolphin.app</entry>
+            <entry>$EMULATORS\Dolphin\Dolphin.exe</entry>
         </rule>
     </emulator>
     <emulator name="DUCKSTATION">
-        <rule type="systempath">
-            <entry>duckstation-nogui</entry>
-            <entry>duckstation-qt</entry>
-            <entry>org.duckstation.DuckStation</entry>
-        </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.duckstation.DuckStation</entry>
             <entry>~/.local/share/flatpak/exports/bin/org.duckstation.DuckStation</entry>
+            <entry>$EMULATORS/DuckStation.AppImage</entry>
+            <entry>$EMULATORS/DuckStation.app</entry>
+            <entry>$EMULATORS\DuckStation\duckstation-qt-x64-ReleaseLTCG.exe</entry>
         </rule>
     </emulator>
     <emulator name="FLYCAST">
-        <rule type="systempath">
-            <entry>flycast</entry>
-            <entry>org.flycast.Flycast</entry>
-        </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.flycast.Flycast</entry>
             <entry>~/.local/share/flatpak/exports/bin/org.flycast.Flycast</entry>
+            <entry>$EMULATORS/Flycast.AppImage</entry>
+            <entry>$EMULATORS/Flycast.app</entry>
+            <entry>$EMULATORS\Flycast\flycast.exe</entry>
         </rule>
     </emulator>
     <emulator name="LIME3DS">
-        <rule type="systempath">
-            <entry>lime3ds</entry>
-            <entry>io.github.lime3ds.Lime3DS</entry>
-        </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/io.github.lime3ds.Lime3DS</entry>
             <entry>~/.local/share/flatpak/exports/bin/io.github.lime3ds.Lime3DS</entry>
+            <entry>$EMULATORS/Lime3DS/lime3ds.AppImage</entry>
+            <entry>$EMULATORS/Lime3DS/lime3ds.app</entry>
+            <entry>$EMULATORS\Lime3DS\lime3ds.exe</entry>
         </rule>
     </emulator>
     <emulator name="MELONDS">
-        <rule type="systempath">
-            <entry>melonds</entry>
-            <entry>melonDS</entry>
-            <entry>net.kuribo64.melonDS</entry>
-        </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/net.kuribo64.melonDS</entry>
             <entry>~/.local/share/flatpak/exports/bin/net.kuribo64.melonDS</entry>
+            <entry>$EMULATORS/MelonDS.AppImage</entry>
+            <entry>$EMULATORS/MelonDS.app</entry>
+            <entry>$EMULATORS\MelonDS\melonDS.exe</entry>
         </rule>
     </emulator>
     <emulator name="MGBA">
-        <rule type="systempath">
-            <entry>mgba</entry>
-            <entry>mgba-qt</entry>
-            <entry>io.mgba.mGBA</entry>
-        </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/io.mgba.mGBA</entry>
             <entry>~/.local/share/flatpak/exports/bin/io.mgba.mGBA</entry>
+            <entry>$EMULATORS/MGBA.AppImage</entry>
+            <entry>$EMULATORS/MGBA.app</entry>
+            <entry>$EMULATORS\MGBA\mGBA.exe</entry>
         </rule>
     </emulator>
     <emulator name="PCSX2">
-        <rule type="systempath">
-            <entry>pcsx2-qt</entry>
-            <entry>net.pcsx2.PCSX2</entry>
-        </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/net.pcsx2.PCSX2</entry>
             <entry>~/.local/share/flatpak/exports/bin/net.pcsx2.PCSX2</entry>
+            <entry>$EMULATORS/PCSX2.AppImage</entry>
+            <entry>$EMULATORS/PCSX2.app</entry>
+            <entry>$EMULATORS\PCSX2\pcsx2-qt.exe</entry>
         </rule>
     </emulator>
     <emulator name="PPSSPP">
-        <rule type="systempath">
-            <entry>PPSSPPSDL</entry>
-            <entry>PPSSPPQt</entry>
-            <entry>ppsspp-emu.ppsspp-sdl</entry>
-            <entry>org.ppsspp.PPSSPP</entry>
-        </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.ppsspp.PPSSPP</entry>
             <entry>~/.local/share/flatpak/exports/bin/org.ppsspp.PPSSPP</entry>
+            <entry>$EMULATORS/PPSSPP.AppImage</entry>
+            <entry>$EMULATORS/PPSSPP.app</entry>
+            <entry>$EMULATORS\PPSSPP\PPSSPPWindows64.exe</entry>
+        </rule>
+    </emulator>
+    <emulator name="REDREAM">
+        <rule type="staticpath">
+            <entry>$EMULATORS/Redream/redream</entry>
+            <entry>$EMULATORS/Redream.app</entry>
+            <entry>$EMULATORS\Redream\redream.exe</entry>
         </rule>
     </emulator>
     <emulator name="RPCS3">
-        <rule type="systempath">
-            <entry>rpcs3</entry>
-            <entry>net.rpcs3.RPCS3</entry>
-        </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/net.rpcs3.RPCS3</entry>
             <entry>~/.local/share/flatpak/exports/bin/net.rpcs3.RPCS3</entry>
+            <entry>$EMULATORS/RPCS3.AppImage</entry>
+            <entry>$EMULATORS/RPCS3.app</entry>
+            <entry>$EMULATORS\RPCS3\rpcs3.exe</entry>
         </rule>
     </emulator>
     <emulator name="RYUJINX">
-        <rule type="systempath">
-            <entry>Ryujinx</entry>
-            <entry>org.ryujinx.Ryujinx</entry>
-        </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.ryujinx.Ryujinx</entry>
             <entry>~/.local/share/flatpak/exports/bin/org.ryujinx.Ryujinx</entry>
+            <entry>$EMULATORS/Ryujinx.AppImage</entry>
+            <entry>$EMULATORS/Ryujinx.app</entry>
+            <entry>$EMULATORS\Ryujinx\Ryujinx.exe</entry>
+        </rule>
+    </emulator>
+        <emulator name="SHADPS4">
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/net.shadps4.shadPS4</entry>
+            <entry>~/.local/share/flatpak/exports/bin/net.shadps4.shadPS4</entry>
+            <entry>$EMULATORS/ShadPS4.AppImage</entry>
+            <entry>$EMULATORS/ShadPS4.app</entry>
+            <entry>$EMULATORS\ShadPS4\shadPS4.exe</entry>
         </rule>
     </emulator>
     <emulator name="SIMPLE64">
-        <rule type="systempath">
-            <entry>simple64-gui</entry>
-            <entry>io.github.simple64.simple64</entry>
-        </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/io.github.simple64.simple64</entry>
             <entry>~/.local/share/flatpak/exports/bin/io.github.simple64.simple64</entry>
+            <entry>$EMULATORS\Simple64\simple64-gui.exe</entry>
+        </rule>
+    </emulator>
+        <emulator name="VITA3K">
+        <rule type="staticpath">
+            <entry>$EMULATORS/Vita3K/Vita3K.AppImage</entry>
+            <entry>$EMULATORS/Vita3K.app</entry>
+            <entry>$EMULATORS\Vita3K\Vita3K.exe</entry>
         </rule>
     </emulator>
     <emulator name="XEMU">
-        <rule type="systempath">
-            <entry>xemu</entry>
-            <entry>app.xemu.xemu</entry>
-        </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/app.xemu.xemu</entry>
             <entry>~/.local/share/flatpak/exports/bin/app.xemu.xemu</entry>
+            <entry>$EMULATORS/Xemu.AppImage</entry>
+            <entry>$EMULATORS/Xemu.app</entry>
+            <entry>$EMULATORS\Xemu\xemu.exe</entry>
+        </rule>
+    </emulator>
+    <emulator name="XENIA">
+        <rule type="staticpath">
+            <entry>$EMULATORS/Xenia\xenia_canary.exe</entry>
+            <entry>$EMULATORS\Xenia\xenia.exe</entry>
         </rule>
     </emulator>
     <emulator name="YUZU">
-        <rule type="systempath">
-            <entry>yuzu</entry>
-            <entry>org.yuzu_emu.yuzu</entry>
-        </rule>
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.yuzu_emu.yuzu</entry>
             <entry>~/.local/share/flatpak/exports/bin/org.yuzu_emu.yuzu</entry>
+            <entry>$EMULATORS/Yuzu.AppImage</entry>
+            <entry>$EMULATORS\Yuzu\yuzu.exe</entry>
         </rule>
     </emulator>
 </ruleList>

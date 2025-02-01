@@ -2,7 +2,7 @@ package programs
 
 import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/programs/emulationstation"
+	"github.com/mateussouzaweb/nicedeck/src/programs/esde"
 )
 
 // Installer for Bottles
@@ -26,11 +26,11 @@ func Bottles() *Program {
 	}
 }
 
-// Installer for EmulationStation Desktop Edition
-func EmulationStationDE() *Program {
+// Installer for ES-DE
+func ESDE() *Program {
 	return &Program{
-		ID:          "emulationstation",
-		Name:        "EmulationStation DE",
+		ID:          "es-de",
+		Name:        "ES-DE",
 		Description: "Frontend for browsing and launching emulated games",
 		Category:    "Gaming",
 		Tags:        []string{"Gaming", "Emulator", "Launcher"},
@@ -44,12 +44,12 @@ func EmulationStationDE() *Program {
 			AppID:   "es-de.portable",
 			AppName: "$APPLICATIONS/ES-DE.AppImage",
 			BeforeInstall: func(a *packaging.AppImage) error {
-				latest, err := emulationstation.GetLatestRelease("LinuxAppImage")
+				latest, err := esde.GetLatestRelease("LinuxAppImage")
 				a.AppURL = latest
 				return err
 			},
 			AfterInstall: func(a *packaging.AppImage) error {
-				return emulationstation.Setup()
+				return esde.Setup()
 			},
 		}, &packaging.MacOS{
 			AppID:   "es-de.portable",

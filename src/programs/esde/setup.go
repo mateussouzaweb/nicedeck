@@ -1,4 +1,4 @@
-package emulationstation
+package esde
 
 import (
 	"embed"
@@ -12,16 +12,25 @@ import (
 //go:embed resources/*
 var resourcesContent embed.FS
 
-// Perform setup for EmulationStation
+// Perform setup for ES-DE
 func Setup() error {
-	if cli.IsLinux() {
-		return WriteLinuxSettings()
+	err := WriteSettings()
+	if err != nil {
+		return err
 	}
+
+	if cli.IsLinux() {
+		err := WriteLinuxDesktopShortcut()
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
-// Write settings for EmulationStation
-func WriteLinuxSettings() error {
+// Write settings for ES-DE
+func WriteSettings() error {
 
 	// Settings (write file only if not exist yet)
 	settingsFile := fs.ExpandPath("$HOME/ES-DE/settings/es_settings.xml")
@@ -83,6 +92,12 @@ func WriteLinuxSettings() error {
 		return err
 	}
 
+	return nil
+}
+
+// Write desktop shortcut for ES-DE
+func WriteLinuxDesktopShortcut() error {
+
 	// Icon
 	iconFile := fs.ExpandPath("$HOME/ES-DE/icon.png")
 	iconContent, err := resourcesContent.ReadFile("resources/icon.png")
@@ -96,8 +111,8 @@ func WriteLinuxSettings() error {
 	}
 
 	// Desktop shortcut
-	desktopShortcutFile := fs.ExpandPath("$HOME/.local/share/applications/emulationstation-de.desktop")
-	desktopShortcutContent, err := resourcesContent.ReadFile("resources/emulationstation-de.desktop")
+	desktopShortcutFile := fs.ExpandPath("$HOME/.local/share/applications/es-de.desktop")
+	desktopShortcutContent, err := resourcesContent.ReadFile("resources/es-de.desktop")
 	if err != nil {
 		return err
 	}

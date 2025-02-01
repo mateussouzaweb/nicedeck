@@ -6,6 +6,7 @@
         <path>%ROMPATH%/DC</path>
         <extension>.chd .CHD .cdi .CDI .iso .ISO .elf .ELF .cue .CUE .gdi .GDI .lst .LST .dat .DAT .m3u .M3U .7z .7Z .zip .ZIP</extension>
         <command label="FLYCAST">%EMULATOR_FLYCAST% -config window:fullscreen=yes %ROM%</command>
+        <command label="REDREAM">%EMULATOR_REDREAM% -b -e %ROM%</command>
         <platform>dreamcast</platform>
         <theme>dreamcast</theme>
     </system>
@@ -77,10 +78,19 @@
         <name>ps3</name>
         <fullname>Sony PlayStation 3</fullname>
         <path>%ROMPATH%/PS3</path>
-        <extension>.desktop .ps3 .PS3 .ps3dir .PS3DIR</extension>
+        <extension>.desktop .DESKTOP .ps3 .PS3 .ps3dir .PS3DIR</extension>
         <command label="RPCS3">%EMULATOR_RPCS3% --no-gui %ROM%</command>
         <platform>ps3</platform>
         <theme>ps3</theme>
+    </system>
+    <system>
+        <name>ps4</name>
+        <fullname>Sony PlayStation 4</fullname>
+        <path>%ROMPATH%/PS4</path>
+        <extension>.desktop .DESKTOP</extension>
+        <command label="SHADPS4">%EMULATOR_SHADPS4% -g %ROM%</command>
+        <platform>ps4</platform>
+        <theme>ps4</theme>
     </system>
     <system>
         <name>psp</name>
@@ -92,12 +102,22 @@
         <theme>psp</theme>
     </system>
     <system>
+        <name>psvita</name>
+        <fullname>Sony PlayStation Vita</fullname>
+        <path>%ROMPATH%/PSVITA</path>
+        <extension>.vpk .VPK</extension>
+        <command label="VITA3K">%EMULATOR_VITA3K% -F -r %ROM%</command>
+        <platform>psvita</platform>
+        <theme>psvita</theme>
+    </system>
+    <system>
         <name>switch</name>
         <fullname>Nintendo Switch</fullname>
         <path>%ROMPATH%/SWITCH</path>
         <extension>.nca .NCA .nro .NRO .nso .NSO .nsp .NSP .xci .XCI</extension>
         <command label="RYUJINX">%EMULATOR_RYUJINX% --fullscreen %ROM%</command>
         <command label="YUZU">%EMULATOR_YUZU% -f -g %ROM%</command>
+        <command label="CITRON">%EMULATOR_CITRON% -f -g %ROM%</command>
         <platform>switch</platform>
         <theme>switch</theme>
     </system>
@@ -127,5 +147,14 @@
         <command label="XEMU">%EMULATOR_XEMU% -full-screen -dvd_path %ROM%</command>
         <platform>xbox</platform>
         <theme>xbox</theme>
+    </system>
+    <system>
+        <name>xbox360</name>
+        <fullname>Microsoft Xbox 360</fullname>
+        <path>%ROMPATH%/XBOX360</path>
+        <extension>.iso .ISO .zar .ZAR</extension>
+        <command label="XENIA">%EMULATOR_XENIA% --fullscreen=true %ROM%</command>
+        <platform>xbox360</platform>
+        <theme>xbox360</theme>
     </system>
 </systemList>

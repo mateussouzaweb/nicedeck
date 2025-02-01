@@ -1,4 +1,4 @@
-package emulationstation
+package esde
 
 import (
 	"encoding/json"

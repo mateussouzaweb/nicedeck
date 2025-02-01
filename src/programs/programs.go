@@ -43,7 +43,7 @@ func GetPrograms() ([]*Program, error) {
 	programs = append(programs, Citra())
 	programs = append(programs, Dolphin())
 	programs = append(programs, DuckStation())
-	programs = append(programs, EmulationStationDE())
+	programs = append(programs, ESDE())
 	programs = append(programs, Firefox())
 	programs = append(programs, Flycast())
 	programs = append(programs, GeForceNow())
