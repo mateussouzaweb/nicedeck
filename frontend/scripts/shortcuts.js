@@ -66,7 +66,7 @@ window.addEventListener('load', async () => {
                     return true
                 }
                 for (const filter of filters) {
-                    if (shortcut.appName.includes(filter)) {
+                    if (shortcut.appName.includes("[" + filter + "]")) {
                         return true
                     }
                 }
