@@ -63,7 +63,7 @@ func Citra() *Program {
 			AppName: "$EMULATORS/Citra/citra-qt.app",
 		}, &packaging.Windows{
 			AppID:  "Citra.Portable",
-			AppExe: "$EMULATORS\\Citra\\citra.exe",
+			AppExe: "$EMULATORS\\Citra\\citra-qt.exe",
 		}),
 	}
 }
