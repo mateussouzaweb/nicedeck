@@ -2,6 +2,7 @@ package packaging
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -28,7 +29,19 @@ func (l *Linux) Runtime() string {
 
 // Install program
 func (l *Linux) Install() error {
-	return fmt.Errorf("cannot perform package installations")
+
+	// Make sure is executable
+	executable := l.Executable()
+	err := os.Chmod(executable, 0775)
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorWarn, "Warning: Unable to install Linux native packages.")
+	cli.Printf(cli.ColorWarn, "Warning: Please make sure to manually download and install the program.")
+	cli.Printf(cli.ColorWarn, "Warning: Expected executable: %s", executable)
+
+	return nil
 }
 
 // Installed verification

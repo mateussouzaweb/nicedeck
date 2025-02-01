@@ -28,7 +28,19 @@ func (m *MacOS) Runtime() string {
 
 // Install program
 func (m *MacOS) Install() error {
-	return fmt.Errorf("cannot perform package installations")
+
+	// Add program to quarantine
+	script := fmt.Sprintf(`xattr -r -d com.apple.quarantine %s`, m.Executable())
+	err := cli.Run(script)
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorWarn, "Warning: Unable to install MacOS native packages.")
+	cli.Printf(cli.ColorWarn, "Warning: Please make sure to manually download and install the program.")
+	cli.Printf(cli.ColorWarn, "Warning: Expected executable: %s", m.Executable())
+
+	return nil
 }
 
 // Installed verification

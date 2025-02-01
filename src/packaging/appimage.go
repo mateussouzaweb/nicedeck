@@ -43,14 +43,17 @@ func (a *AppImage) Install() error {
 		return err
 	}
 
-	// Download application
-	executable := a.Executable()
-	err = fs.DownloadFile(a.AppURL, executable, true)
-	if err != nil {
-		return err
+	// Download application when possible
+	if a.AppURL != "" {
+		executable := a.Executable()
+		err = fs.DownloadFile(a.AppURL, executable, true)
+		if err != nil {
+			return err
+		}
 	}
 
 	// Make sure is executable
+	executable := a.Executable()
 	err = os.Chmod(executable, 0775)
 	if err != nil {
 		return err
