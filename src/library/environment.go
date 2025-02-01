@@ -12,17 +12,17 @@ func Init() error {
 
 	// Retrieve relevant user directories
 	homeDir, err := os.UserHomeDir()
-	if err == nil {
+	if err != nil {
 		return err
 	}
 
 	configDir, err := os.UserConfigDir()
-	if err == nil {
+	if err != nil {
 		return err
 	}
 
 	cacheDir, err := os.UserCacheDir()
-	if err == nil {
+	if err != nil {
 		return err
 	}
 
