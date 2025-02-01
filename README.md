@@ -106,13 +106,13 @@ Console Emulators:
 - Microsoft Xbox - [Xemu](https://xemu.app)
 - Microsoft Xbox 360 - [Xenia](https://xenia.jp)
 - Nintendo 3DS - [Lime3DS](https://lime3ds.github.io)
-- Nintendo 3DS - [Citra](https://citra-emu.org)
+- Nintendo 3DS - [Citra](https://github.com/PabloMK7/citra)
 - Nintendo 64 - [Simple64](https://simple64.github.io)
 - Nintendo DS - [MelonDS](https://melonds.kuribo64.net)
 - Nintendo Game Boy Advance - [mGBA](https://mgba.io)
 - Nintendo GameCube - [Dolphin](https://dolphin-emu.org)
-- Nintendo Switch - [Ryujinx](https://ryujinx.org)
-- Nintendo Switch - [Yuzu](https://yuzu-emu.org)
+- Nintendo Switch - [Ryujinx](https://github.com/Ryubing/Ryujinx)
+- Nintendo Switch - [Yuzu](https://yuzu-mirror.github.io)
 - Nintendo Switch - [Citron](https://citron-emu.org)
 - Nintendo Wii - [Dolphin](https://dolphin-emu.org)
 - Nintendo Wii U - [Cemu](https://cemu.info)
@@ -125,7 +125,7 @@ Console Emulators:
 - Sony Playstation Portable - [PPSSPP](https://www.ppsspp.org)
 - Sony Playstation Vita - [Vita3k](https://vita3k.org)
 
-Please not that NiceDeck will not offer support for all emulation softwares out there - we focus only on emulators for single consoles. If you want to emulate older consoles, please consider [RetroArch](https://www.retroarch.com) or something else.
+Please not that NiceDeck will not offer support for all emulation softwares out there - we focus only on emulators for single consoles. If you want to emulate older consoles, please consider [RetroArch](https://www.retroarch.com), [OpenEmu](https://openemu.org/) or something else.
 
 ## Using NiceDeck Outside Steam Deck
 
