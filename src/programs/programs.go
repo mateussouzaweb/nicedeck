@@ -41,6 +41,7 @@ func GetPrograms() ([]*Program, error) {
 	programs = append(programs, Cemu())
 	programs = append(programs, ChiakiNG())
 	programs = append(programs, Citra())
+	programs = append(programs, Citron())
 	programs = append(programs, Dolphin())
 	programs = append(programs, DuckStation())
 	programs = append(programs, ESDE())
