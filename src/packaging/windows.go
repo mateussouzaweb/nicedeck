@@ -29,9 +29,9 @@ func (w *Windows) Runtime() string {
 // Install program
 func (w *Windows) Install() error {
 
-	cli.Printf(cli.ColorWarn, "Warning: Unable to install Windows native packages.")
-	cli.Printf(cli.ColorWarn, "Warning: Please make sure to manually download and install the program.")
-	cli.Printf(cli.ColorWarn, "Warning: Expected executable: %s", w.Executable())
+	cli.Printf(cli.ColorWarn, "Warning: Unable to install Windows native packages.\n")
+	cli.Printf(cli.ColorWarn, "Please make sure to manually download and install the program.\n")
+	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", w.Executable())
 
 	return nil
 }

@@ -37,9 +37,9 @@ func (l *Linux) Install() error {
 		return err
 	}
 
-	cli.Printf(cli.ColorWarn, "Warning: Unable to install Linux native packages.")
-	cli.Printf(cli.ColorWarn, "Warning: Please make sure to manually download and install the program.")
-	cli.Printf(cli.ColorWarn, "Warning: Expected executable: %s", executable)
+	cli.Printf(cli.ColorWarn, "Warning: Unable to install Linux native packages.\n")
+	cli.Printf(cli.ColorWarn, "Please make sure to manually download and install the program.\n")
+	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", executable)
 
 	return nil
 }

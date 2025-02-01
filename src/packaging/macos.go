@@ -36,9 +36,9 @@ func (m *MacOS) Install() error {
 		return err
 	}
 
-	cli.Printf(cli.ColorWarn, "Warning: Unable to install MacOS native packages.")
-	cli.Printf(cli.ColorWarn, "Warning: Please make sure to manually download and install the program.")
-	cli.Printf(cli.ColorWarn, "Warning: Expected executable: %s", m.Executable())
+	cli.Printf(cli.ColorWarn, "Warning: Unable to install MacOS native packages.\n")
+	cli.Printf(cli.ColorWarn, "Please make sure to manually download and install the program.\n")
+	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", m.Executable())
 
 	return nil
 }
