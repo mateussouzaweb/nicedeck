@@ -31,9 +31,8 @@ func Init() error {
 	cli.SetEnv("CONFIG", configDir, false)
 	cli.SetEnv("CACHE", cacheDir, false)
 
-	// On Windows, map home folder to installation driver
+	// On Windows, add a few shortcuts
 	if cli.IsWindows() {
-		cli.SetEnv("HOME", fs.ExpandPath("$HOMEDRIVE"), false)
 		cli.SetEnv("APPDATA", fs.ExpandPath("$CONFIG"), false)
 		cli.SetEnv("PROGRAMS", fs.ExpandPath("$HOMEDRIVE\\Program Files"), false)
 		cli.SetEnv("PROGRAMS_X86", fs.ExpandPath("$HOMEDRIVE\\Program Files (x86)"), false)
