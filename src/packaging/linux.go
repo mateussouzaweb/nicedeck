@@ -30,16 +30,18 @@ func (l *Linux) Runtime() string {
 // Install program
 func (l *Linux) Install() error {
 
-	// Make sure is executable
-	executable := l.Executable()
-	err := os.Chmod(executable, 0775)
-	if err != nil {
-		return err
-	}
-
 	cli.Printf(cli.ColorWarn, "Warning: Unable to install Linux native packages.\n")
 	cli.Printf(cli.ColorWarn, "Please make sure to manually download and install the program.\n")
-	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", executable)
+	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", l.Executable())
+
+	// Make sure is executable
+	if installed, _ := l.Installed(); installed {
+		executable := l.Executable()
+		err := os.Chmod(executable, 0775)
+		if err != nil {
+			return err
+		}
+	}
 
 	return nil
 }

@@ -29,16 +29,18 @@ func (m *MacOS) Runtime() string {
 // Install program
 func (m *MacOS) Install() error {
 
-	// Add program to quarantine
-	script := fmt.Sprintf(`xattr -r -d com.apple.quarantine %s`, m.Executable())
-	err := cli.Run(script)
-	if err != nil {
-		return err
-	}
-
 	cli.Printf(cli.ColorWarn, "Warning: Unable to install MacOS native packages.\n")
 	cli.Printf(cli.ColorWarn, "Please make sure to manually download and install the program.\n")
 	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", m.Executable())
+
+	// Add program to quarantine
+	if installed, _ := m.Installed(); installed {
+		script := fmt.Sprintf(`xattr -r -d com.apple.quarantine %s`, m.Executable())
+		err := cli.Run(script)
+		if err != nil {
+			return err
+		}
+	}
 
 	return nil
 }
