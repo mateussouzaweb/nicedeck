@@ -11,8 +11,9 @@ import (
 
 // Homebrew struct
 type Homebrew struct {
-	AppID   string `json:"appId"`
-	AppName string `json:"appName"`
+	AppID     string   `json:"appId"`
+	AppName   string   `json:"appName"`
+	Arguments []string `json:"arguments"`
 }
 
 // Return if package is available
@@ -26,7 +27,7 @@ func (h *Homebrew) Runtime() string {
 }
 
 // Install program
-func (h *Homebrew) Install(shortcut *shortcuts.Shortcut) error {
+func (h *Homebrew) Install() error {
 	return cli.Run(fmt.Sprintf(
 		`brew install --cask %s`,
 		h.AppID,
@@ -60,4 +61,10 @@ func (h *Homebrew) Run(args []string) error {
 		h.Executable(),
 		strings.Join(args, " "),
 	))
+}
+
+// Fill shortcut additional details
+func (h *Homebrew) OnShortcut(shortcut *shortcuts.Shortcut) error {
+	shortcut.LaunchOptions = strings.Join(h.Arguments, " ")
+	return nil
 }

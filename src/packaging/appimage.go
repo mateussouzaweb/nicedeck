@@ -18,6 +18,7 @@ type AppImage struct {
 	AppID         string           `json:"appId"`
 	AppName       string           `json:"appName"`
 	AppURL        string           `json:"appUrl"`
+	Arguments     []string         `json:"arguments"`
 	BeforeInstall AppImageCallback `json:"-"`
 	AfterInstall  AppImageCallback `json:"-"`
 }
@@ -33,7 +34,7 @@ func (a *AppImage) Runtime() string {
 }
 
 // Install program
-func (a *AppImage) Install(shortcut *shortcuts.Shortcut) error {
+func (a *AppImage) Install() error {
 
 	// Run before install callback
 	// Used to dynamic fetch the app download URL
@@ -62,16 +63,6 @@ func (a *AppImage) Install(shortcut *shortcuts.Shortcut) error {
 		return err
 	}
 
-	// Fill shortcut information
-	shortcutDir := fs.ExpandPath("$HOME/.local/share/applications")
-	shortcutName := fmt.Sprintf("%s.desktop", a.AppID)
-	shortcutPath := filepath.Join(shortcutDir, shortcutName)
-
-	shortcut.Exe = executable
-	shortcut.StartDir = filepath.Dir(executable)
-	shortcut.ShortcutPath = shortcutPath
-	shortcut.LaunchOptions = ""
-
 	return nil
 }
 
@@ -99,4 +90,18 @@ func (a *AppImage) Run(args []string) error {
 		a.Executable(),
 		strings.Join(args, " "),
 	))
+}
+
+// Fill shortcut additional details
+func (a *AppImage) OnShortcut(shortcut *shortcuts.Shortcut) error {
+
+	// Fill shortcut information for application
+	shortcutDir := fs.ExpandPath("$HOME/.local/share/applications")
+	shortcutName := fmt.Sprintf("%s.desktop", a.AppID)
+	shortcutPath := filepath.Join(shortcutDir, shortcutName)
+
+	shortcut.ShortcutPath = shortcutPath
+	shortcut.LaunchOptions = strings.Join(a.Arguments, " ")
+
+	return nil
 }

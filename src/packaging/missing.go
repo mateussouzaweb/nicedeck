@@ -20,7 +20,7 @@ func (m *Missing) Runtime() string {
 }
 
 // Install program
-func (m *Missing) Install(shortcut *shortcuts.Shortcut) error {
+func (m *Missing) Install() error {
 	return fmt.Errorf("cannot perform package installations")
 }
 
@@ -36,5 +36,10 @@ func (m *Missing) Executable() string {
 
 // Run installed program
 func (m *Missing) Run(args []string) error {
+	return nil
+}
+
+// Fill shortcut additional details
+func (m *Missing) OnShortcut(shortcut *shortcuts.Shortcut) error {
 	return nil
 }

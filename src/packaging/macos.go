@@ -11,8 +11,9 @@ import (
 
 // MacOS struct
 type MacOS struct {
-	AppID   string `json:"appId"`
-	AppName string `json:"appName"`
+	AppID     string   `json:"appId"`
+	AppName   string   `json:"appName"`
+	Arguments []string `json:"arguments"`
 }
 
 // Return if package is available
@@ -26,7 +27,7 @@ func (m *MacOS) Runtime() string {
 }
 
 // Install program
-func (m *MacOS) Install(shortcut *shortcuts.Shortcut) error {
+func (m *MacOS) Install() error {
 	return fmt.Errorf("cannot perform package installations")
 }
 
@@ -54,4 +55,10 @@ func (m *MacOS) Run(args []string) error {
 		m.Executable(),
 		strings.Join(args, " "),
 	))
+}
+
+// Fill shortcut additional details
+func (m *MacOS) OnShortcut(shortcut *shortcuts.Shortcut) error {
+	shortcut.LaunchOptions = strings.Join(m.Arguments, " ")
+	return nil
 }

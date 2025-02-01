@@ -3,6 +3,7 @@ package programs
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -130,19 +131,31 @@ func Install(id string) error {
 		}
 	}
 
-	// Fill basic shortcut information
-	shortcut := &shortcuts.Shortcut{
-		AppName:   program.Name,
-		Tags:      program.Tags,
-		IconURL:   program.IconURL,
-		LogoURL:   program.LogoURL,
-		CoverURL:  program.CoverURL,
-		BannerURL: program.BannerURL,
-		HeroURL:   program.HeroURL,
+	// Run program installation
+	err = program.Package.Install()
+	if err != nil {
+		return err
 	}
 
-	// Run program installation with shortcut
-	err = program.Package.Install(shortcut)
+	// Fill basic shortcut information
+	executable := program.Package.Executable()
+	startDir := filepath.Dir(executable)
+	shortcut := &shortcuts.Shortcut{
+		AppName:       program.Name,
+		StartDir:      startDir,
+		Exe:           executable,
+		LaunchOptions: "",
+		ShortcutPath:  "",
+		Tags:          program.Tags,
+		IconURL:       program.IconURL,
+		LogoURL:       program.LogoURL,
+		CoverURL:      program.CoverURL,
+		BannerURL:     program.BannerURL,
+		HeroURL:       program.HeroURL,
+	}
+
+	// Fill additional shortcut information from package
+	err = program.Package.OnShortcut(shortcut)
 	if err != nil {
 		return err
 	}

@@ -29,7 +29,7 @@ func (s *Snap) Runtime() string {
 }
 
 // Install program
-func (s *Snap) Install(shortcut *shortcuts.Shortcut) error {
+func (s *Snap) Install() error {
 
 	// Install with CLI command
 	script := fmt.Sprintf(
@@ -41,23 +41,6 @@ func (s *Snap) Install(shortcut *shortcuts.Shortcut) error {
 	err := cli.Run(script)
 	if err != nil {
 		return err
-	}
-
-	// Fill shortcut information for snap application
-	executable := s.Executable()
-	startDir := filepath.Dir(executable)
-	shortcutDir := fs.NormalizePath("/var/lib/snapd/desktop/applications")
-	shortcutName := fmt.Sprintf("%s_%s.desktop", s.AppID, s.AppID)
-	shortcutPath := filepath.Join(shortcutDir, shortcutName)
-
-	shortcut.StartDir = startDir
-	shortcut.Exe = executable
-	shortcut.ShortcutPath = shortcutPath
-	shortcut.LaunchOptions = ""
-
-	// Append shortcut launch arguments
-	if len(s.Arguments) > 0 {
-		shortcut.LaunchOptions = strings.Join(s.Arguments, " ")
 	}
 
 	return nil
@@ -90,4 +73,18 @@ func (s *Snap) Run(args []string) error {
 		s.Executable(),
 		strings.Join(args, " "),
 	))
+}
+
+// Fill shortcut additional details
+func (s *Snap) OnShortcut(shortcut *shortcuts.Shortcut) error {
+
+	// Fill shortcut information for snap application
+	shortcutDir := fs.NormalizePath("/var/lib/snapd/desktop/applications")
+	shortcutName := fmt.Sprintf("%s_%s.desktop", s.AppID, s.AppID)
+	shortcutPath := filepath.Join(shortcutDir, shortcutName)
+
+	shortcut.ShortcutPath = shortcutPath
+	shortcut.LaunchOptions = strings.Join(s.Arguments, " ")
+
+	return nil
 }

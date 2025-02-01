@@ -6,10 +6,11 @@ import "github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 type Package interface {
 	Available() bool
 	Runtime() string
-	Install(shortcut *shortcuts.Shortcut) error
+	Install() error
 	Installed() (bool, error)
 	Executable() string
 	Run(args []string) error
+	OnShortcut(shortcut *shortcuts.Shortcut) error
 }
 
 // Find best package match based on availability with installed prioritization

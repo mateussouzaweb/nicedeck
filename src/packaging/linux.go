@@ -11,8 +11,9 @@ import (
 
 // Linux struct
 type Linux struct {
-	AppID  string `json:"appId"`
-	AppBin string `json:"appBin"`
+	AppID     string   `json:"appId"`
+	AppBin    string   `json:"appBin"`
+	Arguments []string `json:"arguments"`
 }
 
 // Return if package is available
@@ -26,7 +27,7 @@ func (l *Linux) Runtime() string {
 }
 
 // Install program
-func (l *Linux) Install(shortcut *shortcuts.Shortcut) error {
+func (l *Linux) Install() error {
 	return fmt.Errorf("cannot perform package installations")
 }
 
@@ -54,4 +55,10 @@ func (l *Linux) Run(args []string) error {
 		l.Executable(),
 		strings.Join(args, " "),
 	))
+}
+
+// Fill shortcut additional details
+func (l *Linux) OnShortcut(shortcut *shortcuts.Shortcut) error {
+	shortcut.LaunchOptions = strings.Join(l.Arguments, " ")
+	return nil
 }

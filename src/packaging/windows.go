@@ -11,8 +11,9 @@ import (
 
 // Windows struct
 type Windows struct {
-	AppID  string `json:"appId"`
-	AppExe string `json:"appExe"`
+	AppID     string   `json:"appId"`
+	AppExe    string   `json:"appExe"`
+	Arguments []string `json:"arguments"`
 }
 
 // Return if package is available
@@ -26,7 +27,7 @@ func (w *Windows) Runtime() string {
 }
 
 // Install program
-func (w *Windows) Install(shortcut *shortcuts.Shortcut) error {
+func (w *Windows) Install() error {
 	return fmt.Errorf("cannot perform package installations")
 }
 
@@ -61,4 +62,10 @@ func (w *Windows) Run(args []string) error {
 		`Start-Process -FilePath "%s" -PassThru -Wait`,
 		w.Executable(),
 	))
+}
+
+// Fill shortcut additional details
+func (w *Windows) OnShortcut(shortcut *shortcuts.Shortcut) error {
+	shortcut.LaunchOptions = strings.Join(w.Arguments, " ")
+	return nil
 }

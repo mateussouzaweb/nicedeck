@@ -11,8 +11,9 @@ import (
 
 // WinGet struct
 type WinGet struct {
-	AppID  string `json:"appId"`
-	AppExe string `json:"appExe"`
+	AppID     string   `json:"appId"`
+	AppExe    string   `json:"appExe"`
+	Arguments []string `json:"arguments"`
 }
 
 // Return if package is available
@@ -26,7 +27,7 @@ func (w *WinGet) Runtime() string {
 }
 
 // Install program
-func (w *WinGet) Install(shortcut *shortcuts.Shortcut) error {
+func (w *WinGet) Install() error {
 	return cli.Run(fmt.Sprintf(
 		`winget list %s || winget install --accept-package-agreements --accept-source-agreements --disable-interactivity --exact --id %s`,
 		w.AppID,
@@ -65,4 +66,10 @@ func (w *WinGet) Run(args []string) error {
 		`Start-Process -FilePath "%s" -PassThru -Wait`,
 		w.Executable(),
 	))
+}
+
+// Fill shortcut additional details
+func (w *WinGet) OnShortcut(shortcut *shortcuts.Shortcut) error {
+	shortcut.LaunchOptions = strings.Join(w.Arguments, " ")
+	return nil
 }

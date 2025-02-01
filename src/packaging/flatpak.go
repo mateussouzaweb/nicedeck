@@ -55,7 +55,7 @@ func (f *Flatpak) ApplyOverrides() error {
 }
 
 // Install program
-func (f *Flatpak) Install(shortcut *shortcuts.Shortcut) error {
+func (f *Flatpak) Install() error {
 
 	// Install with CLI command
 	script := fmt.Sprintf(
@@ -73,23 +73,6 @@ func (f *Flatpak) Install(shortcut *shortcuts.Shortcut) error {
 	err = f.ApplyOverrides()
 	if err != nil {
 		return err
-	}
-
-	// Fill shortcut information for flatpak app
-	executable := f.Executable()
-	startDir := filepath.Dir(executable)
-	shortcutDir := fs.NormalizePath("exports/share/applications")
-	shortcutName := fmt.Sprintf("%s.desktop", f.AppID)
-	shortcutPath := filepath.Join(f.RuntimeDir(), shortcutDir, shortcutName)
-
-	shortcut.StartDir = startDir
-	shortcut.Exe = executable
-	shortcut.ShortcutPath = shortcutPath
-	shortcut.LaunchOptions = ""
-
-	// Append shortcut launch arguments
-	if len(f.Arguments) > 0 {
-		shortcut.LaunchOptions = strings.Join(f.Arguments, " ")
 	}
 
 	return nil
@@ -123,4 +106,18 @@ func (f *Flatpak) Run(args []string) error {
 		f.AppID,
 		strings.Join(args, " "),
 	))
+}
+
+// Fill shortcut additional details
+func (f *Flatpak) OnShortcut(shortcut *shortcuts.Shortcut) error {
+
+	// Fill shortcut information for flatpak application
+	shortcutDir := fs.NormalizePath("exports/share/applications")
+	shortcutName := fmt.Sprintf("%s.desktop", f.AppID)
+	shortcutPath := filepath.Join(f.RuntimeDir(), shortcutDir, shortcutName)
+
+	shortcut.ShortcutPath = shortcutPath
+	shortcut.LaunchOptions = strings.Join(f.Arguments, " ")
+
+	return nil
 }
