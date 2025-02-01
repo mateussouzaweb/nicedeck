@@ -544,6 +544,12 @@ func openLink(context *Context) error {
 // Setup server endpoints and shutdown channel
 func Setup(version string, developmentMode bool, shutdown chan bool) error {
 
+	// Init user library
+	err := library.Init()
+	if err != nil {
+		return err
+	}
+
 	// Load static FS
 	staticFS = frontend.GetStaticFS(developmentMode)
 	staticHandler = http.FileServer(http.FS(staticFS))

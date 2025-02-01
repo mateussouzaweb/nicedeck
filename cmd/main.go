@@ -6,7 +6,6 @@ import (
 	"syscall"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
-	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/server"
 )
 
@@ -37,21 +36,6 @@ func main() {
 	developmentMode := cli.Flag(os.Args[1:], "--dev", false)
 	listenAddress := cli.Arg(os.Args[1:], "--address", "127.0.0.1:14935")
 	targetURL := "http://" + listenAddress
-
-	// On Windows, map home folder to installation driver
-	if cli.IsWindows() {
-		cli.SetEnv("HOME", fs.ExpandPath("$HOMEDRIVE"), false)
-		cli.SetEnv("PROGRAMS", fs.ExpandPath("$HOMEDRIVE\\Program Files"), false)
-		cli.SetEnv("PROGRAMS_X86", fs.ExpandPath("$HOMEDRIVE\\Program Files (x86)"), false)
-	}
-
-	// Expose environment variables for internal usage
-	cli.SetEnv("GAMES", fs.ExpandPath("$HOME/Games"), false)
-	cli.SetEnv("APPLICATIONS", fs.ExpandPath("$GAMES/Applications"), false)
-	cli.SetEnv("EMULATORS", fs.ExpandPath("$GAMES/Emulators"), false)
-	cli.SetEnv("BIOS", fs.ExpandPath("$GAMES/BIOS"), false)
-	cli.SetEnv("ROMS", fs.ExpandPath("$GAMES/ROMs"), false)
-	cli.SetEnv("STATE", fs.ExpandPath("$GAMES/State"), false)
 
 	// Init server
 	go func() {
