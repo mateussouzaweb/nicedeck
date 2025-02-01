@@ -33,10 +33,10 @@ func Init() error {
 
 	// On Windows, map home folder to installation driver
 	if cli.IsWindows() {
+		cli.SetEnv("HOME", fs.ExpandPath("$HOMEDRIVE"), false)
+		cli.SetEnv("APPDATA", fs.ExpandPath("$CONFIG"), false)
 		cli.SetEnv("PROGRAMS", fs.ExpandPath("$HOMEDRIVE\\Program Files"), false)
 		cli.SetEnv("PROGRAMS_X86", fs.ExpandPath("$HOMEDRIVE\\Program Files (x86)"), false)
-		cli.SetEnv("USER_HOME", fs.ExpandPath("$HOME"), false)
-		cli.SetEnv("HOME", fs.ExpandPath("$HOMEDRIVE"), false)
 	}
 
 	// Expose environment variables for internal usage

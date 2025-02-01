@@ -21,6 +21,12 @@ func ChiakiNG() *Program {
 		Package: packaging.Best(&packaging.Flatpak{
 			Namespace: "system",
 			AppID:     "io.github.streetpea.Chiaki4deck",
+		}, &packaging.Homebrew{
+			AppID:   "streetpea/streetpea/chiaki-ng",
+			AppName: "chiaki-ng.app",
+		}, &packaging.WinGet{
+			AppID:  "StreetPea.chiaki-ng",
+			AppExe: "$PROGRAMS\\chiaki-ng\\chiaki-ng.exe",
 		}),
 	}
 }
@@ -49,6 +55,12 @@ func GeForceNow() *Program {
 				"--device-scale-factor=1.25",
 				"--app=https://play.geforcenow.com",
 			},
+		}, &packaging.Homebrew{
+			AppID:   "nvidia-geforce-now",
+			AppName: "NVIDIA GeForce NOW.app",
+		}, &packaging.WinGet{
+			AppID:  "Nvidia.GeForceNow",
+			AppExe: "$APPDATA\\Local\\NVIDIA Corporation\\GeForceNOW\\CEF\\GeForceNOW.exe",
 		}),
 	}
 }
@@ -70,6 +82,12 @@ func MoonlightGameStreaming() *Program {
 		Package: packaging.Best(&packaging.Flatpak{
 			Namespace: "system",
 			AppID:     "com.moonlight_stream.Moonlight",
+		}, &packaging.Homebrew{
+			AppID:   "moonlight",
+			AppName: "Moonlight.app",
+		}, &packaging.WinGet{
+			AppID:  "MoonlightGameStreamingProject.Moonlight",
+			AppExe: "$PROGRAMS\\Moonlight Game Streaming\\Moonlight.exe",
 		}),
 	}
 }
@@ -98,6 +116,14 @@ func XboxCloudGaming() *Program {
 				"--device-scale-factor=1.25",
 				"--app=https://www.xbox.com/play",
 			},
+		}, &packaging.Homebrew{
+			AppID:     "microsoft-edge",
+			AppName:   "Microsoft Edge.app",
+			Arguments: []string{"--app=https://www.xbox.com/play"},
+		}, &packaging.WinGet{
+			AppID:     "Microsoft.Edge",
+			AppExe:    "$PROGRAMS_X86\\Microsoft\\Edge\\Application\\msedge.exe",
+			Arguments: []string{"--app=https://www.xbox.com/play"},
 		}),
 	}
 }

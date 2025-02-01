@@ -41,8 +41,8 @@ func EmulationStationDE() *Program {
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/67a900732336f1ce9d0c0496352fa9ab.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/9323f21f2098b7288267c785458548b2.png",
 		Package: packaging.Best(&packaging.AppImage{
-			AppID:   "emulationstation-de",
-			AppName: "$APPLICATIONS/EmulationStation-DE.AppImage",
+			AppID:   "es-de.portable",
+			AppName: "$APPLICATIONS/ES-DE.AppImage",
 			BeforeInstall: func(a *packaging.AppImage) error {
 				latest, err := emulationstation.GetLatestRelease("LinuxAppImage")
 				a.AppURL = latest
@@ -51,6 +51,15 @@ func EmulationStationDE() *Program {
 			AfterInstall: func(a *packaging.AppImage) error {
 				return emulationstation.Setup()
 			},
+		}, &packaging.MacOS{
+			AppID:   "es-de.portable",
+			AppName: "$APPLICATIONS/ES-DE.app",
+		}, &packaging.WinGet{
+			AppID:  "ES-DE.EmulationStation-DE",
+			AppExe: "$PROGRAMS\\ES-DE\\ES-DE.exe",
+		}, &packaging.Windows{
+			AppID:  "ES-DE.Portable",
+			AppExe: "$APPLICATIONS\\ES-DE\\ES-DE.exe",
 		}),
 	}
 }
@@ -72,6 +81,12 @@ func HeroicGamesLauncher() *Program {
 		Package: packaging.Best(&packaging.Flatpak{
 			Namespace: "system",
 			AppID:     "com.heroicgameslauncher.hgl",
+		}, &packaging.Homebrew{
+			AppID:   "heroic",
+			AppName: "Heroic.app",
+		}, &packaging.WinGet{
+			AppID:  "HeroicGamesLauncher.HeroicGamesLauncher",
+			AppExe: "$APPDATA\\Local\\Programs\\heroic\\Heroic.exe",
 		}),
 	}
 }
