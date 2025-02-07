@@ -98,8 +98,11 @@ window.addEventListener('load', async () => {
                                 <h4>${shortcut.appName}</h4>
                             </div>
                             <div class="actions">
-                                <button type="button" data-launch-shortcut="${shortcut.appId}" title="Launch">
+                                <button type="button" data-launch-shortcut="${shortcut.appId}" data-launcher="native" title="Launch - Native">
                                     <img src="./img/icons/launch.svg" alt="Launch" width="24" height="24" />
+                                </button>
+                                <button type="button" data-launch-shortcut="${shortcut.appId}" data-launcher="steam" title="Launch - Steam">
+                                    <img src="./img/icons/steam.svg" alt="Launch" width="24" height="24" />
                                 </button>
                                 <button type="button" data-update-shortcut="${shortcut.appId}" title="Update">
                                     <img src="./img/icons/update.svg" alt="Update" width="24" height="24" />
@@ -165,6 +168,7 @@ window.addEventListener('load', async () => {
 
         const modal = $('#modal-launch-shortcut')
         const content = $('.content', modal)
+        const launcher = button.dataset.launcher
         const shortcut = getShortcut(button.dataset.launchShortcut)
 
         modal.dataset.shortcut = shortcut.appId
@@ -173,8 +177,8 @@ window.addEventListener('load', async () => {
 
         /** @type {LaunchShortcutData} */
         const body = {
-            appId: shortcut.appId,
-            launcher: "steam"
+            launcher: launcher,
+            appId: shortcut.appId
         }
 
         try {
