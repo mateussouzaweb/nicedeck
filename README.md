@@ -37,7 +37,7 @@ NOTE: You need go into ``Desktop Mode`` in Steam Deck to follow these instructio
     - From terminal, run the command  like ``chmod +x $FILE``.
 - Double click on the program to start it.
 
-Once you follow these instructions, the program will open and you can finally run the initial setup process. After the setup process, install the desired programs, parse your ROMs or manage Steam shortcuts from the GUI.
+Once you follow these instructions, the program will open and you can finally install the desired programs, parse your ROMs or manage Steam shortcuts from the GUI.
 
 *Note:* Restart Steam or the device to changes take effect into ``Steam Library``.
 
@@ -70,7 +70,7 @@ Application Launcher:
 - The opened software allows deep customization of the available applications on the menu, including the support for adding new categories (like **Emulators**), renaming apps, removing the not desired ones, sorting and many more. Make the customizations based in your needs.
 - If you want to add a program to the favorites section, open the system launcher, right-click in the desired application and select the ``Add to Favorites`` option.
 
-Once you have configured the controller layout on each program and run through the setup process, it's time to have a nice experience!
+Once you have configured the controller layout on each program, it's time to have a nice experience!
 
 Enjoy!
 

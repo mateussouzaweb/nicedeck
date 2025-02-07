@@ -16,7 +16,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/library"
 	"github.com/mateussouzaweb/nicedeck/src/platforms"
 	"github.com/mateussouzaweb/nicedeck/src/programs"
-	"github.com/mateussouzaweb/nicedeck/src/programs/nicedeck"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
 	"github.com/mateussouzaweb/nicedeck/src/steam"
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
@@ -302,60 +301,6 @@ func modifyShortcut(context *Context) error {
 	return context.Status(200).JSON(result)
 }
 
-// Run setup data
-type RunSetupData struct {
-	UseSymlink  bool   `json:"useSymlink"`
-	StoragePath string `json:"storagePath"`
-}
-
-// Run setup result
-type RunSetupResult struct {
-	Status string `json:"status"`
-	Error  string `json:"error"`
-}
-
-// Run setup action (to install all programs)
-func runSetup(context *Context) error {
-
-	result := RunSetupResult{}
-
-	// Bind data
-	data := RunSetupData{}
-	err := context.Bind(&data)
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	// Run library setup by making sure has required structure
-	err = library.Setup(data.UseSymlink, data.StoragePath)
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	// Run Steam setup by making sure has required settings
-	err = steam.Setup()
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	// Run NiceDeck setup by making sure has required settings
-	err = nicedeck.Setup()
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	result.Status = "OK"
-	return context.Status(200).JSON(result)
-}
-
 // Run install data
 type RunInstallData struct {
 	Programs []string `json:"programs"`
@@ -375,6 +320,14 @@ func runInstall(context *Context) error {
 	// Bind data
 	data := RunInstallData{}
 	err := context.Bind(&data)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Run Steam setup by making sure has required settings
+	err = steam.Setup()
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -635,7 +588,6 @@ func Setup(version string, developmentMode bool, shutdown chan bool) error {
 	Add("POST", "/api/library/save", saveLibrary)
 	Add("POST", "/api/shortcut/launch", launchShortcut)
 	Add("POST", "/api/shortcut/modify", modifyShortcut)
-	Add("POST", "/api/setup", runSetup)
 	Add("POST", "/api/install", runInstall)
 	Add("POST", "/api/sync/state", syncState)
 	Add("POST", "/api/roms", processROMs)

@@ -96,6 +96,8 @@ window.addEventListener('load', async () => {
         try {
             button.disabled = true
             await window.runAndCaptureConsole(true, async () => {
+                /** @type {LoadLibraryResult} */
+                await requestJson('POST', '/api/library/load')
                 /** @type {RunInstallResult} */
                 await requestJson('POST', '/api/install', JSON.stringify(body))
                 /** @type {SaveLibraryResult} */

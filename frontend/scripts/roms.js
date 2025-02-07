@@ -77,6 +77,8 @@ window.addEventListener('load', async () => {
         try {
             button.disabled = true
             await window.runAndCaptureConsole(true, async () => {
+                /** @type {LoadLibraryResult} */
+                await requestJson('POST', '/api/library/load')
                 /** @type {ProcessROMsResult} */
                 await requestJson('POST', '/api/roms', JSON.stringify(body))
                 /** @type {SaveLibraryResult} */

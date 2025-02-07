@@ -125,16 +125,6 @@ interface ModifyShortcutResult {
 	error: string
 }
 
-interface RunSetupData {
-	useSymlink: boolean
-	storagePath: string
-}
-
-interface RunSetupResult {
-	status: string
-	error: string
-}
-
 interface RunInstallData {
 	programs: string[]
 }

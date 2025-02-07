@@ -11,16 +11,6 @@ import (
 //go:embed resources/*
 var resourcesContent embed.FS
 
-// Perform setup for ES-DE
-func Setup() error {
-	err := WriteSettings()
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
 // Write settings for ES-DE
 func WriteSettings() error {
 

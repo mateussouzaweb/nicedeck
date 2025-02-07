@@ -32,10 +32,6 @@
                     <li class="active" data-tab="welcome" title="Welcome">
                         <img src="./img/icons/welcome.svg" alt="Welcome" width="24" height="24" />
                     </li>
-                    <li data-tab="setup" title="Setup">
-                        <img src="./img/icons/setup.svg" alt="Setup" width="24" height="24" />
-                        <span>Setup</span>
-                    </li>
                     <li data-tab="install" title="Install / Update">
                         <img src="./img/icons/install.svg" alt="Install / Update" width="24" height="24" />
                         <span>Install / Update</span>
@@ -69,8 +65,7 @@
                 <p>Select the desired option to execute in the navigation menu.</p>
 
                 <ul>
-                    <li>First time running this application? Go to the <b>setup</b> process first.</li>
-                    <li>You can install applications and emulators from the <b>install / update</b> section.</li>
+                    <li>First time running this application? Install applications and emulators from the <b>install / update</b> section.</li>
                     <li>Automatically add your ROMs to the Steam Library at the <b>ROMs</b> section.</li>
                     <li>Need to save or restore your progress in games? Use the <b>state</b> section.</li>
                     <li>You can also customize each ROM individually on the <b>shortcuts</b> tab.</li>
@@ -78,32 +73,6 @@
                 </ul>
 
                 <p>Have a nice gaming experience! :D</p>
-            </section>
-
-            <section class="tab" id="setup">
-                <form action="#">
-                    <div class="group">
-                        <p>Install on external storage or MicroSD?</p>
-                        <label class="radio">
-                            <input type="radio" name="use_symlink" value="Y" />
-                            <span>Yes</span>
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="use_symlink" value="N" checked="checked" />
-                            <span>No</span>
-                        </label>
-                    </div>
-                    <div class="group">
-                        <label for="storage-path">External storage or MicroSD path:</label>
-                        <input type="text" name="storage_path" id="storage-path" value="/media/run/mmcblk0p1" />
-                    </div>
-                    <div class="actions">
-                        <button type="submit">
-                            <span>Run Setup</span>
-                            <span>Processing...</span>
-                        </button>
-                    </div>
-                </form>
             </section>
 
             <section class="tab" id="install">
@@ -287,7 +256,6 @@
     <script type="text/javascript" src="./scripts/install.js"></script>
     <script type="text/javascript" src="./scripts/modal.js"></script>
     <script type="text/javascript" src="./scripts/roms.js"></script>
-    <script type="text/javascript" src="./scripts/setup.js"></script>
     <script type="text/javascript" src="./scripts/shortcuts.js"></script>
     <script type="text/javascript" src="./scripts/shutdown.js"></script>
     <script type="text/javascript" src="./scripts/state.js"></script>
