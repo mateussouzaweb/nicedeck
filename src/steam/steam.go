@@ -8,29 +8,32 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/steam/controller"
 )
 
 // Retrieve Steam package
 func GetPackage() packaging.Package {
-	return packaging.Installed(&packaging.Flatpak{
+	return packaging.Installed(&linux.Flatpak{
 		Namespace: "system",
 		AppID:     "com.valvesoftware.Steam",
 		Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
-	}, &packaging.Flatpak{
+	}, &linux.Flatpak{
 		Namespace: "user",
 		AppID:     "com.valvesoftware.Steam",
 		Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
-	}, &packaging.Snap{
+	}, &linux.Snap{
 		AppID:  "steam",
 		AppBin: "steam",
-	}, &packaging.Linux{
+	}, &linux.Binary{
 		AppID:  "steam",
 		AppBin: "/usr/share/bin/steam",
-	}, &packaging.Homebrew{
+	}, &macos.Homebrew{
 		AppID:   "steam",
 		AppName: "Steam.app",
-	}, &packaging.WinGet{
+	}, &windows.WinGet{
 		AppID:  "Valve.Steam",
 		AppExe: "$PROGRAMS_X86\\Steam\\Steam.exe",
 	})
@@ -142,8 +145,8 @@ func Setup() error {
 	}
 
 	// Make sure Steam on flatpak has the necessary permission
-	if _, ok := GetPackage().(*packaging.Flatpak); ok {
-		err := GetPackage().(*packaging.Flatpak).ApplyOverrides()
+	if _, ok := GetPackage().(*linux.Flatpak); ok {
+		err := GetPackage().(*linux.Flatpak).ApplyOverrides()
 		if err != nil {
 			return fmt.Errorf("could not perform Steam runtime setup: %s", err)
 		}

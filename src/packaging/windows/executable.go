@@ -1,4 +1,4 @@
-package packaging
+package windows
 
 import (
 	"fmt"
@@ -9,36 +9,36 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
-// Windows struct
-type Windows struct {
+// Executable struct
+type Executable struct {
 	AppID     string   `json:"appId"`
 	AppExe    string   `json:"appExe"`
 	Arguments []string `json:"arguments"`
 }
 
 // Return if package is available
-func (w *Windows) Available() bool {
+func (e *Executable) Available() bool {
 	return cli.IsWindows()
 }
 
 // Return package runtime
-func (w *Windows) Runtime() string {
+func (e *Executable) Runtime() string {
 	return "native"
 }
 
 // Install program
-func (w *Windows) Install() error {
+func (e *Executable) Install() error {
 
 	cli.Printf(cli.ColorWarn, "Warning: Unable to install Windows native packages.\n")
 	cli.Printf(cli.ColorWarn, "Please make sure to manually download and install the program.\n")
-	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", w.Executable())
+	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", e.Executable())
 
 	return nil
 }
 
 // Installed verification
-func (w *Windows) Installed() (bool, error) {
-	exist, err := fs.FileExist(w.Executable())
+func (e *Executable) Installed() (bool, error) {
+	exist, err := fs.FileExist(e.Executable())
 	if err != nil {
 		return false, err
 	} else if exist {
@@ -49,28 +49,28 @@ func (w *Windows) Installed() (bool, error) {
 }
 
 // Return executable file path
-func (w *Windows) Executable() string {
-	return fs.ExpandPath(w.AppExe)
+func (e *Executable) Executable() string {
+	return fs.ExpandPath(e.AppExe)
 }
 
 // Run installed program
-func (w *Windows) Run(args []string) error {
+func (e *Executable) Run(args []string) error {
 	if len(args) > 0 {
 		return cli.Start(fmt.Sprintf(
 			`Start-Process -FilePath "%s" -ArgumentList "%s" -PassThru -Wait`,
-			w.Executable(),
+			e.Executable(),
 			strings.Join(args, " "),
 		))
 	}
 
 	return cli.Start(fmt.Sprintf(
 		`Start-Process -FilePath "%s" -PassThru -Wait`,
-		w.Executable(),
+		e.Executable(),
 	))
 }
 
 // Fill shortcut additional details
-func (w *Windows) OnShortcut(shortcut *shortcuts.Shortcut) error {
-	shortcut.LaunchOptions = strings.Join(w.Arguments, " ")
+func (e *Executable) OnShortcut(shortcut *shortcuts.Shortcut) error {
+	shortcut.LaunchOptions = strings.Join(e.Arguments, " ")
 	return nil
 }

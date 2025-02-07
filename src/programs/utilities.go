@@ -2,6 +2,7 @@ package programs
 
 import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
 )
 
 // Installer for ProtonPlus
@@ -18,7 +19,7 @@ func ProtonPlus() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/7901f04bfecd29119dfcce1c708108b1.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/f38705891f01bda4bd16551f42ff7c0a.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/bc6f714aa3dfeef9320a838b79515c2d.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.vysp3r.ProtonPlus",
 		}),

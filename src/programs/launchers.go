@@ -2,6 +2,9 @@ package programs
 
 import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/programs/esde"
 )
 
@@ -19,7 +22,7 @@ func Bottles() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/8845e5d69c0f8a1d4b30334afb030214.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/123a00ca793f7db5b771574116bc061f.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/84bdc10b5cc3b036ce04a562b0e54d61.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.usebottles.bottles",
 		}),
@@ -40,24 +43,24 @@ func ESDE() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/21bd6ea21e43de6dc80e2bc8917f4ba3.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/67a900732336f1ce9d0c0496352fa9ab.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/9323f21f2098b7288267c785458548b2.png",
-		Package: packaging.Best(&packaging.AppImage{
+		Package: packaging.Best(&linux.AppImage{
 			AppID:   "es-de.portable",
 			AppName: "$APPLICATIONS/ES-DE.AppImage",
-			BeforeInstall: func(a *packaging.AppImage) error {
+			BeforeInstall: func(a *linux.AppImage) error {
 				latest, err := esde.GetLatestRelease("LinuxAppImage")
 				a.AppURL = latest
 				return err
 			},
-			AfterInstall: func(a *packaging.AppImage) error {
+			AfterInstall: func(a *linux.AppImage) error {
 				return esde.Setup()
 			},
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "es-de.portable",
 			AppName: "$APPLICATIONS/ES-DE.app",
-		}, &packaging.WinGet{
+		}, &windows.WinGet{
 			AppID:  "ES-DE.EmulationStation-DE",
 			AppExe: "$PROGRAMS\\ES-DE\\ES-DE.exe",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "ES-DE.Portable",
 			AppExe: "$APPLICATIONS\\ES-DE\\ES-DE.exe",
 		}),
@@ -78,13 +81,13 @@ func HeroicGamesLauncher() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/2b1c6cedeaf9571589e3dc9d51ba20e5.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/94e8e64cdefe77dcc168855c54f14acd.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/bee5ca2551bf346f067a3ac16057bc40.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.heroicgameslauncher.hgl",
-		}, &packaging.Homebrew{
+		}, &macos.Homebrew{
 			AppID:   "heroic",
 			AppName: "Heroic.app",
-		}, &packaging.WinGet{
+		}, &windows.WinGet{
 			AppID:  "HeroicGamesLauncher.HeroicGamesLauncher",
 			AppExe: "$APPDATA\\Local\\Programs\\heroic\\Heroic.exe",
 		}),
@@ -105,7 +108,7 @@ func Lutris() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/3b0d861c2cf5ed4d7b139ee277c8a04a.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/3c5bf5a314017c84acae32394125cf26.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/3b7f06487067b9aa2393a438dd095edc.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "net.lutris.Lutris",
 		}),

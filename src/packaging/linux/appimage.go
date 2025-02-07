@@ -1,4 +1,4 @@
-package packaging
+package linux
 
 import (
 	"fmt"

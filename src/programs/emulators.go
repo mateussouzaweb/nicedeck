@@ -2,6 +2,9 @@ package programs
 
 import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 )
 
 // Installer for Cemu
@@ -19,17 +22,18 @@ func Cemu() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/9454c84816d82ed1092f2fe2919a3a8e.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/86fb4d9e1de18ebdb6fc534de828d605.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/d5da28d4865fb92720359db84e0dd0dd.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "info.cemu.Cemu",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.AppImage{
+		}, &linux.AppImage{
 			AppID:   "cemu.portable",
 			AppName: "$EMULATORS/Cemu.AppImage",
-		}, &packaging.MacOS{
+			AppURL:  "https://api.github.com/repos/cemu-project/Cemu/releases",
+		}, &macos.Application{
 			AppID:   "cemu.portable",
 			AppName: "$EMULATORS/Cemu.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "Cemu.Portable",
 			AppExe: "$EMULATORS\\Cemu\\Cemu.exe",
 		}),
@@ -51,17 +55,17 @@ func Citra() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/336fd95d2fd675836a5b72a581072934.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/585191595ac24404854bbce59d0f54d2.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/1d0ba3d7eb612a216c3e4d002deabdb7.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "org.citra_emu.citra",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.AppImage{
+		}, &linux.AppImage{
 			AppID:   "citra.portable",
 			AppName: "$EMULATORS/Citra/citra-qt.AppImage",
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "citra.portable",
 			AppName: "$EMULATORS/Citra/citra-qt.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "Citra.Portable",
 			AppExe: "$EMULATORS\\Citra\\citra-qt.exe",
 		}),
@@ -83,10 +87,10 @@ func Citron() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/f9065c4db2e5945e8e71e94234119a62.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/c4d3e48c9b104390b762019ccd9174e5.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
-		Package: packaging.Best(&packaging.AppImage{
+		Package: packaging.Best(&linux.AppImage{
 			AppID:   "citron.portable",
 			AppName: "$EMULATORS/Citron.AppImage",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "Citron.Portable",
 			AppExe: "$EMULATORS\\Citron\\citron.exe",
 		}),
@@ -108,17 +112,17 @@ func Dolphin() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/8a07e4382e18e3b9f5d2713aeaefc29b.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/cbec7ddbb30e261abd365bf9f814647d.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/018b1d3ea470dbb00e3dd6438af19bfb.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "org.DolphinEmu.dolphin-emu",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.AppImage{
+		}, &linux.AppImage{
 			AppID:   "dolphin.portable",
 			AppName: "$EMULATORS/Dolphin.AppImage",
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "dolphin.portable",
 			AppName: "$EMULATORS/Dolphin.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "Dolphin.Portable",
 			AppExe: "$EMULATORS\\Dolphin\\Dolphin.exe",
 		}),
@@ -140,17 +144,17 @@ func DuckStation() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/1f7c9b9e37afcbd79ebff19b17837cad.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/9c94e659c62b84bf7b39c599b61bc7d3.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/127f12c937b4baf0a8922eb1384391cf.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "org.duckstation.DuckStation",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.AppImage{
+		}, &linux.AppImage{
 			AppID:   "duckstation.portable",
 			AppName: "$EMULATORS/DuckStation.AppImage",
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "duckstation.portable",
 			AppName: "$EMULATORS/DuckStation.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "DuckStation.Portable",
 			AppExe: "$EMULATORS\\DuckStation\\duckstation-qt-x64-ReleaseLTCG.exe",
 		}),
@@ -172,17 +176,17 @@ func Flycast() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/51cf6e65f8242f989f354bf9dfe5a019.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/46b3feb0521b4d823847ebbd4dd58ea6.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "org.flycast.Flycast",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.AppImage{
+		}, &linux.AppImage{
 			AppID:   "flycast.portable",
 			AppName: "$EMULATORS/Flycast.AppImage",
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "flycast.portable",
 			AppName: "$EMULATORS/Flycast.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "Flycast.Portable",
 			AppExe: "$EMULATORS\\Flycast\\flycast.exe",
 		}),
@@ -204,17 +208,17 @@ func Lime3DS() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/012c10e6c703bc4a009d10d95dbd95be.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/1cdcecbcc8ce18ffdb147b29928b5781.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/ae8c643004d25250b521d4f7fc01c354.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "io.github.lime3ds.Lime3DS",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.AppImage{
+		}, &linux.AppImage{
 			AppID:   "lime3ds.portable",
 			AppName: "$EMULATORS/Lime3DS/lime3ds.AppImage",
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "lime3ds.portable",
 			AppName: "$EMULATORS/Lime3DS/lime3ds.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "Lime3DS.Portable",
 			AppExe: "$EMULATORS\\Lime3DS\\lime3ds.exe",
 		}),
@@ -236,17 +240,17 @@ func MelonDS() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/3b397c602f7c9226cbcb907b3d5e7d5e.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/0ec19bac435cd0ab3fcd2160491b0c7b.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "net.kuribo64.melonDS",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.AppImage{
+		}, &linux.AppImage{
 			AppID:   "melonds.portable",
 			AppName: "$EMULATORS/MelonDS.AppImage",
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "melonds.portable",
 			AppName: "$EMULATORS/MelonDS.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "MelonDS.Portable",
 			AppExe: "$EMULATORS\\MelonDS\\melonDS.exe",
 		}),
@@ -268,17 +272,17 @@ func MGBA() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/d280a227a8ef77d87a5d18037c52776a.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/7088b9d5b6a444224cf6380dcfe61554.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/d470133ccf31f9bfdc1dcb45a30c73b1.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "io.mgba.mGBA",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.AppImage{
+		}, &linux.AppImage{
 			AppID:   "mgba.portable",
 			AppName: "$EMULATORS/MGBA.AppImage",
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "mgba.portable",
 			AppName: "$EMULATORS/MGBA.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "MGBA.Portable",
 			AppExe: "$EMULATORS\\MGBA\\mGBA.exe",
 		}),
@@ -300,17 +304,17 @@ func PCSX2() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/3123b87d2cede1c04e380a71701ddfe8.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/f3a71cf60765edd14269d28819d15327.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/9cc25407f209e031babdac7d3c520ccb.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "net.pcsx2.PCSX2",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.AppImage{
+		}, &linux.AppImage{
 			AppID:   "pcsx2.portable",
 			AppName: "$EMULATORS/PCSX2.AppImage",
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "pcsx2.portable",
 			AppName: "$EMULATORS/PCSX2.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "PCSX2.Portable",
 			AppExe: "$EMULATORS\\PCSX2\\pcsx2-qt.exe",
 		}),
@@ -332,17 +336,17 @@ func PPSSPP() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/cf476046d346e8091393001a40a523dc.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/88a52c0d85339a377918fdc1ae9dc922.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/b51ecba56e03d4181e0006ff1e8a5355.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "org.ppsspp.PPSSPP",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.AppImage{
+		}, &linux.AppImage{
 			AppID:   "ppsspp.portable",
 			AppName: "$EMULATORS/PPSSPP.AppImage",
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "ppsspp.portable",
 			AppName: "$EMULATORS/PPSSPP.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "PPSSPP.Portable",
 			AppExe: "$EMULATORS\\PPSSPP\\PPSSPPWindows64.exe",
 		}),
@@ -364,13 +368,13 @@ func Redream() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/dd5fbbf85c3198ece6dcd86166c58439.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/2e834824cdba6141dcb14688597a26fa.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/4853deb8a06838c502fc6cb6ce91f704.png",
-		Package: packaging.Best(&packaging.Linux{
+		Package: packaging.Best(&linux.Binary{
 			AppID:  "redream.portable",
 			AppBin: "$EMULATORS/Redream/redream",
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "redream.portable",
 			AppName: "$EMULATORS/Redream.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "Redream.Portable",
 			AppExe: "$EMULATORS\\Redream\\redream.exe",
 		}),
@@ -392,17 +396,17 @@ func RPCS3() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/ace27c5277ecc8da47cd53ff5c82cb4f.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/cddaf8b03288749c50afecad7ac3c9a4.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/15c58997f6690dddb7c501e062a2d1ab.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "net.rpcs3.RPCS3",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.AppImage{
+		}, &linux.AppImage{
 			AppID:   "rpcs3.portable",
 			AppName: "$EMULATORS/RPCS3.AppImage",
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "rpcs3.portable",
 			AppName: "$EMULATORS/RPCS3.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "RPCS3.Portable",
 			AppExe: "$EMULATORS\\RPCS3\\rpcs3.exe",
 		}),
@@ -424,17 +428,17 @@ func Ryujinx() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/550d4a283baa604976e81d35d29124df.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/3931532d087eeb1b1c1a96aba6261802.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "org.ryujinx.Ryujinx",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.AppImage{
+		}, &linux.AppImage{
 			AppID:   "ryujinx.portable",
 			AppName: "$EMULATORS/Ryujinx.AppImage",
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "ryujinx.portable",
 			AppName: "$EMULATORS/Ryujinx.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "Ryujinx.Portable",
 			AppExe: "$EMULATORS\\Ryujinx\\Ryujinx.exe",
 		}),
@@ -456,17 +460,17 @@ func ShadPS4() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/72251a01ac19b84c2208c2a6f18a17da.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/21483d9d9aca5bd442f292cef7bab951.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/cc5e9cea0a79b962c20a9231e65a06ef.jpg",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "net.shadps4.shadPS4",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.AppImage{
+		}, &linux.AppImage{
 			AppID:   "shadps4.portable",
 			AppName: "$EMULATORS/ShadPS4.AppImage",
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "shadps4.portable",
 			AppName: "$EMULATORS/ShadPS4.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "ShadPS4.Portable",
 			AppExe: "$EMULATORS\\ShadPS4\\shadPS4.exe",
 		}),
@@ -488,11 +492,11 @@ func Simple64() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/48eeb385ea71aadccce10e2d294879b0.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/e128d1f12ec88795b0a5853d7c754608.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/73888d1bde775303c1749e63e3312a64.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "io.github.simple64.simple64",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "Simple64.Portable",
 			AppExe: "$EMULATORS\\Simple64\\simple64-gui.exe",
 		}),
@@ -514,13 +518,13 @@ func Vita3K() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/d371697094a73577074c10fb6688f2ff.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/a1357c62042fedf5f0a71ebacfe5987d.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/5e98be1eed79374e1edd72f4b1d838b4.png",
-		Package: packaging.Best(&packaging.Linux{
+		Package: packaging.Best(&linux.Binary{
 			AppID:  "vita3k.portable",
 			AppBin: "$EMULATORS/Vita3K/Vita3K",
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "vita3k.portable",
 			AppName: "$EMULATORS/Vita3K.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "Vita3K.Portable",
 			AppExe: "$EMULATORS\\Vita3K\\Vita3K.exe",
 		}),
@@ -542,17 +546,17 @@ func Xemu() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/b6cd95d53810282d6a734fbb073e9479.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/5b74752b25bd07933b10b2098970f990.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/aa0994c4263018600494efceae69087a.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "app.xemu.xemu",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.AppImage{
+		}, &linux.AppImage{
 			AppID:   "xemu.portable",
 			AppName: "$EMULATORS/Xemu.AppImage",
-		}, &packaging.MacOS{
+		}, &macos.Application{
 			AppID:   "xemu.portable",
 			AppName: "$EMULATORS/Xemu.app",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "Xemu.Portable",
 			AppExe: "$EMULATORS\\Xemu\\xemu.exe",
 		}),
@@ -574,10 +578,10 @@ func Xenia() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/e43e55468f8cfee48d517b2c49cecd08.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/1962bcb00dc1bf1b5bcb334257ff3701.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/2958ef004a18f50b380a87d1cfe5366d.png",
-		Package: packaging.Best(&packaging.Windows{
+		Package: packaging.Best(&windows.Executable{
 			AppID:  "Xenia.Portable",
 			AppExe: "$EMULATORS\\Xenia\\xenia_canary.exe",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "Xenia.Portable",
 			AppExe: "$EMULATORS\\Xenia\\xenia.exe",
 		}),
@@ -599,14 +603,14 @@ func Yuzu() *Program {
 		CoverURL:        "https://cdn2.steamgriddb.com/grid/75aba7a51147cb571a641b8b9f10385e.png",
 		BannerURL:       "https://cdn2.steamgriddb.com/grid/dd66229e57c186b4c13e52a8b3f274b2.png",
 		HeroURL:         "https://cdn2.steamgriddb.com/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "org.yuzu_emu.yuzu",
 			Overrides: []string{"--filesystem=host"},
-		}, &packaging.AppImage{
+		}, &linux.AppImage{
 			AppID:   "yuzu.portable",
 			AppName: "$EMULATORS/Yuzu.AppImage",
-		}, &packaging.Windows{
+		}, &windows.Executable{
 			AppID:  "Yuzu.Portable",
 			AppExe: "$EMULATORS\\Yuzu\\yuzu.exe",
 		}),

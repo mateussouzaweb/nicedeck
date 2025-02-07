@@ -1,4 +1,4 @@
-package packaging
+package macos
 
 import (
 	"fmt"
@@ -9,33 +9,33 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
-// MacOS struct
-type MacOS struct {
+// Application struct
+type Application struct {
 	AppID     string   `json:"appId"`
 	AppName   string   `json:"appName"`
 	Arguments []string `json:"arguments"`
 }
 
 // Return if package is available
-func (m *MacOS) Available() bool {
+func (a *Application) Available() bool {
 	return cli.IsMacOS()
 }
 
 // Return package runtime
-func (m *MacOS) Runtime() string {
+func (a *Application) Runtime() string {
 	return "native"
 }
 
 // Install program
-func (m *MacOS) Install() error {
+func (a *Application) Install() error {
 
 	cli.Printf(cli.ColorWarn, "Warning: Unable to install MacOS native packages.\n")
 	cli.Printf(cli.ColorWarn, "Please make sure to manually download and install the program.\n")
-	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", m.Executable())
+	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", a.Executable())
 
 	// Add program to quarantine
-	if installed, _ := m.Installed(); installed {
-		script := fmt.Sprintf(`xattr -r -d com.apple.quarantine %s`, m.Executable())
+	if installed, _ := a.Installed(); installed {
+		script := fmt.Sprintf(`xattr -r -d com.apple.quarantine %s`, a.Executable())
 		err := cli.Run(script)
 		if err != nil {
 			return err
@@ -46,8 +46,8 @@ func (m *MacOS) Install() error {
 }
 
 // Installed verification
-func (m *MacOS) Installed() (bool, error) {
-	exist, err := fs.FileExist(m.Executable())
+func (a *Application) Installed() (bool, error) {
+	exist, err := fs.FileExist(a.Executable())
 	if err != nil {
 		return false, err
 	} else if exist {
@@ -58,21 +58,21 @@ func (m *MacOS) Installed() (bool, error) {
 }
 
 // Return executable file path
-func (m *MacOS) Executable() string {
-	return fs.ExpandPath(m.AppName)
+func (a *Application) Executable() string {
+	return fs.ExpandPath(a.AppName)
 }
 
 // Run installed program
-func (m *MacOS) Run(args []string) error {
+func (a *Application) Run(args []string) error {
 	return cli.Start(fmt.Sprintf(
 		`open -n %s --args %s`,
-		m.Executable(),
+		a.Executable(),
 		strings.Join(args, " "),
 	))
 }
 
 // Fill shortcut additional details
-func (m *MacOS) OnShortcut(shortcut *shortcuts.Shortcut) error {
-	shortcut.LaunchOptions = strings.Join(m.Arguments, " ")
+func (a *Application) OnShortcut(shortcut *shortcuts.Shortcut) error {
+	shortcut.LaunchOptions = strings.Join(a.Arguments, " ")
 	return nil
 }

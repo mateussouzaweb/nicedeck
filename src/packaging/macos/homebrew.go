@@ -1,4 +1,4 @@
-package packaging
+package macos
 
 import (
 	"fmt"

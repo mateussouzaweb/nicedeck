@@ -2,6 +2,9 @@ package programs
 
 import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 )
 
 // Installer for Chiaki-NG
@@ -18,13 +21,13 @@ func ChiakiNG() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/346cf5bb8dff3e90e2c4df81a83701cf.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/9111ec4aae8cd54acf89f011eee3c164.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/9884dfd73a2471545e0c3f8c14177a04.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "io.github.streetpea.Chiaki4deck",
-		}, &packaging.Homebrew{
+		}, &macos.Homebrew{
 			AppID:   "streetpea/streetpea/chiaki-ng",
 			AppName: "chiaki-ng.app",
-		}, &packaging.WinGet{
+		}, &windows.WinGet{
 			AppID:  "StreetPea.chiaki-ng",
 			AppExe: "$PROGRAMS\\chiaki-ng\\chiaki-ng.exe",
 		}),
@@ -45,7 +48,7 @@ func GeForceNow() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/acc90c264f09d151c7a09da4c06877e8.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/8cd586dd25cd66b50db63e51b5f44dcd.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/5e7e6e76699ea804c65b0c37974c660c.jpg",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.google.Chrome",
 			Overrides: []string{"--filesystem=/run/udev:ro"},
@@ -55,10 +58,10 @@ func GeForceNow() *Program {
 				"--device-scale-factor=1.25",
 				"--app=https://play.geforcenow.com",
 			},
-		}, &packaging.Homebrew{
+		}, &macos.Homebrew{
 			AppID:   "nvidia-geforce-now",
 			AppName: "NVIDIA GeForce NOW.app",
-		}, &packaging.WinGet{
+		}, &windows.WinGet{
 			AppID:  "Nvidia.GeForceNow",
 			AppExe: "$APPDATA\\Local\\NVIDIA Corporation\\GeForceNOW\\CEF\\GeForceNOW.exe",
 		}),
@@ -79,13 +82,13 @@ func MoonlightGameStreaming() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/030d60c36d51783da9e4cbb6aa5abd2c.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/8a8f67cacf3e3d2d63614f515a2079b8.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/0afefa2281c2f8b0b86d6332e2cdbe7d.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.moonlight_stream.Moonlight",
-		}, &packaging.Homebrew{
+		}, &macos.Homebrew{
 			AppID:   "moonlight",
 			AppName: "Moonlight.app",
-		}, &packaging.WinGet{
+		}, &windows.WinGet{
 			AppID:  "MoonlightGameStreamingProject.Moonlight",
 			AppExe: "$PROGRAMS\\Moonlight Game Streaming\\Moonlight.exe",
 		}),
@@ -106,7 +109,7 @@ func XboxCloudGaming() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/8a0657375c4d4024a7d9d5cc84b3c490.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/2b16dcbe37a15a4932affb27447d7e21.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/f6ba16107e08c04fc684308ab18d207a.png",
-		Package: packaging.Best(&packaging.Flatpak{
+		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.microsoft.Edge",
 			Overrides: []string{"--filesystem=/run/udev:ro"},
@@ -116,11 +119,11 @@ func XboxCloudGaming() *Program {
 				"--device-scale-factor=1.25",
 				"--app=https://www.xbox.com/play",
 			},
-		}, &packaging.Homebrew{
+		}, &macos.Homebrew{
 			AppID:     "microsoft-edge",
 			AppName:   "Microsoft Edge.app",
 			Arguments: []string{"--app=https://www.xbox.com/play"},
-		}, &packaging.WinGet{
+		}, &windows.WinGet{
 			AppID:     "Microsoft.Edge",
 			AppExe:    "$PROGRAMS_X86\\Microsoft\\Edge\\Application\\msedge.exe",
 			Arguments: []string{"--app=https://www.xbox.com/play"},
