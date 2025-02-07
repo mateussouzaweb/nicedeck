@@ -5,7 +5,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 )
 
@@ -17,13 +16,6 @@ func Setup() error {
 	err := WriteSettings()
 	if err != nil {
 		return err
-	}
-
-	if cli.IsLinux() {
-		err := WriteLinuxDesktopShortcut()
-		if err != nil {
-			return err
-		}
 	}
 
 	return nil
@@ -88,42 +80,6 @@ func WriteSettings() error {
 	}
 
 	err = os.WriteFile(findRulesFile, findRulesConfig, 0666)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// Write desktop shortcut for ES-DE
-func WriteLinuxDesktopShortcut() error {
-
-	// Icon
-	iconFile := fs.ExpandPath("$HOME/ES-DE/icon.png")
-	iconContent, err := resourcesContent.ReadFile("resources/icon.png")
-	if err != nil {
-		return err
-	}
-
-	err = os.WriteFile(iconFile, iconContent, 0666)
-	if err != nil {
-		return err
-	}
-
-	// Desktop shortcut
-	desktopShortcutFile := fs.ExpandPath("$HOME/.local/share/applications/es-de.desktop")
-	desktopShortcutContent, err := resourcesContent.ReadFile("resources/es-de.desktop")
-	if err != nil {
-		return err
-	}
-
-	err = os.MkdirAll(filepath.Dir(desktopShortcutFile), 0700)
-	if err != nil {
-		return err
-	}
-
-	desktopShortcutContent = []byte(os.ExpandEnv(string(desktopShortcutContent)))
-	err = os.WriteFile(desktopShortcutFile, desktopShortcutContent, 0644)
 	if err != nil {
 		return err
 	}
