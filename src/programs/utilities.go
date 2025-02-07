@@ -13,6 +13,7 @@ func ProtonPlus() *Program {
 		Description: "Wine and Proton-based compatiblity tools manager",
 		Category:    "Gaming",
 		Tags:        []string{"Gaming", "Utilities"},
+		Folders:     []string{},
 		Website:     "https://github.com/Vysp3r/ProtonPlus",
 		IconURL:     "https://cdn2.steamgriddb.com/icon/fe13849d9b9437c5a61a1760ada2a5a6.png",
 		LogoURL:     "https://cdn2.steamgriddb.com/logo/4d8c150eb82579842e2d5dc5faa07999.png",

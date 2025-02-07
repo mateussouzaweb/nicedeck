@@ -15,6 +15,7 @@ func BraveBrowser() *Program {
 		Description: "Web browser",
 		Category:    "Utilities",
 		Tags:        []string{"Utilities"},
+		Folders:     []string{},
 		Website:     "https://brave.com",
 		IconURL:     "https://cdn2.steamgriddb.com/icon/192d80a88b27b3e4115e1a45a782fe1b.png",
 		LogoURL:     "https://cdn2.steamgriddb.com/logo/85b79607444cc565f0214d12c05cc5eb.png",

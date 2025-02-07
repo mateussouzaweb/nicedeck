@@ -14,19 +14,19 @@ import (
 
 // Program struct
 type Program struct {
-	ID              string            `json:"id"`
-	Name            string            `json:"name"`
-	Description     string            `json:"description"`
-	Category        string            `json:"category"`
-	Tags            []string          `json:"tags"`
-	RequiredFolders []string          `json:"requiredFolders"`
-	Website         string            `json:"website"`
-	IconURL         string            `json:"iconUrl"`
-	LogoURL         string            `json:"logoUrl"`
-	CoverURL        string            `json:"coverUrl"`
-	BannerURL       string            `json:"bannerUrl"`
-	HeroURL         string            `json:"heroUrl"`
-	Package         packaging.Package `json:"-"`
+	ID          string            `json:"id"`
+	Name        string            `json:"name"`
+	Description string            `json:"description"`
+	Category    string            `json:"category"`
+	Tags        []string          `json:"tags"`
+	Folders     []string          `json:"folders"`
+	Website     string            `json:"website"`
+	IconURL     string            `json:"iconUrl"`
+	LogoURL     string            `json:"logoUrl"`
+	CoverURL    string            `json:"coverUrl"`
+	BannerURL   string            `json:"bannerUrl"`
+	HeroURL     string            `json:"heroUrl"`
+	Package     packaging.Package `json:"-"`
 }
 
 // Retrieve list of available programs to install
@@ -123,8 +123,8 @@ func Install(id string) error {
 	cli.Printf(cli.ColorNotice, "Installing %s...\n", program.Name)
 
 	// Make sure required folders exist
-	if len(program.RequiredFolders) > 0 {
-		for _, folder := range program.RequiredFolders {
+	if len(program.Folders) > 0 {
+		for _, folder := range program.Folders {
 			err := os.MkdirAll(fs.ExpandPath(folder), 0755)
 			if err != nil {
 				return err

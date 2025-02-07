@@ -5,7 +5,7 @@ interface Program {
 	description: string
 	category: string
 	tags: string[]
-	requiredFolders: string[]
+	folders: string[]
 	website: string
 	iconUrl: string
 	logoUrl: string
