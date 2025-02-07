@@ -74,6 +74,16 @@ func (b *Binary) Run(args []string) error {
 
 // Fill shortcut additional details
 func (b *Binary) OnShortcut(shortcut *shortcuts.Shortcut) error {
+
+	// Write the desktop shortcut
+	desktopShortcut, err := WriteDesktopShortcut(b.AppID, shortcut)
+	if err != nil {
+		return err
+	}
+
+	// Fill shortcut information for application
+	shortcut.ShortcutPath = desktopShortcut
 	shortcut.LaunchOptions = strings.Join(b.Arguments, " ")
+
 	return nil
 }
