@@ -545,7 +545,7 @@ func openLink(context *Context) error {
 func Setup(version string, developmentMode bool, shutdown chan bool) error {
 
 	// Init user library
-	err := library.Init()
+	err := library.Init(version)
 	if err != nil {
 		return err
 	}
