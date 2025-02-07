@@ -95,7 +95,6 @@ window.addEventListener('load', async () => {
                         </div>
                         <div class="info">
                             <div class="title">
-                                <small>${shortcut.appId}</small><br/>
                                 <h4>${shortcut.appName}</h4>
                             </div>
                             <div class="actions">
