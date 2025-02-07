@@ -567,7 +567,7 @@ func Xenia() *Program {
 		Description:     "Emulator for Microsoft Xbox 360",
 		Category:        "Emulators",
 		Tags:            []string{"Gaming", "Emulator"},
-		RequiredFolders: []string{"$ROMS/XBOX360", "$BIOS/XBOX360"},
+		RequiredFolders: []string{"$ROMS/X360", "$BIOS/X360"},
 		Website:         "https://xenia.jp",
 		IconURL:         "https://cdn2.steamgriddb.com/icon/420c841038c492fed4d19999a813009d.ico",
 		LogoURL:         "https://cdn2.steamgriddb.com/logo/fac05328668f599efe18e76cdb284aab.png",

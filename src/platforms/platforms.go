@@ -235,9 +235,9 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
-		Name:    "XBOX360",
+		Name:    "X360",
 		Console: "Microsoft Xbox 360",
-		Folder:  "XBOX360",
+		Folder:  "X360",
 		Emulators: []*Emulator{{
 			Name:          "Xenia",
 			Program:       "xenia",

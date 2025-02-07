@@ -151,7 +151,7 @@
     <system>
         <name>xbox360</name>
         <fullname>Microsoft Xbox 360</fullname>
-        <path>%ROMPATH%/XBOX360</path>
+        <path>%ROMPATH%/X360</path>
         <extension>.iso .ISO .zar .ZAR</extension>
         <command label="XENIA">%EMULATOR_XENIA% --fullscreen=true %ROM%</command>
         <platform>xbox360</platform>

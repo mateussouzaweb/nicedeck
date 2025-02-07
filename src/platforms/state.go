@@ -403,7 +403,7 @@ func GetStates(options *Options) []*State {
 	// Save file is expected to be in the Documents folder
 	// However, user can also put this file in Xenia/ folder
 	states = append(states, &State{
-		Platform: "XBOX360",
+		Platform: "X360",
 		Emulator: "Xenia",
 		Type:     "file",
 		Path:     "$STATE/Xenia/content",
