@@ -38,15 +38,17 @@ func (a *AppImage) Install() error {
 
 	// Run before install callback
 	// Used to dynamic fetch the app download URL
-	err := a.BeforeInstall(a)
-	if err != nil {
-		return err
+	if a.BeforeInstall != nil {
+		err := a.BeforeInstall(a)
+		if err != nil {
+			return err
+		}
 	}
 
 	// Download application when possible
 	if a.AppURL != "" {
 		executable := a.Executable()
-		err = fs.DownloadFile(a.AppURL, executable, true)
+		err := fs.DownloadFile(a.AppURL, executable, true)
 		if err != nil {
 			return err
 		}
@@ -55,7 +57,7 @@ func (a *AppImage) Install() error {
 	// Make sure is executable
 	if installed, _ := a.Installed(); installed {
 		executable := a.Executable()
-		err = os.Chmod(executable, 0775)
+		err := os.Chmod(executable, 0775)
 		if err != nil {
 			return err
 		}
@@ -63,9 +65,11 @@ func (a *AppImage) Install() error {
 
 	// Run after install callback
 	// Used to do things like write desktop shortcut or settings
-	err = a.AfterInstall(a)
-	if err != nil {
-		return err
+	if a.AfterInstall != nil {
+		err := a.AfterInstall(a)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
