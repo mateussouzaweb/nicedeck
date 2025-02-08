@@ -10,16 +10,12 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
-type AppImageCallback func(a *AppImage) error
-
 // AppImage struct
 type AppImage struct {
-	AppID         string           `json:"appId"`
-	AppName       string           `json:"appName"`
-	AppURL        string           `json:"appUrl"`
-	Arguments     []string         `json:"arguments"`
-	BeforeInstall AppImageCallback `json:"-"`
-	AfterInstall  AppImageCallback `json:"-"`
+	AppID     string                         `json:"appId"`
+	AppName   string                         `json:"appName"`
+	Arguments []string                       `json:"arguments"`
+	Source    func() (string, string, error) `json:"-"`
 }
 
 // Return if package is available
@@ -35,19 +31,46 @@ func (a *AppImage) Runtime() string {
 // Install program
 func (a *AppImage) Install() error {
 
-	// Run before install callback
-	// Used to dynamic fetch the app download URL
-	if a.BeforeInstall != nil {
-		err := a.BeforeInstall(a)
+	// Skip when cannot install
+	if a.Source == nil {
+		return nil
+	}
+
+	// Retrieve source details
+	sourceURL, sourceType, err := a.Source()
+	if err != nil {
+		return err
+	}
+
+	// From ZIP format
+	if sourceType == "zip" {
+
+		// Download Zip
+		destination := a.Executable()
+		zipFile := fmt.Sprintf("%s.zip", destination)
+		err := fs.DownloadFile(sourceURL, zipFile, true)
 		if err != nil {
 			return err
 		}
+
+		// Extract ZIP
+		err = fs.Unzip(zipFile, destination)
+		if err != nil {
+			return err
+		}
+
+		// Remove ZIP file
+		err = fs.RemoveFile(zipFile)
+		if err != nil {
+			return err
+		}
+
 	}
 
-	// Download application when possible
-	if a.AppURL != "" {
-		executable := a.Executable()
-		err := fs.DownloadFile(a.AppURL, executable, true)
+	// From direct file
+	if sourceType == "file" {
+		destination := a.Executable()
+		err := fs.DownloadFile(sourceURL, destination, true)
 		if err != nil {
 			return err
 		}
@@ -57,15 +80,6 @@ func (a *AppImage) Install() error {
 	if installed, _ := a.Installed(); installed {
 		executable := a.Executable()
 		err := os.Chmod(executable, 0775)
-		if err != nil {
-			return err
-		}
-	}
-
-	// Run after install callback
-	// Used to do things like write desktop shortcut or settings
-	if a.AfterInstall != nil {
-		err := a.AfterInstall(a)
 		if err != nil {
 			return err
 		}

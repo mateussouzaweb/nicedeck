@@ -12,9 +12,10 @@ import (
 
 // Binary struct
 type Binary struct {
-	AppID     string   `json:"appId"`
-	AppBin    string   `json:"appBin"`
-	Arguments []string `json:"arguments"`
+	AppID     string                         `json:"appId"`
+	AppBin    string                         `json:"appBin"`
+	Arguments []string                       `json:"arguments"`
+	Source    func() (string, string, error) `json:"-"`
 }
 
 // Return if package is available
@@ -30,9 +31,50 @@ func (b *Binary) Runtime() string {
 // Install program
 func (b *Binary) Install() error {
 
-	cli.Printf(cli.ColorWarn, "Warning: Unable to install Linux native packages.\n")
-	cli.Printf(cli.ColorWarn, "Please make sure to manually download and install the program.\n")
-	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", b.Executable())
+	// Skip when cannot install
+	if b.Source == nil {
+		return nil
+	}
+
+	// Retrieve source details
+	sourceURL, sourceType, err := b.Source()
+	if err != nil {
+		return err
+	}
+
+	// From ZIP format
+	if sourceType == "zip" {
+
+		// Download Zip
+		destination := b.Executable()
+		zipFile := fmt.Sprintf("%s.zip", destination)
+		err := fs.DownloadFile(sourceURL, zipFile, true)
+		if err != nil {
+			return err
+		}
+
+		// Extract ZIP
+		err = fs.Unzip(zipFile, destination)
+		if err != nil {
+			return err
+		}
+
+		// Remove ZIP file
+		err = fs.RemoveFile(zipFile)
+		if err != nil {
+			return err
+		}
+
+	}
+
+	// From direct file
+	if sourceType == "file" {
+		destination := b.Executable()
+		err := fs.DownloadFile(sourceURL, destination, true)
+		if err != nil {
+			return err
+		}
+	}
 
 	// Make sure is executable
 	if installed, _ := b.Installed(); installed {

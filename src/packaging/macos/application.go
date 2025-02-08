@@ -2,6 +2,7 @@ package macos
 
 import (
 	"fmt"
+	"path/filepath"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -11,9 +12,10 @@ import (
 
 // Application struct
 type Application struct {
-	AppID     string   `json:"appId"`
-	AppName   string   `json:"appName"`
-	Arguments []string `json:"arguments"`
+	AppID     string                         `json:"appId"`
+	AppName   string                         `json:"appName"`
+	Arguments []string                       `json:"arguments"`
+	Source    func() (string, string, error) `json:"-"`
 }
 
 // Return if package is available
@@ -29,9 +31,86 @@ func (a *Application) Runtime() string {
 // Install program
 func (a *Application) Install() error {
 
-	cli.Printf(cli.ColorWarn, "Warning: Unable to install MacOS native packages.\n")
-	cli.Printf(cli.ColorWarn, "Please make sure to manually download and install the program.\n")
-	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", a.Executable())
+	// Skip when cannot install
+	if a.Source == nil {
+		return nil
+	}
+
+	// Retrieve source details
+	sourceURL, sourceType, err := a.Source()
+	if err != nil {
+		return err
+	}
+
+	// From ZIP format
+	if sourceType == "zip" {
+
+		// Download Zip
+		destination := a.Executable()
+		zipFile := fmt.Sprintf("%s.zip", destination)
+		err := fs.DownloadFile(sourceURL, zipFile, true)
+		if err != nil {
+			return err
+		}
+
+		// Extract ZIP
+		err = fs.Unzip(zipFile, destination)
+		if err != nil {
+			return err
+		}
+
+		// Remove ZIP file
+		err = fs.RemoveFile(zipFile)
+		if err != nil {
+			return err
+		}
+
+	}
+
+	// From DMG format
+	if sourceType == "dmg" {
+
+		// Download DMG
+		destination := a.Executable()
+		dmgFile := strings.Replace(destination, ".app", ".dmg", 1)
+		err = fs.DownloadFile(sourceURL, dmgFile, true)
+		if err != nil {
+			return err
+		}
+
+		// Extract application from DMG
+		appName := filepath.Base(destination)
+		script := fmt.Sprintf(
+			`hdiutil attach %s
+			cp /Volumes/%s %s
+			hdiutil detach /Volumes/%s`,
+			dmgFile,
+			appName,
+			destination,
+			appName,
+		)
+
+		err = cli.Run(script)
+		if err != nil {
+			return err
+		}
+
+		// Remove DMG file
+		err = fs.RemoveFile(dmgFile)
+		if err != nil {
+			return err
+		}
+
+	}
+
+	// From direct file
+	if sourceType == "file" {
+		destination := a.Executable()
+		err := fs.DownloadFile(sourceURL, destination, true)
+		if err != nil {
+			return err
+		}
+	}
 
 	// Add program to quarantine
 	if installed, _ := a.Installed(); installed {

@@ -48,14 +48,6 @@ func ESDE() *Program {
 		Package: packaging.Best(&linux.AppImage{
 			AppID:   "es-de.portable",
 			AppName: "$APPLICATIONS/ES-DE.AppImage",
-			BeforeInstall: func(a *linux.AppImage) error {
-				latest, err := esde.GetLatestRelease("LinuxAppImage")
-				a.AppURL = latest
-				return err
-			},
-			AfterInstall: func(a *linux.AppImage) error {
-				return esde.WriteSettings()
-			},
 		}, &macos.Application{
 			AppID:   "es-de.portable",
 			AppName: "$APPLICATIONS/ES-DE.app",
