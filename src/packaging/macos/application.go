@@ -71,7 +71,7 @@ func (a *Application) Executable() string {
 // Run installed program
 func (a *Application) Run(args []string) error {
 	return cli.Start(fmt.Sprintf(
-		`open -n %s --args %s`,
+		`open -n "%s" --args %s`,
 		a.Executable(),
 		strings.Join(args, " "),
 	))

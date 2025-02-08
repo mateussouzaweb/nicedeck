@@ -191,7 +191,7 @@ func launchShortcut(context *Context) error {
 	// Determine best launch script based on launcher
 	// Launch with system by default
 	script := fmt.Sprintf(
-		`cd %s; %s %s`,
+		`cd "%s" && "%s" %s`,
 		shortcut.StartDir,
 		shortcut.Exe,
 		shortcut.LaunchOptions,

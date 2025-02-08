@@ -72,7 +72,7 @@ func (b *Binary) Executable() string {
 // Run installed program
 func (b *Binary) Run(args []string) error {
 	return cli.Start(fmt.Sprintf(
-		`exec %s %s`,
+		`exec "%s" %s`,
 		b.Executable(),
 		strings.Join(args, " "),
 	))

@@ -72,7 +72,7 @@ func (a *AppImage) Executable() string {
 // Run installed program
 func (a *AppImage) Run(args []string) error {
 	return cli.Start(fmt.Sprintf(
-		`exec %s %s`,
+		`exec "%s" %s`,
 		a.Executable(),
 		strings.Join(args, " "),
 	))

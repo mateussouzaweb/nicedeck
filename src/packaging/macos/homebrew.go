@@ -57,7 +57,7 @@ func (h *Homebrew) Executable() string {
 // Run installed program
 func (h *Homebrew) Run(args []string) error {
 	return cli.Start(fmt.Sprintf(
-		`open -n %s --args %s`,
+		`open -n "%s" --args %s`,
 		h.Executable(),
 		strings.Join(args, " "),
 	))
