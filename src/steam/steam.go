@@ -28,8 +28,9 @@ func GetPackage() packaging.Package {
 		AppID:  "steam",
 		AppBin: "steam",
 	}, &linux.Binary{
-		AppID:  "steam",
-		AppBin: "/usr/share/bin/steam",
+		AppID:    "steam",
+		AppBin:   "/usr/share/bin/steam",
+		StartDir: "/usr/share/bin",
 	}, &macos.Homebrew{
 		AppID:   "steam",
 		AppName: "Steam.app",

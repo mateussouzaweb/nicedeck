@@ -193,8 +193,9 @@ func launchShortcut(context *Context) error {
 
 	// Launch program based on running system
 	program := packaging.Best(&linux.Binary{
-		AppID:  fmt.Sprintf("%d", shortcut.AppID),
-		AppBin: shortcut.Exe,
+		AppID:    fmt.Sprintf("%d", shortcut.AppID),
+		AppBin:   shortcut.Exe,
+		StartDir: shortcut.StartDir,
 	}, &macos.Application{
 		AppID:   fmt.Sprintf("%d", shortcut.AppID),
 		AppName: shortcut.Exe,
