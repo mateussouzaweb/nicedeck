@@ -48,11 +48,11 @@ func ESDE() *Program {
 		OnInstall:   esde.WriteSettings,
 		Package: packaging.Best(&linux.AppImage{
 			AppID:   "es-de.portable",
-			AppName: "$APPLICATIONS/ES-DE.AppImage",
+			AppName: "$APPLICATIONS/ES-DE/ES-DE.AppImage",
 			Source:  esde.Release("LinuxAppImage", "file"),
 		}, &macos.Application{
 			AppID:   "es-de.portable",
-			AppName: "$APPLICATIONS/ES-DE.app",
+			AppName: "$APPLICATIONS/ES-DE/ES-DE.app",
 			Source:  esde.Release("macOSApple", "dmg"),
 		}, &windows.WinGet{
 			AppID:  "ES-DE.EmulationStation-DE",

@@ -12,8 +12,8 @@
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/info.cemu.Cemu</entry>
             <entry>~/.local/share/flatpak/exports/bin/info.cemu.Cemu</entry>
-            <entry>$EMULATORS/Cemu.AppImage</entry>
-            <entry>$EMULATORS/Cemu.app</entry>
+            <entry>$EMULATORS/Cemu/Cemu.AppImage</entry>
+            <entry>$EMULATORS/Cemu/Cemu.app</entry>
             <entry>$EMULATORS\Cemu\Cemu.exe</entry>
         </rule>
     </emulator>
@@ -28,7 +28,7 @@
     </emulator>
     <emulator name="CITRON">
         <rule type="staticpath">
-            <entry>$EMULATORS/Citron.AppImage</entry>
+            <entry>$EMULATORS/Citron/Citron.AppImage</entry>
             <entry>$EMULATORS\Citron\citron.exe</entry>
         </rule>
     </emulator>
@@ -36,8 +36,8 @@
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.DolphinEmu.dolphin-emu</entry>
             <entry>~/.local/share/flatpak/exports/bin/org.DolphinEmu.dolphin-emu</entry>
-            <entry>$EMULATORS/Dolphin.AppImage</entry>
-            <entry>$EMULATORS/Dolphin.app</entry>
+            <entry>$EMULATORS/Dolphin/Dolphin.AppImage</entry>
+            <entry>$EMULATORS/Dolphin/Dolphin.app</entry>
             <entry>$EMULATORS\Dolphin\Dolphin.exe</entry>
         </rule>
     </emulator>
@@ -45,8 +45,8 @@
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.duckstation.DuckStation</entry>
             <entry>~/.local/share/flatpak/exports/bin/org.duckstation.DuckStation</entry>
-            <entry>$EMULATORS/DuckStation.AppImage</entry>
-            <entry>$EMULATORS/DuckStation.app</entry>
+            <entry>$EMULATORS/DuckStation/DuckStation.AppImage</entry>
+            <entry>$EMULATORS/DuckStation/DuckStation.app</entry>
             <entry>$EMULATORS\DuckStation\duckstation-qt-x64-ReleaseLTCG.exe</entry>
         </rule>
     </emulator>
@@ -54,8 +54,8 @@
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.flycast.Flycast</entry>
             <entry>~/.local/share/flatpak/exports/bin/org.flycast.Flycast</entry>
-            <entry>$EMULATORS/Flycast.AppImage</entry>
-            <entry>$EMULATORS/Flycast.app</entry>
+            <entry>$EMULATORS/Flycast/Flycast.AppImage</entry>
+            <entry>$EMULATORS/Flycast/Flycast.app</entry>
             <entry>$EMULATORS\Flycast\flycast.exe</entry>
         </rule>
     </emulator>
@@ -72,8 +72,8 @@
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/net.kuribo64.melonDS</entry>
             <entry>~/.local/share/flatpak/exports/bin/net.kuribo64.melonDS</entry>
-            <entry>$EMULATORS/MelonDS.AppImage</entry>
-            <entry>$EMULATORS/MelonDS.app</entry>
+            <entry>$EMULATORS/MelonDS/melonDS.AppImage</entry>
+            <entry>$EMULATORS/MelonDS/melonDS.app</entry>
             <entry>$EMULATORS\MelonDS\melonDS.exe</entry>
         </rule>
     </emulator>
@@ -81,8 +81,8 @@
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/io.mgba.mGBA</entry>
             <entry>~/.local/share/flatpak/exports/bin/io.mgba.mGBA</entry>
-            <entry>$EMULATORS/MGBA.AppImage</entry>
-            <entry>$EMULATORS/MGBA.app</entry>
+            <entry>$EMULATORS/MGBA/mGBA.AppImage</entry>
+            <entry>$EMULATORS/MGBA/mGBA.app</entry>
             <entry>$EMULATORS\MGBA\mGBA.exe</entry>
         </rule>
     </emulator>
@@ -90,8 +90,8 @@
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/net.pcsx2.PCSX2</entry>
             <entry>~/.local/share/flatpak/exports/bin/net.pcsx2.PCSX2</entry>
-            <entry>$EMULATORS/PCSX2.AppImage</entry>
-            <entry>$EMULATORS/PCSX2.app</entry>
+            <entry>$EMULATORS/PCSX2/PCSX2.AppImage</entry>
+            <entry>$EMULATORS/PCSX2/PCSX2.app</entry>
             <entry>$EMULATORS\PCSX2\pcsx2-qt.exe</entry>
         </rule>
     </emulator>
@@ -99,15 +99,15 @@
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.ppsspp.PPSSPP</entry>
             <entry>~/.local/share/flatpak/exports/bin/org.ppsspp.PPSSPP</entry>
-            <entry>$EMULATORS/PPSSPP.AppImage</entry>
-            <entry>$EMULATORS/PPSSPP.app</entry>
+            <entry>$EMULATORS/PPSSPP/PPSSPP.AppImage</entry>
+            <entry>$EMULATORS/PPSSPP/PPSSPP.app</entry>
             <entry>$EMULATORS\PPSSPP\PPSSPPWindows64.exe</entry>
         </rule>
     </emulator>
     <emulator name="REDREAM">
         <rule type="staticpath">
             <entry>$EMULATORS/Redream/redream</entry>
-            <entry>$EMULATORS/Redream.app</entry>
+            <entry>$EMULATORS/Redream/Redream.app</entry>
             <entry>$EMULATORS\Redream\redream.exe</entry>
         </rule>
     </emulator>
@@ -115,8 +115,8 @@
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/net.rpcs3.RPCS3</entry>
             <entry>~/.local/share/flatpak/exports/bin/net.rpcs3.RPCS3</entry>
-            <entry>$EMULATORS/RPCS3.AppImage</entry>
-            <entry>$EMULATORS/RPCS3.app</entry>
+            <entry>$EMULATORS/RPCS3/RPCS3.AppImage</entry>
+            <entry>$EMULATORS/RPCS3/RPCS3.app</entry>
             <entry>$EMULATORS\RPCS3\rpcs3.exe</entry>
         </rule>
     </emulator>
@@ -124,8 +124,8 @@
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.ryujinx.Ryujinx</entry>
             <entry>~/.local/share/flatpak/exports/bin/org.ryujinx.Ryujinx</entry>
-            <entry>$EMULATORS/Ryujinx.AppImage</entry>
-            <entry>$EMULATORS/Ryujinx.app</entry>
+            <entry>$EMULATORS/Ryujinx/Ryujinx.AppImage</entry>
+            <entry>$EMULATORS/Ryujinx/Ryujinx.app</entry>
             <entry>$EMULATORS\Ryujinx\Ryujinx.exe</entry>
         </rule>
     </emulator>
@@ -133,8 +133,8 @@
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/net.shadps4.shadPS4</entry>
             <entry>~/.local/share/flatpak/exports/bin/net.shadps4.shadPS4</entry>
-            <entry>$EMULATORS/ShadPS4.AppImage</entry>
-            <entry>$EMULATORS/ShadPS4.app</entry>
+            <entry>$EMULATORS/ShadPS4/ShadPS4.AppImage</entry>
+            <entry>$EMULATORS/ShadPS4/ShadPS4.app</entry>
             <entry>$EMULATORS\ShadPS4\shadPS4.exe</entry>
         </rule>
     </emulator>
@@ -148,7 +148,7 @@
         <emulator name="VITA3K">
         <rule type="staticpath">
             <entry>$EMULATORS/Vita3K/Vita3K.AppImage</entry>
-            <entry>$EMULATORS/Vita3K.app</entry>
+            <entry>$EMULATORS/Vita3K/Vita3K.app</entry>
             <entry>$EMULATORS\Vita3K\Vita3K.exe</entry>
         </rule>
     </emulator>
@@ -156,13 +156,14 @@
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/app.xemu.xemu</entry>
             <entry>~/.local/share/flatpak/exports/bin/app.xemu.xemu</entry>
-            <entry>$EMULATORS/Xemu.AppImage</entry>
-            <entry>$EMULATORS/Xemu.app</entry>
+            <entry>$EMULATORS/Xemu/Xemu.AppImage</entry>
+            <entry>$EMULATORS/Xemu/Xemu.app</entry>
             <entry>$EMULATORS\Xemu\xemu.exe</entry>
         </rule>
     </emulator>
     <emulator name="XENIA">
         <rule type="staticpath">
+            <entry>$EMULATORS/Xenia/xenia_canary</entry>
             <entry>$EMULATORS/Xenia\xenia_canary.exe</entry>
             <entry>$EMULATORS\Xenia\xenia.exe</entry>
         </rule>
@@ -171,7 +172,7 @@
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.yuzu_emu.yuzu</entry>
             <entry>~/.local/share/flatpak/exports/bin/org.yuzu_emu.yuzu</entry>
-            <entry>$EMULATORS/Yuzu.AppImage</entry>
+            <entry>$EMULATORS/Yuzu/Yuzu.AppImage</entry>
             <entry>$EMULATORS\Yuzu\yuzu.exe</entry>
         </rule>
     </emulator>
