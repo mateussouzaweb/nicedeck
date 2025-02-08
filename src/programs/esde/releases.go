@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+
+	"github.com/mateussouzaweb/nicedeck/src/packaging"
 )
 
-// Get latest release package available
-func GetLatestRelease(releaseType string) (string, error) {
+// Get download URL from the latest release available
+func GetDownloadURL(releaseType string) (string, error) {
 
 	endpoint := "https://gitlab.com/es-de/emulationstation-de/-/raw/master/latest_release.json"
 	res, err := http.Get(endpoint)
@@ -46,4 +48,14 @@ func GetLatestRelease(releaseType string) (string, error) {
 	}
 
 	return "", fmt.Errorf("could not retrieve latest release")
+}
+
+// Return packaging source from release
+func Release(releaseType string, format string) *packaging.Source {
+	return &packaging.Source{
+		Format: format,
+		Resolver: func() (string, error) {
+			return GetDownloadURL(releaseType)
+		},
+	}
 }
