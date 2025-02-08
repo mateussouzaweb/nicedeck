@@ -408,6 +408,7 @@ func GetStates(options *Options) []*State {
 		Type:     "file",
 		Path:     "$STATE/Xenia/content",
 		Source: []string{
+			"$EMULATORS/Xenia/content",
 			"$USERHOME\\Documents\\xenia\\content",
 			"$EMULATORS\\Xenia\\content",
 		},
