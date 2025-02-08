@@ -54,10 +54,11 @@ func (w *WinGet) Executable() string {
 // Run installed program
 func (w *WinGet) Run(args []string) error {
 	if len(args) > 0 {
-		return cli.Start(fmt.Sprintf(
-			`Start-Process -FilePath "%s" -ArgumentList "%s" -PassThru -Wait`,
-			w.Executable(),
+		return cli.Start(fmt.Sprintf(``+
+			`$arguments = '%s';`+
+			`Start-Process -FilePath "%s" -PassThru -Wait -ArgumentList $arguments`,
 			strings.Join(args, " "),
+			w.Executable(),
 		))
 	}
 
