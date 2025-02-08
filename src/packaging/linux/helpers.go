@@ -36,13 +36,11 @@ func WriteDesktopShortcut(appID string, shortcut *shortcuts.Shortcut) (string, e
 		"[Desktop Entry]\n"+
 		"Type=Application\n"+
 		"Name=%s\n"+
-		"Comment=%s\n"+
 		"Icon=%s\n"+
 		"Exec=%s\n"+
 		"Terminal=false\n"+
 		"Categories=%s;",
 		shortcut.AppName,
-		"",
 		iconFile,
 		shortcut.Exe,
 		shortcut.Tags[0],
