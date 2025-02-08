@@ -67,12 +67,14 @@ func GetAssetURL(repository string, search string) (string, error) {
 func Release(repository string, search string) *packaging.Source {
 
 	format := "file"
-	if strings.HasSuffix(search, ".tar.gz") {
+	if strings.HasSuffix(search, ".zip") {
+		format = "zip"
+	} else if strings.HasSuffix(search, ".tar.gz") {
 		format = "tar.gz"
+	} else if strings.HasSuffix(search, ".tar.xz") {
+		format = "tar.xz"
 	} else if strings.HasSuffix(search, ".7z") {
 		format = "7z"
-	} else if strings.HasSuffix(search, ".zip") {
-		format = "zip"
 	} else if strings.HasSuffix(search, ".dmg") {
 		format = "dmg"
 	}
