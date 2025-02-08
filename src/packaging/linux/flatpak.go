@@ -102,7 +102,8 @@ func (f *Flatpak) Executable() string {
 // Run installed program
 func (f *Flatpak) Run(args []string) error {
 	return cli.Start(fmt.Sprintf(
-		`flatpak run "%s" %s`,
+		`cd "%s" && flatpak run "%s" %s`,
+		filepath.Dir(f.Executable()),
 		f.AppID,
 		strings.Join(args, " "),
 	))

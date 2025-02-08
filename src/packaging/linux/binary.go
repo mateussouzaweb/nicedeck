@@ -16,7 +16,6 @@ import (
 type Binary struct {
 	AppID     string            `json:"appId"`
 	AppBin    string            `json:"appBin"`
-	StartDir  string            `json:"startDir"`
 	Arguments []string          `json:"arguments"`
 	Source    *packaging.Source `json:"source"`
 }
@@ -73,16 +72,9 @@ func (b *Binary) Executable() string {
 
 // Run installed program
 func (b *Binary) Run(args []string) error {
-
-	// Found start directory
-	startDir := fs.ExpandPath(b.StartDir)
-	if startDir == "" {
-		startDir = filepath.Dir(b.Executable())
-	}
-
 	return cli.Start(fmt.Sprintf(
 		`cd "%s" && exec "%s" %s`,
-		startDir,
+		filepath.Dir(b.Executable()),
 		b.Executable(),
 		strings.Join(args, " "),
 	))

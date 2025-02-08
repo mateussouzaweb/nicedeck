@@ -497,9 +497,8 @@ func Redream() *Program {
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/2e834824cdba6141dcb14688597a26fa.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/4853deb8a06838c502fc6cb6ce91f704.png",
 		Package: packaging.Best(&linux.Binary{
-			AppID:    "redream.portable",
-			AppBin:   "$EMULATORS/Redream/redream",
-			StartDir: "$EMULATORS/Redream",
+			AppID:  "redream.portable",
+			AppBin: "$EMULATORS/Redream/redream",
 			Source: &packaging.Source{
 				URL:    "https://redream.io/download/redream.x86_64-linux-v1.5.0-1133-g03c2ae9.tar.gz",
 				Format: "tar.gz",
@@ -784,9 +783,8 @@ func Xenia() *Program {
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/1962bcb00dc1bf1b5bcb334257ff3701.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/2958ef004a18f50b380a87d1cfe5366d.png",
 		Package: packaging.Best(&linux.Binary{
-			AppID:    "xenia.portable",
-			AppBin:   "$EMULATORS/Xenia/xenia_canary",
-			StartDir: "$EMULATORS/Xenia",
+			AppID:  "xenia.portable",
+			AppBin: "$EMULATORS/Xenia/xenia_canary",
 			Source: github.Release(
 				"https://github.com/xenia-canary/xenia-canary-releases",
 				"xenia_canary_linux.tar.gz",

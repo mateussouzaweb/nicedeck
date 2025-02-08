@@ -69,7 +69,8 @@ func (s *Snap) Executable() string {
 // Run installed program
 func (s *Snap) Run(args []string) error {
 	return cli.Start(fmt.Sprintf(
-		`exec "%s" %s`,
+		`cd "%s" && exec "%s" %s`,
+		filepath.Dir(s.Executable()),
 		s.Executable(),
 		strings.Join(args, " "),
 	))

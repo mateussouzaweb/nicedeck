@@ -2,6 +2,7 @@ package macos
 
 import (
 	"fmt"
+	"path/filepath"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -71,7 +72,8 @@ func (a *Application) Executable() string {
 // Run installed program
 func (a *Application) Run(args []string) error {
 	return cli.Start(fmt.Sprintf(
-		`open -n "%s" --args %s`,
+		`cd "%s" && open -n "%s" --args %s`,
+		filepath.Dir(a.Executable()),
 		a.Executable(),
 		strings.Join(args, " "),
 	))
