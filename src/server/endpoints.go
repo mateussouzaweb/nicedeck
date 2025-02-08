@@ -192,15 +192,17 @@ func launchShortcut(context *Context) error {
 	}
 
 	// Launch program based on running system
+	appID := fmt.Sprintf("%d", shortcut.AppID)
+	executable := steam.CleanExec(shortcut.Exe)
 	program := packaging.Best(&linux.Binary{
-		AppID:  fmt.Sprintf("%d", shortcut.AppID),
-		AppBin: shortcut.Exe,
+		AppID:  appID,
+		AppBin: executable,
 	}, &macos.Application{
-		AppID:   fmt.Sprintf("%d", shortcut.AppID),
-		AppName: shortcut.Exe,
+		AppID:   appID,
+		AppName: executable,
 	}, &windows.Executable{
-		AppID:  fmt.Sprintf("%d", shortcut.AppID),
-		AppExe: shortcut.Exe,
+		AppID:  appID,
+		AppExe: executable,
 	})
 
 	// Launch the shortcut

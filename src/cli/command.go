@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"strings"
 )
 
 // Command creates a new command struct
@@ -20,8 +19,6 @@ func Command(script string) *exec.Cmd {
 	} else if IsMacOS() {
 		cmd = exec.Command("bash", "-c", script)
 	} else {
-		// Ensure a clean script when outside flatpak
-		script = strings.Replace(script, "/usr/bin/flatpak-spawn --host", "", 1)
 		cmd = exec.Command("/bin/bash", "-c", script)
 	}
 

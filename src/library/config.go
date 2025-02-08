@@ -193,14 +193,8 @@ func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 
 	var err error
 
-	// Check if Steam was installed via flatpak
-	// If yes, then we need to append the flatpak-spawn wrapper
-	// This is necessary to have access to host commands
-	if _config.SteamRuntime == "flatpak" {
-		if !strings.HasPrefix(shortcut.Exe, "/usr/bin/flatpak-spawn") {
-			shortcut.Exe = "/usr/bin/flatpak-spawn --host " + shortcut.Exe
-		}
-	}
+	// Ensure executable is correct for steam
+	shortcut.Exe = steam.EnsureExec(_config.SteamRuntime, shortcut.Exe)
 
 	// Determine appID and artworks path
 	shortcut.AppID = shortcuts.GenerateShortcutID(shortcut.Exe, shortcut.AppName)
