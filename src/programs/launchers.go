@@ -45,6 +45,7 @@ func ESDE() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/21bd6ea21e43de6dc80e2bc8917f4ba3.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/67a900732336f1ce9d0c0496352fa9ab.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/9323f21f2098b7288267c785458548b2.png",
+		OnInstall:   esde.WriteSettings,
 		Package: packaging.Best(&linux.AppImage{
 			AppID:   "es-de.portable",
 			AppName: "$APPLICATIONS/ES-DE.AppImage",
