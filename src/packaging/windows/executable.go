@@ -6,15 +6,16 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
+	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
 // Executable struct
 type Executable struct {
-	AppID     string                         `json:"appId"`
-	AppExe    string                         `json:"appExe"`
-	Arguments []string                       `json:"arguments"`
-	Source    func() (string, string, error) `json:"-"`
+	AppID     string            `json:"appId"`
+	AppExe    string            `json:"appExe"`
+	Arguments []string          `json:"arguments"`
+	Source    *packaging.Source `json:"source"`
 }
 
 // Return if package is available
@@ -30,46 +31,9 @@ func (e *Executable) Runtime() string {
 // Install program
 func (e *Executable) Install() error {
 
-	// Skip when cannot install
-	if e.Source == nil {
-		return nil
-	}
-
-	// Retrieve source details
-	sourceURL, sourceType, err := e.Source()
-	if err != nil {
-		return err
-	}
-
-	// From ZIP format
-	if sourceType == "zip" {
-
-		// Download Zip
-		destination := e.Executable()
-		zipFile := fmt.Sprintf("%s.zip", destination)
-		err := fs.DownloadFile(sourceURL, zipFile, true)
-		if err != nil {
-			return err
-		}
-
-		// Extract ZIP
-		err = fs.Unzip(zipFile, destination)
-		if err != nil {
-			return err
-		}
-
-		// Remove ZIP file
-		err = fs.RemoveFile(zipFile)
-		if err != nil {
-			return err
-		}
-
-	}
-
-	// From direct file
-	if sourceType == "file" {
-		destination := e.Executable()
-		err := fs.DownloadFile(sourceURL, destination, true)
+	// Download from source
+	if e.Source != nil {
+		err := e.Source.Download(e)
 		if err != nil {
 			return err
 		}
