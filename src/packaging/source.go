@@ -2,8 +2,6 @@ package packaging
 
 import (
 	"fmt"
-	"path/filepath"
-	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -37,8 +35,12 @@ func (s *Source) Download(target Package) error {
 	switch s.Format {
 	case "file":
 		return s.FromFile()
+	case "tar.gz":
+		return s.FromTarGZ()
 	case "zip":
 		return s.FromZip()
+	case "7z":
+		return s.From7z()
 	case "dmg":
 		return s.FromDMG()
 	}
@@ -56,63 +58,82 @@ func (s *Source) FromFile() error {
 	return nil
 }
 
-// Download source from zip
-func (s *Source) FromZip() error {
+// Download source from .tar.gz
+func (s *Source) FromTarGZ() error {
 
-	// Download Zip
-	zipFile := fmt.Sprintf("%s.zip", s.Destination)
-	err := fs.DownloadFile(s.URL, zipFile, true)
+	// Download file
+	archiveFile := fmt.Sprintf("%s.tar.gz", s.Destination)
+	err := fs.DownloadFile(s.URL, archiveFile, true)
 	if err != nil {
 		return err
 	}
 
-	// Extract ZIP
-	err = fs.Unzip(zipFile, s.Destination)
-	if err != nil {
-		return err
-	}
-
-	// Remove ZIP file
-	err = fs.RemoveFile(zipFile)
-	if err != nil {
-		return err
-	}
+	// Print warning message
+	cli.Printf(cli.ColorWarn, "WARNING\n")
+	cli.Printf(cli.ColorWarn, "Unable to extract from .tar.gz file.\n")
+	cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
+	cli.Printf(cli.ColorWarn, "Archive file: %s\n", archiveFile)
+	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
 
 	return nil
 }
 
-// Download source from DMG
+// Download source from .zip
+func (s *Source) FromZip() error {
+
+	// Download Zip
+	archiveFile := fmt.Sprintf("%s.zip", s.Destination)
+	err := fs.DownloadFile(s.URL, archiveFile, true)
+	if err != nil {
+		return err
+	}
+
+	// Print warning message
+	cli.Printf(cli.ColorWarn, "WARNING\n")
+	cli.Printf(cli.ColorWarn, "Unable to extract from .zip file.\n")
+	cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
+	cli.Printf(cli.ColorWarn, "Archive file: %s\n", archiveFile)
+	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
+
+	return nil
+}
+
+// Download source from .7z
+func (s *Source) From7z() error {
+
+	// Download file
+	archiveFile := fmt.Sprintf("%s.7z", s.Destination)
+	err := fs.DownloadFile(s.URL, archiveFile, true)
+	if err != nil {
+		return err
+	}
+
+	// Print warning message
+	cli.Printf(cli.ColorWarn, "WARNING\n")
+	cli.Printf(cli.ColorWarn, "Unable to extract from .7z file.\n")
+	cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
+	cli.Printf(cli.ColorWarn, "Archive file: %s\n", archiveFile)
+	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
+
+	return nil
+}
+
+// Download source from .dmg
 func (s *Source) FromDMG() error {
 
 	// Download file
-	dmgFile := strings.Replace(s.Destination, ".app", ".dmg", 1)
+	dmgFile := fmt.Sprintf("%s.dmg", s.Destination)
 	err := fs.DownloadFile(s.URL, dmgFile, true)
 	if err != nil {
 		return err
 	}
 
-	// Extract application from DMG
-	appName := filepath.Base(s.Destination)
-	script := fmt.Sprintf(
-		`hdiutil attach %s
-		cp /Volumes/%s %s
-		hdiutil detach /Volumes/%s`,
-		dmgFile,
-		appName,
-		s.Destination,
-		appName,
-	)
-
-	err = cli.Run(script)
-	if err != nil {
-		return err
-	}
-
-	// Remove DMG file
-	err = fs.RemoveFile(dmgFile)
-	if err != nil {
-		return err
-	}
+	// Print warning message
+	cli.Printf(cli.ColorWarn, "WARNING\n")
+	cli.Printf(cli.ColorWarn, "Unable to extract from .dmg file.\n")
+	cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
+	cli.Printf(cli.ColorWarn, "DMG file: %s\n", dmgFile)
+	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
 
 	return nil
 }
