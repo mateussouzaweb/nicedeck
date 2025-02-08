@@ -98,7 +98,6 @@ interface ListShortcutsResult {
 
 interface LaunchShortcutData {
 	appId: number
-	launcher: string
 }
 
 interface LaunchShortcutResult {

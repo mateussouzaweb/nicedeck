@@ -14,6 +14,10 @@ import (
 	"github.com/mateussouzaweb/nicedeck/frontend"
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/library"
+	"github.com/mateussouzaweb/nicedeck/src/packaging"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/platforms"
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
@@ -155,8 +159,7 @@ func listShortcuts(context *Context) error {
 
 // Launch shortcut data
 type LaunchShortcutData struct {
-	AppID    uint   `json:"appId"`
-	Launcher string `json:"launcher"`
+	AppID uint `json:"appId"`
 }
 
 // Launch shortcut result
@@ -188,26 +191,21 @@ func launchShortcut(context *Context) error {
 		return context.Status(400).JSON(result)
 	}
 
-	// Determine best launch script based on launcher
-	// Launch with system by default
-	script := fmt.Sprintf(
-		`cd "%s" && "%s" %s`,
-		shortcut.StartDir,
-		shortcut.Exe,
-		shortcut.LaunchOptions,
-	)
-
-	if data.Launcher == "steam" {
-		if library.GetConfig().SteamRuntime == "flatpak" {
-			script = fmt.Sprintf(`flatpak run com.valvesoftware.Steam steam -applaunch %v`, shortcut.AppID)
-		} else {
-			script = fmt.Sprintf(`steam -applaunch %v`, shortcut.AppID)
-		}
-	}
+	// Launch program based on running system
+	program := packaging.Best(&linux.Binary{
+		AppID:  fmt.Sprintf("%d", shortcut.AppID),
+		AppBin: shortcut.Exe,
+	}, &macos.Application{
+		AppID:   fmt.Sprintf("%d", shortcut.AppID),
+		AppName: shortcut.Exe,
+	}, &windows.Executable{
+		AppID:  fmt.Sprintf("%d", shortcut.AppID),
+		AppExe: shortcut.Exe,
+	})
 
 	// Launch the shortcut
 	cli.Printf(cli.ColorSuccess, "Launching: %v\n", shortcut.AppName)
-	err = cli.Command(script).Start()
+	err = program.Run([]string{shortcut.LaunchOptions})
 
 	if err != nil {
 		result.Status = "ERROR"
