@@ -3,6 +3,7 @@ package linux
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -81,15 +82,19 @@ func (a *AppImage) Run(args []string) error {
 // Fill shortcut additional details
 func (a *AppImage) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
+	// Fill shortcut information for application
+	shortcutDir := fs.ExpandPath("$HOME/.local/share/applications")
+	shortcutName := fmt.Sprintf("%s.desktop", a.AppID)
+	shortcutPath := filepath.Join(shortcutDir, shortcutName)
+
+	shortcut.ShortcutPath = shortcutPath
+	shortcut.LaunchOptions = strings.Join(a.Arguments, " ")
+
 	// Write the desktop shortcut
-	desktopShortcut, err := WriteDesktopShortcut(a.AppID, shortcut)
+	err := WriteDesktopShortcut(a.AppID, shortcutPath, shortcut)
 	if err != nil {
 		return err
 	}
-
-	// Fill shortcut information for application
-	shortcut.ShortcutPath = desktopShortcut
-	shortcut.LaunchOptions = strings.Join(a.Arguments, " ")
 
 	return nil
 }

@@ -11,15 +11,12 @@ import (
 )
 
 // Write a desktop shortcut and return the file path
-func WriteDesktopShortcut(appID string, shortcut *shortcuts.Shortcut) (string, error) {
-
-	desktopShortcutName := fmt.Sprintf("%s.desktop", appID)
-	desktopShortcutLocation := fs.ExpandPath("$HOME/.local/share/applications")
-	desktopShortcutFile := filepath.Join(desktopShortcutLocation, desktopShortcutName)
-	iconFile := appID
+func WriteDesktopShortcut(appID string, destination string, shortcut *shortcuts.Shortcut) error {
 
 	// Icon by default follows XDG icon resource name
 	// If possible, we download PNG icon from shortcut
+	iconFile := appID
+
 	if strings.HasSuffix(shortcut.IconURL, ".png") {
 		iconName := fmt.Sprintf("%s.png", appID)
 		iconPath := fs.ExpandPath("$HOME/.local/share/icons")
@@ -27,7 +24,7 @@ func WriteDesktopShortcut(appID string, shortcut *shortcuts.Shortcut) (string, e
 
 		err := fs.DownloadFile(shortcut.IconURL, iconFile, false)
 		if err != nil {
-			return desktopShortcutFile, err
+			return err
 		}
 	}
 
@@ -35,26 +32,27 @@ func WriteDesktopShortcut(appID string, shortcut *shortcuts.Shortcut) (string, e
 	desktopShortcutContent := os.ExpandEnv(fmt.Sprintf(""+
 		"[Desktop Entry]\n"+
 		"Type=Application\n"+
-		"Name=%s\n"+
+		"Name=%s %s\n"+
 		"Icon=%s\n"+
 		"Exec=%s\n"+
 		"Terminal=false\n"+
 		"Categories=%s;",
 		shortcut.AppName,
+		shortcut.LaunchOptions,
 		iconFile,
 		shortcut.Exe,
 		shortcut.Tags[0],
 	))
 
-	err := os.MkdirAll(desktopShortcutLocation, 0700)
+	err := os.MkdirAll(filepath.Dir(destination), 0700)
 	if err != nil {
-		return desktopShortcutFile, err
+		return err
 	}
 
-	err = os.WriteFile(desktopShortcutFile, []byte(desktopShortcutContent), 0644)
+	err = os.WriteFile(destination, []byte(desktopShortcutContent), 0644)
 	if err != nil {
-		return desktopShortcutFile, err
+		return err
 	}
 
-	return desktopShortcutFile, nil
+	return nil
 }
