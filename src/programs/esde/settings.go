@@ -52,6 +52,7 @@ func WriteSettings() error {
 		return err
 	}
 
+	systemsConfig = []byte(os.ExpandEnv(string(systemsConfig)))
 	err = os.WriteFile(systemsFile, systemsConfig, 0666)
 	if err != nil {
 		return err
@@ -69,6 +70,7 @@ func WriteSettings() error {
 		return err
 	}
 
+	findRulesConfig = []byte(os.ExpandEnv(string(findRulesConfig)))
 	err = os.WriteFile(findRulesFile, findRulesConfig, 0666)
 	if err != nil {
 		return err
