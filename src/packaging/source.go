@@ -32,6 +32,8 @@ func (s *Source) Download(target Package) error {
 		}
 	}
 
+	cli.Printf(cli.ColorNotice, "Downloading: %s\n", s.URL)
+
 	// Download based on format
 	s.Destination = target.Executable()
 	switch s.Format {
@@ -74,8 +76,7 @@ func (s *Source) FromZip() error {
 	}
 
 	// Print warning message
-	cli.Printf(cli.ColorWarn, "WARNING:\n")
-	cli.Printf(cli.ColorWarn, "Unable to extract from .zip file.\n")
+	cli.Printf(cli.ColorWarn, "WARNING: Unable to extract from .zip file.\n")
 	cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
 	cli.Printf(cli.ColorWarn, "Archive file: %s\n", archiveFile)
 	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
@@ -95,8 +96,7 @@ func (s *Source) FromTarGz() error {
 	}
 
 	// Print warning message
-	cli.Printf(cli.ColorWarn, "WARNING:\n")
-	cli.Printf(cli.ColorWarn, "Unable to extract from .tar.gz file.\n")
+	cli.Printf(cli.ColorWarn, "WARNING: Unable to extract from .tar.gz file.\n")
 	cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
 	cli.Printf(cli.ColorWarn, "Archive file: %s\n", archiveFile)
 	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
@@ -116,8 +116,7 @@ func (s *Source) FromTarXz() error {
 	}
 
 	// Print warning message
-	cli.Printf(cli.ColorWarn, "WARNING:\n")
-	cli.Printf(cli.ColorWarn, "Unable to extract from .tar.xz file.\n")
+	cli.Printf(cli.ColorWarn, "WARNING: Unable to extract from .tar.xz file.\n")
 	cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
 	cli.Printf(cli.ColorWarn, "Archive file: %s\n", archiveFile)
 	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
@@ -137,8 +136,7 @@ func (s *Source) From7z() error {
 	}
 
 	// Print warning message
-	cli.Printf(cli.ColorWarn, "WARNING:\n")
-	cli.Printf(cli.ColorWarn, "Unable to extract from .7z file.\n")
+	cli.Printf(cli.ColorWarn, "WARNING: Unable to extract from .7z file.\n")
 	cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
 	cli.Printf(cli.ColorWarn, "Archive file: %s\n", archiveFile)
 	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
@@ -158,8 +156,7 @@ func (s *Source) FromDMG() error {
 	}
 
 	// Print warning message
-	cli.Printf(cli.ColorWarn, "WARNING:\n")
-	cli.Printf(cli.ColorWarn, "Unable to extract from .dmg file.\n")
+	cli.Printf(cli.ColorWarn, "WARNING: Unable to extract from .dmg file.\n")
 	cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
 	cli.Printf(cli.ColorWarn, "DMG file: %s\n", dmgFile)
 	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
