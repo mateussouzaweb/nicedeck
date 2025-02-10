@@ -33,7 +33,6 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 	var results []*ROM
 
 	// Get ROMs path
-	separator := string(os.PathSeparator)
 	root := fs.ExpandPath("$ROMS")
 	realRoot, err := filepath.EvalSymlinks(root)
 	if err != nil {
@@ -65,10 +64,10 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		regexp.MustCompile("(?i)Track [1-9][0-9]"), // Track 10 - 99 of some games
 	}
 
-	cli.Printf(cli.ColorNotice, "Checking for ROMs available at: %s\n", realRoot)
+	cli.Printf(cli.ColorNotice, "Checking for ROMs available at: %s\n", root)
 
 	// Note: walkDir does not follow symbolic links
-	err = filepath.WalkDir(realRoot, func(path string, dir os.DirEntry, err error) error {
+	err = filepath.WalkDir(realRoot, func(realPath string, dir os.DirEntry, err error) error {
 
 		// Stop in case of errors
 		if err != nil {
@@ -81,20 +80,23 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		}
 
 		// Parse basic ROM information
-		directory := filepath.Dir(path)
-		file := filepath.Base(path)
-		extension := filepath.Ext(path)
+		directory := filepath.Dir(realPath)
+		file := filepath.Base(realPath)
+		extension := filepath.Ext(realPath)
 		name := strings.TrimSuffix(file, extension)
+		separator := string(os.PathSeparator)
 
-		// Ensure a valid relative path
-		relativePath := strings.Replace(path, realRoot+separator, "", 1)
-		relativePath = strings.Replace(relativePath, root+separator, "", 1)
+		// Ensure a valid final and relative path
+		// Final path can be represented via symbolic links
+		finalPath := strings.Replace(realPath, realRoot, root, 1)
+		relativePath := strings.Replace(finalPath, root+separator, "", 1)
+
 		cli.Printf(cli.ColorWarn, "Detected: %s\n", relativePath)
 
 		// Check against exclusion list
 		// Verification is simple and consider if path contains given term
 		for _, pattern := range exclude {
-			if strings.Contains(strings.ToLower(path), strings.ToLower(pattern)) {
+			if strings.Contains(strings.ToLower(relativePath), strings.ToLower(pattern)) {
 				cli.Printf(cli.ColorWarn, "Skipped: file is in the exclude list.\n")
 				return nil
 			}
@@ -102,7 +104,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 
 		// Check against regex exclusion list
 		for _, pattern := range excludeRegex {
-			if pattern.MatchString(path) {
+			if pattern.MatchString(relativePath) {
 				cli.Printf(cli.ColorWarn, "Skipped: file is in the exclude list.\n")
 				return nil
 			}
@@ -195,10 +197,10 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 
 		// Put ROM path in launch options
 		executable := program.Package.Executable()
-		launchOptions := strings.Replace(emulator.LaunchOptions, "${ROM}", path, 1)
+		launchOptions := strings.Replace(emulator.LaunchOptions, "${ROM}", finalPath, 1)
 
 		rom := ROM{
-			Path:          path,
+			Path:          finalPath,
 			RelativePath:  relativePath,
 			Directory:     directory,
 			File:          file,
