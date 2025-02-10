@@ -87,8 +87,8 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		name := strings.TrimSuffix(file, extension)
 
 		// Ensure a valid relative path
-		relativePath := strings.Replace(path, root+separator, "", 1)
-		relativePath = strings.Replace(relativePath, realRoot+separator, "", 1)
+		relativePath := strings.Replace(path, realRoot+separator, "", 1)
+		relativePath = strings.Replace(relativePath, root+separator, "", 1)
 		cli.Printf(cli.ColorWarn, "Detected: %s\n", relativePath)
 
 		// Check against exclusion list
