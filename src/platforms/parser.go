@@ -27,6 +27,110 @@ type ROM struct {
 	LaunchOptions string `json:"launchOptions"`
 }
 
+// Runtime struct
+type Runtime struct {
+	Platform *Platform
+	Emulator *Emulator
+	Program  *programs.Program
+}
+
+// Find runtime specs for ROM based on their path
+func FindRuntimeForROM(romPath string, options *Options) (*Runtime, error) {
+
+	result := &Runtime{
+		Platform: &Platform{},
+		Emulator: &Emulator{},
+		Program:  &programs.Program{},
+	}
+
+	romPath = strings.ToLower(romPath)
+
+	// Retrieve platforms
+	platforms, err := GetPlatforms(options)
+	if err != nil {
+		return result, err
+	}
+
+	// Search in every retrieved platform
+	// Platform and emulator are determined by the folder initial path
+	// Program is determined by installation status or availability
+	// This model also work in cases when games are in sub-folders
+	for _, platform := range platforms {
+		separator := string(os.PathSeparator)
+		mainFolder := strings.ToLower(platform.Folder + separator)
+
+		// Skip platform without emulators
+		if len(platform.Emulators) == 0 {
+			continue
+		}
+
+		// Skip if platform folder prefix is not present in path
+		// Means that the ROM belongs to another platform...
+		// Please note that is important to check folder with path separator
+		if !strings.HasPrefix(romPath, mainFolder) {
+			continue
+		}
+
+		// Special case to enforce an specific emulator of the platform
+		// The condition is to have the emulator name as subfolder
+		// Please note that is important to check subfolder with path separator
+		for _, emulator := range platform.Emulators {
+			subFolder := strings.ReplaceAll(emulator.Name, " ", "-")
+			subFolder = filepath.Join(mainFolder, subFolder)
+			subFolder = strings.ToLower(subFolder + separator)
+
+			if !strings.HasPrefix(romPath, subFolder) {
+				continue
+			}
+
+			program, err := programs.GetProgramByID(emulator.Program)
+			if err != nil {
+				return result, err
+			} else {
+				result.Platform = platform
+				result.Emulator = emulator
+				result.Program = program
+				return result, nil
+			}
+		}
+
+		// Default case that will use the installed emulator
+		// Check and use the first emulator that is installed for the platform
+		for _, emulator := range platform.Emulators {
+			program, err := programs.GetProgramByID(emulator.Program)
+			if err != nil {
+				return result, err
+			}
+
+			installed, err := program.Package.Installed()
+			if err != nil {
+				return result, err
+			} else if installed {
+				result.Platform = platform
+				result.Emulator = emulator
+				result.Program = program
+				return result, nil
+			}
+		}
+
+		// Last case that will use the available emulator
+		// Check and use the first emulator that is available for the platform
+		for _, emulator := range platform.Emulators {
+			program, err := programs.GetProgramByID(emulator.Program)
+			if err != nil {
+				return result, err
+			} else if program.Package.Available() {
+				result.Platform = platform
+				result.Emulator = emulator
+				result.Program = program
+				return result, nil
+			}
+		}
+	}
+
+	return result, nil
+}
+
 // Find ROMs in folder and return the list of detected games
 func ParseROMs(options *Options) ([]*ROM, error) {
 
@@ -35,12 +139,6 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 	// Get ROMs path
 	root := fs.ExpandPath("$ROMS")
 	realRoot, err := filepath.EvalSymlinks(root)
-	if err != nil {
-		return results, err
-	}
-
-	// Retrieve platforms
-	platforms, err := GetPlatforms(options)
 	if err != nil {
 		return results, err
 	}
@@ -110,94 +208,37 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 			}
 		}
 
-		// Platform and emulator are determined by the folder initial path
-		// This model also solve cases for games in sub-folders
-		platform := &Platform{}
-		emulator := &Emulator{}
-
-		for _, item := range platforms {
-			// Ignore platforms without emulators
-			if len(item.Emulators) == 0 {
-				continue
-			}
-
-			// Skip if platform folder prefix is not present in path
-			// Means that the ROM belongs to another platform...
-			// Please note that is important to check folder with path separator
-			if !strings.HasPrefix(strings.ToLower(relativePath), strings.ToLower(item.Folder+separator)) {
-				continue
-			}
-
-			// Special case to enforce an specific emulator of the platform
-			// The condition is to have the emulator name as subfolder
-			// Please note that is important to check subfolder with path separator
-			for _, itemEmulator := range item.Emulators {
-				subfolder := strings.ReplaceAll(itemEmulator.Name, " ", "-")
-				subfolder = filepath.Join(item.Folder, subfolder)
-				subfolder = strings.ToLower(subfolder + separator)
-
-				if strings.HasPrefix(strings.ToLower(relativePath), subfolder) {
-					platform = item
-					emulator = itemEmulator
-					break
-				}
-			}
-			if emulator.Name != "" {
-				break
-			}
-
-			// Default case that will use the main platform emulator
-			// Using the first emulator that is available for the system
-			for _, itemEmulator := range item.Emulators {
-				program, err := programs.GetProgramByID(itemEmulator.Program)
-				if err != nil {
-					return err
-				} else if program.Package.Available() {
-					platform = item
-					emulator = itemEmulator
-					break
-				}
-			}
-			if emulator.Name != "" {
-				break
-			}
+		// Retrieve runtime detail
+		runtime, err := FindRuntimeForROM(relativePath, options)
+		if err != nil {
+			return err
 		}
 
 		// Ignore if could not detect the emulator
-		if emulator.Name == "" {
+		if runtime.Emulator.Name == "" {
 			cli.Printf(cli.ColorWarn, "Skipped: no emulator found for ROM.\n")
 			return nil
 		}
 
 		// Validate if extension is in the valid list
-		valid := strings.Split(emulator.Extensions, " ")
+		valid := strings.Split(runtime.Emulator.Extensions, " ")
 		if !slices.Contains(valid, strings.ToLower(extension)) {
-			cli.Printf(cli.ColorWarn, "Skipped: invalid ROM format for %s emulator.\n", emulator.Name)
+			cli.Printf(cli.ColorWarn, "Skipped: invalid ROM format for %s emulator.\n", runtime.Emulator.Name)
 			return nil
 		}
 
 		// Check if same ROM already was found with another extension
 		// This will prevent multiple results for the same ROM
 		for _, item := range results {
-			if item.Platform == platform.Name && item.Name == name {
+			if item.Platform == runtime.Platform.Name && item.Name == name {
 				cli.Printf(cli.ColorWarn, "Skipped: multiple results detected for %s.\n", name)
 				return nil
 			}
 		}
 
-		// Find target program from the emulator
-		// Ignore when program package is not available for the system
-		program, err := programs.GetProgramByID(emulator.Program)
-		if err != nil {
-			return err
-		} else if !program.Package.Available() {
-			cli.Printf(cli.ColorWarn, "Skipped: %s emulator program not available.\n", emulator.Name)
-			return nil
-		}
-
 		// Put ROM path in launch options
-		executable := program.Package.Executable()
-		launchOptions := strings.Replace(emulator.LaunchOptions, "${ROM}", finalPath, 1)
+		executable := runtime.Program.Package.Executable()
+		launchOptions := strings.Replace(runtime.Emulator.LaunchOptions, "${ROM}", finalPath, 1)
 
 		rom := ROM{
 			Path:          finalPath,
@@ -206,14 +247,14 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 			File:          file,
 			Extension:     extension,
 			Name:          name,
-			Console:       platform.Console,
-			Platform:      platform.Name,
-			Emulator:      emulator.Name,
+			Console:       runtime.Platform.Console,
+			Platform:      runtime.Platform.Name,
+			Emulator:      runtime.Emulator.Name,
 			Executable:    executable,
 			LaunchOptions: launchOptions,
 		}
 
-		cli.Printf(cli.ColorSuccess, "Valid: ROM is valid for %s emulator.\n", emulator.Name)
+		cli.Printf(cli.ColorSuccess, "Valid: ROM is valid for %s emulator.\n", runtime.Emulator.Name)
 		results = append(results, &rom)
 		return nil
 	})
