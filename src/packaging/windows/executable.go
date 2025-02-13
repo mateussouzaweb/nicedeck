@@ -1,8 +1,6 @@
 package windows
 
 import (
-	"fmt"
-	"path/filepath"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -62,21 +60,7 @@ func (e *Executable) Executable() string {
 
 // Run installed program
 func (e *Executable) Run(args []string) error {
-	if len(args) > 0 {
-		return cli.Start(fmt.Sprintf(``+
-			`$arguments = '%s';`+
-			`Start-Process -WorkingDirectory "%s" -FilePath "%s" -PassThru -Wait -ArgumentList $arguments`,
-			strings.Join(args, " "),
-			filepath.Dir(e.Executable()),
-			e.Executable(),
-		))
-	}
-
-	return cli.Start(fmt.Sprintf(
-		`Start-Process -WorkingDirectory "%s" -FilePath "%s" -PassThru -Wait`,
-		filepath.Dir(e.Executable()),
-		e.Executable(),
-	))
+	return RunProcess(e.Executable(), args)
 }
 
 // Fill shortcut additional details
