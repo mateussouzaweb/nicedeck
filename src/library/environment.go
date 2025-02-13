@@ -2,6 +2,7 @@ package library
 
 import (
 	"os"
+	"path/filepath"
 	"runtime"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -34,9 +35,9 @@ func Init(version string) error {
 
 	// On Windows, add a few shortcuts
 	if cli.IsWindows() {
-		cli.SetEnv("APPDATA", fs.ExpandPath("$CONFIG"), false)
-		cli.SetEnv("PROGRAMS", fs.ExpandPath("$HOMEDRIVE\\Program Files"), false)
-		cli.SetEnv("PROGRAMS_X86", fs.ExpandPath("$HOMEDRIVE\\Program Files (x86)"), false)
+		cli.SetEnv("APPDATA", filepath.Dir(configDir), true)
+		cli.SetEnv("PROGRAMS", fs.ExpandPath("$HOMEDRIVE\\Program Files"), true)
+		cli.SetEnv("PROGRAMS_X86", fs.ExpandPath("$HOMEDRIVE\\Program Files (x86)"), true)
 	}
 
 	// Expose environment variables for internal usage
