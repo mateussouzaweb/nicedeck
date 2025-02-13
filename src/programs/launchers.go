@@ -47,18 +47,18 @@ func ESDE() *Program {
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/9323f21f2098b7288267c785458548b2.png",
 		OnInstall:   esde.WriteSettings,
 		Package: packaging.Best(&linux.AppImage{
-			AppID:   "es-de.portable",
+			AppID:   "es-de",
 			AppName: "$APPLICATIONS/ES-DE/ES-DE.AppImage",
 			Source:  esde.Release("LinuxAppImage", "file"),
 		}, &macos.Application{
-			AppID:   "es-de.portable",
+			AppID:   "es-de",
 			AppName: "$APPLICATIONS/ES-DE/ES-DE.app",
 			Source:  esde.Release("macOSApple", "dmg"),
 		}, &windows.WinGet{
 			AppID:  "ES-DE.EmulationStation-DE",
 			AppExe: "$PROGRAMS\\ES-DE\\ES-DE.exe",
 		}, &windows.Executable{
-			AppID:  "ES-DE.Portable",
+			AppID:  "ES-DE",
 			AppExe: "$APPLICATIONS\\ES-DE\\ES-DE.exe",
 			Source: esde.Release("WindowsPortable", "zip"),
 		}),
