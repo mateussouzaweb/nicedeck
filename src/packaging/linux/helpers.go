@@ -29,6 +29,12 @@ func CreateDesktopShortcut(shortcut *shortcuts.Shortcut) error {
 		}
 	}
 
+	// Map categories into closest values from desktop menu spec
+	categories := strings.Join(shortcut.Tags, ";")
+	categories = strings.ReplaceAll(categories, "Gaming", "Game")
+	categories = strings.ReplaceAll(categories, "Utilities", "Utility")
+	categories = strings.ReplaceAll(categories, "Streaming", "Network")
+
 	// Create and write desktop shortcut
 	desktopShortcutContent := os.ExpandEnv(fmt.Sprintf(""+
 		"[Desktop Entry]\n"+
@@ -42,7 +48,7 @@ func CreateDesktopShortcut(shortcut *shortcuts.Shortcut) error {
 		iconFile,
 		shortcut.Exe,
 		shortcut.LaunchOptions,
-		shortcut.Tags[0],
+		categories,
 	))
 
 	err := os.MkdirAll(filepath.Dir(shortcut.ShortcutPath), 0700)

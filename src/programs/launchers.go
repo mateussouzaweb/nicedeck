@@ -37,7 +37,7 @@ func ESDE() *Program {
 		Name:        "ES-DE",
 		Description: "Frontend for browsing and launching emulated games",
 		Category:    "Gaming",
-		Tags:        []string{"Gaming", "Emulator", "Launcher"},
+		Tags:        []string{"Gaming", "Emulator"},
 		Folders:     []string{"$APPLICATIONS"},
 		Website:     "https://es-de.org",
 		IconURL:     "https://cdn2.steamgriddb.com/icon/85ebad98d8a178be8baf16929526446e.png",
