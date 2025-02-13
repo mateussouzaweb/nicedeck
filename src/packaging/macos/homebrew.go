@@ -2,7 +2,6 @@ package macos
 
 import (
 	"fmt"
-	"path/filepath"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -57,12 +56,7 @@ func (h *Homebrew) Executable() string {
 
 // Run installed program
 func (h *Homebrew) Run(args []string) error {
-	return cli.Start(fmt.Sprintf(
-		`cd "%s" && open -n "%s" --args %s`,
-		filepath.Dir(h.Executable()),
-		h.Executable(),
-		strings.Join(args, " "),
-	))
+	return cli.RunProcess(h.Executable(), args)
 }
 
 // Fill shortcut additional details

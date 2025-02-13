@@ -72,12 +72,7 @@ func (b *Binary) Executable() string {
 
 // Run installed program
 func (b *Binary) Run(args []string) error {
-	return cli.Start(fmt.Sprintf(
-		`cd "%s" && exec "%s" %s`,
-		filepath.Dir(b.Executable()),
-		b.Executable(),
-		strings.Join(args, " "),
-	))
+	return cli.RunProcess(b.Executable(), args)
 }
 
 // Fill shortcut additional details

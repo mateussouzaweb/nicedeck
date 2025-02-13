@@ -72,12 +72,7 @@ func (a *Application) Executable() string {
 
 // Run installed program
 func (a *Application) Run(args []string) error {
-	return cli.Start(fmt.Sprintf(
-		`cd "%s" && open -n "%s" --args %s`,
-		filepath.Dir(a.Executable()),
-		a.Executable(),
-		strings.Join(args, " "),
-	))
+	return cli.RunProcess(a.Executable(), args)
 }
 
 // Fill shortcut additional details
@@ -85,8 +80,7 @@ func (a *Application) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for application
 	shortcutDir := fs.ExpandPath("$HOME/Applications/")
-	shortcutName := fmt.Sprintf("%s", a.AppName)
-	shortcutPath := filepath.Join(shortcutDir, shortcutName)
+	shortcutPath := filepath.Join(shortcutDir, a.AppName)
 	shortcut.ShortcutPath = shortcutPath
 	shortcut.LaunchOptions = strings.Join(a.Arguments, " ")
 

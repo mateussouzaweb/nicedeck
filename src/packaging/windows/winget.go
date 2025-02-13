@@ -53,7 +53,7 @@ func (w *WinGet) Executable() string {
 
 // Run installed program
 func (w *WinGet) Run(args []string) error {
-	return RunProcess(w.Executable(), args)
+	return cli.RunProcess(w.Executable(), args)
 }
 
 // Fill shortcut additional details

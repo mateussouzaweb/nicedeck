@@ -62,7 +62,7 @@ func (e *Executable) Executable() string {
 
 // Run installed program
 func (e *Executable) Run(args []string) error {
-	return RunProcess(e.Executable(), args)
+	return cli.RunProcess(e.Executable(), args)
 }
 
 // Fill shortcut additional details
