@@ -3,9 +3,11 @@ package windows
 import (
 	"fmt"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
+	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
 // Run a program with given set of arguments
@@ -24,5 +26,21 @@ func RunProcess(executable string, args []string) error {
 		`Start-Process -WorkingDirectory "%s" -FilePath "%s" -PassThru -Wait`,
 		filepath.Dir(executable),
 		executable,
+	))
+}
+
+// Create a system shortcut
+func CreateSystemShortcut(shortcut *shortcuts.Shortcut) error {
+	return cli.Run(fmt.Sprintf(``+
+		`$WshShell = New-Object -COMObject WScript.Shell;`+
+		`$Shortcut = $WshShell.CreateShortcut("%s");`+
+		`$Shortcut.WorkingDirectory = "%s";`+
+		`$Shortcut.TargetPath = "%s";`+
+		`$Shortcut.Arguments = "%s";`+
+		`$Shortcut.Save()`,
+		shortcut.ShortcutPath,
+		shortcut.StartDir,
+		shortcut.Exe,
+		strconv.Quote(shortcut.LaunchOptions),
 	))
 }

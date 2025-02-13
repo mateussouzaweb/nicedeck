@@ -1,6 +1,8 @@
 package windows
 
 import (
+	"fmt"
+	"path/filepath"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -65,6 +67,19 @@ func (e *Executable) Run(args []string) error {
 
 // Fill shortcut additional details
 func (e *Executable) OnShortcut(shortcut *shortcuts.Shortcut) error {
+
+	// Fill shortcut information for application
+	shortcutDir := fs.ExpandPath("$APPDATA\\Microsoft\\Windows\\Start Menu\\Programs")
+	shortcutName := fmt.Sprintf("%s.lnk", shortcut.AppName)
+	shortcutPath := filepath.Join(shortcutDir, shortcutName)
+	shortcut.ShortcutPath = shortcutPath
 	shortcut.LaunchOptions = strings.Join(e.Arguments, " ")
+
+	// Write system shortcut on start menu
+	err := CreateSystemShortcut(shortcut)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
