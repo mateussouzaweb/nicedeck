@@ -10,15 +10,16 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
-// Write a desktop shortcut and return the file path
-func WriteDesktopShortcut(appID string, destination string, shortcut *shortcuts.Shortcut) error {
+// Create a desktop shortcut
+func CreateDesktopShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Icon by default follows XDG icon resource name
 	// If possible, we download PNG icon from shortcut
-	iconFile := appID
+	iconFile := filepath.Base(shortcut.ShortcutPath)
+	iconFile = strings.Replace(iconFile, ".desktop", "", 1)
 
 	if strings.HasSuffix(shortcut.IconURL, ".png") {
-		iconName := fmt.Sprintf("%s.png", appID)
+		iconName := fmt.Sprintf("%s.png", iconFile)
 		iconPath := fs.ExpandPath("$HOME/.local/share/icons")
 		iconFile = filepath.Join(iconPath, iconName)
 
@@ -32,24 +33,24 @@ func WriteDesktopShortcut(appID string, destination string, shortcut *shortcuts.
 	desktopShortcutContent := os.ExpandEnv(fmt.Sprintf(""+
 		"[Desktop Entry]\n"+
 		"Type=Application\n"+
-		"Name=%s %s\n"+
+		"Name=%s\n"+
 		"Icon=%s\n"+
-		"Exec=%s\n"+
+		"Exec=%s %s\n"+
 		"Terminal=false\n"+
 		"Categories=%s;",
 		shortcut.AppName,
-		shortcut.LaunchOptions,
 		iconFile,
 		shortcut.Exe,
+		shortcut.LaunchOptions,
 		shortcut.Tags[0],
 	))
 
-	err := os.MkdirAll(filepath.Dir(destination), 0700)
+	err := os.MkdirAll(filepath.Dir(shortcut.ShortcutPath), 0700)
 	if err != nil {
 		return err
 	}
 
-	err = os.WriteFile(destination, []byte(desktopShortcutContent), 0644)
+	err = os.WriteFile(shortcut.ShortcutPath, []byte(desktopShortcutContent), 0644)
 	if err != nil {
 		return err
 	}

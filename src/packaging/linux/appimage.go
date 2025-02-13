@@ -87,12 +87,11 @@ func (a *AppImage) OnShortcut(shortcut *shortcuts.Shortcut) error {
 	shortcutDir := fs.ExpandPath("$HOME/.local/share/applications")
 	shortcutName := fmt.Sprintf("%s.desktop", a.AppID)
 	shortcutPath := filepath.Join(shortcutDir, shortcutName)
-
 	shortcut.ShortcutPath = shortcutPath
 	shortcut.LaunchOptions = strings.Join(a.Arguments, " ")
 
 	// Write the desktop shortcut
-	err := WriteDesktopShortcut(a.AppID, shortcutPath, shortcut)
+	err := CreateDesktopShortcut(shortcut)
 	if err != nil {
 		return err
 	}
