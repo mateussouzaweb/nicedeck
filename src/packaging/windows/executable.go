@@ -76,7 +76,19 @@ func (e *Executable) OnShortcut(shortcut *shortcuts.Shortcut) error {
 	shortcut.LaunchOptions = strings.Join(e.Arguments, " ")
 
 	// Write system shortcut on start menu
-	err := CreateSystemShortcut(shortcut)
+	err := cli.Run(fmt.Sprintf(``+
+		`$WshShell = New-Object -COMObject WScript.Shell;`+
+		`$Shortcut = $WshShell.CreateShortcut("%s");`+
+		`$Shortcut.WorkingDirectory = "%s";`+
+		`$Shortcut.TargetPath = "%s";`+
+		`$Shortcut.Arguments = "%s";`+
+		`$Shortcut.Save()`,
+		shortcut.ShortcutPath,
+		shortcut.StartDir,
+		shortcut.Exe,
+		strings.ReplaceAll(shortcut.LaunchOptions, `"`, `\"`),
+	))
+
 	if err != nil {
 		return err
 	}
