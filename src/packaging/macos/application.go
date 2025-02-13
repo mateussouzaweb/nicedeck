@@ -2,6 +2,7 @@ package macos
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -81,6 +82,19 @@ func (a *Application) Run(args []string) error {
 
 // Fill shortcut additional details
 func (a *Application) OnShortcut(shortcut *shortcuts.Shortcut) error {
+
+	// Fill shortcut information for application
+	shortcutDir := fs.ExpandPath("$HOME/Applications/")
+	shortcutName := fmt.Sprintf("%s", a.AppName)
+	shortcutPath := filepath.Join(shortcutDir, shortcutName)
+	shortcut.ShortcutPath = shortcutPath
 	shortcut.LaunchOptions = strings.Join(a.Arguments, " ")
+
+	// Write the application shortcut
+	err := os.Symlink(shortcut.Exe, shortcut.ShortcutPath)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
