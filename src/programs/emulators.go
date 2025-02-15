@@ -353,7 +353,7 @@ func MelonDS() *Program {
 func MGBA() *Program {
 	return &Program{
 		ID:          "mgba",
-		Name:        "mGBA",
+		Name:        "MGBA",
 		Description: "Emulator for Nintendo Game Boy Advance",
 		Category:    "Emulators",
 		Tags:        []string{"Gaming", "Emulator"},
