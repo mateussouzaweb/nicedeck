@@ -465,7 +465,7 @@ func PPSSPP() *Program {
 			),
 		}, &macos.Application{
 			AppID:   "ppsspp",
-			AppName: "$EMULATORS/PPSSPP/PPSSPP.app",
+			AppName: "$EMULATORS/PPSSPP/PPSSPPSDL.app",
 			Source: github.Release(
 				"https://github.com/hrydgard/ppsspp",
 				"PPSSPPSDL-macOS-v1.18.1.zip",
