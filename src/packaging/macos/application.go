@@ -80,7 +80,7 @@ func (a *Application) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for application
 	shortcutDir := fs.ExpandPath("$HOME/Applications/")
-	shortcutPath := filepath.Join(shortcutDir, a.AppName)
+	shortcutPath := filepath.Join(shortcutDir, shortcut.AppName)
 	shortcut.ShortcutPath = shortcutPath
 	shortcut.LaunchOptions = strings.Join(a.Arguments, " ")
 
