@@ -85,7 +85,12 @@ func (a *Application) OnShortcut(shortcut *shortcuts.Shortcut) error {
 	shortcut.LaunchOptions = strings.Join(a.Arguments, " ")
 
 	// Write the application shortcut
-	err := os.Symlink(shortcut.Exe, shortcut.ShortcutPath)
+	err := fs.RemoveFile(shortcut.ShortcutPath)
+	if err != nil {
+		return err
+	}
+
+	err = os.Symlink(shortcut.Exe, shortcut.ShortcutPath)
 	if err != nil {
 		return err
 	}
