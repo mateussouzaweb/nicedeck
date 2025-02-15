@@ -79,13 +79,19 @@ func (a *Application) Run(args []string) error {
 func (a *Application) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for application
-	shortcutDir := fs.ExpandPath("$HOME/Applications/")
-	shortcutPath := filepath.Join(shortcutDir, shortcut.AppName)
+	shortcutDir := fs.ExpandPath("$HOME/Applications")
+	shortcutName := fmt.Sprintf("%s/%s.app", shortcut.Tags[0], shortcut.AppName)
+	shortcutPath := filepath.Join(shortcutDir, shortcutName)
 	shortcut.ShortcutPath = shortcutPath
 	shortcut.LaunchOptions = strings.Join(a.Arguments, " ")
 
 	// Write the application shortcut
-	err := fs.RemoveFile(shortcut.ShortcutPath)
+	err := os.MkdirAll(filepath.Dir(shortcut.ShortcutPath), 0755)
+	if err != nil {
+		return err
+	}
+
+	err = fs.RemoveFile(shortcut.ShortcutPath)
 	if err != nil {
 		return err
 	}
