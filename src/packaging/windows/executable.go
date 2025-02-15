@@ -2,6 +2,7 @@ package windows
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -70,13 +71,18 @@ func (e *Executable) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for application
 	shortcutDir := fs.ExpandPath("$APPDATA\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs")
-	shortcutName := fmt.Sprintf("%s.lnk", shortcut.AppName)
+	shortcutName := fmt.Sprintf("%s\\%s.lnk", shortcut.Tags[0], shortcut.AppName)
 	shortcutPath := filepath.Join(shortcutDir, shortcutName)
 	shortcut.ShortcutPath = shortcutPath
 	shortcut.LaunchOptions = strings.Join(e.Arguments, " ")
 
 	// Write system shortcut on start menu
-	err := cli.Run(fmt.Sprintf(``+
+	err := os.MkdirAll(filepath.Dir(shortcut.ShortcutPath), 0755)
+	if err != nil {
+		return err
+	}
+
+	err = cli.Run(fmt.Sprintf(``+
 		`$WshShell = New-Object -COMObject WScript.Shell;`+
 		`$Shortcut = $WshShell.CreateShortcut("%s");`+
 		`$Shortcut.WorkingDirectory = "%s";`+
