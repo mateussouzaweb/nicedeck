@@ -156,6 +156,7 @@ func Install(id string) error {
 		Exe:           executable,
 		LaunchOptions: "",
 		ShortcutPath:  "",
+		Description:   program.Description,
 		Tags:          program.Tags,
 		IconURL:       program.IconURL,
 		LogoURL:       program.LogoURL,

@@ -21,6 +21,7 @@ type Shortcut struct {
 	Tags                []string `json:"tags"`
 
 	// Extended specs
+	Description  string `json:"description"`
 	IconURL      string `json:"iconUrl"`
 	Logo         string `json:"logo"`
 	LogoURL      string `json:"logoUrl"`

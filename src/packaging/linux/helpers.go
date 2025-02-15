@@ -40,11 +40,13 @@ func CreateDesktopShortcut(shortcut *shortcuts.Shortcut) error {
 		"[Desktop Entry]\n"+
 		"Type=Application\n"+
 		"Name=%s\n"+
+		"Comment=%s\n"+
 		"Icon=%s\n"+
 		"Exec=%s %s\n"+
 		"Terminal=false\n"+
 		"Categories=%s;",
 		shortcut.AppName,
+		shortcut.Description,
 		iconFile,
 		shortcut.Exe,
 		shortcut.LaunchOptions,

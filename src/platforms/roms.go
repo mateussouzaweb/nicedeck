@@ -103,6 +103,7 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 
 		// Determine best name and images for the shortcut
 		appName := scrape.Name + " [" + rom.Platform + "]"
+		description := "ROM for " + rom.Platform
 		iconURL := ""
 		logoURL := ""
 		coverURL := ""
@@ -138,6 +139,7 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 			CoverURL:      coverURL,
 			BannerURL:     bannerURL,
 			HeroURL:       heroURL,
+			Description:   description,
 			Platform:      rom.Platform,
 			RelativePath:  rom.RelativePath,
 			Tags:          []string{"Gaming", "ROM"},

@@ -112,6 +112,7 @@ func Load() error {
 				target.BannerURL = source.BannerURL
 				target.Hero = source.Hero
 				target.HeroURL = source.HeroURL
+				target.Description = source.Description
 				target.Platform = source.Platform
 				target.RelativePath = source.RelativePath
 
