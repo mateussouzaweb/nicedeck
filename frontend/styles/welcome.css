@@ -5,8 +5,24 @@
     margin: 0 0 10px;
 }
 #welcome ul {
-    padding-left: 20px;
+    align-items: stretch;
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    justify-content: stretch;
+    list-style: none;
+    padding: 0;
+    margin: 10px -10px;
 }
 #welcome ul li {
-    padding-bottom: 5px;
+    background: #ead4ef;
+    border: 1px solid #000;
+    border-radius: 5px;
+    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    gap: 10px;
+    margin: 10px;
+    max-width: 50%;
+    min-width: 160px;
+    padding: 15px;
 }
