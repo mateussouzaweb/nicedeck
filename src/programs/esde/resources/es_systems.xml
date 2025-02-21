@@ -34,7 +34,6 @@
         <path>%ROMPATH%/3DS</path>
         <extension>.3ds .3DS .3dsx .3DSX .app .APP .axf .AXF .cci .CCI .cxi .CXI .elf .ELF .7z .7Z .zip .ZIP</extension>
         <command label="LIME3DS">%EMULATOR_LIME3DS% %ROM%</command>
-        <command label="CITRA">%EMULATOR_CITRA% %ROM%</command>
         <platform>n3ds</platform>
         <theme>n3ds</theme>
     </system>

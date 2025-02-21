@@ -106,7 +106,6 @@ Console Emulators:
 - Microsoft Xbox - [Xemu](https://xemu.app)
 - Microsoft Xbox 360 - [Xenia](https://xenia.jp)
 - Nintendo 3DS - [Lime3DS](https://lime3ds.github.io)
-- Nintendo 3DS - [Citra](https://github.com/PabloMK7/citra)
 - Nintendo 64 - [Simple64](https://simple64.github.io)
 - Nintendo DS - [MelonDS](https://melonds.kuribo64.net)
 - Nintendo Game Boy Advance - [mGBA](https://mgba.io)

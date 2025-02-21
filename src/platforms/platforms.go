@@ -31,11 +31,6 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Program:       "lime3ds",
 			Extensions:    ".3ds .3dsx .app .axf .cci .cxi .elf .7z .zip",
 			LaunchOptions: "\"${ROM}\"", // No full-screen option
-		}, {
-			Name:          "Citra",
-			Program:       "citra",
-			Extensions:    ".3ds .3dsx .app .axf .cci .cxi .elf .7z .zip",
-			LaunchOptions: "\"${ROM}\"", // No full-screen option
 		}},
 	})
 

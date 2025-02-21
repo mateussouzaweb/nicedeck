@@ -52,50 +52,6 @@ func Cemu() *Program {
 	}
 }
 
-// Installer for Citra
-func Citra() *Program {
-	return &Program{
-		ID:          "citra",
-		Name:        "Citra",
-		Description: "Emulator for Nintendo 3DS",
-		Category:    "Emulators",
-		Tags:        []string{"Gaming", "Emulator"},
-		Folders:     []string{"$EMULATORS", "$STATE/Citra", "$ROMS/3DS", "$BIOS/3DS"},
-		Website:     "https://github.com/PabloMK7/citra",
-		IconURL:     "https://cdn2.steamgriddb.com/icon/9191e0c0fc4f0ff1d9e4bae7e118944e.png",
-		LogoURL:     "https://cdn2.steamgriddb.com/logo/30c08c3bbfac55eba7678594e5da022e.png",
-		CoverURL:    "https://cdn2.steamgriddb.com/grid/336fd95d2fd675836a5b72a581072934.png",
-		BannerURL:   "https://cdn2.steamgriddb.com/grid/585191595ac24404854bbce59d0f54d2.png",
-		HeroURL:     "https://cdn2.steamgriddb.com/hero/1d0ba3d7eb612a216c3e4d002deabdb7.png",
-		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
-			AppID:     "org.citra_emu.citra",
-			Overrides: []string{"--filesystem=host"},
-		}, &linux.AppImage{
-			AppID:   "citra",
-			AppName: "$EMULATORS/Citra/citra-qt.AppImage",
-			Source: github.Release(
-				"https://github.com/PabloMK7/citra",
-				"citra-linux-appimage-*.tar.gz",
-			),
-		}, &macos.Application{
-			AppID:   "citra",
-			AppName: "$EMULATORS/Citra/citra-qt.app",
-			Source: github.Release(
-				"https://github.com/PabloMK7/citra",
-				"citra-macos-universal-*.tar.gz",
-			),
-		}, &windows.Executable{
-			AppID:  "Citra",
-			AppExe: "$EMULATORS\\Citra\\citra-qt.exe",
-			Source: github.Release(
-				"https://github.com/PabloMK7/citra",
-				"citra-windows-msvc-*.zip",
-			),
-		}),
-	}
-}
-
 // Installer for Citron
 func Citron() *Program {
 	return &Program{

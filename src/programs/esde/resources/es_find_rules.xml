@@ -17,15 +17,6 @@
             <entry>$EMULATORS\Cemu\Cemu.exe</entry>
         </rule>
     </emulator>
-    <emulator name="CITRA">
-        <rule type="staticpath">
-            <entry>/var/lib/flatpak/exports/bin/org.citra_emu.citra</entry>
-            <entry>~/.local/share/flatpak/exports/bin/org.citra_emu.citra</entry>
-            <entry>$EMULATORS/Citra/citra-qt.AppImage</entry>
-            <entry>$EMULATORS/Citra/citra-qt.app</entry>
-            <entry>$EMULATORS\Citra\citra.exe</entry>
-        </rule>
-    </emulator>
     <emulator name="CITRON">
         <rule type="staticpath">
             <entry>$EMULATORS/Citron/Citron.AppImage</entry>

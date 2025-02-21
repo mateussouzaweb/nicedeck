@@ -52,33 +52,6 @@ func GetStates(options *Options) []*State {
 		},
 	})
 
-	// Citra
-	states = append(states, &State{
-		Platform: "3DS",
-		Emulator: "Citra",
-		Type:     "folder",
-		Path:     "$STATE/Citra/citra-emu/sdmc",
-		Source: []string{
-			"$HOME/.var/app/org.citra_emu.citra/data/citra-emu/sdmc",
-			"$HOME/.local/share/citra-emu/sdmc",
-			"$HOME/.config/citra-emu/sdmc",
-			"$HOME/Library/Application Support/Citra/sdmc",
-			"$APPDATA\\Roaming\\Citra\\sdmc",
-		},
-	}, &State{
-		Platform: "3DS",
-		Emulator: "Citra",
-		Type:     "folder",
-		Path:     "$STATE/Citra/citra-emu/states",
-		Source: []string{
-			"$HOME/.var/app/org.citra_emu.citra/data/citra-emu/states",
-			"$HOME/.local/share/citra-emu/states",
-			"$HOME/.config/citra-emu/states",
-			"$HOME/Library/Application Support/Citra/states",
-			"$APPDATA\\Roaming\\Citra\\states",
-		},
-	})
-
 	// Flycast
 	states = append(states, &State{
 		Platform: "DC",

@@ -12,7 +12,7 @@ NOTE: ``$ROMS`` represents your ROMs directory, located at ``$HOME/Games/ROMs``.
 |---------------------------|-------------------------|-------------------|
 | Microsoft Xbox            | Xemu                    | ``$ROMS/XBOX``    |
 | Microsoft Xbox 360        | Xenia                   | ``$ROMS/X360``    |
-| Nintendo 3DS              | Lime3DS / Citra         | ``$ROMS/3DS``     |
+| Nintendo 3DS              | Lime3DS                 | ``$ROMS/3DS``     |
 | Nintendo 64               | Simple64                | ``$ROMS/N64``     |
 | Nintendo DS               | MelonDS                 | ``$ROMS/DS``      |
 | Nintendo Game Boy Advance | mGBA                    | ``$ROMS/GBA``     |
