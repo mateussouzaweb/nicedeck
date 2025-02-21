@@ -338,20 +338,6 @@ func GetStates(options *Options) []*State {
 		},
 	})
 
-	// Yuzu
-	states = append(states, &State{
-		Platform: "SWITCH",
-		Emulator: "Yuzu",
-		Type:     "folder",
-		Path:     "$STATE/Yuzu/nand/user/save",
-		Source: []string{
-			"$HOME/.var/app/org.yuzu_emu.yuzu/data/nand/user/save",
-			"$HOME/.local/share/yuzu/nand/user/save",
-			"$HOME/.config/yuzu/nand/user/save",
-			"$APPDATA\\Roaming\\Yuzu\\nand\\user\\save",
-		},
-	})
-
 	// Ryujinx save state in two folders
 	// We also sync the profiles.json file to avoid losing user reference
 	states = append(states, &State{

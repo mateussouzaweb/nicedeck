@@ -69,7 +69,6 @@ func GetPrograms() ([]*Program, error) {
 	programs = append(programs, XboxCloudGaming())
 	programs = append(programs, Xemu())
 	programs = append(programs, Xenia())
-	programs = append(programs, Yuzu())
 
 	// Filter to return only available programs
 	for _, program := range programs {

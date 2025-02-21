@@ -168,12 +168,4 @@
             <entry>$EMULATORS\Xenia\xenia.exe</entry>
         </rule>
     </emulator>
-    <emulator name="YUZU">
-        <rule type="staticpath">
-            <entry>/var/lib/flatpak/exports/bin/org.yuzu_emu.yuzu</entry>
-            <entry>~/.local/share/flatpak/exports/bin/org.yuzu_emu.yuzu</entry>
-            <entry>$EMULATORS/Yuzu/Yuzu.AppImage</entry>
-            <entry>$EMULATORS\Yuzu\yuzu.exe</entry>
-        </rule>
-    </emulator>
 </ruleList>
