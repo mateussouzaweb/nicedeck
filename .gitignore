@@ -18,4 +18,4 @@
 /bin/*
 
 # Debug files
-__debug_bin
+__debug_*
