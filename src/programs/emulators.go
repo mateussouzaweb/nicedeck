@@ -122,7 +122,7 @@ func Citron() *Program {
 			AppID:  "Citron",
 			AppExe: "$EMULATORS\\Citron\\citron.exe",
 			Source: &packaging.Source{
-				URL:    "https://git.citron-emu.org/Citron/Citron/releases/download/v0.4-canary-refresh/Citron-Windows-Canary-Refresh_0.4.zip",
+				URL:    "https://git.citron-emu.org/Citron/Citron/releases/download/v0.5-canary-refresh/Citron-Windows-Canary-Refresh_0.5.zip",
 				Format: "zip",
 			},
 		}),
