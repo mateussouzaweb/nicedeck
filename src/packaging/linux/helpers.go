@@ -20,7 +20,7 @@ func CreateDesktopShortcut(shortcut *shortcuts.Shortcut) error {
 
 	if strings.HasSuffix(shortcut.IconURL, ".png") {
 		iconName := fmt.Sprintf("%s.png", iconFile)
-		iconPath := fs.ExpandPath("$HOME/.local/share/icons")
+		iconPath := fs.ExpandPath("$SHARE/icons")
 		iconFile = filepath.Join(iconPath, iconName)
 
 		err := fs.DownloadFile(shortcut.IconURL, iconFile, false)

@@ -70,7 +70,7 @@ func (e *Executable) Run(args []string) error {
 func (e *Executable) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for application
-	shortcutDir := fs.ExpandPath("$APPDATA\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs")
+	shortcutDir := fs.ExpandPath("$CONFIG\\Microsoft\\Windows\\Start Menu\\Programs")
 	shortcutName := fmt.Sprintf("%s\\%s.lnk", shortcut.Tags[0], shortcut.AppName)
 	shortcutPath := filepath.Join(shortcutDir, shortcutName)
 	shortcut.ShortcutPath = shortcutPath

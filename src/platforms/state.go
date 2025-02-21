@@ -32,11 +32,11 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/Lime3DS/lime3ds-emu/sdmc",
 		Source: []string{
-			"$HOME/.var/app/io.github.lime3ds.Lime3DS/data/lime3ds-emu/sdmc",
-			"$HOME/.local/share/lime3ds-emu/sdmc",
-			"$HOME/.config/lime3ds-emu/sdmc",
-			"$HOME/Library/Application Support/Lime3DS/sdmc",
-			"$APPDATA\\Roaming\\Lime3DS\\sdmc",
+			"$VAR/io.github.lime3ds.Lime3DS/data/lime3ds-emu/sdmc",
+			"$SHARE/lime3ds-emu/sdmc",
+			"$CONFIG/lime3ds-emu/sdmc",
+			"$CONFIG/Lime3DS/sdmc",
+			"$CONFIG\\Lime3DS\\sdmc",
 		},
 	}, &State{
 		Platform: "3DS",
@@ -44,11 +44,11 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/Lime3DS/lime3ds-emu/states",
 		Source: []string{
-			"$HOME/.var/app/io.github.lime3ds.Lime3DS/data/lime3ds-emu/states",
-			"$HOME/.local/share/lime3ds-emu/states",
-			"$HOME/.config/lime3ds-emu/states",
-			"$HOME/Library/Application Support/Lime3DS/states",
-			"$APPDATA\\Roaming\\Lime3DS\\states",
+			"$VAR/io.github.lime3ds.Lime3DS/data/lime3ds-emu/states",
+			"$SHARE/lime3ds-emu/states",
+			"$CONFIG/lime3ds-emu/states",
+			"$CONFIG/Lime3DS/states",
+			"$CONFIG\\Lime3DS\\states",
 		},
 	})
 
@@ -59,10 +59,10 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/Flycast/flycast",
 		Source: []string{
-			"$HOME/.var/app/org.flycast.Flycast/data/flycast",
-			"$HOME/.local/share/flycast",
-			"$HOME/.config/flycast",
-			"$HOME/Library/Application Support/Flycast/data",
+			"$VAR/org.flycast.Flycast/data/flycast",
+			"$SHARE/flycast",
+			"$CONFIG/flycast/data",
+			"$CONFIG/Flycast/data",
 			"$EMULATORS\\Flycast\\data",
 		},
 	})
@@ -74,18 +74,17 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/Redream/saves",
 		Source: []string{
+			"$SHARE/Redream/saves",
+			"$CONFIG/Redream/saves",
 			"$EMULATORS/Redream/saves",
-			"$HOME/.local/share/Redream/saves",
-			"$HOME/.config/Redream/saves",
-			"$HOME/Library/Application Support/Redream/saves",
 			"$EMULATORS\\Redream\\saves",
 		},
 	})
 
 	// MGBA requires configuration to work:
 	// - Go to Tools > Settings > Paths
-	// - Set save games location as $HOME/.var/app/io.mgba.mGBA/save
-	// - Set save states as $HOME/.var/app/io.mgba.mGBA/states
+	// - Set save games location as $VAR/io.mgba.mGBA/save
+	// - Set save states as $VAR/io.mgba.mGBA/states
 	// - Make sure that "same directory as the ROM" in both options is unchecked
 	states = append(states, &State{
 		Platform: "GBA",
@@ -93,11 +92,10 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/MGBA/save",
 		Source: []string{
-			"$HOME/.var/app/io.mgba.mGBA/save",
-			"$HOME/.local/share/mGBA/save",
-			"$HOME/.config/mGBA/save",
-			"$HOME/Library/Application Support/mGBA/save",
-			"$APPDATA\\Roaming\\mGBA\\save",
+			"$VAR/io.mgba.mGBA/save",
+			"$SHARE/mGBA/save",
+			"$CONFIG/mGBA/save",
+			"$CONFIG\\mGBA\\save",
 			"$EMULATORS\\MGBA\\save",
 		},
 	}, &State{
@@ -106,11 +104,10 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/MGBA/states",
 		Source: []string{
-			"$HOME/.var/app/io.mgba.mGBA/states",
-			"$HOME/.local/share/mGBA/states",
-			"$HOME/.config/mGBA/states",
-			"$HOME/Library/Application Support/mGBA/states",
-			"$APPDATA\\Roaming\\mGBA\\states",
+			"$VAR/io.mgba.mGBA/states",
+			"$SHARE/mGBA/states",
+			"$CONFIG/mGBA/states",
+			"$CONFIG\\mGBA\\states",
 			"$EMULATORS\\MGBA\\states",
 		},
 	})
@@ -122,11 +119,11 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/Dolphin/dolphin-emu/GC",
 		Source: []string{
-			"$HOME/.var/app/org.DolphinEmu.dolphin-emu/data/dolphin-emu/GC",
-			"$HOME/.local/share/dolphin-emu/GC",
-			"$HOME/.config/dolphin-emu/GC",
-			"$HOME/Library/Application Support/Dolphin/GC",
-			"$APPDATA\\Roaming\\Dolphin Emulator\\GC",
+			"$VAR/org.DolphinEmu.dolphin-emu/data/dolphin-emu/GC",
+			"$SHARE/dolphin-emu/GC",
+			"$CONFIG/dolphin-emu/GC",
+			"$CONFIG/Dolphin/GC",
+			"$CONFIG\\Dolphin Emulator\\GC",
 		},
 	}, &State{
 		Platform: "GC",
@@ -134,29 +131,28 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/Dolphin/dolphin-emu/StateSaves",
 		Source: []string{
-			"$HOME/.var/app/org.DolphinEmu.dolphin-emu/data/dolphin-emu/StateSaves",
-			"$HOME/.local/share/dolphin-emu/StateSaves",
-			"$HOME/.config/dolphin-emu/StateSaves",
-			"$HOME/Library/Application Support/Dolphin/StateSaves",
-			"$APPDATA\\Roaming\\Dolphin Emulator\\StateSaves",
+			"$VAR/org.DolphinEmu.dolphin-emu/data/dolphin-emu/StateSaves",
+			"$SHARE/dolphin-emu/StateSaves",
+			"$CONFIG/dolphin-emu/StateSaves",
+			"$CONFIG/Dolphin/StateSaves",
+			"$CONFIG\\Dolphin Emulator\\StateSaves",
 		},
 	})
 
 	// MelonDS requires configuration to work:
 	// - Go to Config > Path Settings
-	// - Set save files path as $HOME/.var/app/net.kuribo64.melonDS/save
-	// - Set save states path as $HOME/.var/app/net.kuribo64.melonDS/states
+	// - Set save files path as $VAR/net.kuribo64.melonDS/save
+	// - Set save states path as $VAR/net.kuribo64.melonDS/states
 	states = append(states, &State{
 		Platform: "NDS",
 		Emulator: "MelonDS",
 		Type:     "folder",
 		Path:     "$STATE/MelonDS/save",
 		Source: []string{
-			"$HOME/.var/app/net.kuribo64.melonDS/save",
-			"$HOME/.local/share/melonDS/save",
-			"$HOME/.config/melonDS/save",
-			"$HOME/Library/Application Support/melonDS/save",
-			"$APPDATA\\Roaming\\melonDS\\save",
+			"$VAR/net.kuribo64.melonDS/save",
+			"$SHARE/melonDS/save",
+			"$CONFIG/melonDS/save",
+			"$CONFIG\\melonDS\\save",
 			"$EMULATORS\\MelonDS\\save",
 		},
 	}, &State{
@@ -165,11 +161,10 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/MelonDS/states",
 		Source: []string{
-			"$HOME/.var/app/net.kuribo64.melonDS/states",
-			"$HOME/.local/share/melonDS/states",
-			"$HOME/.config/melonDS/states",
-			"$HOME/Library/Application Support/melonDS/states",
-			"$APPDATA\\Roaming\\melonDS\\states",
+			"$VAR/net.kuribo64.melonDS/states",
+			"$SHARE/melonDS/states",
+			"$CONFIG/melonDS/states",
+			"$CONFIG\\melonDS\\states",
 			"$EMULATORS\\MelonDS\\states",
 		},
 	})
@@ -181,11 +176,11 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/DuckStation/duckstation/memcards",
 		Source: []string{
-			"$HOME/.var/app/org.duckstation.DuckStation/config/duckstation/memcards",
-			"$HOME/.local/share/duckstation/memcards",
-			"$HOME/.config/duckstation/memcards",
-			"$HOME/Library/Application Support/DuckStation/memcards",
-			"$HOME\\Documents\\DuckStation\\memcards",
+			"$VAR/org.duckstation.DuckStation/config/duckstation/memcards",
+			"$SHARE/duckstation/memcards",
+			"$CONFIG/duckstation/memcards",
+			"$CONFIG/DuckStation/memcards",
+			"$DOCUMENTS\\DuckStation\\memcards",
 		},
 	}, &State{
 		Platform: "PS1",
@@ -193,11 +188,11 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/DuckStation/duckstation/savestates",
 		Source: []string{
-			"$HOME/.var/app/org.duckstation.DuckStation/config/duckstation/savestates",
-			"$HOME/.local/share/duckstation/savestates",
-			"$HOME/.config/duckstation/savestates",
-			"$HOME/Library/Application Support/DuckStation/savestates",
-			"$HOME\\Documents\\DuckStation\\savestates",
+			"$VAR/org.duckstation.DuckStation/config/duckstation/savestates",
+			"$SHARE/duckstation/savestates",
+			"$CONFIG/duckstation/savestates",
+			"$CONFIG/DuckStation/savestates",
+			"$DOCUMENTS\\DuckStation\\savestates",
 		},
 	})
 
@@ -208,11 +203,10 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/PCSX2/memcards",
 		Source: []string{
-			"$HOME/.var/app/net.pcsx2.PCSX2/config/PCSX2/memcards",
-			"$HOME/.local/share/PCSX2/memcards",
-			"$HOME/.config/PCSX2/memcards",
-			"$HOME/Library/Application Support/PCSX2/memcards",
-			"$HOME\\Documents\\PCSX2\\memcards",
+			"$VAR/net.pcsx2.PCSX2/config/PCSX2/memcards",
+			"$SHARE/PCSX2/memcards",
+			"$CONFIG/PCSX2/memcards",
+			"$DOCUMENTS\\PCSX2\\memcards",
 		},
 	}, &State{
 		Platform: "PS2",
@@ -220,11 +214,10 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/PCSX2/sstates",
 		Source: []string{
-			"$HOME/.var/app/net.pcsx2.PCSX2/config/PCSX2/sstates",
-			"$HOME/.local/share/PCSX2/sstates",
-			"$HOME/.config/PCSX2/sstates",
-			"$HOME/Library/Application Support/PCSX2/sstates",
-			"$HOME\\Documents\\PCSX2\\sstates",
+			"$VAR/net.pcsx2.PCSX2/config/PCSX2/sstates",
+			"$SHARE/PCSX2/sstates",
+			"$CONFIG/PCSX2/sstates",
+			"$DOCUMENTS\\PCSX2\\sstates",
 		},
 	})
 
@@ -235,10 +228,9 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/RPCS3/rpcs3/dev_hdd0/home/00000001/savedata",
 		Source: []string{
-			"$HOME/.var/app/net.rpcs3.RPCS3/config/rpcs3/dev_hdd0/home/00000001/savedata",
-			"$HOME/.local/share/rpcs3/dev_hdd0/home/00000001/savedata",
-			"$HOME/.config/rpcs3/dev_hdd0/home/00000001/savedata",
-			"$HOME/Library/Application Support/rpcs3/dev_hdd0/home/00000001/savedata",
+			"$VAR/net.rpcs3.RPCS3/config/rpcs3/dev_hdd0/home/00000001/savedata",
+			"$SHARE/rpcs3/dev_hdd0/home/00000001/savedata",
+			"$CONFIG/rpcs3/dev_hdd0/home/00000001/savedata",
 			"$EMULATORS\\RPCS3\\dev_hdd0\\home\\00000001\\savedata",
 		},
 	})
@@ -250,9 +242,8 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/ShadPS4/saves",
 		Source: []string{
-			"$HOME/.local/share/shadps4/saves",
-			"$HOME/.config/shadps4/saves",
-			"$HOME/Library/Application Support/shadPS4/saves",
+			"$SHARE/shadps4/saves",
+			"$CONFIG/shadps4/saves",
 			"$EMULATORS\\ShadPS4\\user\\saves",
 		},
 	})
@@ -264,10 +255,10 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/PPSSPP/ppsspp/PSP/SAVEDATA",
 		Source: []string{
-			"$HOME/.var/app/org.ppsspp.PPSSPP/config/ppsspp/PSP/SAVEDATA",
-			"$HOME/.local/share/ppsspp/PSP/SAVEDATA",
-			"$HOME/.config/ppsspp/PSP/SAVEDATA",
-			"$HOME/Library/Application Support/PPSSPP/PSP/SAVEDATA",
+			"$VAR/org.ppsspp.PPSSPP/config/ppsspp/PSP/SAVEDATA",
+			"$SHARE/ppsspp/PSP/SAVEDATA",
+			"$CONFIG/ppsspp/PSP/SAVEDATA",
+			"$CONFIG/PPSSPP/PSP/SAVEDATA",
 			"$EMULATORS\\PPSSPP\\memstick\\PSP\\SAVEDATA",
 		},
 	}, &State{
@@ -276,10 +267,10 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/PPSSPP/ppsspp/PSP/PPSSPP_STATE",
 		Source: []string{
-			"$HOME/.var/app/org.ppsspp.PPSSPP/config/ppsspp/PSP/PPSSPP_STATE",
-			"$HOME/.local/share/ppsspp/PSP/PPSSPP_STATE",
-			"$HOME/.config/ppsspp/PSP/PPSSPP_STATE",
-			"$HOME/Library/Application Support/PPSSPP/PSP/PPSSPP_STATE",
+			"$VAR/org.ppsspp.PPSSPP/config/ppsspp/PSP/PPSSPP_STATE",
+			"$SHARE/ppsspp/PSP/PPSSPP_STATE",
+			"$CONFIG/ppsspp/PSP/PPSSPP_STATE",
+			"$CONFIG/PPSSPP/PSP/PPSSPP_STATE",
 			"$EMULATORS\\PPSSPP\\memstick\\PSP\\PPSSPP_STATE",
 		},
 	})
@@ -291,10 +282,10 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/Vita3K/ux0/user/00/savedata",
 		Source: []string{
-			"$HOME/.local/share/Vita3K/Vita3K/ux0/user/00/savedata",
-			"$HOME/.config/Vita3K/Vita3K/ux0/user/00/savedata",
-			"$HOME/Library/Application Support/Vita3K/Vita3K/fs/ux0/user/00/savedata",
-			"$APPDATA\\Roaming\\Vita3K\\Vita3k\\ux0\\user\\00\\savedata",
+			"$SHARE/Vita3K/Vita3K/ux0/user/00/savedata",
+			"$CONFIG/Vita3K/Vita3K/ux0/user/00/savedata",
+			"$CONFIG/Vita3K/Vita3K/fs/ux0/user/00/savedata",
+			"$CONFIG\\Vita3K\\Vita3k\\ux0\\user\\00\\savedata",
 		},
 	})
 
@@ -305,8 +296,8 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/Citron/nand/user/save",
 		Source: []string{
-			"$HOME/.local/share/citron/nand/user/save",
-			"$HOME/.config/citron/nand/user/save",
+			"$SHARE/citron/nand/user/save",
+			"$CONFIG/citron/nand/user/save",
 			"$EMULATORS\\Citron\\user\\nand\\user\\save",
 		},
 	})
@@ -319,11 +310,10 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/Ryujinx/bis/user/save",
 		Source: []string{
-			"$HOME/.var/app/org.ryujinx.Ryujinx/config/Ryujinx/bis/user/save",
-			"$HOME/.local/share/Ryujinx/bis/user/save",
-			"$HOME/.config/Ryujinx/bis/user/save",
-			"$HOME/Library/Application Support/Ryujinx/bis/user/save",
-			"$APPDATA\\Roaming\\Ryujinx\\bis\\user\\save",
+			"$VAR/org.ryujinx.Ryujinx/config/Ryujinx/bis/user/save",
+			"$SHARE/Ryujinx/bis/user/save",
+			"$CONFIG/Ryujinx/bis/user/save",
+			"$CONFIG\\Ryujinx\\bis\\user\\save",
 		},
 	}, &State{
 		Platform: "SWITCH",
@@ -331,11 +321,10 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/Ryujinx/bis/user/saveMeta",
 		Source: []string{
-			"$HOME/.var/app/org.ryujinx.Ryujinx/config/Ryujinx/bis/user/saveMeta",
-			"$HOME/.local/share/Ryujinx/bis/user/saveMeta",
-			"$HOME/.config/Ryujinx/bis/user/saveMeta",
-			"$HOME/Library/Application Support/Ryujinx/bis/user/saveMeta",
-			"$APPDATA\\Roaming\\Ryujinx\\bis\\user\\saveMeta",
+			"$VAR/org.ryujinx.Ryujinx/config/Ryujinx/bis/user/saveMeta",
+			"$SHARE/Ryujinx/bis/user/saveMeta",
+			"$CONFIG/Ryujinx/bis/user/saveMeta",
+			"$CONFIG\\Ryujinx\\bis\\user\\saveMeta",
 		},
 	}, &State{
 		Platform: "SWITCH",
@@ -343,11 +332,10 @@ func GetStates(options *Options) []*State {
 		Type:     "file",
 		Path:     "$STATE/Ryujinx/system/Profiles.json",
 		Source: []string{
-			"$HOME/.var/app/org.ryujinx.Ryujinx/config/Ryujinx/system/Profiles.json",
-			"$HOME/.local/share/Ryujinx/system/Profiles.json",
-			"$HOME/.config/Ryujinx/system/Profiles.json",
-			"$HOME/Library/Application Support/Ryujinx/system/Profiles.json",
-			"$APPDATA\\Roaming\\Ryujinx\\system\\Profiles.json",
+			"$VAR/org.ryujinx.Ryujinx/config/Ryujinx/system/Profiles.json",
+			"$SHARE/Ryujinx/system/Profiles.json",
+			"$CONFIG/Ryujinx/system/Profiles.json",
+			"$CONFIG\\Ryujinx\\system\\Profiles.json",
 		},
 	})
 
@@ -358,11 +346,10 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/Cemu/mlc01/usr/save",
 		Source: []string{
-			"$HOME/.var/app/info.cemu.Cemu/data/Cemu/mlc01/usr/save",
-			"HOME/.local/share/Cemu/mlc01/usr/save",
-			"HOME/.config/Cemu/mlc01/usr/save",
-			"$HOME/Library/Application Support/Cemu/mlc01/usr/save",
-			"$APPDATA\\Roaming\\Cemu\\mlc01\\usr\\save",
+			"$VAR/info.cemu.Cemu/data/Cemu/mlc01/usr/save",
+			"$SHARE/Cemu/mlc01/usr/save",
+			"$CONFIG/Cemu/mlc01/usr/save",
+			"$CONFIG\\Cemu\\mlc01\\usr\\save",
 		},
 	})
 
@@ -373,11 +360,11 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/Dolphin/dolphin-emu/Wii",
 		Source: []string{
-			"$HOME/.var/app/org.DolphinEmu.dolphin-emu/data/dolphin-emu/Wii",
-			"$HOME/.local/share/dolphin-emu/Wii",
-			"$HOME/.config/dolphin-emu/Wii",
-			"$HOME/Library/Application Support/Dolphin/Wii",
-			"$APPDATA\\Roaming\\Dolphin Emulator\\Wii",
+			"$VAR/org.DolphinEmu.dolphin-emu/data/dolphin-emu/Wii",
+			"$SHARE/dolphin-emu/Wii",
+			"$CONFIG/dolphin-emu/Wii",
+			"$CONFIG/Dolphin/Wii",
+			"$CONFIG\\Dolphin Emulator\\Wii",
 		},
 	}, &State{
 		Platform: "WII",
@@ -385,11 +372,11 @@ func GetStates(options *Options) []*State {
 		Type:     "folder",
 		Path:     "$STATE/Dolphin/dolphin-emu/StateSaves",
 		Source: []string{
-			"$HOME/.var/app/org.DolphinEmu.dolphin-emu/data/dolphin-emu/StateSaves",
-			"$HOME/.local/share/dolphin-emu/StateSaves",
-			"$HOME/.config/dolphin-emu/StateSaves",
-			"$HOME/Library/Application Support/Dolphin/StateSaves",
-			"$APPDATA\\Roaming\\Dolphin Emulator\\StateSaves",
+			"$VAR/org.DolphinEmu.dolphin-emu/data/dolphin-emu/StateSaves",
+			"$SHARE/dolphin-emu/StateSaves",
+			"$CONFIG/dolphin-emu/StateSaves",
+			"$CONFIG/Dolphin/StateSaves",
+			"$CONFIG\\Dolphin Emulator\\StateSaves",
 		},
 	})
 
@@ -402,11 +389,10 @@ func GetStates(options *Options) []*State {
 		Type:     "file",
 		Path:     "$STATE/Xemu/xemu/xemu/eeprom.bin",
 		Source: []string{
-			"$HOME/.var/app/app.xemu.xemu/data/xemu/xemu/eeprom.bin",
-			"$HOME/.local/share/xemu/xemu/eeprom.bin",
-			"$HOME/.config/xemu/xemu/eeprom.bin",
-			"$HOME/Library/Application Support/xemu/xemu/eeprom.bin",
-			"$APPDATA\\Roaming\\xemu\\xemu\\eeprom.bin",
+			"$VAR/app.xemu.xemu/data/xemu/xemu/eeprom.bin",
+			"$SHARE/xemu/xemu/eeprom.bin",
+			"$CONFIG/xemu/xemu/eeprom.bin",
+			"$CONFIG\\xemu\\xemu\\eeprom.bin",
 		},
 	}, &State{
 		Platform: "XBOX",
@@ -414,11 +400,10 @@ func GetStates(options *Options) []*State {
 		Type:     "file",
 		Path:     "$STATE/Xemu/xemu/xemu/xbox_hdd.qcow2",
 		Source: []string{
-			"$HOME/.var/app/app.xemu.xemu/data/xemu/xemu/xbox_hdd.qcow2",
-			"$HOME/.local/share/xemu/xemu/xbox_hdd.qcow2",
-			"$HOME/.config/xemu/xemu/xbox_hdd.qcow2",
-			"$HOME/Library/Application Support/xemu/xemu/xbox_hdd.qcow2",
-			"$APPDATA\\Roaming\\xemu\\xemu\\xbox_hdd.qcow2",
+			"$VAR/app.xemu.xemu/data/xemu/xemu/xbox_hdd.qcow2",
+			"$SHARE/xemu/xemu/xbox_hdd.qcow2",
+			"$CONFIG/xemu/xemu/xbox_hdd.qcow2",
+			"$CONFIG\\xemu\\xemu\\xbox_hdd.qcow2",
 		},
 	})
 
@@ -433,7 +418,7 @@ func GetStates(options *Options) []*State {
 		Source: []string{
 			"$EMULATORS/Xenia/content",
 			"$EMULATORS\\Xenia\\content",
-			"$HOME\\Documents\\xenia\\content",
+			"$DOCUMENTS\\xenia\\content",
 		},
 	})
 

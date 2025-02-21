@@ -33,9 +33,16 @@ func Init(version string) error {
 	cli.SetEnv("CONFIG", configDir, false)
 	cli.SetEnv("CACHE", cacheDir, false)
 
-	// On Windows, add a few shortcuts
+	// On Linux, add special shortcuts
+	if cli.IsLinux() {
+		cli.SetEnv("SHARE", fs.ExpandPath("$HOME/.local/share"), true)
+		cli.SetEnv("VAR", fs.ExpandPath("$HOME/.var/app"), true)
+	}
+
+	// On Windows, add special shortcuts
 	if cli.IsWindows() {
 		cli.SetEnv("APPDATA", filepath.Dir(configDir), true)
+		cli.SetEnv("DOCUMENTS", fs.ExpandPath("$HOME\\Documents"), true)
 		cli.SetEnv("PROGRAMS", fs.ExpandPath("$HOMEDRIVE\\Program Files"), true)
 		cli.SetEnv("PROGRAMS_X86", fs.ExpandPath("$HOMEDRIVE\\Program Files (x86)"), true)
 	}
@@ -63,8 +70,14 @@ func Init(version string) error {
 	cli.Printf(cli.ColorNotice, "- ROMs: %s\n", cli.GetEnv("ROMS", ""))
 	cli.Printf(cli.ColorNotice, "- State: %s\n", cli.GetEnv("STATE", ""))
 
+	if cli.IsLinux() {
+		cli.Printf(cli.ColorNotice, "- Share: %s\n", cli.GetEnv("SHARE", ""))
+		cli.Printf(cli.ColorNotice, "- Var: %s\n", cli.GetEnv("VAR", ""))
+	}
+
 	if cli.IsWindows() {
 		cli.Printf(cli.ColorNotice, "- App Data: %s\n", cli.GetEnv("APPDATA", ""))
+		cli.Printf(cli.ColorNotice, "- Documents: %s\n", cli.GetEnv("DOCUMENTS", ""))
 		cli.Printf(cli.ColorNotice, "- Programs: %s\n", cli.GetEnv("PROGRAMS", ""))
 		cli.Printf(cli.ColorNotice, "- Programs X86: %s\n", cli.GetEnv("PROGRAMS_X86", ""))
 	}

@@ -31,7 +31,7 @@ func (f *Flatpak) Runtime() string {
 // Retrieve runtime directory based on namespace level
 func (f *Flatpak) RuntimeDir() string {
 	if f.Namespace == "user" {
-		return fs.ExpandPath("$HOME/.local/share/flatpak")
+		return fs.ExpandPath("$SHARE/flatpak")
 	} else {
 		return fs.NormalizePath("/var/lib/flatpak")
 	}

@@ -79,7 +79,7 @@ func (a *AppImage) Run(args []string) error {
 func (a *AppImage) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for application
-	shortcutDir := fs.ExpandPath("$HOME/.local/share/applications")
+	shortcutDir := fs.ExpandPath("$SHARE/applications")
 	shortcutName := fmt.Sprintf("%s.desktop", a.AppID)
 	shortcutPath := filepath.Join(shortcutDir, shortcutName)
 	shortcut.ShortcutPath = shortcutPath

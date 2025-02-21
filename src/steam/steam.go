@@ -64,11 +64,11 @@ func GetPath() (string, error) {
 
 	// Fill possible locations
 	paths := []string{
-		fs.ExpandPath("$HOME/.steam/steam"),
-		fs.ExpandPath("$HOME/.local/share/Steam"),
-		fs.ExpandPath("$HOME/.var/app/com.valvesoftware.Steam/.steam/steam"),
+		fs.ExpandPath("$VAR/com.valvesoftware.Steam/.steam/steam"),
 		fs.ExpandPath("$HOME/snap/steam/common/.local/share/Steam"),
-		fs.ExpandPath("$HOME/Library/Application Support/Steam"),
+		fs.ExpandPath("$HOME/.steam/steam"),
+		fs.ExpandPath("$SHARE/Steam"),
+		fs.ExpandPath("$CONFIG/Steam"),
 		fs.ExpandPath("$PROGRAMS_X86\\Steam"),
 	}
 
