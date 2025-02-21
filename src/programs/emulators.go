@@ -27,13 +27,6 @@ func Cemu() *Program {
 			Namespace: "system",
 			AppID:     "info.cemu.Cemu",
 			Overrides: []string{"--filesystem=host"},
-		}, &linux.AppImage{
-			AppID:   "cemu",
-			AppName: "$EMULATORS/Cemu/Cemu.AppImage",
-			Source: github.Release(
-				"https://github.com/cemu-project/Cemu",
-				"Cemu-*-x86_64.AppImage",
-			),
 		}, &macos.Application{
 			AppID:   "cemu",
 			AppName: "$EMULATORS/Cemu/Cemu.app",
@@ -104,13 +97,6 @@ func Dolphin() *Program {
 			Namespace: "system",
 			AppID:     "org.DolphinEmu.dolphin-emu",
 			Overrides: []string{"--filesystem=host"},
-		}, &linux.AppImage{
-			AppID:   "dolphin",
-			AppName: "$EMULATORS/Dolphin/Dolphin.AppImage",
-			Source: github.Release(
-				"https://github.com/pkgforge-dev/Dolphin-emu-AppImage",
-				"Dolphin_Emulator-*-anylinux-x86_64.AppImage",
-			),
 		}, &macos.Application{
 			AppID:   "dolphin",
 			AppName: "$EMULATORS/Dolphin/Dolphin.app",
@@ -148,13 +134,6 @@ func DuckStation() *Program {
 			Namespace: "system",
 			AppID:     "org.duckstation.DuckStation",
 			Overrides: []string{"--filesystem=host"},
-		}, &linux.AppImage{
-			AppID:   "duckstation",
-			AppName: "$EMULATORS/DuckStation/DuckStation.AppImage",
-			Source: github.Release(
-				"https://github.com/stenzek/duckstation",
-				"DuckStation-x64.AppImage",
-			),
 		}, &macos.Application{
 			AppID:   "duckstation",
 			AppName: "$EMULATORS/DuckStation/DuckStation.app",
@@ -192,13 +171,6 @@ func Flycast() *Program {
 			Namespace: "system",
 			AppID:     "org.flycast.Flycast",
 			Overrides: []string{"--filesystem=host"},
-		}, &linux.AppImage{
-			AppID:   "flycast",
-			AppName: "$EMULATORS/Flycast/Flycast.AppImage",
-			Source: github.Release(
-				"https://github.com/flyinghead/flycast",
-				"flycast-x86_64.AppImage",
-			),
 		}, &macos.Application{
 			AppID:   "flycast",
 			AppName: "$EMULATORS/Flycast/Flycast.app",
@@ -236,13 +208,6 @@ func Lime3DS() *Program {
 			Namespace: "system",
 			AppID:     "io.github.lime3ds.Lime3DS",
 			Overrides: []string{"--filesystem=host"},
-		}, &linux.AppImage{
-			AppID:   "lime3ds",
-			AppName: "$EMULATORS/Lime3DS/lime3ds.AppImage",
-			Source: github.Release(
-				"https://github.com/Lime3DS/lime3ds-archive",
-				"lime3ds-*-linux-appimage.tar.gz",
-			),
 		}, &macos.Application{
 			AppID:   "lime3ds",
 			AppName: "$EMULATORS/Lime3DS/lime3ds.app",
@@ -280,13 +245,6 @@ func MelonDS() *Program {
 			Namespace: "system",
 			AppID:     "net.kuribo64.melonDS",
 			Overrides: []string{"--filesystem=host"},
-		}, &linux.AppImage{
-			AppID:   "melonds",
-			AppName: "$EMULATORS/MelonDS/melonDS.AppImage",
-			Source: github.Release(
-				"https://github.com/melonDS-emu/melonDS",
-				"melonDS-appimage-x86_64.zip",
-			),
 		}, &macos.Application{
 			AppID:   "melonds",
 			AppName: "$EMULATORS/MelonDS/melonDS.app",
@@ -324,13 +282,6 @@ func MGBA() *Program {
 			Namespace: "system",
 			AppID:     "io.mgba.mGBA",
 			Overrides: []string{"--filesystem=host"},
-		}, &linux.AppImage{
-			AppID:   "mgba",
-			AppName: "$EMULATORS/MGBA/mGBA.AppImage",
-			Source: github.Release(
-				"https://github.com/mgba-emu/mgba",
-				"mGBA-*-appimage-x64.appimage",
-			),
 		}, &macos.Application{
 			AppID:   "mgba",
 			AppName: "$EMULATORS/MGBA/mGBA.app",
@@ -368,13 +319,6 @@ func PCSX2() *Program {
 			Namespace: "system",
 			AppID:     "net.pcsx2.PCSX2",
 			Overrides: []string{"--filesystem=host"},
-		}, &linux.AppImage{
-			AppID:   "pcsx2",
-			AppName: "$EMULATORS/PCSX2/PCSX2.AppImage",
-			Source: github.Release(
-				"https://github.com/PCSX2/pcsx2",
-				"pcsx2-*-linux-appimage-x64-Qt.AppImage",
-			),
 		}, &macos.Application{
 			AppID:   "pcsx2",
 			AppName: "$EMULATORS/PCSX2/PCSX2.app",
@@ -412,13 +356,6 @@ func PPSSPP() *Program {
 			Namespace: "system",
 			AppID:     "org.ppsspp.PPSSPP",
 			Overrides: []string{"--filesystem=host"},
-		}, &linux.AppImage{
-			AppID:   "ppsspp",
-			AppName: "$EMULATORS/PPSSPP/PPSSPP.AppImage",
-			Source: github.Release(
-				"https://github.com/pkgforge-dev/PPSSPP-AppImage",
-				"ppsspp-*-anylinux-x86_64.AppImage",
-			),
 		}, &macos.Application{
 			AppID:   "ppsspp",
 			AppName: "$EMULATORS/PPSSPP/PPSSPPSDL.app",
@@ -496,13 +433,6 @@ func RPCS3() *Program {
 			Namespace: "system",
 			AppID:     "net.rpcs3.RPCS3",
 			Overrides: []string{"--filesystem=host"},
-		}, &linux.AppImage{
-			AppID:   "rpcs3",
-			AppName: "$EMULATORS/RPCS3/RPCS3.AppImage",
-			Source: github.Release(
-				"https://github.com/RPCS3/rpcs3-binaries-linux",
-				"rpcs3-*_linux64.AppImage",
-			),
 		}, &macos.Application{
 			AppID:   "rpcs3",
 			AppName: "$EMULATORS/RPCS3/RPCS3.app",
@@ -536,11 +466,7 @@ func Ryujinx() *Program {
 		CoverURL:    "https://cdn2.steamgriddb.com/grid/550d4a283baa604976e81d35d29124df.png",
 		BannerURL:   "https://cdn2.steamgriddb.com/grid/3931532d087eeb1b1c1a96aba6261802.png",
 		HeroURL:     "https://cdn2.steamgriddb.com/hero/c24f9ae141fa02c7fa1deea7e1149557.png",
-		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
-			AppID:     "org.ryujinx.Ryujinx",
-			Overrides: []string{"--filesystem=host"},
-		}, &linux.AppImage{
+		Package: packaging.Best(&linux.AppImage{
 			AppID:   "ryujinx",
 			AppName: "$EMULATORS/Ryujinx/Ryujinx.AppImage",
 			Source: github.Release(
@@ -584,13 +510,6 @@ func ShadPS4() *Program {
 			Namespace: "system",
 			AppID:     "net.shadps4.shadPS4",
 			Overrides: []string{"--filesystem=host"},
-		}, &linux.AppImage{
-			AppID:   "shadps4",
-			AppName: "$EMULATORS/ShadPS4/ShadPS4.AppImage",
-			Source: github.Release(
-				"https://github.com/shadps4-emu/shadPS4",
-				"shadps4-linux-qt-*.zip",
-			),
 		}, &macos.Application{
 			AppID:   "shadps4",
 			AppName: "$EMULATORS/ShadPS4/ShadPS4.app",
@@ -698,13 +617,6 @@ func Xemu() *Program {
 			Namespace: "system",
 			AppID:     "app.xemu.xemu",
 			Overrides: []string{"--filesystem=host"},
-		}, &linux.AppImage{
-			AppID:   "xemu",
-			AppName: "$EMULATORS/Xemu/Xemu.AppImage",
-			Source: github.Release(
-				"https://github.com/xemu-project/xemu",
-				"xemu-*-x86_64.AppImage",
-			),
 		}, &macos.Application{
 			AppID:   "xemu",
 			AppName: "$EMULATORS/Xemu/Xemu.app",

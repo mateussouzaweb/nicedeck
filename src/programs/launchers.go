@@ -54,9 +54,6 @@ func ESDE() *Program {
 			AppID:   "es-de",
 			AppName: "$APPLICATIONS/ES-DE/ES-DE.app",
 			Source:  esde.Release("macOSApple", "dmg"),
-		}, &windows.WinGet{
-			AppID:  "ES-DE.EmulationStation-DE",
-			AppExe: "$PROGRAMS\\ES-DE\\ES-DE.exe",
 		}, &windows.Executable{
 			AppID:  "ES-DE",
 			AppExe: "$APPLICATIONS\\ES-DE\\ES-DE.exe",
