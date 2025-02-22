@@ -3,6 +3,7 @@
 Steam companion app for console emulation, better gaming experience and additional software support.
 
 ![Nice!](./nice.jpg?raw=true)
+[Program Screenshots](./screenshots/)
 
 NiceDeck is a solid alternative for automated installations programs like [EmuDeck](https://github.com/dragoonDorise/EmuDeck) and [RetroDeck](https://github.com/XargonWan/RetroDECK). It tries to keep things as simple as possible by focusing on installing the recommended programs and emulators, managing your ROMs library by providing shortcuts, automatically adding it to the ``Steam Library`` and handling your gaming state with backups. 
 
