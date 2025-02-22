@@ -134,7 +134,9 @@ func EnsureExec(runtime string, exec string) string {
 
 // Clean executable by removing special wrappers
 func CleanExec(exec string) string {
-	return strings.Replace(exec, "/usr/bin/flatpak-spawn --host", "", 1)
+	exec = strings.Replace(exec, "/usr/bin/flatpak-spawn --host", "", 1)
+	exec = strings.Trim(exec, " ")
+	return exec
 }
 
 // Perform Steam setup
