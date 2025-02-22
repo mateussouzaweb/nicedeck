@@ -1,6 +1,6 @@
 # Managing ROMs with NiceDeck
 
-NiceDeck has the ability to automatically find and add your ROMs to the Steam Library making every game available on the Steam UI. Please read this guide to learn how to do it.
+NiceDeck has the ability to automatically find and add your ROMs to the ``Steam Library`` making every game available on the Steam UI. Please read this guide to learn how to do it.
 
 ## ROMs Path and Organization
 
@@ -28,7 +28,7 @@ NOTE: ``$ROMS`` represents your ROMs directory, located at ``$HOME/Games/ROMs``.
 | Sony Playstation Portable | PPSSPP                  | ``$ROMS/PSP``     |
 | Sony Playstation Vita     | Vita3K                  | ``$ROMS/PSVITA``  |
 
-Please note that it's very important to have the ROMs in the correct location. Any ROM outside of these directories will not be parsed by NiceDeck and consequently will not be available on the Steam Library as direct shortcut to the game.
+Please note that it's very important to have the ROMs in the correct location. Any ROM outside of these directories will not be parsed by NiceDeck and consequently will not be available on the ``Steam Library`` as direct shortcut to the game.
 
 If you want to enforce an specific emulator for a subset of ROMs, you should create a subfolder with the emulator name to enforce it:
 
@@ -44,7 +44,7 @@ Another important aspect for the ROMs organization are the exclude patterns. Ple
 - ``$ROMS/$PLATFORM/Ignore`` - Literally a folder to ignore
 - ``$ROMS/$PLATFORM/Others`` - Another special folder to ignore
 
-You also must know that **every available ROM** inside the included folders will be added to the Steam Library. If you want to put only a few games in the Steam Library, you MUST organize your ROMs. Take for example the following organization using the ``GBA`` platform to parse only the favorite games:
+You also must know that **every available ROM** inside the included folders will be added to the ``Steam Library``. If you want to put only a few games in the ``Steam Library``, you MUST organize your ROMs. Take for example the following organization using the ``GBA`` platform to parse only the favorite games:
 
 - ``$ROMS/GBA/Favorites`` - Games that will be included on parser
 - ``$ROMS/GBA/Others`` - Others non-favorite games that will be ignored by the parser
@@ -61,7 +61,7 @@ Wait for the conclusion of the process and we are DONE! You can start gaming!
 
 ## Organizing Your Collection inside Steam Library
 
-After running the parser and opening Steam again, you will notice that the ROMs will be available on the "uncategorized" collection. That is ok for some people, but if you want to make it better, you need to do some manual work - an very easy work...
+After running the parser and opening Steam again, you will notice that the ROMs will be available on the "uncategorized" collection. That is ok for some people, but if you want to make it better, you need to do some manual work.
 
 Open Steam in the **Desktop Mode** and simply use the search bar to filter your collection with the platform identification. NiceDeck by default will append the platform key on every ROM to identify the console relationship for that ROM (some games where released in multi-platforms, so you will find it very easier to identify from what platform each ROM belongs).
 
@@ -73,7 +73,8 @@ Open Steam in the **Desktop Mode** and simply use the search bar to filter your 
 - When saved, all ROMS of the platform will be added to the created collection.
 - Repeat the same process on each platform that you are emulating - ``[3DS]``, ``[PS2]``, ``[XBOX]``...
 
-I do recommend using an Mouse and Keyboard connected to the Steam Deck to run it faster. If can also use the same process to add some games to the favorites.
+On Steam Deck, we recommend using a mouse and keyboard connected to the device to perform the process faster.
+You can also use the same process to add some games to the favorites.
 
 ## Troubleshooting
 

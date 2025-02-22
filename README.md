@@ -27,7 +27,7 @@ Some features of NiceDeck:
 
 In general, the NiceDeck program needs that you **install and setup Steam first** in order to have the necessary folders of Steam in your system. Nothing else is required on Steam Deck devices.
 
-- You can also run NiceDeck in almost any Linux distribution that supports ``[flatpak](https://flatpak.org/)`` with [Flathub](https://flathub.org) but please make sure to install the ``flatpak-xdg-utils`` package to. 
+- You can also run NiceDeck in any Linux distribution that supports [Flatpak](https://flatpak.org/) with [Flathub](https://flathub.org) repository enable, but make sure to install the ``flatpak-xdg-utils`` package too.
 - For MacOS systems, you must have the [Homebrew](https://brew.sh/) package manager to be able to manage programs. 
 - On Windows, you must have the new [WinGet](https://github.com/microsoft/winget-cli) package manager, which is automatically included in Windows 11.
 
