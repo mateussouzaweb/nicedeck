@@ -38,7 +38,7 @@ func ESDE() *Program {
 		Name:        "ES-DE",
 		Description: "Frontend for browsing and launching emulated games",
 		Category:    "Gaming",
-		Tags:        []string{"Gaming", "Emulator"},
+		Tags:        []string{"Gaming", "Utilities"},
 		Folders:     []string{"$APPLICATIONS"},
 		Website:     "https://es-de.org",
 		IconURL:     assets.Icon("85ebad98d8a178be8baf16929526446e.png"),
@@ -54,12 +54,12 @@ func ESDE() *Program {
 		}, &macos.Application{
 			AppID:    "es-de",
 			AppName:  "$APPLICATIONS/ES-DE/ES-DE.app",
-			AppAlias: "$HOME/Applications/Gaming/ES-DE.app",
+			AppAlias: "$HOME/Applications/ES-DE.app",
 			Source:   esde.Release("macOSApple", "dmg"),
 		}, &windows.Executable{
 			AppID:    "ES-DE",
 			AppExe:   "$APPLICATIONS\\ES-DE\\ES-DE.exe",
-			AppAlias: "$START_MENU\\Gaming\\ES-DE.lnk",
+			AppAlias: "$START_MENU\\ES-DE.lnk",
 			Source:   esde.Release("WindowsPortable", "zip"),
 		}),
 	}
