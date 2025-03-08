@@ -16,13 +16,9 @@ import (
 type Application struct {
 	AppID     string            `json:"appId"`
 	AppName   string            `json:"appName"`
+	AppAlias  string            `json:"appAlias"`
 	Arguments []string          `json:"arguments"`
 	Source    *packaging.Source `json:"source"`
-}
-
-// Return if package is available
-func (a *Application) Available() bool {
-	return cli.IsMacOS()
 }
 
 // Return package runtime
@@ -30,7 +26,12 @@ func (a *Application) Runtime() string {
 	return "native"
 }
 
-// Install program
+// Return if package is available
+func (a *Application) Available() bool {
+	return cli.IsMacOS()
+}
+
+// Install package
 func (a *Application) Install() error {
 
 	// Download from source
@@ -41,13 +42,31 @@ func (a *Application) Install() error {
 		}
 	}
 
-	// Add program to quarantine
+	// Add package to quarantine
 	if installed, _ := a.Installed(); installed {
 		script := fmt.Sprintf(`xattr -r -d com.apple.quarantine %s`, a.Executable())
 		err := cli.Run(script)
 		if err != nil {
 			return err
 		}
+	}
+
+	return nil
+}
+
+// Remove package
+func (a *Application) Remove() error {
+
+	// Remove executable file
+	err := fs.RemoveFile(a.Executable())
+	if err != nil {
+		return err
+	}
+
+	// Remove alias file
+	err = fs.RemoveFile(a.Alias())
+	if err != nil {
+		return err
 	}
 
 	return nil
@@ -70,7 +89,12 @@ func (a *Application) Executable() string {
 	return fs.ExpandPath(a.AppName)
 }
 
-// Run installed program
+// Return executable alias file path
+func (a *Application) Alias() string {
+	return fs.ExpandPath(a.AppAlias)
+}
+
+// Run installed package
 func (a *Application) Run(args []string) error {
 	return cli.RunProcess(a.Executable(), args)
 }
@@ -79,10 +103,7 @@ func (a *Application) Run(args []string) error {
 func (a *Application) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for application
-	shortcutDir := fs.ExpandPath("$HOME/Applications")
-	shortcutName := fmt.Sprintf("%s/%s.app", shortcut.Tags[0], shortcut.AppName)
-	shortcutPath := filepath.Join(shortcutDir, shortcutName)
-	shortcut.ShortcutPath = shortcutPath
+	shortcut.ShortcutPath = a.Alias()
 	shortcut.LaunchOptions = strings.Join(a.Arguments, " ")
 
 	// Write the application shortcut

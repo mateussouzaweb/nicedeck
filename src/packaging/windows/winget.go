@@ -16,20 +16,28 @@ type WinGet struct {
 	Arguments []string `json:"arguments"`
 }
 
-// Return if package is available
-func (w *WinGet) Available() bool {
-	return cli.IsWindows()
-}
-
 // Return package runtime
 func (w *WinGet) Runtime() string {
 	return "native"
 }
 
-// Install program
+// Return if package is available
+func (w *WinGet) Available() bool {
+	return cli.IsWindows()
+}
+
+// Install package
 func (w *WinGet) Install() error {
 	return cli.Run(fmt.Sprintf(
 		`winget install --accept-package-agreements --accept-source-agreements --disable-interactivity --exact --id %s`,
+		w.AppID,
+	))
+}
+
+// Remove package
+func (w *WinGet) Remove() error {
+	return cli.Run(fmt.Sprintf(
+		`winget uninstall --disable-interactivity --exact --id %s`,
 		w.AppID,
 	))
 }
@@ -51,7 +59,12 @@ func (w *WinGet) Executable() string {
 	return fs.ExpandPath(w.AppExe)
 }
 
-// Run installed program
+// Return executable alias file path
+func (w *WinGet) Alias() string {
+	return w.Executable()
+}
+
+// Run installed package
 func (w *WinGet) Run(args []string) error {
 	return cli.RunProcess(w.Executable(), args)
 }

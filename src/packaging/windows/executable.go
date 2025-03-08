@@ -16,13 +16,9 @@ import (
 type Executable struct {
 	AppID     string            `json:"appId"`
 	AppExe    string            `json:"appExe"`
+	AppAlias  string            `json:"appAlias"`
 	Arguments []string          `json:"arguments"`
 	Source    *packaging.Source `json:"source"`
-}
-
-// Return if package is available
-func (e *Executable) Available() bool {
-	return cli.IsWindows()
 }
 
 // Return package runtime
@@ -30,7 +26,12 @@ func (e *Executable) Runtime() string {
 	return "native"
 }
 
-// Install program
+// Return if package is available
+func (e *Executable) Available() bool {
+	return cli.IsWindows()
+}
+
+// Install package
 func (e *Executable) Install() error {
 
 	// Download from source
@@ -39,6 +40,24 @@ func (e *Executable) Install() error {
 		if err != nil {
 			return err
 		}
+	}
+
+	return nil
+}
+
+// Remove package
+func (e *Executable) Remove() error {
+
+	// Remove executable file
+	err := fs.RemoveFile(e.Executable())
+	if err != nil {
+		return err
+	}
+
+	// Remove alias file
+	err = fs.RemoveFile(e.Alias())
+	if err != nil {
+		return err
 	}
 
 	return nil
@@ -61,7 +80,12 @@ func (e *Executable) Executable() string {
 	return fs.ExpandPath(e.AppExe)
 }
 
-// Run installed program
+// Return executable alias file path
+func (e *Executable) Alias() string {
+	return fs.ExpandPath(e.AppAlias)
+}
+
+// Run installed package
 func (e *Executable) Run(args []string) error {
 	return cli.RunProcess(e.Executable(), args)
 }
@@ -70,13 +94,10 @@ func (e *Executable) Run(args []string) error {
 func (e *Executable) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for application
-	shortcutDir := fs.ExpandPath("$CONFIG\\Microsoft\\Windows\\Start Menu\\Programs")
-	shortcutName := fmt.Sprintf("%s\\%s.lnk", shortcut.Tags[0], shortcut.AppName)
-	shortcutPath := filepath.Join(shortcutDir, shortcutName)
-	shortcut.ShortcutPath = shortcutPath
+	shortcut.ShortcutPath = e.Alias()
 	shortcut.LaunchOptions = strings.Join(e.Arguments, " ")
 
-	// Write system shortcut on start menu
+	// Write system alias on shortcut location
 	err := os.MkdirAll(filepath.Dir(shortcut.ShortcutPath), 0755)
 	if err != nil {
 		return err

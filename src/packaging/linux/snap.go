@@ -2,7 +2,6 @@ package linux
 
 import (
 	"fmt"
-	"path/filepath"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -18,32 +17,31 @@ type Snap struct {
 	Arguments []string `json:"arguments"`
 }
 
-// Return if package is available
-func (s *Snap) Available() bool {
-	return cli.IsLinux()
-}
-
 // Return package runtime
 func (s *Snap) Runtime() string {
 	return "snap"
 }
 
-// Install program
-func (s *Snap) Install() error {
+// Return if package is available
+func (s *Snap) Available() bool {
+	return cli.IsLinux()
+}
 
-	// Install with CLI command
-	script := fmt.Sprintf(
+// Install package
+func (s *Snap) Install() error {
+	return cli.Run(fmt.Sprintf(
 		`sudo snap install %s --channel=%s`,
 		s.AppID,
 		s.Channel,
-	)
+	))
+}
 
-	err := cli.Run(script)
-	if err != nil {
-		return err
-	}
-
-	return nil
+// Remove package
+func (s *Snap) Remove() error {
+	return cli.Run(fmt.Sprintf(
+		`sudo snap remove %s`,
+		s.AppID,
+	))
 }
 
 // Installed verification
@@ -66,7 +64,16 @@ func (s *Snap) Executable() string {
 	))
 }
 
-// Run installed program
+// Return executable alias file path
+func (s *Snap) Alias() string {
+	return fs.NormalizePath(fmt.Sprintf(
+		"/var/lib/snapd/desktop/applications/%s_%s.desktop",
+		s.AppID,
+		s.AppID,
+	))
+}
+
+// Run installed package
 func (s *Snap) Run(args []string) error {
 	return cli.RunProcess(s.Executable(), args)
 }
@@ -75,11 +82,7 @@ func (s *Snap) Run(args []string) error {
 func (s *Snap) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for snap application
-	shortcutDir := fs.NormalizePath("/var/lib/snapd/desktop/applications")
-	shortcutName := fmt.Sprintf("%s_%s.desktop", s.AppID, s.AppID)
-	shortcutPath := filepath.Join(shortcutDir, shortcutName)
-
-	shortcut.ShortcutPath = shortcutPath
+	shortcut.ShortcutPath = s.Alias()
 	shortcut.LaunchOptions = strings.Join(s.Arguments, " ")
 
 	return nil

@@ -9,19 +9,24 @@ import (
 // Missing struct
 type Missing struct{}
 
-// Return if package is available
-func (m *Missing) Available() bool {
-	return false
-}
-
 // Return package runtime
 func (m *Missing) Runtime() string {
 	return "none"
 }
 
-// Install program
+// Return if package is available
+func (m *Missing) Available() bool {
+	return false
+}
+
+// Install package
 func (m *Missing) Install() error {
 	return fmt.Errorf("cannot perform package installations")
+}
+
+// Remove package
+func (m *Missing) Remove() error {
+	return nil
 }
 
 // Installed verification
@@ -34,7 +39,12 @@ func (m *Missing) Executable() string {
 	return ""
 }
 
-// Run installed program
+// Return executable alias file path
+func (m *Missing) Alias() string {
+	return ""
+}
+
+// Run installed package
 func (m *Missing) Run(args []string) error {
 	return nil
 }

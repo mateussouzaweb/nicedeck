@@ -3,7 +3,6 @@ package linux
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -20,17 +19,17 @@ type Binary struct {
 	Source    *packaging.Source `json:"source"`
 }
 
-// Return if package is available
-func (b *Binary) Available() bool {
-	return cli.IsLinux()
-}
-
 // Return package runtime
 func (b *Binary) Runtime() string {
 	return "native"
 }
 
-// Install program
+// Return if package is available
+func (b *Binary) Available() bool {
+	return cli.IsLinux()
+}
+
+// Install package
 func (b *Binary) Install() error {
 
 	// Download from source
@@ -53,6 +52,24 @@ func (b *Binary) Install() error {
 	return nil
 }
 
+// Remove package
+func (b *Binary) Remove() error {
+
+	// Remove executable file
+	err := fs.RemoveFile(b.Executable())
+	if err != nil {
+		return err
+	}
+
+	// Remove alias file
+	err = fs.RemoveFile(b.Alias())
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Installed verification
 func (b *Binary) Installed() (bool, error) {
 	exist, err := fs.FileExist(b.Executable())
@@ -70,7 +87,15 @@ func (b *Binary) Executable() string {
 	return fs.ExpandPath(b.AppBin)
 }
 
-// Run installed program
+// Return executable alias file path
+func (b *Binary) Alias() string {
+	return fs.ExpandPath(fmt.Sprintf(
+		"$SHARE/applications/%s.desktop",
+		b.AppID,
+	))
+}
+
+// Run installed package
 func (b *Binary) Run(args []string) error {
 	return cli.RunProcess(b.Executable(), args)
 }
@@ -78,11 +103,8 @@ func (b *Binary) Run(args []string) error {
 // Fill shortcut additional details
 func (b *Binary) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
-	// Fill shortcut information for application
-	shortcutDir := fs.ExpandPath("$SHARE/applications")
-	shortcutName := fmt.Sprintf("%s.desktop", b.AppID)
-	shortcutPath := filepath.Join(shortcutDir, shortcutName)
-	shortcut.ShortcutPath = shortcutPath
+	// Fill shortcut information for binary application
+	shortcut.ShortcutPath = b.Alias()
 	shortcut.LaunchOptions = strings.Join(b.Arguments, " ")
 
 	// Write the desktop shortcut

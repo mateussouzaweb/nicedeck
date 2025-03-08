@@ -52,13 +52,15 @@ func ESDE() *Program {
 			AppName: "$APPLICATIONS/ES-DE/ES-DE.AppImage",
 			Source:  esde.Release("LinuxAppImage", "file"),
 		}, &macos.Application{
-			AppID:   "es-de",
-			AppName: "$APPLICATIONS/ES-DE/ES-DE.app",
-			Source:  esde.Release("macOSApple", "dmg"),
+			AppID:    "es-de",
+			AppName:  "$APPLICATIONS/ES-DE/ES-DE.app",
+			AppAlias: "$HOME/Applications/Gaming/ES-DE.app",
+			Source:   esde.Release("macOSApple", "dmg"),
 		}, &windows.Executable{
-			AppID:  "ES-DE",
-			AppExe: "$APPLICATIONS\\ES-DE\\ES-DE.exe",
-			Source: esde.Release("WindowsPortable", "zip"),
+			AppID:    "ES-DE",
+			AppExe:   "$APPLICATIONS\\ES-DE\\ES-DE.exe",
+			AppAlias: "$START_MENU\\Gaming\\ES-DE.lnk",
+			Source:   esde.Release("WindowsPortable", "zip"),
 		}),
 	}
 }

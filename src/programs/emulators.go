@@ -29,15 +29,17 @@ func Cemu() *Program {
 			AppID:     "info.cemu.Cemu",
 			Overrides: []string{"--filesystem=host"},
 		}, &macos.Application{
-			AppID:   "cemu",
-			AppName: "$EMULATORS/Cemu/Cemu.app",
+			AppID:    "cemu",
+			AppName:  "$EMULATORS/Cemu/Cemu.app",
+			AppAlias: "$HOME/Applications/Gaming/Cemu.app",
 			Source: github.Release(
 				"https://github.com/cemu-project/Cemu",
 				"cemu-*-macos-12-x64.dmg",
 			),
 		}, &windows.Executable{
-			AppID:  "Cemu",
-			AppExe: "$EMULATORS\\Cemu\\Cemu.exe",
+			AppID:    "Cemu",
+			AppExe:   "$EMULATORS\\Cemu\\Cemu.exe",
+			AppAlias: "$START_MENU\\Gaming\\Cemu.lnk",
 			Source: github.Release(
 				"https://github.com/cemu-project/Cemu",
 				"cemu-*-windows-x64.zip",
@@ -69,8 +71,9 @@ func Citron() *Program {
 				"Citron-*-anylinux-x86_64.AppImage",
 			),
 		}, &windows.Executable{
-			AppID:  "Citron",
-			AppExe: "$EMULATORS\\Citron\\citron.exe",
+			AppID:    "Citron",
+			AppExe:   "$EMULATORS\\Citron\\citron.exe",
+			AppAlias: "$START_MENU\\Gaming\\Citron.lnk",
 			Source: &packaging.Source{
 				URL:    "https://git.citron-emu.org/Citron/Citron/releases/download/v0.5-canary-refresh/Citron-Windows-Canary-Refresh_0.5.zip",
 				Format: "zip",
@@ -99,15 +102,17 @@ func Dolphin() *Program {
 			AppID:     "org.DolphinEmu.dolphin-emu",
 			Overrides: []string{"--filesystem=host"},
 		}, &macos.Application{
-			AppID:   "dolphin",
-			AppName: "$EMULATORS/Dolphin/Dolphin.app",
+			AppID:    "dolphin",
+			AppName:  "$EMULATORS/Dolphin/Dolphin.app",
+			AppAlias: "$HOME/Applications/Gaming/Dolphin.app",
 			Source: &packaging.Source{
 				URL:    "https://dl.dolphin-emu.org/releases/2412/dolphin-2412-universal.dmg",
 				Format: "dmg",
 			},
 		}, &windows.Executable{
-			AppID:  "Dolphin",
-			AppExe: "$EMULATORS\\Dolphin\\Dolphin.exe",
+			AppID:    "Dolphin",
+			AppExe:   "$EMULATORS\\Dolphin\\Dolphin.exe",
+			AppAlias: "$START_MENU\\Gaming\\Dolphin.lnk",
 			Source: &packaging.Source{
 				URL:    "https://dl.dolphin-emu.org/releases/2412/dolphin-2412-x64.7z",
 				Format: "7z",
@@ -136,15 +141,17 @@ func DuckStation() *Program {
 			AppID:     "org.duckstation.DuckStation",
 			Overrides: []string{"--filesystem=host"},
 		}, &macos.Application{
-			AppID:   "duckstation",
-			AppName: "$EMULATORS/DuckStation/DuckStation.app",
+			AppID:    "duckstation",
+			AppName:  "$EMULATORS/DuckStation/DuckStation.app",
+			AppAlias: "$HOME/Applications/Gaming/DuckStation.app",
 			Source: github.Release(
 				"https://github.com/stenzek/duckstation",
 				"duckstation-mac-release.zip",
 			),
 		}, &windows.Executable{
-			AppID:  "DuckStation",
-			AppExe: "$EMULATORS\\DuckStation\\duckstation-qt-x64-ReleaseLTCG.exe",
+			AppID:    "DuckStation",
+			AppExe:   "$EMULATORS\\DuckStation\\duckstation-qt-x64-ReleaseLTCG.exe",
+			AppAlias: "$START_MENU\\Gaming\\DuckStation.lnk",
 			Source: github.Release(
 				"https://github.com/stenzek/duckstation",
 				"duckstation-windows-x64-release.zip",
@@ -173,15 +180,17 @@ func Flycast() *Program {
 			AppID:     "org.flycast.Flycast",
 			Overrides: []string{"--filesystem=host"},
 		}, &macos.Application{
-			AppID:   "flycast",
-			AppName: "$EMULATORS/Flycast/Flycast.app",
+			AppID:    "flycast",
+			AppName:  "$EMULATORS/Flycast/Flycast.app",
+			AppAlias: "$HOME/Applications/Gaming/Flycast.app",
 			Source: github.Release(
 				"https://github.com/flyinghead/flycast",
 				"flycast-macOS-*.zip",
 			),
 		}, &windows.Executable{
-			AppID:  "Flycast",
-			AppExe: "$EMULATORS\\Flycast\\flycast.exe",
+			AppID:    "Flycast",
+			AppExe:   "$EMULATORS\\Flycast\\flycast.exe",
+			AppAlias: "$START_MENU\\Gaming\\Flycast.lnk",
 			Source: github.Release(
 				"https://github.com/flyinghead/flycast",
 				"flycast-win64-*.zip",
@@ -210,15 +219,17 @@ func Lime3DS() *Program {
 			AppID:     "io.github.lime3ds.Lime3DS",
 			Overrides: []string{"--filesystem=host"},
 		}, &macos.Application{
-			AppID:   "lime3ds",
-			AppName: "$EMULATORS/Lime3DS/lime3ds.app",
+			AppID:    "lime3ds",
+			AppName:  "$EMULATORS/Lime3DS/lime3ds.app",
+			AppAlias: "$HOME/Applications/Gaming/Lime3DS.app",
 			Source: github.Release(
 				"https://github.com/Lime3DS/lime3ds-archive",
 				"lime3ds-*-macos-universal.zip",
 			),
 		}, &windows.Executable{
-			AppID:  "Lime3DS",
-			AppExe: "$EMULATORS\\Lime3DS\\lime3ds.exe",
+			AppID:    "Lime3DS",
+			AppExe:   "$EMULATORS\\Lime3DS\\lime3ds.exe",
+			AppAlias: "$START_MENU\\Gaming\\Lime3DS.lnk",
 			Source: github.Release(
 				"https://github.com/Lime3DS/lime3ds-archive",
 				"lime3ds-*-windows-msvc.zip",
@@ -247,15 +258,17 @@ func MelonDS() *Program {
 			AppID:     "net.kuribo64.melonDS",
 			Overrides: []string{"--filesystem=host"},
 		}, &macos.Application{
-			AppID:   "melonds",
-			AppName: "$EMULATORS/MelonDS/melonDS.app",
+			AppID:    "melonds",
+			AppName:  "$EMULATORS/MelonDS/melonDS.app",
+			AppAlias: "$HOME/Applications/Gaming/MelonDS.app",
 			Source: github.Release(
 				"https://github.com/melonDS-emu/melonDS",
 				"macOS-universal.zip",
 			),
 		}, &windows.Executable{
-			AppID:  "MelonDS",
-			AppExe: "$EMULATORS\\MelonDS\\melonDS.exe",
+			AppID:    "MelonDS",
+			AppExe:   "$EMULATORS\\MelonDS\\melonDS.exe",
+			AppAlias: "$START_MENU\\Gaming\\MelonDS.lnk",
 			Source: github.Release(
 				"https://github.com/melonDS-emu/melonDS",
 				"melonDS-windows-x86_64.zip",
@@ -284,15 +297,17 @@ func MGBA() *Program {
 			AppID:     "io.mgba.mGBA",
 			Overrides: []string{"--filesystem=host"},
 		}, &macos.Application{
-			AppID:   "mgba",
-			AppName: "$EMULATORS/MGBA/mGBA.app",
+			AppID:    "mgba",
+			AppName:  "$EMULATORS/MGBA/mGBA.app",
+			AppAlias: "$HOME/Applications/Gaming/MGBA.app",
 			Source: github.Release(
 				"https://github.com/mgba-emu/mgba",
 				"mGBA-*-macos.dmg",
 			),
 		}, &windows.Executable{
-			AppID:  "MGBA",
-			AppExe: "$EMULATORS\\MGBA\\mGBA.exe",
+			AppID:    "MGBA",
+			AppExe:   "$EMULATORS\\MGBA\\mGBA.exe",
+			AppAlias: "$START_MENU\\Gaming\\MGBA.lnk",
 			Source: github.Release(
 				"https://github.com/mgba-emu/mgba",
 				"mGBA-*-win64.7z",
@@ -321,15 +336,17 @@ func PCSX2() *Program {
 			AppID:     "net.pcsx2.PCSX2",
 			Overrides: []string{"--filesystem=host"},
 		}, &macos.Application{
-			AppID:   "pcsx2",
-			AppName: "$EMULATORS/PCSX2/PCSX2.app",
+			AppID:    "pcsx2",
+			AppName:  "$EMULATORS/PCSX2/PCSX2.app",
+			AppAlias: "$HOME/Applications/Gaming/PCSX2.app",
 			Source: github.Release(
 				"https://github.com/PCSX2/pcsx2",
 				"pcsx2-*-macos-Qt.tar.xz",
 			),
 		}, &windows.Executable{
-			AppID:  "PCSX2",
-			AppExe: "$EMULATORS\\PCSX2\\pcsx2-qt.exe",
+			AppID:    "PCSX2",
+			AppExe:   "$EMULATORS\\PCSX2\\pcsx2-qt.exe",
+			AppAlias: "$START_MENU\\Gaming\\PCSX2.lnk",
 			Source: github.Release(
 				"https://github.com/PCSX2/pcsx2",
 				"pcsx2-*-windows-x64-Qt.7z",
@@ -358,15 +375,17 @@ func PPSSPP() *Program {
 			AppID:     "org.ppsspp.PPSSPP",
 			Overrides: []string{"--filesystem=host"},
 		}, &macos.Application{
-			AppID:   "ppsspp",
-			AppName: "$EMULATORS/PPSSPP/PPSSPPSDL.app",
+			AppID:    "ppsspp",
+			AppName:  "$EMULATORS/PPSSPP/PPSSPPSDL.app",
+			AppAlias: "$HOME/Applications/Gaming/PPSSPP.app",
 			Source: github.Release(
 				"https://github.com/hrydgard/ppsspp",
 				"PPSSPPSDL-macOS-v1.18.1.zip",
 			),
 		}, &windows.Executable{
-			AppID:  "PPSSPP",
-			AppExe: "$EMULATORS\\PPSSPP\\PPSSPPWindows64.exe",
+			AppID:    "PPSSPP",
+			AppExe:   "$EMULATORS\\PPSSPP\\PPSSPPWindows64.exe",
+			AppAlias: "$START_MENU\\Gaming\\PPSSPP.lnk",
 			Source: &packaging.Source{
 				URL:    "https://www.ppsspp.org/files/1_18_1/ppsspp_win.zip",
 				Format: "zip",
@@ -398,15 +417,17 @@ func Redream() *Program {
 				Format: "tar.gz",
 			},
 		}, &macos.Application{
-			AppID:   "redream",
-			AppName: "$EMULATORS/Redream/Redream.app",
+			AppID:    "redream",
+			AppName:  "$EMULATORS/Redream/Redream.app",
+			AppAlias: "$HOME/Applications/Gaming/Redream.app",
 			Source: &packaging.Source{
 				URL:    "https://redream.io/download/redream.universal-mac-v1.5.0-1133-g03c2ae9.tar.gz",
 				Format: "tar.gz",
 			},
 		}, &windows.Executable{
-			AppID:  "Redream",
-			AppExe: "$EMULATORS\\Redream\\redream.exe",
+			AppID:    "Redream",
+			AppExe:   "$EMULATORS\\Redream\\redream.exe",
+			AppAlias: "$START_MENU\\Gaming\\Redream.lnk",
 			Source: &packaging.Source{
 				URL:    "https://redream.io/download/redream.x86_64-windows-v1.5.0-1133-g03c2ae9.zip",
 				Format: "zip",
@@ -435,15 +456,17 @@ func RPCS3() *Program {
 			AppID:     "net.rpcs3.RPCS3",
 			Overrides: []string{"--filesystem=host"},
 		}, &macos.Application{
-			AppID:   "rpcs3",
-			AppName: "$EMULATORS/RPCS3/RPCS3.app",
+			AppID:    "rpcs3",
+			AppName:  "$EMULATORS/RPCS3/RPCS3.app",
+			AppAlias: "$HOME/Applications/Gaming/RPCS3.app",
 			Source: github.Release(
 				"https://github.com/RPCS3/rpcs3-binaries-mac-arm64",
 				"rpcs3-*_macos_arm64.7z",
 			),
 		}, &windows.Executable{
-			AppID:  "RPCS3",
-			AppExe: "$EMULATORS\\RPCS3\\rpcs3.exe",
+			AppID:    "RPCS3",
+			AppExe:   "$EMULATORS\\RPCS3\\rpcs3.exe",
+			AppAlias: "$START_MENU\\Gaming\\RPCS3.lnk",
 			Source: github.Release(
 				"https://github.com/RPCS3/rpcs3-binaries-win",
 				"rpcs3-*_win64.7z",
@@ -475,15 +498,17 @@ func Ryujinx() *Program {
 				"ryujinx-*-x64.AppImage",
 			),
 		}, &macos.Application{
-			AppID:   "ryujinx",
-			AppName: "$EMULATORS/Ryujinx/Ryujinx.app",
+			AppID:    "ryujinx",
+			AppName:  "$EMULATORS/Ryujinx/Ryujinx.app",
+			AppAlias: "$HOME/Applications/Gaming/Ryujinx.app",
 			Source: github.Release(
 				"https://github.com/Ryubing/Ryujinx",
 				"ryujinx-*-macos_universal.app.tar.gz",
 			),
 		}, &windows.Executable{
-			AppID:  "Ryujinx",
-			AppExe: "$EMULATORS\\Ryujinx\\Ryujinx.exe",
+			AppID:    "Ryujinx",
+			AppExe:   "$EMULATORS\\Ryujinx\\Ryujinx.exe",
+			AppAlias: "$START_MENU\\Gaming\\Ryujinx.lnk",
 			Source: github.Release(
 				"https://github.com/Ryubing/Ryujinx",
 				"ryujinx-*-win_x64.zip",
@@ -512,15 +537,17 @@ func ShadPS4() *Program {
 			AppID:     "net.shadps4.shadPS4",
 			Overrides: []string{"--filesystem=host"},
 		}, &macos.Application{
-			AppID:   "shadps4",
-			AppName: "$EMULATORS/ShadPS4/ShadPS4.app",
+			AppID:    "shadps4",
+			AppName:  "$EMULATORS/ShadPS4/ShadPS4.app",
+			AppAlias: "$HOME/Applications/Gaming/ShadPS4.app",
 			Source: github.Release(
 				"https://github.com/shadps4-emu/shadPS4",
 				"shadps4-macos-qt-*.zip",
 			),
 		}, &windows.Executable{
-			AppID:  "ShadPS4",
-			AppExe: "$EMULATORS\\ShadPS4\\shadPS4.exe",
+			AppID:    "ShadPS4",
+			AppExe:   "$EMULATORS\\ShadPS4\\shadPS4.exe",
+			AppAlias: "$START_MENU\\Gaming\\ShadPS4.lnk",
 			Source: github.Release(
 				"https://github.com/shadps4-emu/shadPS4",
 				"shadps4-win64-qt-*.zip",
@@ -549,8 +576,9 @@ func Simple64() *Program {
 			AppID:     "io.github.simple64.simple64",
 			Overrides: []string{"--filesystem=host"},
 		}, &windows.Executable{
-			AppID:  "Simple64",
-			AppExe: "$EMULATORS\\Simple64\\simple64-gui.exe",
+			AppID:    "Simple64",
+			AppExe:   "$EMULATORS\\Simple64\\simple64-gui.exe",
+			AppAlias: "$START_MENU\\Gaming\\Simple64.lnk",
 			Source: github.Release(
 				"https://github.com/simple64/simple64",
 				"simple64-win64-*.zip",
@@ -582,15 +610,17 @@ func Vita3K() *Program {
 				"Vita3K-x86_64.AppImage",
 			),
 		}, &macos.Application{
-			AppID:   "vita3k",
-			AppName: "$EMULATORS/Vita3K/Vita3K.app",
+			AppID:    "vita3k",
+			AppName:  "$EMULATORS/Vita3K/Vita3K.app",
+			AppAlias: "$HOME/Applications/Gaming/Vita3K.app",
 			Source: github.Release(
 				"https://github.com/Vita3K/Vita3K",
 				"macos-latest.dmg",
 			),
 		}, &windows.Executable{
-			AppID:  "Vita3K",
-			AppExe: "$EMULATORS\\Vita3K\\Vita3K.exe",
+			AppID:    "Vita3K",
+			AppExe:   "$EMULATORS\\Vita3K\\Vita3K.exe",
+			AppAlias: "$START_MENU\\Gaming\\Vita3K.lnk",
 			Source: github.Release(
 				"https://github.com/Vita3K/Vita3K",
 				"windows-latest.zip",
@@ -619,15 +649,17 @@ func Xemu() *Program {
 			AppID:     "app.xemu.xemu",
 			Overrides: []string{"--filesystem=host"},
 		}, &macos.Application{
-			AppID:   "xemu",
-			AppName: "$EMULATORS/Xemu/Xemu.app",
+			AppID:    "xemu",
+			AppName:  "$EMULATORS/Xemu/Xemu.app",
+			AppAlias: "$HOME/Applications/Gaming/Xemu.app",
 			Source: github.Release(
 				"https://github.com/xemu-project/xemu",
 				"xemu-macos-universal-release.zip",
 			),
 		}, &windows.Executable{
-			AppID:  "Xemu",
-			AppExe: "$EMULATORS\\Xemu\\xemu.exe",
+			AppID:    "Xemu",
+			AppExe:   "$EMULATORS\\Xemu\\xemu.exe",
+			AppAlias: "$START_MENU\\Gaming\\Xemu.lnk",
 			Source: github.Release(
 				"https://github.com/xemu-project/xemu",
 				"xemu-win-release.zip",
@@ -659,8 +691,9 @@ func Xenia() *Program {
 				"xenia_canary_linux.tar.gz",
 			),
 		}, &windows.Executable{
-			AppID:  "Xenia",
-			AppExe: "$EMULATORS\\Xenia\\xenia_canary.exe",
+			AppID:    "Xenia",
+			AppExe:   "$EMULATORS\\Xenia\\xenia_canary.exe",
+			AppAlias: "$START_MENU\\Gaming\\Xenia.lnk",
 			Source: github.Release(
 				"https://github.com/xenia-canary/xenia-canary-releases",
 				"xenia_canary_windows.zip",

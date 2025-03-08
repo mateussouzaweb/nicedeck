@@ -16,20 +16,28 @@ type Homebrew struct {
 	Arguments []string `json:"arguments"`
 }
 
-// Return if package is available
-func (h *Homebrew) Available() bool {
-	return cli.IsMacOS()
-}
-
 // Return package runtime
 func (h *Homebrew) Runtime() string {
 	return "native"
 }
 
-// Install program
+// Return if package is available
+func (h *Homebrew) Available() bool {
+	return cli.IsMacOS()
+}
+
+// Install package
 func (h *Homebrew) Install() error {
 	return cli.Run(fmt.Sprintf(
 		`brew install --cask %s`,
+		h.AppID,
+	))
+}
+
+// Remove package
+func (h *Homebrew) Remove() error {
+	return cli.Run(fmt.Sprintf(
+		`brew uninstall --cask %s`,
 		h.AppID,
 	))
 }
@@ -54,7 +62,12 @@ func (h *Homebrew) Executable() string {
 	))
 }
 
-// Run installed program
+// Return executable alias file path
+func (h *Homebrew) Alias() string {
+	return h.Executable()
+}
+
+// Run installed package
 func (h *Homebrew) Run(args []string) error {
 	return cli.RunProcess(h.Executable(), args)
 }

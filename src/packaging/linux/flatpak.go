@@ -18,11 +18,6 @@ type Flatpak struct {
 	Arguments []string `json:"arguments"`
 }
 
-// Return if package is available
-func (f *Flatpak) Available() bool {
-	return cli.IsLinux()
-}
-
 // Return package runtime
 func (f *Flatpak) Runtime() string {
 	return "flatpak"
@@ -37,7 +32,12 @@ func (f *Flatpak) RuntimeDir() string {
 	}
 }
 
-// Apply program overrides
+// Return if package is available
+func (f *Flatpak) Available() bool {
+	return cli.IsLinux()
+}
+
+// Apply package overrides
 func (f *Flatpak) ApplyOverrides() error {
 	if len(f.Overrides) == 0 {
 		return nil
@@ -54,7 +54,7 @@ func (f *Flatpak) ApplyOverrides() error {
 	return nil
 }
 
-// Install program
+// Install package
 func (f *Flatpak) Install() error {
 
 	// Install with CLI command
@@ -78,6 +78,15 @@ func (f *Flatpak) Install() error {
 	return nil
 }
 
+// Remove package
+func (f *Flatpak) Remove() error {
+	return cli.Run(fmt.Sprintf(
+		`flatpak uninstall --assumeyes --noninteractive --%s %s`,
+		f.Namespace,
+		f.AppID,
+	))
+}
+
 // Installed verification
 func (f *Flatpak) Installed() (bool, error) {
 	exist, err := fs.FileExist(f.Executable())
@@ -99,7 +108,14 @@ func (f *Flatpak) Executable() string {
 	))
 }
 
-// Run installed program
+// Return executable alias file path
+func (f *Flatpak) Alias() string {
+	return filepath.Join(f.RuntimeDir(), fs.NormalizePath(
+		fmt.Sprintf("exports/share/applications/%s.desktop", f.AppID),
+	))
+}
+
+// Run installed package
 func (f *Flatpak) Run(args []string) error {
 	return cli.RunProcess(f.Executable(), args)
 }
@@ -108,11 +124,7 @@ func (f *Flatpak) Run(args []string) error {
 func (f *Flatpak) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for flatpak application
-	shortcutDir := fs.NormalizePath("exports/share/applications")
-	shortcutName := fmt.Sprintf("%s.desktop", f.AppID)
-	shortcutPath := filepath.Join(f.RuntimeDir(), shortcutDir, shortcutName)
-
-	shortcut.ShortcutPath = shortcutPath
+	shortcut.ShortcutPath = f.Alias()
 	shortcut.LaunchOptions = strings.Join(f.Arguments, " ")
 
 	return nil

@@ -3,7 +3,6 @@ package linux
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -20,17 +19,17 @@ type AppImage struct {
 	Source    *packaging.Source `json:"source"`
 }
 
-// Return if package is available
-func (a *AppImage) Available() bool {
-	return cli.IsLinux()
-}
-
 // Return package runtime
 func (a *AppImage) Runtime() string {
 	return "appimage"
 }
 
-// Install program
+// Return if package is available
+func (a *AppImage) Available() bool {
+	return cli.IsLinux()
+}
+
+// Install package
 func (a *AppImage) Install() error {
 
 	// Download from source
@@ -53,6 +52,24 @@ func (a *AppImage) Install() error {
 	return nil
 }
 
+// Remove package
+func (a *AppImage) Remove() error {
+
+	// Remove executable file
+	err := fs.RemoveFile(a.Executable())
+	if err != nil {
+		return err
+	}
+
+	// Remove alias file
+	err = fs.RemoveFile(a.Alias())
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Installed verification
 func (a *AppImage) Installed() (bool, error) {
 	exist, err := fs.FileExist(a.Executable())
@@ -70,7 +87,15 @@ func (a *AppImage) Executable() string {
 	return fs.ExpandPath(a.AppName)
 }
 
-// Run installed program
+// Return executable alias file path
+func (a *AppImage) Alias() string {
+	return fs.ExpandPath(fmt.Sprintf(
+		"$SHARE/applications/%s.desktop",
+		a.AppID,
+	))
+}
+
+// Run installed package
 func (a *AppImage) Run(args []string) error {
 	return cli.RunProcess(a.Executable(), args)
 }
@@ -79,10 +104,7 @@ func (a *AppImage) Run(args []string) error {
 func (a *AppImage) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for application
-	shortcutDir := fs.ExpandPath("$SHARE/applications")
-	shortcutName := fmt.Sprintf("%s.desktop", a.AppID)
-	shortcutPath := filepath.Join(shortcutDir, shortcutName)
-	shortcut.ShortcutPath = shortcutPath
+	shortcut.ShortcutPath = a.Alias()
 	shortcut.LaunchOptions = strings.Join(a.Arguments, " ")
 
 	// Write the desktop shortcut

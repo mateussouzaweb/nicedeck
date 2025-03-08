@@ -4,11 +4,13 @@ import "github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 
 // Package interface
 type Package interface {
-	Available() bool
 	Runtime() string
+	Available() bool
 	Install() error
+	Remove() error
 	Installed() (bool, error)
 	Executable() string
+	Alias() string
 	Run(args []string) error
 	OnShortcut(shortcut *shortcuts.Shortcut) error
 }
