@@ -11,37 +11,37 @@
     padding: 0 5px;
 }
 
-#install #programs .group {
+#programs #list .group {
     display: flex;
     flex-flow: row wrap;
     margin: 0 -5px;
 }
-#install #programs .group + .group {
+#programs #list .group + .group {
     margin-top: 20px;
 }
 
-#install #programs .group-info {
+#programs #list .group-info {
     display: flex;
     align-items: center;
     flex-basis: 100%;
     margin: 5px;
 }
-#install #programs .group-info h4 {
+#programs #list .group-info h4 {
     margin: 0 20px 0 0;
     flex: 0;
     font-size: 1.25rem;
 }
-#install #programs .group-info p {
+#programs #list .group-info p {
     margin: 0;
     flex: 1;
 }
 
-#install #programs label.checkbox,
-#install #programs .fill {
+#programs #list label.checkbox,
+#programs #list .fill {
     flex: 1;
     min-width: 260px;
     max-width: unset;
 }
-#install #programs label.checkbox .icon {
+#programs #list label.checkbox .icon {
     min-width: 72px;
 }

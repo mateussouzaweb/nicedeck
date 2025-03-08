@@ -1,4 +1,4 @@
-// Install
+// Programs
 window.addEventListener('load', async () => {
 
     /**
@@ -57,29 +57,29 @@ window.addEventListener('load', async () => {
 
         categories.map((category) => append(category))
 
-        const destination = $('#install #programs')
+        const destination = $('#programs #list')
         destination.innerHTML = html.join('')
 
     }
 
-    on('#install .select-all', 'click', (event) => {
+    on('#programs .select-all', 'click', (event) => {
         event.preventDefault()
         const parent = event.target.closest('.group')
         const inputs = $$('input[type="checkbox"]', parent)
         inputs.map((input) => input.checked = "checked")
     })
 
-    on('#install .clear-all', 'click', (event) => {
+    on('#programs .clear-all', 'click', (event) => {
         event.preventDefault()
         const parent = event.target.closest('.group')
         const inputs = $$('input[type="checkbox"]', parent)
         inputs.map((input) => input.checked = "")
     })
 
-    on('#install form', 'submit', async (event) => {
+    on('#programs form', 'submit', async (event) => {
         event.preventDefault()
 
-        const form = $('#install form')
+        const form = $('#programs form')
         const button = $('button[type="submit"]', form)
 
         if (button.disabled) {
@@ -87,8 +87,9 @@ window.addEventListener('load', async () => {
         }
 
         const data = new FormData(form)
+        const action = data.getAll('action')
 
-        /** @type {RunInstallData} */
+        /** @type {InstallProgramsData|RemoveProgramsData} */
         const body = {
             programs: data.getAll('programs[]')
         }
@@ -98,8 +99,8 @@ window.addEventListener('load', async () => {
             await window.runAndCaptureConsole(true, async () => {
                 /** @type {LoadLibraryResult} */
                 await requestJson('POST', '/api/library/load')
-                /** @type {RunInstallResult} */
-                await requestJson('POST', '/api/install', JSON.stringify(body))
+                /** @type {InstallProgramsResult|RemoveProgramsData} */
+                await requestJson('POST', `/api/programs/${action}`, JSON.stringify(body))
                 /** @type {SaveLibraryResult} */
                 await requestJson('POST', '/api/library/save')
             })

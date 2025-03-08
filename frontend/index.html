@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="./styles/console.css">
     <link rel="stylesheet" href="./styles/error.css">
     <link rel="stylesheet" href="./styles/form.css">
-    <link rel="stylesheet" href="./styles/install.css">
     <link rel="stylesheet" href="./styles/modal.css">
+    <link rel="stylesheet" href="./styles/programs.css">
     <link rel="stylesheet" href="./styles/roms.css">
     <link rel="stylesheet" href="./styles/shortcuts.css">
     <link rel="stylesheet" href="./styles/state.css">
@@ -32,7 +32,7 @@
                     <li class="active" data-tab="welcome" title="Welcome">
                         <img src="./img/icons/welcome.svg" alt="Welcome" width="24" height="24" />
                     </li>
-                    <li data-tab="install" title="Programs">
+                    <li data-tab="programs" title="Programs">
                         <img src="./img/icons/programs.svg" alt="Programs" width="24" height="24" />
                         <span>Programs</span>
                     </li>
@@ -65,7 +65,7 @@
                 <p>Please select the desired option to execute in the navigation menu:</p>
 
                 <ul>
-                    <li>First time here? Install applications and emulators from the <b>Programs</b> section.</li>
+                    <li>First time here? Install applications and emulators from the <b>programs</b> section.</li>
                     <li>Automatically add emulated games to your library at the <b>ROMs</b> section.</li>
                     <li>Need to save or restore your progress in games? Use the <b>state</b> section.</li>
                     <li>Customize launch shortcuts individually on the <b>shortcuts</b> tab.</li>
@@ -74,15 +74,26 @@
                 <p>NiceDeck is happy to do most of the work for you, but don't forget to check the console area below to keep track of progress and read additional instructions. Have a nice gaming experience! :D</p>
             </section>
 
-            <section class="tab" id="install">
+            <section class="tab" id="programs">
                 <form action="#">
                     <div class="group">
-                        <p>Please select the desired programs to install or update:</p>
-                        <div id="programs"></div>
+                        <p>Please choose the action that you want to perform:</p>
+                        <label class="radio">
+                            <input type="radio" name="action" value="install" checked="checked" />
+                            <span>Install / Update</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="action" value="remove" />
+                            <span>Remove</span>
+                        </label>
+                    </div>
+                    <div class="group">
+                        <p>Please select the desired programs to to perform the action:</p>
+                        <div id="list"></div>
                     </div>
                     <div class="actions">
                         <button type="submit">
-                            <span>Install Selected</span>
+                            <span>Process Selected</span>
                             <span>Processing...</span>
                         </button>
                     </div>
@@ -252,8 +263,8 @@
     <script type="text/javascript" src="./scripts/app.js"></script>
     <script type="text/javascript" src="./scripts/console.js"></script>
     <script type="text/javascript" src="./scripts/error.js"></script>
-    <script type="text/javascript" src="./scripts/install.js"></script>
     <script type="text/javascript" src="./scripts/modal.js"></script>
+    <script type="text/javascript" src="./scripts/programs.js"></script>
     <script type="text/javascript" src="./scripts/roms.js"></script>
     <script type="text/javascript" src="./scripts/shortcuts.js"></script>
     <script type="text/javascript" src="./scripts/shutdown.js"></script>

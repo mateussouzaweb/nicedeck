@@ -124,11 +124,20 @@ interface ModifyShortcutResult {
 	error: string
 }
 
-interface RunInstallData {
+interface InstallProgramsData {
 	programs: string[]
 }
 
-interface RunInstallResult {
+interface InstallProgramsResult {
+	status: string
+	error: string
+}
+
+interface RemoveProgramsData {
+	programs: string[]
+}
+
+interface RemoveProgramsResult {
 	status: string
 	error: string
 }
