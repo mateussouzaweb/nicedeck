@@ -189,6 +189,13 @@ func GetShortcut(appID uint) *shortcuts.Shortcut {
 	return shortcuts.GetShortcut(_config.Shortcuts, appID)
 }
 
+// Find shortcut with given executable and appName combination
+func FindShortcut(appExe string, appName string) *shortcuts.Shortcut {
+	executable := steam.EnsureExec(_config.SteamRuntime, appExe)
+	appID := shortcuts.GenerateShortcutID(executable, appName)
+	return GetShortcut(appID)
+}
+
 // Ensure that shortcut has the correct settings
 func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 

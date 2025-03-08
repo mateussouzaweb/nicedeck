@@ -28,6 +28,7 @@ type Program struct {
 	HeroURL     string            `json:"heroUrl"`
 	Package     packaging.Package `json:"-"`
 	OnInstall   func() error      `json:"-"`
+	OnRemove    func() error      `json:"-"`
 }
 
 // Retrieve list of available programs to install
@@ -177,5 +178,56 @@ func Install(id string) error {
 
 	// Print success message
 	cli.Printf(cli.ColorSuccess, "%s installed!\n", program.Name)
+	return nil
+}
+
+// Remove program with given ID
+func Remove(id string) error {
+
+	program, err := GetProgramByID(id)
+	if err != nil {
+		return err
+	}
+
+	// Program not found
+	if program.ID == "" {
+		return fmt.Errorf("program not found: %s", id)
+	}
+
+	// Program not available
+	if !program.Package.Available() {
+		return fmt.Errorf("program is not available to remove: %s", id)
+	}
+
+	// Print step message
+	cli.Printf(cli.ColorNotice, "Removing %s...\n", program.Name)
+
+	// Run program removal
+	err = program.Package.Remove()
+	if err != nil {
+		return err
+	}
+
+	// Perform additional steps after remove
+	if program.OnRemove != nil {
+		err = program.OnRemove()
+		if err != nil {
+			return err
+		}
+	}
+
+	// Remove from shortcuts list
+	executable := program.Package.Executable()
+	shortcut := library.FindShortcut(executable, program.Name)
+
+	if shortcut.AppID == 0 {
+		err = library.RemoveFromShortcuts(shortcut)
+		if err != nil {
+			return err
+		}
+	}
+
+	// Print success message
+	cli.Printf(cli.ColorSuccess, "%s removed!\n", program.Name)
 	return nil
 }

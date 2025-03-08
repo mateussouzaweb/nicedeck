@@ -305,24 +305,24 @@ func modifyShortcut(context *Context) error {
 	return context.Status(200).JSON(result)
 }
 
-// Run install data
-type RunInstallData struct {
+// Install programs data
+type InstallProgramsData struct {
 	Programs []string `json:"programs"`
 }
 
-// Run install result
-type RunInstallResult struct {
+// Install programs result
+type InstallProgramsResult struct {
 	Status string `json:"status"`
 	Error  string `json:"error"`
 }
 
-// Run install action (for specific programs only)
-func runInstall(context *Context) error {
+// Install programs action
+func installPrograms(context *Context) error {
 
-	result := RunInstallResult{}
+	result := InstallProgramsResult{}
 
 	// Bind data
-	data := RunInstallData{}
+	data := InstallProgramsData{}
 	err := context.Bind(&data)
 	if err != nil {
 		result.Status = "ERROR"
@@ -349,6 +349,48 @@ func runInstall(context *Context) error {
 	}
 
 	cli.Printf(cli.ColorSuccess, "Process finished!\n")
+	cli.Printf(cli.ColorNotice, "Please restart Steam or the device to changes take effect.\n")
+
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
+}
+
+// Remove programs data
+type RemoveProgramsData struct {
+	Programs []string `json:"programs"`
+}
+
+// Remove programs result
+type RemoveProgramsResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
+// Remove programs actions
+func removePrograms(context *Context) error {
+
+	result := RemoveProgramsResult{}
+
+	// Bind data
+	data := RemoveProgramsData{}
+	err := context.Bind(&data)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Remove programs in the list
+	for _, program := range data.Programs {
+		err := programs.Remove(program)
+		if err != nil {
+			result.Status = "ERROR"
+			result.Error = err.Error()
+			return context.Status(400).JSON(result)
+		}
+	}
+
+	cli.Printf(cli.ColorSuccess, "Remove process finished!\n")
 	cli.Printf(cli.ColorNotice, "Please restart Steam or the device to changes take effect.\n")
 
 	result.Status = "OK"
@@ -592,7 +634,8 @@ func Setup(version string, developmentMode bool, shutdown chan bool) error {
 	Add("POST", "/api/library/save", saveLibrary)
 	Add("POST", "/api/shortcut/launch", launchShortcut)
 	Add("POST", "/api/shortcut/modify", modifyShortcut)
-	Add("POST", "/api/install", runInstall)
+	Add("POST", "/api/programs/install", installPrograms)
+	Add("POST", "/api/programs/remove", removePrograms)
 	Add("POST", "/api/sync/state", syncState)
 	Add("POST", "/api/roms", processROMs)
 	Add("POST", "/api/link/open", openLink)
