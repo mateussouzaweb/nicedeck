@@ -3,6 +3,7 @@ package linux
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -55,8 +56,9 @@ func (a *AppImage) Install() error {
 // Remove package
 func (a *AppImage) Remove() error {
 
-	// Remove executable file
-	err := fs.RemoveFile(a.Executable())
+	// Remove executable parent folder
+	// Because package is located in its own folder
+	err := fs.RemoveDirectory(filepath.Dir(a.Executable()))
 	if err != nil {
 		return err
 	}

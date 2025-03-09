@@ -20,6 +20,34 @@ func DirectoryExist(path string) (bool, error) {
 	return false, nil
 }
 
+// Remove directory and all files from system if exist
+func RemoveDirectory(path string) error {
+
+	// Ensure that directory exists
+	exist, err := DirectoryExist(path)
+	if err != nil {
+		return err
+	} else if !exist {
+		return nil
+	}
+
+	// Read child files with glob
+	files, err := filepath.Glob(filepath.Join(path, "*"))
+	if err != nil {
+		return err
+	}
+
+	// Remove each found child file
+	for _, file := range files {
+		err = os.RemoveAll(file)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 // Copy directory content to destination
 // When content already exists, it will be replaced
 func CopyDirectory(source string, destination string) error {

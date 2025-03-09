@@ -57,8 +57,9 @@ func (a *Application) Install() error {
 // Remove package
 func (a *Application) Remove() error {
 
-	// Remove executable file
-	err := fs.RemoveFile(a.Executable())
+	// Remove executable parent folder
+	// Because package is located in its own folder
+	err := fs.RemoveDirectory(filepath.Dir(a.Executable()))
 	if err != nil {
 		return err
 	}
