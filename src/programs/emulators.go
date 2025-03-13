@@ -108,7 +108,7 @@ func Dolphin() *Program {
 			AppName:  "$EMULATORS/Dolphin/Dolphin.app",
 			AppAlias: "$HOME/Applications/Gaming/Dolphin.app",
 			Source: &packaging.Source{
-				URL:    "https://dl.dolphin-emu.org/releases/2412/dolphin-2412-universal.dmg",
+				URL:    "https://dl.dolphin-emu.org/releases/2503/dolphin-2503-universal.dmg",
 				Format: "dmg",
 			},
 		}, &windows.Executable{
@@ -116,7 +116,7 @@ func Dolphin() *Program {
 			AppExe:   "$EMULATORS\\Dolphin\\Dolphin.exe",
 			AppAlias: "$START_MENU\\Gaming\\Dolphin.lnk",
 			Source: &packaging.Source{
-				URL:    "https://dl.dolphin-emu.org/releases/2412/dolphin-2412-x64.7z",
+				URL:    "https://dl.dolphin-emu.org/releases/2503/dolphin-2503-x64.7z",
 				Format: "7z",
 			},
 		}),
