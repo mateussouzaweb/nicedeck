@@ -45,6 +45,12 @@ func RemoveDirectory(path string) error {
 		}
 	}
 
+	// Remove the main directory
+	err = os.Remove(path)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
