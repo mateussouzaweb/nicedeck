@@ -220,7 +220,7 @@ func Remove(id string) error {
 	executable := program.Package.Executable()
 	shortcut := library.FindShortcut(executable, program.Name)
 
-	if shortcut.AppID == 0 {
+	if shortcut.AppID != 0 {
 		err = library.RemoveFromShortcuts(shortcut)
 		if err != nil {
 			return err
