@@ -6,6 +6,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/programs/assets"
+	"github.com/mateussouzaweb/nicedeck/src/programs/forgejo"
 	"github.com/mateussouzaweb/nicedeck/src/programs/github"
 )
 
@@ -74,10 +75,11 @@ func Citron() *Program {
 			AppID:    "Citron",
 			AppExe:   "$EMULATORS\\Citron\\citron.exe",
 			AppAlias: "$START_MENU\\Gaming\\Citron.lnk",
-			Source: &packaging.Source{
-				URL:    "https://git.citron-emu.org/Citron/Citron/releases/download/v0.5-canary-refresh/Citron-Windows-Canary-Refresh_0.5.zip",
-				Format: "zip",
-			},
+			Source: forgejo.Release(
+				"https://git.citron-emu.org",
+				"Citron/Citron",
+				"Citron-Windows-Canary-Refresh_*.7z",
+			),
 		}),
 	}
 }
