@@ -62,28 +62,10 @@ func GetAssetURL(domain string, repository string, search string) (string, error
 	return "", fmt.Errorf("could not retrieve latest release asset")
 }
 
-// Find expected format based on search term
-func FindFormat(search string) string {
-
-	if strings.HasSuffix(search, ".zip") {
-		return "zip"
-	} else if strings.HasSuffix(search, ".tar.gz") {
-		return "tar.gz"
-	} else if strings.HasSuffix(search, ".tar.xz") {
-		return "tar.xz"
-	} else if strings.HasSuffix(search, ".7z") {
-		return "7z"
-	} else if strings.HasSuffix(search, ".dmg") {
-		return "dmg"
-	}
-
-	return "file"
-}
-
 // Return packaging source from release
 func Release(domain string, repository string, search string) *packaging.Source {
 	return &packaging.Source{
-		Format: FindFormat(search),
+		Format: packaging.FindFormat(search),
 		Resolver: func() (string, error) {
 			return GetAssetURL(domain, repository, search)
 		},

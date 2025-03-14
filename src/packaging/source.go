@@ -163,3 +163,21 @@ func (s *Source) FromDMG() error {
 
 	return nil
 }
+
+// Find expected file format based on filename
+func FindFormat(name string) string {
+
+	if strings.HasSuffix(name, ".zip") {
+		return "zip"
+	} else if strings.HasSuffix(name, ".tar.gz") {
+		return "tar.gz"
+	} else if strings.HasSuffix(name, ".tar.xz") {
+		return "tar.xz"
+	} else if strings.HasSuffix(name, ".7z") {
+		return "7z"
+	} else if strings.HasSuffix(name, ".dmg") {
+		return "dmg"
+	}
+
+	return "file"
+}

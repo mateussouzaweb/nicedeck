@@ -8,6 +8,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs/assets"
 	"github.com/mateussouzaweb/nicedeck/src/programs/forgejo"
 	"github.com/mateussouzaweb/nicedeck/src/programs/github"
+	"github.com/mateussouzaweb/nicedeck/src/programs/website"
 )
 
 // Installer for Cemu
@@ -35,7 +36,7 @@ func Cemu() *Program {
 			AppAlias: "$HOME/Applications/Gaming/Cemu.app",
 			Source: github.Release(
 				"https://github.com/cemu-project/Cemu",
-				"cemu-*-macos-12-x64.dmg",
+				"cemu-*-macos-*-x64.dmg",
 			),
 		}, &windows.Executable{
 			AppID:    "Cemu",
@@ -107,18 +108,18 @@ func Dolphin() *Program {
 			AppID:    "dolphin",
 			AppName:  "$EMULATORS/Dolphin/Dolphin.app",
 			AppAlias: "$HOME/Applications/Gaming/Dolphin.app",
-			Source: &packaging.Source{
-				URL:    "https://dl.dolphin-emu.org/releases/2503/dolphin-2503-universal.dmg",
-				Format: "dmg",
-			},
+			Source: website.Release(
+				"https://dolphin-emu.org/download/", "",
+				"https://dl.dolphin-emu.org/releases/*/dolphin-*-universal.dmg",
+			),
 		}, &windows.Executable{
 			AppID:    "Dolphin",
 			AppExe:   "$EMULATORS\\Dolphin\\Dolphin.exe",
 			AppAlias: "$START_MENU\\Gaming\\Dolphin.lnk",
-			Source: &packaging.Source{
-				URL:    "https://dl.dolphin-emu.org/releases/2503/dolphin-2503-x64.7z",
-				Format: "7z",
-			},
+			Source: website.Release(
+				"https://dolphin-emu.org/download/", "",
+				"https://dl.dolphin-emu.org/releases/*/dolphin-*-x64.7z",
+			),
 		}),
 	}
 }
@@ -380,18 +381,18 @@ func PPSSPP() *Program {
 			AppID:    "ppsspp",
 			AppName:  "$EMULATORS/PPSSPP/PPSSPPSDL.app",
 			AppAlias: "$HOME/Applications/Gaming/PPSSPP.app",
-			Source: github.Release(
-				"https://github.com/hrydgard/ppsspp",
-				"PPSSPPSDL-macOS-v1.18.1.zip",
+			Source: website.Release(
+				"https://www.ppsspp.org/download/", "",
+				"https://www.ppsspp.org/files/*/PPSSPP_macOS.dmg",
 			),
 		}, &windows.Executable{
 			AppID:    "PPSSPP",
 			AppExe:   "$EMULATORS\\PPSSPP\\PPSSPPWindows64.exe",
 			AppAlias: "$START_MENU\\Gaming\\PPSSPP.lnk",
-			Source: &packaging.Source{
-				URL:    "https://www.ppsspp.org/files/1_18_1/ppsspp_win.zip",
-				Format: "zip",
-			},
+			Source: website.Release(
+				"https://www.ppsspp.org/download/", "",
+				"https://www.ppsspp.org/files/*/ppsspp_win.zip",
+			),
 		}),
 	}
 }
@@ -414,26 +415,29 @@ func Redream() *Program {
 		Package: packaging.Best(&linux.Binary{
 			AppID:  "redream",
 			AppBin: "$EMULATORS/Redream/redream",
-			Source: &packaging.Source{
-				URL:    "https://redream.io/download/redream.x86_64-linux-v1.5.0-1133-g03c2ae9.tar.gz",
-				Format: "tar.gz",
-			},
+			Source: website.Release(
+				"https://redream.io/download",
+				"https://redream.io/",
+				"download/redream.x86_64-linux-v*-*-*.tar.gz",
+			),
 		}, &macos.Application{
 			AppID:    "redream",
 			AppName:  "$EMULATORS/Redream/Redream.app",
 			AppAlias: "$HOME/Applications/Gaming/Redream.app",
-			Source: &packaging.Source{
-				URL:    "https://redream.io/download/redream.universal-mac-v1.5.0-1133-g03c2ae9.tar.gz",
-				Format: "tar.gz",
-			},
+			Source: website.Release(
+				"https://redream.io/download",
+				"https://redream.io/",
+				"download/redream.universal-mac-v*-*-*.tar.gz",
+			),
 		}, &windows.Executable{
 			AppID:    "Redream",
 			AppExe:   "$EMULATORS\\Redream\\redream.exe",
 			AppAlias: "$START_MENU\\Gaming\\Redream.lnk",
-			Source: &packaging.Source{
-				URL:    "https://redream.io/download/redream.x86_64-windows-v1.5.0-1133-g03c2ae9.zip",
-				Format: "zip",
-			},
+			Source: website.Release(
+				"https://redream.io/download",
+				"https://redream.io/",
+				"download/redream.x86_64-windows-v*-*-*.zip",
+			),
 		}),
 	}
 }
