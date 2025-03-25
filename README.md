@@ -120,7 +120,7 @@ Console Emulators:
 - Nintendo DS - [MelonDS](https://melonds.kuribo64.net)
 - Nintendo Game Boy Advance - [mGBA](https://mgba.io)
 - Nintendo GameCube - [Dolphin](https://dolphin-emu.org)
-- Nintendo Switch - [Ryujinx](https://github.com/Ryubing/Ryujinx)
+- Nintendo Switch - [Ryujinx](https://ryujinx.app)
 - Nintendo Switch - [Citron](https://citron-emu.org)
 - Nintendo Wii - [Dolphin](https://dolphin-emu.org)
 - Nintendo Wii U - [Cemu](https://cemu.info)

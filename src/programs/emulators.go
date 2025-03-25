@@ -490,7 +490,7 @@ func Ryujinx() *Program {
 		Category:    "Emulators",
 		Tags:        []string{"Gaming", "Emulator"},
 		Folders:     []string{"$EMULATORS", "$STATE/Ryujinx", "$ROMS/SWITCH", "$BIOS/SWITCH"},
-		Website:     "https://github.com/Ryubing/Ryujinx",
+		Website:     "https://ryujinx.app",
 		IconURL:     assets.Icon("446e520ce36e073a153fed039e6d55fe.png"),
 		LogoURL:     assets.Logo("b948aa07167c9acb17487657e96870e5.png"),
 		CoverURL:    assets.Cover("550d4a283baa604976e81d35d29124df.png"),
@@ -500,7 +500,7 @@ func Ryujinx() *Program {
 			AppID:   "ryujinx",
 			AppName: "$EMULATORS/Ryujinx/Ryujinx.AppImage",
 			Source: github.Release(
-				"https://github.com/Ryubing/Ryujinx",
+				"https://github.com/Ryubing/Stable-Releases",
 				"ryujinx-*-x64.AppImage",
 			),
 		}, &macos.Application{
@@ -508,7 +508,7 @@ func Ryujinx() *Program {
 			AppName:  "$EMULATORS/Ryujinx/Ryujinx.app",
 			AppAlias: "$HOME/Applications/Gaming/Ryujinx.app",
 			Source: github.Release(
-				"https://github.com/Ryubing/Ryujinx",
+				"https://github.com/Ryubing/Stable-Releases",
 				"ryujinx-*-macos_universal.app.tar.gz",
 			),
 		}, &windows.Executable{
@@ -516,7 +516,7 @@ func Ryujinx() *Program {
 			AppExe:   "$EMULATORS\\Ryujinx\\Ryujinx.exe",
 			AppAlias: "$START_MENU\\Gaming\\Ryujinx.lnk",
 			Source: github.Release(
-				"https://github.com/Ryubing/Ryujinx",
+				"https://github.com/Ryubing/Stable-Releases",
 				"ryujinx-*-win_x64.zip",
 			),
 		}),
