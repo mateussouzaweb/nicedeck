@@ -38,6 +38,7 @@ func GetPrograms() ([]*Program, error) {
 	var available []*Program
 
 	// Retrieve all possible programs
+	programs = append(programs, Azahar())
 	programs = append(programs, BraveBrowser())
 	programs = append(programs, Bottles())
 	programs = append(programs, Cemu())

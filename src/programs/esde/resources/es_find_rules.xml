@@ -8,6 +8,13 @@
             <entry>cmd.exe</entry>
         </rule>
     </emulator>
+    <emulator name="AZAHAR">
+        <rule type="staticpath">
+            <entry>$EMULATORS/Azahar/azahar.AppImage</entry>
+            <entry>$EMULATORS/Azahar/Azahar.app</entry>
+            <entry>$EMULATORS\Azahar\azahar.exe</entry>
+        </rule>
+    </emulator>
     <emulator name="CEMU">
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/info.cemu.Cemu</entry>

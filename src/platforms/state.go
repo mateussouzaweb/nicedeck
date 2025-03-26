@@ -25,6 +25,31 @@ func GetStates(options *Options) []*State {
 	// - Simple64 (cannot be configured as it does not provide options)
 	states := []*State{}
 
+	// Azahar
+	states = append(states, &State{
+		Platform: "3DS",
+		Emulator: "Azahar",
+		Type:     "folder",
+		Path:     "$STATE/Azahar/azahar-emu/sdmc",
+		Source: []string{
+			"$SHARE/azahar-emu/sdmc",
+			"$CONFIG/azahar-emu/sdmc",
+			"$CONFIG/Azahar/sdmc",
+			"$CONFIG\\Azahar\\sdmc",
+		},
+	}, &State{
+		Platform: "3DS",
+		Emulator: "Azahar",
+		Type:     "folder",
+		Path:     "$STATE/Azahar/azahar-emu/states",
+		Source: []string{
+			"$SHARE/azahar-emu/states",
+			"$CONFIG/azahar-emu/states",
+			"$CONFIG/Azahar/states",
+			"$CONFIG\\Azahar\\states",
+		},
+	})
+
 	// Lime3DS
 	states = append(states, &State{
 		Platform: "3DS",

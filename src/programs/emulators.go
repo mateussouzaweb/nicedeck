@@ -11,6 +11,48 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs/website"
 )
 
+// Installer for Azahar
+func Azahar() *Program {
+	return &Program{
+		ID:          "azahar",
+		Name:        "Azahar",
+		Description: "Emulator for Nintendo 3DS",
+		Category:    "Emulators",
+		Tags:        []string{"Gaming", "Emulator"},
+		Folders:     []string{"$EMULATORS", "$STATE/Azahar", "$ROMS/3DS", "$BIOS/3DS"},
+		Website:     "https://azahar-emu.org",
+		IconURL:     assets.Icon("5f35c349bea2a27d9759fac65580a098.png"),
+		LogoURL:     assets.Logo("549c5a7673e36671a74ffba405036141.png"),
+		CoverURL:    assets.Cover("4ff70a1c13ee2cf27853c7ae06425bc4.png"),
+		BannerURL:   assets.Banner("1f4181a701cdfb56675cc7c7f766d60d.png"),
+		HeroURL:     assets.Hero("bc6f714aa3dfeef9320a838b79515c2d.png"),
+		Package: packaging.Best(&linux.AppImage{
+			AppID:   "azahar",
+			AppName: "$EMULATORS/Azahar/azahar.AppImage",
+			Source: github.Release(
+				"https://github.com/azahar-emu/azahar",
+				"azahar-*-linux-appimage.tar.gz",
+			),
+		}, &macos.Application{
+			AppID:    "azahar",
+			AppName:  "$EMULATORS/Azahar/Azahar.app",
+			AppAlias: "$HOME/Applications/Gaming/Azahar.app",
+			Source: github.Release(
+				"https://github.com/azahar-emu/azahar",
+				"azahar-*-macos-universal.zip",
+			),
+		}, &windows.Executable{
+			AppID:    "Azahar",
+			AppExe:   "$EMULATORS\\Azahar\\azahar.exe",
+			AppAlias: "$START_MENU\\Gaming\\Azahar.lnk",
+			Source: github.Release(
+				"https://github.com/azahar-emu/azahar",
+				"azahar-*-windows-msvc.zip",
+			),
+		}),
+	}
+}
+
 // Installer for Cemu
 func Cemu() *Program {
 	return &Program{

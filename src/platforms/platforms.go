@@ -27,6 +27,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 		Console: "Nintendo 3DS",
 		Folder:  "3DS",
 		Emulators: []*Emulator{{
+			Name:          "Azahar",
+			Program:       "azahar",
+			Extensions:    ".3ds .3dsx .app .axf .cci .cxi .elf .7z .zip",
+			LaunchOptions: "\"${ROM}\"", // No full-screen option
+		}, {
 			Name:          "Lime3DS",
 			Program:       "lime3ds",
 			Extensions:    ".3ds .3dsx .app .axf .cci .cxi .elf .7z .zip",
