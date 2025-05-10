@@ -31,7 +31,7 @@ func Azahar() *Program {
 			AppName: "$EMULATORS/Azahar/azahar.AppImage",
 			Source: github.Release(
 				"https://github.com/azahar-emu/azahar",
-				"azahar-*-linux-appimage.tar.gz",
+				"azahar.AppImage",
 			),
 		}, &macos.Application{
 			AppID:    "azahar",
