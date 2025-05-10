@@ -2,6 +2,7 @@ package fs
 
 import (
 	"archive/zip"
+	"errors"
 	"io"
 	"os"
 	"path/filepath"
@@ -16,7 +17,9 @@ func Unzip(source, destination string) error {
 		return err
 	}
 
-	defer archive.Close()
+	defer func() {
+		errors.Join(err, archive.Close())
+	}()
 
 	// Process each item of the archive
 	// When destination already exists
@@ -30,7 +33,9 @@ func Unzip(source, destination string) error {
 			return err
 		}
 
-		defer reader.Close()
+		defer func() {
+			errors.Join(err, reader.Close())
+		}()
 
 		// If is a directory, just ensure that the folder exists
 		if file.FileInfo().IsDir() {
@@ -54,7 +59,9 @@ func Unzip(source, destination string) error {
 			return err
 		}
 
-		defer writer.Close()
+		defer func() {
+			errors.Join(err, writer.Close())
+		}()
 
 		// Copy file content to target
 		_, err = io.Copy(writer, reader)

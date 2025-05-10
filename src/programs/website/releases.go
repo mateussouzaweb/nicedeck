@@ -1,6 +1,7 @@
 package website
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -14,13 +15,16 @@ import (
 func GetDownloadURL(pageURL string, prefix string, search string) (string, error) {
 
 	// Make request to get HTML of target page
-	resp, err := http.Get(pageURL)
+	res, err := http.Get(pageURL)
 	if err != nil {
 		return "", err
 	}
 
-	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
+	defer func() {
+		errors.Join(err, res.Body.Close())
+	}()
+
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return "", err
 	}

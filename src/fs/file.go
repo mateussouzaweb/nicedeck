@@ -46,9 +46,7 @@ func CopyFile(source string, destination string) error {
 	}
 
 	defer func() {
-		if e := sourceFile.Close(); e != nil {
-			err = e
-		}
+		errors.Join(err, sourceFile.Close())
 	}()
 
 	// Ensure destination path exist
@@ -64,9 +62,7 @@ func CopyFile(source string, destination string) error {
 	}
 
 	defer func() {
-		if e := destinationFile.Close(); e != nil {
-			err = e
-		}
+		errors.Join(err, destinationFile.Close())
 	}()
 
 	// Copy content from source to destination
@@ -115,7 +111,9 @@ func DownloadFile(url string, destination string, overwriteExisting bool) error 
 		return err
 	}
 
-	defer response.Body.Close()
+	defer func() {
+		errors.Join(err, response.Body.Close())
+	}()
 
 	// Ensure that destination folder exists
 	err = os.MkdirAll(filepath.Dir(destination), 0774)
@@ -129,7 +127,9 @@ func DownloadFile(url string, destination string, overwriteExisting bool) error 
 		return err
 	}
 
-	defer file.Close()
+	defer func() {
+		errors.Join(err, file.Close())
+	}()
 
 	// Write HTTP response body to destination file
 	_, err = file.ReadFrom(response.Body)

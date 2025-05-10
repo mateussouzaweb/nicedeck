@@ -2,6 +2,7 @@ package forgejo
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -25,7 +26,10 @@ func GetAssetURL(domain string, repository string, search string) (string, error
 		return "", err
 	}
 
-	defer res.Body.Close()
+	defer func() {
+		errors.Join(err, res.Body.Close())
+	}()
+
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return "", err

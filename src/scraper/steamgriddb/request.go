@@ -2,6 +2,7 @@ package steamgriddb
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 	"time"
@@ -30,7 +31,9 @@ func Request(method string, endpoint string, result any) error {
 		return err
 	}
 
-	defer res.Body.Close()
+	defer func() {
+		errors.Join(err, res.Body.Close())
+	}()
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {

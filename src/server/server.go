@@ -1,6 +1,7 @@
 package server
 
 import (
+	"errors"
 	"net"
 	"net/http"
 	"os"
@@ -100,7 +101,9 @@ func Init(version string, developmentMode bool, address string, ready chan bool,
 		shutdown <- true
 		return nil
 	} else {
-		defer listener.Close()
+		defer func() {
+			errors.Join(err, listener.Close())
+		}()
 	}
 
 	// Setup the server with shutdown channel
