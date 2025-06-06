@@ -8,6 +8,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs/assets"
 	"github.com/mateussouzaweb/nicedeck/src/programs/forgejo"
 	"github.com/mateussouzaweb/nicedeck/src/programs/github"
+	"github.com/mateussouzaweb/nicedeck/src/programs/gitlab"
 	"github.com/mateussouzaweb/nicedeck/src/programs/website"
 )
 
@@ -502,24 +503,24 @@ func Ryujinx() *Program {
 		Package: packaging.Best(&linux.AppImage{
 			AppID:   "ryujinx",
 			AppName: "$EMULATORS/Ryujinx/Ryujinx.AppImage",
-			Source: github.Release(
-				"https://github.com/Ryubing/Stable-Releases",
+			Source: gitlab.Release(
+				"https://git.ryujinx.app", "1",
 				"ryujinx-*-x64.AppImage",
 			),
 		}, &macos.Application{
 			AppID:    "ryujinx",
 			AppName:  "$EMULATORS/Ryujinx/Ryujinx.app",
 			AppAlias: "$HOME/Applications/Gaming/Ryujinx.app",
-			Source: github.Release(
-				"https://github.com/Ryubing/Stable-Releases",
+			Source: gitlab.Release(
+				"https://git.ryujinx.app", "1",
 				"ryujinx-*-macos_universal.app.tar.gz",
 			),
 		}, &windows.Executable{
 			AppID:    "Ryujinx",
 			AppExe:   "$EMULATORS\\Ryujinx\\Ryujinx.exe",
 			AppAlias: "$START_MENU\\Gaming\\Ryujinx.lnk",
-			Source: github.Release(
-				"https://github.com/Ryubing/Stable-Releases",
+			Source: gitlab.Release(
+				"https://git.ryujinx.app", "1",
 				"ryujinx-*-win_x64.zip",
 			),
 		}),
