@@ -244,45 +244,6 @@ func Flycast() *Program {
 	}
 }
 
-// Installer for Lime3DS
-func Lime3DS() *Program {
-	return &Program{
-		ID:          "lime3ds",
-		Name:        "Lime3DS",
-		Description: "Emulator for Nintendo 3DS",
-		Category:    "Emulators",
-		Tags:        []string{"Gaming", "Emulator"},
-		Folders:     []string{"$EMULATORS", "$STATE/Lime3DS", "$ROMS/3DS", "$BIOS/3DS"},
-		Website:     "https://lime3ds.github.io",
-		IconURL:     assets.Icon("0dc64a4b9b4c8d205734751c155d528f.png"),
-		LogoURL:     assets.Logo("9e6cafbef4b54b72de537851e6aaf6b8.png"),
-		CoverURL:    assets.Cover("012c10e6c703bc4a009d10d95dbd95be.png"),
-		BannerURL:   assets.Banner("1cdcecbcc8ce18ffdb147b29928b5781.png"),
-		HeroURL:     assets.Hero("ae8c643004d25250b521d4f7fc01c354.png"),
-		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
-			AppID:     "io.github.lime3ds.Lime3DS",
-			Overrides: []string{"--filesystem=host"},
-		}, &macos.Application{
-			AppID:    "lime3ds",
-			AppName:  "$EMULATORS/Lime3DS/lime3ds.app",
-			AppAlias: "$HOME/Applications/Gaming/Lime3DS.app",
-			Source: github.Release(
-				"https://github.com/Lime3DS/lime3ds-archive",
-				"lime3ds-*-macos-universal.zip",
-			),
-		}, &windows.Executable{
-			AppID:    "Lime3DS",
-			AppExe:   "$EMULATORS\\Lime3DS\\lime3ds.exe",
-			AppAlias: "$START_MENU\\Gaming\\Lime3DS.lnk",
-			Source: github.Release(
-				"https://github.com/Lime3DS/lime3ds-archive",
-				"lime3ds-*-windows-msvc.zip",
-			),
-		}),
-	}
-}
-
 // Installer for MelonDS
 func MelonDS() *Program {
 	return &Program{

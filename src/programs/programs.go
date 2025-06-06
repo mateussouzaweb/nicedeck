@@ -52,7 +52,6 @@ func GetPrograms() ([]*Program, error) {
 	programs = append(programs, GeForceNow())
 	programs = append(programs, GoogleChrome())
 	programs = append(programs, HeroicGamesLauncher())
-	programs = append(programs, Lime3DS())
 	programs = append(programs, Lutris())
 	programs = append(programs, MelonDS())
 	programs = append(programs, MGBA())

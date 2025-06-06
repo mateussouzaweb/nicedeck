@@ -50,33 +50,6 @@ func GetStates(options *Options) []*State {
 		},
 	})
 
-	// Lime3DS
-	states = append(states, &State{
-		Platform: "3DS",
-		Emulator: "Lime3DS",
-		Type:     "folder",
-		Path:     "$STATE/Lime3DS/lime3ds-emu/sdmc",
-		Source: []string{
-			"$VAR/io.github.lime3ds.Lime3DS/data/lime3ds-emu/sdmc",
-			"$SHARE/lime3ds-emu/sdmc",
-			"$CONFIG/lime3ds-emu/sdmc",
-			"$CONFIG/Lime3DS/sdmc",
-			"$CONFIG\\Lime3DS\\sdmc",
-		},
-	}, &State{
-		Platform: "3DS",
-		Emulator: "Lime3DS",
-		Type:     "folder",
-		Path:     "$STATE/Lime3DS/lime3ds-emu/states",
-		Source: []string{
-			"$VAR/io.github.lime3ds.Lime3DS/data/lime3ds-emu/states",
-			"$SHARE/lime3ds-emu/states",
-			"$CONFIG/lime3ds-emu/states",
-			"$CONFIG/Lime3DS/states",
-			"$CONFIG\\Lime3DS\\states",
-		},
-	})
-
 	// Flycast
 	states = append(states, &State{
 		Platform: "DC",

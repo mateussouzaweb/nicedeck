@@ -57,15 +57,6 @@
             <entry>$EMULATORS\Flycast\flycast.exe</entry>
         </rule>
     </emulator>
-    <emulator name="LIME3DS">
-        <rule type="staticpath">
-            <entry>/var/lib/flatpak/exports/bin/io.github.lime3ds.Lime3DS</entry>
-            <entry>~/.local/share/flatpak/exports/bin/io.github.lime3ds.Lime3DS</entry>
-            <entry>$EMULATORS/Lime3DS/lime3ds.AppImage</entry>
-            <entry>$EMULATORS/Lime3DS/lime3ds.app</entry>
-            <entry>$EMULATORS\Lime3DS\lime3ds.exe</entry>
-        </rule>
-    </emulator>
     <emulator name="MELONDS">
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/net.kuribo64.melonDS</entry>
