@@ -39,18 +39,18 @@ modify:
   --hero-url=[value]        hero URL for shortcut
 
 install:
-  --programs=[value]      list of programs to install
+  --programs=[value,...]      list of programs to install
 
 remove:
-  --programs=[value]      list of programs to remove
+  --programs=[value,...]      list of programs to remove
 
 sync-state:
-  --platforms=[value]     platforms to sync emulators state
-  --preferences=[value]   preferences when synchronizing state (dump-state|restore-state)
+  --platforms=[value,...]     platforms to sync emulators state
+  --preferences=[value,...]   preferences when synchronizing state (dump-state|restore-state)
 
 process-roms:
-  --platforms=[value]     platforms to process the ROMs
-  --preferences=[value]   preferences when processing ROMs (rebuild)
+  --platforms=[value,...]     platforms to process the ROMs
+  --preferences=[value,...]   preferences when processing ROMs (rebuild)
 
 server:
   --gui=[value]           GUI mode (default|headless)
