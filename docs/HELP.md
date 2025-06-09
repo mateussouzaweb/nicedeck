@@ -7,7 +7,7 @@ help            print application help
 programs        list available programs
 platforms       list available platforms
 shortcuts       list current user shortcuts
-scraper         scrape data on SteamGridDB
+scrape          scrape data on SteamGridDB
 launch          launch shortcut with given appID
 modify          update or delete shortcut with given appID
 install         install or update programs
@@ -19,7 +19,7 @@ server          start server for GUI usage
 
 OPTIONS:
 
-scraper:
+scrape:
   --search=[term]           search term
 
 launch:
