@@ -1,6 +1,9 @@
 package command
 
 import (
+	"strconv"
+	"strings"
+
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 )
 
@@ -13,7 +16,13 @@ type Context struct {
 
 // Retrieve argument with given keys or in given index position
 func (c *Context) Arg(keys string, defaultValue string) string {
-	return cli.Arg(c.Args, keys, defaultValue)
+	value := cli.Arg(c.Args, keys, defaultValue)
+
+	if strings.ContainsAny(value, "\"'`") {
+		value, _ = strconv.Unquote(value)
+	}
+
+	return value
 }
 
 // Retrieve argument with given keys or in given index position
