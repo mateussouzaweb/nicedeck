@@ -6,7 +6,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/programs/assets"
-	"github.com/mateussouzaweb/nicedeck/src/programs/forgejo"
 	"github.com/mateussouzaweb/nicedeck/src/programs/github"
 	"github.com/mateussouzaweb/nicedeck/src/programs/gitlab"
 	"github.com/mateussouzaweb/nicedeck/src/programs/website"
@@ -111,18 +110,17 @@ func Citron() *Program {
 		Package: packaging.Best(&linux.AppImage{
 			AppID:   "citron",
 			AppName: "$EMULATORS/Citron/Citron.AppImage",
-			Source: github.Release(
-				"https://github.com/pkgforge-dev/Citron-AppImage",
+			Source: gitlab.Release(
+				"https://git.citron-emu.org", "1",
 				"Citron-*-anylinux-x86_64.AppImage",
 			),
 		}, &windows.Executable{
 			AppID:    "Citron",
 			AppExe:   "$EMULATORS\\Citron\\citron.exe",
 			AppAlias: "$START_MENU\\Gaming\\Citron.lnk",
-			Source: forgejo.Release(
-				"https://git.citron-emu.org",
-				"Citron/Citron",
-				"Citron-Windows-Canary-Refresh_*.7z",
+			Source: gitlab.Release(
+				"https://git.citron-emu.org", "1",
+				"Citron-Windows-Canary-Refresh_*.zip",
 			),
 		}),
 	}
