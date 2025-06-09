@@ -37,7 +37,7 @@ func GetAssetURL(domain string, projectId string, search string) (string, error)
 	var releases []struct {
 		Name            string `json:"name"`
 		UpcomingRelease bool   `json:"upcoming_release"`
-		Assets          []struct {
+		Assets          struct {
 			Links []struct {
 				Name           string `json:"name"`
 				URL            string `json:"url"`
@@ -57,11 +57,9 @@ func GetAssetURL(domain string, projectId string, search string) (string, error)
 
 	// Check for matching asset
 	for _, release := range releases {
-		for _, asset := range release.Assets {
-			for _, link := range asset.Links {
-				if searchRegex.MatchString(link.Name) {
-					return link.URL, nil
-				}
+		for _, link := range release.Assets.Links {
+			if searchRegex.MatchString(link.Name) {
+				return link.URL, nil
 			}
 		}
 	}
