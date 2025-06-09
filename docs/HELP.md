@@ -15,7 +15,7 @@ remove          remove previously installed programs
 backup-state    backup emulators state
 restore-state   restore emulators state
 process-roms    process emulators ROMs
-server          start server for GUI usage
+server          start server for GUI usage (default)
 
 OPTIONS:
 
