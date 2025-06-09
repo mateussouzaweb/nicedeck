@@ -142,12 +142,22 @@ interface RemoveProgramsResult {
 	error: string
 }
 
-interface SyncStateData {
+interface BackupStateData {
 	platforms: string[]
 	preferences: string[]
 }
 
-interface SyncStateResult {
+interface BackupStateResult {
+	status: string
+	error: string
+}
+
+interface RestoreStateData {
+	platforms: string[]
+	preferences: string[]
+}
+
+interface RestoreStateResult {
 	status: string
 	error: string
 }

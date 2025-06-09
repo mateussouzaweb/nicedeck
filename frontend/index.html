@@ -67,7 +67,7 @@
                 <ul>
                     <li>First time here? Install applications and emulators from the <b>programs</b> section.</li>
                     <li>Automatically add emulated games to your library at the <b>ROMs</b> section.</li>
-                    <li>Need to save or restore your progress in games? Use the <b>state</b> section.</li>
+                    <li>Need to backup or restore your progress in games? Use the <b>state</b> section.</li>
                     <li>Customize launch shortcuts individually on the <b>shortcuts</b> tab.</li>
                 </ul>
                 
@@ -132,11 +132,11 @@
                     <div class="group">
                         <p>Please choose the action that you want to perform with the emulator state:</p>
                         <label class="radio">
-                            <input type="radio" name="preferences[]" value="dump-state" checked="checked" />
-                            <span>Save State</span>
+                            <input type="radio" name="action" value="backup" checked="checked" />
+                            <span>Backup State</span>
                         </label>
                         <label class="radio">
-                            <input type="radio" name="preferences[]" value="restore-state" />
+                            <input type="radio" name="action" value="restore" />
                             <span>Restore State</span>
                         </label>
                     </div>

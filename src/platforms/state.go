@@ -424,11 +424,11 @@ func GetStates(options *Options) []*State {
 }
 
 // Sync state of each platform
-func SyncState(options *Options) error {
+func SyncState(action string, options *Options) error {
 
 	// Default action is copy from source to destination path as backup method
 	// However, user can choose to restore state with optional preference
-	restoreState := slices.Contains(options.Preferences, "restore-state")
+	restoreState := action == "restore"
 
 	// Process each state
 	for _, state := range GetStates(options) {
@@ -446,6 +446,7 @@ func SyncState(options *Options) error {
 			source := fs.ExpandPath(source)
 			destination := fs.ExpandPath(state.Path)
 
+			// When using restore method, invert path information
 			if restoreState {
 				source = fs.ExpandPath(state.Path)
 				destination = fs.ExpandPath(source)

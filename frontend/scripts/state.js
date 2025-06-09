@@ -67,6 +67,7 @@ window.addEventListener('load', async () => {
         }
 
         const data = new FormData(form)
+        const action = data.getAll('action')
 
         /** @type {SyncStateData} */
         const body = {
@@ -77,8 +78,8 @@ window.addEventListener('load', async () => {
         try {
             button.disabled = true
             await window.runAndCaptureConsole(true, async () => {
-                /** @type {SyncStateResult} */
-                await requestJson('POST', '/api/sync/state', JSON.stringify(body))
+                /** @type {BackupStateResult|RestoreStateResult} */
+                await requestJson('POST', `/api/state/${action}`, JSON.stringify(body))
             })
         } catch (error) {
             window.showError(error)

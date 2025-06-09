@@ -49,8 +49,10 @@ func Run(version string, args []string, done chan bool) error {
 		err = installPrograms(context)
 	case "remove":
 		err = removePrograms(context)
-	case "sync-state":
-		err = syncState(context)
+	case "backup-state":
+		err = backupState(context)
+	case "restore-state":
+		err = restoreState(context)
 	case "process-roms":
 		err = processROMs(context)
 	case "server":

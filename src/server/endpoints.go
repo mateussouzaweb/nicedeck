@@ -397,25 +397,25 @@ func removePrograms(context *Context) error {
 	return context.Status(200).JSON(result)
 }
 
-// Sync state data
-type SyncStateData struct {
+// Backup state data
+type BackupStateData struct {
 	Platforms   []string `json:"platforms"`
 	Preferences []string `json:"preferences"`
 }
 
-// Sync state result
-type SyncStateResult struct {
+// Backup state result
+type BackupStateResult struct {
 	Status string `json:"status"`
 	Error  string `json:"error"`
 }
 
-// Sync state action
-func syncState(context *Context) error {
+// Backup state action
+func backupState(context *Context) error {
 
-	result := SyncStateResult{}
+	result := BackupStateResult{}
 
 	// Bind data
-	data := SyncStateData{}
+	data := BackupStateData{}
 	err := context.Bind(&data)
 	if err != nil {
 		result.Status = "ERROR"
@@ -425,7 +425,46 @@ func syncState(context *Context) error {
 
 	// Process synchronization
 	options := platforms.ToOptions(data.Platforms, data.Preferences)
-	err = platforms.SyncState(options)
+	err = platforms.SyncState("backup", options)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
+}
+
+// Restore state data
+type RestoreStateData struct {
+	Platforms   []string `json:"platforms"`
+	Preferences []string `json:"preferences"`
+}
+
+// Restore state result
+type RestoreStateResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
+// Restore state action
+func restoreState(context *Context) error {
+
+	result := RestoreStateResult{}
+
+	// Bind data
+	data := RestoreStateData{}
+	err := context.Bind(&data)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Process synchronization
+	options := platforms.ToOptions(data.Platforms, data.Preferences)
+	err = platforms.SyncState("restore", options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -636,7 +675,8 @@ func Setup(version string, developmentMode bool, shutdown chan bool) error {
 	Add("POST", "/api/shortcut/modify", modifyShortcut)
 	Add("POST", "/api/programs/install", installPrograms)
 	Add("POST", "/api/programs/remove", removePrograms)
-	Add("POST", "/api/sync/state", syncState)
+	Add("POST", "/api/state/backup", backupState)
+	Add("POST", "/api/state/restore", restoreState)
 	Add("POST", "/api/roms", processROMs)
 	Add("POST", "/api/link/open", openLink)
 

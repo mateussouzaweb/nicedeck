@@ -12,7 +12,8 @@ launch          launch shortcut with given appID
 modify          update or delete shortcut with given appID
 install         install or update programs
 remove          remove previously installed programs
-sync-state      sync emulators state
+backup-state    backup emulators state
+restore-state   restore emulators state
 process-roms    process emulators ROMs
 server          start server for GUI usage
 
@@ -44,9 +45,13 @@ install:
 remove:
   --programs=[value,...]      list of programs to remove
 
-sync-state:
-  --platforms=[value,...]     platforms to sync emulators state
-  --preferences=[value,...]   preferences when synchronizing state (dump-state|restore-state)
+backup-state:
+  --platforms=[value,...]     platforms to backup emulators state
+  --preferences=[value,...]   preferences when synchronizing state
+
+restore-state:
+  --platforms=[value,...]     platforms to restore emulators state
+  --preferences=[value,...]   preferences when synchronizing state
 
 process-roms:
   --platforms=[value,...]     platforms to process the ROMs

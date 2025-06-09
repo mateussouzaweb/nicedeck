@@ -352,8 +352,8 @@ func removePrograms(context Context) error {
 	return nil
 }
 
-// Sync state
-func syncState(context Context) error {
+// Backup state
+func backupState(context Context) error {
 
 	// Retrieve command details
 	preferences := context.Multiple("--preferences", ",")
@@ -365,7 +365,28 @@ func syncState(context Context) error {
 
 	// Process synchronization
 	options := platforms.ToOptions(include, preferences)
-	err := platforms.SyncState(options)
+	err := platforms.SyncState("backup", options)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Restore state
+func restoreState(context Context) error {
+
+	// Retrieve command details
+	include := context.Multiple("--platforms", ",")
+	preferences := context.Multiple("--preferences", ",")
+
+	if len(include) == 0 {
+		return fmt.Errorf("platform list is required")
+	}
+
+	// Process synchronization
+	options := platforms.ToOptions(include, preferences)
+	err := platforms.SyncState("restore", options)
 	if err != nil {
 		return err
 	}
@@ -377,8 +398,8 @@ func syncState(context Context) error {
 func processROMs(context Context) error {
 
 	// Retrieve command details
-	preferences := context.Multiple("--preferences", ",")
 	include := context.Multiple("--platforms", ",")
+	preferences := context.Multiple("--preferences", ",")
 
 	if len(include) == 0 {
 		return fmt.Errorf("platform list is required")
