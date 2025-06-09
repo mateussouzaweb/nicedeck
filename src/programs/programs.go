@@ -57,6 +57,7 @@ func GetPrograms() ([]*Program, error) {
 	programs = append(programs, MGBA())
 	programs = append(programs, MicrosoftEdge())
 	programs = append(programs, MoonlightGameStreaming())
+	programs = append(programs, NiceDeck())
 	programs = append(programs, PCSX2())
 	programs = append(programs, PPSSPP())
 	programs = append(programs, ProtonPlus())
