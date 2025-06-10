@@ -41,9 +41,11 @@ modify:
 
 install:
   --programs=[value,...]      list of programs to install
+  --preferences=[value,...]   preferences when installing programs
 
 remove:
   --programs=[value,...]      list of programs to remove
+  --preferences=[value,...]   preferences when removing programs
 
 backup-state:
   --platforms=[value,...]     platforms to backup emulators state

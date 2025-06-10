@@ -263,9 +263,11 @@ func modifyShortcut(context Context) error {
 // Install programs
 func installPrograms(context Context) error {
 
-	// Retrieve list of programs to install
-	list := context.Multiple("--programs", ",")
-	if len(list) == 0 {
+	// Retrieve command details
+	include := context.Multiple("--programs", ",")
+	preferences := context.Multiple("--preferences", ",")
+
+	if len(include) == 0 {
 		return fmt.Errorf("programs list is required")
 	}
 
@@ -293,11 +295,10 @@ func installPrograms(context Context) error {
 	}
 
 	// Install programs in the list
-	for _, program := range list {
-		err := programs.Install(program)
-		if err != nil {
-			return err
-		}
+	options := programs.ToOptions(include, preferences)
+	err = programs.Install(options)
+	if err != nil {
+		return err
 	}
 
 	cli.Printf(cli.ColorSuccess, "Process finished!\n")
@@ -309,9 +310,11 @@ func installPrograms(context Context) error {
 // Remove programs
 func removePrograms(context Context) error {
 
-	// Retrieve list of programs to remove
-	list := context.Multiple("--programs", ",")
-	if len(list) == 0 {
+	// Retrieve command details
+	include := context.Multiple("--programs", ",")
+	preferences := context.Multiple("--preferences", ",")
+
+	if len(include) == 0 {
 		return fmt.Errorf("programs list is required")
 	}
 
@@ -339,11 +342,10 @@ func removePrograms(context Context) error {
 	}
 
 	// Remove programs in the list
-	for _, program := range list {
-		err := programs.Remove(program)
-		if err != nil {
-			return err
-		}
+	options := programs.ToOptions(include, preferences)
+	err = programs.Remove(options)
+	if err != nil {
+		return err
 	}
 
 	cli.Printf(cli.ColorSuccess, "Remove process finished!\n")

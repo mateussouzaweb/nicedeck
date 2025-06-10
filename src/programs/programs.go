@@ -103,132 +103,142 @@ func GetProgramByID(id string) (*Program, error) {
 }
 
 // Install program with given ID
-func Install(id string) error {
+func Install(options *Options) error {
 
-	program, err := GetProgramByID(id)
-	if err != nil {
-		return err
-	}
+	for _, id := range options.Programs {
 
-	// Program not found
-	if program.ID == "" {
-		return fmt.Errorf("program not found: %s", id)
-	}
+		program, err := GetProgramByID(id)
+		if err != nil {
+			return err
+		}
 
-	// Program not available
-	if !program.Package.Available() {
-		return fmt.Errorf("program is not available to install: %s", id)
-	}
+		// Program not found
+		if program.ID == "" {
+			return fmt.Errorf("program not found: %s", id)
+		}
 
-	// Print step message
-	cli.Printf(cli.ColorNotice, "Installing %s...\n", program.Name)
+		// Program not available
+		if !program.Package.Available() {
+			return fmt.Errorf("program is not available to install: %s", id)
+		}
 
-	// Make sure required folders exist
-	if len(program.Folders) > 0 {
-		for _, folder := range program.Folders {
-			err := os.MkdirAll(fs.ExpandPath(folder), 0755)
+		// Print step message
+		cli.Printf(cli.ColorNotice, "Installing %s...\n", program.Name)
+
+		// Make sure required folders exist
+		if len(program.Folders) > 0 {
+			for _, folder := range program.Folders {
+				err := os.MkdirAll(fs.ExpandPath(folder), 0755)
+				if err != nil {
+					return err
+				}
+			}
+		}
+
+		// Run program installation
+		err = program.Package.Install()
+		if err != nil {
+			return err
+		}
+
+		// Perform additional steps after installation
+		if program.OnInstall != nil {
+			err = program.OnInstall()
 			if err != nil {
 				return err
 			}
 		}
-	}
 
-	// Run program installation
-	err = program.Package.Install()
-	if err != nil {
-		return err
-	}
+		// Fill basic shortcut information
+		executable := program.Package.Executable()
+		startDir := filepath.Dir(executable)
+		shortcut := &shortcuts.Shortcut{
+			AppName:       program.Name,
+			StartDir:      startDir,
+			Exe:           executable,
+			LaunchOptions: "",
+			ShortcutPath:  "",
+			Description:   program.Description,
+			Tags:          program.Tags,
+			IconURL:       program.IconURL,
+			LogoURL:       program.LogoURL,
+			CoverURL:      program.CoverURL,
+			BannerURL:     program.BannerURL,
+			HeroURL:       program.HeroURL,
+		}
 
-	// Perform additional steps after installation
-	if program.OnInstall != nil {
-		err = program.OnInstall()
+		// Fill additional shortcut information from package
+		err = program.Package.OnShortcut(shortcut)
 		if err != nil {
 			return err
 		}
+
+		// Add to shortcuts list
+		err = library.AddToShortcuts(shortcut, false)
+		if err != nil {
+			return err
+		}
+
+		// Print success message
+		cli.Printf(cli.ColorSuccess, "%s installed!\n", program.Name)
+
 	}
 
-	// Fill basic shortcut information
-	executable := program.Package.Executable()
-	startDir := filepath.Dir(executable)
-	shortcut := &shortcuts.Shortcut{
-		AppName:       program.Name,
-		StartDir:      startDir,
-		Exe:           executable,
-		LaunchOptions: "",
-		ShortcutPath:  "",
-		Description:   program.Description,
-		Tags:          program.Tags,
-		IconURL:       program.IconURL,
-		LogoURL:       program.LogoURL,
-		CoverURL:      program.CoverURL,
-		BannerURL:     program.BannerURL,
-		HeroURL:       program.HeroURL,
-	}
-
-	// Fill additional shortcut information from package
-	err = program.Package.OnShortcut(shortcut)
-	if err != nil {
-		return err
-	}
-
-	// Add to shortcuts list
-	err = library.AddToShortcuts(shortcut, false)
-	if err != nil {
-		return err
-	}
-
-	// Print success message
-	cli.Printf(cli.ColorSuccess, "%s installed!\n", program.Name)
 	return nil
 }
 
-// Remove program with given ID
-func Remove(id string) error {
+// Remove program with given options
+func Remove(options *Options) error {
 
-	program, err := GetProgramByID(id)
-	if err != nil {
-		return err
-	}
+	for _, id := range options.Programs {
 
-	// Program not found
-	if program.ID == "" {
-		return fmt.Errorf("program not found: %s", id)
-	}
-
-	// Program not available
-	if !program.Package.Available() {
-		return fmt.Errorf("program is not available to remove: %s", id)
-	}
-
-	// Print step message
-	cli.Printf(cli.ColorNotice, "Removing %s...\n", program.Name)
-
-	// Run program removal
-	err = program.Package.Remove()
-	if err != nil {
-		return err
-	}
-
-	// Perform additional steps after remove
-	if program.OnRemove != nil {
-		err = program.OnRemove()
+		program, err := GetProgramByID(id)
 		if err != nil {
 			return err
 		}
-	}
 
-	// Remove from shortcuts list
-	executable := program.Package.Executable()
-	shortcut := library.FindShortcut(executable, program.Name)
+		// Program not found
+		if program.ID == "" {
+			return fmt.Errorf("program not found: %s", id)
+		}
 
-	if shortcut.AppID != 0 {
-		err = library.RemoveFromShortcuts(shortcut)
+		// Program not available
+		if !program.Package.Available() {
+			return fmt.Errorf("program is not available to remove: %s", id)
+		}
+
+		// Print step message
+		cli.Printf(cli.ColorNotice, "Removing %s...\n", program.Name)
+
+		// Run program removal
+		err = program.Package.Remove()
 		if err != nil {
 			return err
 		}
+
+		// Perform additional steps after remove
+		if program.OnRemove != nil {
+			err = program.OnRemove()
+			if err != nil {
+				return err
+			}
+		}
+
+		// Remove from shortcuts list
+		executable := program.Package.Executable()
+		shortcut := library.FindShortcut(executable, program.Name)
+
+		if shortcut.AppID != 0 {
+			err = library.RemoveFromShortcuts(shortcut)
+			if err != nil {
+				return err
+			}
+		}
+
+		// Print success message
+		cli.Printf(cli.ColorSuccess, "%s removed!\n", program.Name)
+
 	}
 
-	// Print success message
-	cli.Printf(cli.ColorSuccess, "%s removed!\n", program.Name)
 	return nil
 }

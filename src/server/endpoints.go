@@ -307,7 +307,8 @@ func modifyShortcut(context *Context) error {
 
 // Install programs data
 type InstallProgramsData struct {
-	Programs []string `json:"programs"`
+	Programs    []string `json:"programs"`
+	Preferences []string `json:"preferences"`
 }
 
 // Install programs result
@@ -339,13 +340,12 @@ func installPrograms(context *Context) error {
 	}
 
 	// Install programs in the list
-	for _, program := range data.Programs {
-		err := programs.Install(program)
-		if err != nil {
-			result.Status = "ERROR"
-			result.Error = err.Error()
-			return context.Status(400).JSON(result)
-		}
+	options := programs.ToOptions(data.Programs, data.Preferences)
+	err = programs.Install(options)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
 	}
 
 	cli.Printf(cli.ColorSuccess, "Process finished!\n")
@@ -357,7 +357,8 @@ func installPrograms(context *Context) error {
 
 // Remove programs data
 type RemoveProgramsData struct {
-	Programs []string `json:"programs"`
+	Programs    []string `json:"programs"`
+	Preferences []string `json:"preferences"`
 }
 
 // Remove programs result
@@ -381,13 +382,12 @@ func removePrograms(context *Context) error {
 	}
 
 	// Remove programs in the list
-	for _, program := range data.Programs {
-		err := programs.Remove(program)
-		if err != nil {
-			result.Status = "ERROR"
-			result.Error = err.Error()
-			return context.Status(400).JSON(result)
-		}
+	options := programs.ToOptions(data.Programs, data.Preferences)
+	err = programs.Remove(options)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
 	}
 
 	cli.Printf(cli.ColorSuccess, "Remove process finished!\n")

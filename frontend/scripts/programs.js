@@ -91,7 +91,8 @@ window.addEventListener('load', async () => {
 
         /** @type {InstallProgramsData|RemoveProgramsData} */
         const body = {
-            programs: data.getAll('programs[]')
+            programs: data.getAll('programs[]'),
+            preferences: data.getAll('preferences[]')
         }
 
         try {
