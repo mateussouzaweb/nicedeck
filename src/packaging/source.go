@@ -33,9 +33,9 @@ func (s *Source) Download(target Package) error {
 	}
 
 	cli.Printf(cli.ColorNotice, "Downloading: %s\n", s.URL)
+	s.Destination = target.Executable()
 
 	// Download based on format
-	s.Destination = target.Executable()
 	switch s.Format {
 	case "file":
 		return s.FromFile()
@@ -54,9 +54,60 @@ func (s *Source) Download(target Package) error {
 	return nil
 }
 
+// Safe download to destination file to avoid collision
+func (s *Source) SafeDownload(url string, destination string) error {
+
+	// Check if destination file exists
+	// When not exists, just download the new file
+	exist, err := fs.FileExist(destination)
+	if err != nil {
+		return err
+	} else if !exist {
+		return fs.DownloadFile(url, destination, false)
+	}
+
+	// Perform safe download operation with the following process
+	// - Remove existing .tmp
+	// - Download new file to .tmp
+	// - Remove existing .old file
+	// - Rename existing file to .old
+	// - Rename .tmp to final destination
+	tmpDestination := fmt.Sprintf("%s.tmp", destination)
+	oldDestination := fmt.Sprintf("%s.old", destination)
+
+	err = fs.RemoveFile(tmpDestination)
+	if err != nil {
+		return err
+	}
+
+	err = fs.DownloadFile(url, tmpDestination, false)
+	if err != nil {
+		return err
+	}
+
+	err = fs.RemoveFile(oldDestination)
+	if err != nil {
+		return err
+	}
+
+	err = fs.MoveFile(destination, oldDestination)
+	if err != nil {
+		return err
+	}
+
+	err = fs.MoveFile(tmpDestination, destination)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Download source from direct file
 func (s *Source) FromFile() error {
-	err := fs.DownloadFile(s.URL, s.Destination, true)
+
+	// Download the file to destination
+	err := s.SafeDownload(s.URL, s.Destination)
 	if err != nil {
 		return err
 	}
@@ -67,10 +118,10 @@ func (s *Source) FromFile() error {
 // Download source from .zip
 func (s *Source) FromZip() error {
 
-	// Download Zip
+	// Download file
 	archiveFile := strings.TrimSuffix(s.Destination, filepath.Ext(s.Destination))
 	archiveFile = fmt.Sprintf("%s.zip", archiveFile)
-	err := fs.DownloadFile(s.URL, archiveFile, true)
+	err := s.SafeDownload(s.URL, archiveFile)
 	if err != nil {
 		return err
 	}
@@ -90,7 +141,7 @@ func (s *Source) FromTarGz() error {
 	// Download file
 	archiveFile := strings.TrimSuffix(s.Destination, filepath.Ext(s.Destination))
 	archiveFile = fmt.Sprintf("%s.tar.gz", archiveFile)
-	err := fs.DownloadFile(s.URL, archiveFile, true)
+	err := s.SafeDownload(s.URL, archiveFile)
 	if err != nil {
 		return err
 	}
@@ -110,7 +161,7 @@ func (s *Source) FromTarXz() error {
 	// Download file
 	archiveFile := strings.TrimSuffix(s.Destination, filepath.Ext(s.Destination))
 	archiveFile = fmt.Sprintf("%s.tar.xz", archiveFile)
-	err := fs.DownloadFile(s.URL, archiveFile, true)
+	err := s.SafeDownload(s.URL, archiveFile)
 	if err != nil {
 		return err
 	}
@@ -130,7 +181,7 @@ func (s *Source) From7z() error {
 	// Download file
 	archiveFile := strings.TrimSuffix(s.Destination, filepath.Ext(s.Destination))
 	archiveFile = fmt.Sprintf("%s.7z", archiveFile)
-	err := fs.DownloadFile(s.URL, archiveFile, true)
+	err := s.SafeDownload(s.URL, archiveFile)
 	if err != nil {
 		return err
 	}
@@ -150,7 +201,7 @@ func (s *Source) FromDMG() error {
 	// Download file
 	dmgFile := strings.TrimSuffix(s.Destination, filepath.Ext(s.Destination))
 	dmgFile = fmt.Sprintf("%s.dmg", dmgFile)
-	err := fs.DownloadFile(s.URL, dmgFile, true)
+	err := s.SafeDownload(s.URL, dmgFile)
 	if err != nil {
 		return err
 	}

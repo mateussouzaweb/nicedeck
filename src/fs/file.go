@@ -92,6 +92,32 @@ func CopyFile(source string, destination string) error {
 	return err
 }
 
+// Move file to another location
+func MoveFile(source string, destination string) error {
+
+	// Check if file exist
+	exist, err := FileExist(source)
+	if err != nil {
+		return err
+	} else if !exist {
+		return nil
+	}
+
+	// Ensure that destination folder exists
+	err = os.MkdirAll(filepath.Dir(destination), 0774)
+	if err != nil {
+		return err
+	}
+
+	// Move file using rename command
+	err = os.Rename(source, destination)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Download file from URL into destination
 func DownloadFile(url string, destination string, overwriteExisting bool) error {
 
