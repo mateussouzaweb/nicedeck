@@ -83,7 +83,7 @@ jobs:
 
       - id: build-binary
         name: Build binary app
-        run: make build
+        run: go run build.go
 
       - id: upload-binary
         name: Upload binary app
