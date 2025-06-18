@@ -27,6 +27,15 @@ func SetEnv(key string, value string, force bool) error {
 	return nil
 }
 
+// Unset environment variable if it exists
+func UnsetEnv(key string) error {
+	if _, exists := os.LookupEnv(key); exists {
+		return os.Unsetenv(key)
+	}
+
+	return nil
+}
+
 // Read from environment variable or ask for it with optional default value
 func ReadEnv(key string, question string, defaultValue string) string {
 
