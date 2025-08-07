@@ -107,7 +107,7 @@ func main() {
 	err := all.Run()
 	if err != nil {
 		exitCode = 1
-		panic(err)
+		cli.Printf(cli.ColorFatal, "Build failed: %s\n", err.Error())
 	}
 
 }
