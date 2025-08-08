@@ -205,7 +205,10 @@ func EnsureShortcut(shortcut *shortcuts.Shortcut) error {
 	shortcut.Exe = steam.EnsureExec(_config.SteamRuntime, shortcut.Exe)
 
 	// Determine appID and artworks path
-	shortcut.AppID = shortcuts.GenerateShortcutID(shortcut.Exe, shortcut.AppName)
+	if shortcut.AppID == 0 {
+		shortcut.AppID = shortcuts.GenerateShortcutID(shortcut.Exe, shortcut.AppName)
+	}
+
 	artworksPath := _config.ArtworksPath
 	remove := []string{}
 
