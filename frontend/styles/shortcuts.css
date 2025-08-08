@@ -195,10 +195,6 @@
     padding: 5px;
 }
 
-#shortcuts #modal-update-shortcut .container {
-    max-width: 860px;
-}
-
 #shortcuts .modal .group h4 {
     font-weight: normal;
     margin: 0 0 10px 0;

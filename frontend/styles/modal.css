@@ -65,10 +65,11 @@
     border: 0;
     border-radius: 0.25em;
     box-shadow: 0 3px 7px rgba(0, 0, 0, 0.20);
-    max-height: 100%;
-    overflow: hidden;
     display: flex;
     flex-flow: column;
+    max-height: 100%;
+    overflow: hidden;
+    width: 100%;
 }
 .modal .close {
     cursor: pointer;
