@@ -215,20 +215,20 @@ window.addEventListener('load', async () => {
             const html = []
             html.push(
                 `<div class="group">
-                    <label>Name:</label>
-                    <textarea name="appName">${shortcut.appName}</textarea>
+                    <label for="appName">Name:</label>
+                    <textarea id="appName" name="appName">${shortcut.appName}</textarea>
                 </div>
                 <div class="group">
-                    <label>Start Directory:</label>
-                    <textarea name="startDir">${shortcut.startDir}</textarea>
+                    <label for="startDir">Start Directory:</label>
+                    <textarea id="startDir" name="startDir">${shortcut.startDir}</textarea>
                 </div>
                 <div class="group">
-                    <label>Executable:</label>
-                    <textarea name="exe">${shortcut.exe}</textarea>
+                    <label for="exe">Executable:</label>
+                    <textarea id="exe" name="exe">${shortcut.exe}</textarea>
                 </div>
                 <div class="group">
-                    <label>Launch Options:</label>
-                    <textarea name="launchOptions">${shortcut.launchOptions}</textarea>
+                    <label for="launchOptions">Launch Options:</label>
+                    <textarea id="launchOptions" name="launchOptions">${shortcut.launchOptions}</textarea>
                 </div>
                 `)
 
