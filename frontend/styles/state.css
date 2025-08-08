@@ -11,17 +11,17 @@
     padding: 0 5px;
 }
 
-#state #platforms {
+#state .platforms {
     display: flex;
     flex-flow: row wrap;
     margin: 0 -5px;
 }
 
-#state #platforms label.checkbox,
-#state #platforms .fill {
+#state .platforms label.checkbox,
+#state .platforms .fill {
     flex: 1 1 10%;
     min-width: 90px;
 }
-#state #platforms label.checkbox .area {
+#state .platforms label.checkbox .area {
     flex-flow: column;
 }

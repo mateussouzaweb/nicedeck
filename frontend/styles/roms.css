@@ -11,17 +11,17 @@
     padding: 0 5px;
 }
 
-#roms #platforms {
+#roms .platforms {
     display: flex;
     flex-flow: row wrap;
     margin: 0 -5px;
 }
 
-#roms #platforms label.checkbox,
-#roms #platforms .fill {
+#roms .platforms label.checkbox,
+#roms .platforms .fill {
     flex: 1 1 10%;
     min-width: 90px;
 }
-#roms #platforms label.checkbox .area {
+#roms .platforms label.checkbox .area {
     flex-flow: column;
 }

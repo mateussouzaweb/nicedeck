@@ -37,7 +37,7 @@ window.addEventListener('load', async () => {
         options.push('<div class="fill"></div>')
         options.push('<div class="fill"></div>')
 
-        const destination = $('#state #platforms')
+        const destination = $('#state .platforms')
         destination.innerHTML = options.join('')
 
     }
