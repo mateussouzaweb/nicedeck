@@ -78,7 +78,7 @@ async function requestJson(method, endpoint, data) {
     const json = JSON.parse(result || '{}')
 
     if (json.error) {
-        throw new Error(json.error);
+        throw new Error(json.error)
     }
 
     return json
