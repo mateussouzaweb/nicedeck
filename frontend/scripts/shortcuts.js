@@ -201,37 +201,71 @@ window.addEventListener('load', async () => {
 
         const modal = $('#modal-update-shortcut')
         const content = $('.content', modal)
+        const html = `
+            <div class="group">
+                <label for="appName">Name:</label>
+                <textarea id="appName" name="appName">${shortcut.appName}</textarea>
+            </div>
+            <div class="group">
+                <label for="startDir">Start Directory:</label>
+                <textarea id="startDir" name="startDir">${shortcut.startDir}</textarea>
+            </div>
+            <div class="group">
+                <label for="exe">Executable:</label>
+                <textarea id="exe" name="exe">${shortcut.exe}</textarea>
+            </div>
+            <div class="group">
+                <label for="launchOptions">Launch Options:</label>
+                <textarea id="launchOptions" name="launchOptions">${shortcut.launchOptions}</textarea>
+            </div>
+            <div class="images">
+                <p>Loading images, please wait...</p>
+            </div>
+        `
 
         modal.dataset.shortcut = shortcut.appId
-        content.innerHTML = '<p>Loading data, please wait...</p>'
+        content.innerHTML = html
         window.showModal(modal)
+
+        const appNameInput = $('#appName', content)
+        const changeEvent = new CustomEvent('change', {
+            bubbles: true
+        })
+
+        appNameInput.dispatchEvent(changeEvent)
+
+    })
+
+    on('#shortcuts [data-delete-shortcut]', 'click', (event) => {
+
+        event.preventDefault()
+        const element = event.target.closest('[data-delete-shortcut]')
+        const shortcut = getShortcut(element.dataset.deleteShortcut)
+
+        const modal = $('#modal-delete-shortcut')
+        const content = $('.content', modal)
+
+        modal.dataset.shortcut = shortcut.appId
+        content.innerHTML = `<p>Are you sure you want to delete the shortcut to <b>${shortcut.appName}</b>?</p>`
+        window.showModal(modal)
+
+    })
+
+    on('#shortcuts #modal-update-shortcut #appName', 'change', async (event) => {
+
+        const modal = $('#modal-update-shortcut')
+        const subContent = $('.content .images', modal)
+
+        const shortcut = getShortcut(modal.dataset.shortcut)
+        const term = event.target.value || shortcut.appName
 
         try {
 
             /** @type {ScrapeDataResult} */
-            const request = await requestJson('GET', '/api/scrape?term=' + encodeURIComponent(shortcut.appName))
+            const request = await requestJson('GET', '/api/scrape?term=' + encodeURIComponent(term))
             const scrape = request.result
 
             const html = []
-            html.push(
-                `<div class="group">
-                    <label for="appName">Name:</label>
-                    <textarea id="appName" name="appName">${shortcut.appName}</textarea>
-                </div>
-                <div class="group">
-                    <label for="startDir">Start Directory:</label>
-                    <textarea id="startDir" name="startDir">${shortcut.startDir}</textarea>
-                </div>
-                <div class="group">
-                    <label for="exe">Executable:</label>
-                    <textarea id="exe" name="exe">${shortcut.exe}</textarea>
-                </div>
-                <div class="group">
-                    <label for="launchOptions">Launch Options:</label>
-                    <textarea id="launchOptions" name="launchOptions">${shortcut.launchOptions}</textarea>
-                </div>
-                `)
-
             const append = (type, title, selected, images, width, height) => {
                 html.push(
                 `<section class="group group-${type}">
@@ -271,27 +305,12 @@ window.addEventListener('load', async () => {
             append('icon', 'Icon Artworks', shortcut.iconUrl, scrape.iconUrls, 192, 192)
             append('logo', 'Logo Artworks', shortcut.logoUrl, scrape.logoUrls, 600, 900)
 
-            content.innerHTML = html.join('')
+            subContent.innerHTML = html.join('')
 
         } catch (error) {
             window.showError(error)
             window.hideModal(modal)
         }
-
-    })
-
-    on('#shortcuts [data-delete-shortcut]', 'click', (event) => {
-
-        event.preventDefault()
-        const element = event.target.closest('[data-delete-shortcut]')
-        const shortcut = getShortcut(element.dataset.deleteShortcut)
-
-        const modal = $('#modal-delete-shortcut')
-        const content = $('.content', modal)
-
-        modal.dataset.shortcut = shortcut.appId
-        content.innerHTML = `<p>Are you sure you want to delete the shortcut to <b>${shortcut.appName}</b>?</p>`
-        window.showModal(modal)
 
     })
 
