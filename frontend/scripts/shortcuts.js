@@ -216,15 +216,15 @@ window.addEventListener('load', async () => {
             html.push(
                 `<div class="group">
                     <label>Name:</label>
-                    <input type="text" name="appName" value="${shortcut.appName}" />
+                    <textarea name="appName">${shortcut.appName}</textarea>
                 </div>
                 <div class="group">
                     <label>Start Directory:</label>
-                    <input type="text" name="startDir" value="${shortcut.startDir}" />
+                    <textarea name="startDir">${shortcut.startDir}</textarea>
                 </div>
                 <div class="group">
                     <label>Executable:</label>
-                    <input type="text" name="exe" value="${shortcut.exe}" />
+                    <textarea name="exe">${shortcut.exe}</textarea>
                 </div>
                 <div class="group">
                     <label>Launch Options:</label>
