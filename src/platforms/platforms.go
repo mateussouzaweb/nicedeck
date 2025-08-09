@@ -185,6 +185,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Program:       "citron",
 			Extensions:    "nca .nro .nso .nsp .xci",
 			LaunchOptions: "-f -g \"${ROM}\"",
+		}, {
+			Name:          "Eden",
+			Program:       "eden",
+			Extensions:    "nca .nro .nso .nsp .xci",
+			LaunchOptions: "-f -g \"${ROM}\"",
 		}},
 	})
 

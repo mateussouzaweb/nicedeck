@@ -48,6 +48,12 @@
             <entry>$EMULATORS\DuckStation\duckstation-qt-x64-ReleaseLTCG.exe</entry>
         </rule>
     </emulator>
+    <emulator name="EDEN">
+        <rule type="staticpath">
+            <entry>$EMULATORS/Eden/Eden.AppImage</entry>
+            <entry>$EMULATORS\Eden\eden.exe</entry>
+        </rule>
+    </emulator>
     <emulator name="FLYCAST">
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.flycast.Flycast</entry>

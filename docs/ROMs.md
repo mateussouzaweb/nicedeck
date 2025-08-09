@@ -17,7 +17,7 @@ NOTE: ``$ROMS`` represents your ROMs directory, located at ``$HOME/Games/ROMs``.
 | Nintendo DS               | MelonDS                 | ``$ROMS/DS``      |
 | Nintendo Game Boy Advance | mGBA                    | ``$ROMS/GBA``     |
 | Nintendo GameCube         | Dolphin                 | ``$ROMS/GC``      |
-| Nintendo Switch           | Ryujinx / Citron        | ``$ROMS/SWITCH``  |
+| Nintendo Switch           | Ryujinx / Citron / Eden | ``$ROMS/SWITCH``  |
 | Nintendo Wii              | Dolphin                 | ``$ROMS/WII``     |
 | Nintendo Wii U            | Cemu                    | ``$ROMS/WIIU``    |
 | Sega Dreamcast            | Flycast / Redream       | ``$ROMS/DC``      |
@@ -34,6 +34,7 @@ If you want to enforce an specific emulator for a subset of ROMs, you should cre
 
 - ``$ROMS/SWITCH/Ryujinx`` - Games that always should use the Ryujinx emulator
 - ``$ROMS/SWITCH/Citron`` - Games that always should use the Citron emulator
+- ``$ROMS/SWITCH/Eden`` - Games that always should use the Eden emulator
 - ``$ROMS/SWITCH`` - Games that should use the default emulator for that platform
 
 Another important aspect for the ROMs organization are the exclude patterns. Please keep in mind that the parser will ignore any content where the path follows the following patterns:

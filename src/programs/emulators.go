@@ -204,6 +204,40 @@ func DuckStation() *Program {
 	}
 }
 
+// Installer for Eden
+func Eden() *Program {
+	return &Program{
+		ID:          "eden",
+		Name:        "Eden Emulator",
+		Description: "Emulator for Nintendo Switch",
+		Category:    "Emulators",
+		Tags:        []string{"Gaming", "Emulator"},
+		Folders:     []string{"$EMULATORS", "$STATE/Eden", "$ROMS/SWITCH", "$BIOS/SWITCH"},
+		Website:     "https://eden-emu.dev",
+		IconURL:     assets.Icon("2080d47c88a0816da0a7e58e0cd7ad50.png"),
+		LogoURL:     assets.Logo("6c0edd40bc18715488dd4ed8abb93a60.png"),
+		CoverURL:    assets.Cover("174b4233c093b0bf83e7c6fca65fae2a.png"),
+		BannerURL:   assets.Banner("f0ba96a506d7109bd0ec7c26bc957911.png"),
+		HeroURL:     assets.Hero("a960ee65d36125cfe5f126bd326ff75b.png"),
+		Package: packaging.Best(&linux.AppImage{
+			AppID:   "eden",
+			AppName: "$EMULATORS/Eden/Eden.AppImage",
+			Source: github.Release(
+				"https://github.com/eden-emulator/Releases",
+				"Eden-Linux-*-amd64.AppImage",
+			),
+		}, &windows.Executable{
+			AppID:    "Eden",
+			AppExe:   "$EMULATORS\\Eden\\eden.exe",
+			AppAlias: "$START_MENU\\Gaming\\Eden.lnk",
+			Source: github.Release(
+				"https://github.com/eden-emulator/Releases",
+				"Eden-Windows-*-amd64.zip",
+			),
+		}),
+	}
+}
+
 // Installer for Flycast
 func Flycast() *Program {
 	return &Program{

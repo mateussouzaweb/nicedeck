@@ -300,6 +300,19 @@ func GetStates(options *Options) []*State {
 		},
 	})
 
+	// Eden
+	states = append(states, &State{
+		Platform: "SWITCH",
+		Emulator: "Eden",
+		Type:     "folder",
+		Path:     "$STATE/Eden/nand/user/save",
+		Source: []string{
+			"$SHARE/eden/nand/user/save",
+			"$CONFIG/eden/nand/user/save",
+			"$EMULATORS\\Eden\\user\\nand\\user\\save",
+		},
+	})
+
 	// Ryujinx save state in two folders
 	// We also sync the profiles.json file to avoid losing user reference
 	states = append(states, &State{

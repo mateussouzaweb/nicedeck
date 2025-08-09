@@ -46,6 +46,7 @@ func GetPrograms() ([]*Program, error) {
 	programs = append(programs, Citron())
 	programs = append(programs, Dolphin())
 	programs = append(programs, DuckStation())
+	programs = append(programs, Eden())
 	programs = append(programs, ESDE())
 	programs = append(programs, Firefox())
 	programs = append(programs, Flycast())

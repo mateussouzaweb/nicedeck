@@ -115,6 +115,7 @@
         <path>%ROMPATH%/SWITCH</path>
         <extension>.nca .NCA .nro .NRO .nso .NSO .nsp .NSP .xci .XCI</extension>
         <command label="CITRON">%EMULATOR_CITRON% -f -g %ROM%</command>
+        <command label="EDEN">%EMULATOR_EDEN% -f -g %ROM%</command>
         <command label="RYUJINX">%EMULATOR_RYUJINX% --fullscreen %ROM%</command>
         <platform>switch</platform>
         <theme>switch</theme>
