@@ -21,8 +21,8 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/platforms"
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
+	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 	"github.com/mateussouzaweb/nicedeck/src/steam"
-	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
 )
 
 var gridFS fs.FS
@@ -37,7 +37,7 @@ type LoadLibraryResult struct {
 	SteamRuntime string `json:"steamRuntime"`
 	SteamPath    string `json:"steamPath"`
 	ConfigPath   string `json:"configPath"`
-	ArtworksPath string `json:"artworksPath"`
+	ImagesPath   string `json:"imagesPath"`
 }
 
 // Load library action
@@ -53,17 +53,17 @@ func loadLibrary(context *Context) error {
 		return context.Status(400).JSON(result)
 	}
 
-	// Create FS with loaded artworks path
-	config := library.GetConfig()
-	gridFS = os.DirFS(config.ArtworksPath)
+	// Create FS with loaded images path
+	imagesPath := library.Shortcuts.ImagesPath
+	gridFS = os.DirFS(imagesPath)
 	gridHandler = http.FileServer(http.FS(gridFS))
 
 	// Print loaded data
 	result.Status = "OK"
-	result.SteamRuntime = config.SteamRuntime
-	result.SteamPath = config.SteamPath
-	result.ConfigPath = config.ConfigPath
-	result.ArtworksPath = config.ArtworksPath
+	result.SteamRuntime = "" // config.SteamRuntime
+	result.SteamPath = ""    // config.SteamPath
+	result.ConfigPath = ""   // config.ConfigPath
+	result.ImagesPath = imagesPath
 
 	return context.Status(200).JSON(result)
 }
@@ -150,7 +150,7 @@ type ListShortcutsResult struct {
 
 // List shortcuts action
 func listShortcuts(context *Context) error {
-	data := library.GetShortcuts()
+	data := library.Shortcuts.All()
 	result := ListShortcutsResult{}
 	result.Status = "OK"
 	result.Data = data
@@ -159,7 +159,7 @@ func listShortcuts(context *Context) error {
 
 // Launch shortcut data
 type LaunchShortcutData struct {
-	AppID uint `json:"appId"`
+	ID string `json:"id"`
 }
 
 // Launch shortcut result
@@ -183,17 +183,17 @@ func launchShortcut(context *Context) error {
 	}
 
 	// Find shortcut reference
-	shortcut := library.GetShortcut(data.AppID)
-	if shortcut.AppID == 0 {
-		err := fmt.Errorf("could not found shortcut with appID: %v", data.AppID)
+	shortcut := library.Shortcuts.Get(data.ID)
+	if shortcut.ID == "" {
+		err := fmt.Errorf("could not found shortcut with ID: %s", data.ID)
 		result.Status = "ERROR"
 		result.Error = err.Error()
 		return context.Status(400).JSON(result)
 	}
 
 	// Launch program based on running system
-	appID := fmt.Sprintf("%v", shortcut.AppID)
-	executable := steam.CleanExec(shortcut.Exe)
+	appID := fmt.Sprintf("%v", shortcut.ID)
+	executable := steam.CleanExec(shortcut.Executable)
 	program := packaging.Best(&linux.Binary{
 		AppID:  appID,
 		AppBin: executable,
@@ -206,7 +206,7 @@ func launchShortcut(context *Context) error {
 	})
 
 	// Launch the shortcut
-	cli.Printf(cli.ColorSuccess, "Launching: %v\n", shortcut.AppName)
+	cli.Printf(cli.ColorSuccess, "Launching: %s\n", shortcut.Name)
 	if shortcut.LaunchOptions != "" {
 		err = program.Run([]string{shortcut.LaunchOptions})
 	} else {
@@ -225,17 +225,22 @@ func launchShortcut(context *Context) error {
 
 // Modify shortcut data
 type ModifyShortcutData struct {
-	Action        string `json:"action"`
-	AppID         uint   `json:"appId"`
-	AppName       string `json:"appName"`
-	StartDir      string `json:"startDir"`
-	Exe           string `json:"exe"`
-	LaunchOptions string `json:"launchOptions"`
-	IconURL       string `json:"iconUrl"`
-	LogoURL       string `json:"logoUrl"`
-	CoverURL      string `json:"coverUrl"`
-	BannerURL     string `json:"bannerUrl"`
-	HeroURL       string `json:"heroUrl"`
+	Action         string `json:"action"`
+	ID             string `json:"id"`
+	Platform       string `json:"platform"`
+	Program        string `json:"program"`
+	Layer          string `json:"layer"`
+	Type           string `json:"type"`
+	Name           string `json:"name"`
+	Description    string `json:"description"`
+	StartDirectory string `json:"startDirectory"`
+	Executable     string `json:"executable"`
+	LaunchOptions  string `json:"launchOptions"`
+	IconURL        string `json:"iconUrl"`
+	LogoURL        string `json:"logoUrl"`
+	CoverURL       string `json:"coverUrl"`
+	BannerURL      string `json:"bannerUrl"`
+	HeroURL        string `json:"heroUrl"`
 }
 
 // Modify shortcut result
@@ -259,9 +264,9 @@ func modifyShortcut(context *Context) error {
 	}
 
 	// Find shortcut reference
-	shortcut := library.GetShortcut(data.AppID)
-	if shortcut.AppID == 0 {
-		err := fmt.Errorf("could not found shortcut with appID: %v", data.AppID)
+	shortcut := library.Shortcuts.Get(data.ID)
+	if shortcut.ID == "" {
+		err := fmt.Errorf("could not found shortcut with ID: %v", data.ID)
 		result.Status = "ERROR"
 		result.Error = err.Error()
 		return context.Status(400).JSON(result)
@@ -269,9 +274,14 @@ func modifyShortcut(context *Context) error {
 
 	// Update shortcut
 	if data.Action == "update" {
-		shortcut.AppName = data.AppName
-		shortcut.StartDir = data.StartDir
-		shortcut.Exe = data.Exe
+		shortcut.Platform = data.Platform
+		shortcut.Program = data.Program
+		shortcut.Layer = data.Layer
+		shortcut.Type = data.Type
+		shortcut.Name = data.Name
+		shortcut.Description = data.Description
+		shortcut.StartDirectory = data.StartDirectory
+		shortcut.Executable = data.Executable
 		shortcut.LaunchOptions = data.LaunchOptions
 		shortcut.IconURL = data.IconURL
 		shortcut.LogoURL = data.LogoURL
@@ -279,26 +289,26 @@ func modifyShortcut(context *Context) error {
 		shortcut.BannerURL = data.BannerURL
 		shortcut.HeroURL = data.HeroURL
 
-		err := library.AddToShortcuts(shortcut, true)
+		err := library.Shortcuts.Update(shortcut)
 		if err != nil {
 			result.Status = "ERROR"
 			result.Error = err.Error()
 			return context.Status(400).JSON(result)
 		}
 
-		cli.Printf(cli.ColorSuccess, "Shortcut %v updated!\n", shortcut.AppID)
+		cli.Printf(cli.ColorSuccess, "Shortcut %s updated!\n", shortcut.ID)
 	}
 
 	// Delete shortcut
 	if data.Action == "delete" {
-		err := library.RemoveFromShortcuts(shortcut)
+		err := library.Shortcuts.Remove(shortcut)
 		if err != nil {
 			result.Status = "ERROR"
 			result.Error = err.Error()
 			return context.Status(400).JSON(result)
 		}
 
-		cli.Printf(cli.ColorSuccess, "Shortcut %v removed!\n", shortcut.AppID)
+		cli.Printf(cli.ColorSuccess, "Shortcut %s removed!\n", shortcut.ID)
 	}
 
 	result.Status = "OK"

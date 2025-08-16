@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/fs"
-	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
+	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Create a desktop shortcut
@@ -45,10 +45,10 @@ func CreateDesktopShortcut(shortcut *shortcuts.Shortcut) error {
 		"Exec=%s %s\n"+
 		"Terminal=false\n"+
 		"Categories=%s;",
-		shortcut.AppName,
+		shortcut.Name,
 		shortcut.Description,
 		iconFile,
-		shortcut.Exe,
+		shortcut.Executable,
 		shortcut.LaunchOptions,
 		categories,
 	))

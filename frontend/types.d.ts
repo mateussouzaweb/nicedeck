@@ -23,33 +23,30 @@ interface Platform {
 }
 
 interface Shortcut {
-	appId: number
-	appName: string
-	startDir: string
-	exe: string
+	id: number
+	platform: string
+	program: string
+	layer: string
+	type: string
+	name: string
+	description: string
+	startDirectory: string
+	executable: string
 	launchOptions: string
 	shortcutPath: string
-	icon: string
-	isHidden: number
-	allowDesktopConfig: number
-	allowOverlay: number
-	openVr: number
-	devkit: number
-	devkitGameId: string
-	devkitOverrideAppId: number
-	lastPlayTime: number
-	tags: string[]
-	iconUrl: string
-	logo: string
-	logoUrl: string
-	cover: string
-	coverUrl: string
-	banner: string
-	bannerUrl: string
-	hero: string
-	heroUrl: string
-	platform: string
 	relativePath: string
+	imagesPath: string
+	iconPath: string
+	iconUrl: string
+	logoPath: string
+	logoUrl: string
+	coverPath: string
+	coverUrl: string
+	bannerPath: string
+	bannerUrl: string
+	heroPath: string
+	heroUrl: string
+	tags: string[]
 }
 
 interface ScrapeResult {
@@ -70,7 +67,7 @@ interface LoadLibraryResult {
 	steamRuntime: string
 	steamPath: string
 	configPath: string
-	artworksPath: string
+	imagesPath: string
 }
 
 interface SaveLibraryResult {
@@ -97,7 +94,7 @@ interface ListShortcutsResult {
 }
 
 interface LaunchShortcutData {
-	appId: number
+	id: number
 }
 
 interface LaunchShortcutResult {
@@ -107,10 +104,15 @@ interface LaunchShortcutResult {
 
 interface ModifyShortcutData {
 	action: string
-	appId: number
-	appName: string
-	startDir: string
-	exe: string
+	id: number
+	platform: string
+	program: string
+	layer: string
+	type: string
+	name: string
+	description: string
+	startDirectory: string
+	executable: string
 	launchOptions: string
 	iconUrl: string
 	logoUrl: string

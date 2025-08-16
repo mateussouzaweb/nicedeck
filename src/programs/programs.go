@@ -9,7 +9,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/library"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
+	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Program struct
@@ -152,20 +152,25 @@ func Install(options *Options) error {
 
 		// Fill basic shortcut information
 		executable := program.Package.Executable()
-		startDir := filepath.Dir(executable)
+		startDirectory := filepath.Dir(executable)
 		shortcut := &shortcuts.Shortcut{
-			AppName:       program.Name,
-			StartDir:      startDir,
-			Exe:           executable,
-			LaunchOptions: "",
-			ShortcutPath:  "",
-			Description:   program.Description,
-			Tags:          program.Tags,
-			IconURL:       program.IconURL,
-			LogoURL:       program.LogoURL,
-			CoverURL:      program.CoverURL,
-			BannerURL:     program.BannerURL,
-			HeroURL:       program.HeroURL,
+			Platform:       "PC",
+			Program:        program.ID,
+			Layer:          "native",
+			Type:           "program",
+			Name:           program.Name,
+			Description:    program.Description,
+			StartDirectory: startDirectory,
+			Executable:     executable,
+			LaunchOptions:  "",
+			ShortcutPath:   "",
+			RelativePath:   "",
+			IconURL:        program.IconURL,
+			LogoURL:        program.LogoURL,
+			CoverURL:       program.CoverURL,
+			BannerURL:      program.BannerURL,
+			HeroURL:        program.HeroURL,
+			Tags:           program.Tags,
 		}
 
 		// Fill additional shortcut information from package
@@ -175,7 +180,7 @@ func Install(options *Options) error {
 		}
 
 		// Add to shortcuts list
-		err = library.AddToShortcuts(shortcut, false)
+		err = library.Shortcuts.AddOrUpdate(shortcut)
 		if err != nil {
 			return err
 		}
@@ -227,10 +232,10 @@ func Remove(options *Options) error {
 
 		// Remove from shortcuts list
 		executable := program.Package.Executable()
-		shortcut := library.FindShortcut(executable, program.Name)
+		shortcut := library.Shortcuts.Find(executable, program.Name)
 
-		if shortcut.AppID != 0 {
-			err = library.RemoveFromShortcuts(shortcut)
+		if shortcut.ID != "" {
+			err = library.Shortcuts.Remove(shortcut)
 			if err != nil {
 				return err
 			}

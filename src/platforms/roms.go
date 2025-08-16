@@ -7,7 +7,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/library"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
-	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
+	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Filter ROMs that match given requirements and return the list to process
@@ -20,7 +20,7 @@ func FilterROMs(roms []*ROM, options *Options) []*ROM {
 	var toProcess []*ROM
 
 	// Read current list of ROMs in the library shortcuts
-	for _, shortcut := range library.GetShortcuts() {
+	for _, shortcut := range library.Shortcuts.All() {
 
 		// Check if shortcut is managed ROM
 		if !slices.Contains(shortcut.Tags, "ROM") {
@@ -102,7 +102,7 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 		}
 
 		// Determine best name and images for the shortcut
-		appName := scrape.Name + " [" + rom.Platform + "]"
+		name := scrape.Name + " [" + rom.Platform + "]"
 		description := "ROM for " + rom.Platform
 		iconURL := ""
 		logoURL := ""
@@ -126,24 +126,27 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 			heroURL = scrape.HeroURLs[0]
 		}
 
-		// Add to shortcuts library
-		startDir := filepath.Dir(rom.Executable)
-		err = library.AddToShortcuts(&shortcuts.Shortcut{
-			AppName:       appName,
-			Exe:           rom.Executable,
-			StartDir:      startDir,
-			ShortcutPath:  "",
-			LaunchOptions: rom.LaunchOptions,
-			IconURL:       iconURL,
-			LogoURL:       logoURL,
-			CoverURL:      coverURL,
-			BannerURL:     bannerURL,
-			HeroURL:       heroURL,
-			Description:   description,
-			Platform:      rom.Platform,
-			RelativePath:  rom.RelativePath,
-			Tags:          []string{"Gaming", "ROM"},
-		}, false)
+		// Add or update into shortcuts library
+		startDirectory := filepath.Dir(rom.Executable)
+		err = library.Shortcuts.AddOrUpdate(&shortcuts.Shortcut{
+			Platform:       rom.Platform,
+			Program:        rom.Program,
+			Layer:          "emulator",
+			Type:           "rom",
+			Name:           name,
+			Description:    description,
+			StartDirectory: startDirectory,
+			Executable:     rom.Executable,
+			LaunchOptions:  rom.LaunchOptions,
+			ShortcutPath:   "",
+			RelativePath:   rom.RelativePath,
+			IconURL:        iconURL,
+			LogoURL:        logoURL,
+			CoverURL:       coverURL,
+			BannerURL:      bannerURL,
+			HeroURL:        heroURL,
+			Tags:           []string{"Gaming", "ROM"},
+		})
 
 		if err != nil {
 			return total, err
@@ -161,7 +164,7 @@ func CleanShortcuts(parsed []*ROM) (int, error) {
 	var toRemove []*shortcuts.Shortcut
 
 	// Read current list of ROMs in the library shortcuts
-	for _, shortcut := range library.GetShortcuts() {
+	for _, shortcut := range library.Shortcuts.All() {
 
 		// Check if shortcut is managed ROM
 		if !slices.Contains(shortcut.Tags, "ROM") {
@@ -197,7 +200,7 @@ func CleanShortcuts(parsed []*ROM) (int, error) {
 	for _, shortcut := range toRemove {
 
 		cli.Printf(cli.ColorNotice, "Removing shortcut for not detected ROM: %s\n", shortcut.RelativePath)
-		err := library.RemoveFromShortcuts(shortcut)
+		err := library.Shortcuts.Remove(shortcut)
 		if err != nil {
 			return total, err
 		}

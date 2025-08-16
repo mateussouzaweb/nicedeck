@@ -9,7 +9,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
+	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Executable struct
@@ -112,8 +112,8 @@ func (e *Executable) OnShortcut(shortcut *shortcuts.Shortcut) error {
 		`$Shortcut.Arguments = "%s";`+
 		`$Shortcut.Save()`,
 		shortcut.ShortcutPath,
-		shortcut.StartDir,
-		shortcut.Exe,
+		shortcut.StartDirectory,
+		shortcut.Executable,
 		strings.ReplaceAll(shortcut.LaunchOptions, `"`, `\"`),
 	))
 

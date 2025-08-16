@@ -6,7 +6,7 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
-	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
+	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Homebrew struct

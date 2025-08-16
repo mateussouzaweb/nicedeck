@@ -3,7 +3,7 @@ package packaging
 import (
 	"fmt"
 
-	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
+	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Missing struct

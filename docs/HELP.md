@@ -8,8 +8,8 @@ programs        list available programs
 platforms       list available platforms
 shortcuts       list current user shortcuts
 scrape          scrape data on SteamGridDB
-launch          launch shortcut with given appID
-modify          update or delete shortcut with given appID
+launch          launch shortcut with given ID
+modify          update or delete shortcut with given ID
 install         install or update programs
 remove          remove previously installed programs
 backup-state    backup emulators state
@@ -20,24 +20,29 @@ server          start server for GUI usage (default)
 OPTIONS:
 
 scrape:
-  --search=[term]           search term
+  --search=[term]             search term
 
 launch:
-  --id=[appID]              shortcut appID
+  --id=[ID]                   shortcut ID
 
 modify:
-  --update                  update shortcut
-  --delete                  delete shortcut
-  --id=[appID]              shortcut appID
-  --app-name=[value]        name for shortcut
-  --start-dir=[value]       start directory for shortcut
-  --exe=[value]             executable for shortcut
-  --launch-options=[value]  launch options for shortcut
-  --icon-url=[value]        icon URL for shortcut
-  --logo-url=[value]        logo URL for shortcut
-  --cover-url=[value]       cover URL for shortcut
-  --banner-url=[value]      banner URL for shortcut
-  --hero-url=[value]        hero URL for shortcut
+  --update                    update shortcut
+  --delete                    delete shortcut
+  --id=[ID]                   shortcut ID
+  --platform=[value]          platform for shortcut
+  --program=[value]           program for shortcut
+  --layer=[value]             layer for shortcut
+  --type=[value]              type for shortcut
+  --name=[value]              name for shortcut
+  --description=[value]       description for shortcut
+  --start-directory=[value]   start directory for shortcut
+  --executable=[value]        executable for shortcut
+  --launch-options=[value]    launch options for shortcut
+  --icon-url=[value]          icon URL for shortcut
+  --logo-url=[value]          logo URL for shortcut
+  --cover-url=[value]         cover URL for shortcut
+  --banner-url=[value]        banner URL for shortcut
+  --hero-url=[value]          hero URL for shortcut
 
 install:
   --programs=[value,...]      list of programs to install
@@ -60,6 +65,6 @@ process-roms:
   --preferences=[value,...]   preferences when processing ROMs (rebuild)
 
 server:
-  --gui=[value]           GUI mode (default|headless)
-  --address=[value]       custom address for the server
-  --dev                   enable development mode for static resources
+  --gui=[value]               GUI mode (default|headless)
+  --address=[value]           custom address for the server
+  --dev                       enable development mode for static resources

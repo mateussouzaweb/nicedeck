@@ -1,6 +1,6 @@
 package packaging
 
-import "github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
+import "github.com/mateussouzaweb/nicedeck/src/shortcuts"
 
 // Package interface
 type Package interface {

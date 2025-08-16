@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strconv"
 
 	"github.com/mateussouzaweb/nicedeck/docs"
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -85,9 +84,9 @@ func listShortcuts(context Context) error {
 	}
 
 	// List available shortcuts
-	shortcuts := library.GetShortcuts()
+	shortcuts := library.Shortcuts.All()
 	for _, shortcut := range shortcuts {
-		cli.Printf(cli.ColorDefault, "%v - %s\n", shortcut.AppID, shortcut.AppName)
+		cli.Printf(cli.ColorDefault, "%s - %s\n", shortcut.ID, shortcut.Name)
 	}
 
 	return nil
@@ -121,20 +120,14 @@ func scrapeData(context Context) error {
 // Launch shortcut
 func launchShortcut(context Context) error {
 
-	// Retrieve appID
-	reference := context.Arg("--id", "")
-	if reference == "" {
-		return fmt.Errorf("shortcut appID is required")
-	}
-
-	// Convert value to Uint
-	referenceID, err := strconv.ParseUint(reference, 10, 64)
-	if err != nil {
-		return err
+	// Retrieve ID
+	referenceID := context.Arg("--id", "")
+	if referenceID == "" {
+		return fmt.Errorf("shortcut ID is required")
 	}
 
 	// Init user library
-	err = library.Init(context.Version)
+	err := library.Init(context.Version)
 	if err != nil {
 		return err
 	}
@@ -146,14 +139,14 @@ func launchShortcut(context Context) error {
 	}
 
 	// Find shortcut reference
-	shortcut := library.GetShortcut(uint(referenceID))
-	if shortcut.AppID == 0 {
-		return fmt.Errorf("could not found shortcut with appID: %v", referenceID)
+	shortcut := library.Shortcuts.Get(referenceID)
+	if shortcut.ID == "" {
+		return fmt.Errorf("could not found shortcut with ID: %s", referenceID)
 	}
 
 	// Launch program based on running system
-	appID := fmt.Sprintf("%v", shortcut.AppID)
-	executable := steam.CleanExec(shortcut.Exe)
+	appID := fmt.Sprintf("%v", shortcut.ID)
+	executable := steam.CleanExec(shortcut.Executable)
 	program := packaging.Best(&linux.Binary{
 		AppID:  appID,
 		AppBin: executable,
@@ -166,7 +159,7 @@ func launchShortcut(context Context) error {
 	})
 
 	// Launch the shortcut
-	cli.Printf(cli.ColorSuccess, "Launching: %s\n", shortcut.AppName)
+	cli.Printf(cli.ColorSuccess, "Launching: %s\n", shortcut.Name)
 	if shortcut.LaunchOptions != "" {
 		err = program.Run([]string{shortcut.LaunchOptions})
 	} else {
@@ -179,20 +172,14 @@ func launchShortcut(context Context) error {
 // Modify shortcut
 func modifyShortcut(context Context) error {
 
-	// Retrieve appID
-	reference := context.Arg("--id", "")
-	if reference == "" {
-		return fmt.Errorf("shortcut appID is required")
-	}
-
-	// Convert value to Uint
-	referenceID, err := strconv.ParseUint(reference, 10, 64)
-	if err != nil {
-		return err
+	// Retrieve ID
+	referenceID := context.Arg("--id", "")
+	if referenceID == "" {
+		return fmt.Errorf("shortcut ID is required")
 	}
 
 	// Init user library
-	err = library.Init(context.Version)
+	err := library.Init(context.Version)
 	if err != nil {
 		return err
 	}
@@ -204,9 +191,9 @@ func modifyShortcut(context Context) error {
 	}
 
 	// Find shortcut reference
-	shortcut := library.GetShortcut(uint(referenceID))
-	if shortcut.AppID == 0 {
-		return fmt.Errorf("could not found shortcut with appID: %v", referenceID)
+	shortcut := library.Shortcuts.Get(referenceID)
+	if shortcut.ID == "" {
+		return fmt.Errorf("could not found shortcut with ID: %s", referenceID)
 	}
 
 	// Make sure to save library on finish
@@ -217,9 +204,14 @@ func modifyShortcut(context Context) error {
 	// Retrieve action and data
 	update := context.Flag("--update", false)
 	delete := context.Flag("--delete", false)
-	appName := context.Arg("--app-name", shortcut.AppName)
-	startDir := context.Arg("--start-dir", shortcut.StartDir)
-	exe := context.Arg("--exe", shortcut.Exe)
+	platform := context.Arg("--platform", shortcut.Platform)
+	program := context.Arg("--program", shortcut.Program)
+	layer := context.Arg("--layer", shortcut.Layer)
+	theType := context.Arg("--type", shortcut.Type)
+	name := context.Arg("--name", shortcut.Name)
+	description := context.Arg("--description", shortcut.Description)
+	startDirectory := context.Arg("--start-directory", shortcut.StartDirectory)
+	executable := context.Arg("--executable", shortcut.Executable)
 	launchOptions := context.Arg("--launch-options", shortcut.LaunchOptions)
 	iconURL := context.Arg("--icon-url", shortcut.IconURL)
 	logoURL := context.Arg("--logo-url", shortcut.LogoURL)
@@ -229,9 +221,14 @@ func modifyShortcut(context Context) error {
 
 	// Update shortcut
 	if update {
-		shortcut.AppName = appName
-		shortcut.StartDir = startDir
-		shortcut.Exe = exe
+		shortcut.Platform = platform
+		shortcut.Program = program
+		shortcut.Layer = layer
+		shortcut.Type = theType
+		shortcut.Name = name
+		shortcut.Description = description
+		shortcut.StartDirectory = startDirectory
+		shortcut.Executable = executable
 		shortcut.LaunchOptions = launchOptions
 		shortcut.IconURL = iconURL
 		shortcut.LogoURL = logoURL
@@ -239,22 +236,22 @@ func modifyShortcut(context Context) error {
 		shortcut.BannerURL = bannerURL
 		shortcut.HeroURL = heroURL
 
-		err := library.AddToShortcuts(shortcut, true)
+		err := library.Shortcuts.Update(shortcut)
 		if err != nil {
 			return err
 		}
 
-		cli.Printf(cli.ColorSuccess, "Shortcut %v updated!\n", shortcut.AppID)
+		cli.Printf(cli.ColorSuccess, "Shortcut %s updated!\n", shortcut.ID)
 	}
 
 	// Delete shortcut
 	if delete {
-		err := library.RemoveFromShortcuts(shortcut)
+		err := library.Shortcuts.Remove(shortcut)
 		if err != nil {
 			return err
 		}
 
-		cli.Printf(cli.ColorSuccess, "Shortcut %v removed!\n", shortcut.AppID)
+		cli.Printf(cli.ColorSuccess, "Shortcut %s removed!\n", shortcut.ID)
 	}
 
 	return nil

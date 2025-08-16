@@ -5,12 +5,12 @@ window.addEventListener('load', async () => {
     let shortcuts = []
 
     /**
-     * Retrieve shortcut by appId
-     * @param {Number} appId
+     * Retrieve shortcut by id
+     * @param {String} id
      * @returns {Shortcut}
      */
-    function getShortcut(appId) {
-        return shortcuts.find((item) => item.appId === Number(appId))
+    function getShortcut(id) {
+        return shortcuts.find((item) => String(item.id) === String(id))
     }
 
     /**
@@ -66,7 +66,7 @@ window.addEventListener('load', async () => {
                     return true
                 }
                 for (const filter of filters) {
-                    if (shortcut.appName.includes("[" + filter + "]")) {
+                    if (shortcut.name.includes("[" + filter + "]")) {
                         return true
                     }
                 }
@@ -76,7 +76,7 @@ window.addEventListener('load', async () => {
                 if (!search.value.length) {
                     return true
                 }
-                return String(shortcut.appName).toLowerCase().includes(
+                return String(shortcut.name).toLowerCase().includes(
                     String(search.value).toLowerCase()
                 )
             })
@@ -84,27 +84,27 @@ window.addEventListener('load', async () => {
                 return shortcut !== null
             })
             .map((shortcut) => {
-                const coverUrl = (shortcut.cover)
-                    ? String(shortcut.cover).replace(library.artworksPath, "/grid/image")
+                const coverUrl = (shortcut.coverPath)
+                    ? String(shortcut.coverPath).replace(library.imagesPath, "/grid/image")
                     : './img/default/cover.png'
 
-                return `<article class="item shortcut" title="${shortcut.appName}">
+                return `<article class="item shortcut" title="${shortcut.name}">
                     <div class="area">
                         <div class="image">
-                            <img loading="lazy" src="${coverUrl}" alt="${shortcut.appName}" width="600" height="900"/>
+                            <img loading="lazy" src="${coverUrl}" alt="${shortcut.name}" width="600" height="900"/>
                         </div>
                         <div class="info">
                             <div class="title">
-                                <h4>${shortcut.appName}</h4>
+                                <h4>${shortcut.name}</h4>
                             </div>
                             <div class="actions">
-                                <button type="button" data-launch-shortcut="${shortcut.appId}" title="Launch">
+                                <button type="button" data-launch-shortcut="${shortcut.id}" title="Launch">
                                     <img src="./img/icons/launch.svg" alt="Launch" width="24" height="24" />
                                 </button>
-                                <button type="button" data-update-shortcut="${shortcut.appId}" title="Update">
+                                <button type="button" data-update-shortcut="${shortcut.id}" title="Update">
                                     <img src="./img/icons/update.svg" alt="Update" width="24" height="24" />
                                 </button>
-                                <button type="button" data-delete-shortcut="${shortcut.appId}" title="Delete">
+                                <button type="button" data-delete-shortcut="${shortcut.id}" title="Delete">
                                     <img src="./img/icons/delete.svg" alt="Delete" width="24" height="24" />
                                 </button>
                             </div>
@@ -167,13 +167,13 @@ window.addEventListener('load', async () => {
         const content = $('.content', modal)
         const shortcut = getShortcut(button.dataset.launchShortcut)
 
-        modal.dataset.shortcut = shortcut.appId
-        content.innerHTML = `<p>Launching <b>${shortcut.appName}</b>...</p>`
+        modal.dataset.shortcut = shortcut.id
+        content.innerHTML = `<p>Launching <b>${shortcut.name}</b>...</p>`
         window.showModal(modal)
 
         /** @type {LaunchShortcutData} */
         const body = {
-            appId: shortcut.appId
+            id: shortcut.id
         }
 
         try {
@@ -203,16 +203,36 @@ window.addEventListener('load', async () => {
         const content = $('.content', modal)
         const html = `
             <div class="group">
-                <label for="appName">Name:</label>
-                <textarea id="appName" name="appName">${shortcut.appName}</textarea>
+                <label for="platform">Platform:</label>
+                <textarea id="platform" name="platform">${shortcut.platform}</textarea>
             </div>
             <div class="group">
-                <label for="startDir">Start Directory:</label>
-                <textarea id="startDir" name="startDir">${shortcut.startDir}</textarea>
+                <label for="program">Program:</label>
+                <textarea id="program" name="program">${shortcut.program}</textarea>
             </div>
             <div class="group">
-                <label for="exe">Executable:</label>
-                <textarea id="exe" name="exe">${shortcut.exe}</textarea>
+                <label for="layer">Layer:</label>
+                <textarea id="layer" name="layer">${shortcut.layer}</textarea>
+            </div>
+            <div class="group">
+                <label for="type">Type:</label>
+                <textarea id="type" name="type">${shortcut.type}</textarea>
+            </div>
+            <div class="group">
+                <label for="name">Name:</label>
+                <textarea id="name" name="name">${shortcut.name}</textarea>
+            </div>
+            <div class="group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description">${shortcut.description}</textarea>
+            </div>
+            <div class="group">
+                <label for="startDirectory">Start Directory:</label>
+                <textarea id="startDirectory" name="startDirectory">${shortcut.startDirectory}</textarea>
+            </div>
+            <div class="group">
+                <label for="executable">Executable:</label>
+                <textarea id="executable" name="executable">${shortcut.executable}</textarea>
             </div>
             <div class="group">
                 <label for="launchOptions">Launch Options:</label>
@@ -223,16 +243,16 @@ window.addEventListener('load', async () => {
             </div>
         `
 
-        modal.dataset.shortcut = shortcut.appId
+        modal.dataset.shortcut = shortcut.id
         content.innerHTML = html
         window.showModal(modal)
 
-        const appNameInput = $('#appName', content)
+        const nameInput = $('#name', content)
         const changeEvent = new CustomEvent('change', {
             bubbles: true
         })
 
-        appNameInput.dispatchEvent(changeEvent)
+        nameInput.dispatchEvent(changeEvent)
 
     })
 
@@ -245,19 +265,19 @@ window.addEventListener('load', async () => {
         const modal = $('#modal-delete-shortcut')
         const content = $('.content', modal)
 
-        modal.dataset.shortcut = shortcut.appId
-        content.innerHTML = `<p>Are you sure you want to delete the shortcut to <b>${shortcut.appName}</b>?</p>`
+        modal.dataset.shortcut = shortcut.id
+        content.innerHTML = `<p>Are you sure you want to delete the shortcut to <b>${shortcut.name}</b>?</p>`
         window.showModal(modal)
 
     })
 
-    on('#shortcuts #modal-update-shortcut #appName', 'change', async (event) => {
+    on('#shortcuts #modal-update-shortcut #name', 'change', async (event) => {
 
         const modal = $('#modal-update-shortcut')
         const subContent = $('.content .images', modal)
 
         const shortcut = getShortcut(modal.dataset.shortcut)
-        const term = event.target.value || shortcut.appName
+        const term = event.target.value || shortcut.name
 
         try {
 
@@ -331,10 +351,15 @@ window.addEventListener('load', async () => {
         /** @type {ModifyShortcutData} */
         const body = {
             action: 'update',
-            appId: shortcut.appId,
-            appName: data.get('appName'),
-            startDir: data.get('startDir'),
-            exe: data.get('exe'),
+            id: shortcut.id,
+            platform: data.get('platform'),
+            program: data.get('program'),
+            layer: data.get('layer'),
+            type: data.get('type'),
+            name: data.get('name'),
+            description: data.get('description'),
+            startDirectory: data.get('startDirectory'),
+            executable: data.get('executable'),
             launchOptions: data.get('launchOptions'),
             iconUrl: data.get('icon'),
             logoUrl: data.get('logo'),
@@ -378,7 +403,7 @@ window.addEventListener('load', async () => {
         /** @type {ModifyShortcutData} */
         const body = {
             action: 'delete',
-            appId: shortcut.appId
+            id: shortcut.id
         }
 
         try {

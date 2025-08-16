@@ -23,6 +23,7 @@ type ROM struct {
 	Platform      string `json:"platform"`
 	Console       string `json:"console"`
 	Emulator      string `json:"emulator"`
+	Program       string `json:"program"`
 	Executable    string `json:"executable"`
 	LaunchOptions string `json:"launchOptions"`
 }
@@ -250,6 +251,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 			Console:       runtime.Platform.Console,
 			Platform:      runtime.Platform.Name,
 			Emulator:      runtime.Emulator.Name,
+			Program:       runtime.Emulator.Program,
 			Executable:    executable,
 			LaunchOptions: launchOptions,
 		}

@@ -9,7 +9,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/steam/shortcuts"
+	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Application struct
@@ -118,7 +118,7 @@ func (a *Application) OnShortcut(shortcut *shortcuts.Shortcut) error {
 		return err
 	}
 
-	err = os.Symlink(shortcut.Exe, shortcut.ShortcutPath)
+	err = os.Symlink(shortcut.Executable, shortcut.ShortcutPath)
 	if err != nil {
 		return err
 	}
