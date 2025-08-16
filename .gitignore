@@ -15,7 +15,8 @@
 .env
 
 # Binaries
-/bin/*
+bin/*
 
 # Debug files
 __debug_*
+debug/*
