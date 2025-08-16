@@ -19,23 +19,23 @@ type History struct {
 
 // Library struct
 type Library struct {
-	SourceFile string      `json:"sourceFile"`
-	ImagesPath string      `json:"imagesPath"`
-	Shortcuts  []*Shortcut `json:"shortcuts"`
-	History    []*History  `json:"history"`
+	DatabasePath string      `json:"databasePath"`
+	ImagesPath   string      `json:"imagesPath"`
+	Shortcuts    []*Shortcut `json:"shortcuts"`
+	History      []*History  `json:"history"`
 }
 
 // Load library from file
-func (l *Library) Load(sourceFile string) error {
+func (l *Library) Load(databasePath string) error {
 
 	// Fill basic information
-	l.SourceFile = sourceFile
-	l.ImagesPath = fmt.Sprintf("%s/images", filepath.Dir(sourceFile))
+	l.DatabasePath = databasePath
+	l.ImagesPath = fmt.Sprintf("%s/images", filepath.Dir(databasePath))
 	l.Shortcuts = make([]*Shortcut, 0)
 	l.History = make([]*History, 0)
 
 	// Check if file exist
-	exist, err := fs.FileExist(sourceFile)
+	exist, err := fs.FileExist(databasePath)
 	if err != nil {
 		return err
 	} else if !exist {
@@ -43,7 +43,7 @@ func (l *Library) Load(sourceFile string) error {
 	}
 
 	// Read file content
-	content, err := os.ReadFile(sourceFile)
+	content, err := os.ReadFile(databasePath)
 	if err != nil {
 		return err
 	}
@@ -73,13 +73,13 @@ func (l *Library) Save() error {
 	}
 
 	// Make sure destination folder path exist
-	err = os.MkdirAll(filepath.Dir(l.SourceFile), 0774)
+	err = os.MkdirAll(filepath.Dir(l.DatabasePath), 0774)
 	if err != nil {
 		return err
 	}
 
 	// Write JSON content to config file
-	err = os.WriteFile(l.SourceFile, jsonContent, 0666)
+	err = os.WriteFile(l.DatabasePath, jsonContent, 0666)
 	if err != nil {
 		return err
 	}
