@@ -184,17 +184,6 @@ func (s *Shortcut) OnUpdate() error {
 	return nil
 }
 
-// Perform action when merging the shortcut
-func (s *Shortcut) OnMerge() error {
-
-	err := s.ProcessImages(true)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
 // Perform action when removing the shortcut
 func (s *Shortcut) OnRemove() error {
 

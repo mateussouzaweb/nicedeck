@@ -10,15 +10,20 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 )
 
+// History struct
+type History struct {
+	Action   string
+	Original *Shortcut
+	Result   *Shortcut
+}
+
 // Library struct
 type Library struct {
 	SourceFile string      `json:"sourceFile"`
 	ImagesPath string      `json:"imagesPath"`
 	Shortcuts  []*Shortcut `json:"shortcuts"`
+	History    []*History  `json:"history"`
 }
-
-// Merge callback with rules to apply between target and source
-type MergeCallback func(target *Shortcut, source *Shortcut)
 
 // Load library from file
 func (l *Library) Load(sourceFile string) error {
@@ -27,6 +32,7 @@ func (l *Library) Load(sourceFile string) error {
 	l.SourceFile = sourceFile
 	l.ImagesPath = fmt.Sprintf("%s/images", filepath.Dir(sourceFile))
 	l.Shortcuts = make([]*Shortcut, 0)
+	l.History = make([]*History, 0)
 
 	// Check if file exist
 	exist, err := fs.FileExist(sourceFile)
@@ -106,6 +112,12 @@ func (l *Library) Add(shortcut *Shortcut) error {
 	}
 
 	l.Shortcuts = append(l.Shortcuts, shortcut)
+	l.History = append(l.History, &History{
+		Action:   "added",
+		Original: &Shortcut{},
+		Result:   shortcut,
+	})
+
 	return nil
 }
 
@@ -144,8 +156,14 @@ func (l *Library) Update(shortcut *Shortcut) error {
 			return err
 		}
 
-		// Replace with new object data
+		// Replace object at index and generate history
 		l.Shortcuts[index] = shortcut
+		l.History = append(l.History, &History{
+			Action:   "updated",
+			Original: item,
+			Result:   shortcut,
+		})
+
 		found = true
 		break
 	}
@@ -170,46 +188,8 @@ func (l *Library) AddOrUpdate(shortcut *Shortcut) error {
 	return l.Add(shortcut)
 }
 
-// Merge shortcuts libraries into one
-func (l *Library) Merge(extra []*Shortcut, callback MergeCallback) error {
-
-	// When match is detected, call callback to merge data
-	// When has not match, append the item to the list
-	for _, item := range extra {
-		found := false
-		for _, existing := range l.Shortcuts {
-			if existing.ID != item.ID {
-				continue
-			}
-
-			// Run merge callback
-			callback(existing, item)
-
-			// Run internal callback on shortcut
-			existing.ImagesPath = l.ImagesPath
-			err := existing.OnMerge()
-			if err != nil {
-				return err
-			}
-
-			found = true
-			break
-		}
-
-		// Append to the library if not exist
-		if !found {
-			l.Add(item)
-		}
-	}
-
-	return nil
-}
-
 // Remove shortcut from the library
 func (l *Library) Remove(shortcut *Shortcut) error {
-
-	updated := make([]*Shortcut, 0)
-	found := false
 
 	// Instead of appending one by one
 	// We detect the shortcut to remove and add others in batch
@@ -224,15 +204,18 @@ func (l *Library) Remove(shortcut *Shortcut) error {
 			return err
 		}
 
+		updated := make([]*Shortcut, 0)
 		updated = append(updated, l.Shortcuts[:index]...)
 		updated = append(updated, l.Shortcuts[index+1:]...)
-		found = true
-		break
-	}
 
-	// If found, then update the library
-	if found {
 		l.Shortcuts = updated
+		l.History = append(l.History, &History{
+			Action:   "removed",
+			Original: shortcut,
+			Result:   &Shortcut{},
+		})
+
+		break
 	}
 
 	return nil
