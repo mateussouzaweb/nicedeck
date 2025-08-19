@@ -64,10 +64,11 @@ interface ScrapeResult {
 interface LoadLibraryResult {
 	status: string
 	error: string
+	imagesPath: string
 	steamRuntime: string
 	steamPath: string
-	configPath: string
-	imagesPath: string
+	steamAccountId: string
+	steamAccountName: string
 }
 
 interface SaveLibraryResult {

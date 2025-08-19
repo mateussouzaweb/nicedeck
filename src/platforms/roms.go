@@ -128,7 +128,7 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 
 		// Add or update into shortcuts library
 		startDirectory := filepath.Dir(rom.Executable)
-		err = library.Shortcuts.AddOrUpdate(&shortcuts.Shortcut{
+		shortcut := &shortcuts.Shortcut{
 			Platform:       rom.Platform,
 			Program:        rom.Program,
 			Layer:          "emulator",
@@ -146,8 +146,9 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 			BannerURL:      bannerURL,
 			HeroURL:        heroURL,
 			Tags:           []string{"Gaming", "ROM"},
-		})
+		}
 
+		err = library.Shortcuts.AddOrUpdate(shortcut)
 		if err != nil {
 			return total, err
 		}

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"reflect"
 	"sort"
 
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -22,10 +23,10 @@ type Library struct {
 	DatabasePath string      `json:"databasePath"`
 	ImagesPath   string      `json:"imagesPath"`
 	Shortcuts    []*Shortcut `json:"shortcuts"`
-	History      []*History  `json:"history"`
+	History      []*History  `json:"-"`
 }
 
-// Load library from file
+// Load library from database file
 func (l *Library) Load(databasePath string) error {
 
 	// Fill basic information
@@ -34,7 +35,7 @@ func (l *Library) Load(databasePath string) error {
 	l.Shortcuts = make([]*Shortcut, 0)
 	l.History = make([]*History, 0)
 
-	// Check if file exist
+	// Check if database file exist
 	exist, err := fs.FileExist(databasePath)
 	if err != nil {
 		return err
@@ -42,14 +43,14 @@ func (l *Library) Load(databasePath string) error {
 		return nil
 	}
 
-	// Read file content
+	// Read database file content
 	content, err := os.ReadFile(databasePath)
 	if err != nil {
 		return err
 	}
 
-	// Retrieve information from file content when available
-	err = json.Unmarshal(content, &l.Shortcuts)
+	// Retrieve information from database file content when available
+	err = json.Unmarshal(content, &l)
 	if err != nil {
 		return err
 	}
@@ -57,17 +58,17 @@ func (l *Library) Load(databasePath string) error {
 	return nil
 }
 
-// Save library of shortcuts into file
+// Save library of shortcuts into database file
 func (l *Library) Save() error {
 
-	// Sort data before saving
+	// Sort library before saving into database
 	err := l.Sort()
 	if err != nil {
 		return err
 	}
 
-	// Convert config state to JSON representation
-	jsonContent, err := json.MarshalIndent(l.Shortcuts, "", "  ")
+	// Convert database state to JSON representation
+	jsonContent, err := json.MarshalIndent(l, "", "  ")
 	if err != nil {
 		return err
 	}
@@ -78,7 +79,7 @@ func (l *Library) Save() error {
 		return err
 	}
 
-	// Write JSON content to config file
+	// Write JSON content to database file
 	err = os.WriteFile(l.DatabasePath, jsonContent, 0666)
 	if err != nil {
 		return err
@@ -154,6 +155,11 @@ func (l *Library) Update(shortcut *Shortcut) error {
 		err := shortcut.OnUpdate()
 		if err != nil {
 			return err
+		}
+
+		// When no changes are detect, don't do anything
+		if !reflect.DeepEqual(item, shortcut) {
+			return nil
 		}
 
 		// Replace object at index and generate history

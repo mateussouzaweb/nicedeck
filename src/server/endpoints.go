@@ -32,12 +32,13 @@ var staticHandler http.Handler
 
 // Load library result
 type LoadLibraryResult struct {
-	Status       string `json:"status"`
-	Error        string `json:"error"`
-	SteamRuntime string `json:"steamRuntime"`
-	SteamPath    string `json:"steamPath"`
-	ConfigPath   string `json:"configPath"`
-	ImagesPath   string `json:"imagesPath"`
+	Status           string `json:"status"`
+	Error            string `json:"error"`
+	ImagesPath       string `json:"imagesPath"`
+	SteamRuntime     string `json:"steamRuntime"`
+	SteamPath        string `json:"steamPath"`
+	SteamAccountId   string `json:"steamAccountId"`
+	SteamAccountName string `json:"steamAccountName"`
 }
 
 // Load library action
@@ -60,10 +61,11 @@ func loadLibrary(context *Context) error {
 
 	// Print loaded data
 	result.Status = "OK"
-	result.SteamRuntime = "" // config.SteamRuntime
-	result.SteamPath = ""    // config.SteamPath
-	result.ConfigPath = ""   // config.ConfigPath
-	result.ImagesPath = imagesPath
+	result.ImagesPath = library.Shortcuts.ImagesPath
+	result.SteamRuntime = library.Steam.Runtime
+	result.SteamPath = library.Steam.BasePath
+	result.SteamAccountId = library.Steam.AccountId
+	result.SteamAccountName = library.Steam.AccountName
 
 	return context.Status(200).JSON(result)
 }
