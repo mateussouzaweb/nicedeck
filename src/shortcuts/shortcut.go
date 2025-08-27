@@ -3,10 +3,7 @@ package shortcuts
 // Shortcut struct
 type Shortcut struct {
 	ID             string   `json:"id"`
-	Platform       string   `json:"platform"`
 	Program        string   `json:"program"`
-	Layer          string   `json:"layer"`
-	Type           string   `json:"type"`
 	Name           string   `json:"name"`
 	Description    string   `json:"description"`
 	StartDirectory string   `json:"startDirectory"`

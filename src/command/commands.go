@@ -201,10 +201,7 @@ func modifyShortcut(context Context) error {
 	// Retrieve action and data
 	update := context.Flag("--update", false)
 	delete := context.Flag("--delete", false)
-	platform := context.Arg("--platform", shortcut.Platform)
 	program := context.Arg("--program", shortcut.Program)
-	layer := context.Arg("--layer", shortcut.Layer)
-	theType := context.Arg("--type", shortcut.Type)
 	name := context.Arg("--name", shortcut.Name)
 	description := context.Arg("--description", shortcut.Description)
 	startDirectory := context.Arg("--start-directory", shortcut.StartDirectory)
@@ -218,10 +215,7 @@ func modifyShortcut(context Context) error {
 
 	// Update shortcut
 	if update {
-		shortcut.Platform = platform
 		shortcut.Program = program
-		shortcut.Layer = layer
-		shortcut.Type = theType
 		shortcut.Name = name
 		shortcut.Description = description
 		shortcut.StartDirectory = startDirectory

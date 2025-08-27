@@ -156,10 +156,7 @@ func Install(options *Options) error {
 		shortcutID := shortcuts.GenerateID(program.Name, executable)
 		shortcut := &shortcuts.Shortcut{
 			ID:             shortcutID,
-			Platform:       "PC",
 			Program:        program.ID,
-			Layer:          "native",
-			Type:           "program",
 			Name:           program.Name,
 			Description:    program.Description,
 			StartDirectory: startDirectory,

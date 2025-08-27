@@ -203,20 +203,8 @@ window.addEventListener('load', async () => {
         const content = $('.content', modal)
         const html = `
             <div class="group">
-                <label for="platform">Platform:</label>
-                <textarea id="platform" name="platform">${shortcut.platform}</textarea>
-            </div>
-            <div class="group">
                 <label for="program">Program:</label>
                 <textarea id="program" name="program">${shortcut.program}</textarea>
-            </div>
-            <div class="group">
-                <label for="layer">Layer:</label>
-                <textarea id="layer" name="layer">${shortcut.layer}</textarea>
-            </div>
-            <div class="group">
-                <label for="type">Type:</label>
-                <textarea id="type" name="type">${shortcut.type}</textarea>
             </div>
             <div class="group">
                 <label for="name">Name:</label>
@@ -352,10 +340,7 @@ window.addEventListener('load', async () => {
         const body = {
             action: 'update',
             id: shortcut.id,
-            platform: data.get('platform'),
             program: data.get('program'),
-            layer: data.get('layer'),
-            type: data.get('type'),
             name: data.get('name'),
             description: data.get('description'),
             startDirectory: data.get('startDirectory'),

@@ -131,10 +131,7 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 		shortcutID := shortcuts.GenerateID(name, rom.Executable)
 		shortcut := &shortcuts.Shortcut{
 			ID:             shortcutID,
-			Platform:       rom.Platform,
 			Program:        rom.Program,
-			Layer:          "emulator",
-			Type:           "rom",
 			Name:           name,
 			Description:    description,
 			StartDirectory: startDirectory,
@@ -147,7 +144,7 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 			CoverURL:       coverURL,
 			BannerURL:      bannerURL,
 			HeroURL:        heroURL,
-			Tags:           []string{"Gaming", "ROM"},
+			Tags:           []string{"Gaming", "ROM", rom.Platform},
 		}
 
 		err = library.Shortcuts.Set(shortcut, false)

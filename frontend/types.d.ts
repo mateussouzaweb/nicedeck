@@ -24,10 +24,7 @@ interface Platform {
 
 interface Shortcut {
 	id: number
-	platform: string
 	program: string
-	layer: string
-	type: string
 	name: string
 	description: string
 	startDirectory: string
@@ -105,10 +102,7 @@ interface LaunchShortcutResult {
 interface ModifyShortcutData {
 	action: string
 	id: number
-	platform: string
 	program: string
-	layer: string
-	type: string
 	name: string
 	description: string
 	startDirectory: string

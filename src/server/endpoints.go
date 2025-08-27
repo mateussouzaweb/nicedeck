@@ -226,10 +226,7 @@ func launchShortcut(context *Context) error {
 type ModifyShortcutData struct {
 	Action         string `json:"action"`
 	ID             string `json:"id"`
-	Platform       string `json:"platform"`
 	Program        string `json:"program"`
-	Layer          string `json:"layer"`
-	Type           string `json:"type"`
 	Name           string `json:"name"`
 	Description    string `json:"description"`
 	StartDirectory string `json:"startDirectory"`
@@ -273,10 +270,7 @@ func modifyShortcut(context *Context) error {
 
 	// Update shortcut
 	if data.Action == "update" {
-		shortcut.Platform = data.Platform
 		shortcut.Program = data.Program
-		shortcut.Layer = data.Layer
-		shortcut.Type = data.Type
 		shortcut.Name = data.Name
 		shortcut.Description = data.Description
 		shortcut.StartDirectory = data.StartDirectory
