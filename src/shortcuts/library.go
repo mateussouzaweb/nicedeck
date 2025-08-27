@@ -131,7 +131,7 @@ func (l *Library) Add(shortcut *Shortcut) error {
 	}
 
 	// Handle shortcut assets
-	err = l.Assets(shortcut, "add")
+	err = l.Assets(shortcut, "sync", true)
 	if err != nil {
 		return err
 	}
@@ -148,7 +148,7 @@ func (l *Library) Add(shortcut *Shortcut) error {
 }
 
 // Update shortcut on library
-func (l *Library) Update(shortcut *Shortcut) error {
+func (l *Library) Update(shortcut *Shortcut, overwriteAssets bool) error {
 
 	// Check if already exist an app with the same reference
 	found := false
@@ -169,7 +169,7 @@ func (l *Library) Update(shortcut *Shortcut) error {
 		}
 
 		// Handle shortcut assets
-		err = l.Assets(shortcut, "sync")
+		err = l.Assets(shortcut, "sync", overwriteAssets)
 		if err != nil {
 			return err
 		}
@@ -195,7 +195,7 @@ func (l *Library) Update(shortcut *Shortcut) error {
 }
 
 // Set shortcut into library by adding or updating it
-func (l *Library) Set(shortcut *Shortcut) error {
+func (l *Library) Set(shortcut *Shortcut, overwriteAssets bool) error {
 
 	shortcutID := shortcut.ID
 	if shortcutID == "" {
@@ -205,7 +205,7 @@ func (l *Library) Set(shortcut *Shortcut) error {
 	existing := l.Get(shortcutID)
 	if existing.ID != "" {
 		shortcut.ID = existing.ID
-		return l.Update(shortcut)
+		return l.Update(shortcut, overwriteAssets)
 	}
 
 	return l.Add(shortcut)
@@ -228,7 +228,7 @@ func (l *Library) Remove(shortcut *Shortcut) error {
 		}
 
 		// Handle shortcut assets
-		err = l.Assets(shortcut, "remove")
+		err = l.Assets(shortcut, "remove", true)
 		if err != nil {
 			return err
 		}
@@ -252,7 +252,7 @@ func (l *Library) Remove(shortcut *Shortcut) error {
 }
 
 // Process assets for shortcut based on action
-func (l *Library) Assets(shortcut *Shortcut, action string) error {
+func (l *Library) Assets(shortcut *Shortcut, action string, overwrite bool) error {
 
 	// Internal image formats:
 	// - Logo: ${ID}_logo.png
@@ -264,8 +264,8 @@ func (l *Library) Assets(shortcut *Shortcut, action string) error {
 	// Handle images
 	// Process usually mean download image from URL
 	iconImage := &Image{
-		SourcePath:      shortcut.CoverPath,
-		SourceURL:       shortcut.CoverURL,
+		SourcePath:      shortcut.IconPath,
+		SourceURL:       shortcut.IconURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_icon", shortcut.ID),
 		Extensions:      []string{".png", ".ico"},
@@ -301,25 +301,23 @@ func (l *Library) Assets(shortcut *Shortcut, action string) error {
 
 	// Sync all images based on the action
 	if action == "sync" || action == "add" {
-		overwriteExisting := action == "add"
-
-		err := iconImage.Process(overwriteExisting)
+		err := iconImage.Process(overwrite)
 		if err != nil {
 			return err
 		}
-		err = logoImage.Process(overwriteExisting)
+		err = logoImage.Process(overwrite)
 		if err != nil {
 			return err
 		}
-		err = coverImage.Process(overwriteExisting)
+		err = coverImage.Process(overwrite)
 		if err != nil {
 			return err
 		}
-		err = bannerImage.Process(overwriteExisting)
+		err = bannerImage.Process(overwrite)
 		if err != nil {
 			return err
 		}
-		err = heroImage.Process(overwriteExisting)
+		err = heroImage.Process(overwrite)
 		if err != nil {
 			return err
 		}

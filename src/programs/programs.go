@@ -180,7 +180,7 @@ func Install(options *Options) error {
 		}
 
 		// Add to shortcuts list
-		err = library.Shortcuts.Set(shortcut)
+		err = library.Shortcuts.Set(shortcut, false)
 		if err != nil {
 			return err
 		}

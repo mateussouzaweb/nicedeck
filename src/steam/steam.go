@@ -11,7 +11,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
-	"github.com/mateussouzaweb/nicedeck/src/steam/controller"
 )
 
 // Retrieve Steam package
@@ -137,35 +136,4 @@ func CleanExec(exec string) string {
 	exec = strings.Replace(exec, "/usr/bin/flatpak-spawn --host", "", 1)
 	exec = strings.Trim(exec, " ")
 	return exec
-}
-
-// Perform Steam setup
-func Setup() error {
-
-	// Retrieve Steam base path
-	// Skip if Steam installation was not found
-	steamPath, err := GetPath()
-	if err != nil {
-		return fmt.Errorf("could not detect Steam installation: %s", err)
-	} else if steamPath == "" {
-		cli.Printf(cli.ColorWarn, "Steam not detected, skipping Steam setup process...\n")
-		return nil
-	}
-
-	// Write controller templates
-	controllerTemplatesPaths := filepath.Join(steamPath, "controller_base", "templates")
-	err = controller.WriteTemplates(controllerTemplatesPaths)
-	if err != nil {
-		return fmt.Errorf("could not perform Steam controller setup: %s", err)
-	}
-
-	// Make sure Steam on flatpak has the necessary permission
-	if _, ok := GetPackage().(*linux.Flatpak); ok {
-		err := GetPackage().(*linux.Flatpak).ApplyOverrides()
-		if err != nil {
-			return fmt.Errorf("could not perform Steam runtime setup: %s", err)
-		}
-	}
-
-	return nil
 }

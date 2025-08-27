@@ -41,8 +41,11 @@ func (i *Image) Process(overwriteExisting bool) error {
 
 	// Overwrite existing images if specified
 	if overwriteExisting {
-		toRemove = append(toRemove, i.SourcePath)
 		toRemove = append(toRemove, i.TargetPath)
+
+		if i.SourceURL != "" {
+			toRemove = append(toRemove, i.SourcePath)
+		}
 	}
 
 	// Remove duplicated or unnecessary images
@@ -69,7 +72,7 @@ func (i *Image) Process(overwriteExisting bool) error {
 	}
 
 	// If source image URL exists, download the image
-	if i.SourceURL == "" {
+	if i.SourceURL != "" {
 		err := fs.DownloadFile(i.SourceURL, i.TargetPath, overwriteExisting)
 		if err != nil {
 			return err

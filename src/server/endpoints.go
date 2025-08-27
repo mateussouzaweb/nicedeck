@@ -22,7 +22,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
-	"github.com/mateussouzaweb/nicedeck/src/steam"
 )
 
 var gridFS fs.FS
@@ -194,17 +193,15 @@ func launchShortcut(context *Context) error {
 	}
 
 	// Launch program based on running system
-	appID := fmt.Sprintf("%v", shortcut.ID)
-	executable := steam.CleanExec(shortcut.Executable)
 	program := packaging.Best(&linux.Binary{
-		AppID:  appID,
-		AppBin: executable,
+		AppID:  shortcut.ID,
+		AppBin: shortcut.Executable,
 	}, &macos.Application{
-		AppID:   appID,
-		AppName: executable,
+		AppID:   shortcut.ID,
+		AppName: shortcut.Executable,
 	}, &windows.Executable{
-		AppID:  appID,
-		AppExe: executable,
+		AppID:  shortcut.ID,
+		AppExe: shortcut.Executable,
 	})
 
 	// Launch the shortcut
@@ -268,7 +265,7 @@ func modifyShortcut(context *Context) error {
 	// Find shortcut reference
 	shortcut := library.Shortcuts.Get(data.ID)
 	if shortcut.ID == "" {
-		err := fmt.Errorf("could not found shortcut with ID: %v", data.ID)
+		err := fmt.Errorf("could not found shortcut with ID: %s", data.ID)
 		result.Status = "ERROR"
 		result.Error = err.Error()
 		return context.Status(400).JSON(result)
@@ -291,7 +288,7 @@ func modifyShortcut(context *Context) error {
 		shortcut.BannerURL = data.BannerURL
 		shortcut.HeroURL = data.HeroURL
 
-		err := library.Shortcuts.Update(shortcut)
+		err := library.Shortcuts.Update(shortcut, true)
 		if err != nil {
 			result.Status = "ERROR"
 			result.Error = err.Error()
@@ -337,14 +334,6 @@ func installPrograms(context *Context) error {
 	// Bind data
 	data := InstallProgramsData{}
 	err := context.Bind(&data)
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	// Run Steam setup by making sure has required settings
-	err = steam.Setup()
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()

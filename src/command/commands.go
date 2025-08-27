@@ -16,7 +16,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
 	"github.com/mateussouzaweb/nicedeck/src/server"
-	"github.com/mateussouzaweb/nicedeck/src/steam"
 )
 
 // Print application version
@@ -145,17 +144,15 @@ func launchShortcut(context Context) error {
 	}
 
 	// Launch program based on running system
-	appID := fmt.Sprintf("%v", shortcut.ID)
-	executable := steam.CleanExec(shortcut.Executable)
 	program := packaging.Best(&linux.Binary{
-		AppID:  appID,
-		AppBin: executable,
+		AppID:  shortcut.ID,
+		AppBin: shortcut.Executable,
 	}, &macos.Application{
-		AppID:   appID,
-		AppName: executable,
+		AppID:   shortcut.ID,
+		AppName: shortcut.Executable,
 	}, &windows.Executable{
-		AppID:  appID,
-		AppExe: executable,
+		AppID:  shortcut.ID,
+		AppExe: shortcut.Executable,
 	})
 
 	// Launch the shortcut
@@ -236,7 +233,7 @@ func modifyShortcut(context Context) error {
 		shortcut.BannerURL = bannerURL
 		shortcut.HeroURL = heroURL
 
-		err := library.Shortcuts.Update(shortcut)
+		err := library.Shortcuts.Update(shortcut, true)
 		if err != nil {
 			return err
 		}
@@ -285,12 +282,6 @@ func installPrograms(context Context) error {
 		errors.Join(err, library.Save())
 	}()
 
-	// Run Steam setup by making sure has required settings
-	err = steam.Setup()
-	if err != nil {
-		return err
-	}
-
 	// Install programs in the list
 	options := programs.ToOptions(include, preferences)
 	err = programs.Install(options)
@@ -331,12 +322,6 @@ func removePrograms(context Context) error {
 	defer func() {
 		errors.Join(err, library.Save())
 	}()
-
-	// Run Steam setup by making sure has required settings
-	err = steam.Setup()
-	if err != nil {
-		return err
-	}
 
 	// Remove programs in the list
 	options := programs.ToOptions(include, preferences)
