@@ -26,24 +26,3 @@ type Shortcut struct {
 	HeroURL        string   `json:"heroUrl"`
 	Tags           []string `json:"tags"`
 }
-
-// Perform action when creating the shortcut
-func (s *Shortcut) OnCreate() error {
-
-	// Ensure to have a valid shortcut ID
-	if s.ID == "" || s.ID == "0" {
-		s.ID = GenerateID(s.Name, s.Executable)
-	}
-
-	return nil
-}
-
-// Perform action when updating the shortcut
-func (s *Shortcut) OnUpdate() error {
-	return nil
-}
-
-// Perform action when removing the shortcut
-func (s *Shortcut) OnRemove() error {
-	return nil
-}

@@ -333,14 +333,8 @@ func (l *Library) Sync(history *History) error {
 				continue
 			}
 
-			// Run callback on shortcut
-			err := shortcut.OnRemove()
-			if err != nil {
-				return err
-			}
-
 			// Handle shortcut assets
-			err = l.Assets(reference, existing, "remove", true)
+			err := l.Assets(reference, existing, "remove", true)
 			if err != nil {
 				return err
 			}
@@ -379,14 +373,8 @@ func (l *Library) Sync(history *History) error {
 		shortcut.DevKitOverrideAppID = existing.DevKitOverrideAppID
 		shortcut.LastPlayTime = existing.LastPlayTime
 
-		// Run callback on shortcut
-		err := shortcut.OnUpdate()
-		if err != nil {
-			return err
-		}
-
 		// Handle shortcut assets
-		err = l.Assets(reference, shortcut, "sync", true)
+		err := l.Assets(reference, shortcut, "sync", true)
 		if err != nil {
 			return err
 		}
@@ -400,14 +388,8 @@ func (l *Library) Sync(history *History) error {
 	// Not found in library, can be added safely
 	if !found {
 
-		// Run callback on shortcut
-		err := shortcut.OnCreate()
-		if err != nil {
-			return err
-		}
-
 		// Handle shortcut assets
-		err = l.Assets(reference, shortcut, "sync", true)
+		err := l.Assets(reference, shortcut, "sync", true)
 		if err != nil {
 			return err
 		}

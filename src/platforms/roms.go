@@ -128,7 +128,9 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 
 		// Add or update into shortcuts library
 		startDirectory := filepath.Dir(rom.Executable)
+		shortcutID := shortcuts.GenerateID(name, rom.Executable)
 		shortcut := &shortcuts.Shortcut{
+			ID:             shortcutID,
 			Platform:       rom.Platform,
 			Program:        rom.Program,
 			Layer:          "emulator",

@@ -153,7 +153,9 @@ func Install(options *Options) error {
 		// Fill basic shortcut information
 		executable := program.Package.Executable()
 		startDirectory := filepath.Dir(executable)
+		shortcutID := shortcuts.GenerateID(program.Name, executable)
 		shortcut := &shortcuts.Shortcut{
+			ID:             shortcutID,
 			Platform:       "PC",
 			Program:        program.ID,
 			Layer:          "native",

@@ -124,14 +124,8 @@ func (l *Library) Find(name string, executable string) *Shortcut {
 // Add shortcut to the library
 func (l *Library) Add(shortcut *Shortcut) error {
 
-	// Run callback on shortcut
-	err := shortcut.OnCreate()
-	if err != nil {
-		return err
-	}
-
 	// Handle shortcut assets
-	err = l.Assets(shortcut, "sync", true)
+	err := l.Assets(shortcut, "sync", true)
 	if err != nil {
 		return err
 	}
@@ -157,19 +151,13 @@ func (l *Library) Update(shortcut *Shortcut, overwriteAssets bool) error {
 			continue
 		}
 
-		// Run callback on shortcut
-		err := shortcut.OnUpdate()
-		if err != nil {
-			return err
-		}
-
 		// When no changes are detect, don't do anything
 		if !reflect.DeepEqual(item, shortcut) {
 			return nil
 		}
 
 		// Handle shortcut assets
-		err = l.Assets(shortcut, "sync", overwriteAssets)
+		err := l.Assets(shortcut, "sync", overwriteAssets)
 		if err != nil {
 			return err
 		}
@@ -196,19 +184,13 @@ func (l *Library) Update(shortcut *Shortcut, overwriteAssets bool) error {
 
 // Set shortcut into library by adding or updating it
 func (l *Library) Set(shortcut *Shortcut, overwriteAssets bool) error {
+	existing := l.Get(shortcut.ID)
 
-	shortcutID := shortcut.ID
-	if shortcutID == "" {
-		shortcutID = GenerateID(shortcut.Name, shortcut.Executable)
-	}
-
-	existing := l.Get(shortcutID)
 	if existing.ID != "" {
-		shortcut.ID = existing.ID
 		return l.Update(shortcut, overwriteAssets)
+	} else {
+		return l.Add(shortcut)
 	}
-
-	return l.Add(shortcut)
 }
 
 // Remove shortcut from the library
@@ -221,14 +203,8 @@ func (l *Library) Remove(shortcut *Shortcut) error {
 			continue
 		}
 
-		// Run callback on shortcut
-		err := shortcut.OnRemove()
-		if err != nil {
-			return err
-		}
-
 		// Handle shortcut assets
-		err = l.Assets(shortcut, "remove", true)
+		err := l.Assets(shortcut, "remove", true)
 		if err != nil {
 			return err
 		}
