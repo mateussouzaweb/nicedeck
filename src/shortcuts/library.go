@@ -103,25 +103,6 @@ func (l *Library) Sort() error {
 	return nil
 }
 
-// Add shortcut to the library
-func (l *Library) Add(shortcut *Shortcut) error {
-
-	shortcut.ImagesPath = l.ImagesPath
-	err := shortcut.OnCreate()
-	if err != nil {
-		return err
-	}
-
-	l.Shortcuts = append(l.Shortcuts, shortcut)
-	l.History = append(l.History, &History{
-		Action:   "added",
-		Original: &Shortcut{},
-		Result:   shortcut,
-	})
-
-	return nil
-}
-
 // Retrieve shortcut in the library with given ID
 func (l *Library) Get(ID string) *Shortcut {
 	for _, item := range l.Shortcuts {
@@ -140,6 +121,32 @@ func (l *Library) Find(name string, executable string) *Shortcut {
 	return l.Get(ID)
 }
 
+// Add shortcut to the library
+func (l *Library) Add(shortcut *Shortcut) error {
+
+	// Run callback on shortcut
+	err := shortcut.OnCreate()
+	if err != nil {
+		return err
+	}
+
+	// Handle shortcut assets
+	err = l.Assets(shortcut, "add")
+	if err != nil {
+		return err
+	}
+
+	// Add shortcut and generate history
+	l.Shortcuts = append(l.Shortcuts, shortcut)
+	l.History = append(l.History, &History{
+		Action:   "added",
+		Original: &Shortcut{},
+		Result:   shortcut,
+	})
+
+	return nil
+}
+
 // Update shortcut on library
 func (l *Library) Update(shortcut *Shortcut) error {
 
@@ -151,7 +158,6 @@ func (l *Library) Update(shortcut *Shortcut) error {
 		}
 
 		// Run callback on shortcut
-		shortcut.ImagesPath = l.ImagesPath
 		err := shortcut.OnUpdate()
 		if err != nil {
 			return err
@@ -162,7 +168,13 @@ func (l *Library) Update(shortcut *Shortcut) error {
 			return nil
 		}
 
-		// Replace object at index and generate history
+		// Handle shortcut assets
+		err = l.Assets(shortcut, "sync")
+		if err != nil {
+			return err
+		}
+
+		// Replace shortcut at index and generate history
 		l.Shortcuts[index] = shortcut
 		l.History = append(l.History, &History{
 			Action:   "updated",
@@ -204,12 +216,19 @@ func (l *Library) Remove(shortcut *Shortcut) error {
 			continue
 		}
 
-		shortcut.ImagesPath = l.ImagesPath
+		// Run callback on shortcut
 		err := shortcut.OnRemove()
 		if err != nil {
 			return err
 		}
 
+		// Handle shortcut assets
+		err = l.Assets(shortcut, "remove")
+		if err != nil {
+			return err
+		}
+
+		// Update library shortcuts and history
 		updated := make([]*Shortcut, 0)
 		updated = append(updated, l.Shortcuts[:index]...)
 		updated = append(updated, l.Shortcuts[index+1:]...)
@@ -222,6 +241,113 @@ func (l *Library) Remove(shortcut *Shortcut) error {
 		})
 
 		break
+	}
+
+	return nil
+}
+
+// Process assets for shortcut based on action
+func (l *Library) Assets(shortcut *Shortcut, action string) error {
+
+	// Internal image formats:
+	// - Logo: ${ID}_logo.png
+	// - Icon: ${ID}_icon.(ico|png)
+	// - Cover: ${ID}_cover.(jpg|png)
+	// - Banner: ${ID}_banner.(jpg|png)
+	// - Hero: ${ID}_hero.(jpg|png)
+
+	// Handle images
+	// Process usually mean download image from URL
+	iconImage := &Image{
+		SourcePath:      shortcut.CoverPath,
+		SourceURL:       shortcut.CoverURL,
+		TargetDirectory: l.ImagesPath,
+		TargetName:      fmt.Sprintf("%s_icon", shortcut.ID),
+		Extensions:      []string{".png", ".ico"},
+	}
+	logoImage := &Image{
+		SourcePath:      shortcut.LogoPath,
+		SourceURL:       shortcut.LogoURL,
+		TargetDirectory: l.ImagesPath,
+		TargetName:      fmt.Sprintf("%s_logo", shortcut.ID),
+		Extensions:      []string{".png"},
+	}
+	coverImage := &Image{
+		SourcePath:      shortcut.CoverPath,
+		SourceURL:       shortcut.CoverURL,
+		TargetDirectory: l.ImagesPath,
+		TargetName:      fmt.Sprintf("%s_cover", shortcut.ID),
+		Extensions:      []string{".png", ".jpg"},
+	}
+	bannerImage := &Image{
+		SourcePath:      shortcut.BannerPath,
+		SourceURL:       shortcut.BannerURL,
+		TargetDirectory: l.ImagesPath,
+		TargetName:      fmt.Sprintf("%s_banner", shortcut.ID),
+		Extensions:      []string{".png", ".jpg"},
+	}
+	heroImage := &Image{
+		SourcePath:      shortcut.HeroPath,
+		SourceURL:       shortcut.HeroURL,
+		TargetDirectory: l.ImagesPath,
+		TargetName:      fmt.Sprintf("%s_hero", shortcut.ID),
+		Extensions:      []string{".png", ".jpg"},
+	}
+
+	// Sync all images based on the action
+	if action == "sync" || action == "add" {
+		overwriteExisting := action == "add"
+
+		err := iconImage.Process(overwriteExisting)
+		if err != nil {
+			return err
+		}
+		err = logoImage.Process(overwriteExisting)
+		if err != nil {
+			return err
+		}
+		err = coverImage.Process(overwriteExisting)
+		if err != nil {
+			return err
+		}
+		err = bannerImage.Process(overwriteExisting)
+		if err != nil {
+			return err
+		}
+		err = heroImage.Process(overwriteExisting)
+		if err != nil {
+			return err
+		}
+
+		shortcut.IconPath = iconImage.TargetPath
+		shortcut.LogoPath = logoImage.TargetPath
+		shortcut.CoverPath = coverImage.TargetPath
+		shortcut.BannerPath = bannerImage.TargetPath
+		shortcut.HeroPath = heroImage.TargetPath
+	}
+
+	// Remove images if specified
+	if action == "remove" {
+		err := iconImage.Remove()
+		if err != nil {
+			return err
+		}
+		err = logoImage.Remove()
+		if err != nil {
+			return err
+		}
+		err = coverImage.Remove()
+		if err != nil {
+			return err
+		}
+		err = bannerImage.Remove()
+		if err != nil {
+			return err
+		}
+		err = heroImage.Remove()
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

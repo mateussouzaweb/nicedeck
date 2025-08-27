@@ -14,6 +14,10 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam/vdf"
 )
 
+type Image = shortcuts.Image
+type History = shortcuts.History
+type Internal = shortcuts.Shortcut
+
 // Library struct
 type Library struct {
 	DatabasePath  string      `json:"databasePath"`
@@ -111,19 +115,9 @@ func (l *Library) Load(databasePath string) error {
 	// Shortcuts file can possible be updated by other services or Steam UI
 	// Because the library represents the Steam data
 	// We always read shortcuts from Steam source data
-	err = l.LoadShortcuts()
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// Load shortcuts from VDF file into library
-func (l *Library) LoadShortcuts() error {
 
 	// Check if VDF file exist
-	exist, err := fs.FileExist(l.ShortcutsPath)
+	exist, err = fs.FileExist(l.ShortcutsPath)
 	if err != nil {
 		return err
 	} else if !exist {
@@ -253,17 +247,6 @@ func (l *Library) Save() error {
 	}
 
 	// Save updated Steam shortcuts to VDF file
-	err = l.SaveShortcuts()
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// Save library shortcuts on VDF file
-func (l *Library) SaveShortcuts() error {
-
 	// Create VDF specs from shortcuts
 	items := make(vdf.Vdf)
 	for index, shortcut := range l.Shortcuts {
@@ -316,10 +299,11 @@ func (l *Library) SaveShortcuts() error {
 }
 
 // Sync change history to the library
-func (l *Library) Sync(history *shortcuts.History) error {
+func (l *Library) Sync(history *History) error {
 
 	// Remove shortcut to sync
 	if history.Action == "removed" {
+		reference := history.Original
 		shortcut := l.FromInternal(history.Original)
 
 		for index, existing := range l.Shortcuts {
@@ -327,6 +311,19 @@ func (l *Library) Sync(history *shortcuts.History) error {
 				continue
 			}
 
+			// Run callback on shortcut
+			err := shortcut.OnRemove()
+			if err != nil {
+				return err
+			}
+
+			// Handle shortcut assets
+			err = l.Assets(reference, existing, "remove")
+			if err != nil {
+				return err
+			}
+
+			// Update library of shortcuts
 			updated := make([]*Shortcut, 0)
 			updated = append(updated, l.Shortcuts[:index]...)
 			updated = append(updated, l.Shortcuts[index+1:]...)
@@ -338,6 +335,7 @@ func (l *Library) Sync(history *shortcuts.History) error {
 	}
 
 	// Add or update shortcut to sync
+	reference := history.Result
 	shortcut := l.FromInternal(history.Result)
 	found := false
 
@@ -358,6 +356,18 @@ func (l *Library) Sync(history *shortcuts.History) error {
 		shortcut.DevKitOverrideAppID = existing.DevKitOverrideAppID
 		shortcut.LastPlayTime = existing.LastPlayTime
 
+		// Run callback on shortcut
+		err := shortcut.OnUpdate()
+		if err != nil {
+			return err
+		}
+
+		// Handle shortcut assets
+		err = l.Assets(reference, shortcut, "sync")
+		if err != nil {
+			return err
+		}
+
 		// Replace shortcut at index
 		l.Shortcuts[index] = shortcut
 		found = true
@@ -366,7 +376,125 @@ func (l *Library) Sync(history *shortcuts.History) error {
 
 	// Can be added safely
 	if !found {
+
+		// Run callback on shortcut
+		err := shortcut.OnCreate()
+		if err != nil {
+			return err
+		}
+
+		// Handle shortcut assets
+		err = l.Assets(reference, shortcut, "add")
+		if err != nil {
+			return err
+		}
+
+		// Add shortcut to the library
 		l.Shortcuts = append(l.Shortcuts, shortcut)
+
+	}
+
+	return nil
+}
+
+// Process assets for shortcut based on action
+func (l *Library) Assets(specs *Internal, shortcut *Shortcut, action string) error {
+
+	// Steam image formats:
+	// - Logo: ${APPID}_logo.png
+	// - Icon: ${APPID}_icon.(ico|png)
+	// - Cover: ${APPID}p.(jpg|png)
+	// - Banner: ${APPID}.(jpg|png)
+	// - Hero: ${APPID}_hero.(jpg|png)
+
+	// Handle images
+	// Process usually means copy image from path to path
+	iconImage := &Image{
+		SourcePath:      specs.CoverPath,
+		TargetDirectory: l.ImagesPath,
+		TargetName:      fmt.Sprintf("%v_icon", shortcut.AppID),
+		Extensions:      []string{".png", ".ico"},
+	}
+	logoImage := &Image{
+		SourcePath:      specs.LogoPath,
+		TargetDirectory: l.ImagesPath,
+		TargetName:      fmt.Sprintf("%v_logo", shortcut.AppID),
+		Extensions:      []string{".png"},
+	}
+	coverImage := &Image{
+		SourcePath:      specs.CoverPath,
+		TargetDirectory: l.ImagesPath,
+		TargetName:      fmt.Sprintf("%vp", shortcut.AppID),
+		Extensions:      []string{".png", ".jpg"},
+	}
+	bannerImage := &Image{
+		SourcePath:      specs.BannerPath,
+		TargetDirectory: l.ImagesPath,
+		TargetName:      fmt.Sprintf("%v", shortcut.AppID),
+		Extensions:      []string{".png", ".jpg"},
+	}
+	heroImage := &Image{
+		SourcePath:      specs.HeroPath,
+		TargetDirectory: l.ImagesPath,
+		TargetName:      fmt.Sprintf("%v_hero", shortcut.AppID),
+		Extensions:      []string{".png", ".jpg"},
+	}
+
+	// Sync all images based on the action
+	if action == "sync" || action == "add" {
+		overwriteExisting := action == "add"
+
+		err := iconImage.Process(overwriteExisting)
+		if err != nil {
+			return err
+		}
+		err = logoImage.Process(overwriteExisting)
+		if err != nil {
+			return err
+		}
+		err = coverImage.Process(overwriteExisting)
+		if err != nil {
+			return err
+		}
+		err = bannerImage.Process(overwriteExisting)
+		if err != nil {
+			return err
+		}
+		err = heroImage.Process(overwriteExisting)
+		if err != nil {
+			return err
+		}
+
+		// Steam only stores the icon path on shortcut
+		// shortcut.Logo = logoImage.TargetPath
+		// shortcut.Cover = coverImage.TargetPath
+		// shortcut.Banner = bannerImage.TargetPath
+		// shortcut.Hero = heroImage.TargetPath
+		shortcut.Icon = iconImage.TargetPath
+	}
+
+	// Remove images if specified
+	if action == "remove" {
+		err := iconImage.Remove()
+		if err != nil {
+			return err
+		}
+		err = logoImage.Remove()
+		if err != nil {
+			return err
+		}
+		err = coverImage.Remove()
+		if err != nil {
+			return err
+		}
+		err = bannerImage.Remove()
+		if err != nil {
+			return err
+		}
+		err = heroImage.Remove()
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -374,15 +502,33 @@ func (l *Library) Sync(history *shortcuts.History) error {
 
 // Generate a new internal shortcut from Steam shortcut
 // Used to merge Steam shortcuts into main library
-func (l *Library) ToInternal(specs *Shortcut) *shortcuts.Shortcut {
+func (l *Library) ToInternal(specs *Shortcut) *Internal {
 
-	shortcut := &shortcuts.Shortcut{}
+	shortcut := &Internal{}
 	shortcut.ID = shortcuts.FromUint(specs.AppID)
 	shortcut.Name = specs.AppName
 	shortcut.StartDirectory = specs.StartDir
 	shortcut.Executable = specs.Exe
 	shortcut.LaunchOptions = specs.LaunchOptions
 	shortcut.Tags = specs.Tags
+
+	// if specs.Icon == ""{
+	// 	shortcut.IconPath =
+	// }
+
+	// Merge relevant data
+	// target.IconURL = source.IconURL
+	// target.Logo = source.Logo
+	// target.LogoURL = source.LogoURL
+	// target.Cover = source.Cover
+	// target.CoverURL = source.CoverURL
+	// target.Banner = source.Banner
+	// target.BannerURL = source.BannerURL
+	// target.Hero = source.Hero
+	// target.HeroURL = source.HeroURL
+	// target.Description = source.Description
+	// target.Platform = source.Platform
+	// target.RelativePath = source.RelativePath
 
 	// Merge tags to not lose current ones
 	for _, tag := range specs.Tags {
@@ -396,7 +542,7 @@ func (l *Library) ToInternal(specs *Shortcut) *shortcuts.Shortcut {
 
 // Generate a Steam shortcut from internal shortcut
 // Used to sync internal shortcuts into Steam library
-func (l *Library) FromInternal(specs *shortcuts.Shortcut) *Shortcut {
+func (l *Library) FromInternal(specs *Internal) *Shortcut {
 
 	shortcut := &Shortcut{}
 	shortcut.AppID = shortcuts.ToUint(specs.ID)

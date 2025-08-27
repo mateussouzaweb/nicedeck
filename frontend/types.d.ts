@@ -35,7 +35,6 @@ interface Shortcut {
 	launchOptions: string
 	shortcutPath: string
 	relativePath: string
-	imagesPath: string
 	iconPath: string
 	iconUrl: string
 	logoPath: string
