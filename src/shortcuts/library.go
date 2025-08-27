@@ -194,10 +194,15 @@ func (l *Library) Update(shortcut *Shortcut) error {
 	return nil
 }
 
-// Add or update shortcut into library
-func (l *Library) AddOrUpdate(shortcut *Shortcut) error {
+// Set shortcut into library by adding or updating it
+func (l *Library) Set(shortcut *Shortcut) error {
 
-	existing := l.Find(shortcut.Name, shortcut.Executable)
+	shortcutID := shortcut.ID
+	if shortcutID == "" {
+		shortcutID = GenerateID(shortcut.Name, shortcut.Executable)
+	}
+
+	existing := l.Get(shortcutID)
 	if existing.ID != "" {
 		shortcut.ID = existing.ID
 		return l.Update(shortcut)

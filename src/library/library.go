@@ -36,7 +36,7 @@ func Load() error {
 	// Sync Steam shortcuts to internal library
 	for _, steamShortcut := range Steam.Shortcuts {
 		shortcut := Steam.ToInternal(steamShortcut)
-		err := Shortcuts.AddOrUpdate(shortcut)
+		err := Shortcuts.Set(shortcut)
 		if err != nil {
 			return err
 		}

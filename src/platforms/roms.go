@@ -148,7 +148,7 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 			Tags:           []string{"Gaming", "ROM"},
 		}
 
-		err = library.Shortcuts.AddOrUpdate(shortcut)
+		err = library.Shortcuts.Set(shortcut)
 		if err != nil {
 			return total, err
 		}
