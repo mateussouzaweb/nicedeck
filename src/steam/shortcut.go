@@ -13,9 +13,9 @@ type Shortcut struct {
 	AllowDesktopConfig  uint     `json:"allowDesktopConfig"`
 	AllowOverlay        uint     `json:"allowOverlay"`
 	OpenVR              uint     `json:"openVr"`
-	DevKit              uint     `json:"devkit"`
-	DevKitGameID        string   `json:"devkitGameId"`
-	DevKitOverrideAppID uint     `json:"devkitOverrideAppId"`
+	DevKit              uint     `json:"devKit"`
+	DevKitGameID        string   `json:"devKitGameId"`
+	DevKitOverrideAppID uint     `json:"devKitOverrideAppId"`
 	LastPlayTime        uint     `json:"lastPlayTime"`
 	Tags                []string `json:"tags"`
 }
