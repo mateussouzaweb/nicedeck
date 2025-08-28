@@ -346,7 +346,6 @@ func installPrograms(context *Context) error {
 	}
 
 	cli.Printf(cli.ColorSuccess, "Process finished!\n")
-	cli.Printf(cli.ColorNotice, "Please restart Steam or the device to changes take effect.\n")
 
 	result.Status = "OK"
 	return context.Status(200).JSON(result)
@@ -388,7 +387,6 @@ func removePrograms(context *Context) error {
 	}
 
 	cli.Printf(cli.ColorSuccess, "Remove process finished!\n")
-	cli.Printf(cli.ColorNotice, "Please restart Steam or the device to changes take effect.\n")
 
 	result.Status = "OK"
 	return context.Status(200).JSON(result)

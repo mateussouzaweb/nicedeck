@@ -233,7 +233,6 @@ func Process(options *Options) error {
 
 	if processed > 0 || removed > 0 {
 		cli.Printf(cli.ColorSuccess, "Process finished!\n")
-		cli.Printf(cli.ColorNotice, "Please restart Steam or the device to changes take effect.\n")
 	}
 
 	return nil

@@ -68,12 +68,6 @@ func Save() error {
 		}
 	}
 
-	// Run Steam setup by making sure has required settings
-	err = Steam.Setup()
-	if err != nil {
-		return err
-	}
-
 	// Save Steam library
 	err = Steam.Save()
 	if err != nil {

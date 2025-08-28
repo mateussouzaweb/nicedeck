@@ -117,7 +117,7 @@ func GetConfigPath() (string, error) {
 
 	// Check if results was found
 	if len(configPaths) == 0 {
-		return "", fmt.Errorf("no users detected, please make sure to login into Steam first")
+		return "", nil
 	}
 
 	return configPaths[0], nil

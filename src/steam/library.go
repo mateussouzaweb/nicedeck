@@ -70,8 +70,9 @@ func (l *Library) Load(databasePath string) error {
 
 	// Show message based on Steam detection
 	if l.BasePath == "" {
-		cli.Printf(cli.ColorWarn, "Steam installation was not detected.\n")
-		cli.Printf(cli.ColorWarn, "Please make sure to install and login into Steam first.\n")
+		cli.Printf(cli.ColorWarn, "Note: Steam installation was not detected.\n")
+		cli.Printf(cli.ColorWarn, "Please make sure to install and login into Steam first to sync library.\n")
+		return nil
 	}
 
 	// Check how is Steam running
@@ -88,6 +89,14 @@ func (l *Library) Load(databasePath string) error {
 		if err != nil {
 			return fmt.Errorf("could not detect Steam user config path: %s", err)
 		}
+	}
+
+	// When no user config path is detect
+	// Gracefully ignore processing for this library
+	if l.ConfigPath == "" {
+		cli.Printf(cli.ColorWarn, "Note: Steam account was not detected.\n")
+		cli.Printf(cli.ColorWarn, "Please make sure to login into Steam first to sync library.\n")
+		return nil
 	}
 
 	// Shortcuts images folder path
@@ -229,6 +238,18 @@ func (l *Library) Load(databasePath string) error {
 // Save library
 func (l *Library) Save() error {
 
+	// Check if can save library
+	if l.BasePath == "" {
+		cli.Printf(cli.ColorWarn, "Note: Steam installation was not detected.\n")
+		cli.Printf(cli.ColorWarn, "Please make sure to install and login into Steam first to sync library.\n")
+		return nil
+	}
+	if l.AccountId == "" {
+		cli.Printf(cli.ColorWarn, "Note: Steam account was not detected.\n")
+		cli.Printf(cli.ColorWarn, "Please make sure to login into Steam first to sync library.\n")
+		return nil
+	}
+
 	// Convert database state to JSON representation
 	jsonContent, err := json.MarshalIndent(l, "", "  ")
 	if err != nil {
@@ -245,6 +266,21 @@ func (l *Library) Save() error {
 	err = os.WriteFile(l.DatabasePath, jsonContent, 0666)
 	if err != nil {
 		return err
+	}
+
+	// Make sure Steam on flatpak has the necessary permission
+	if _, ok := GetPackage().(*linux.Flatpak); ok {
+		err := GetPackage().(*linux.Flatpak).ApplyOverrides()
+		if err != nil {
+			return fmt.Errorf("could not perform Steam runtime setup: %s", err)
+		}
+	}
+
+	// Write controller template
+	controllerTemplatesPaths := filepath.Join(l.BasePath, "controller_base", "templates")
+	err = controller.WriteTemplates(controllerTemplatesPaths)
+	if err != nil {
+		return fmt.Errorf("could not perform Steam controller setup: %s", err)
 	}
 
 	// Save updated Steam shortcuts to VDF file
@@ -296,32 +332,19 @@ func (l *Library) Save() error {
 		return err
 	}
 
-	return nil
-}
-
-// Perform library and Steam setup
-func (l *Library) Setup() error {
-
-	// Write controller templates
-	controllerTemplatesPaths := filepath.Join(l.BasePath, "controller_base", "templates")
-	err := controller.WriteTemplates(controllerTemplatesPaths)
-	if err != nil {
-		return fmt.Errorf("could not perform Steam controller setup: %s", err)
-	}
-
-	// Make sure Steam on flatpak has the necessary permission
-	if _, ok := GetPackage().(*linux.Flatpak); ok {
-		err := GetPackage().(*linux.Flatpak).ApplyOverrides()
-		if err != nil {
-			return fmt.Errorf("could not perform Steam runtime setup: %s", err)
-		}
-	}
+	cli.Printf(cli.ColorNotice, "Note: Steam library has been updated.\n")
+	cli.Printf(cli.ColorNotice, "Please restart Steam or the device to changes take effect.\n")
 
 	return nil
 }
 
 // Sync change history to the library
 func (l *Library) Sync(history *History) error {
+
+	// Check if can sync library
+	if l.BasePath == "" || l.AccountId == "" {
+		return nil
+	}
 
 	// Remove shortcut to sync
 	if history.Action == "removed" {
