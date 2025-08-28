@@ -75,17 +75,14 @@ window.addEventListener('load', async () => {
             preferences: data.getAll('preferences[]')
         }
 
-        try {
-            button.disabled = true
-            await window.runAndCaptureConsole(true, async () => {
+        await window.runAndCaptureConsole(button, true, async () => {
+            try {
                 /** @type {BackupStateResult|RestoreStateResult} */
                 await requestJson('POST', `/api/state/${action}`, JSON.stringify(body))
-            })
-        } catch (error) {
-            window.showError(error)
-        } finally {
-            button.disabled = false
-        }
+            } catch (error) {
+                window.showError(error)
+            }
+        })
     })
 
     try {

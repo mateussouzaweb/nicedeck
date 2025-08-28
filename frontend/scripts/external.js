@@ -23,17 +23,14 @@ window.addEventListener('load', async () => {
             link: link.href
         }
 
-        try {
-            link.disabled = true
-            await window.runAndCaptureConsole(true, async () => {
+        await window.runAndCaptureConsole(link, true, async () => {
+            try {
                 /** @type {OpenLinkResult} */
                 await requestJson('POST', '/api/link/open', JSON.stringify(body))
-            })
-        } catch (error) {
-            window.showError(error)
-        } finally {
-            link.disabled = false
-        }
+            } catch (error) {
+                window.showError(error)
+            }
+        })
     })
 
 })

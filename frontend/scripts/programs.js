@@ -24,7 +24,7 @@ window.addEventListener('load', async () => {
                 </div>`)
 
             programs.map((program) => {
-                if( program.category !== category ){
+                if (program.category !== category) {
                     return
                 }
 
@@ -95,21 +95,23 @@ window.addEventListener('load', async () => {
             preferences: data.getAll('preferences[]')
         }
 
-        try {
-            button.disabled = true
-            await window.runAndCaptureConsole(true, async () => {
+        await window.runAndCaptureConsole(button, true, async () => {
+            try {
                 /** @type {LoadLibraryResult} */
                 await requestJson('POST', '/api/library/load')
                 /** @type {InstallProgramsResult|RemoveProgramsData} */
                 await requestJson('POST', `/api/programs/${action}`, JSON.stringify(body))
+            } catch (error) {
+                window.showError(error)
+            }
+
+            try {
                 /** @type {SaveLibraryResult} */
                 await requestJson('POST', '/api/library/save')
-            })
-        } catch (error) {
-            window.showError(error)
-        } finally {
-            button.disabled = false
-        }
+            } catch (error) {
+                window.showError(error)
+            }
+        })
 
         try {
             await window.loadShortcuts()

@@ -176,17 +176,14 @@ window.addEventListener('load', async () => {
             id: shortcut.id
         }
 
-        try {
-            button.disabled = true
-            await window.runAndCaptureConsole(false, async () => {
+        await window.runAndCaptureConsole(button, false, async () => {
+            try {
                 /** @type {LaunchShortcutResult} */
                 await requestJson('POST', '/api/shortcut/launch', JSON.stringify(body))
-            })
-        } catch (error) {
-            window.showError(error)
-        } finally {
-            button.disabled = false
-        }
+            } catch (error) {
+                window.showError(error)
+            }
+        })
 
         window.setTimeout(() => {
             window.hideModal(modal)
@@ -358,20 +355,17 @@ window.addEventListener('load', async () => {
             tags: data.get('tags').split(',')
         }
 
-        try {
-            button.disabled = true
-            await window.runAndCaptureConsole(false, async () => {
+        await window.runAndCaptureConsole(button, false, async () => {
+            try {
                 /** @type {ModifyShortcutResult} */
                 await requestJson('POST', '/api/shortcut/modify', JSON.stringify(body))
                 /** @type {SaveLibraryResult} */
                 await requestJson('POST', '/api/library/save')
-            })
-            await loadShortcuts()
-        } catch (error) {
-            window.showError(error)
-        } finally {
-            button.disabled = false
-        }
+                await loadShortcuts()
+            } catch (error) {
+                window.showError(error)
+            }
+        })
 
         window.hideModal(modal)
 
@@ -396,20 +390,17 @@ window.addEventListener('load', async () => {
             id: shortcut.id
         }
 
-        try {
-            button.disabled = true
-            await window.runAndCaptureConsole(false, async () => {
+        await window.runAndCaptureConsole(button, false, async () => {
+            try {
                 /** @type {ModifyShortcutResult} */
                 await requestJson('POST', '/api/shortcut/modify', JSON.stringify(body))
                 /** @type {SaveLibraryResult} */
                 await requestJson('POST', '/api/library/save')
-            })
-            await loadShortcuts()
-        } catch (error) {
-            window.showError(error)
-        } finally {
-            button.disabled = false
-        }
+                await loadShortcuts()
+            } catch (error) {
+                window.showError(error)
+            }
+        })
 
         window.hideModal(modal)
 

@@ -3,10 +3,15 @@ window.addEventListener('load', async () => {
 
     /**
      * Run callback and capture console output
+     * @param {HTMLElement} button
      * @param {Boolean} focus
      * @param {Function} callback
      */
-    async function runAndCaptureConsole(focus, callback) {
+    async function runAndCaptureConsole(button, focus, callback) {
+        if (button) {
+            button.disabled = true
+        }
+
         if (focus) {
             $('#console').scrollIntoView({
                 behavior: 'smooth',
@@ -25,6 +30,10 @@ window.addEventListener('load', async () => {
             await request('POST', '/api/console/release')
             await fetchConsoleOutput()
         }
+
+        if (button) {
+            button.disabled = false
+        }
     }
 
     /**
@@ -37,7 +46,7 @@ window.addEventListener('load', async () => {
 
     /**
      * Write console output to target location
-     * @param {String} text 
+     * @param {String} text
      */
     async function writeConsoleOutput(text) {
         const content = $('#console #content')
