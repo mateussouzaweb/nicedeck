@@ -56,6 +56,12 @@ func (i *Image) Process(overwriteExisting bool) error {
 		}
 	}
 
+	// When no target path is mounted
+	// Ignore image processing
+	if i.TargetPath == "" {
+		return nil
+	}
+
 	// If source image exists locally, copy it to the target path
 	if i.SourcePath != "" {
 		exist, err := fs.FileExist(i.SourcePath)
