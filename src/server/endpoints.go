@@ -224,19 +224,20 @@ func launchShortcut(context *Context) error {
 
 // Modify shortcut data
 type ModifyShortcutData struct {
-	Action         string `json:"action"`
-	ID             string `json:"id"`
-	Program        string `json:"program"`
-	Name           string `json:"name"`
-	Description    string `json:"description"`
-	StartDirectory string `json:"startDirectory"`
-	Executable     string `json:"executable"`
-	LaunchOptions  string `json:"launchOptions"`
-	IconURL        string `json:"iconUrl"`
-	LogoURL        string `json:"logoUrl"`
-	CoverURL       string `json:"coverUrl"`
-	BannerURL      string `json:"bannerUrl"`
-	HeroURL        string `json:"heroUrl"`
+	Action         string   `json:"action"`
+	ID             string   `json:"id"`
+	Program        string   `json:"program"`
+	Name           string   `json:"name"`
+	Description    string   `json:"description"`
+	StartDirectory string   `json:"startDirectory"`
+	Executable     string   `json:"executable"`
+	LaunchOptions  string   `json:"launchOptions"`
+	IconURL        string   `json:"iconUrl"`
+	LogoURL        string   `json:"logoUrl"`
+	CoverURL       string   `json:"coverUrl"`
+	BannerURL      string   `json:"bannerUrl"`
+	HeroURL        string   `json:"heroUrl"`
+	Tags           []string `json:"tags"`
 }
 
 // Modify shortcut result
@@ -281,6 +282,7 @@ func modifyShortcut(context *Context) error {
 		shortcut.CoverURL = data.CoverURL
 		shortcut.BannerURL = data.BannerURL
 		shortcut.HeroURL = data.HeroURL
+		shortcut.Tags = data.Tags
 
 		err := library.Shortcuts.Update(shortcut, true)
 		if err != nil {

@@ -113,6 +113,7 @@ interface ModifyShortcutData {
 	coverUrl: string
 	bannerUrl: string
 	heroUrl: string
+	tags: string[]
 }
 
 interface ModifyShortcutResult {

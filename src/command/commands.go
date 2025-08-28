@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/docs"
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -212,6 +213,7 @@ func modifyShortcut(context Context) error {
 	coverURL := context.Arg("--cover-url", shortcut.CoverURL)
 	bannerURL := context.Arg("--banner-url", shortcut.BannerURL)
 	heroURL := context.Arg("--hero-url", shortcut.HeroURL)
+	tags := context.Arg("--tags", strings.Join(shortcut.Tags, ","))
 
 	// Update shortcut
 	if update {
@@ -226,6 +228,7 @@ func modifyShortcut(context Context) error {
 		shortcut.CoverURL = coverURL
 		shortcut.BannerURL = bannerURL
 		shortcut.HeroURL = heroURL
+		shortcut.Tags = strings.Split(tags, ",")
 
 		err := library.Shortcuts.Update(shortcut, true)
 		if err != nil {

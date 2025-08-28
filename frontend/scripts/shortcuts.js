@@ -226,6 +226,10 @@ window.addEventListener('load', async () => {
                 <label for="launchOptions">Launch Options:</label>
                 <textarea id="launchOptions" name="launchOptions">${shortcut.launchOptions}</textarea>
             </div>
+            <div class="group">
+                <label for="tags">Tags:</label>
+                <textarea id="tags" name="tags">${shortcut.tags.join(',')}</textarea>
+            </div>
             <div class="images">
                 <p>Loading images, please wait...</p>
             </div>
@@ -350,7 +354,8 @@ window.addEventListener('load', async () => {
             logoUrl: data.get('logo'),
             coverUrl: data.get('cover'),
             bannerUrl: data.get('banner'),
-            heroUrl: data.get('hero')
+            heroUrl: data.get('hero'),
+            tags: data.get('tags').split(',')
         }
 
         try {

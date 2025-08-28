@@ -40,6 +40,7 @@ modify:
   --cover-url=[value]         cover URL for shortcut
   --banner-url=[value]        banner URL for shortcut
   --hero-url=[value]          hero URL for shortcut
+  --tags=[value,value]        tags for shortcut, comma separated
 
 install:
   --programs=[value,...]      list of programs to install
