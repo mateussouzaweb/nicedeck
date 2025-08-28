@@ -513,6 +513,7 @@ func (l *Library) ToInternal(shortcut *Shortcut) *Internal {
 	internal.StartDirectory = shortcut.StartDir
 	internal.Executable = CleanExec(shortcut.Exe)
 	internal.LaunchOptions = shortcut.LaunchOptions
+	internal.ShortcutPath = shortcut.ShortcutPath
 	internal.Tags = shortcut.Tags
 
 	return internal
@@ -528,6 +529,7 @@ func (l *Library) FromInternal(internal *Internal) *Shortcut {
 	shortcut.StartDir = internal.StartDirectory
 	shortcut.Exe = EnsureExec(l.Runtime, internal.Executable)
 	shortcut.LaunchOptions = internal.LaunchOptions
+	shortcut.ShortcutPath = internal.ShortcutPath
 	shortcut.Tags = internal.Tags
 
 	return shortcut
