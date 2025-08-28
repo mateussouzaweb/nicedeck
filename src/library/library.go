@@ -33,11 +33,22 @@ func Load() error {
 		return err
 	}
 
-	// Sync Steam shortcuts to internal library
-	// Please note that Steam data will have preference
-	// Internal library should update data when necessary
+	// Sync Steam shortcuts to internal library to add or update entries
+	// If shortcuts already exists, then merge data to not lose internal information
 	for _, steamShortcut := range Steam.Shortcuts {
 		shortcut := Steam.ToInternal(steamShortcut)
+		existing := Shortcuts.Get(shortcut.ID)
+
+		if existing.ID != "" {
+			existing.Name = shortcut.Name
+			existing.StartDirectory = shortcut.StartDirectory
+			existing.Executable = shortcut.Executable
+			existing.LaunchOptions = shortcut.LaunchOptions
+			existing.ShortcutPath = shortcut.ShortcutPath
+			existing.Tags = shortcut.Tags
+			shortcut = existing
+		}
+
 		err := Shortcuts.Set(shortcut, false)
 		if err != nil {
 			return err
