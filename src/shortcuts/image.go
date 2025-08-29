@@ -39,15 +39,6 @@ func (i *Image) Process(overwriteExisting bool) error {
 		}
 	}
 
-	// Overwrite existing images if specified
-	if overwriteExisting {
-		toRemove = append(toRemove, i.TargetPath)
-
-		if i.SourceURL != "" {
-			toRemove = append(toRemove, i.SourcePath)
-		}
-	}
-
 	// Remove duplicated or unnecessary images
 	for _, file := range toRemove {
 		err := fs.RemoveFile(file)
@@ -56,8 +47,7 @@ func (i *Image) Process(overwriteExisting bool) error {
 		}
 	}
 
-	// When no target path is mounted
-	// Ignore image processing
+	// Ignore image processing when no target path is detected
 	if i.TargetPath == "" {
 		return nil
 	}

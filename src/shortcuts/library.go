@@ -240,35 +240,30 @@ func (l *Library) Assets(shortcut *Shortcut, action string, overwrite bool) erro
 	// Handle images
 	// Process usually mean download image from URL
 	iconImage := &Image{
-		SourcePath:      shortcut.IconPath,
 		SourceURL:       shortcut.IconURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_icon", shortcut.ID),
 		Extensions:      []string{".png", ".ico"},
 	}
 	logoImage := &Image{
-		SourcePath:      shortcut.LogoPath,
 		SourceURL:       shortcut.LogoURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_logo", shortcut.ID),
 		Extensions:      []string{".png"},
 	}
 	coverImage := &Image{
-		SourcePath:      shortcut.CoverPath,
 		SourceURL:       shortcut.CoverURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_cover", shortcut.ID),
 		Extensions:      []string{".png", ".jpg"},
 	}
 	bannerImage := &Image{
-		SourcePath:      shortcut.BannerPath,
 		SourceURL:       shortcut.BannerURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_banner", shortcut.ID),
 		Extensions:      []string{".png", ".jpg"},
 	}
 	heroImage := &Image{
-		SourcePath:      shortcut.HeroPath,
 		SourceURL:       shortcut.HeroURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_hero", shortcut.ID),
