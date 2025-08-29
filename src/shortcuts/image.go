@@ -68,7 +68,7 @@ func (i *Image) Process(overwriteExisting bool) error {
 		if err != nil {
 			return err
 		} else if exist {
-			err := fs.CopyFile(i.SourcePath, i.TargetPath)
+			err := fs.CopyFile(i.SourcePath, i.TargetPath, overwriteExisting)
 			if err != nil {
 				return err
 			}

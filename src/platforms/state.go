@@ -479,7 +479,7 @@ func SyncState(action string, options *Options) error {
 
 				// Copy file
 				cli.Printf(cli.ColorNotice, "Synchronizing file from %s to %s...\n", source, destination)
-				err = fs.CopyFile(source, destination)
+				err = fs.CopyFile(source, destination, true)
 				if err != nil {
 					return err
 				}

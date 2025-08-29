@@ -90,7 +90,7 @@ func CopyDirectory(source string, destination string) error {
 				return err
 			}
 		} else if entry.Type().IsRegular() {
-			err = CopyFile(sourcePath, destinationPath)
+			err = CopyFile(sourcePath, destinationPath, true)
 			if err != nil {
 				return err
 			}

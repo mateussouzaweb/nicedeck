@@ -34,10 +34,73 @@ func RemoveFile(path string) error {
 	return nil
 }
 
-// Copy file from given source path into destination path
-func CopyFile(source string, destination string) error {
+// Move file to another location
+func MoveFile(source string, destination string) error {
 
-	var err error
+	// Check if file exist
+	exist, err := FileExist(source)
+	if err != nil {
+		return err
+	} else if !exist {
+		return nil
+	}
+
+	// Ensure that destination folder exists
+	err = os.MkdirAll(filepath.Dir(destination), 0774)
+	if err != nil {
+		return err
+	}
+
+	// Move file using rename command
+	err = os.Rename(source, destination)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Copy file from given source path into destination path
+func CopyFile(source string, destination string, overwriteExisting bool) error {
+
+	// Skip copy if source and destination path are equals
+	if source == destination {
+		return nil
+	}
+
+	// Check if destination file exists
+	destinationExist, err := FileExist(destination)
+	if err != nil {
+		return err
+	}
+
+	// Skip copy if already exist
+	if !overwriteExisting && destinationExist {
+		return nil
+	}
+
+	// Retrieve stat for source file
+	sourceStat, err := os.Stat(source)
+	if err != nil {
+		return err
+	}
+
+	// Check if both file are equals before copy
+	// Verification will avoid unnecessary copy of large files
+	if destinationExist {
+		destinationStat, err := os.Stat(destination)
+		if err != nil {
+			return err
+		}
+
+		// Use simple file mode and size verification
+		// sameFile := os.SameFile(sourceStat, destinationStat)
+		sameFile := sourceStat.Mode() == destinationStat.Mode()
+		sameFile = sameFile && sourceStat.Size() == destinationStat.Size()
+		if sameFile {
+			return nil
+		}
+	}
 
 	// Open source file
 	sourceFile, err := os.Open(source)
@@ -77,45 +140,13 @@ func CopyFile(source string, destination string) error {
 		return err
 	}
 
-	// Get permissions from source path
-	stat, err := os.Stat(source)
-	if err != nil {
-		return err
-	}
-
 	// Apply copied permissions to file
-	err = os.Chmod(destination, stat.Mode())
+	err = os.Chmod(destination, sourceStat.Mode())
 	if err != nil {
 		return err
 	}
 
 	return err
-}
-
-// Move file to another location
-func MoveFile(source string, destination string) error {
-
-	// Check if file exist
-	exist, err := FileExist(source)
-	if err != nil {
-		return err
-	} else if !exist {
-		return nil
-	}
-
-	// Ensure that destination folder exists
-	err = os.MkdirAll(filepath.Dir(destination), 0774)
-	if err != nil {
-		return err
-	}
-
-	// Move file using rename command
-	err = os.Rename(source, destination)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
 
 // Download file from URL into destination
