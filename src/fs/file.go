@@ -97,6 +97,7 @@ func CopyFile(source string, destination string, overwriteExisting bool) error {
 		// sameFile := os.SameFile(sourceStat, destinationStat)
 		sameFile := sourceStat.Mode() == destinationStat.Mode()
 		sameFile = sameFile && sourceStat.Size() == destinationStat.Size()
+		sameFile = sameFile && sourceStat.ModTime().Equal(destinationStat.ModTime())
 		if sameFile {
 			return nil
 		}
@@ -142,6 +143,12 @@ func CopyFile(source string, destination string, overwriteExisting bool) error {
 
 	// Apply copied permissions to file
 	err = os.Chmod(destination, sourceStat.Mode())
+	if err != nil {
+		return err
+	}
+
+	// Apply access and modification times to file
+	err = os.Chtimes(destination, sourceStat.ModTime(), sourceStat.ModTime())
 	if err != nil {
 		return err
 	}
