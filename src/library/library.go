@@ -92,5 +92,8 @@ func Save() error {
 	// GOG.Sync()
 	// GOG.Save()
 
+	// Clean history of changes
+	Shortcuts.History = Shortcuts.History[:0]
+
 	return nil
 }
