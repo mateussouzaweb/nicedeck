@@ -30,7 +30,6 @@ type Program struct {
 	HeroURL     string            `json:"heroUrl"`
 	Package     packaging.Package `json:"-"`
 	OnInstall   func() error      `json:"-"`
-	OnRemove    func() error      `json:"-"`
 }
 
 // Retrieve list of available programs to install
@@ -232,14 +231,6 @@ func Remove(options *Options) error {
 		// Run program removal
 		if !slices.Contains(program.Flags, "--remove-only-shortcut") {
 			err = program.Package.Remove()
-			if err != nil {
-				return err
-			}
-		}
-
-		// Perform additional steps after remove
-		if program.OnRemove != nil {
-			err = program.OnRemove()
 			if err != nil {
 				return err
 			}
