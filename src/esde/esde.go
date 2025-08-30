@@ -8,6 +8,9 @@ import (
 	"net/http"
 
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 )
 
 // Get download URL from the latest release available
@@ -62,4 +65,23 @@ func Release(releaseType string, format string) *packaging.Source {
 			return GetDownloadURL(releaseType)
 		},
 	}
+}
+
+// Retrieve ESDE package
+func GetPackage() packaging.Package {
+	return packaging.Best(&linux.AppImage{
+		AppID:   "es-de",
+		AppName: "$APPLICATIONS/ES-DE/ES-DE.AppImage",
+		Source:  Release("LinuxAppImage", "file"),
+	}, &macos.Application{
+		AppID:    "es-de",
+		AppName:  "$APPLICATIONS/ES-DE/ES-DE.app",
+		AppAlias: "$HOME/Applications/ES-DE.app",
+		Source:   Release("macOSApple", "dmg"),
+	}, &windows.Executable{
+		AppID:    "ES-DE",
+		AppExe:   "$APPLICATIONS\\ES-DE\\ES-DE.exe",
+		AppAlias: "$START_MENU\\ES-DE.lnk",
+		Source:   Release("WindowsPortable", "zip"),
+	})
 }

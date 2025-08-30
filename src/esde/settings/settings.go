@@ -1,4 +1,4 @@
-package esde
+package settings
 
 import (
 	"embed"
@@ -12,10 +12,10 @@ import (
 var resourcesContent embed.FS
 
 // Write settings for ES-DE
-func WriteSettings() error {
+func WriteSettings(destinationPath string) error {
 
 	// Settings (write file only if not exist yet)
-	settingsFile := fs.ExpandPath("$HOME/ES-DE/settings/es_settings.xml")
+	settingsFile := filepath.Join(destinationPath, "settings/es_settings.xml")
 	settingsExist, err := fs.FileExist(settingsFile)
 	if err != nil {
 		return err
@@ -41,7 +41,7 @@ func WriteSettings() error {
 	}
 
 	// Systems
-	systemsFile := fs.ExpandPath("$HOME/ES-DE/custom_systems/es_systems.xml")
+	systemsFile := filepath.Join(destinationPath, "custom_systems/es_systems.xml")
 	systemsConfig, err := resourcesContent.ReadFile("resources/es_systems.xml")
 	if err != nil {
 		return err
@@ -59,7 +59,7 @@ func WriteSettings() error {
 	}
 
 	// Find Rules
-	findRulesFile := fs.ExpandPath("$HOME/ES-DE/custom_systems/es_find_rules.xml")
+	findRulesFile := filepath.Join(destinationPath, "custom_systems/es_find_rules.xml")
 	findRulesConfig, err := resourcesContent.ReadFile("resources/es_find_rules.xml")
 	if err != nil {
 		return err

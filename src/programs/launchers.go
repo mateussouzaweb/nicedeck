@@ -1,12 +1,12 @@
 package programs
 
 import (
+	"github.com/mateussouzaweb/nicedeck/src/esde"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/programs/assets"
-	"github.com/mateussouzaweb/nicedeck/src/programs/esde"
 )
 
 // Installer for Bottles
@@ -48,22 +48,7 @@ func ESDE() *Program {
 		CoverURL:    assets.Cover("21bd6ea21e43de6dc80e2bc8917f4ba3.png"),
 		BannerURL:   assets.Banner("67a900732336f1ce9d0c0496352fa9ab.png"),
 		HeroURL:     assets.Hero("9323f21f2098b7288267c785458548b2.png"),
-		OnInstall:   esde.WriteSettings,
-		Package: packaging.Best(&linux.AppImage{
-			AppID:   "es-de",
-			AppName: "$APPLICATIONS/ES-DE/ES-DE.AppImage",
-			Source:  esde.Release("LinuxAppImage", "file"),
-		}, &macos.Application{
-			AppID:    "es-de",
-			AppName:  "$APPLICATIONS/ES-DE/ES-DE.app",
-			AppAlias: "$HOME/Applications/ES-DE.app",
-			Source:   esde.Release("macOSApple", "dmg"),
-		}, &windows.Executable{
-			AppID:    "ES-DE",
-			AppExe:   "$APPLICATIONS\\ES-DE\\ES-DE.exe",
-			AppAlias: "$START_MENU\\ES-DE.lnk",
-			Source:   esde.Release("WindowsPortable", "zip"),
-		}),
+		Package:     esde.GetPackage(),
 	}
 }
 

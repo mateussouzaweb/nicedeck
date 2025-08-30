@@ -29,7 +29,6 @@ type Program struct {
 	BannerURL   string            `json:"bannerUrl"`
 	HeroURL     string            `json:"heroUrl"`
 	Package     packaging.Package `json:"-"`
-	OnInstall   func() error      `json:"-"`
 }
 
 // Retrieve list of available programs to install
@@ -152,14 +151,6 @@ func Install(options *Options) error {
 		err = program.Package.Install()
 		if err != nil {
 			return err
-		}
-
-		// Perform additional steps after installation
-		if program.OnInstall != nil {
-			err = program.OnInstall()
-			if err != nil {
-				return err
-			}
 		}
 
 		// Fill basic shortcut information

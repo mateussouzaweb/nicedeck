@@ -3,6 +3,7 @@ package library
 import (
 	"fmt"
 
+	"github.com/mateussouzaweb/nicedeck/src/esde"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 	"github.com/mateussouzaweb/nicedeck/src/steam"
@@ -13,6 +14,7 @@ import (
 // var GOG *gog.Library
 var Shortcuts = &shortcuts.Library{}
 var Steam = &steam.Library{}
+var ESDE = &esde.Library{}
 
 // Load library from config path
 func Load() error {
@@ -32,6 +34,16 @@ func Load() error {
 	if err != nil {
 		return err
 	}
+
+	// Load ES-DE data
+	err = ESDE.Load()
+	if err != nil {
+		return err
+	}
+
+	// Desktop.Load()
+	// EpicGames.Load()
+	// GOG.Load()
 
 	// Sync Steam shortcuts to internal library to add or update entries
 	// If shortcuts already exists, then merge data to not lose internal information
@@ -55,10 +67,6 @@ func Load() error {
 		}
 	}
 
-	// Desktop.Load()
-	// EpicGames.Load()
-	// GOG.Load()
-
 	return nil
 }
 
@@ -81,6 +89,12 @@ func Save() error {
 
 	// Save Steam library
 	err = Steam.Save()
+	if err != nil {
+		return err
+	}
+
+	// Save ES-DE data
+	err = ESDE.Save()
 	if err != nil {
 		return err
 	}
