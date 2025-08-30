@@ -18,4 +18,14 @@ type Shortcut struct {
 	DevKitOverrideAppID uint     `json:"devKitOverrideAppId"`
 	LastPlayTime        uint     `json:"lastPlayTime"`
 	Tags                []string `json:"tags"`
+
+	// Extended specs
+	// @deprecated and will be removed in future versions
+	RelativePath string `json:"relativePath"`
+	Description  string `json:"description"`
+	IconURL      string `json:"iconUrl"`
+	LogoURL      string `json:"logoUrl"`
+	CoverURL     string `json:"coverUrl"`
+	BannerURL    string `json:"bannerUrl"`
+	HeroURL      string `json:"heroUrl"`
 }

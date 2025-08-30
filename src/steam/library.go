@@ -121,6 +121,31 @@ func (l *Library) Load(databasePath string) error {
 		l.AccountName = l.AccountId
 	}
 
+	// Load shortcuts from old format for migrated reasons
+	// @deprecated and will be removed in future versions
+	deprecatedFile := filepath.Join(l.ConfigPath, "niceconfig.json")
+	deprecatedExist, err := fs.FileExist(deprecatedFile)
+	if err != nil {
+		return err
+	} else if deprecatedExist {
+		var deprecatedConfig struct {
+			Shortcuts []*Shortcut `json:"shortcuts"`
+		}
+
+		deprecatedContent, err := os.ReadFile(deprecatedFile)
+		if err != nil {
+			return err
+		}
+		err = json.Unmarshal(deprecatedContent, &deprecatedConfig)
+		if err != nil {
+			return err
+		}
+
+		// When using this model, we avoid loading the shortcuts from VDF file
+		l.Shortcuts = deprecatedConfig.Shortcuts
+		return nil
+	}
+
 	// Load Steam shortcuts from VDF file
 	// Shortcuts file can possible be updated by other services or Steam UI
 	// Because the library represents the Steam data
@@ -332,6 +357,15 @@ func (l *Library) Save() error {
 		return err
 	}
 
+	// Move deprecated file to avoid loading it again
+	// @deprecated and will be removed in future versions
+	deprecatedFile := filepath.Join(l.ConfigPath, "niceconfig.json")
+	deprecatedDestination := fmt.Sprintf("%s.deprecated", deprecatedFile)
+	err = fs.MoveFile(deprecatedFile, deprecatedDestination)
+	if err != nil {
+		return err
+	}
+
 	cli.Printf(cli.ColorNotice, "Note: Steam library has been updated.\n")
 	cli.Printf(cli.ColorNotice, "Please restart Steam or the device to changes take effect.\n")
 
@@ -538,6 +572,16 @@ func (l *Library) ToInternal(shortcut *Shortcut) *Internal {
 	internal.LaunchOptions = shortcut.LaunchOptions
 	internal.ShortcutPath = shortcut.ShortcutPath
 	internal.Tags = shortcut.Tags
+
+	// Extended specs
+	// @deprecated and will be removed in future versions
+	internal.Description = shortcut.Description
+	internal.RelativePath = shortcut.RelativePath
+	internal.IconURL = shortcut.IconURL
+	internal.LogoURL = shortcut.LogoURL
+	internal.CoverURL = shortcut.CoverURL
+	internal.BannerURL = shortcut.BannerURL
+	internal.HeroURL = shortcut.HeroURL
 
 	return internal
 }
