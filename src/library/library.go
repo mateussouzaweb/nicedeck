@@ -45,26 +45,10 @@ func Load() error {
 	// EpicGames.Load()
 	// GOG.Load()
 
-	// Sync Steam shortcuts to internal library to add or update entries
-	// If shortcuts already exists, then merge data to not lose internal information
-	for _, steamShortcut := range Steam.Shortcuts {
-		shortcut := Steam.ToInternal(steamShortcut)
-		existing := Shortcuts.Get(shortcut.ID)
-
-		if existing.ID != "" {
-			existing.Name = shortcut.Name
-			existing.StartDirectory = shortcut.StartDirectory
-			existing.Executable = shortcut.Executable
-			existing.LaunchOptions = shortcut.LaunchOptions
-			existing.ShortcutPath = shortcut.ShortcutPath
-			existing.Tags = shortcut.Tags
-			shortcut = existing
-		}
-
-		err := Shortcuts.Set(shortcut, false)
-		if err != nil {
-			return err
-		}
+	// Sync additional libraries
+	err = Sync()
+	if err != nil {
+		return err
 	}
 
 	return nil
@@ -108,6 +92,28 @@ func Save() error {
 
 	// Clean history of changes
 	Shortcuts.History = Shortcuts.History[:0]
+
+	return nil
+}
+
+// Sync additional libraries into internal library to add or update entries
+func Sync() error {
+
+	// Steam shortcuts
+	for _, steamShortcut := range Steam.Shortcuts {
+		shortcut := Steam.ToInternal(steamShortcut)
+		existing := Shortcuts.Get(shortcut.ID)
+
+		if existing.ID != "" {
+			existing.Merge(shortcut)
+			shortcut = existing
+		}
+
+		err := Shortcuts.Set(shortcut, false)
+		if err != nil {
+			return err
+		}
+	}
 
 	return nil
 }
