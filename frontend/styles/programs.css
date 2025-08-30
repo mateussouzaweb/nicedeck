@@ -57,7 +57,7 @@
     right: 5px;
     width: 10px;
 }
-#programs #list .remove-only-shortcut .area::after {
+#programs #list .remove-only-shortcut .area::before {
     background: #000;
     border-radius: 1px;
     content: '';
