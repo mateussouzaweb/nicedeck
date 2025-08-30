@@ -45,3 +45,14 @@
 #programs #list label.checkbox .icon {
     min-width: 72px;
 }
+
+#programs #list .installed .area::after {
+    background: #000;
+    border-radius: 50%;
+    bottom: 5px;
+    content: '';
+    height: 10px;
+    position: absolute;
+    right: 5px;
+    width: 10px;
+}

@@ -28,8 +28,9 @@ window.addEventListener('load', async () => {
                     return
                 }
 
+                var classes = program.flags.join(' ').replaceAll('--', '');
                 html.push(
-                `<label class="checkbox" title="${program.name}">
+                `<label class="checkbox ${classes}" title="${program.name}">
                     <input type="checkbox" name="programs[]" value="${program.id}" />
                     <div class="area">
                         <div class="icon">
@@ -114,6 +115,7 @@ window.addEventListener('load', async () => {
         })
 
         try {
+            await loadPrograms()
             await window.loadShortcuts()
         } catch (error) {
             window.showError(error)
