@@ -41,6 +41,7 @@
     flex: 1;
     min-width: 260px;
     max-width: unset;
+    padding: 5px;
 }
 #programs #list label.checkbox .icon {
     min-width: 72px;
