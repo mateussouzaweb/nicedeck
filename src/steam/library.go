@@ -2,7 +2,6 @@ package steam
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -39,25 +38,11 @@ func (l *Library) Load(databasePath string) error {
 	l.DatabasePath = databasePath
 	l.Shortcuts = make([]*Shortcut, 0)
 
-	// Check if database file exist
-	exist, err := fs.FileExist(databasePath)
+	// Read database file content
+	// Missing information will be filled below
+	err := fs.ReadJSON(databasePath, &l)
 	if err != nil {
 		return err
-	} else if exist {
-
-		// Read database file content
-		content, err := os.ReadFile(databasePath)
-		if err != nil {
-			return err
-		}
-
-		// Retrieve information from database file content when available
-		// Missing information will be filled below
-		err = json.Unmarshal(content, &l)
-		if err != nil {
-			return err
-		}
-
 	}
 
 	// Retrieve base path
@@ -122,26 +107,17 @@ func (l *Library) Load(databasePath string) error {
 	}
 
 	// Load shortcuts from old format for migrated reasons
+	// When using this model, we avoid loading the shortcuts from VDF file
 	// @deprecated and will be removed in future versions
-	deprecatedFile := filepath.Join(l.ConfigPath, "niceconfig.json")
-	deprecatedExist, err := fs.FileExist(deprecatedFile)
+	var deprecatedFile = filepath.Join(l.ConfigPath, "niceconfig.json")
+	var deprecatedConfig struct {
+		Shortcuts []*Shortcut `json:"shortcuts"`
+	}
+
+	err = fs.ReadJSON(deprecatedFile, &deprecatedConfig)
 	if err != nil {
 		return err
-	} else if deprecatedExist {
-		var deprecatedConfig struct {
-			Shortcuts []*Shortcut `json:"shortcuts"`
-		}
-
-		deprecatedContent, err := os.ReadFile(deprecatedFile)
-		if err != nil {
-			return err
-		}
-		err = json.Unmarshal(deprecatedContent, &deprecatedConfig)
-		if err != nil {
-			return err
-		}
-
-		// When using this model, we avoid loading the shortcuts from VDF file
+	} else if len(deprecatedConfig.Shortcuts) > 0 {
 		l.Shortcuts = deprecatedConfig.Shortcuts
 		return nil
 	}
@@ -152,7 +128,7 @@ func (l *Library) Load(databasePath string) error {
 	// We always read shortcuts from Steam source data
 
 	// Check if VDF file exist
-	exist, err = fs.FileExist(l.ShortcutsPath)
+	exist, err := fs.FileExist(l.ShortcutsPath)
 	if err != nil {
 		return err
 	} else if !exist {
@@ -275,20 +251,8 @@ func (l *Library) Save() error {
 		return nil
 	}
 
-	// Convert database state to JSON representation
-	jsonContent, err := json.MarshalIndent(l, "", "  ")
-	if err != nil {
-		return err
-	}
-
-	// Make sure destination folder path exist
-	err = os.MkdirAll(filepath.Dir(l.DatabasePath), 0774)
-	if err != nil {
-		return err
-	}
-
-	// Write JSON content to database file
-	err = os.WriteFile(l.DatabasePath, jsonContent, 0666)
+	// Save database state to file
+	err := fs.WriteJSON(l.DatabasePath, l)
 	if err != nil {
 		return err
 	}

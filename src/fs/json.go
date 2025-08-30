@@ -1,0 +1,56 @@
+package fs
+
+import (
+	"encoding/json"
+	"os"
+	"path/filepath"
+)
+
+// Read JSON from file content and put into target
+func ReadJSON(path string, target any) error {
+
+	// Check if file exist
+	exist, err := FileExist(path)
+	if err != nil {
+		return err
+	} else if exist {
+
+		// Read file content
+		content, err := os.ReadFile(path)
+		if err != nil {
+			return err
+		}
+
+		// Retrieve information from file content when available
+		err = json.Unmarshal(content, target)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// Write JSON content from source into target path
+func WriteJSON(path string, source any) error {
+
+	// Convert source to JSON representation
+	content, err := json.MarshalIndent(source, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	// Make sure destination folder path exist
+	err = os.MkdirAll(filepath.Dir(path), 0774)
+	if err != nil {
+		return err
+	}
+
+	// Write JSON content to file
+	err = os.WriteFile(path, content, 0666)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -1,9 +1,7 @@
 package shortcuts
 
 import (
-	"encoding/json"
 	"fmt"
-	"os"
 	"path/filepath"
 	"reflect"
 	"sort"
@@ -35,22 +33,8 @@ func (l *Library) Load(databasePath string) error {
 	l.Shortcuts = make([]*Shortcut, 0)
 	l.History = make([]*History, 0)
 
-	// Check if database file exist
-	exist, err := fs.FileExist(databasePath)
-	if err != nil {
-		return err
-	} else if !exist {
-		return nil
-	}
-
 	// Read database file content
-	content, err := os.ReadFile(databasePath)
-	if err != nil {
-		return err
-	}
-
-	// Retrieve information from database file content when available
-	err = json.Unmarshal(content, &l)
+	err := fs.ReadJSON(databasePath, &l)
 	if err != nil {
 		return err
 	}
@@ -67,20 +51,8 @@ func (l *Library) Save() error {
 		return err
 	}
 
-	// Convert database state to JSON representation
-	jsonContent, err := json.MarshalIndent(l, "", "  ")
-	if err != nil {
-		return err
-	}
-
-	// Make sure destination folder path exist
-	err = os.MkdirAll(filepath.Dir(l.DatabasePath), 0774)
-	if err != nil {
-		return err
-	}
-
-	// Write JSON content to database file
-	err = os.WriteFile(l.DatabasePath, jsonContent, 0666)
+	// Save database state to file
+	err = fs.WriteJSON(l.DatabasePath, l)
 	if err != nil {
 		return err
 	}
