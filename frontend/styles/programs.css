@@ -56,3 +56,13 @@
     right: 5px;
     width: 10px;
 }
+#programs #list .remove-only-shortcut .area::after {
+    background: #000;
+    border-radius: 1px;
+    content: '';
+    height: 2px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 5px;
+}
