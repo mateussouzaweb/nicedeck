@@ -43,9 +43,20 @@ ul.tabs li#shutdown {
     white-space: nowrap;
 }
 ul.tabs li[data-tab="welcome"] img,
+ul.tabs li#help img,
 ul.tabs li#shutdown img {
     display: inline-block;
     vertical-align: middle;
+}
+
+ul.tabs li#help {
+    flex: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+ul.tabs li#help a {
+    display: block;
+    padding: 12px 15px;
 }
 
 section.tab {
