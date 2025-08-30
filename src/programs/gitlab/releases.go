@@ -1,14 +1,11 @@
 package gitlab
 
 import (
-	"encoding/json"
-	"errors"
 	"fmt"
-	"io"
-	"net/http"
 	"regexp"
 	"strings"
 
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 )
 
@@ -16,24 +13,9 @@ import (
 func GetAssetURL(domain string, projectId string, search string) (string, error) {
 
 	domain = strings.Trim(domain, "/")
-
-	// Request latest releases
 	endpoint := fmt.Sprintf("%s/api/v4/projects/%s/releases", domain, projectId)
-	res, err := http.Get(endpoint)
-	if err != nil {
-		return "", err
-	}
 
-	defer func() {
-		errors.Join(err, res.Body.Close())
-	}()
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		return "", err
-	}
-
-	// Decode response into struct
+	// Response struct
 	var releases []struct {
 		Name            string `json:"name"`
 		UpcomingRelease bool   `json:"upcoming_release"`
@@ -46,7 +28,8 @@ func GetAssetURL(domain string, projectId string, search string) (string, error)
 		} `json:"assets"`
 	}
 
-	err = json.Unmarshal(body, &releases)
+	// Request latest releases
+	err := fs.RetrieveJSON(endpoint, &releases)
 	if err != nil {
 		return "", err
 	}

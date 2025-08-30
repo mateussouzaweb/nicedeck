@@ -1,12 +1,9 @@
 package esde
 
 import (
-	"encoding/json"
-	"errors"
 	"fmt"
-	"io"
-	"net/http"
 
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
@@ -16,21 +13,10 @@ import (
 // Get download URL from the latest release available
 func GetDownloadURL(releaseType string) (string, error) {
 
-	endpoint := "https://gitlab.com/es-de/emulationstation-de/-/raw/master/latest_release.json"
-	res, err := http.Get(endpoint)
-	if err != nil {
-		return "", err
-	}
+	domain := "https://gitlab.com/es-de/emulationstation-de"
+	endpoint := fmt.Sprintf("%s/-/raw/master/latest_release.json", domain)
 
-	defer func() {
-		errors.Join(err, res.Body.Close())
-	}()
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		return "", err
-	}
-
+	// Response struct
 	var releases struct {
 		Stable struct {
 			Version  string `json:"version"`
@@ -43,11 +29,13 @@ func GetDownloadURL(releaseType string) (string, error) {
 		} `json:"stable"`
 	}
 
-	err = json.Unmarshal(body, &releases)
+	// Request latest releases
+	err := fs.RetrieveJSON(endpoint, &releases)
 	if err != nil {
 		return "", err
 	}
 
+	// Check for matching asset
 	for _, release := range releases.Stable.Packages {
 		if release.Name == releaseType {
 			return release.URL, nil

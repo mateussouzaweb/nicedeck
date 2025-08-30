@@ -2,9 +2,40 @@ package fs
 
 import (
 	"encoding/json"
+	"errors"
+	"io"
+	"net/http"
 	"os"
 	"path/filepath"
 )
+
+// Retrieve JSON content from URL and put into target
+func RetrieveJSON(url string, target any) error {
+
+	// Read content from HTTP request
+	res, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+
+	defer func() {
+		errors.Join(err, res.Body.Close())
+	}()
+
+	// Read body content
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		return err
+	}
+
+	// Write decoded content into target
+	err = json.Unmarshal(body, target)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 
 // Read JSON from file content and put into target
 func ReadJSON(path string, target any) error {
@@ -21,7 +52,7 @@ func ReadJSON(path string, target any) error {
 			return err
 		}
 
-		// Retrieve information from file content when available
+		// Write decoded content to target pointer
 		err = json.Unmarshal(content, target)
 		if err != nil {
 			return err

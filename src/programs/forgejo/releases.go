@@ -1,14 +1,11 @@
 package forgejo
 
 import (
-	"encoding/json"
-	"errors"
 	"fmt"
-	"io"
-	"net/http"
 	"regexp"
 	"strings"
 
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 )
 
@@ -18,24 +15,9 @@ func GetAssetURL(domain string, repository string, search string) (string, error
 	domain = strings.Trim(domain, "/")
 	repository = strings.ReplaceAll(repository, domain, "")
 	repository = strings.Trim(repository, "/")
-
-	// Request latest releases
 	endpoint := fmt.Sprintf("%s/api/v1/repos/%s/releases", domain, repository)
-	res, err := http.Get(endpoint)
-	if err != nil {
-		return "", err
-	}
 
-	defer func() {
-		errors.Join(err, res.Body.Close())
-	}()
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		return "", err
-	}
-
-	// Decode response into struct
+	// Response struct
 	var releases []struct {
 		Name   string `json:"name"`
 		Assets []struct {
@@ -45,7 +27,8 @@ func GetAssetURL(domain string, repository string, search string) (string, error
 		} `json:"assets"`
 	}
 
-	err = json.Unmarshal(body, &releases)
+	// Request latest releases
+	err := fs.RetrieveJSON(endpoint, &releases)
 	if err != nil {
 		return "", err
 	}
