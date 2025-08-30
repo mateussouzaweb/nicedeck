@@ -6,6 +6,7 @@ interface Program {
 	category: string
 	tags: string[]
 	folders: string[]
+	flags: string[]
 	website: string
 	iconUrl: string
 	logoUrl: string

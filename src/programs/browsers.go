@@ -1,6 +1,7 @@
 package programs
 
 import (
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
@@ -16,6 +17,7 @@ func BraveBrowser() *Program {
 		Description: "Web browser",
 		Category:    "Utilities",
 		Tags:        []string{"Utilities"},
+		Flags:       []string{},
 		Folders:     []string{},
 		Website:     "https://brave.com",
 		IconURL:     assets.Icon("192d80a88b27b3e4115e1a45a782fe1b.png"),
@@ -44,6 +46,8 @@ func Firefox() *Program {
 		Description: "Web browser",
 		Category:    "Utilities",
 		Tags:        []string{"Utilities"},
+		Flags:       []string{},
+		Folders:     []string{},
 		Website:     "https://www.mozilla.org/en-US/firefox",
 		IconURL:     assets.Icon("b59bb2585ce93f60e21e1fab71cbf4ad.png"),
 		LogoURL:     assets.Logo("43285a8b542fcdc35377439e05dcb04f.png"),
@@ -71,6 +75,8 @@ func GoogleChrome() *Program {
 		Description: "Web browser",
 		Category:    "Utilities",
 		Tags:        []string{"Utilities"},
+		Flags:       []string{},
+		Folders:     []string{},
 		Website:     "https://www.google.com/intl/en_us/chrome",
 		IconURL:     assets.Icon("09b45ae46393da4adbd9b0bdb977d1aa.png"),
 		LogoURL:     assets.Logo("3b049d0f6cbf5421d399f156807b8657.png"),
@@ -92,12 +98,19 @@ func GoogleChrome() *Program {
 
 // Installer for Microsoft Edge
 func MicrosoftEdge() *Program {
+	flags := []string{}
+	if cli.IsWindows() {
+		flags = append(flags, "--remove-only-shortcut")
+	}
+
 	return &Program{
 		ID:          "microsoft-edge",
 		Name:        "Microsoft Edge",
 		Description: "Web browser",
 		Category:    "Utilities",
 		Tags:        []string{"Utilities"},
+		Flags:       flags,
+		Folders:     []string{},
 		Website:     "https://www.microsoft.com/en-us/edge",
 		IconURL:     assets.Icon("714cb7478d98b1cb51d1f5f515f060c7.png"),
 		LogoURL:     assets.Logo("cb88c85733fd8241b9190750318f1e59.png"),

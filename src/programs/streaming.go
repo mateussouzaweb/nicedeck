@@ -1,6 +1,7 @@
 package programs
 
 import (
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
@@ -16,6 +17,7 @@ func ChiakiNG() *Program {
 		Description: "Client for PlayStation Remote Play",
 		Category:    "Streaming",
 		Tags:        []string{"Gaming", "Streaming"},
+		Flags:       []string{},
 		Folders:     []string{},
 		Website:     "https://streetpea.github.io/chiaki-ng/",
 		IconURL:     assets.Icon("c58aa7403da471ad796cf64288404006.png"),
@@ -38,12 +40,18 @@ func ChiakiNG() *Program {
 
 // Installer for GeForce NOW
 func GeForceNow() *Program {
+	flags := []string{}
+	if cli.IsLinux() {
+		flags = append(flags, "--remove-only-shortcut")
+	}
+
 	return &Program{
 		ID:          "geforce-now",
 		Name:        "GeForce NOW",
 		Description: "Client for GeForce Now",
 		Category:    "Streaming",
 		Tags:        []string{"Gaming", "Streaming"},
+		Flags:       flags,
 		Folders:     []string{},
 		Website:     "https://www.nvidia.com/geforce-now",
 		IconURL:     assets.Icon("3632435cf99eec2a53ee7e4d8eeab451.png"),
@@ -79,6 +87,7 @@ func MoonlightGameStreaming() *Program {
 		Description: "Play your PC games remotely",
 		Category:    "Streaming",
 		Tags:        []string{"Gaming", "Streaming"},
+		Flags:       []string{},
 		Folders:     []string{},
 		Website:     "https://moonlight-stream.org",
 		IconURL:     assets.Icon("ef8051ce270059a142fcb0b3e47b1cd4.png"),
@@ -107,6 +116,7 @@ func XboxCloudGaming() *Program {
 		Description: "Client for Xbox Cloud Gaming",
 		Category:    "Streaming",
 		Tags:        []string{"Gaming", "Streaming"},
+		Flags:       []string{"--remove-only-shortcut"},
 		Folders:     []string{},
 		Website:     "https://www.xbox.com/cloud-gaming",
 		IconURL:     assets.Icon("164f545c22e17e5e9298b1c84b9e3e1e.png"),

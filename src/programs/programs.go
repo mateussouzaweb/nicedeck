@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"slices"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -20,6 +21,7 @@ type Program struct {
 	Category    string            `json:"category"`
 	Tags        []string          `json:"tags"`
 	Folders     []string          `json:"folders"`
+	Flags       []string          `json:"flags"`
 	Website     string            `json:"website"`
 	IconURL     string            `json:"iconUrl"`
 	LogoURL     string            `json:"logoUrl"`
@@ -76,6 +78,17 @@ func GetPrograms() ([]*Program, error) {
 	for _, program := range programs {
 		if program.Package.Available() {
 			available = append(available, program)
+		}
+	}
+
+	// Flag installed programs
+	for _, program := range available {
+		installed, err := program.Package.Installed()
+		if err != nil {
+			return available, err
+		}
+		if installed {
+			program.Flags = append(program.Flags, "--installed")
 		}
 	}
 
@@ -152,6 +165,7 @@ func Install(options *Options) error {
 
 		// Fill basic shortcut information
 		executable := program.Package.Executable()
+		alias := program.Package.Alias()
 		startDirectory := filepath.Dir(executable)
 		shortcutID := shortcuts.GenerateID(program.Name, executable)
 		shortcut := &shortcuts.Shortcut{
@@ -162,7 +176,7 @@ func Install(options *Options) error {
 			StartDirectory: startDirectory,
 			Executable:     executable,
 			LaunchOptions:  "",
-			ShortcutPath:   "",
+			ShortcutPath:   alias,
 			RelativePath:   "",
 			IconURL:        program.IconURL,
 			LogoURL:        program.LogoURL,
@@ -216,9 +230,11 @@ func Remove(options *Options) error {
 		cli.Printf(cli.ColorNotice, "Removing %s...\n", program.Name)
 
 		// Run program removal
-		err = program.Package.Remove()
-		if err != nil {
-			return err
+		if !slices.Contains(program.Flags, "--remove-only-shortcut") {
+			err = program.Package.Remove()
+			if err != nil {
+				return err
+			}
 		}
 
 		// Perform additional steps after remove
