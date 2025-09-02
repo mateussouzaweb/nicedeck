@@ -2,6 +2,7 @@ package shortcuts
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"reflect"
 	"sort"
@@ -35,6 +36,12 @@ func (l *Library) Load(databasePath string) error {
 
 	// Read database file content
 	err := fs.ReadJSON(databasePath, &l)
+	if err != nil {
+		return err
+	}
+
+	// Make sure images path exists
+	err = os.MkdirAll(l.ImagesPath, 0755)
 	if err != nil {
 		return err
 	}
