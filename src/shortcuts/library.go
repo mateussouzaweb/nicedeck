@@ -29,7 +29,7 @@ func (l *Library) Load(databasePath string) error {
 
 	// Fill basic information
 	l.DatabasePath = databasePath
-	l.ImagesPath = fmt.Sprintf("%s/images", filepath.Dir(databasePath))
+	l.ImagesPath = filepath.Join(filepath.Dir(databasePath), "images")
 	l.Shortcuts = make([]*Shortcut, 0)
 	l.History = make([]*History, 0)
 

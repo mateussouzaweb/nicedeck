@@ -15,7 +15,7 @@ var resourcesContent embed.FS
 func WriteSettings(destinationPath string) error {
 
 	// Settings (write file only if not exist yet)
-	settingsFile := filepath.Join(destinationPath, "settings/es_settings.xml")
+	settingsFile := filepath.Join(destinationPath, "settings", "es_settings.xml")
 	settingsExist, err := fs.FileExist(settingsFile)
 	if err != nil {
 		return err
@@ -41,7 +41,7 @@ func WriteSettings(destinationPath string) error {
 	}
 
 	// Systems
-	systemsFile := filepath.Join(destinationPath, "custom_systems/es_systems.xml")
+	systemsFile := filepath.Join(destinationPath, "custom_systems", "es_systems.xml")
 	systemsConfig, err := resourcesContent.ReadFile("resources/es_systems.xml")
 	if err != nil {
 		return err
@@ -59,7 +59,7 @@ func WriteSettings(destinationPath string) error {
 	}
 
 	// Find Rules
-	findRulesFile := filepath.Join(destinationPath, "custom_systems/es_find_rules.xml")
+	findRulesFile := filepath.Join(destinationPath, "custom_systems", "es_find_rules.xml")
 	findRulesConfig, err := resourcesContent.ReadFile("resources/es_find_rules.xml")
 	if err != nil {
 		return err

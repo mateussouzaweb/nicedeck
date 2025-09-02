@@ -1,7 +1,7 @@
 package library
 
 import (
-	"fmt"
+	"path/filepath"
 
 	"github.com/mateussouzaweb/nicedeck/src/esde"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -20,17 +20,18 @@ var ESDE = &esde.Library{}
 func Load() error {
 
 	// Normalize path
-	configPath := "$APPLICATIONS/NiceDeck"
-	configPath = fs.ExpandPath(configPath)
+	configPath := filepath.Join(fs.ExpandPath("$APPLICATIONS"), "NiceDeck")
+	shortcutsConfigPath := filepath.Join(configPath, "shortcuts.json")
+	steamConfigPath := filepath.Join(configPath, "steam.json")
 
 	// Load shortcuts
-	err := Shortcuts.Load(fmt.Sprintf("%s/shortcuts.json", configPath))
+	err := Shortcuts.Load(shortcutsConfigPath)
 	if err != nil {
 		return err
 	}
 
 	// Load Steam data
-	err = Steam.Load(fmt.Sprintf("%s/steam.json", configPath))
+	err = Steam.Load(steamConfigPath)
 	if err != nil {
 		return err
 	}
