@@ -6,6 +6,8 @@ import (
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 )
 
 const baseURL = "https://www.steamgriddb.com/api/v2"
@@ -17,6 +19,8 @@ func Request(method string, endpoint string, result any) error {
 	client := &http.Client{
 		Timeout: 30 * time.Second,
 	}
+
+	cli.Debug("Requesting %s\n", endpoint)
 
 	req, err := http.NewRequest(method, endpoint, nil)
 	if err != nil {

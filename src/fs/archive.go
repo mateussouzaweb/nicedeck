@@ -6,10 +6,14 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 )
 
 // Unzip given source ZIP file into destination
 func Unzip(source, destination string) error {
+
+	cli.Debug("Unzipping %s to %s\n", source, destination)
 
 	// Open zip file
 	archive, err := zip.OpenReader(source)

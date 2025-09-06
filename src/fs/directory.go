@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 )
 
 // Check if directory exist at given path
@@ -30,6 +32,8 @@ func RemoveDirectory(path string) error {
 	} else if !exist {
 		return nil
 	}
+
+	cli.Debug("Removing directory %s\n", path)
 
 	// Read child files with glob
 	files, err := filepath.Glob(filepath.Join(path, "*"))
@@ -66,6 +70,8 @@ func CopyDirectory(source string, destination string) error {
 	if !stat.IsDir() {
 		return fmt.Errorf("source path is not a directory")
 	}
+
+	cli.Debug("Copying directory %s to %s\n", source, destination)
 
 	// Ensure destination path exist
 	err = os.MkdirAll(destination, stat.Mode())

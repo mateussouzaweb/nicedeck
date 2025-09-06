@@ -7,10 +7,14 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 )
 
 // Retrieve JSON content from URL and put into target
 func RetrieveJSON(url string, target any) error {
+
+	cli.Debug("Requesting JSON %s\n", url)
 
 	// Read content from HTTP request
 	res, err := http.Get(url)
@@ -40,6 +44,8 @@ func RetrieveJSON(url string, target any) error {
 // Read JSON from file content and put into target
 func ReadJSON(path string, target any) error {
 
+	cli.Debug("Reading JSON %s\n", path)
+
 	// Check if file exist
 	exist, err := FileExist(path)
 	if err != nil {
@@ -64,6 +70,8 @@ func ReadJSON(path string, target any) error {
 
 // Write JSON content from source into target path
 func WriteJSON(path string, source any) error {
+
+	cli.Debug("Writing JSON at %s\n", path)
 
 	// Convert source to JSON representation
 	content, err := json.MarshalIndent(source, "", "  ")

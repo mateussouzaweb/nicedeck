@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 )
 
 // Check if file exist at given path
@@ -28,6 +30,7 @@ func RemoveFile(path string) error {
 	if err != nil {
 		return err
 	} else if exist {
+		cli.Debug("Removing %s\n", path)
 		return os.Remove(path)
 	}
 
@@ -44,6 +47,8 @@ func MoveFile(source string, destination string) error {
 	} else if !exist {
 		return nil
 	}
+
+	cli.Debug("Moving %s to %s\n", source, destination)
 
 	// Ensure that destination folder exists
 	err = os.MkdirAll(filepath.Dir(destination), 0774)
@@ -102,6 +107,8 @@ func CopyFile(source string, destination string, overwriteExisting bool) error {
 			return nil
 		}
 	}
+
+	cli.Debug("Coping %s to %s\n", source, destination)
 
 	// Open source file
 	sourceFile, err := os.Open(source)
@@ -168,6 +175,8 @@ func DownloadFile(url string, destination string, overwriteExisting bool) error 
 			return nil
 		}
 	}
+
+	cli.Debug("Downloading %s to %s\n", url, destination)
 
 	// Retrieve file from HTTP
 	response, err := http.Get(url)

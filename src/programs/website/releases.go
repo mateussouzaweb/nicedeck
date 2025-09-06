@@ -8,11 +8,14 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 )
 
 // Get download URL from the latest release available
 func GetDownloadURL(pageURL string, prefix string, search string) (string, error) {
+
+	cli.Debug("Requesting %s\n", pageURL)
 
 	// Make request to get HTML of target page
 	res, err := http.Get(pageURL)

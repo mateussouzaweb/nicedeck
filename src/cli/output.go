@@ -28,8 +28,8 @@ var (
 )
 
 // Output set the destination for console messages
-func Output(writter io.Writer) {
-	output = writter
+func Output(writer io.Writer) {
+	output = writer
 }
 
 // NoColor check if should avoid color output on console messages
@@ -43,5 +43,12 @@ func Printf(color string, format string, args ...any) {
 		fmt.Fprintf(output, format, args...)
 	} else {
 		fmt.Fprintf(output, color+format+ColorReset, args...)
+	}
+}
+
+// Print debug message
+func Debug(format string, args ...any) {
+	if os.Getenv("DEBUG") == "1" {
+		Printf(ColorPurple, "[DEBUG] "+format, args...)
 	}
 }

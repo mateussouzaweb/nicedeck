@@ -135,6 +135,8 @@ func (l *Library) Load(databasePath string) error {
 		return nil
 	}
 
+	cli.Debug("Reading VDF at %s\n", l.ShortcutsPath)
+
 	// Read VDF file content
 	content, err := os.ReadFile(l.ShortcutsPath)
 	if err != nil {
@@ -308,6 +310,8 @@ func (l *Library) Save() error {
 
 	data := vdf.Vdf{}
 	data["shortcuts"] = items
+
+	cli.Debug("Writing VDF at %s\n", l.ShortcutsPath)
 
 	// Transform VDF into bytes
 	content, err := vdf.WriteVdf(data)
