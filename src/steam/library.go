@@ -207,7 +207,7 @@ func (l *Library) Load(databasePath string) error {
 		}
 
 		// Create tag list
-		var tags []string
+		tags := []string{}
 		for _, tag := range item["tags"].(vdf.Vdf) {
 			tags = append(tags, tag.(string))
 		}
