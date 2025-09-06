@@ -13,11 +13,11 @@ import (
 // Filter ROMs that match given requirements and return the list to process
 func FilterROMs(roms []*ROM, options *Options) []*ROM {
 
-	// Rebuild option will include every ROM in the platform
-	rebuild := slices.Contains(options.Preferences, "rebuild")
-
 	var existing []*ROM
 	var toProcess []*ROM
+
+	// Rebuild option will include every ROM in the platform
+	rebuild := slices.Contains(options.Preferences, "rebuild")
 
 	// Read current list of ROMs in the library shortcuts
 	for _, shortcut := range library.Shortcuts.All() {
@@ -126,7 +126,7 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 			heroURL = scrape.HeroURLs[0]
 		}
 
-		// Add or update into shortcuts library
+		// Create shortcut information
 		startDirectory := filepath.Dir(rom.Executable)
 		shortcutID := shortcuts.GenerateID(name, rom.Executable)
 		shortcut := &shortcuts.Shortcut{
@@ -147,6 +147,27 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 			Tags:           []string{"Gaming", "ROM", rom.Platform},
 		}
 
+		// Avoid duplicates by checking on existing library
+		// This process also allow switching emulators on existing shortcut
+		for _, existing := range library.Shortcuts.All() {
+
+			// Check if shortcut is managed ROM
+			if !slices.Contains(existing.Tags, "ROM") {
+				continue
+			}
+
+			// Check for matching ROM relative path
+			if existing.RelativePath != shortcut.RelativePath {
+				continue
+			}
+
+			// When detected, merge and update existing shortcut
+			existing.Merge(shortcut)
+			shortcut = existing
+			break
+		}
+
+		// Add or update into shortcuts library
 		err = library.Shortcuts.Set(shortcut, false)
 		if err != nil {
 			return total, err
