@@ -31,12 +31,8 @@ var staticHandler http.Handler
 
 // Library data result
 type LibraryData struct {
-	Timestamp        int64  `json:"timestamp"`
-	ImagesPath       string `json:"imagesPath"`
-	SteamRuntime     string `json:"steamRuntime"`
-	SteamPath        string `json:"steamPath"`
-	SteamAccountId   string `json:"steamAccountId"`
-	SteamAccountName string `json:"steamAccountName"`
+	Timestamp  int64  `json:"timestamp"`
+	ImagesPath string `json:"imagesPath"`
 }
 
 // Load library result
@@ -65,12 +61,8 @@ func loadLibrary(context *Context) error {
 	gridHandler = http.FileServer(http.FS(gridFS))
 
 	data := LibraryData{
-		Timestamp:        time.Now().Unix(),
-		ImagesPath:       library.Shortcuts.ImagesPath,
-		SteamRuntime:     library.Steam.Runtime,
-		SteamPath:        library.Steam.BasePath,
-		SteamAccountId:   library.Steam.AccountId,
-		SteamAccountName: library.Steam.AccountName,
+		Timestamp:  time.Now().Unix(),
+		ImagesPath: library.Shortcuts.ImagesPath,
 	}
 
 	// Print loaded data

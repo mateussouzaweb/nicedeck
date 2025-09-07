@@ -2,10 +2,6 @@
 interface Library {
 	timestamp: number
 	imagesPath: string
-	steamRuntime: string
-	steamPath: string
-	steamAccountId: string
-	steamAccountName: string
 }
 
 interface Program {
