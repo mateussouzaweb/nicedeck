@@ -11,12 +11,12 @@
     width: 100%;
 }
 
-#shortcuts #filters .platforms {
+#shortcuts #filters .tags {
     flex: 1 0 auto;
     max-width: 200px;
     position: relative;
 }
-#shortcuts #filters .platforms > label {
+#shortcuts #filters .tags > label {
     align-items: center;
     background: #FFF;
     border: 1px solid #000;
@@ -30,7 +30,7 @@
     padding: 8px 15px;
     position: relative;
 }
-#shortcuts #filters .platforms .dropdown {
+#shortcuts #filters .tags .dropdown {
     background: #FFF;
     border: 1px solid #000;
     border-radius: 4px;
@@ -47,27 +47,27 @@
     top: 100%;
     z-index: 2;
 }
-#shortcuts #filters .platforms:hover > .dropdown,
-#shortcuts #filters .platforms > .dropdown:hover {
+#shortcuts #filters .tags:hover > .dropdown,
+#shortcuts #filters .tags > .dropdown:hover {
     display: flex;
 }
-#shortcuts #filters .platforms .dropdown label {
+#shortcuts #filters .tags .dropdown label {
     margin: 0;
 }
-#shortcuts #filters .platforms .dropdown label span {
+#shortcuts #filters .tags .dropdown label span {
     border-color: transparent;
     border-radius: 0;
 }
-#shortcuts #filters .platforms .dropdown label span:hover {
+#shortcuts #filters .tags .dropdown label span:hover {
     background: #EEE;
     border-color: rgba(0, 0, 0, 0.15);
     box-shadow: none;
     z-index: 2;
 }
-#shortcuts #filters .platforms .dropdown label span:hover::before{
+#shortcuts #filters .tags .dropdown label span:hover::before{
     background: rgba(0, 0, 0, 0.15);
 }
-#shortcuts #filters .platforms .dropdown label span::before {
+#shortcuts #filters .tags .dropdown label span::before {
     background: #EEE;
     border-radius: 0;
 }
@@ -151,10 +151,18 @@
     padding: 10px 9px;
 }
 #shortcuts #list .info .actions button {
+    background: #000;
+    border: 0;
+    border-radius: 5px;
+    color: #FFF;
+    cursor: pointer;
     flex: 1;
+    font-size: 100%;
+    font-weight: bold;
     margin: 1px;
     padding: 5px;
     text-align: center;
+    vertical-align: middle;
     width: auto;
 }
 #shortcuts #list .info .actions button img {

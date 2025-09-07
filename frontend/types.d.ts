@@ -1,4 +1,13 @@
 // Objects
+interface Library {
+	timestamp: number
+	imagesPath: string
+	steamRuntime: string
+	steamPath: string
+	steamAccountId: string
+	steamAccountName: string
+}
+
 interface Program {
 	id: string
 	name: string
@@ -61,11 +70,7 @@ interface ScrapeResult {
 interface LoadLibraryResult {
 	status: string
 	error: string
-	imagesPath: string
-	steamRuntime: string
-	steamPath: string
-	steamAccountId: string
-	steamAccountName: string
+	data: Library
 }
 
 interface SaveLibraryResult {

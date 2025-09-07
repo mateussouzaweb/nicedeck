@@ -1,6 +1,12 @@
 // Shortcuts
 window.addEventListener('load', async () => {
 
+    /** @type {Library[]} */
+    let library = {}
+
+    /** @type {Platform[]} */
+    let platforms = []
+
     /** @type {Shortcut[]} */
     let shortcuts = []
 
@@ -14,23 +20,139 @@ window.addEventListener('load', async () => {
     }
 
     /**
-     * Load and show available platforms in the software
+     * Retrieve image with given path
+     * @param {String} type
+     * @param {String} path
+     * @returns {String}
      */
-    async function loadPlatforms() {
+    function getImage(type, path) {
+        url = (path) ? String(path) : `./img/default/${type}.png`
+        url = url.replace(library.imagesPath, "/grid/image")
+        return url + '?t=' + library.timestamp
+    }
 
-        /** @type {ListPlatformsResult} */
-        const request = await requestJson('GET', '/api/platforms')
-        const platforms = request.data
+    /**
+     * Check if text contains given term
+     * @param {String} text
+     * @param {String} term
+     * @returns {Boolean}
+     */
+    function containsText(text, term) {
+        return String(text).toLowerCase().includes(
+            String(term).toLowerCase()
+        )
+    }
 
-        const options = platforms.map((platform) => {
-            return `<label class="radio" title="${platform.console}">
-                <input type="checkbox" name="platforms[]" value="${platform.name}" />
-                <span>${platform.name}</span>
+    /**
+     * Render filters in HTML
+     */
+    async function renderFilters() {
+
+        const inputs = $$('#shortcuts .tags input:checked')
+        const active = inputs.map((input) => {
+            return input.value
+        })
+
+        const tags = []
+        platforms.map((platform) => {
+            tags.push(platform.name)
+        })
+        shortcuts.map((shortcut) => {
+            tags.push(...shortcut.tags)
+        })
+
+        const unique = [...new Set(tags)].sort()
+        const options = unique.map((tag) => {
+            const checked = active.includes(tag) ? 'checked="checked"' : ''
+            return `<label class="radio" title="${tag}">
+                <input type="checkbox" name="tags[]"
+                    value="${tag}" ${checked} />
+                <span>${tag}</span>
             </label>`
         })
 
-        const destination = $('#shortcuts .platforms .dropdown')
+        const destination = $('#shortcuts .tags .dropdown')
         destination.innerHTML = options.join('')
+
+    }
+
+    /**
+     * Render shortcuts in HTML
+     */
+    async function renderShortcuts() {
+
+        const form = $('#shortcuts #filters')
+        const data = new FormData(form)
+        const filters = {
+            search: data.get('search'),
+            tags: data.getAll('tags[]')
+        }
+
+        const filtered = shortcuts.filter((shortcut) => {
+            let valid = true
+
+            if (filters.tags.length) {
+                valid = valid && filters.tags.every((tag) => {
+                    return shortcut.tags.includes(tag)
+                })
+            }
+            if (filters.search) {
+                valid = valid && containsText(
+                    shortcut.name, filters.search
+                )
+            }
+
+            return valid
+        }).filter((shortcut) => {
+            return shortcut !== null
+        })
+
+        const items = filtered.map((shortcut) => {
+            const coverUrl = getImage('cover', shortcut.coverPath)
+
+            return `
+            <article class="item shortcut" title="${shortcut.name}">
+                <div class="area">
+                    <div class="image">
+                        <img loading="lazy" src="${coverUrl}" alt="${shortcut.name}" width="600" height="900"/>
+                    </div>
+                    <div class="info">
+                        <div class="title">
+                            <h4>${shortcut.name}</h4>
+                        </div>
+                        <div class="actions">
+                            <button type="button" data-launch-shortcut="${shortcut.id}" title="Launch">
+                                <img src="./img/icons/launch.svg" alt="Launch" width="24" height="24" />
+                            </button>
+                            <button type="button" data-update-shortcut="${shortcut.id}" title="Update">
+                                <img src="./img/icons/update.svg" alt="Update" width="24" height="24" />
+                            </button>
+                            <button type="button" data-delete-shortcut="${shortcut.id}" title="Delete">
+                                <img src="./img/icons/delete.svg" alt="Delete" width="24" height="24" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </article>`
+        })
+
+        if (!items.length) {
+            items.push(`<article class="item message">
+                <div class="area">
+                    No library shortcuts to display here yet...
+                </div>
+            </article>`)
+        } else {
+            // Empty elements for flexbox
+            items.push('<div class="fill"></div>')
+            items.push('<div class="fill"></div>')
+            items.push('<div class="fill"></div>')
+            items.push('<div class="fill"></div>')
+            items.push('<div class="fill"></div>')
+        }
+
+        const destination = $('#shortcuts #list')
+        destination.innerHTML = items.join('')
 
     }
 
@@ -49,87 +171,21 @@ window.addEventListener('load', async () => {
             button.disabled = true
 
             /** @type {LoadLibraryResult} */
-            const library = await requestJson('POST', '/api/library/load')
+            const libraryRequest = await requestJson('POST', '/api/library/load')
+
+            /** @type {LoadLibraryResult} */
+            const platformsRequest = await requestJson('GET', '/api/platforms')
 
             /** @type {ListShortcutsResult} */
-            const request = await requestJson('GET', '/api/shortcuts')
-            shortcuts = request.data
+            const shortcutsRequest = await requestJson('GET', '/api/shortcuts')
 
-            const platforms = $$('#shortcuts .platforms input:checked')
-            const search = $('#shortcuts .search input')
-            const filters = platforms.map((input) => {
-                return input.value
-            })
+            library = libraryRequest.data
+            platforms = platformsRequest.data
+            shortcuts = shortcutsRequest.data
 
-            const items = shortcuts.filter((shortcut) => {
-                if (!filters.length) {
-                    return true
-                }
-                for (const filter of filters) {
-                    if (shortcut.name.includes("[" + filter + "]")) {
-                        return true
-                    }
-                }
-                return false
-            })
-            .filter((shortcut) => {
-                if (!search.value.length) {
-                    return true
-                }
-                return String(shortcut.name).toLowerCase().includes(
-                    String(search.value).toLowerCase()
-                )
-            })
-            .filter((shortcut) => {
-                return shortcut !== null
-            })
-            .map((shortcut) => {
-                const coverUrl = (shortcut.coverPath)
-                    ? String(shortcut.coverPath).replace(library.imagesPath, "/grid/image")
-                    : './img/default/cover.png'
+            await renderFilters()
+            await renderShortcuts()
 
-                return `<article class="item shortcut" title="${shortcut.name}">
-                    <div class="area">
-                        <div class="image">
-                            <img loading="lazy" src="${coverUrl}" alt="${shortcut.name}" width="600" height="900"/>
-                        </div>
-                        <div class="info">
-                            <div class="title">
-                                <h4>${shortcut.name}</h4>
-                            </div>
-                            <div class="actions">
-                                <button type="button" data-launch-shortcut="${shortcut.id}" title="Launch">
-                                    <img src="./img/icons/launch.svg" alt="Launch" width="24" height="24" />
-                                </button>
-                                <button type="button" data-update-shortcut="${shortcut.id}" title="Update">
-                                    <img src="./img/icons/update.svg" alt="Update" width="24" height="24" />
-                                </button>
-                                <button type="button" data-delete-shortcut="${shortcut.id}" title="Delete">
-                                    <img src="./img/icons/delete.svg" alt="Delete" width="24" height="24" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </article>`
-            })
-
-            if (!items.length) {
-                items.push(`<article class="item message">
-                    <div class="area">
-                        No library shortcuts to display here yet...
-                    </div>
-                </article>`)
-            } else {
-                // Empty elements for flexbox
-                items.push('<div class="fill"></div>')
-                items.push('<div class="fill"></div>')
-                items.push('<div class="fill"></div>')
-                items.push('<div class="fill"></div>')
-                items.push('<div class="fill"></div>')
-            }
-
-            const destination = $('#shortcuts #list')
-            destination.innerHTML = items.join('')
         } finally {
             button.disabled = false
         }
@@ -138,7 +194,7 @@ window.addEventListener('load', async () => {
 
     on('#shortcuts #filters input', 'change', async () => {
         try {
-            await loadShortcuts()
+            await renderShortcuts()
         } catch (error) {
             window.showError(error)
         }
@@ -148,7 +204,7 @@ window.addEventListener('load', async () => {
         event.preventDefault()
 
         try {
-            await loadShortcuts()
+            await renderShortcuts()
         } catch (error) {
             window.showError(error)
         }
@@ -418,12 +474,6 @@ window.addEventListener('load', async () => {
 
     try {
         await loadShortcuts()
-    } catch (error) {
-        window.showError(error)
-    }
-
-    try {
-        await loadPlatforms()
     } catch (error) {
         window.showError(error)
     }

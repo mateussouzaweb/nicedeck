@@ -29,15 +29,21 @@ var staticFS fs.FS
 var gridHandler http.Handler
 var staticHandler http.Handler
 
-// Load library result
-type LoadLibraryResult struct {
-	Status           string `json:"status"`
-	Error            string `json:"error"`
+// Library data result
+type LibraryData struct {
+	Timestamp        int64  `json:"timestamp"`
 	ImagesPath       string `json:"imagesPath"`
 	SteamRuntime     string `json:"steamRuntime"`
 	SteamPath        string `json:"steamPath"`
 	SteamAccountId   string `json:"steamAccountId"`
 	SteamAccountName string `json:"steamAccountName"`
+}
+
+// Load library result
+type LoadLibraryResult struct {
+	Status string      `json:"status"`
+	Error  string      `json:"error"`
+	Data   LibraryData `json:"data"`
 }
 
 // Load library action
@@ -58,13 +64,18 @@ func loadLibrary(context *Context) error {
 	gridFS = os.DirFS(imagesPath)
 	gridHandler = http.FileServer(http.FS(gridFS))
 
+	data := LibraryData{
+		Timestamp:        time.Now().Unix(),
+		ImagesPath:       library.Shortcuts.ImagesPath,
+		SteamRuntime:     library.Steam.Runtime,
+		SteamPath:        library.Steam.BasePath,
+		SteamAccountId:   library.Steam.AccountId,
+		SteamAccountName: library.Steam.AccountName,
+	}
+
 	// Print loaded data
 	result.Status = "OK"
-	result.ImagesPath = library.Shortcuts.ImagesPath
-	result.SteamRuntime = library.Steam.Runtime
-	result.SteamPath = library.Steam.BasePath
-	result.SteamAccountId = library.Steam.AccountId
-	result.SteamAccountName = library.Steam.AccountName
+	result.Data = data
 
 	return context.Status(200).JSON(result)
 }
@@ -677,12 +688,6 @@ func Setup(version string, developmentMode bool, shutdown chan bool) error {
 
 	// Grid image request
 	Add("GET", "/grid/image/(.*)", func(context *Context) error {
-
-		// Prevent cache headers
-		context.Header("Cache-Control", "no-cache, no-store, must-revalidate;")
-		context.Header("Pragma", "no-cache")
-		context.Header("Expires", "0")
-		context.Header("X-Content-Type-Options", "nosniff")
 
 		// Check if requested file exist
 		filename := strings.TrimPrefix(context.URI, "/grid/image/")
