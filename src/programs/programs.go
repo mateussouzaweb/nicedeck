@@ -229,7 +229,7 @@ func Remove(options *Options) error {
 
 		// Remove from shortcuts list
 		executable := program.Package.Executable()
-		shortcut := library.Shortcuts.Find(executable, program.Name)
+		shortcut := library.Shortcuts.Find(program.Name, executable)
 
 		if shortcut.ID != "" {
 			err = library.Shortcuts.Remove(shortcut)
