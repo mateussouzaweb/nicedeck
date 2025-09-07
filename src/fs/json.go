@@ -44,13 +44,13 @@ func RetrieveJSON(url string, target any) error {
 // Read JSON from file content and put into target
 func ReadJSON(path string, target any) error {
 
-	cli.Debug("Reading JSON %s\n", path)
-
 	// Check if file exist
 	exist, err := FileExist(path)
 	if err != nil {
 		return err
 	} else if exist {
+
+		cli.Debug("Reading JSON %s\n", path)
 
 		// Read file content
 		content, err := os.ReadFile(path)
