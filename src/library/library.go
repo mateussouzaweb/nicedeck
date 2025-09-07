@@ -78,7 +78,7 @@ func Save() error {
 		return err
 	}
 
-	// Save ES-DE data
+	// Save ES-DE library
 	err = ESDE.Save()
 	if err != nil {
 		return err
@@ -90,9 +90,6 @@ func Save() error {
 	// EpicGames.Save()
 	// GOG.Sync()
 	// GOG.Save()
-
-	// Clean history of changes
-	Shortcuts.History = Shortcuts.History[:0]
 
 	return nil
 }

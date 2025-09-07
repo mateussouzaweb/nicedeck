@@ -34,8 +34,15 @@ type Library struct {
 // Load library from database file
 func (l *Library) Load(databasePath string) error {
 
-	// Fill basic information
+	// Reset and fill basic information
 	l.DatabasePath = databasePath
+	l.BasePath = ""
+	l.Runtime = ""
+	l.AccountId = ""
+	l.AccountName = ""
+	l.ConfigPath = ""
+	l.ImagesPath = ""
+	l.ShortcutsPath = ""
 	l.Shortcuts = make([]*Shortcut, 0)
 
 	// Read database file content

@@ -28,7 +28,7 @@ type Library struct {
 // Load library from database file
 func (l *Library) Load(databasePath string) error {
 
-	// Fill basic information
+	// Reset and fill basic information
 	l.DatabasePath = databasePath
 	l.ImagesPath = filepath.Join(filepath.Dir(databasePath), "images")
 	l.Shortcuts = make([]*Shortcut, 0)
