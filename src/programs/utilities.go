@@ -9,6 +9,32 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs/github"
 )
 
+// Installer for Discord
+func Discord() *Program {
+	return &Program{
+		ID:          "discord",
+		Name:        "Discord",
+		Description: "Voice and text chat software",
+		Category:    "Utilities",
+		Tags:        []string{"Utilities"},
+		Flags:       []string{},
+		Folders:     []string{},
+		Website:     "https://discord.com/",
+		IconURL:     assets.Icon("0b105cf1504c4e241fcc6d519ea962fb.ico"),
+		LogoURL:     assets.Logo("91bb27109949e95a96c563d2d4222604.png"),
+		CoverURL:    assets.Cover("657c5f18a3319eedbb05dda3d66e3e4b.png"),
+		BannerURL:   assets.Banner("1974a767627527a2f88ea3f2818676d7.png"),
+		HeroURL:     assets.Hero("f5af8de6802460753a75a4692d255641.png"),
+		Package: packaging.Best(&macos.Homebrew{
+			AppID:   "discord",
+			AppName: "Discord.app",
+		}, &windows.WinGet{
+			AppID:  "Discord.Discord",
+			AppExe: "$PROGRAMS_X86\\Steam\\Steam.exe",
+		}),
+	}
+}
+
 // Installer for NiceDeck
 func NiceDeck() *Program {
 	return &Program{

@@ -9,6 +9,55 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs/assets"
 )
 
+// Installer for Amazon Games
+func AmazonGames() *Program {
+	return &Program{
+		ID:          "amazon-games",
+		Name:        "Amazon Games",
+		Description: "Store and launcher for Amazon Games",
+		Category:    "Gaming",
+		Tags:        []string{"Gaming", "Utilities", "Store"},
+		Flags:       []string{},
+		Folders:     []string{},
+		Website:     "https://gaming.amazon.com",
+		IconURL:     assets.Icon("6329d71f868e390b04af435ba2363554.png"),
+		LogoURL:     assets.Logo("91996a56621122df0d9dfc51717d4f22.png"),
+		CoverURL:    assets.Cover("bc5787c3784d39729b4d950eb5143cd2.png"),
+		BannerURL:   assets.Banner("110c01f002b7848d931b406b6adee66c.png"),
+		HeroURL:     assets.Hero("a21e85aedf84619520f0c5e30bd55042.png"),
+		Package: packaging.Best(&windows.WinGet{
+			AppID:  "Amazon.Games",
+			AppExe: "$APPDATA\\Local\\Amazon Games\\App\\Amazon Games.exe",
+		}),
+	}
+}
+
+// Installer for Blizzard Battle.net
+func BattleNet() *Program {
+	return &Program{
+		ID:          "battle-net",
+		Name:        "Battle.net",
+		Description: "Store and launcher for Blizzard Games",
+		Category:    "Gaming",
+		Tags:        []string{"Gaming", "Utilities", "Store"},
+		Flags:       []string{},
+		Folders:     []string{},
+		Website:     "https://us.shop.battle.net/",
+		IconURL:     assets.Icon("937ea3f7714dc0d01475da7bff33b596.ico"),
+		LogoURL:     assets.Logo("c828b4e93bd75e8f7307dbddedea6480.png"),
+		CoverURL:    assets.Cover("356c41d28e278e936b46739712043616.png"),
+		BannerURL:   assets.Banner("95dc580680cdd8578951011c081121c4.png"),
+		HeroURL:     assets.Hero("9f319422ca17b1082ea49820353f14ab.jpg"),
+		Package: packaging.Best(&macos.Homebrew{
+			AppID:   "battle-net",
+			AppName: "Battle.net.app",
+		}, &windows.WinGet{
+			AppID:  "Blizzard.BattleNet",
+			AppExe: "$PROGRAMS_X86\\Battle.net\\Battle.net.exe",
+		}),
+	}
+}
+
 // Installer for Bottles
 func Bottles() *Program {
 	return &Program{
@@ -28,6 +77,58 @@ func Bottles() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.usebottles.bottles",
+		}),
+	}
+}
+
+// Installer for EA App
+func EAApp() *Program {
+	return &Program{
+		ID:          "ea-app",
+		Name:        "EA App",
+		Description: "Store and launcher for Electronic Arts Games",
+		Category:    "Gaming",
+		Tags:        []string{"Gaming", "Utilities", "Store"},
+		Flags:       []string{},
+		Folders:     []string{},
+		Website:     "https://www.ea.com/ea-app",
+		IconURL:     assets.Icon("e62dfd885dcb4b83dda5d4e336fdf520.ico"),
+		LogoURL:     assets.Logo("bd81e7bf0ad319fff0a5830a22d12550.png"),
+		CoverURL:    assets.Cover("67fce8ab05c7c0a28fa66b353e813cbd.png"),
+		BannerURL:   assets.Banner("f1b499e8db3046ebec712209e22f830d.png"),
+		HeroURL:     assets.Hero("6458ed5e1bb03b8da47c065c2f647b26.png"),
+		Package: packaging.Best(&macos.Homebrew{
+			AppID:   "ea",
+			AppName: "EA app.app",
+		}, &windows.WinGet{
+			AppID:  "ElectronicArts.EADesktop",
+			AppExe: "$PROGRAMS\\Electronic Arts\\EA Desktop\\EA Desktop\\EADesktop.exe",
+		}),
+	}
+}
+
+// Installer for Epic Games
+func EpicGames() *Program {
+	return &Program{
+		ID:          "epic-games",
+		Name:        "Epic Games",
+		Description: "Store and launcher for Epic Games",
+		Category:    "Gaming",
+		Tags:        []string{"Gaming", "Utilities", "Store"},
+		Flags:       []string{},
+		Folders:     []string{},
+		Website:     "https://store.epicgames.com",
+		IconURL:     assets.Icon("5945f39f9f61fe06bf2a8e2624462548.png"),
+		LogoURL:     assets.Logo("8402e5776dfcbac2fe148bb2c35528fc.png"),
+		CoverURL:    assets.Cover("67f56a2fe648cfdb82822bfdc360ef6a.png"),
+		BannerURL:   assets.Banner("02d7e610ae675ae3be88626d18fa7999.png"),
+		HeroURL:     assets.Hero("164fbf608021ece8933758ee2b28dd7d.png"),
+		Package: packaging.Best(&macos.Homebrew{
+			AppID:   "epic-games",
+			AppName: "Epic Games Launcher.app",
+		}, &windows.WinGet{
+			AppID:  "EpicGames.EpicGamesLauncher",
+			AppExe: "$PROGRAMS_X86\\Epic Games\\Launcher\\Engine\\Binaries\\Win64\\EpicGamesLauncher.exe",
 		}),
 	}
 }
@@ -52,6 +153,32 @@ func ESDE() *Program {
 	}
 }
 
+// Installer for GOG Galaxy
+func GOGGalaxy() *Program {
+	return &Program{
+		ID:          "gog-galaxy",
+		Name:        "GOG Galaxy",
+		Description: "Store and launcher for GOG Games",
+		Category:    "Gaming",
+		Tags:        []string{"Gaming", "Utilities", "Store"},
+		Flags:       []string{},
+		Folders:     []string{},
+		Website:     "https://www.gog.com/galaxy",
+		IconURL:     assets.Icon("d0f5edad9ac19abed9e235c0fe0aa59f.png"),
+		LogoURL:     assets.Logo("bb3eb7da5111a89afb18524c385b4ee2.png"),
+		CoverURL:    assets.Cover("c3d13ca6a5797b92dcaf18529d9d795f.png"),
+		BannerURL:   assets.Banner("5f77d1e72f72a5ea4cfd99b4a21e7fdd.png"),
+		HeroURL:     assets.Hero("01ccb68a74dd1edfbccbd76d86dbd51f.png"),
+		Package: packaging.Best(&macos.Homebrew{
+			AppID:   "gog-galaxy",
+			AppName: "GOG Galaxy.app",
+		}, &windows.WinGet{
+			AppID:  "GOG.Galaxy",
+			AppExe: "$PROGRAMS_X86\\GOG Galaxy\\GalaxyClient.exe",
+		}),
+	}
+}
+
 // Installer for Heroic Games Launcher
 func HeroicGamesLauncher() *Program {
 	return &Program{
@@ -59,7 +186,7 @@ func HeroicGamesLauncher() *Program {
 		Name:        "Heroic Games Launcher",
 		Description: "Launcher for Epic Games, GOG and Prime Gaming",
 		Category:    "Gaming",
-		Tags:        []string{"Gaming", "Utilities"},
+		Tags:        []string{"Gaming", "Utilities", "Store"},
 		Flags:       []string{},
 		Folders:     []string{},
 		Website:     "https://heroicgameslauncher.com",
@@ -100,6 +227,62 @@ func Lutris() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "net.lutris.Lutris",
+		}),
+	}
+}
+
+// Installer for Valve Steam
+func Steam() *Program {
+	return &Program{
+		ID:          "steam",
+		Name:        "Steam",
+		Description: "Store and launcher for Steam Games",
+		Category:    "Gaming",
+		Tags:        []string{"Gaming", "Utilities", "Store"},
+		Flags:       []string{},
+		Folders:     []string{},
+		Website:     "https://store.steampowered.com",
+		IconURL:     assets.Icon("49265d2447bc3bbfe9e76306ce40a31f.ico"),
+		LogoURL:     assets.Logo("2472ed54742b7773cffc40910063839b.png"),
+		CoverURL:    assets.Cover("c5174327c1975f78b7ffc788ed60b80e.png"),
+		BannerURL:   assets.Banner("0e18441e60c88b9af7ebde5cdf65a23a.jpg"),
+		HeroURL:     assets.Hero("63ca87b524b54b70a2bb83a5d20909c0.jpg"),
+		Package: packaging.Best(&linux.Flatpak{
+			Namespace: "system",
+			AppID:     "com.valvesoftware.Steam",
+			Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
+		}, &linux.Binary{
+			AppID:  "steam",
+			AppBin: "/usr/share/bin/steam",
+		}, &macos.Homebrew{
+			AppID:   "steam",
+			AppName: "Steam.app",
+		}, &windows.WinGet{
+			AppID:  "Valve.Steam",
+			AppExe: "$PROGRAMS_X86\\Steam\\Steam.exe",
+		}),
+	}
+}
+
+// Installer for Ubisoft Connect
+func UbisoftConnect() *Program {
+	return &Program{
+		ID:          "ubisoft-connect",
+		Name:        "Ubisoft Connect",
+		Description: "Store and launcher for Ubisoft Games",
+		Category:    "Gaming",
+		Tags:        []string{"Gaming", "Utilities", "Store"},
+		Flags:       []string{},
+		Folders:     []string{},
+		Website:     "https://www.ubisoft.com/ubisoft-connect",
+		IconURL:     assets.Icon("064e3a5648fb4a7f911155bd81f87fd2.ico"),
+		LogoURL:     assets.Logo("021b8947656eb84e4c641506215777c8.png"),
+		CoverURL:    assets.Cover("09d966b427fe08f5674b7e22a58bce8b.jpg"),
+		BannerURL:   assets.Banner("5070c1f86e4885d73865919ce537fd21.png"),
+		HeroURL:     assets.Hero("b1d49d65692f373bd3ae6ed4af9eda30.png"),
+		Package: packaging.Best(&windows.WinGet{
+			AppID:  "Ubisoft.Connect",
+			AppExe: "$PROGRAMS_X86\\Ubisoft\\Ubisoft Game Launcher\\Ubisoft.Connect.exe",
 		}),
 	}
 }

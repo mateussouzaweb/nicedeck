@@ -86,30 +86,7 @@ Enjoy!
 
 ## Available Softwares
 
-Browsers:
-
-- [Brave Browser](https://brave.com)
-- [Firefox](https://www.mozilla.org/en-US/firefox)
-- [Google Chrome](https://www.google.com/intl/en_us/chrome)
-- [Microsoft Edge](https://www.microsoft.com/en-us/edge)
-
-Streaming:
-
-- [Chiaki NG](https://streetpea.github.io/chiaki-ng)
-- [GeForce NOW](https://www.nvidia.com/geforce-now)
-- [Moonlight Game Streaming](https://moonlight-stream.org)
-- [Xbox Cloud Gaming](https://www.xbox.com/cloud-gaming)
-
-Game Launchers:
-
-- [Bottles](https://usebottles.com)
-- [ES-DE](https://es-de.org)
-- [Heroic Games Launcher](https://heroicgameslauncher.com)
-- [Lutris](https://lutris.net)
-
-Utilities:
-
-- [ProtonPlus](https://github.com/Vysp3r/ProtonPlus)
+The availability of software depends on the operational system that you are using.
 
 Console Emulators:
 
@@ -133,5 +110,38 @@ Console Emulators:
 - Sony Playstation 4 - [ShadPS4](https://shadps4.net)
 - Sony Playstation Portable - [PPSSPP](https://www.ppsspp.org)
 - Sony Playstation Vita - [Vita3k](https://vita3k.org)
+
+Game Launchers and Stores:
+
+- [Amazon Games](https://gaming.amazon.com)
+- [Battle.net](https://us.shop.battle.net)
+- [Bottles](https://usebottles.com)
+- [EA App](https://www.ea.com/ea-app)
+- [Epic Games](https://store.epicgames.com)
+- [ES-DE](https://es-de.org)
+- [GOG Galaxy](https://www.gog.com/galaxy)
+- [Heroic Games Launcher](https://heroicgameslauncher.com)
+- [Lutris](https://lutris.net)
+- [Steam](https://store.steampowered.com)
+- [Ubisoft Connect](https://www.ubisoft.com/ubisoft-connect)
+
+Streaming:
+
+- [Chiaki NG](https://streetpea.github.io/chiaki-ng)
+- [GeForce NOW](https://www.nvidia.com/geforce-now)
+- [Moonlight Game Streaming](https://moonlight-stream.org)
+- [Xbox Cloud Gaming](https://www.xbox.com/cloud-gaming)
+
+Utilities:
+
+- [Discord](https://discord.com)
+- [ProtonPlus](https://github.com/Vysp3r/ProtonPlus)
+
+Browsers:
+
+- [Brave Browser](https://brave.com)
+- [Firefox](https://www.mozilla.org/en-US/firefox)
+- [Google Chrome](https://www.google.com/intl/en_us/chrome)
+- [Microsoft Edge](https://www.microsoft.com/en-us/edge)
 
 Please not that NiceDeck will not offer support for all emulation softwares out there - we focus only on emulators for single consoles. If you want to emulate older consoles, please consider [RetroArch](https://www.retroarch.com), [OpenEmu](https://openemu.org/) or something else.
