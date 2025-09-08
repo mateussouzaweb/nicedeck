@@ -25,7 +25,10 @@ func Discord() *Program {
 		CoverURL:    assets.Cover("657c5f18a3319eedbb05dda3d66e3e4b.png"),
 		BannerURL:   assets.Banner("1974a767627527a2f88ea3f2818676d7.png"),
 		HeroURL:     assets.Hero("f5af8de6802460753a75a4692d255641.png"),
-		Package: packaging.Best(&macos.Homebrew{
+		Package: packaging.Best(&linux.Flatpak{
+			Namespace: "system",
+			AppID:     "com.discordapp.Discord",
+		}, &macos.Homebrew{
 			AppID:   "discord",
 			AppName: "Discord.app",
 		}, &windows.WinGet{
