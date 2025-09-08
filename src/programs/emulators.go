@@ -144,7 +144,7 @@ func Dolphin() *Program {
 		LogoURL:     assets.Logo("5b5bbd3170c560829391c3db7265ee9b.png"),
 		CoverURL:    assets.Cover("8a07e4382e18e3b9f5d2713aeaefc29b.png"),
 		BannerURL:   assets.Banner("cbec7ddbb30e261abd365bf9f814647d.png"),
-		HeroURL:     assets.Hero("018b1d3ea470dbb00e3dd6438af19bfb.png"),
+		HeroURL:     assets.Hero("c24f9ae141fa02c7fa1deea7e1149557.png"),
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "org.DolphinEmu.dolphin-emu",

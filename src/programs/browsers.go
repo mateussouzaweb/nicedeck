@@ -82,7 +82,7 @@ func GoogleChrome() *Program {
 		LogoURL:     assets.Logo("3b049d0f6cbf5421d399f156807b8657.png"),
 		CoverURL:    assets.Cover("d45c26607db83f6f14b09dd70123913b.png"),
 		BannerURL:   assets.Banner("d40c243072a2d2957b3484e775f1f925.png"),
-		HeroURL:     assets.Hero("cae83cfcb1d8a2a4bb17bd1446fb1cee.png"),
+		HeroURL:     assets.Hero("c24f9ae141fa02c7fa1deea7e1149557.png"),
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.google.Chrome",

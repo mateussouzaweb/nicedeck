@@ -73,7 +73,7 @@ func Bottles() *Program {
 		LogoURL:     assets.Logo("92491efa7cda6552f740334c9e601855.png"),
 		CoverURL:    assets.Cover("8845e5d69c0f8a1d4b30334afb030214.png"),
 		BannerURL:   assets.Banner("123a00ca793f7db5b771574116bc061f.png"),
-		HeroURL:     assets.Hero("84bdc10b5cc3b036ce04a562b0e54d61.png"),
+		HeroURL:     assets.Hero("c24f9ae141fa02c7fa1deea7e1149557.png"),
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.usebottles.bottles",
