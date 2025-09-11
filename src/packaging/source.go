@@ -33,7 +33,9 @@ func (s *Source) Download(target Package) error {
 	}
 
 	cli.Printf(cli.ColorNotice, "Downloading: %s\n", s.URL)
-	s.Destination = target.Executable()
+	if s.Destination == "" {
+		s.Destination = target.Executable()
+	}
 
 	// Download based on format
 	switch s.Format {

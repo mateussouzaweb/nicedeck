@@ -64,3 +64,13 @@ func Release(pageURL string, prefix string, search string) *packaging.Source {
 		},
 	}
 }
+
+// Return packaging source from direct release link
+func Link(url string) *packaging.Source {
+	return &packaging.Source{
+		Format: packaging.FindFormat(url),
+		Resolver: func() (string, error) {
+			return url, nil
+		},
+	}
+}

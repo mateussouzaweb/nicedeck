@@ -7,6 +7,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/programs/assets"
+	"github.com/mateussouzaweb/nicedeck/src/programs/website"
 )
 
 // Installer for Amazon Games
@@ -25,7 +26,16 @@ func AmazonGames() *Program {
 		CoverURL:    assets.Cover("bc5787c3784d39729b4d950eb5143cd2.png"),
 		BannerURL:   assets.Banner("110c01f002b7848d931b406b6adee66c.png"),
 		HeroURL:     assets.Hero("a21e85aedf84619520f0c5e30bd55042.png"),
-		Package: packaging.Best(&windows.WinGet{
+		Package: packaging.Best(&linux.Proton{
+			Implementation: "native",
+			Version:        "Proton - Experimental",
+			AppName:        "Amazon-Games",
+			AppID:          "amazon-games",
+			RunExe:         "users/steamuser/AppData/Local/Amazon Games/App/Amazon Games.exe",
+			LaunchExe:      "users/steamuser/AppData/Local/Amazon Games/App/Amazon Games.exe",
+			InstallExe:     "Downloads/AmazonGamesSetup.exe",
+			Source:         website.Link("https://download.amazongames.com/AmazonGamesSetup.exe"),
+		}, &windows.WinGet{
 			AppID:  "Amazon.Games",
 			AppExe: "$APPDATA\\Local\\Amazon Games\\App\\Amazon Games.exe",
 		}),
@@ -48,7 +58,16 @@ func BattleNet() *Program {
 		CoverURL:    assets.Cover("356c41d28e278e936b46739712043616.png"),
 		BannerURL:   assets.Banner("95dc580680cdd8578951011c081121c4.png"),
 		HeroURL:     assets.Hero("9f319422ca17b1082ea49820353f14ab.jpg"),
-		Package: packaging.Best(&macos.Homebrew{
+		Package: packaging.Best(&linux.Proton{
+			Implementation: "native",
+			Version:        "Proton - Experimental",
+			AppName:        "Battle-Net",
+			AppID:          "battle-net",
+			RunExe:         "Program Files (x86)/Battle.net/Battle.net.exe",
+			LaunchExe:      "Program Files (x86)/Battle.net/Battle.net.exe",
+			InstallExe:     "Downloads/Battle.net-Setup.exe",
+			Source:         website.Link("https://www.battle.net/download/getInstallerForGame?os=win&gameProgram=BATTLENET_APP&version=Live"),
+		}, &macos.Homebrew{
 			AppID:   "battle-net",
 			AppName: "Battle.net.app",
 		}, &windows.WinGet{
@@ -97,7 +116,16 @@ func EAApp() *Program {
 		CoverURL:    assets.Cover("67fce8ab05c7c0a28fa66b353e813cbd.png"),
 		BannerURL:   assets.Banner("f1b499e8db3046ebec712209e22f830d.png"),
 		HeroURL:     assets.Hero("6458ed5e1bb03b8da47c065c2f647b26.png"),
-		Package: packaging.Best(&macos.Homebrew{
+		Package: packaging.Best(&linux.Proton{
+			Implementation: "native",
+			Version:        "Proton - Experimental",
+			AppName:        "EA-App",
+			AppID:          "ea-app",
+			RunExe:         "Program Files/Electronic Arts/EA Desktop/EA Desktop/EADesktop.exe",
+			LaunchExe:      "Program Files/Electronic Arts/EA Desktop/EA Desktop/EALaunchHelper.exe",
+			InstallExe:     "Downloads/EAappInstaller.exe",
+			Source:         website.Link("https://origin-a.akamaihd.net/EA-Desktop-Client-Download/installer-releases/EAappInstaller.exe"),
+		}, &macos.Homebrew{
 			AppID:   "ea",
 			AppName: "EA app.app",
 		}, &windows.WinGet{
@@ -123,7 +151,16 @@ func EpicGames() *Program {
 		CoverURL:    assets.Cover("67f56a2fe648cfdb82822bfdc360ef6a.png"),
 		BannerURL:   assets.Banner("02d7e610ae675ae3be88626d18fa7999.png"),
 		HeroURL:     assets.Hero("164fbf608021ece8933758ee2b28dd7d.png"),
-		Package: packaging.Best(&macos.Homebrew{
+		Package: packaging.Best(&linux.Proton{
+			Implementation: "native",
+			Version:        "Proton - Experimental",
+			AppName:        "Epic-Games",
+			AppID:          "epic-games",
+			RunExe:         "Program Files (x86)/Epic Games/Launcher/Engine/Binaries/Win64/EpicGamesLauncher.exe",
+			LaunchExe:      "Program Files (x86)/Epic Games/Launcher/Engine/Binaries/Win64/EpicGamesLauncher.exe",
+			InstallExe:     "Downloads/EpicGamesLauncherInstaller.msi",
+			Source:         website.Link("https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi"),
+		}, &macos.Homebrew{
 			AppID:   "epic-games",
 			AppName: "Epic Games Launcher.app",
 		}, &windows.WinGet{
@@ -169,7 +206,16 @@ func GOGGalaxy() *Program {
 		CoverURL:    assets.Cover("c3d13ca6a5797b92dcaf18529d9d795f.png"),
 		BannerURL:   assets.Banner("5f77d1e72f72a5ea4cfd99b4a21e7fdd.png"),
 		HeroURL:     assets.Hero("01ccb68a74dd1edfbccbd76d86dbd51f.png"),
-		Package: packaging.Best(&macos.Homebrew{
+		Package: packaging.Best(&linux.Proton{
+			Implementation: "native",
+			Version:        "Proton - Experimental",
+			AppName:        "GOG-Galaxy",
+			AppID:          "gog-galaxy",
+			RunExe:         "Program Files (x86)/GOG Galaxy/GalaxyClient.exe",
+			LaunchExe:      "Program Files (x86)/GOG Galaxy/GalaxyClient.exe",
+			InstallExe:     "Downloads/SetupGalaxy.exe",
+			Source:         website.Link("https://content-system.gog.com/open_link/download?path=/open/galaxy/client/setup_galaxy_2.0.88.15.exe"),
+		}, &macos.Homebrew{
 			AppID:   "gog-galaxy",
 			AppName: "GOG Galaxy.app",
 		}, &windows.WinGet{
@@ -280,9 +326,20 @@ func UbisoftConnect() *Program {
 		CoverURL:    assets.Cover("09d966b427fe08f5674b7e22a58bce8b.jpg"),
 		BannerURL:   assets.Banner("5070c1f86e4885d73865919ce537fd21.png"),
 		HeroURL:     assets.Hero("b1d49d65692f373bd3ae6ed4af9eda30.png"),
-		Package: packaging.Best(&windows.WinGet{
+		Package: packaging.Best(&linux.Proton{
+			Implementation: "native",
+			Version:        "Proton - Experimental",
+			AppName:        "Ubisoft-Connect",
+			AppID:          "ubisoft-connect",
+			RunExe:         "Program Files (x86)/Ubisoft/Ubisoft Game Launcher/UbisoftConnect.exe",
+			LaunchExe:      "Program Files (x86)/Ubisoft/Ubisoft Game Launcher/upc.exe",
+			InstallExe:     "Downloads/UbisoftConnectInstaller.exe",
+			Source: website.Link(
+				"https://static3.cdn.ubi.com/orbit/launcher_installer/UbisoftConnectInstaller.exe",
+			),
+		}, &windows.WinGet{
 			AppID:  "Ubisoft.Connect",
-			AppExe: "$PROGRAMS_X86\\Ubisoft\\Ubisoft Game Launcher\\Ubisoft.Connect.exe",
+			AppExe: "$PROGRAMS_X86\\Ubisoft\\Ubisoft Game Launcher\\UbisoftConnect.exe",
 		}),
 	}
 }

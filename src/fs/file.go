@@ -212,3 +212,23 @@ func DownloadFile(url string, destination string, overwriteExisting bool) error 
 
 	return nil
 }
+
+// Write content into target path
+func WriteFile(path string, content string) error {
+
+	cli.Debug("Writing file at %s\n", path)
+
+	// Make sure destination folder path exist
+	err := os.MkdirAll(filepath.Dir(path), 0774)
+	if err != nil {
+		return err
+	}
+
+	// Write content to file
+	err = os.WriteFile(path, []byte(content), 0666)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
