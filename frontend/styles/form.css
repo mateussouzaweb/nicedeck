@@ -140,7 +140,7 @@ form textarea {
     line-height: inherit;
     min-height: 1em;
     outline: 0;
-    overflow: none;
+    overflow: hidden;
     padding: 10px 15px;
 }
 form textarea {
