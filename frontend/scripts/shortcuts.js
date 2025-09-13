@@ -283,9 +283,41 @@ window.addEventListener('load', async () => {
                 <label for="tags">Tags:</label>
                 <textarea id="tags" name="tags">${shortcut.tags.join(',')}</textarea>
             </div>
-            <div class="images">
-                <p>Loading images, please wait...</p>
-            </div>
+            <section class="group group-cover">
+                <h4>Cover Artworks:</h4>
+                <div class="options">
+                    <input type="hidden" name="cover" value="${shortcut.coverUrl}" />
+                    <p>Loading images, please wait...</p>
+                </div>
+            </section>
+            <section class="group group-banner">
+                <h4>Banner Artworks:</h4>
+                <div class="options">
+                    <input type="hidden" name="banner" value="${shortcut.bannerUrl}" />
+                    <p>Loading images, please wait...</p>
+                </div>
+            </section>
+            <section class="group group-hero">
+                <h4>Hero Artworks:</h4>
+                <div class="options">
+                    <input type="hidden" name="hero" value="${shortcut.heroUrl}" />
+                    <p>Loading images, please wait...</p>
+                </div>
+            </section>
+            <section class="group group-icon">
+                <h4>Icon Artworks:</h4>
+                <div class="options">
+                    <input type="hidden" name="icon" value="${shortcut.iconUrl}" />
+                    <p>Loading images, please wait...</p>
+                </div>
+            </section>
+            <section class="group group-logo">
+                <h4>Logo Artworks:</h4>
+                <div class="options">
+                    <input type="hidden" name="logo" value="${shortcut.logoUrl}" />
+                    <p>Loading images, please wait...</p>
+                </div>
+            </section>
         `
 
         modal.dataset.shortcut = shortcut.id
@@ -319,8 +351,6 @@ window.addEventListener('load', async () => {
     on('#shortcuts #modal-update-shortcut #name', 'change', async (event) => {
 
         const modal = $('#modal-update-shortcut')
-        const subContent = $('.content .images', modal)
-
         const shortcut = getShortcut(modal.dataset.shortcut)
         const term = event.target.value || shortcut.name
 
@@ -330,16 +360,13 @@ window.addEventListener('load', async () => {
             const request = await requestJson('GET', '/api/scrape?term=' + encodeURIComponent(term))
             const scrape = request.result
 
-            const html = []
-            const append = (type, title, selected, images, width, height) => {
-                html.push(
-                `<section class="group group-${type}">
-                    <h4>${title}:</h4>`)
+            const appendResults = (type, selected, images, width, height) => {
+                const subContent = $(`.group-${type} .options`, modal)
+                const html = []
 
                 if (!images || !images.length) {
                     html.push(`<p class="alert">No images were found for this artwork type.</p>`)
                 } else {
-                    html.push(`<div class="options">`)
                     images.forEach((item, index) => {
                         const checked = selected === item ? 'checked="checked"' : ''
                         html.push(
@@ -351,26 +378,24 @@ window.addEventListener('load', async () => {
                             </div>
                         </label>`)
                     })
+
                     html.push(
-                        `<label class="radio">
-                            <input type="radio" name="${type}" value="" ${!selected ? 'checked="checked"' : ''} />
-                            <div class="image">
-                                <div class="no-image">No Image</div>
-                            </div>
-                        </label>
-                    </div>`)
+                    `<label class="radio">
+                        <input type="radio" name="${type}" value="" ${!selected ? 'checked="checked"' : ''} />
+                        <div class="image">
+                            <div class="no-image">No Image</div>
+                        </div>
+                    </label>`)
                 }
 
-                html.push(`</section>`)
+                subContent.innerHTML = html.join('')
             }
 
-            append('cover', 'Cover Artworks', shortcut.coverUrl, scrape.coverUrls, 600, 900)
-            append('banner', 'Banner Artworks', shortcut.bannerUrl, scrape.bannerUrls, 920, 430)
-            append('hero', 'Hero Artworks', shortcut.heroUrl, scrape.heroUrls, 600, 900)
-            append('icon', 'Icon Artworks', shortcut.iconUrl, scrape.iconUrls, 192, 192)
-            append('logo', 'Logo Artworks', shortcut.logoUrl, scrape.logoUrls, 600, 900)
-
-            subContent.innerHTML = html.join('')
+            appendResults('cover', shortcut.coverUrl, scrape.coverUrls, 600, 900)
+            appendResults('banner', shortcut.bannerUrl, scrape.bannerUrls, 920, 430)
+            appendResults('hero', shortcut.heroUrl, scrape.heroUrls, 600, 900)
+            appendResults('icon', shortcut.iconUrl, scrape.iconUrls, 192, 192)
+            appendResults('logo', shortcut.logoUrl, scrape.logoUrls, 600, 900)
 
         } catch (error) {
             window.showError(error)

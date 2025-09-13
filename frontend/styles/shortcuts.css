@@ -222,6 +222,10 @@
     overflow: auto;
     padding: 10px;
 }
+#shortcuts .modal .options p {
+    flex-basis: 100%;
+    margin: 0;
+}
 #shortcuts .modal .radio {
     flex: 1;
     margin: 0;
