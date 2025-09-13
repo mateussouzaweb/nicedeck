@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/mateussouzaweb/nicedeck/src/desktop"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
@@ -30,35 +31,37 @@ func CreateDesktopShortcut(shortcut *shortcuts.Shortcut) error {
 	}
 
 	// Map categories into closest values from desktop menu spec
-	categories := strings.Join(shortcut.Tags, ";")
-	categories = strings.ReplaceAll(categories, "Gaming", "Game")
-	categories = strings.ReplaceAll(categories, "Utilities", "Utility")
-	categories = strings.ReplaceAll(categories, "Streaming", "Network")
-
-	// Create and write desktop shortcut
-	desktopShortcutContent := os.ExpandEnv(fmt.Sprintf(""+
-		"[Desktop Entry]\n"+
-		"Type=Application\n"+
-		"Name=%s\n"+
-		"Comment=%s\n"+
-		"Icon=%s\n"+
-		"Exec=%s %s\n"+
-		"Terminal=false\n"+
-		"Categories=%s;",
-		shortcut.Name,
-		shortcut.Description,
-		iconFile,
-		shortcut.Executable,
-		shortcut.LaunchOptions,
-		categories,
-	))
-
-	err := os.MkdirAll(filepath.Dir(shortcut.ShortcutPath), 0700)
-	if err != nil {
-		return err
+	categories := shortcut.Tags
+	replaces := map[string]string{
+		"Gaming":    "Game",
+		"Utilities": "Utility",
+		"Streaming": "Network",
 	}
 
-	err = os.WriteFile(shortcut.ShortcutPath, []byte(desktopShortcutContent), 0644)
+	for index, category := range categories {
+		if value, ok := replaces[category]; ok {
+			categories[index] = value
+		}
+	}
+
+	// Create and write desktop entry shortcut
+	executable := fmt.Sprintf(
+		"%s %s",
+		os.ExpandEnv(shortcut.Executable),
+		os.ExpandEnv(shortcut.LaunchOptions),
+	)
+	entry := &desktop.DesktopEntry{
+		Terminal:   false,
+		Type:       "Application",
+		Name:       shortcut.Name,
+		Comment:    shortcut.Description,
+		Icon:       iconFile,
+		Exec:       executable,
+		Categories: categories,
+	}
+
+	// Create and write desktop shortcut
+	err := desktop.WriteDesktopFile(shortcut.ShortcutPath, entry)
 	if err != nil {
 		return err
 	}
