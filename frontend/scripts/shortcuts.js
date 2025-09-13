@@ -61,7 +61,7 @@ window.addEventListener('load', async () => {
             tags.push(...shortcut.tags)
         })
 
-        const unique = [...new Set(tags)].sort()
+        const unique = [...new Set(tags)].filter(Boolean).sort()
         const options = unique.map((tag) => {
             const checked = active.includes(tag) ? 'checked="checked"' : ''
             return `<label class="radio" title="${tag}">
