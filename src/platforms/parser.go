@@ -190,7 +190,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		finalPath := strings.Replace(realPath, realRoot, root, 1)
 		relativePath := strings.Replace(finalPath, root+separator, "", 1)
 
-		cli.Debug(cli.ColorWarn, "Detected: %s\n", relativePath)
+		cli.Debug("Detected: %s\n", relativePath)
 
 		// Check against exclusion list
 		// Verification is simple and consider if path contains given term
@@ -257,7 +257,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 			LaunchOptions: launchOptions,
 		}
 
-		cli.Debug(cli.ColorSuccess, "Valid: ROM is valid for %s emulator.\n", runtime.Emulator.Name)
+		cli.Debug("Valid: ROM is valid for %s emulator.\n", runtime.Emulator.Name)
 		results = append(results, &rom)
 		return nil
 	})

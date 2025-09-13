@@ -473,7 +473,7 @@ func SyncState(action string, options *Options) error {
 				if err != nil {
 					return err
 				} else if !exist {
-					cli.Debug(cli.ColorNotice, "Skipping file not detected: %s\n", source)
+					cli.Debug("Skipping file not detected: %s\n", source)
 					continue
 				}
 
@@ -491,7 +491,7 @@ func SyncState(action string, options *Options) error {
 				if err != nil {
 					return err
 				} else if !exist {
-					cli.Debug(cli.ColorNotice, "Skipping folder not detected: %s\n", source)
+					cli.Debug("Skipping folder not detected: %s\n", source)
 					continue
 				}
 
