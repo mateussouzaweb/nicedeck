@@ -2,8 +2,9 @@ package controller
 
 import (
 	"embed"
-	"os"
 	"path/filepath"
+
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 )
 
 //go:embed resources/*
@@ -18,12 +19,7 @@ func WriteTemplates(destinationPath string) error {
 		return err
 	}
 
-	err = os.MkdirAll(filepath.Dir(controllerFile), 0774)
-	if err != nil {
-		return err
-	}
-
-	err = os.WriteFile(controllerFile, controllerConfig, 0666)
+	err = fs.WriteFile(controllerFile, string(controllerConfig))
 	if err != nil {
 		return err
 	}

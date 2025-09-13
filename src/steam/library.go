@@ -320,7 +320,7 @@ func (l *Library) Save() error {
 	}
 
 	// Write content to VDF file
-	err = os.WriteFile(l.ShortcutsPath, content.Bytes(), 0666)
+	err = fs.WriteFile(l.ShortcutsPath, content.String())
 	if err != nil {
 		return err
 	}

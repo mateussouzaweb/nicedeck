@@ -28,13 +28,8 @@ func WriteSettings(destinationPath string) error {
 			return err
 		}
 
-		err = os.MkdirAll(filepath.Dir(settingsFile), 0774)
-		if err != nil {
-			return err
-		}
-
-		settingsConfig = []byte(os.ExpandEnv(string(settingsConfig)))
-		err = os.WriteFile(settingsFile, settingsConfig, 0666)
+		settingsContent := os.ExpandEnv(string(settingsConfig))
+		err = fs.WriteFile(settingsFile, settingsContent)
 		if err != nil {
 			return err
 		}
@@ -47,13 +42,8 @@ func WriteSettings(destinationPath string) error {
 		return err
 	}
 
-	err = os.MkdirAll(filepath.Dir(systemsFile), 0774)
-	if err != nil {
-		return err
-	}
-
-	systemsConfig = []byte(os.ExpandEnv(string(systemsConfig)))
-	err = os.WriteFile(systemsFile, systemsConfig, 0666)
+	systemsContent := os.ExpandEnv(string(systemsConfig))
+	err = fs.WriteFile(systemsFile, systemsContent)
 	if err != nil {
 		return err
 	}
@@ -65,13 +55,8 @@ func WriteSettings(destinationPath string) error {
 		return err
 	}
 
-	err = os.MkdirAll(filepath.Dir(findRulesFile), 0774)
-	if err != nil {
-		return err
-	}
-
-	findRulesConfig = []byte(os.ExpandEnv(string(findRulesConfig)))
-	err = os.WriteFile(findRulesFile, findRulesConfig, 0666)
+	findRulesContent := os.ExpandEnv(string(findRulesConfig))
+	err = fs.WriteFile(findRulesFile, findRulesContent)
 	if err != nil {
 		return err
 	}
