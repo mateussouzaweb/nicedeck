@@ -294,7 +294,7 @@ func Steam() *Program {
 			Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
 		}, &linux.Binary{
 			AppID:  "steam",
-			AppBin: "/usr/share/bin/steam",
+			AppBin: "/usr/bin/steam",
 		}, &macos.Homebrew{
 			AppID:   "steam",
 			AppName: "Steam.app",
