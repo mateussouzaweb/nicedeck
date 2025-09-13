@@ -87,8 +87,11 @@ func GetPrograms() ([]*Program, error) {
 		}
 	}
 
-	// Flag installed programs
+	// Flag installed programs and runtime
 	for _, program := range available {
+		runtime := fmt.Sprintf("--%s", program.Package.Runtime())
+		program.Flags = append(program.Flags, runtime)
+
 		installed, err := program.Package.Installed()
 		if err != nil {
 			return available, err
