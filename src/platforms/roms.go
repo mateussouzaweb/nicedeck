@@ -84,6 +84,9 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 	cli.Printf(cli.ColorNotice, "%d new ROMs detected to process.\n", total)
 	cli.Printf(cli.ColorNotice, "This could take some time, please be patient...\n")
 
+	// Determine if should include ROMs even if scraper was not able to detect it
+	optionalScraper := slices.Contains(options.Preferences, "optional-scraper")
+
 	// Process each ROM to add or update
 	for index, rom := range process {
 
@@ -96,9 +99,12 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 		}
 
 		// Skip if scrape not found anything...
-		if scrape.Name == "" {
+		if !optionalScraper && scrape.Name == "" {
 			cli.Printf(cli.ColorWarn, "Could not detect ROM information. Skipping...\n")
 			continue
+		} else if optionalScraper && scrape.Name == "" {
+			cli.Printf(cli.ColorWarn, "Could not detect ROM information. Using available data...\n")
+			scrape.Name = rom.Name
 		}
 
 		// Determine best name and images for the shortcut
