@@ -226,10 +226,10 @@ func (p *Proton) OnShortcut(shortcut *shortcuts.Shortcut) error {
 	shortcut.LaunchOptions = strings.Join(arguments, " ")
 
 	// Write the desktop shortcut
-	// err := CreateDesktopShortcut(shortcut)
-	// if err != nil {
-	// 	return err
-	// }
+	err := CreateDesktopShortcut(shortcut)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
