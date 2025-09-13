@@ -161,7 +161,7 @@ func EpicGames() *Program {
 			AppName: "Epic Games Launcher.app",
 		}, &windows.WinGet{
 			AppID:  "EpicGames.EpicGamesLauncher",
-			AppExe: "$PROGRAMS_X86\\Epic Games\\Launcher\\Engine\\Binaries\\Win64\\EpicGamesLauncher.exe",
+			AppExe: "$PROGRAMS_X86\\Epic Games\\Launcher\\Portal\\Binaries\\Win32\\EpicGamesLauncher.exe",
 		}),
 	}
 }
