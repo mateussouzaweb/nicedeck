@@ -239,7 +239,8 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 
 		// Put ROM path in launch options
 		executable := runtime.Program.Package.Executable()
-		launchOptions := strings.Replace(runtime.Emulator.LaunchOptions, "${ROM}", finalPath, 1)
+		launchOptions := runtime.Emulator.LaunchOptions
+		launchOptions = strings.Replace(launchOptions, "${ROM}", cli.Quote(finalPath), 1)
 
 		rom := ROM{
 			Path:          finalPath,

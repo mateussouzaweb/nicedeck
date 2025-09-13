@@ -147,7 +147,7 @@ func (p *Proton) Install() error {
 	cli.Debug("Running install for %s\n", p.AppName)
 
 	// Run install script
-	arguments := []string{fmt.Sprintf(`"%s"`, p.Installer)}
+	arguments := []string{cli.Quote(p.Installer)}
 	arguments = append(arguments, p.Arguments...)
 
 	err = cli.RunProcess(runFile, arguments)
@@ -165,7 +165,7 @@ func (p *Proton) Remove() error {
 	runFile := p.Executable()
 
 	// Remove package by perform the uninstall command
-	arguments := []string{fmt.Sprintf(`"%s"`, p.Uninstaller)}
+	arguments := []string{cli.Quote(p.Uninstaller)}
 	err := cli.RunProcess(runFile, arguments)
 	if err != nil {
 		return err
@@ -219,7 +219,7 @@ func (p *Proton) Run(args []string) error {
 func (p *Proton) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for Proton application
-	arguments := []string{fmt.Sprintf(`"%s"`, p.Launcher)}
+	arguments := []string{cli.Quote(p.Launcher)}
 	arguments = append(arguments, p.Arguments...)
 
 	shortcut.ShortcutPath = p.Alias()

@@ -30,7 +30,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "Azahar",
 			Program:       "azahar",
 			Extensions:    ".3ds .3dsx .app .axf .cci .cxi .elf .7z .zip",
-			LaunchOptions: "\"${ROM}\"", // No full-screen option
+			LaunchOptions: "${ROM}", // No full-screen option
 		}},
 	})
 
@@ -42,12 +42,12 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "Flycast",
 			Program:       "flycast",
 			Extensions:    ".chd .cdi .iso .elf .cue .gdi .lst .dat .m3u .7z .zip",
-			LaunchOptions: "-config window:fullscreen=yes \"${ROM}\"",
+			LaunchOptions: "-config window:fullscreen=yes ${ROM}",
 		}, {
 			Name:          "Redream",
 			Program:       "redream",
 			Extensions:    ".chd .cdi .cue .gdi .7z",
-			LaunchOptions: "-b -e \"${ROM}\"",
+			LaunchOptions: "-b -e ${ROM}",
 		}},
 	})
 
@@ -59,7 +59,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "MGBA",
 			Program:       "mgba",
 			Extensions:    ".agb .bin .cgb .dmg .gb .gba .gbc .sgb .7z .zip",
-			LaunchOptions: "-f \"${ROM}\"",
+			LaunchOptions: "-f ${ROM}",
 		}},
 	})
 
@@ -71,7 +71,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "Dolphin Emulator",
 			Program:       "dolphin",
 			Extensions:    ".ciso .dff .dol .elf .gcm .gcz .iso .json .m3u .rvz .tgc .wad .wbfs .wia .7z .zip",
-			LaunchOptions: "-b -e \"${ROM}\"",
+			LaunchOptions: "-b -e ${ROM}",
 		}},
 	})
 
@@ -83,7 +83,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "Simple64",
 			Program:       "simple64",
 			Extensions:    ".bin .d64 .n64 .ndd .u1 .v64 .z64 .7z .zip",
-			LaunchOptions: "--nogui \"${ROM}\"",
+			LaunchOptions: "--nogui ${ROM}",
 		}},
 	})
 
@@ -95,7 +95,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "MelonDS",
 			Program:       "melonds",
 			Extensions:    ".app .bin .nds .7z .zip",
-			LaunchOptions: "-f \"${ROM}\"",
+			LaunchOptions: "-f ${ROM}",
 		}},
 	})
 
@@ -107,7 +107,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "DuckStation",
 			Program:       "duckstation",
 			Extensions:    ".bin .cbn .ccd .chd .cue .ecm .exe .img .iso .m3u .mdf .mds .minipsf .pbp .psexe .psf .toc .z .znx .7z .zip",
-			LaunchOptions: "-batch -fullscreen \"${ROM}\"",
+			LaunchOptions: "-batch -fullscreen ${ROM}",
 		}},
 	})
 
@@ -119,7 +119,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "PCSX2",
 			Program:       "pcsx2",
 			Extensions:    ".bin .chd .ciso .cso .dump .elf .gz .m3u .mdf .img .iso .isz .ngr",
-			LaunchOptions: "-batch -nogui -fullscreen \"${ROM}\"",
+			LaunchOptions: "-batch -nogui -fullscreen ${ROM}",
 		}},
 	})
 
@@ -131,7 +131,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "RPCS3",
 			Program:       "rpcs3",
 			Extensions:    ".desktop .ps3 .ps3dir",
-			LaunchOptions: "--no-gui \"${ROM}\"",
+			LaunchOptions: "--no-gui ${ROM}",
 		}},
 	})
 
@@ -143,7 +143,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "ShadPS4",
 			Program:       "shadps4",
 			Extensions:    ".desktop",
-			LaunchOptions: "-g \"${ROM}\"",
+			LaunchOptions: "-g ${ROM}",
 		}},
 	})
 
@@ -155,7 +155,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "PPSSPP",
 			Program:       "ppsspp",
 			Extensions:    ".elf .iso .cso .prx .pbp .7z .zip",
-			LaunchOptions: "-f -g \"${ROM}\"",
+			LaunchOptions: "-f -g ${ROM}",
 		}},
 	})
 
@@ -167,7 +167,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "Vita3K",
 			Program:       "vita3k",
 			Extensions:    ".vpk",
-			LaunchOptions: "-F -r \"${ROM}\"",
+			LaunchOptions: "-F -r ${ROM}",
 		}},
 	})
 
@@ -179,17 +179,17 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "Ryujinx",
 			Program:       "ryujinx",
 			Extensions:    "nca .nro .nso .nsp .xci",
-			LaunchOptions: "--fullscreen \"${ROM}\"",
+			LaunchOptions: "--fullscreen ${ROM}",
 		}, {
 			Name:          "Citron",
 			Program:       "citron",
 			Extensions:    "nca .nro .nso .nsp .xci",
-			LaunchOptions: "-f -g \"${ROM}\"",
+			LaunchOptions: "-f -g ${ROM}",
 		}, {
 			Name:          "Eden",
 			Program:       "eden",
 			Extensions:    "nca .nro .nso .nsp .xci",
-			LaunchOptions: "-f -g \"${ROM}\"",
+			LaunchOptions: "-f -g ${ROM}",
 		}},
 	})
 
@@ -201,7 +201,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "Dolphin",
 			Program:       "dolphin",
 			Extensions:    ".ciso .dff .dol .elf .gcm .gcz .iso .json .m3u .rvz .tgc .wad .wbfs .wia .7z .zip",
-			LaunchOptions: "-b -e \"${ROM}\"",
+			LaunchOptions: "-b -e ${ROM}",
 		}},
 	})
 
@@ -213,7 +213,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "Cemu",
 			Program:       "cemu",
 			Extensions:    ".rpx .wua .wud .wux",
-			LaunchOptions: "-f -g \"${ROM}\"",
+			LaunchOptions: "-f -g ${ROM}",
 		}},
 	})
 
@@ -225,7 +225,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "Xemu",
 			Program:       "xemu",
 			Extensions:    ".iso",
-			LaunchOptions: "-full-screen -dvd_path \"${ROM}\"",
+			LaunchOptions: "-full-screen -dvd_path ${ROM}",
 		}},
 	})
 
@@ -237,7 +237,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "Xenia",
 			Program:       "xenia",
 			Extensions:    ".iso .zar",
-			LaunchOptions: "--fullscreen=true \"${ROM}\"",
+			LaunchOptions: "--fullscreen=true ${ROM}",
 		}},
 	})
 

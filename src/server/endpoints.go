@@ -277,8 +277,8 @@ func modifyShortcut(context *Context) error {
 		shortcut.Program = data.Program
 		shortcut.Name = data.Name
 		shortcut.Description = data.Description
-		shortcut.StartDirectory = data.StartDirectory
-		shortcut.Executable = data.Executable
+		shortcut.StartDirectory = cli.Quote(data.StartDirectory)
+		shortcut.Executable = cli.Quote(data.Executable)
 		shortcut.LaunchOptions = data.LaunchOptions
 		shortcut.IconURL = data.IconURL
 		shortcut.LogoURL = data.LogoURL

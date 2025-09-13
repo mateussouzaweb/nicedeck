@@ -112,8 +112,8 @@ func (e *Executable) OnShortcut(shortcut *shortcuts.Shortcut) error {
 		`$Shortcut.Arguments = "%s";`+
 		`$Shortcut.Save()`,
 		shortcut.ShortcutPath,
-		shortcut.StartDirectory,
-		shortcut.Executable,
+		strings.ReplaceAll(shortcut.StartDirectory, `"`, ``),
+		strings.ReplaceAll(shortcut.Executable, `"`, ``),
 		strings.ReplaceAll(shortcut.LaunchOptions, `"`, `\"`),
 	))
 

@@ -220,8 +220,8 @@ func modifyShortcut(context Context) error {
 		shortcut.Program = program
 		shortcut.Name = name
 		shortcut.Description = description
-		shortcut.StartDirectory = startDirectory
-		shortcut.Executable = executable
+		shortcut.StartDirectory = cli.Quote(startDirectory)
+		shortcut.Executable = cli.Quote(executable)
 		shortcut.LaunchOptions = launchOptions
 		shortcut.IconURL = iconURL
 		shortcut.LogoURL = logoURL
