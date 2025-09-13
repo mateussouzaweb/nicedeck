@@ -140,16 +140,17 @@ form textarea {
     line-height: inherit;
     min-height: 1em;
     outline: 0;
+    overflow: none;
     padding: 10px 15px;
 }
 form textarea {
-    overflow: auto;
     resize: none;
     vertical-align: top;
     white-space: pre-wrap;
     word-wrap: break-word;
 }
 form textarea.resizable {
+    overflow: auto;
     resize: vertical;
     height: auto;
 }
