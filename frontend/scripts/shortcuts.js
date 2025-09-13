@@ -269,15 +269,15 @@ window.addEventListener('load', async () => {
             </div>
             <div class="group">
                 <label for="startDirectory">Start Directory:</label>
-                <textarea id="startDirectory" name="startDirectory">${shortcut.startDirectory}</textarea>
+                <textarea class="resizable" id="startDirectory" name="startDirectory">${shortcut.startDirectory}</textarea>
             </div>
             <div class="group">
                 <label for="executable">Executable:</label>
-                <textarea id="executable" name="executable">${shortcut.executable}</textarea>
+                <textarea class="resizable" id="executable" name="executable">${shortcut.executable}</textarea>
             </div>
             <div class="group">
                 <label for="launchOptions">Launch Options:</label>
-                <textarea id="launchOptions" name="launchOptions">${shortcut.launchOptions}</textarea>
+                <textarea class="resizable" id="launchOptions" name="launchOptions">${shortcut.launchOptions}</textarea>
             </div>
             <div class="group">
                 <label for="tags">Tags:</label>

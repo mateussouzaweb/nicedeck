@@ -136,8 +136,22 @@ form textarea {
     box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.25);
     font-family: inherit;
     font-size: 100%;
+    height: 42px;
+    line-height: inherit;
+    min-height: 1em;
     outline: 0;
     padding: 10px 15px;
+}
+form textarea {
+    overflow: auto;
+    resize: none;
+    vertical-align: top;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+form textarea.resizable {
+    resize: vertical;
+    height: auto;
 }
 
 form button {
