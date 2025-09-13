@@ -14,22 +14,18 @@ import (
 
 // Proton struct
 type Proton struct {
-	Implementation   string            `json:"implementation"`
-	Version          string            `json:"version"`
-	AppName          string            `json:"appName"`
-	AppID            string            `json:"appId"`
-	InstallExe       string            `json:"installExe"`
-	InstallArguments []string          `json:"installArguments"`
-	RunExe           string            `json:"runExe"`
-	RunArguments     []string          `json:"runArguments"`
-	LaunchExe        string            `json:"launchExe"`
-	LaunchArguments  []string          `json:"launchArguments"`
-	Source           *packaging.Source `json:"source"`
+	AppID       string            `json:"appId"`
+	AppName     string            `json:"appName"`
+	Installer   string            `json:"installer"`
+	Uninstaller string            `json:"uninstaller"`
+	Launcher    string            `json:"launcher"`
+	Arguments   []string          `json:"arguments"`
+	Source      *packaging.Source `json:"source"`
 }
 
 // Return package runtime
 func (p *Proton) Runtime() string {
-	return "steam"
+	return "proton"
 }
 
 // Return if package is available
@@ -52,41 +48,55 @@ func (p *Proton) SteamRuntime() string {
 // Retrieve the proton runtime path
 func (p *Proton) ProtonRuntime() string {
 
+	// Prefix is not customizable for now
+	implementation := "native"
+	version := "Proton - Experimental"
+
 	// Native runtime, such as Proton - Experimental
-	if p.Implementation == "native" {
+	if implementation == "native" {
 		runtime := p.SteamClientPath()
 		runtime = filepath.Join(runtime, "steamapps", "common")
-		runtime = filepath.Join(runtime, p.Version, "proton")
+		runtime = filepath.Join(runtime, version, "proton")
 		return runtime
 	}
 
 	// Custom runtime, such as Proton-GE
 	runtime := p.SteamClientPath()
 	runtime = filepath.Join(runtime, "compatibilitytools.d")
-	runtime = filepath.Join(runtime, p.Version, "proton")
+	runtime = filepath.Join(runtime, version, "proton")
 	return runtime
 }
 
-// Retrieve package main path
-func (p *Proton) Path() string {
-	path := fs.ExpandPath("$GAMES/Proton")
-	path = filepath.Join(path, p.AppName)
-	return path
+// Retrieve proton data path
+func (p *Proton) ProtonPath() string {
+	return fs.ExpandPath("$GAMES/Proton")
+}
+
+// Retrieve proton data path
+func (p *Proton) DrivePath() string {
+	return filepath.Join(p.ProtonPath(), "pfx", "drive_c")
+}
+
+// Retrieve real path for given path
+func (p *Proton) RealPath(path string) string {
+	return strings.Replace(path, "C:", p.DrivePath(), 1)
+}
+
+// Retrieve virtual path for given path
+func (p *Proton) VirtualPath(path string) string {
+	return strings.Replace(path, p.DrivePath(), "C:", 1)
 }
 
 // Install package
 func (p *Proton) Install() error {
 
 	// Get relevant paths
-	mainPath := p.Path()
-	dataPath := filepath.Join(mainPath, "pfx", "drive_c")
-	installPath := filepath.Join(dataPath, p.InstallExe)
-	runPath := filepath.Join(dataPath, p.RunExe)
-	launchPath := filepath.Join(dataPath, p.LaunchExe)
+	mainPath := p.ProtonPath()
+	drivePath := p.DrivePath()
 
 	// Download install from source
 	if p.Source != nil {
-		p.Source.Destination = installPath
+		p.Source.Destination = p.RealPath(p.Installer)
 		err := p.Source.Download(p)
 		if err != nil {
 			return err
@@ -97,54 +107,34 @@ func (p *Proton) Install() error {
 	steamClientPath := p.SteamClientPath()
 	steamRuntime := p.SteamRuntime()
 	protonRuntime := p.ProtonRuntime()
-	scriptBase := fmt.Sprintf(``+
-		`#!/bin/bash`+"\n"+
-		`export STEAM_COMPAT_CLIENT_INSTALL_PATH=$(realpath "%s")`+"\n"+
-		`export STEAM_COMPAT_DATA_PATH=$(realpath "%s")`+"\n"+
-		`export STEAM_RUNTIME=$(realpath "%s")`+"\n"+
-		`export PROTON_RUNTIME=$(realpath "%s")`+"\n"+
-		`export APP_PATH=$(realpath "%s")`+"\n",
+
+	// Create run executable script
+	// Will be used to launch applications
+	// Write a script to avoid NiceDeck direct dependency
+	runFile := filepath.Join(mainPath, "run.sh")
+	runScript := fmt.Sprintf(strings.Join([]string{
+		`#!/bin/bash`,
+		``,
+		`# Variables for execution`,
+		`export STEAM_COMPAT_CLIENT_INSTALL_PATH=$(realpath "%s")`,
+		`export STEAM_COMPAT_DATA_PATH=$(realpath "%s")`,
+		`export STEAM_RUNTIME=$(realpath "%s")`,
+		`export PROTON_RUNTIME=$(realpath "%s")`,
+		`export DRIVE_PATH=$(realpath "%s")`,
+		``,
+		`# Replace driver path`,
+		`set -- "${1/C:/$DRIVE_PATH}" "${@:2}"`,
+		``,
+		`# Run command`,
+		`"$STEAM_RUNTIME" "$PROTON_RUNTIME" run "$@"`}, "\n"),
 		steamClientPath,
 		mainPath,
 		steamRuntime,
 		protonRuntime,
-		mainPath,
+		drivePath,
 	)
 
-	// Create install executable script
-	// Write a script to avoid NiceDeck direct dependency
-	installFile := filepath.Join(mainPath, "install.sh")
-	installScript := fmt.Sprintf(`%s`+
-		`export COMMAND=$(realpath "%s")`+"\n"+
-		`"$STEAM_RUNTIME" "$PROTON_RUNTIME" run "$COMMAND" %s "$@"`,
-		scriptBase,
-		installPath,
-		strings.Join(p.InstallArguments, " "),
-	)
-
-	err := fs.WriteFile(installFile, installScript)
-	if err != nil {
-		return err
-	}
-
-	err = os.Chmod(installFile, 0775)
-	if err != nil {
-		return err
-	}
-
-	// Create run executable script
-	// Will be used to direct launch the main application
-	// Write a script to avoid NiceDeck direct dependency
-	runFile := filepath.Join(mainPath, "run.sh")
-	runScript := fmt.Sprintf(`%s`+
-		`export COMMAND=$(realpath "%s")`+"\n"+
-		`"$STEAM_RUNTIME" "$PROTON_RUNTIME" run "$COMMAND" %s "$@"`,
-		scriptBase,
-		runPath,
-		strings.Join(p.RunArguments, " "),
-	)
-
-	err = fs.WriteFile(runFile, runScript)
+	err := fs.WriteFile(runFile, runScript)
 	if err != nil {
 		return err
 	}
@@ -154,30 +144,13 @@ func (p *Proton) Install() error {
 		return err
 	}
 
-	// Create launch executable script
-	// Will be used to direct launch games
-	// Write a script to avoid NiceDeck direct dependency
-	launchFile := filepath.Join(mainPath, "launch.sh")
-	launchScript := fmt.Sprintf(`%s`+
-		`export COMMAND=$(realpath "%s")`+"\n"+
-		`"$STEAM_RUNTIME" "$PROTON_RUNTIME" run "$COMMAND" %s "$@"`,
-		scriptBase,
-		launchPath,
-		strings.Join(p.LaunchArguments, " "),
-	)
-
-	err = fs.WriteFile(launchFile, launchScript)
-	if err != nil {
-		return err
-	}
-
-	err = os.Chmod(launchFile, 0775)
-	if err != nil {
-		return err
-	}
+	cli.Debug("Running install for %s\n", p.AppName)
 
 	// Run install script
-	err = cli.RunProcess(installFile, []string{})
+	arguments := []string{fmt.Sprintf(`"%s"`, p.Installer)}
+	arguments = append(arguments, p.Arguments...)
+
+	err = cli.RunProcess(runFile, arguments)
 	if err != nil {
 		return err
 	}
@@ -188,10 +161,12 @@ func (p *Proton) Install() error {
 // Remove package
 func (p *Proton) Remove() error {
 
-	// Remove anything inside package folder
-	// Because package is located in its own folder
-	mainPath := p.Path()
-	err := fs.RemoveDirectory(mainPath)
+	cli.Debug("Running uninstall for %s\n", p.AppName)
+	runFile := p.Executable()
+
+	// Remove package by perform the uninstall command
+	arguments := []string{fmt.Sprintf(`"%s"`, p.Uninstaller)}
+	err := cli.RunProcess(runFile, arguments)
 	if err != nil {
 		return err
 	}
@@ -208,11 +183,8 @@ func (p *Proton) Remove() error {
 // Installed verification
 func (p *Proton) Installed() (bool, error) {
 
-	mainPath := p.Path()
-	dataPath := filepath.Join(mainPath, "pfx", "drive_c")
-	executablePath := filepath.Join(dataPath, p.RunExe)
-
-	exist, err := fs.FileExist(executablePath)
+	launcher := p.RealPath(p.Launcher)
+	exist, err := fs.FileExist(launcher)
 	if err != nil {
 		return false, err
 	} else if exist {
@@ -225,7 +197,7 @@ func (p *Proton) Installed() (bool, error) {
 // Return executable file path
 // In Proton implementations, this return the run script file
 func (p *Proton) Executable() string {
-	mainPath := p.Path()
+	mainPath := p.ProtonPath()
 	runFile := filepath.Join(mainPath, "run.sh")
 	return runFile
 }
@@ -247,8 +219,11 @@ func (p *Proton) Run(args []string) error {
 func (p *Proton) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for Proton application
+	arguments := []string{fmt.Sprintf(`"%s"`, p.Launcher)}
+	arguments = append(arguments, p.Arguments...)
+
 	shortcut.ShortcutPath = p.Alias()
-	shortcut.LaunchOptions = strings.Join(p.RunArguments, " ")
+	shortcut.LaunchOptions = strings.Join(arguments, " ")
 
 	// Write the desktop shortcut
 	// err := CreateDesktopShortcut(shortcut)
