@@ -249,14 +249,7 @@ func (l *Library) Load(databasePath string) error {
 func (l *Library) Save() error {
 
 	// Check if can save library
-	if l.BasePath == "" {
-		cli.Printf(cli.ColorWarn, "Note: Steam installation was not detected.\n")
-		cli.Printf(cli.ColorWarn, "Please make sure to install and login into Steam first to sync library.\n")
-		return nil
-	}
-	if l.AccountId == "" {
-		cli.Printf(cli.ColorWarn, "Note: Steam account was not detected.\n")
-		cli.Printf(cli.ColorWarn, "Please make sure to login into Steam first to sync library.\n")
+	if l.BasePath == "" || l.AccountId == "" {
 		return nil
 	}
 

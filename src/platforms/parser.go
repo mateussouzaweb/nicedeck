@@ -190,13 +190,13 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		finalPath := strings.Replace(realPath, realRoot, root, 1)
 		relativePath := strings.Replace(finalPath, root+separator, "", 1)
 
-		cli.Printf(cli.ColorWarn, "Detected: %s\n", relativePath)
+		cli.Debug(cli.ColorWarn, "Detected: %s\n", relativePath)
 
 		// Check against exclusion list
 		// Verification is simple and consider if path contains given term
 		for _, pattern := range exclude {
 			if strings.Contains(strings.ToLower(relativePath), strings.ToLower(pattern)) {
-				cli.Printf(cli.ColorWarn, "Skipped: file is in the exclude list.\n")
+				cli.Debug("Skipped: file is in the exclude list.\n")
 				return nil
 			}
 		}
@@ -204,7 +204,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		// Check against regex exclusion list
 		for _, pattern := range excludeRegex {
 			if pattern.MatchString(relativePath) {
-				cli.Printf(cli.ColorWarn, "Skipped: file is in the exclude list.\n")
+				cli.Debug("Skipped: file is in the exclude list.\n")
 				return nil
 			}
 		}
@@ -217,14 +217,14 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 
 		// Ignore if could not detect the emulator
 		if runtime.Emulator.Name == "" {
-			cli.Printf(cli.ColorWarn, "Skipped: no emulator found for ROM.\n")
+			cli.Debug("Skipped: no emulator found for ROM.\n")
 			return nil
 		}
 
 		// Validate if extension is in the valid list
 		valid := strings.Split(runtime.Emulator.Extensions, " ")
 		if !slices.Contains(valid, strings.ToLower(extension)) {
-			cli.Printf(cli.ColorWarn, "Skipped: invalid ROM format for %s emulator.\n", runtime.Emulator.Name)
+			cli.Debug("Skipped: invalid ROM format for %s emulator.\n", runtime.Emulator.Name)
 			return nil
 		}
 
@@ -232,7 +232,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		// This will prevent multiple results for the same ROM
 		for _, item := range results {
 			if item.Platform == runtime.Platform.Name && item.Name == name {
-				cli.Printf(cli.ColorWarn, "Skipped: multiple results detected for %s.\n", name)
+				cli.Debug("Skipped: multiple results detected for %s.\n", name)
 				return nil
 			}
 		}
@@ -256,7 +256,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 			LaunchOptions: launchOptions,
 		}
 
-		cli.Printf(cli.ColorSuccess, "Valid: ROM is valid for %s emulator.\n", runtime.Emulator.Name)
+		cli.Debug(cli.ColorSuccess, "Valid: ROM is valid for %s emulator.\n", runtime.Emulator.Name)
 		results = append(results, &rom)
 		return nil
 	})

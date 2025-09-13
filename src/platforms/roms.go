@@ -45,12 +45,15 @@ func FilterROMs(roms []*ROM, options *Options) []*ROM {
 		// Add to the list if ROM matches platform condition
 		if len(options.Platforms) == 0 || slices.Contains(options.Platforms, rom.Platform) {
 			addToList = true
+		} else {
+			cli.Debug("No platform match. ROM skipped to the process list: %s\n", rom.RelativePath)
 		}
 
 		// When is not rebuilding, include only new detected ROMs
 		if !rebuild {
 			for _, item := range existing {
 				if item.RelativePath == rom.RelativePath {
+					cli.Debug("Existing. ROM skipped to the process list: %s\n", rom.RelativePath)
 					addToList = false
 					break
 				}
@@ -59,6 +62,7 @@ func FilterROMs(roms []*ROM, options *Options) []*ROM {
 
 		// Finally, if valid, add to the list of ROMs to process
 		if addToList {
+			cli.Debug("ROM added to the process list: %s\n", rom.RelativePath)
 			toProcess = append(toProcess, rom)
 		}
 
@@ -168,6 +172,7 @@ func ProcessROMs(parsed []*ROM, options *Options) (int, error) {
 			}
 
 			// When detected, merge and update existing shortcut
+			cli.Debug("Updating existing shortcut: %s\n", existing.ID)
 			existing.Merge(shortcut)
 			shortcut = existing
 			break
