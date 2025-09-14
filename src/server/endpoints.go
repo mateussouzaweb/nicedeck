@@ -7,6 +7,7 @@ import (
 	"io/fs"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -220,6 +221,80 @@ func launchShortcut(context *Context) error {
 		result.Error = err.Error()
 		return context.Status(400).JSON(result)
 	}
+
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
+}
+
+// Add shortcut data
+type AddShortcutData struct {
+	ID             string   `json:"id"`
+	Program        string   `json:"program"`
+	Name           string   `json:"name"`
+	Description    string   `json:"description"`
+	StartDirectory string   `json:"startDirectory"`
+	Executable     string   `json:"executable"`
+	LaunchOptions  string   `json:"launchOptions"`
+	IconURL        string   `json:"iconUrl"`
+	LogoURL        string   `json:"logoUrl"`
+	CoverURL       string   `json:"coverUrl"`
+	BannerURL      string   `json:"bannerUrl"`
+	HeroURL        string   `json:"heroUrl"`
+	Tags           []string `json:"tags"`
+}
+
+// Add shortcut result
+type AddShortcutResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
+// Add shortcut action
+func addShortcut(context *Context) error {
+
+	result := AddShortcutResult{}
+
+	// Bind data
+	data := AddShortcutData{}
+	err := context.Bind(&data)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	if data.ID == "" {
+		data.ID = shortcuts.GenerateID(data.Name, data.Executable)
+	}
+	if data.StartDirectory == "" {
+		data.StartDirectory = filepath.Dir(data.Executable)
+	}
+
+	// Create shortcut
+	shortcut := &shortcuts.Shortcut{
+		ID:             data.ID,
+		Program:        data.Program,
+		Name:           data.Name,
+		Description:    data.Description,
+		StartDirectory: cli.Quote(data.StartDirectory),
+		Executable:     cli.Quote(data.Executable),
+		LaunchOptions:  data.LaunchOptions,
+		IconURL:        data.IconURL,
+		LogoURL:        data.LogoURL,
+		CoverURL:       data.CoverURL,
+		BannerURL:      data.BannerURL,
+		HeroURL:        data.HeroURL,
+		Tags:           data.Tags,
+	}
+
+	err = library.Shortcuts.Set(shortcut, true)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	cli.Printf(cli.ColorSuccess, "Shortcut %s added!\n", shortcut.ID)
 
 	result.Status = "OK"
 	return context.Status(200).JSON(result)
@@ -670,6 +745,7 @@ func Setup(version string, developmentMode bool, shutdown chan bool) error {
 	Add("POST", "/api/library/load", loadLibrary)
 	Add("POST", "/api/library/save", saveLibrary)
 	Add("POST", "/api/shortcut/launch", launchShortcut)
+	Add("POST", "/api/shortcut/add", addShortcut)
 	Add("POST", "/api/shortcut/modify", modifyShortcut)
 	Add("POST", "/api/programs/install", installPrograms)
 	Add("POST", "/api/programs/remove", removePrograms)

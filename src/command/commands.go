@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"path/filepath"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/docs"
@@ -17,6 +18,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
 	"github.com/mateussouzaweb/nicedeck/src/server"
+	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Print application version
@@ -165,6 +167,75 @@ func launchShortcut(context Context) error {
 	}
 
 	return err
+}
+
+// Add shortcut
+func addShortcut(context Context) error {
+
+	// Init user library
+	err := library.Init(context.Version)
+	if err != nil {
+		return err
+	}
+
+	// Load user library
+	err = library.Load()
+	if err != nil {
+		return err
+	}
+
+	// Make sure to save library on finish
+	defer func() {
+		errors.Join(err, library.Save())
+	}()
+
+	// Retrieve data
+	ID := context.Arg("--id", "")
+	program := context.Arg("--program", "")
+	name := context.Arg("--name", "")
+	description := context.Arg("--description", "")
+	startDirectory := context.Arg("--start-directory", "")
+	executable := context.Arg("--executable", "")
+	launchOptions := context.Arg("--launch-options", "")
+	iconURL := context.Arg("--icon-url", "")
+	logoURL := context.Arg("--logo-url", "")
+	coverURL := context.Arg("--cover-url", "")
+	bannerURL := context.Arg("--banner-url", "")
+	heroURL := context.Arg("--hero-url", "")
+	tags := context.Arg("--tags", "")
+
+	if ID == "" {
+		ID = shortcuts.GenerateID(name, executable)
+	}
+	if startDirectory == "" {
+		startDirectory = filepath.Dir(executable)
+	}
+
+	// Create shortcut
+	shortcut := &shortcuts.Shortcut{
+		ID:             ID,
+		Program:        program,
+		Name:           name,
+		Description:    description,
+		StartDirectory: cli.Quote(startDirectory),
+		Executable:     cli.Quote(executable),
+		LaunchOptions:  launchOptions,
+		IconURL:        iconURL,
+		LogoURL:        logoURL,
+		CoverURL:       coverURL,
+		BannerURL:      bannerURL,
+		HeroURL:        heroURL,
+		Tags:           strings.Split(tags, ","),
+	}
+
+	err = library.Shortcuts.Set(shortcut, true)
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Shortcut %s added!\n", shortcut.ID)
+
+	return nil
 }
 
 // Modify shortcut

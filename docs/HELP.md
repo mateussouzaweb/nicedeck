@@ -9,6 +9,7 @@ platforms       list available platforms
 shortcuts       list current user shortcuts
 scrape          scrape data on SteamGridDB
 launch          launch shortcut with given ID
+add             add a new shortcut to library
 modify          update or delete shortcut with given ID
 install         install or update programs
 remove          remove previously installed programs
@@ -24,6 +25,21 @@ scrape:
 
 launch:
   --id=[ID]                   shortcut ID
+
+add:
+  --id=[ID]                   shortcut ID
+  --program=[value]           program for shortcut
+  --name=[value]              name for shortcut
+  --description=[value]       description for shortcut
+  --start-directory=[value]   start directory for shortcut
+  --executable=[value]        executable for shortcut
+  --launch-options=[value]    launch options for shortcut
+  --icon-url=[value]          icon URL for shortcut
+  --logo-url=[value]          logo URL for shortcut
+  --cover-url=[value]         cover URL for shortcut
+  --banner-url=[value]        banner URL for shortcut
+  --hero-url=[value]          hero URL for shortcut
+  --tags=[value,value]        tags for shortcut, comma separated
 
 modify:
   --update                    update shortcut
