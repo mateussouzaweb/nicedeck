@@ -64,7 +64,10 @@ func BattleNet() *Program {
 			Uninstaller: "C:/ProgramData/Battle.net/Agent/Blizzard Uninstaller.exe",
 			Launcher:    "C:/Program Files (x86)/Battle.net/Battle.net.exe",
 			Arguments:   []string{},
-			Source:      website.Link("https://www.battle.net/download/getInstallerForGame?os=win&gameProgram=BATTLENET_APP&version=Live"),
+			Source: website.Release(
+				"https://download.battle.net/?product=bnetdesk", "",
+				"https://downloader.battle.net/*os=win*version=Live",
+			),
 		}, &macos.Homebrew{
 			AppID:   "battle-net",
 			AppName: "Battle.net.app",
@@ -121,7 +124,10 @@ func EAApp() *Program {
 			Uninstaller: "C:/Downloads/EAappInstaller.exe",
 			Launcher:    "C:/Program Files/Electronic Arts/EA Desktop/EA Desktop/EADesktop.exe",
 			Arguments:   []string{},
-			Source:      website.Link("https://origin-a.akamaihd.net/EA-Desktop-Client-Download/installer-releases/EAappInstaller.exe"),
+			Source: website.Release(
+				"https://www.ea.com/ea-app", "",
+				"https:*/EAappInstaller.exe",
+			),
 		}, &macos.Homebrew{
 			AppID:   "ea",
 			AppName: "EA app.app",
@@ -205,11 +211,14 @@ func GOGGalaxy() *Program {
 		Package: packaging.Best(&linux.Proton{
 			AppID:       "gog-galaxy",
 			AppName:     "GOG",
-			Installer:   "C:/Downloads/SetupGalaxy.exe",
+			Installer:   "C:/Downloads/GOG_Galaxy_2.0.exe",
 			Uninstaller: "C:/Program Files (x86)/GOG Galaxy/unins000.exe",
 			Launcher:    "C:/Program Files (x86)/GOG Galaxy/GalaxyClient.exe",
 			Arguments:   []string{},
-			Source:      website.Link("https://content-system.gog.com/open_link/download?path=/open/galaxy/client/setup_galaxy_2.0.88.15.exe"),
+			Source: website.Release(
+				"https://www.gog.com/galaxy", "",
+				"https:*/download/GOG_Galaxy_2.0.exe",
+			),
 		}, &macos.Homebrew{
 			AppID:   "gog-galaxy",
 			AppName: "GOG Galaxy.app",
