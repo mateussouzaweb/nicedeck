@@ -1,6 +1,7 @@
 package website
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"io"
@@ -31,6 +32,10 @@ func GetDownloadURL(pageURL string, prefix string, search string) (string, error
 	if err != nil {
 		return "", err
 	}
+
+	// Isolate http links with unique lines
+	// Process is required on minified HTML responses
+	body = bytes.ReplaceAll(body, []byte("http"), []byte("\nhttp"))
 
 	// Find first download link matching format
 	search = strings.ReplaceAll(search, "*", "(.+)")
