@@ -155,6 +155,11 @@ form textarea.resizable {
     height: auto;
 }
 
+form input[type="text"]:user-invalid,
+form textarea:user-invalid {
+    border-color: red;
+}
+
 form button {
     background: #000;
     border: 0;

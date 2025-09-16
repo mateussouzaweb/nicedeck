@@ -174,7 +174,7 @@ window.addEventListener('load', async () => {
             </div>
             <div class="group">
                 <label for="name">Name:</label>
-                <textarea id="name" name="name" data-search-artworks></textarea>
+                <textarea id="name" name="name" required data-search-artworks></textarea>
             </div>
             <div class="group">
                 <label for="description">Description:</label>
@@ -182,11 +182,11 @@ window.addEventListener('load', async () => {
             </div>
             <div class="group">
                 <label for="startDirectory">Start Directory:</label>
-                <textarea class="resizable" id="startDirectory" name="startDirectory"></textarea>
+                <textarea class="resizable" id="startDirectory" name="startDirectory" required></textarea>
             </div>
             <div class="group">
                 <label for="executable">Executable:</label>
-                <textarea class="resizable" id="executable" name="executable"></textarea>
+                <textarea class="resizable" id="executable" name="executable" required></textarea>
             </div>
             <div class="group">
                 <label for="launchOptions">Launch Options:</label>
@@ -259,7 +259,7 @@ window.addEventListener('load', async () => {
             </div>
             <div class="group">
                 <label for="name">Name:</label>
-                <textarea id="name" name="name" data-search-artworks>${shortcut.name}</textarea>
+                <textarea id="name" name="name" required data-search-artworks>${shortcut.name}</textarea>
             </div>
             <div class="group">
                 <label for="description">Description:</label>
@@ -267,11 +267,11 @@ window.addEventListener('load', async () => {
             </div>
             <div class="group">
                 <label for="startDirectory">Start Directory:</label>
-                <textarea class="resizable" id="startDirectory" name="startDirectory">${shortcut.startDirectory}</textarea>
+                <textarea class="resizable" id="startDirectory" name="startDirectory" required>${shortcut.startDirectory}</textarea>
             </div>
             <div class="group">
                 <label for="executable">Executable:</label>
-                <textarea class="resizable" id="executable" name="executable">${shortcut.executable}</textarea>
+                <textarea class="resizable" id="executable" name="executable" required>${shortcut.executable}</textarea>
             </div>
             <div class="group">
                 <label for="launchOptions">Launch Options:</label>
