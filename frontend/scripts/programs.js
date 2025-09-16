@@ -28,7 +28,7 @@ window.addEventListener('load', async () => {
                     return
                 }
 
-                var classes = program.flags.join(' ').replaceAll('--', '');
+                var classes = program.flags.join(' ').replaceAll('--', '')
                 html.push(
                 `<label class="checkbox ${classes}" title="${program.name}">
                     <input type="checkbox" name="programs[]" value="${program.id}" />

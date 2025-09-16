@@ -157,101 +157,99 @@ window.addEventListener('load', async () => {
     }
 
     /**
-     * Load and show current list of user shortcuts
+     * Render shortcut add modal
      */
-    async function loadShortcuts() {
-
-        const button = $('#shortcuts #load')
-
-        if (button.disabled) {
-            return
-        }
-
-        try {
-            button.disabled = true
-
-            /** @type {LoadLibraryResult} */
-            const libraryRequest = await requestJson('POST', '/api/library/load')
-
-            /** @type {LoadLibraryResult} */
-            const platformsRequest = await requestJson('GET', '/api/platforms')
-
-            /** @type {ListShortcutsResult} */
-            const shortcutsRequest = await requestJson('GET', '/api/shortcuts')
-
-            library = libraryRequest.data
-            platforms = platformsRequest.data
-            shortcuts = shortcutsRequest.data
-
-            await renderFilters()
-            await renderShortcuts()
-
-        } finally {
-            button.disabled = false
-        }
-
-    }
-
-    on('#shortcuts #filters input', 'change', async () => {
-        try {
-            await renderShortcuts()
-        } catch (error) {
-            window.showError(error)
-        }
-    })
-
-    on('#shortcuts > form', 'submit', async (event) => {
-        event.preventDefault()
-
-        try {
-            await renderShortcuts()
-        } catch (error) {
-            window.showError(error)
-        }
-    })
-
-    on('#shortcuts [data-launch-shortcut]', 'click', async (event) => {
-        event.preventDefault()
-
-        const button = event.target.closest('[data-launch-shortcut]')
-
-        if (button.disabled) {
-            return
-        }
-
-        const modal = $('#modal-launch-shortcut')
+    async function renderAddShortcut(){
+        
+        const modal = $('#modal-add-shortcut')
         const content = $('.content', modal)
-        const shortcut = getShortcut(button.dataset.launchShortcut)
+        const html = `
+            <div class="group">
+                <label for="id">ID:</label>
+                <textarea id="id" name="id"></textarea>
+            </div>
+            <div class="group">
+                <label for="program">Program:</label>
+                <textarea id="program" name="program"></textarea>
+            </div>
+            <div class="group">
+                <label for="name">Name:</label>
+                <textarea id="name" name="name" data-search-artworks></textarea>
+            </div>
+            <div class="group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description"></textarea>
+            </div>
+            <div class="group">
+                <label for="startDirectory">Start Directory:</label>
+                <textarea class="resizable" id="startDirectory" name="startDirectory"></textarea>
+            </div>
+            <div class="group">
+                <label for="executable">Executable:</label>
+                <textarea class="resizable" id="executable" name="executable"></textarea>
+            </div>
+            <div class="group">
+                <label for="launchOptions">Launch Options:</label>
+                <textarea class="resizable" id="launchOptions" name="launchOptions"></textarea>
+            </div>
+            <div class="group">
+                <label for="tags">Tags:</label>
+                <textarea id="tags" name="tags"></textarea>
+            </div>
+            <section class="group group-cover">
+                <h4>Cover Artworks:</h4>
+                <div class="options">
+                    <input type="hidden" name="cover" value="" />
+                    <p>Set the shortcut name to see artworks.</p>
+                </div>
+            </section>
+            <section class="group group-banner">
+                <h4>Banner Artworks:</h4>
+                <div class="options">
+                    <input type="hidden" name="banner" value="" />
+                    <p>Set the shortcut name to see artworks.</p>
+                </div>
+            </section>
+            <section class="group group-hero">
+                <h4>Hero Artworks:</h4>
+                <div class="options">
+                    <input type="hidden" name="hero" value="" />
+                    <p>Set the shortcut name to see artworks.</p>
+                </div>
+            </section>
+            <section class="group group-icon">
+                <h4>Icon Artworks:</h4>
+                <div class="options">
+                    <input type="hidden" name="icon" value="" />
+                    <p>Set the shortcut name to see artworks.</p>
+                </div>
+            </section>
+            <section class="group group-logo">
+                <h4>Logo Artworks:</h4>
+                <div class="options">
+                    <input type="hidden" name="logo" value="" />
+                    <p>Set the shortcut name to see artworks.</p>
+                </div>
+            </section>
+        `
 
-        modal.dataset.shortcut = shortcut.id
-        content.innerHTML = `<p>Launching <b>${shortcut.name}</b>...</p>`
+        content.innerHTML = html
         window.showModal(modal)
 
-        /** @type {LaunchShortcutData} */
-        const body = {
-            id: shortcut.id
-        }
-
-        await window.runAndCaptureConsole(button, false, async () => {
-            try {
-                /** @type {LaunchShortcutResult} */
-                await requestJson('POST', '/api/shortcut/launch', JSON.stringify(body))
-            } catch (error) {
-                window.showError(error)
-            }
+        const searchInput = $('[data-search-artworks]', content)
+        const changeEvent = new CustomEvent('change', {
+            bubbles: true
         })
 
-        window.setTimeout(() => {
-            window.hideModal(modal)
-        }, 1000)
-    })
+        searchInput.dispatchEvent(changeEvent)
+    }
 
-    on('#shortcuts [data-update-shortcut]', 'click', async (event) => {
-
-        event.preventDefault()
-        const element = event.target.closest('[data-update-shortcut]')
-        const shortcut = getShortcut(element.dataset.updateShortcut)
-
+    /**
+     * Render shortcut update modal
+     * @param {Shortcut} shortcut
+     */
+    async function renderUpdateShortcut(shortcut){
+        
         const modal = $('#modal-update-shortcut')
         const content = $('.content', modal)
         const html = `
@@ -261,7 +259,7 @@ window.addEventListener('load', async () => {
             </div>
             <div class="group">
                 <label for="name">Name:</label>
-                <textarea id="name" name="name">${shortcut.name}</textarea>
+                <textarea id="name" name="name" data-search-artworks>${shortcut.name}</textarea>
             </div>
             <div class="group">
                 <label for="description">Description:</label>
@@ -324,12 +322,116 @@ window.addEventListener('load', async () => {
         content.innerHTML = html
         window.showModal(modal)
 
-        const nameInput = $('#name', content)
+        const searchInput = $('[data-search-artworks]', content)
         const changeEvent = new CustomEvent('change', {
             bubbles: true
         })
 
-        nameInput.dispatchEvent(changeEvent)
+        searchInput.dispatchEvent(changeEvent)
+    }
+
+    /**
+     * Load and show current list of user shortcuts
+     */
+    async function loadShortcuts() {
+
+        const button = $('#shortcuts #load')
+
+        if (button.disabled) {
+            return
+        }
+
+        try {
+            button.disabled = true
+
+            /** @type {LoadLibraryResult} */
+            const libraryRequest = await requestJson('POST', '/api/library/load')
+
+            /** @type {LoadLibraryResult} */
+            const platformsRequest = await requestJson('GET', '/api/platforms')
+
+            /** @type {ListShortcutsResult} */
+            const shortcutsRequest = await requestJson('GET', '/api/shortcuts')
+
+            library = libraryRequest.data
+            platforms = platformsRequest.data
+            shortcuts = shortcutsRequest.data
+
+            await renderFilters()
+            await renderShortcuts()
+
+        } finally {
+            button.disabled = false
+        }
+
+    }
+
+    on('#shortcuts #filters input', 'change', async () => {
+        try {
+            await renderShortcuts()
+        } catch (error) {
+            window.showError(error)
+        }
+    })
+
+    on('#shortcuts > form', 'submit', async (event) => {
+        event.preventDefault()
+
+        try {
+            await renderShortcuts()
+        } catch (error) {
+            window.showError(error)
+        }
+    })
+
+    on('#shortcuts #add', 'click', async (event) => {
+        event.preventDefault()
+        await renderAddShortcut()
+    })
+
+    on('#shortcuts [data-launch-shortcut]', 'click', async (event) => {
+        event.preventDefault()
+
+        const button = event.target.closest('[data-launch-shortcut]')
+
+        if (button.disabled) {
+            return
+        }
+
+        const modal = $('#modal-launch-shortcut')
+        const content = $('.content', modal)
+        const shortcut = getShortcut(button.dataset.launchShortcut)
+
+        modal.dataset.shortcut = shortcut.id
+        content.innerHTML = `<p>Launching <b>${shortcut.name}</b>...</p>`
+        window.showModal(modal)
+
+        /** @type {LaunchShortcutData} */
+        const body = {
+            id: shortcut.id
+        }
+
+        await window.runAndCaptureConsole(button, false, async () => {
+            try {
+                /** @type {LaunchShortcutResult} */
+                await requestJson('POST', '/api/shortcut/launch', JSON.stringify(body))
+            } catch (error) {
+                window.showError(error)
+            }
+        })
+
+        window.setTimeout(() => {
+            window.hideModal(modal)
+        }, 1000)
+    })
+
+    on('#shortcuts [data-update-shortcut]', 'click', async (event) => {
+
+        event.preventDefault()
+        const element = event.target.closest('[data-update-shortcut]')
+        const shortcut = getShortcut(element.dataset.updateShortcut)
+
+        await renderUpdateShortcut(shortcut)
 
     })
 
@@ -348,16 +450,17 @@ window.addEventListener('load', async () => {
 
     })
 
-    on('#shortcuts #modal-update-shortcut #name', 'change', async (event) => {
+    on('#shortcuts [data-search-artworks]', 'change', async (event) => {
 
-        const modal = $('#modal-update-shortcut')
-        const shortcut = getShortcut(modal.dataset.shortcut)
-        const term = event.target.value || shortcut.name
-
+        const modal = event.target.closest('.modal')
+        const form = $('form', modal)
+        const data = new FormData(form)
+        
         try {
-
+            
             /** @type {ScrapeDataResult} */
-            const request = await requestJson('GET', '/api/scrape?term=' + encodeURIComponent(term))
+            const term = encodeURIComponent(data.get('name'))
+            const request = await requestJson('GET', '/api/scrape?term=' + term)
             const scrape = request.result
 
             const appendResults = (type, selected, images, width, height) => {
@@ -391,16 +494,62 @@ window.addEventListener('load', async () => {
                 subContent.innerHTML = html.join('')
             }
 
-            appendResults('cover', shortcut.coverUrl, scrape.coverUrls, 600, 900)
-            appendResults('banner', shortcut.bannerUrl, scrape.bannerUrls, 920, 430)
-            appendResults('hero', shortcut.heroUrl, scrape.heroUrls, 600, 900)
-            appendResults('icon', shortcut.iconUrl, scrape.iconUrls, 192, 192)
-            appendResults('logo', shortcut.logoUrl, scrape.logoUrls, 600, 900)
+            appendResults('cover', data.get('cover'), scrape.coverUrls, 600, 900)
+            appendResults('banner', data.get('banner'), scrape.bannerUrls, 920, 430)
+            appendResults('hero', data.get('hero'), scrape.heroUrls, 600, 900)
+            appendResults('icon', data.get('icon'), scrape.iconUrls, 192, 192)
+            appendResults('logo', data.get('logo'), scrape.logoUrls, 600, 900)
 
         } catch (error) {
             window.showError(error)
             window.hideModal(modal)
         }
+
+    })
+
+    on('#shortcuts #modal-add-shortcut form', 'submit', async (event) => {
+        event.preventDefault()
+
+        const modal = $('#modal-add-shortcut')
+        const form = $('form', modal)
+        const button = $('button[type="submit"]', form)
+
+        if (button.disabled) {
+            return
+        }
+
+        const data = new FormData(form)
+
+        /** @type {AddShortcutData} */
+        const body = {
+            id: data.get('id'),
+            program: data.get('program'),
+            name: data.get('name'),
+            description: data.get('description'),
+            startDirectory: data.get('startDirectory'),
+            executable: data.get('executable'),
+            launchOptions: data.get('launchOptions'),
+            iconUrl: data.get('icon'),
+            logoUrl: data.get('logo'),
+            coverUrl: data.get('cover'),
+            bannerUrl: data.get('banner'),
+            heroUrl: data.get('hero'),
+            tags: data.get('tags').split(',')
+        }
+
+        await window.runAndCaptureConsole(button, false, async () => {
+            try {
+                /** @type {AddShortcutResult} */
+                await requestJson('POST', '/api/shortcut/add', JSON.stringify(body))
+                /** @type {SaveLibraryResult} */
+                await requestJson('POST', '/api/library/save')
+                await loadShortcuts()
+            } catch (error) {
+                window.showError(error)
+            }
+        })
+
+        window.hideModal(modal)
 
     })
 

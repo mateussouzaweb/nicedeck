@@ -29,7 +29,7 @@ interface Platform {
 }
 
 interface Shortcut {
-	id: number
+	id: string
 	program: string
 	name: string
 	description: string
@@ -93,7 +93,7 @@ interface ListShortcutsResult {
 }
 
 interface LaunchShortcutData {
-	id: number
+	id: string
 }
 
 interface LaunchShortcutResult {
@@ -101,9 +101,30 @@ interface LaunchShortcutResult {
 	error: string
 }
 
+interface AddShortcutData {
+	id: string
+	program: string
+	name: string
+	description: string
+	startDirectory: string
+	executable: string
+	launchOptions: string
+	iconUrl: string
+	logoUrl: string
+	coverUrl: string
+	bannerUrl: string
+	heroUrl: string
+	tags: string[]
+}
+
+interface AddShortcutResult {
+	status: string
+	error: string
+}
+
 interface ModifyShortcutData {
 	action: string
-	id: number
+	id: string
 	program: string
 	name: string
 	description: string

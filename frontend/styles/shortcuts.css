@@ -73,13 +73,27 @@
 }
 
 #shortcuts #filters .actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
     flex: 1 0 auto;
     margin: 0;
-    max-width: 140px;
+    max-width: 160px;
 }
 #shortcuts #filters .actions button {
     line-height: 1.35rem;
-    padding: 10px 25px;
+    padding: 10px 15px;
+    width: auto;
+}
+#shortcuts #filters .actions button#load {
+    flex: 1;
+}
+#shortcuts #filters .actions button#add {
+    padding: 5px 10px;
+}
+#shortcuts #filters .actions button#add img {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 #shortcuts #list {
