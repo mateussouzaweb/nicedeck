@@ -74,9 +74,17 @@ func BattleNet() *Program {
 			AppName:   "Battle.net.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:     "Blizzard.BattleNet",
-			AppExe:    "$PROGRAMS_X86\\Battle.net\\Battle.net.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:  "Blizzard.BattleNet",
+			AppExe: "$PROGRAMS_X86\\Battle.net\\Battle.net.exe",
+			Arguments: &packaging.Arguments{
+				Install: []string{
+					"--lang=enUS",
+					"--installpath=\"C:\\Program Files (x86)\\Battle.net\"",
+				},
+				Remove:   []string{},
+				Run:      []string{},
+				Shortcut: []string{},
+			},
 		}),
 	}
 }
@@ -127,7 +135,12 @@ func EAApp() *Program {
 			Installer:   "C:/Downloads/EAappInstaller.exe",
 			Uninstaller: "C:/Downloads/EAappInstaller.exe",
 			Launcher:    "C:/Program Files/Electronic Arts/EA Desktop/EA Desktop/EADesktop.exe",
-			Arguments:   packaging.NoArguments(),
+			Arguments: &packaging.Arguments{
+				Install:  []string{"/quiet"},
+				Remove:   []string{"/uninstall /quiet"},
+				Run:      []string{},
+				Shortcut: []string{},
+			},
 			Source: website.Release(
 				"https://www.ea.com/ea-app", "",
 				"https:*/EAappInstaller.exe",
@@ -166,8 +179,13 @@ func EpicGames() *Program {
 			Installer:   "C:/Downloads/EpicGamesLauncherInstaller.msi",
 			Uninstaller: "C:/Downloads/EpicGamesLauncherInstaller.msi",
 			Launcher:    "C:/Program Files (x86)/Epic Games/Launcher/Portal/Binaries/Win32/EpicGamesLauncher.exe",
-			Arguments:   packaging.NoArguments(),
-			Source:      website.Link("https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi"),
+			Arguments: &packaging.Arguments{
+				Install:  []string{"-opengl"},
+				Remove:   []string{"-opengl"},
+				Run:      []string{"-opengl"},
+				Shortcut: []string{"-opengl"},
+			},
+			Source: website.Link("https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi"),
 		}, &macos.Homebrew{
 			AppID:     "epic-games",
 			AppName:   "Epic Games Launcher.app",
@@ -222,7 +240,12 @@ func GOGGalaxy() *Program {
 			Installer:   "C:/Downloads/GOG_Galaxy_2.0.exe",
 			Uninstaller: "C:/Program Files (x86)/GOG Galaxy/unins000.exe",
 			Launcher:    "C:/Program Files (x86)/GOG Galaxy/GalaxyClient.exe",
-			Arguments:   packaging.NoArguments(),
+			Arguments: &packaging.Arguments{
+				Install:  []string{"/silent"},
+				Remove:   []string{"/SILENT"},
+				Run:      []string{},
+				Shortcut: []string{},
+			},
 			Source: website.Release(
 				"https://www.gog.com/galaxy", "",
 				"https:*/download/GOG_Galaxy_2.0.exe",
@@ -354,8 +377,13 @@ func UbisoftConnect() *Program {
 			Installer:   "C:/Downloads/UbisoftConnectInstaller.exe",
 			Uninstaller: "C:/Program Files (x86)/Ubisoft/Ubisoft Game Launcher/Uninstall.exe",
 			Launcher:    "C:/Program Files (x86)/Ubisoft/Ubisoft Game Launcher/UbisoftConnect.exe",
-			Arguments:   packaging.NoArguments(),
-			Source:      website.Link("https://static3.cdn.ubi.com/orbit/launcher_installer/UbisoftConnectInstaller.exe"),
+			Arguments: &packaging.Arguments{
+				Install:  []string{"/S"},
+				Remove:   []string{},
+				Run:      []string{},
+				Shortcut: []string{},
+			},
+			Source: website.Link("https://static3.cdn.ubi.com/orbit/launcher_installer/UbisoftConnectInstaller.exe"),
 		}, &windows.WinGet{
 			AppID:     "Ubisoft.Connect",
 			AppExe:    "$PROGRAMS_X86\\Ubisoft\\Ubisoft Game Launcher\\UbisoftConnect.exe",
