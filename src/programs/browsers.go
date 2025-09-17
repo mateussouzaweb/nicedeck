@@ -28,12 +28,15 @@ func BraveBrowser() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.brave.Browser",
+			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
-			AppID:   "brave-browser",
-			AppName: "Brave Browser.app",
+			AppID:     "brave-browser",
+			AppName:   "Brave Browser.app",
+			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "Brave.Brave",
-			AppExe: "$APPDATA\\Local\\BraveSoftware\\Brave-Browser\\Application\\brave.exe",
+			AppID:     "Brave.Brave",
+			AppExe:    "$APPDATA\\Local\\BraveSoftware\\Brave-Browser\\Application\\brave.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -57,12 +60,15 @@ func Firefox() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "org.mozilla.firefox",
+			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
-			AppID:   "firefox",
-			AppName: "Firefox.app",
+			AppID:     "firefox",
+			AppName:   "Firefox.app",
+			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "Mozilla.Firefox",
-			AppExe: "$PROGRAMS\\Mozilla Firefox\\firefox.exe",
+			AppID:     "Mozilla.Firefox",
+			AppExe:    "$PROGRAMS\\Mozilla Firefox\\firefox.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -86,12 +92,15 @@ func GoogleChrome() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.google.Chrome",
+			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
-			AppID:   "google-chrome",
-			AppName: "Google Chrome.app",
+			AppID:     "google-chrome",
+			AppName:   "Google Chrome.app",
+			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "Google.Chrome",
-			AppExe: "$PROGRAMS\\Google\\Chrome\\Application\\chrome.exe",
+			AppID:     "Google.Chrome",
+			AppExe:    "$PROGRAMS\\Google\\Chrome\\Application\\chrome.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -120,12 +129,15 @@ func MicrosoftEdge() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.microsoft.Edge",
+			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
-			AppID:   "microsoft-edge",
-			AppName: "Microsoft Edge.app",
+			AppID:     "microsoft-edge",
+			AppName:   "Microsoft Edge.app",
+			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "Microsoft.Edge",
-			AppExe: "$PROGRAMS_X86\\Microsoft\\Edge\\Application\\msedge.exe",
+			AppID:     "Microsoft.Edge",
+			AppExe:    "$PROGRAMS_X86\\Microsoft\\Edge\\Application\\msedge.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }

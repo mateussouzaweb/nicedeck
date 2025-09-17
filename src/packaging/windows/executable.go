@@ -14,11 +14,11 @@ import (
 
 // Executable struct
 type Executable struct {
-	AppID     string            `json:"appId"`
-	AppExe    string            `json:"appExe"`
-	AppAlias  string            `json:"appAlias"`
-	Arguments []string          `json:"arguments"`
-	Source    *packaging.Source `json:"source"`
+	AppID     string               `json:"appId"`
+	AppExe    string               `json:"appExe"`
+	AppAlias  string               `json:"appAlias"`
+	Arguments *packaging.Arguments `json:"arguments"`
+	Source    *packaging.Source    `json:"source"`
 }
 
 // Return package runtime
@@ -87,8 +87,9 @@ func (e *Executable) Alias() string {
 }
 
 // Run installed package
-func (e *Executable) Run(args []string) error {
-	return cli.RunProcess(e.Executable(), args)
+func (e *Executable) Run(arguments []string) error {
+	arguments = append(e.Arguments.Run, arguments...)
+	return cli.RunProcess(e.Executable(), arguments)
 }
 
 // Fill shortcut additional details
@@ -96,7 +97,7 @@ func (e *Executable) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for application
 	shortcut.ShortcutPath = e.Alias()
-	shortcut.LaunchOptions = strings.Join(e.Arguments, " ")
+	shortcut.LaunchOptions = strings.Join(e.Arguments.Shortcut, " ")
 
 	// Write system alias on shortcut location
 	err := os.MkdirAll(filepath.Dir(shortcut.ShortcutPath), 0755)

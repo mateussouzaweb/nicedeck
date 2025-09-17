@@ -28,12 +28,15 @@ func Discord() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.discordapp.Discord",
+			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
-			AppID:   "discord",
-			AppName: "Discord.app",
+			AppID:     "discord",
+			AppName:   "Discord.app",
+			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "Discord.Discord",
-			AppExe: "$PROGRAMS_X86\\Steam\\Steam.exe",
+			AppID:     "Discord.Discord",
+			AppExe:    "$PROGRAMS_X86\\Steam\\Steam.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -55,24 +58,27 @@ func NiceDeck() *Program {
 		BannerURL:   assets.Banner("b685f1ed7e9a7b8bbd3280104179cee3.png"),
 		HeroURL:     assets.Hero("4f71036295e627bf8dff9e06d8602d06.png"),
 		Package: packaging.Best(&linux.Binary{
-			AppID:  "nicedeck",
-			AppBin: "$APPLICATIONS/NiceDeck/nicedeck",
+			AppID:     "nicedeck",
+			AppBin:    "$APPLICATIONS/NiceDeck/nicedeck",
+			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mateussouzaweb/nicedeck",
 				"nicedeck-linux-amd64",
 			),
 		}, &macos.Application{
-			AppID:    "nicedeck",
-			AppName:  "$APPLICATIONS/NiceDeck/nicedeck",
-			AppAlias: "$HOME/Applications/NiceDeck",
+			AppID:     "nicedeck",
+			AppName:   "$APPLICATIONS/NiceDeck/nicedeck",
+			AppAlias:  "$HOME/Applications/NiceDeck",
+			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mateussouzaweb/nicedeck",
 				"nicedeck-macos-arm64",
 			),
 		}, &windows.Executable{
-			AppID:    "NiceDeck",
-			AppExe:   "$APPLICATIONS\\NiceDeck\\nicedeck.exe",
-			AppAlias: "$START_MENU\\NiceDeck.lnk",
+			AppID:     "NiceDeck",
+			AppExe:    "$APPLICATIONS\\NiceDeck\\nicedeck.exe",
+			AppAlias:  "$START_MENU\\NiceDeck.lnk",
+			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mateussouzaweb/nicedeck",
 				"nicedeck-windows-amd64.exe",
@@ -100,6 +106,7 @@ func ProtonPlus() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.vysp3r.ProtonPlus",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }

@@ -11,7 +11,7 @@ type Package interface {
 	Installed() (bool, error)
 	Executable() string
 	Alias() string
-	Run(args []string) error
+	Run(arguments []string) error
 	OnShortcut(shortcut *shortcuts.Shortcut) error
 }
 

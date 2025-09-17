@@ -7,15 +7,16 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
+	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Flatpak struct
 type Flatpak struct {
-	Namespace string   `json:"namespace"`
-	AppID     string   `json:"appId"`
-	Overrides []string `json:"overrides"`
-	Arguments []string `json:"arguments"`
+	AppID     string               `json:"appId"`
+	Namespace string               `json:"namespace"`
+	Overrides []string             `json:"overrides"`
+	Arguments *packaging.Arguments `json:"arguments"`
 }
 
 // Return package runtime
@@ -59,9 +60,10 @@ func (f *Flatpak) Install() error {
 
 	// Install with CLI command
 	script := fmt.Sprintf(
-		`flatpak install --or-update --assumeyes --noninteractive --%s flathub %s`,
+		`flatpak install --or-update --assumeyes --noninteractive --%s flathub %s %s`,
 		f.Namespace,
 		f.AppID,
+		strings.Join(f.Arguments.Install, " "),
 	)
 
 	err := cli.Run(script)
@@ -81,9 +83,10 @@ func (f *Flatpak) Install() error {
 // Remove package
 func (f *Flatpak) Remove() error {
 	return cli.Run(fmt.Sprintf(
-		`flatpak uninstall --assumeyes --noninteractive --%s %s`,
+		`flatpak uninstall --assumeyes --noninteractive --%s %s %s`,
 		f.Namespace,
 		f.AppID,
+		strings.Join(f.Arguments.Remove, " "),
 	))
 }
 
@@ -116,8 +119,9 @@ func (f *Flatpak) Alias() string {
 }
 
 // Run installed package
-func (f *Flatpak) Run(args []string) error {
-	return cli.RunProcess(f.Executable(), args)
+func (f *Flatpak) Run(arguments []string) error {
+	arguments = append(f.Arguments.Run, arguments...)
+	return cli.RunProcess(f.Executable(), arguments)
 }
 
 // Fill shortcut additional details
@@ -125,7 +129,7 @@ func (f *Flatpak) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for flatpak application
 	shortcut.ShortcutPath = f.Alias()
-	shortcut.LaunchOptions = strings.Join(f.Arguments, " ")
+	shortcut.LaunchOptions = strings.Join(f.Arguments.Shortcut, " ")
 
 	return nil
 }

@@ -14,13 +14,13 @@ import (
 
 // Proton struct
 type Proton struct {
-	AppID       string            `json:"appId"`
-	AppName     string            `json:"appName"`
-	Installer   string            `json:"installer"`
-	Uninstaller string            `json:"uninstaller"`
-	Launcher    string            `json:"launcher"`
-	Arguments   []string          `json:"arguments"`
-	Source      *packaging.Source `json:"source"`
+	AppID       string               `json:"appId"`
+	AppName     string               `json:"appName"`
+	Installer   string               `json:"installer"`
+	Uninstaller string               `json:"uninstaller"`
+	Launcher    string               `json:"launcher"`
+	Arguments   *packaging.Arguments `json:"arguments"`
+	Source      *packaging.Source    `json:"source"`
 }
 
 // Return package runtime
@@ -151,7 +151,7 @@ func (p *Proton) Install() error {
 
 	// Run install script
 	arguments := []string{cli.Quote(p.Installer)}
-	arguments = append(arguments, p.Arguments...)
+	arguments = append(arguments, p.Arguments.Install...)
 
 	err = cli.RunProcess(runFile, arguments)
 	if err != nil {
@@ -169,6 +169,7 @@ func (p *Proton) Remove() error {
 
 	// Remove package by perform the uninstall command
 	arguments := []string{cli.Quote(p.Uninstaller)}
+	arguments = append(arguments, p.Arguments.Remove...)
 	err := cli.RunProcess(runFile, arguments)
 	if err != nil {
 		return err
@@ -214,8 +215,9 @@ func (p *Proton) Alias() string {
 }
 
 // Run installed package
-func (p *Proton) Run(args []string) error {
-	return cli.RunProcess(p.Executable(), args)
+func (p *Proton) Run(arguments []string) error {
+	arguments = append(p.Arguments.Run, arguments...)
+	return cli.RunProcess(p.Executable(), arguments)
 }
 
 // Fill shortcut additional details
@@ -223,7 +225,7 @@ func (p *Proton) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for Proton application
 	arguments := []string{cli.Quote(p.Launcher)}
-	arguments = append(arguments, p.Arguments...)
+	arguments = append(arguments, p.Arguments.Shortcut...)
 
 	shortcut.ShortcutPath = p.Alias()
 	shortcut.LaunchOptions = strings.Join(arguments, " ")

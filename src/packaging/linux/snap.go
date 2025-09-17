@@ -6,15 +6,16 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
+	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Snap struct
 type Snap struct {
-	AppID     string   `json:"appId"`
-	AppBin    string   `json:"appBin"`
-	Channel   string   `json:"channel"`
-	Arguments []string `json:"arguments"`
+	AppID     string               `json:"appId"`
+	AppBin    string               `json:"appBin"`
+	Channel   string               `json:"channel"`
+	Arguments *packaging.Arguments `json:"arguments"`
 }
 
 // Return package runtime
@@ -30,17 +31,19 @@ func (s *Snap) Available() bool {
 // Install package
 func (s *Snap) Install() error {
 	return cli.Run(fmt.Sprintf(
-		`sudo snap install %s --channel=%s`,
+		`sudo snap install %s --channel=%s %s`,
 		s.AppID,
 		s.Channel,
+		strings.Join(s.Arguments.Install, " "),
 	))
 }
 
 // Remove package
 func (s *Snap) Remove() error {
 	return cli.Run(fmt.Sprintf(
-		`sudo snap remove %s`,
+		`sudo snap remove %s %s`,
 		s.AppID,
+		strings.Join(s.Arguments.Remove, " "),
 	))
 }
 
@@ -74,8 +77,9 @@ func (s *Snap) Alias() string {
 }
 
 // Run installed package
-func (s *Snap) Run(args []string) error {
-	return cli.RunProcess(s.Executable(), args)
+func (s *Snap) Run(arguments []string) error {
+	arguments = append(s.Arguments.Run, arguments...)
+	return cli.RunProcess(s.Executable(), arguments)
 }
 
 // Fill shortcut additional details
@@ -83,7 +87,7 @@ func (s *Snap) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for snap application
 	shortcut.ShortcutPath = s.Alias()
-	shortcut.LaunchOptions = strings.Join(s.Arguments, " ")
+	shortcut.LaunchOptions = strings.Join(s.Arguments.Shortcut, " ")
 
 	return nil
 }

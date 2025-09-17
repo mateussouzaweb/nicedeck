@@ -14,10 +14,10 @@ import (
 
 // Binary struct
 type Binary struct {
-	AppID     string            `json:"appId"`
-	AppBin    string            `json:"appBin"`
-	Arguments []string          `json:"arguments"`
-	Source    *packaging.Source `json:"source"`
+	AppID     string               `json:"appId"`
+	AppBin    string               `json:"appBin"`
+	Arguments *packaging.Arguments `json:"arguments"`
+	Source    *packaging.Source    `json:"source"`
 }
 
 // Return package runtime
@@ -98,8 +98,9 @@ func (b *Binary) Alias() string {
 }
 
 // Run installed package
-func (b *Binary) Run(args []string) error {
-	return cli.RunProcess(b.Executable(), args)
+func (b *Binary) Run(arguments []string) error {
+	arguments = append(b.Arguments.Run, arguments...)
+	return cli.RunProcess(b.Executable(), arguments)
 }
 
 // Fill shortcut additional details
@@ -107,7 +108,7 @@ func (b *Binary) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for binary application
 	shortcut.ShortcutPath = b.Alias()
-	shortcut.LaunchOptions = strings.Join(b.Arguments, " ")
+	shortcut.LaunchOptions = strings.Join(b.Arguments.Shortcut, " ")
 
 	// Write the desktop shortcut
 	err := CreateDesktopShortcut(shortcut)

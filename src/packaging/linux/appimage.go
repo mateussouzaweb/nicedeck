@@ -14,10 +14,10 @@ import (
 
 // AppImage struct
 type AppImage struct {
-	AppID     string            `json:"appId"`
-	AppName   string            `json:"appName"`
-	Arguments []string          `json:"arguments"`
-	Source    *packaging.Source `json:"source"`
+	AppID     string               `json:"appId"`
+	AppName   string               `json:"appName"`
+	Arguments *packaging.Arguments `json:"arguments"`
+	Source    *packaging.Source    `json:"source"`
 }
 
 // Return package runtime
@@ -98,8 +98,9 @@ func (a *AppImage) Alias() string {
 }
 
 // Run installed package
-func (a *AppImage) Run(args []string) error {
-	return cli.RunProcess(a.Executable(), args)
+func (a *AppImage) Run(arguments []string) error {
+	arguments = append(a.Arguments.Run, arguments...)
+	return cli.RunProcess(a.Executable(), arguments)
 }
 
 // Fill shortcut additional details
@@ -107,7 +108,7 @@ func (a *AppImage) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
 	// Fill shortcut information for application
 	shortcut.ShortcutPath = a.Alias()
-	shortcut.LaunchOptions = strings.Join(a.Arguments, " ")
+	shortcut.LaunchOptions = strings.Join(a.Arguments.Shortcut, " ")
 
 	// Write the desktop shortcut
 	err := CreateDesktopShortcut(shortcut)

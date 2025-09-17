@@ -28,12 +28,15 @@ func ChiakiNG() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "io.github.streetpea.Chiaki4deck",
+			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
-			AppID:   "streetpea/streetpea/chiaki-ng",
-			AppName: "chiaki-ng.app",
+			AppID:     "streetpea/streetpea/chiaki-ng",
+			AppName:   "chiaki-ng.app",
+			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "StreetPea.chiaki-ng",
-			AppExe: "$PROGRAMS\\chiaki-ng\\chiaki-ng.exe",
+			AppID:     "StreetPea.chiaki-ng",
+			AppExe:    "$PROGRAMS\\chiaki-ng\\chiaki-ng.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -63,18 +66,30 @@ func GeForceNow() *Program {
 			Namespace: "system",
 			AppID:     "com.google.Chrome",
 			Overrides: []string{"--filesystem=/run/udev:ro"},
-			Arguments: []string{
-				"--window-size=1024,640",
-				"--force-device-scale-factor=1.25",
-				"--device-scale-factor=1.25",
-				"--app=https://play.geforcenow.com",
+			Arguments: &packaging.Arguments{
+				Install: []string{},
+				Remove:  []string{},
+				Run: []string{
+					"--window-size=1024,640",
+					"--force-device-scale-factor=1.25",
+					"--device-scale-factor=1.25",
+					"--app=https://play.geforcenow.com",
+				},
+				Shortcut: []string{
+					"--window-size=1024,640",
+					"--force-device-scale-factor=1.25",
+					"--device-scale-factor=1.25",
+					"--app=https://play.geforcenow.com",
+				},
 			},
 		}, &macos.Homebrew{
-			AppID:   "nvidia-geforce-now",
-			AppName: "NVIDIA GeForce NOW.app",
+			AppID:     "nvidia-geforce-now",
+			AppName:   "NVIDIA GeForce NOW.app",
+			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "Nvidia.GeForceNow",
-			AppExe: "$APPDATA\\Local\\NVIDIA Corporation\\GeForceNOW\\CEF\\GeForceNOW.exe",
+			AppID:     "Nvidia.GeForceNow",
+			AppExe:    "$APPDATA\\Local\\NVIDIA Corporation\\GeForceNOW\\CEF\\GeForceNOW.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -98,12 +113,15 @@ func MoonlightGameStreaming() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.moonlight_stream.Moonlight",
+			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
-			AppID:   "moonlight",
-			AppName: "Moonlight.app",
+			AppID:     "moonlight",
+			AppName:   "Moonlight.app",
+			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "MoonlightGameStreamingProject.Moonlight",
-			AppExe: "$PROGRAMS\\Moonlight Game Streaming\\Moonlight.exe",
+			AppID:     "MoonlightGameStreamingProject.Moonlight",
+			AppExe:    "$PROGRAMS\\Moonlight Game Streaming\\Moonlight.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -128,20 +146,40 @@ func XboxCloudGaming() *Program {
 			Namespace: "system",
 			AppID:     "com.microsoft.Edge",
 			Overrides: []string{"--filesystem=/run/udev:ro"},
-			Arguments: []string{
-				"--window-size=1024,640",
-				"--force-device-scale-factor=1.25",
-				"--device-scale-factor=1.25",
-				"--app=https://www.xbox.com/play",
+			Arguments: &packaging.Arguments{
+				Install: []string{},
+				Remove:  []string{},
+				Run: []string{
+					"--window-size=1024,640",
+					"--force-device-scale-factor=1.25",
+					"--device-scale-factor=1.25",
+					"--app=https://www.xbox.com/play",
+				},
+				Shortcut: []string{
+					"--window-size=1024,640",
+					"--force-device-scale-factor=1.25",
+					"--device-scale-factor=1.25",
+					"--app=https://www.xbox.com/play",
+				},
 			},
 		}, &macos.Homebrew{
-			AppID:     "microsoft-edge",
-			AppName:   "Microsoft Edge.app",
-			Arguments: []string{"--app=https://www.xbox.com/play"},
+			AppID:   "microsoft-edge",
+			AppName: "Microsoft Edge.app",
+			Arguments: &packaging.Arguments{
+				Install:  []string{},
+				Remove:   []string{},
+				Run:      []string{"--app=https://www.xbox.com/play"},
+				Shortcut: []string{"--app=https://www.xbox.com/play"},
+			},
 		}, &windows.WinGet{
-			AppID:     "Microsoft.Edge",
-			AppExe:    "$PROGRAMS_X86\\Microsoft\\Edge\\Application\\msedge.exe",
-			Arguments: []string{"--app=https://www.xbox.com/play"},
+			AppID:  "Microsoft.Edge",
+			AppExe: "$PROGRAMS_X86\\Microsoft\\Edge\\Application\\msedge.exe",
+			Arguments: &packaging.Arguments{
+				Install:  []string{},
+				Remove:   []string{},
+				Run:      []string{"--app=https://www.xbox.com/play"},
+				Shortcut: []string{"--app=https://www.xbox.com/play"},
+			},
 		}),
 	}
 }

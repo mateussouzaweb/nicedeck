@@ -6,14 +6,15 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
+	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // WinGet struct
 type WinGet struct {
-	AppID     string   `json:"appId"`
-	AppExe    string   `json:"appExe"`
-	Arguments []string `json:"arguments"`
+	AppID     string               `json:"appId"`
+	AppExe    string               `json:"appExe"`
+	Arguments *packaging.Arguments `json:"arguments"`
 }
 
 // Return package runtime
@@ -29,16 +30,18 @@ func (w *WinGet) Available() bool {
 // Install package
 func (w *WinGet) Install() error {
 	return cli.Run(fmt.Sprintf(
-		`winget install --accept-package-agreements --accept-source-agreements --disable-interactivity --exact --id %s`,
+		`winget install --accept-package-agreements --accept-source-agreements --disable-interactivity --exact --id %s %s`,
 		w.AppID,
+		strings.Join(w.Arguments.Install, " "),
 	))
 }
 
 // Remove package
 func (w *WinGet) Remove() error {
 	return cli.Run(fmt.Sprintf(
-		`winget uninstall --disable-interactivity --exact --id %s`,
+		`winget uninstall --disable-interactivity --exact --id %s %s`,
 		w.AppID,
+		strings.Join(w.Arguments.Remove, " "),
 	))
 }
 
@@ -65,12 +68,13 @@ func (w *WinGet) Alias() string {
 }
 
 // Run installed package
-func (w *WinGet) Run(args []string) error {
-	return cli.RunProcess(w.Executable(), args)
+func (w *WinGet) Run(arguments []string) error {
+	arguments = append(w.Arguments.Run, arguments...)
+	return cli.RunProcess(w.Executable(), arguments)
 }
 
 // Fill shortcut additional details
 func (w *WinGet) OnShortcut(shortcut *shortcuts.Shortcut) error {
-	shortcut.LaunchOptions = strings.Join(w.Arguments, " ")
+	shortcut.LaunchOptions = strings.Join(w.Arguments.Shortcut, " ")
 	return nil
 }

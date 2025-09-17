@@ -45,7 +45,7 @@ func (m *Missing) Alias() string {
 }
 
 // Run installed package
-func (m *Missing) Run(args []string) error {
+func (m *Missing) Run(arguments []string) error {
 	return nil
 }
 

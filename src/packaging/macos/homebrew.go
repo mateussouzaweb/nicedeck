@@ -6,14 +6,15 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
+	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Homebrew struct
 type Homebrew struct {
-	AppID     string   `json:"appId"`
-	AppName   string   `json:"appName"`
-	Arguments []string `json:"arguments"`
+	AppID     string               `json:"appId"`
+	AppName   string               `json:"appName"`
+	Arguments *packaging.Arguments `json:"arguments"`
 }
 
 // Return package runtime
@@ -29,16 +30,18 @@ func (h *Homebrew) Available() bool {
 // Install package
 func (h *Homebrew) Install() error {
 	return cli.Run(fmt.Sprintf(
-		`brew install --cask %s`,
+		`brew install --cask %s %s`,
 		h.AppID,
+		strings.Join(h.Arguments.Install, " "),
 	))
 }
 
 // Remove package
 func (h *Homebrew) Remove() error {
 	return cli.Run(fmt.Sprintf(
-		`brew uninstall --cask %s`,
+		`brew uninstall --cask %s %s`,
 		h.AppID,
+		strings.Join(h.Arguments.Remove, " "),
 	))
 }
 
@@ -68,12 +71,13 @@ func (h *Homebrew) Alias() string {
 }
 
 // Run installed package
-func (h *Homebrew) Run(args []string) error {
-	return cli.RunProcess(h.Executable(), args)
+func (h *Homebrew) Run(arguments []string) error {
+	arguments = append(h.Arguments.Run, arguments...)
+	return cli.RunProcess(h.Executable(), arguments)
 }
 
 // Fill shortcut additional details
 func (h *Homebrew) OnShortcut(shortcut *shortcuts.Shortcut) error {
-	shortcut.LaunchOptions = strings.Join(h.Arguments, " ")
+	shortcut.LaunchOptions = strings.Join(h.Arguments.Shortcut, " ")
 	return nil
 }

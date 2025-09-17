@@ -32,11 +32,12 @@ func AmazonGames() *Program {
 			Installer:   "C:/Downloads/AmazonGamesSetup.exe",
 			Uninstaller: "C:/users/steamuser/AppData/Local/Amazon Games/App/Uninstall Amazon Games.exe",
 			Launcher:    "C:/users/steamuser/AppData/Local/Amazon Games/App/Amazon Games.exe",
-			Arguments:   []string{},
+			Arguments:   packaging.NoArguments(),
 			Source:      website.Link("https://download.amazongames.com/AmazonGamesSetup.exe"),
 		}, &windows.WinGet{
-			AppID:  "Amazon.Games",
-			AppExe: "$APPDATA\\Local\\Amazon Games\\App\\Amazon Games.exe",
+			AppID:     "Amazon.Games",
+			AppExe:    "$APPDATA\\Local\\Amazon Games\\App\\Amazon Games.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -63,17 +64,19 @@ func BattleNet() *Program {
 			Installer:   "C:/Downloads/Battle.net-Setup.exe",
 			Uninstaller: "C:/ProgramData/Battle.net/Agent/Blizzard Uninstaller.exe",
 			Launcher:    "C:/Program Files (x86)/Battle.net/Battle.net.exe",
-			Arguments:   []string{},
+			Arguments:   packaging.NoArguments(),
 			Source: website.Release(
 				"https://download.battle.net/?product=bnetdesk", "",
 				"https://downloader.battle.net/*os=win*version=Live",
 			),
 		}, &macos.Homebrew{
-			AppID:   "battle-net",
-			AppName: "Battle.net.app",
+			AppID:     "battle-net",
+			AppName:   "Battle.net.app",
+			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "Blizzard.BattleNet",
-			AppExe: "$PROGRAMS_X86\\Battle.net\\Battle.net.exe",
+			AppID:     "Blizzard.BattleNet",
+			AppExe:    "$PROGRAMS_X86\\Battle.net\\Battle.net.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -97,6 +100,7 @@ func Bottles() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.usebottles.bottles",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -123,17 +127,19 @@ func EAApp() *Program {
 			Installer:   "C:/Downloads/EAappInstaller.exe",
 			Uninstaller: "C:/Downloads/EAappInstaller.exe",
 			Launcher:    "C:/Program Files/Electronic Arts/EA Desktop/EA Desktop/EADesktop.exe",
-			Arguments:   []string{},
+			Arguments:   packaging.NoArguments(),
 			Source: website.Release(
 				"https://www.ea.com/ea-app", "",
 				"https:*/EAappInstaller.exe",
 			),
 		}, &macos.Homebrew{
-			AppID:   "ea",
-			AppName: "EA app.app",
+			AppID:     "ea",
+			AppName:   "EA app.app",
+			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "ElectronicArts.EADesktop",
-			AppExe: "$PROGRAMS\\Electronic Arts\\EA Desktop\\EA Desktop\\EADesktop.exe",
+			AppID:     "ElectronicArts.EADesktop",
+			AppExe:    "$PROGRAMS\\Electronic Arts\\EA Desktop\\EA Desktop\\EADesktop.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -160,14 +166,16 @@ func EpicGames() *Program {
 			Installer:   "C:/Downloads/EpicGamesLauncherInstaller.msi",
 			Uninstaller: "C:/Downloads/EpicGamesLauncherInstaller.msi",
 			Launcher:    "C:/Program Files (x86)/Epic Games/Launcher/Portal/Binaries/Win32/EpicGamesLauncher.exe",
-			Arguments:   []string{},
+			Arguments:   packaging.NoArguments(),
 			Source:      website.Link("https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi"),
 		}, &macos.Homebrew{
-			AppID:   "epic-games",
-			AppName: "Epic Games Launcher.app",
+			AppID:     "epic-games",
+			AppName:   "Epic Games Launcher.app",
+			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "EpicGames.EpicGamesLauncher",
-			AppExe: "$PROGRAMS_X86\\Epic Games\\Launcher\\Portal\\Binaries\\Win32\\EpicGamesLauncher.exe",
+			AppID:     "EpicGames.EpicGamesLauncher",
+			AppExe:    "$PROGRAMS_X86\\Epic Games\\Launcher\\Portal\\Binaries\\Win32\\EpicGamesLauncher.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -214,17 +222,19 @@ func GOGGalaxy() *Program {
 			Installer:   "C:/Downloads/GOG_Galaxy_2.0.exe",
 			Uninstaller: "C:/Program Files (x86)/GOG Galaxy/unins000.exe",
 			Launcher:    "C:/Program Files (x86)/GOG Galaxy/GalaxyClient.exe",
-			Arguments:   []string{},
+			Arguments:   packaging.NoArguments(),
 			Source: website.Release(
 				"https://www.gog.com/galaxy", "",
 				"https:*/download/GOG_Galaxy_2.0.exe",
 			),
 		}, &macos.Homebrew{
-			AppID:   "gog-galaxy",
-			AppName: "GOG Galaxy.app",
+			AppID:     "gog-galaxy",
+			AppName:   "GOG Galaxy.app",
+			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "GOG.Galaxy",
-			AppExe: "$PROGRAMS_X86\\GOG Galaxy\\GalaxyClient.exe",
+			AppID:     "GOG.Galaxy",
+			AppExe:    "$PROGRAMS_X86\\GOG Galaxy\\GalaxyClient.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -248,12 +258,15 @@ func HeroicGamesLauncher() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.heroicgameslauncher.hgl",
+			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
-			AppID:   "heroic",
-			AppName: "Heroic.app",
+			AppID:     "heroic",
+			AppName:   "Heroic.app",
+			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "HeroicGamesLauncher.HeroicGamesLauncher",
-			AppExe: "$APPDATA\\Local\\Programs\\heroic\\Heroic.exe",
+			AppID:     "HeroicGamesLauncher.HeroicGamesLauncher",
+			AppExe:    "$APPDATA\\Local\\Programs\\heroic\\Heroic.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -277,6 +290,7 @@ func Lutris() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "net.lutris.Lutris",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -301,15 +315,19 @@ func Steam() *Program {
 			Namespace: "system",
 			AppID:     "com.valvesoftware.Steam",
 			Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
+			Arguments: packaging.NoArguments(),
 		}, &linux.Binary{
-			AppID:  "steam",
-			AppBin: "/usr/bin/steam",
+			AppID:     "steam",
+			AppBin:    "/usr/bin/steam",
+			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
-			AppID:   "steam",
-			AppName: "Steam.app",
+			AppID:     "steam",
+			AppName:   "Steam.app",
+			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "Valve.Steam",
-			AppExe: "$PROGRAMS_X86\\Steam\\Steam.exe",
+			AppID:     "Valve.Steam",
+			AppExe:    "$PROGRAMS_X86\\Steam\\Steam.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
@@ -336,11 +354,12 @@ func UbisoftConnect() *Program {
 			Installer:   "C:/Downloads/UbisoftConnectInstaller.exe",
 			Uninstaller: "C:/Program Files (x86)/Ubisoft/Ubisoft Game Launcher/Uninstall.exe",
 			Launcher:    "C:/Program Files (x86)/Ubisoft/Ubisoft Game Launcher/UbisoftConnect.exe",
-			Arguments:   []string{},
+			Arguments:   packaging.NoArguments(),
 			Source:      website.Link("https://static3.cdn.ubi.com/orbit/launcher_installer/UbisoftConnectInstaller.exe"),
 		}, &windows.WinGet{
-			AppID:  "Ubisoft.Connect",
-			AppExe: "$PROGRAMS_X86\\Ubisoft\\Ubisoft Game Launcher\\UbisoftConnect.exe",
+			AppID:     "Ubisoft.Connect",
+			AppExe:    "$PROGRAMS_X86\\Ubisoft\\Ubisoft Game Launcher\\UbisoftConnect.exe",
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
