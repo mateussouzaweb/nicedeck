@@ -121,17 +121,20 @@ func (p *Proton) Install() error {
 		`export STEAM_RUNTIME=$(realpath "%s")`,
 		`export PROTON_RUNTIME=$(realpath "%s")`,
 		`export DRIVE_PATH=$(realpath "%s")`,
+		`export LOG_PATH=$(realpath "%s/run.log")`,
 		``,
 		`# Replace driver path`,
 		`set -- "${1/C:/$DRIVE_PATH}" "${@:2}"`,
 		``,
 		`# Run command`,
-		`"$STEAM_RUNTIME" "$PROTON_RUNTIME" run "$@"`}, "\n"),
+		`echo "$STEAM_RUNTIME" "$PROTON_RUNTIME" run "$@" >> "$LOG_PATH"`,
+		`"$STEAM_RUNTIME" "$PROTON_RUNTIME" run "$@" >> "$LOG_PATH" 2>&1`}, "\n"),
 		steamClientPath,
 		mainPath,
 		steamRuntime,
 		protonRuntime,
 		drivePath,
+		mainPath,
 	)
 
 	err := fs.WriteFile(runFile, runScript)
