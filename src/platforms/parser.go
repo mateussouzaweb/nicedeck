@@ -3,7 +3,6 @@ package platforms
 import (
 	"os"
 	"path/filepath"
-	"regexp"
 	"slices"
 	"strings"
 
@@ -144,25 +143,6 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		return results, err
 	}
 
-	// Fill exclude list
-	// Files on these folders will be ignored
-	exclude := []string{
-		fs.NormalizePath("/Updates/"), // Updates folder
-		fs.NormalizePath("/Mods/"),    // Mods folder
-		fs.NormalizePath("/DLCs/"),    // DLCs folder
-		fs.NormalizePath("/Others/"),  // Folder with games to ignore
-		fs.NormalizePath("/Ignore/"),  // Folder with games to ignore
-		fs.NormalizePath("/Hide/"),    // Folder with games to ignore
-	}
-
-	// Files with these name patterns will be ignored
-	excludeRegex := []*regexp.Regexp{
-		regexp.MustCompile("(?i)Disc 0?[2-9]"),     // Disc 02 - 09 of some games
-		regexp.MustCompile("(?i)Disc [1-9][0-9]"),  // Disc 10 - 99 of some games
-		regexp.MustCompile("(?i)Track 0?[1-9]"),    // Track 01 - 09 of some games
-		regexp.MustCompile("(?i)Track [1-9][0-9]"), // Track 10 - 99 of some games
-	}
-
 	cli.Printf(cli.ColorNotice, "Checking for ROMs available at: %s\n", root)
 
 	// Note: walkDir does not follow symbolic links
@@ -193,20 +173,9 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		cli.Debug("Detected: %s\n", relativePath)
 
 		// Check against exclusion list
-		// Verification is simple and consider if path contains given term
-		for _, pattern := range exclude {
-			if strings.Contains(strings.ToLower(relativePath), strings.ToLower(pattern)) {
-				cli.Debug("Skipped: file is in the exclude list.\n")
-				return nil
-			}
-		}
-
-		// Check against regex exclusion list
-		for _, pattern := range excludeRegex {
-			if pattern.MatchString(relativePath) {
-				cli.Debug("Skipped: file is in the exclude list.\n")
-				return nil
-			}
+		if options.ShouldExclude(relativePath) {
+			cli.Debug("Skipped: file is in the exclude list.\n")
+			return nil
 		}
 
 		// Retrieve runtime detail
