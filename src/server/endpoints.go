@@ -20,6 +20,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/platforms"
+	"github.com/mateussouzaweb/nicedeck/src/platforms/state"
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
@@ -497,8 +498,8 @@ func backupState(context *Context) error {
 	}
 
 	// Process synchronization
-	options := platforms.ToOptions(data.Platforms, data.Preferences)
-	err = platforms.SyncState("backup", options)
+	options := state.ToOptions(data.Platforms, data.Preferences)
+	err = state.SyncState("backup", options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -536,8 +537,8 @@ func restoreState(context *Context) error {
 	}
 
 	// Process synchronization
-	options := platforms.ToOptions(data.Platforms, data.Preferences)
-	err = platforms.SyncState("restore", options)
+	options := state.ToOptions(data.Platforms, data.Preferences)
+	err = state.SyncState("restore", options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
