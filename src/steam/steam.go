@@ -19,22 +19,28 @@ func GetPackage() packaging.Package {
 		Namespace: "system",
 		AppID:     "com.valvesoftware.Steam",
 		Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
+		Arguments: packaging.NoArguments(),
 	}, &linux.Flatpak{
 		Namespace: "user",
 		AppID:     "com.valvesoftware.Steam",
 		Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
+		Arguments: packaging.NoArguments(),
 	}, &linux.Snap{
-		AppID:  "steam",
-		AppBin: "steam",
+		AppID:     "steam",
+		AppBin:    "steam",
+		Arguments: packaging.NoArguments(),
 	}, &linux.Binary{
-		AppID:  "steam",
-		AppBin: "/usr/bin/steam",
+		AppID:     "steam",
+		AppBin:    "/usr/bin/steam",
+		Arguments: packaging.NoArguments(),
 	}, &macos.Homebrew{
-		AppID:   "steam",
-		AppName: "Steam.app",
+		AppID:     "steam",
+		AppName:   "Steam.app",
+		Arguments: packaging.NoArguments(),
 	}, &windows.WinGet{
-		AppID:  "Valve.Steam",
-		AppExe: "$PROGRAMS_X86\\Steam\\Steam.exe",
+		AppID:     "Valve.Steam",
+		AppExe:    "$PROGRAMS_X86\\Steam\\Steam.exe",
+		Arguments: packaging.NoArguments(),
 	})
 }
 
