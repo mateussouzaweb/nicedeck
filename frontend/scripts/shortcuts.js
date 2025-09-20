@@ -165,8 +165,8 @@ window.addEventListener('load', async () => {
     /**
      * Render shortcut create modal
      */
-    async function renderCreateShortcut(){
-        
+    async function renderCreateShortcut() {
+
         const modal = $('#modal-create-shortcut')
         const content = $('.content', modal)
         const html = `
@@ -183,8 +183,8 @@ window.addEventListener('load', async () => {
     /**
      * Render shortcut add modal
      */
-    async function renderAddShortcut(){
-        
+    async function renderAddShortcut() {
+
         const modal = $('#modal-add-shortcut')
         const content = $('.content', modal)
         const html = `
@@ -272,8 +272,8 @@ window.addEventListener('load', async () => {
      * Render shortcut update modal
      * @param {Shortcut} shortcut
      */
-    async function renderUpdateShortcut(shortcut){
-        
+    async function renderUpdateShortcut(shortcut) {
+
         const modal = $('#modal-update-shortcut')
         const content = $('.content', modal)
         const html = `
@@ -485,9 +485,9 @@ window.addEventListener('load', async () => {
         const modal = event.target.closest('.modal')
         const form = $('form', modal)
         const data = new FormData(form)
-        
+
         try {
-            
+
             /** @type {ScrapeDataResult} */
             const term = encodeURIComponent(data.get('name'))
             const request = await requestJson('GET', '/api/scrape?term=' + term)
@@ -495,31 +495,43 @@ window.addEventListener('load', async () => {
 
             const appendResults = (type, selected, images, width, height) => {
                 const subContent = $(`.group-${type} .options`, modal)
+                const hasSelected = images.some((item) => { return selected === item })
                 const html = []
 
-                if (!images || !images.length) {
-                    html.push(`<p class="alert">No images were found for this artwork type.</p>`)
-                } else {
-                    images.forEach((item, index) => {
-                        const checked = selected === item ? 'checked="checked"' : ''
-                        html.push(
-                        `<label class="radio">
-                            <input type="radio" name="${type}" value="${item}" ${checked} />
-                            <div class="image">
-                                <img loading="lazy" src="${item}" alt="Image ${index}"
-                                width="${width}" height="${height}"/>
-                            </div>
-                        </label>`)
-                    })
+                if (!images.length) {
+                    html.push(`<small>No additional images could be found for this artwork type.</small>`)
+                }
 
-                    html.push(
-                    `<label class="radio">
-                        <input type="radio" name="${type}" value="" ${!selected ? 'checked="checked"' : ''} />
+                if (selected && !hasSelected) {
+                    html.push(`
+                    <label class="radio">
+                        <input type="radio" name="${type}" value="${selected}" checked="checked" />
                         <div class="image">
-                            <div class="no-image">No Image</div>
+                            <img loading="lazy" src="${selected}" alt="Current Image"
+                            width="${width}" height="${height}"/>
                         </div>
                     </label>`)
                 }
+
+                images.forEach((item, index) => {
+                    const checked = selected === item ? 'checked="checked"' : ''
+                    html.push(`
+                    <label class="radio">
+                        <input type="radio" name="${type}" value="${item}" ${checked} />
+                        <div class="image">
+                            <img loading="lazy" src="${item}" alt="Image ${index}"
+                            width="${width}" height="${height}"/>
+                        </div>
+                    </label>`)
+                })
+
+                html.push(`
+                <label class="radio">
+                    <input type="radio" name="${type}" value="" ${!selected ? 'checked="checked"' : ''} />
+                    <div class="image">
+                        <div class="no-image">No Image</div>
+                    </div>
+                </label>`)
 
                 subContent.innerHTML = html.join('')
             }
