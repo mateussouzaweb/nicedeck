@@ -15,10 +15,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/frontend"
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/library"
-	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
-	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
-	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/platforms"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/native"
@@ -211,29 +207,8 @@ func launchShortcut(context *Context) error {
 		return context.Status(400).JSON(result)
 	}
 
-	// Launch program based on running system
-	program := packaging.Best(&linux.Binary{
-		AppID:     shortcut.ID,
-		AppBin:    shortcut.Executable,
-		Arguments: packaging.NoArguments(),
-	}, &macos.Application{
-		AppID:     shortcut.ID,
-		AppName:   shortcut.Executable,
-		Arguments: packaging.NoArguments(),
-	}, &windows.Executable{
-		AppID:     shortcut.ID,
-		AppExe:    shortcut.Executable,
-		Arguments: packaging.NoArguments(),
-	})
-
 	// Launch the shortcut
-	cli.Printf(cli.ColorSuccess, "Launching: %s\n", shortcut.Name)
-	if shortcut.LaunchOptions != "" {
-		err = program.Run([]string{shortcut.LaunchOptions})
-	} else {
-		err = program.Run([]string{})
-	}
-
+	err = library.Launch(shortcut)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
