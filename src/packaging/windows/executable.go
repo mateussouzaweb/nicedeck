@@ -86,12 +86,6 @@ func (e *Executable) Alias() string {
 	return fs.ExpandPath(e.AppAlias)
 }
 
-// Run installed package
-func (e *Executable) Run(arguments []string) error {
-	arguments = append(e.Arguments.Run, arguments...)
-	return cli.RunProcess(e.Executable(), arguments)
-}
-
 // Fill shortcut additional details
 func (e *Executable) OnShortcut(shortcut *shortcuts.Shortcut) error {
 

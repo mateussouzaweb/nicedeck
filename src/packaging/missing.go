@@ -44,11 +44,6 @@ func (m *Missing) Alias() string {
 	return ""
 }
 
-// Run installed package
-func (m *Missing) Run(arguments []string) error {
-	return nil
-}
-
 // Fill shortcut additional details
 func (m *Missing) OnShortcut(shortcut *shortcuts.Shortcut) error {
 	return nil

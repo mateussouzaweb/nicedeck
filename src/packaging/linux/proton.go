@@ -154,8 +154,14 @@ func (p *Proton) Install() error {
 	// Run install script
 	arguments := []string{cli.Quote(p.Installer)}
 	arguments = append(arguments, p.Arguments.Install...)
+	context := &cli.Context{
+		WorkingDirectory: filepath.Dir(p.Installer),
+		Executable:       runFile,
+		Arguments:        arguments,
+		Environment:      []string{},
+	}
 
-	err = cli.RunProcess(runFile, arguments)
+	err = context.Run()
 	if err != nil {
 		return err
 	}
@@ -172,7 +178,14 @@ func (p *Proton) Remove() error {
 	// Remove package by perform the uninstall command
 	arguments := []string{cli.Quote(p.Uninstaller)}
 	arguments = append(arguments, p.Arguments.Remove...)
-	err := cli.RunProcess(runFile, arguments)
+	context := &cli.Context{
+		WorkingDirectory: filepath.Dir(p.Uninstaller),
+		Executable:       runFile,
+		Arguments:        arguments,
+		Environment:      []string{},
+	}
+
+	err := context.Run()
 	if err != nil {
 		return err
 	}
@@ -214,12 +227,6 @@ func (p *Proton) Alias() string {
 		"$SHARE/applications/%s.desktop",
 		p.AppID,
 	))
-}
-
-// Run installed package
-func (p *Proton) Run(arguments []string) error {
-	arguments = append(p.Arguments.Run, arguments...)
-	return cli.RunProcess(p.Executable(), arguments)
 }
 
 // Fill shortcut additional details

@@ -82,12 +82,6 @@ func (s *Snap) Alias() string {
 	))
 }
 
-// Run installed package
-func (s *Snap) Run(arguments []string) error {
-	arguments = append(s.Arguments.Run, arguments...)
-	return cli.RunProcess(s.Executable(), arguments)
-}
-
 // Fill shortcut additional details
 func (s *Snap) OnShortcut(shortcut *shortcuts.Shortcut) error {
 

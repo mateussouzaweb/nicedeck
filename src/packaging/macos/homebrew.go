@@ -76,12 +76,6 @@ func (h *Homebrew) Alias() string {
 	return h.Executable()
 }
 
-// Run installed package
-func (h *Homebrew) Run(arguments []string) error {
-	arguments = append(h.Arguments.Run, arguments...)
-	return cli.RunProcess(h.Executable(), arguments)
-}
-
 // Fill shortcut additional details
 func (h *Homebrew) OnShortcut(shortcut *shortcuts.Shortcut) error {
 	shortcut.LaunchOptions = strings.Join(h.Arguments.Shortcut, " ")

@@ -82,7 +82,6 @@ func BattleNet() *Program {
 					"--installpath=\"C:\\Program Files (x86)\\Battle.net\"",
 				},
 				Remove:   []string{},
-				Run:      []string{},
 				Shortcut: []string{},
 			},
 		}),
@@ -138,7 +137,6 @@ func EAApp() *Program {
 			Arguments: &packaging.Arguments{
 				Install:  []string{"/quiet"},
 				Remove:   []string{"/uninstall /quiet"},
-				Run:      []string{},
 				Shortcut: []string{},
 			},
 			Source: website.Release(
@@ -182,7 +180,6 @@ func EpicGames() *Program {
 			Arguments: &packaging.Arguments{
 				Install:  []string{"-opengl"},
 				Remove:   []string{"-opengl"},
-				Run:      []string{"-opengl"},
 				Shortcut: []string{"-opengl"},
 			},
 			Source: website.Link("https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi"),
@@ -243,7 +240,6 @@ func GOGGalaxy() *Program {
 			Arguments: &packaging.Arguments{
 				Install:  []string{"/silent"},
 				Remove:   []string{"/SILENT"},
-				Run:      []string{},
 				Shortcut: []string{},
 			},
 			Source: website.Release(
@@ -380,7 +376,6 @@ func UbisoftConnect() *Program {
 			Arguments: &packaging.Arguments{
 				Install:  []string{"/S"},
 				Remove:   []string{},
-				Run:      []string{},
 				Shortcut: []string{},
 			},
 			Source: website.Link("https://static3.cdn.ubi.com/orbit/launcher_installer/UbisoftConnectInstaller.exe"),

@@ -123,12 +123,6 @@ func (f *Flatpak) Alias() string {
 	))
 }
 
-// Run installed package
-func (f *Flatpak) Run(arguments []string) error {
-	arguments = append(f.Arguments.Run, arguments...)
-	return cli.RunProcess(f.Executable(), arguments)
-}
-
 // Fill shortcut additional details
 func (f *Flatpak) OnShortcut(shortcut *shortcuts.Shortcut) error {
 

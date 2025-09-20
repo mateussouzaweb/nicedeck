@@ -73,12 +73,6 @@ func (w *WinGet) Alias() string {
 	return w.Executable()
 }
 
-// Run installed package
-func (w *WinGet) Run(arguments []string) error {
-	arguments = append(w.Arguments.Run, arguments...)
-	return cli.RunProcess(w.Executable(), arguments)
-}
-
 // Fill shortcut additional details
 func (w *WinGet) OnShortcut(shortcut *shortcuts.Shortcut) error {
 	shortcut.LaunchOptions = strings.Join(w.Arguments.Shortcut, " ")

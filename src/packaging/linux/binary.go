@@ -97,12 +97,6 @@ func (b *Binary) Alias() string {
 	))
 }
 
-// Run installed package
-func (b *Binary) Run(arguments []string) error {
-	arguments = append(b.Arguments.Run, arguments...)
-	return cli.RunProcess(b.Executable(), arguments)
-}
-
 // Fill shortcut additional details
 func (b *Binary) OnShortcut(shortcut *shortcuts.Shortcut) error {
 

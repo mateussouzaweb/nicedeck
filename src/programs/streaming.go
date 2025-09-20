@@ -69,12 +69,6 @@ func GeForceNow() *Program {
 			Arguments: &packaging.Arguments{
 				Install: []string{},
 				Remove:  []string{},
-				Run: []string{
-					"--window-size=1024,640",
-					"--force-device-scale-factor=1.25",
-					"--device-scale-factor=1.25",
-					"--app=https://play.geforcenow.com",
-				},
 				Shortcut: []string{
 					"--window-size=1024,640",
 					"--force-device-scale-factor=1.25",
@@ -149,12 +143,6 @@ func XboxCloudGaming() *Program {
 			Arguments: &packaging.Arguments{
 				Install: []string{},
 				Remove:  []string{},
-				Run: []string{
-					"--window-size=1024,640",
-					"--force-device-scale-factor=1.25",
-					"--device-scale-factor=1.25",
-					"--app=https://www.xbox.com/play",
-				},
 				Shortcut: []string{
 					"--window-size=1024,640",
 					"--force-device-scale-factor=1.25",
@@ -168,7 +156,6 @@ func XboxCloudGaming() *Program {
 			Arguments: &packaging.Arguments{
 				Install:  []string{},
 				Remove:   []string{},
-				Run:      []string{"--app=https://www.xbox.com/play"},
 				Shortcut: []string{"--app=https://www.xbox.com/play"},
 			},
 		}, &windows.WinGet{
@@ -177,7 +164,6 @@ func XboxCloudGaming() *Program {
 			Arguments: &packaging.Arguments{
 				Install:  []string{},
 				Remove:   []string{},
-				Run:      []string{"--app=https://www.xbox.com/play"},
 				Shortcut: []string{"--app=https://www.xbox.com/play"},
 			},
 		}),

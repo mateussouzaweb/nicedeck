@@ -1,6 +1,8 @@
 package packaging
 
-import "github.com/mateussouzaweb/nicedeck/src/shortcuts"
+import (
+	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
+)
 
 // Package interface
 type Package interface {
@@ -11,7 +13,6 @@ type Package interface {
 	Installed() (bool, error)
 	Executable() string
 	Alias() string
-	Run(arguments []string) error
 	OnShortcut(shortcut *shortcuts.Shortcut) error
 }
 

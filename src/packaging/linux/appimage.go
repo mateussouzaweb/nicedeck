@@ -97,12 +97,6 @@ func (a *AppImage) Alias() string {
 	))
 }
 
-// Run installed package
-func (a *AppImage) Run(arguments []string) error {
-	arguments = append(a.Arguments.Run, arguments...)
-	return cli.RunProcess(a.Executable(), arguments)
-}
-
 // Fill shortcut additional details
 func (a *AppImage) OnShortcut(shortcut *shortcuts.Shortcut) error {
 
