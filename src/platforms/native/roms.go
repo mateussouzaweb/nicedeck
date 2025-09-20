@@ -60,9 +60,9 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 		rom.File = file
 		rom.Extension = extension
 		rom.Name = name
-		rom.Description = fmt.Sprintf("%s executable", rom.Runtime)
+		rom.Description = fmt.Sprintf("%s executable", platform.Runtime)
 		rom.Runtime = platform.Runtime
-		rom.Program = strings.ToLower(rom.Runtime)
+		rom.Program = strings.ToLower(platform.Runtime)
 		rom.StartDirectory = replaceData(platform.StartDirectory)
 		rom.Executable = replaceData(platform.Executable)
 		rom.LaunchOptions = replaceData(platform.LaunchOptions)
