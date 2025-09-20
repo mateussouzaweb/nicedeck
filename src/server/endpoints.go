@@ -20,6 +20,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/platforms"
+	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/state"
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
@@ -124,9 +125,9 @@ func listPrograms(context *Context) error {
 
 // List platforms result
 type ListPlatformsResult struct {
-	Status string                `json:"status"`
-	Error  string                `json:"error"`
-	Data   []*platforms.Platform `json:"data"`
+	Status string              `json:"status"`
+	Error  string              `json:"error"`
+	Data   []*console.Platform `json:"data"`
 }
 
 // List platforms action
@@ -135,7 +136,8 @@ func listPlatforms(context *Context) error {
 	result := ListPlatformsResult{}
 
 	// Retrieve platforms
-	data, err := platforms.GetPlatforms(&platforms.Options{})
+	options := &console.Options{}
+	data, err := console.GetPlatforms(options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -580,7 +582,7 @@ func processROMs(context *Context) error {
 
 	// Process ROMs to add/update/remove
 	options := platforms.ToOptions(data.Platforms, data.Preferences)
-	err = platforms.Process(options)
+	err = platforms.ProcessShortcuts(options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()

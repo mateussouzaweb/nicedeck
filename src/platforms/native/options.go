@@ -1,4 +1,4 @@
-package platforms
+package native
 
 // Options struct
 type Options struct {

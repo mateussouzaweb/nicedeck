@@ -1,245 +1,306 @@
 package platforms
 
-// Emulator struct
-type Emulator struct {
-	Name          string `json:"name"`
-	Program       string `json:"program"`
-	Extensions    string `json:"extensions"`
-	LaunchOptions string `json:"launchOptions"`
+import (
+	"fmt"
+	"path/filepath"
+	"slices"
+	"strings"
+
+	"github.com/mateussouzaweb/nicedeck/src/cli"
+	"github.com/mateussouzaweb/nicedeck/src/library"
+	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
+	"github.com/mateussouzaweb/nicedeck/src/platforms/native"
+	"github.com/mateussouzaweb/nicedeck/src/scraper"
+	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
+)
+
+// Scrape data from shortcut and return if was found
+func ScrapeShortcut(shortcut *shortcuts.Shortcut) (bool, error) {
+
+	// Scrape additional ROM information
+	scrape, err := scraper.ScrapeFromName(shortcut.Name)
+	if err != nil {
+		return false, err
+	}
+
+	// Skip if scrape not found anything...
+	if scrape.Name == "" {
+		return false, nil
+	}
+
+	// Determine best name and images for the shortcut
+	name := scrape.Name
+	iconURL := ""
+	logoURL := ""
+	coverURL := ""
+	bannerURL := ""
+	heroURL := ""
+
+	if len(scrape.IconURLs) > 0 {
+		iconURL = scrape.IconURLs[0]
+	}
+	if len(scrape.LogoURLs) > 0 {
+		logoURL = scrape.LogoURLs[0]
+	}
+	if len(scrape.CoverURLs) > 0 {
+		coverURL = scrape.CoverURLs[0]
+	}
+	if len(scrape.BannerURLs) > 0 {
+		bannerURL = scrape.BannerURLs[0]
+	}
+	if len(scrape.HeroURLs) > 0 {
+		heroURL = scrape.HeroURLs[0]
+	}
+
+	shortcut.Name = name
+	shortcut.IconURL = iconURL
+	shortcut.LogoURL = logoURL
+	shortcut.CoverURL = coverURL
+	shortcut.BannerURL = bannerURL
+	shortcut.HeroURL = heroURL
+
+	return true, nil
 }
 
-// Platform struct
-type Platform struct {
-	Name      string      `json:"name"`
-	Console   string      `json:"console"`
-	Folder    string      `json:"folder"`
-	Emulators []*Emulator `json:"emulators"`
+// Parse and process shortcut with given path
+func ProcessShortcut(path string, options *Options) (*shortcuts.Shortcut, error) {
+
+	includeNative := true
+	includeConsole := true
+	shortcut := &shortcuts.Shortcut{}
+	nameFormat := "${NAME}"
+
+	// Try to parse a native ROM
+	if shortcut.ID == "" && includeNative {
+
+		theOptions := native.ToOptions(options.Platforms, options.Preferences)
+		rom, err := native.ParseROM(path, theOptions)
+		if err != nil {
+			return shortcut, err
+		}
+
+		// When valid, create a new shortcut from native ROM
+		if rom.Executable != "" {
+			shortcutID := shortcuts.GenerateID(rom.Name, rom.Executable)
+			shortcut = &shortcuts.Shortcut{
+				ID:             shortcutID,
+				Program:        rom.Program,
+				Name:           rom.Name,
+				Description:    rom.Description,
+				StartDirectory: cli.Quote(rom.StartDirectory),
+				Executable:     cli.Quote(rom.Executable),
+				LaunchOptions:  rom.LaunchOptions,
+				ShortcutPath:   "",
+				RelativePath:   rom.Executable,
+				IconURL:        "",
+				LogoURL:        "",
+				CoverURL:       "",
+				BannerURL:      "",
+				HeroURL:        "",
+				Tags:           []string{rom.Runtime},
+			}
+		}
+
+	}
+
+	// Try to parse a console ROM
+	if shortcut.ID == "" && includeConsole {
+
+		theOptions := console.ToOptions(options.Platforms, options.Preferences)
+		rom, err := console.ParseROM(path, theOptions)
+		if err != nil {
+			return shortcut, err
+		}
+
+		// When valid, create a new shortcut from console ROM
+		if rom.Executable != "" {
+			nameFormat = fmt.Sprintf("${NAME} [%s]", rom.Platform)
+			startDirectory := filepath.Dir(rom.Executable)
+			shortcutID := shortcuts.GenerateID(rom.Name, rom.Executable)
+			shortcut = &shortcuts.Shortcut{
+				ID:             shortcutID,
+				Program:        rom.Program,
+				Name:           rom.Name,
+				Description:    rom.Description,
+				StartDirectory: cli.Quote(startDirectory),
+				Executable:     cli.Quote(rom.Executable),
+				LaunchOptions:  rom.LaunchOptions,
+				ShortcutPath:   "",
+				RelativePath:   rom.RelativePath,
+				IconURL:        "",
+				LogoURL:        "",
+				CoverURL:       "",
+				BannerURL:      "",
+				HeroURL:        "",
+				Tags:           []string{"Gaming", "ROM", rom.Platform},
+			}
+		}
+
+	}
+
+	// Scrape additional shortcut information
+	if shortcut.ID != "" {
+
+		scraped, err := ScrapeShortcut(shortcut)
+		if err != nil {
+			return shortcut, err
+		} else if !scraped {
+			cli.Printf(cli.ColorWarn, "Could not detect shortcut information. Using available data...\n")
+		} else if scraped {
+			shortcut.Name = strings.Replace(nameFormat, "${NAME}", shortcut.Name, 1)
+		}
+
+		return shortcut, nil
+	}
+
+	err := fmt.Errorf("could not determine the file shortcut")
+	return shortcut, err
 }
 
-// Retrieve system platform specs.
-// This list is almost a copy of ES-DE systems
-func GetPlatforms(options *Options) ([]*Platform, error) {
+// Parse and process shortcuts for given platforms
+func ProcessShortcuts(options *Options) error {
 
-	platforms := []*Platform{}
+	theOptions := console.ToOptions(options.Platforms, options.Preferences)
 
-	platforms = append(platforms, &Platform{
-		Name:    "3DS",
-		Console: "Nintendo 3DS",
-		Folder:  "3DS",
-		Emulators: []*Emulator{{
-			Name:          "Azahar",
-			Program:       "azahar",
-			Extensions:    ".3ds .3dsx .app .axf .cci .cxi .elf .7z .zip",
-			LaunchOptions: "${ROM}", // No full-screen option
-		}},
-	})
+	// Determine if should include ROMs even if scraper was not able to detect it
+	optionalScraper := slices.Contains(theOptions.Preferences, "optional-scraper")
 
-	platforms = append(platforms, &Platform{
-		Name:    "DC",
-		Console: "Sega Dreamcast",
-		Folder:  "DC",
-		Emulators: []*Emulator{{
-			Name:          "Flycast",
-			Program:       "flycast",
-			Extensions:    ".chd .cdi .iso .elf .cue .gdi .lst .dat .m3u .7z .zip",
-			LaunchOptions: "-config window:fullscreen=yes ${ROM}",
-		}, {
-			Name:          "Redream",
-			Program:       "redream",
-			Extensions:    ".chd .cdi .cue .gdi .7z",
-			LaunchOptions: "-b -e ${ROM}",
-		}},
-	})
+	// First, find all existing ROMs path
+	// We read the current list of ROMs from the library
+	existing := []string{}
+	for _, shortcut := range library.Shortcuts.All() {
+		if slices.Contains(shortcut.Tags, "ROM") {
+			existing = append(existing, shortcut.RelativePath)
+		}
+	}
 
-	platforms = append(platforms, &Platform{
-		Name:    "GBA",
-		Console: "Nintendo Game Boy Advance",
-		Folder:  "GBA",
-		Emulators: []*Emulator{{
-			Name:          "MGBA",
-			Program:       "mgba",
-			Extensions:    ".agb .bin .cgb .dmg .gb .gba .gbc .sgb .7z .zip",
-			LaunchOptions: "-f ${ROM}",
-		}},
-	})
+	// Detect available ROMs with parser in all folders / systems
+	parsed, err := console.ParseROMs(theOptions)
+	if err != nil {
+		return err
+	}
 
-	platforms = append(platforms, &Platform{
-		Name:    "GC",
-		Console: "Nintendo GameCube",
-		Folder:  "GC",
-		Emulators: []*Emulator{{
-			Name:          "Dolphin Emulator",
-			Program:       "dolphin",
-			Extensions:    ".ciso .dff .dol .elf .gcm .gcz .iso .json .m3u .rvz .tgc .wad .wbfs .wia .7z .zip",
-			LaunchOptions: "-b -e ${ROM}",
-		}},
-	})
+	// Filter ROMs to avoid unnecessary processing
+	filtered := console.FilterROMs(parsed, existing, theOptions)
+	total := len(filtered)
 
-	platforms = append(platforms, &Platform{
-		Name:    "N64",
-		Console: "Nintendo 64",
-		Folder:  "N64",
-		Emulators: []*Emulator{{
-			Name:          "Simple64",
-			Program:       "simple64",
-			Extensions:    ".bin .d64 .n64 .ndd .u1 .v64 .z64 .7z .zip",
-			LaunchOptions: "--nogui ${ROM}",
-		}},
-	})
+	// Process new ROMs into shortcuts
+	// Skip if not found anything
+	if total == 0 {
+		cli.Printf(cli.ColorNotice, "No new ROMs to process.\n")
+	} else {
 
-	platforms = append(platforms, &Platform{
-		Name:    "NDS",
-		Console: "Nintendo DS",
-		Folder:  "NDS",
-		Emulators: []*Emulator{{
-			Name:          "MelonDS",
-			Program:       "melonds",
-			Extensions:    ".app .bin .nds .7z .zip",
-			LaunchOptions: "-f ${ROM}",
-		}},
-	})
+		// Print initial process information
+		cli.Printf(cli.ColorNotice, "%d new ROMs detected to process.\n", total)
+		cli.Printf(cli.ColorNotice, "This could take some time, please be patient...\n")
 
-	platforms = append(platforms, &Platform{
-		Name:    "PS1",
-		Console: "Sony PlayStation 1",
-		Folder:  "PS1",
-		Emulators: []*Emulator{{
-			Name:          "DuckStation",
-			Program:       "duckstation",
-			Extensions:    ".bin .cbn .ccd .chd .cue .ecm .exe .img .iso .m3u .mdf .mds .minipsf .pbp .psexe .psf .toc .z .znx .7z .zip",
-			LaunchOptions: "-batch -fullscreen ${ROM}",
-		}},
-	})
+		// Process each ROM to add or update
+		for index, rom := range filtered {
 
-	platforms = append(platforms, &Platform{
-		Name:    "PS2",
-		Console: "Sony PlayStation 2",
-		Folder:  "PS2",
-		Emulators: []*Emulator{{
-			Name:          "PCSX2",
-			Program:       "pcsx2",
-			Extensions:    ".bin .chd .ciso .cso .dump .elf .gz .m3u .mdf .img .iso .isz .ngr",
-			LaunchOptions: "-batch -nogui -fullscreen ${ROM}",
-		}},
-	})
+			cli.Printf(cli.ColorNotice, "Processing ROM [%d/%d]: %s\n", index+1, total, rom.RelativePath)
 
-	platforms = append(platforms, &Platform{
-		Name:    "PS3",
-		Console: "Sony PlayStation 3",
-		Folder:  "PS3",
-		Emulators: []*Emulator{{
-			Name:          "RPCS3",
-			Program:       "rpcs3",
-			Extensions:    ".desktop .ps3 .ps3dir",
-			LaunchOptions: "--no-gui ${ROM}",
-		}},
-	})
+			// Create shortcut information
+			startDirectory := filepath.Dir(rom.Executable)
+			shortcutID := shortcuts.GenerateID(rom.Name, rom.Executable)
+			shortcut := &shortcuts.Shortcut{
+				ID:             shortcutID,
+				Program:        rom.Program,
+				Name:           rom.Name,
+				Description:    rom.Description,
+				StartDirectory: cli.Quote(startDirectory),
+				Executable:     cli.Quote(rom.Executable),
+				LaunchOptions:  rom.LaunchOptions,
+				ShortcutPath:   "",
+				RelativePath:   rom.RelativePath,
+				IconURL:        "",
+				LogoURL:        "",
+				CoverURL:       "",
+				BannerURL:      "",
+				HeroURL:        "",
+				Tags:           []string{"Gaming", "ROM", rom.Platform},
+			}
 
-	platforms = append(platforms, &Platform{
-		Name:    "PS4",
-		Console: "Sony PlayStation 4",
-		Folder:  "PS4",
-		Emulators: []*Emulator{{
-			Name:          "ShadPS4",
-			Program:       "shadps4",
-			Extensions:    ".desktop",
-			LaunchOptions: "-g ${ROM}",
-		}},
-	})
+			// Scrape additional ROM information
+			scraped, err := ScrapeShortcut(shortcut)
+			if err != nil {
+				return err
+			}
 
-	platforms = append(platforms, &Platform{
-		Name:    "PSP",
-		Console: "Sony PlayStation Portable",
-		Folder:  "PSP",
-		Emulators: []*Emulator{{
-			Name:          "PPSSPP",
-			Program:       "ppsspp",
-			Extensions:    ".elf .iso .cso .prx .pbp .7z .zip",
-			LaunchOptions: "-f -g ${ROM}",
-		}},
-	})
+			// Skip if scrape not found anything...
+			if !optionalScraper && !scraped {
+				cli.Printf(cli.ColorWarn, "Could not detect shortcut information. Skipping...\n")
+				continue
+			} else if optionalScraper && !scraped {
+				cli.Printf(cli.ColorWarn, "Could not detect shortcut information. Using available data...\n")
+			} else if scraped {
+				nameFormat := fmt.Sprintf("${NAME} [%s]", rom.Platform)
+				shortcut.Name = strings.Replace(nameFormat, "${NAME}", shortcut.Name, 1)
+			}
 
-	platforms = append(platforms, &Platform{
-		Name:    "PSVITA",
-		Console: "Sony PlayStation Vita",
-		Folder:  "PSVITA",
-		Emulators: []*Emulator{{
-			Name:          "Vita3K",
-			Program:       "vita3k",
-			Extensions:    ".vpk",
-			LaunchOptions: "-F -r ${ROM}",
-		}},
-	})
+			// Avoid duplicates by checking on existing library
+			// This process also allow switching emulators on existing shortcut
+			for _, existing := range library.Shortcuts.All() {
 
-	platforms = append(platforms, &Platform{
-		Name:    "SWITCH",
-		Console: "Nintendo Switch",
-		Folder:  "SWITCH",
-		Emulators: []*Emulator{{
-			Name:          "Ryujinx",
-			Program:       "ryujinx",
-			Extensions:    "nca .nro .nso .nsp .xci",
-			LaunchOptions: "--fullscreen ${ROM}",
-		}, {
-			Name:          "Citron",
-			Program:       "citron",
-			Extensions:    "nca .nro .nso .nsp .xci",
-			LaunchOptions: "-f -g ${ROM}",
-		}, {
-			Name:          "Eden",
-			Program:       "eden",
-			Extensions:    "nca .nro .nso .nsp .xci",
-			LaunchOptions: "-f -g ${ROM}",
-		}},
-	})
+				// Check if shortcut is managed ROM
+				if !slices.Contains(existing.Tags, "ROM") {
+					continue
+				}
 
-	platforms = append(platforms, &Platform{
-		Name:    "WII",
-		Console: "Nintendo Wii",
-		Folder:  "WII",
-		Emulators: []*Emulator{{
-			Name:          "Dolphin",
-			Program:       "dolphin",
-			Extensions:    ".ciso .dff .dol .elf .gcm .gcz .iso .json .m3u .rvz .tgc .wad .wbfs .wia .7z .zip",
-			LaunchOptions: "-b -e ${ROM}",
-		}},
-	})
+				// Check for matching ROM relative path
+				if existing.RelativePath != shortcut.RelativePath {
+					continue
+				}
 
-	platforms = append(platforms, &Platform{
-		Name:    "WIIU",
-		Console: "Nintendo Wii U",
-		Folder:  "WIIU",
-		Emulators: []*Emulator{{
-			Name:          "Cemu",
-			Program:       "cemu",
-			Extensions:    ".rpx .wua .wud .wux",
-			LaunchOptions: "-f -g ${ROM}",
-		}},
-	})
+				// When detected, merge and update existing shortcut
+				cli.Debug("Updating existing shortcut: %s\n", existing.ID)
+				existing.Merge(shortcut)
+				shortcut = existing
+				break
+			}
 
-	platforms = append(platforms, &Platform{
-		Name:    "XBOX",
-		Console: "Microsoft Xbox",
-		Folder:  "XBOX",
-		Emulators: []*Emulator{{
-			Name:          "Xemu",
-			Program:       "xemu",
-			Extensions:    ".iso",
-			LaunchOptions: "-full-screen -dvd_path ${ROM}",
-		}},
-	})
+			// Add or update into shortcuts library
+			err = library.Shortcuts.Set(shortcut, false)
+			if err != nil {
+				return err
+			}
 
-	platforms = append(platforms, &Platform{
-		Name:    "X360",
-		Console: "Microsoft Xbox 360",
-		Folder:  "X360",
-		Emulators: []*Emulator{{
-			Name:          "Xenia",
-			Program:       "xenia",
-			Extensions:    ".iso .zar",
-			LaunchOptions: "--fullscreen=true ${ROM}",
-		}},
-	})
+		}
 
-	return platforms, nil
+		// Print finished process information
+		cli.Printf(cli.ColorNotice, "All ROMs processed.\n")
+
+	}
+
+	// Clean shortcuts for not found ROMs
+	cli.Printf(cli.ColorNotice, "Checking for removed ROMs.\n")
+	for _, shortcut := range library.Shortcuts.All() {
+
+		// Check if shortcut is managed ROM
+		if !slices.Contains(shortcut.Tags, "ROM") {
+			continue
+		}
+
+		// Check if the ROM of the shortcut is on the list of parsed ROMs
+		found := false
+		for _, rom := range parsed {
+			if shortcut.RelativePath == rom.RelativePath {
+				found = true
+				break
+			}
+		}
+		if found {
+			continue
+		}
+
+		// If not found, remove the shortcuts
+		cli.Printf(cli.ColorNotice, "Removing shortcut for not detected ROM: %s\n", shortcut.RelativePath)
+		err := library.Shortcuts.Remove(shortcut)
+		if err != nil {
+			return err
+		}
+
+	}
+
+	cli.Printf(cli.ColorSuccess, "Process finished!\n")
+	return nil
 }

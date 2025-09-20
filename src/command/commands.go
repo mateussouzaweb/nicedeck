@@ -15,6 +15,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/platforms"
+	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/state"
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
@@ -58,8 +59,8 @@ func listPrograms(_ Context) error {
 // List available platforms
 func listPlatforms(_ Context) error {
 
-	options := platforms.Options{}
-	list, err := platforms.GetPlatforms(&options)
+	options := console.Options{}
+	list, err := console.GetPlatforms(&options)
 	if err != nil {
 		return err
 	}
@@ -478,7 +479,7 @@ func processROMs(context Context) error {
 
 	// Process ROMs to add/update/remove
 	options := platforms.ToOptions(include, preferences)
-	err = platforms.Process(options)
+	err = platforms.ProcessShortcuts(options)
 	if err != nil {
 		return err
 	}
