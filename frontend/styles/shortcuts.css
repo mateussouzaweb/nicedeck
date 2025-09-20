@@ -1,3 +1,25 @@
+#shortcuts #actions {
+    display: flex;
+    flex: 1 0 auto;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 0 0 10px;
+}
+#shortcuts #actions button {
+    background: #000;
+    border: 0;
+    border-radius: 5px;
+    color: #FFF;
+    cursor: pointer;
+    flex: 0 0 auto;
+    font-size: 100%;
+    font-weight: bold;
+    padding: 10px 15px;
+    text-align: center;
+    vertical-align: middle;
+}
+
 #shortcuts #filters {
     display: flex;
     flex-flow: row;
@@ -87,13 +109,6 @@
 }
 #shortcuts #filters .actions button#load {
     flex: 1;
-}
-#shortcuts #filters .actions button#add {
-    padding: 5px 10px;
-}
-#shortcuts #filters .actions button#add img {
-    display: inline-block;
-    vertical-align: middle;
 }
 
 #shortcuts #list {

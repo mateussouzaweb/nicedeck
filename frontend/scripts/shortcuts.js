@@ -163,6 +163,24 @@ window.addEventListener('load', async () => {
     }
 
     /**
+     * Render shortcut create modal
+     */
+    async function renderCreateShortcut(){
+        
+        const modal = $('#modal-create-shortcut')
+        const content = $('.content', modal)
+        const html = `
+            <div class="group">
+                <label for="path">Path:</label>
+                <textarea id="path" name="path"></textarea>
+            </div>`
+
+        content.innerHTML = html
+        window.showModal(modal)
+
+    }
+
+    /**
      * Render shortcut add modal
      */
     async function renderAddShortcut(){
@@ -391,6 +409,11 @@ window.addEventListener('load', async () => {
         }
     })
 
+    on('#shortcuts #create', 'click', async (event) => {
+        event.preventDefault()
+        await renderCreateShortcut()
+    })
+
     on('#shortcuts #add', 'click', async (event) => {
         event.preventDefault()
         await renderAddShortcut()
@@ -511,6 +534,40 @@ window.addEventListener('load', async () => {
             window.showError(error)
             window.hideModal(modal)
         }
+
+    })
+
+    on('#shortcuts #modal-create-shortcut form', 'submit', async (event) => {
+        event.preventDefault()
+
+        const modal = $('#modal-create-shortcut')
+        const form = $('form', modal)
+        const button = $('button[type="submit"]', form)
+
+        if (button.disabled) {
+            return
+        }
+
+        const data = new FormData(form)
+
+        /** @type {CreateShortcutData} */
+        const body = {
+            path: data.get('path')
+        }
+
+        await window.runAndCaptureConsole(button, false, async () => {
+            try {
+                /** @type {AddShortcutResult} */
+                await requestJson('POST', '/api/shortcut/create', JSON.stringify(body))
+                /** @type {SaveLibraryResult} */
+                await requestJson('POST', '/api/library/save')
+                await loadShortcuts()
+            } catch (error) {
+                window.showError(error)
+            }
+        })
+
+        window.hideModal(modal)
 
     })
 
