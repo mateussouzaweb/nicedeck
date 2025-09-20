@@ -136,7 +136,6 @@ func (p *Proton) Install() error {
 		steamRuntime,
 		protonRuntime,
 		drivePath,
-		mainPath,
 	)
 
 	err := fs.WriteFile(runFile, runScript)
