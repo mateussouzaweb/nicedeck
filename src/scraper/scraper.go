@@ -22,12 +22,18 @@ type ScrapeResult struct {
 // Scrape information such as images from given app or game name
 func ScrapeFromName(name string) (*ScrapeResult, error) {
 
-	var result ScrapeResult
+	result := &ScrapeResult{
+		IconURLs:   []string{},
+		LogoURLs:   []string{},
+		CoverURLs:  []string{},
+		BannerURLs: []string{},
+		HeroURLs:   []string{},
+	}
 
 	// Find reference and correct name
 	search, err := steamgriddb.SearchByTerm(name)
 	if err != nil {
-		return &result, err
+		return result, err
 	}
 
 	if search.Success && len(search.Data) > 0 {
@@ -40,7 +46,7 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 
 	// Cancel reaming actions if not found
 	if result.ScraperID == 0 {
-		return &result, nil
+		return result, nil
 	}
 
 	// Find icon
@@ -57,7 +63,7 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 		},
 	)
 	if err != nil {
-		return &result, err
+		return result, err
 	}
 	if icon.Success && len(icon.Data) > 0 {
 		for _, item := range icon.Data {
@@ -78,7 +84,7 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 		},
 	)
 	if err != nil {
-		return &result, err
+		return result, err
 	}
 	if logo.Success && len(logo.Data) > 0 {
 		for _, item := range logo.Data {
@@ -100,7 +106,7 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 		},
 	)
 	if err != nil {
-		return &result, err
+		return result, err
 	}
 	if cover.Success && len(cover.Data) > 0 {
 		for _, item := range cover.Data {
@@ -122,7 +128,7 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 		},
 	)
 	if err != nil {
-		return &result, err
+		return result, err
 	}
 	if banner.Success && len(banner.Data) > 0 {
 		for _, item := range banner.Data {
@@ -143,7 +149,7 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 		},
 	)
 	if err != nil {
-		return &result, err
+		return result, err
 	}
 	if hero.Success && len(hero.Data) > 0 {
 		for _, item := range hero.Data {
@@ -151,5 +157,5 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 		}
 	}
 
-	return &result, nil
+	return result, nil
 }
