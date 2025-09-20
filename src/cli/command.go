@@ -10,33 +10,32 @@ import (
 // Command creates a new command struct
 func Command(script string) *exec.Cmd {
 
-	var cmd *exec.Cmd
+	var command *exec.Cmd
 
 	// Use PowerShell on Windows
 	// Use Bash on MacOS and Linux
 	if IsWindows() {
-		cmd = exec.Command("powershell", script)
+		command = exec.Command("powershell", script)
 	} else if IsMacOS() {
-		cmd = exec.Command("bash", "-c", script)
+		command = exec.Command("bash", "-c", script)
 	} else {
-		cmd = exec.Command("/bin/bash", "-c", script)
+		command = exec.Command("/bin/bash", "-c", script)
 	}
 
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	command.Stdin = os.Stdin
+	command.Stdout = os.Stdout
+	command.Stderr = os.Stderr
 
-	return cmd
+	return command
 }
 
 // Run script and return captured error if there is any
-func Run(script string) error {
+func Run(command *exec.Cmd) error {
 
 	var stderr bytes.Buffer
-	cmd := Command(script)
-	cmd.Stderr = &stderr
+	command.Stderr = &stderr
 
-	err := cmd.Run()
+	err := command.Run()
 	if err != nil {
 		return fmt.Errorf("%w: %s", err, stderr.String())
 	}
@@ -45,10 +44,9 @@ func Run(script string) error {
 }
 
 // Start process with blocking channel
-func Start(script string) error {
+func Start(command *exec.Cmd) error {
 
 	// Start the command
-	command := Command(script)
 	err := command.Start()
 	if err != nil {
 		return err

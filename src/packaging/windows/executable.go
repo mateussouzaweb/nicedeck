@@ -105,7 +105,7 @@ func (e *Executable) OnShortcut(shortcut *shortcuts.Shortcut) error {
 		return err
 	}
 
-	err = cli.Run(fmt.Sprintf(``+
+	script := fmt.Sprintf(``+
 		`$WshShell = New-Object -COMObject WScript.Shell;`+
 		`$Shortcut = $WshShell.CreateShortcut("%s");`+
 		`$Shortcut.WorkingDirectory = "%s";`+
@@ -116,8 +116,10 @@ func (e *Executable) OnShortcut(shortcut *shortcuts.Shortcut) error {
 		strings.ReplaceAll(shortcut.StartDirectory, `"`, ``),
 		strings.ReplaceAll(shortcut.Executable, `"`, ``),
 		strings.ReplaceAll(shortcut.LaunchOptions, `"`, `\"`),
-	))
+	)
 
+	command := cli.Command(script)
+	err = cli.Run(command)
 	if err != nil {
 		return err
 	}

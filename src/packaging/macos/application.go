@@ -45,7 +45,8 @@ func (a *Application) Install() error {
 	// Add package to quarantine
 	if installed, _ := a.Installed(); installed {
 		script := fmt.Sprintf(`xattr -r -d com.apple.quarantine %s`, a.Executable())
-		err := cli.Run(script)
+		command := cli.Command(script)
+		err := cli.Run(command)
 		if err != nil {
 			return err
 		}

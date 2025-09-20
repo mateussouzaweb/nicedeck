@@ -46,7 +46,8 @@ func (f *Flatpak) ApplyOverrides() error {
 
 	for _, override := range f.Overrides {
 		script := fmt.Sprintf(`flatpak override --user %s %s`, override, f.AppID)
-		err := cli.Run(script)
+		command := cli.Command(script)
+		err := cli.Run(command)
 		if err != nil {
 			return err
 		}
@@ -66,7 +67,8 @@ func (f *Flatpak) Install() error {
 		strings.Join(f.Arguments.Install, " "),
 	)
 
-	err := cli.Run(script)
+	command := cli.Command(script)
+	err := cli.Run(command)
 	if err != nil {
 		return err
 	}
@@ -82,12 +84,15 @@ func (f *Flatpak) Install() error {
 
 // Remove package
 func (f *Flatpak) Remove() error {
-	return cli.Run(fmt.Sprintf(
+	script := fmt.Sprintf(
 		`flatpak uninstall --assumeyes --noninteractive --%s %s %s`,
 		f.Namespace,
 		f.AppID,
 		strings.Join(f.Arguments.Remove, " "),
-	))
+	)
+
+	command := cli.Command(script)
+	return cli.Run(command)
 }
 
 // Installed verification

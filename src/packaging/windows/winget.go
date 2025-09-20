@@ -29,20 +29,26 @@ func (w *WinGet) Available() bool {
 
 // Install package
 func (w *WinGet) Install() error {
-	return cli.Run(fmt.Sprintf(
+	script := fmt.Sprintf(
 		`winget install --accept-package-agreements --accept-source-agreements --disable-interactivity --exact --id %s %s`,
 		w.AppID,
 		strings.Join(w.Arguments.Install, " "),
-	))
+	)
+
+	command := cli.Command(script)
+	return cli.Run(command)
 }
 
 // Remove package
 func (w *WinGet) Remove() error {
-	return cli.Run(fmt.Sprintf(
+	script := fmt.Sprintf(
 		`winget uninstall --disable-interactivity --exact --id %s %s`,
 		w.AppID,
 		strings.Join(w.Arguments.Remove, " "),
-	))
+	)
+
+	command := cli.Command(script)
+	return cli.Run(command)
 }
 
 // Installed verification

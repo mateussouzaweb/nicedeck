@@ -29,20 +29,26 @@ func (h *Homebrew) Available() bool {
 
 // Install package
 func (h *Homebrew) Install() error {
-	return cli.Run(fmt.Sprintf(
+	script := fmt.Sprintf(
 		`brew install --cask %s %s`,
 		h.AppID,
 		strings.Join(h.Arguments.Install, " "),
-	))
+	)
+
+	command := cli.Command(script)
+	return cli.Run(command)
 }
 
 // Remove package
 func (h *Homebrew) Remove() error {
-	return cli.Run(fmt.Sprintf(
+	script := fmt.Sprintf(
 		`brew uninstall --cask %s %s`,
 		h.AppID,
 		strings.Join(h.Arguments.Remove, " "),
-	))
+	)
+
+	command := cli.Command(script)
+	return cli.Run(command)
 }
 
 // Installed verification

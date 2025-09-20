@@ -30,21 +30,27 @@ func (s *Snap) Available() bool {
 
 // Install package
 func (s *Snap) Install() error {
-	return cli.Run(fmt.Sprintf(
+	script := fmt.Sprintf(
 		`sudo snap install %s --channel=%s %s`,
 		s.AppID,
 		s.Channel,
 		strings.Join(s.Arguments.Install, " "),
-	))
+	)
+
+	command := cli.Command(script)
+	return cli.Run(command)
 }
 
 // Remove package
 func (s *Snap) Remove() error {
-	return cli.Run(fmt.Sprintf(
+	script := fmt.Sprintf(
 		`sudo snap remove %s %s`,
 		s.AppID,
 		strings.Join(s.Arguments.Remove, " "),
-	))
+	)
+
+	command := cli.Command(script)
+	return cli.Run(command)
 }
 
 // Installed verification
