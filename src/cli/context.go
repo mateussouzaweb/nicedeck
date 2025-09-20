@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 )
@@ -57,7 +58,7 @@ func (c *Context) Run() error {
 	if script != "" {
 		command := Command(script)
 		command.Dir = c.WorkingDirectory
-		command.Env = c.Environment
+		command.Env = append(os.Environ(), c.Environment...)
 		return Start(command)
 	}
 
