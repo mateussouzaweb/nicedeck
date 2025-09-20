@@ -43,6 +43,8 @@ func Run(version string, args []string, done chan bool) error {
 		err = scrapeData(context)
 	case "launch":
 		err = launchShortcut(context)
+	case "create":
+		err = createShortcut(context)
 	case "add":
 		err = addShortcut(context)
 	case "modify":

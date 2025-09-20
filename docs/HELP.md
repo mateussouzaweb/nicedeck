@@ -9,6 +9,7 @@ platforms       list available platforms
 shortcuts       list current user shortcuts
 scrape          scrape data on SteamGridDB
 launch          launch shortcut with given ID
+create          create a new shortcut from given path
 add             add a new shortcut to library
 modify          update or delete shortcut with given ID
 install         install or update programs
@@ -25,6 +26,9 @@ scrape:
 
 launch:
   --id=[ID]                   shortcut ID
+
+create:
+  --path=[value]              file path for shortcut
 
 add:
   --id=[ID]                   shortcut ID

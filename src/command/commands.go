@@ -174,6 +174,52 @@ func launchShortcut(context Context) error {
 	return err
 }
 
+// Parse and create a new shortcut from path
+func createShortcut(context Context) error {
+
+	// Retrieve path
+	path := context.Arg("--path", "")
+	if path == "" {
+		return fmt.Errorf("file path is required")
+	}
+
+	// Init user library
+	err := library.Init(context.Version)
+	if err != nil {
+		return err
+	}
+
+	// Load user library
+	err = library.Load()
+	if err != nil {
+		return err
+	}
+
+	// Make sure to save library on finish
+	defer func() {
+		errors.Join(err, library.Save())
+	}()
+
+	// Process shortcut for path
+	options := &platforms.Options{}
+	shortcut, err := platforms.ProcessShortcut(path, options)
+	if err != nil {
+		return err
+	} else if shortcut.ID == "" {
+		return fmt.Errorf("could not determine the shortcut")
+	}
+
+	// Add shortcut
+	err = library.Shortcuts.Set(shortcut, true)
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Shortcut %s created!\n", shortcut.ID)
+
+	return nil
+}
+
 // Add shortcut
 func addShortcut(context Context) error {
 
@@ -216,7 +262,7 @@ func addShortcut(context Context) error {
 		startDirectory = filepath.Dir(executable)
 	}
 
-	// Create shortcut
+	// Add shortcut
 	shortcut := &shortcuts.Shortcut{
 		ID:             ID,
 		Program:        program,

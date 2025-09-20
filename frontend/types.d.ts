@@ -101,6 +101,15 @@ interface LaunchShortcutResult {
 	error: string
 }
 
+interface CreateShortcutData {
+	path: string
+}
+
+interface CreateShortcutResult {
+	status: string
+	error: string
+}
+
 interface AddShortcutData {
 	id: string
 	program: string

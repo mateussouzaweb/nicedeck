@@ -232,6 +232,67 @@ func launchShortcut(context *Context) error {
 	return context.Status(200).JSON(result)
 }
 
+// Create shortcut data
+type CreateShortcutData struct {
+	Path string `json:"path"`
+}
+
+// Create shortcut result
+type CreateShortcutResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
+// Create shortcut action
+func createShortcut(context *Context) error {
+
+	result := CreateShortcutResult{}
+
+	// Bind data
+	data := CreateShortcutData{}
+	err := context.Bind(&data)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Validate requirements
+	if data.Path == "" {
+		err := fmt.Errorf("file path is required")
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Process shortcut for path
+	options := &platforms.Options{}
+	shortcut, err := platforms.ProcessShortcut(data.Path, options)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	} else if shortcut.ID == "" {
+		err := fmt.Errorf("could not determine the shortcut")
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Add shortcut
+	err = library.Shortcuts.Set(shortcut, true)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	cli.Printf(cli.ColorSuccess, "Shortcut %s created!\n", shortcut.ID)
+
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
+}
+
 // Add shortcut data
 type AddShortcutData struct {
 	ID             string   `json:"id"`
@@ -276,7 +337,7 @@ func addShortcut(context *Context) error {
 		data.StartDirectory = filepath.Dir(data.Executable)
 	}
 
-	// Create shortcut
+	// Add shortcut
 	shortcut := &shortcuts.Shortcut{
 		ID:             data.ID,
 		Program:        data.Program,
@@ -751,6 +812,7 @@ func Setup(version string, developmentMode bool, shutdown chan bool) error {
 	Add("POST", "/api/library/load", loadLibrary)
 	Add("POST", "/api/library/save", saveLibrary)
 	Add("POST", "/api/shortcut/launch", launchShortcut)
+	Add("POST", "/api/shortcut/create", createShortcut)
 	Add("POST", "/api/shortcut/add", addShortcut)
 	Add("POST", "/api/shortcut/modify", modifyShortcut)
 	Add("POST", "/api/programs/install", installPrograms)
