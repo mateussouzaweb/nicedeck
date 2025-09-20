@@ -56,6 +56,7 @@ ul.tabs li#help {
 }
 ul.tabs li#help a {
     display: block;
+    outline: 0;
     padding: 12px 15px;
 }
 
