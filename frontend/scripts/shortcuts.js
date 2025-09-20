@@ -61,7 +61,7 @@ window.addEventListener('load', async () => {
             tags.push(platform.name)
         })
         nativePlatforms.map((platform) => {
-            tags.push(platform.name)
+            tags.push(platform.runtime)
         })
         shortcuts.map((shortcut) => {
             tags.push(...shortcut.tags)
