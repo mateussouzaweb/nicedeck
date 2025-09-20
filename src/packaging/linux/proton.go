@@ -153,8 +153,10 @@ func (p *Proton) Install() error {
 	// Run install script
 	arguments := []string{cli.Quote(p.Installer)}
 	arguments = append(arguments, p.Arguments.Install...)
+	directory := filepath.Dir(p.RealPath(p.Installer))
+
 	context := &cli.Context{
-		WorkingDirectory: filepath.Dir(p.Installer),
+		WorkingDirectory: directory,
 		Executable:       runFile,
 		Arguments:        arguments,
 		Environment:      []string{},
@@ -177,8 +179,10 @@ func (p *Proton) Remove() error {
 	// Remove package by perform the uninstall command
 	arguments := []string{cli.Quote(p.Uninstaller)}
 	arguments = append(arguments, p.Arguments.Remove...)
+	directory := filepath.Dir(p.RealPath(p.Uninstaller))
+
 	context := &cli.Context{
-		WorkingDirectory: filepath.Dir(p.Uninstaller),
+		WorkingDirectory: directory,
 		Executable:       runFile,
 		Arguments:        arguments,
 		Environment:      []string{},
