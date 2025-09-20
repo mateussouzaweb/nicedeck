@@ -103,3 +103,17 @@ func Quote(value string) string {
 
 	return value
 }
+
+// Unquote value based on it content
+// This method only deals with double quotes
+func Unquote(value string) string {
+
+	// Remove escaped spaces
+	value = strings.ReplaceAll(value, "\\ ", " ")
+
+	// Remove quotes
+	value = strings.Trim(value, " ")
+	value = strings.Trim(value, `"`)
+
+	return value
+}

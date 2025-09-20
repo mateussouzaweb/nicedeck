@@ -18,10 +18,16 @@ type Context struct {
 // Run a program with based on their context
 func (c *Context) Run() error {
 
+	// Fallback to executable path when empty
 	if c.WorkingDirectory == "" {
 		c.WorkingDirectory = filepath.Dir(c.Executable)
 	}
 
+	// Make sure data in unquoted
+	c.WorkingDirectory = Unquote(c.WorkingDirectory)
+	c.Executable = Unquote(c.Executable)
+
+	// Create script with arguments
 	arguments := strings.Join(c.Arguments, " ")
 	script := ""
 
@@ -55,6 +61,13 @@ func (c *Context) Run() error {
 		)
 	}
 
+	// Print debug data
+	Debug("Working directory: %s\n", c.WorkingDirectory)
+	Debug("Executable: %s\n", c.Executable)
+	Debug("Arguments: %s\n", strings.Join(c.Arguments, " "))
+	Debug("Environment: %s\n", strings.Join(c.Environment, " "))
+
+	// Run the script
 	if script != "" {
 		command := Command(script)
 		command.Dir = c.WorkingDirectory

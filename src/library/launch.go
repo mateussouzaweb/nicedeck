@@ -31,10 +31,5 @@ func Launch(shortcut *shortcuts.Shortcut) error {
 		}
 	}
 
-	cli.Debug("Working directory: %s\n", context.WorkingDirectory)
-	cli.Debug("Executable: %s\n", context.Executable)
-	cli.Debug("Arguments: %s\n", strings.Join(context.Arguments, " "))
-	cli.Debug("Environment: %s\n", strings.Join(context.Environment, " "))
-
 	return context.Run()
 }
