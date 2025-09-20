@@ -20,11 +20,26 @@ interface Program {
 	heroUrl: string
 }
 
-interface Platform {
+interface ConsoleEmulator {
+	name: string
+	program: string
+	extensions: string
+	launchOptions: string
+}
+
+interface ConsolePlatform {
 	name: string
 	console: string
-	emulator: string
-	extensions: string
+	folder: string
+	emulators: ConsoleEmulator[]
+}
+
+interface NativePlatform {
+	name: string
+	runtime: string
+	extensions: string[]
+	startDirectory: string
+	executable: string
 	launchOptions: string
 }
 
@@ -83,7 +98,8 @@ interface ListProgramsResult {
 interface ListPlatformsResult {
 	status: string
 	error: string
-	data: Platform[]
+	console: ConsolePlatform[]
+	native: NativePlatform[]
 }
 
 interface ListShortcutsResult {

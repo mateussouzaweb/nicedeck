@@ -21,6 +21,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/platforms"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
+	"github.com/mateussouzaweb/nicedeck/src/platforms/native"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/state"
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
@@ -125,9 +126,10 @@ func listPrograms(context *Context) error {
 
 // List platforms result
 type ListPlatformsResult struct {
-	Status string              `json:"status"`
-	Error  string              `json:"error"`
-	Data   []*console.Platform `json:"data"`
+	Status  string              `json:"status"`
+	Error   string              `json:"error"`
+	Console []*console.Platform `json:"console"`
+	Native  []*native.Platform  `json:"native"`
 }
 
 // List platforms action
@@ -135,9 +137,18 @@ func listPlatforms(context *Context) error {
 
 	result := ListPlatformsResult{}
 
-	// Retrieve platforms
-	options := &console.Options{}
-	data, err := console.GetPlatforms(options)
+	// Retrieve console platforms
+	consoleOptions := &console.Options{}
+	consoleList, err := console.GetPlatforms(consoleOptions)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Retrieve native platforms
+	nativeOptions := &native.Options{}
+	nativeList, err := native.GetPlatforms(nativeOptions)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -145,7 +156,8 @@ func listPlatforms(context *Context) error {
 	}
 
 	result.Status = "OK"
-	result.Data = data
+	result.Console = consoleList
+	result.Native = nativeList
 	return context.Status(http.StatusOK).JSON(result)
 }
 

@@ -16,6 +16,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/platforms"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
+	"github.com/mateussouzaweb/nicedeck/src/platforms/native"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/state"
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
@@ -59,14 +60,26 @@ func listPrograms(_ Context) error {
 // List available platforms
 func listPlatforms(_ Context) error {
 
-	options := console.Options{}
-	list, err := console.GetPlatforms(&options)
+	// List console platforms
+	consoleOptions := &console.Options{}
+	consoleList, err := console.GetPlatforms(consoleOptions)
 	if err != nil {
 		return err
 	}
 
-	for _, platform := range list {
+	for _, platform := range consoleList {
 		cli.Printf(cli.ColorDefault, "%s - %s\n", platform.Name, platform.Console)
+	}
+
+	// List native platforms
+	nativeOptions := &native.Options{}
+	nativeList, err := native.GetPlatforms(nativeOptions)
+	if err != nil {
+		return err
+	}
+
+	for _, platform := range nativeList {
+		cli.Printf(cli.ColorDefault, "%s - %s\n", platform.Name, platform.Runtime)
 	}
 
 	return nil

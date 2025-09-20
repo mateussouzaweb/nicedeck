@@ -8,18 +8,25 @@ window.addEventListener('load', async () => {
 
         /** @type {ListPlatformsResult} */
         const request = await requestJson('GET', '/api/platforms')
-        const platforms = request.data
+        const platforms = []
+
+        request.console.map((platform) => {
+            platforms.push({
+                key: platform.console.toLowerCase().replaceAll(' ', '-'),
+                name: platform.console,
+                value: platform.name
+            })
+        })
 
         const options = platforms.map((platform) => {
-            const console = platform.console.toLowerCase().replaceAll(' ', '-')
-            return `<label class="checkbox" title="${platform.console}">
-                <input type="checkbox" name="platforms[]" value="${platform.name}" checked="checked" />
+            return `<label class="checkbox" title="${platform.name}">
+                <input type="checkbox" name="platforms[]" value="${platform.value}" checked="checked" />
                 <div class="area">
                     <div class="icon">
-                        <img loading="lazy" src="/img/platforms/${console}.png" alt="${platform.console}" width="96" height="96" />
+                        <img loading="lazy" src="/img/platforms/${platform.key}.png" alt="${platform.name}" width="96" height="96" />
                     </div>
                     <div class="info">
-                        <b>${platform.name}</b>
+                        <b>${platform.value}</b>
                     </div>
                 </div>
             </label>`

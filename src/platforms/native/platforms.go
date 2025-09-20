@@ -8,11 +8,12 @@ import (
 
 // Platform struct
 type Platform struct {
-	Runtime        string
-	Extensions     []string
-	StartDirectory string
-	Executable     string
-	LaunchOptions  string
+	Name           string   `json:"name"`
+	Runtime        string   `json:"runtime"`
+	Extensions     []string `json:"extensions"`
+	StartDirectory string   `json:"startDirectory"`
+	Executable     string   `json:"executable"`
+	LaunchOptions  string   `json:"launchOptions"`
 }
 
 // Retrieve system platform specs
@@ -23,6 +24,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	// Linux
 	if cli.IsLinux() {
 		platforms = append(platforms, &Platform{
+			Name:           "Linux",
 			Runtime:        "Native",
 			Extensions:     []string{".AppImage", ".desktop", ".sh"},
 			StartDirectory: "${DIRECTORY}",
@@ -45,6 +47,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 
 	if proton.Available() && protonInstalled {
 		platforms = append(platforms, &Platform{
+			Name:           "Linux",
 			Runtime:        "Proton",
 			Extensions:     []string{".exe", ".msi", ".bat", ".cmd"},
 			StartDirectory: proton.ProtonPath(),
@@ -56,6 +59,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	// MacOS
 	if cli.IsMacOS() {
 		platforms = append(platforms, &Platform{
+			Name:           "MacOS",
 			Runtime:        "Native",
 			Extensions:     []string{".app", ".sh"},
 			StartDirectory: "${DIRECTORY}",
@@ -67,6 +71,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	// Windows
 	if cli.IsWindows() {
 		platforms = append(platforms, &Platform{
+			Name:           "Windows",
 			Runtime:        "Native",
 			Extensions:     []string{".exe", ".msi", ".bat", ".cmd"},
 			StartDirectory: "${DIRECTORY}",

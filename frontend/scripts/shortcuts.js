@@ -4,8 +4,11 @@ window.addEventListener('load', async () => {
     /** @type {Library[]} */
     let library = {}
 
-    /** @type {Platform[]} */
-    let platforms = []
+    /** @type {ConsolePlatform[]} */
+    let consolePlatforms = []
+
+    /** @type {NativePlatform[]} */
+    let nativePlatforms = []
 
     /** @type {Shortcut[]} */
     let shortcuts = []
@@ -54,7 +57,10 @@ window.addEventListener('load', async () => {
         })
 
         const tags = []
-        platforms.map((platform) => {
+        consolePlatforms.map((platform) => {
+            tags.push(platform.name)
+        })
+        nativePlatforms.map((platform) => {
             tags.push(platform.name)
         })
         shortcuts.map((shortcut) => {
@@ -354,7 +360,8 @@ window.addEventListener('load', async () => {
             const shortcutsRequest = await requestJson('GET', '/api/shortcuts')
 
             library = libraryRequest.data
-            platforms = platformsRequest.data
+            consolePlatforms = platformsRequest.console
+            nativePlatforms = platformsRequest.native
             shortcuts = shortcutsRequest.data
 
             await renderFilters()
