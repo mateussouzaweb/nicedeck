@@ -50,7 +50,8 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 
 	// Find runtime based on file data
 	for _, platform := range platforms {
-		if !slices.Contains(platform.Extensions, extension) {
+		valid := strings.Split(platform.Extensions, " ")
+		if !slices.Contains(valid, strings.ToLower(extension)) {
 			continue
 		}
 

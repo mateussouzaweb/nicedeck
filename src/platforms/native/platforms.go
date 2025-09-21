@@ -8,12 +8,12 @@ import (
 
 // Platform struct
 type Platform struct {
-	Name           string   `json:"name"`
-	Runtime        string   `json:"runtime"`
-	Extensions     []string `json:"extensions"`
-	StartDirectory string   `json:"startDirectory"`
-	Executable     string   `json:"executable"`
-	LaunchOptions  string   `json:"launchOptions"`
+	Name           string `json:"name"`
+	Runtime        string `json:"runtime"`
+	Extensions     string `json:"extensions"`
+	StartDirectory string `json:"startDirectory"`
+	Executable     string `json:"executable"`
+	LaunchOptions  string `json:"launchOptions"`
 }
 
 // Retrieve system platform specs
@@ -26,7 +26,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 		platforms = append(platforms, &Platform{
 			Name:           "Linux",
 			Runtime:        "Native",
-			Extensions:     []string{".AppImage", ".desktop", ".sh"},
+			Extensions:     ".AppImage .desktop .sh",
 			StartDirectory: "${DIRECTORY}",
 			Executable:     "${ROM}",
 			LaunchOptions:  "",
@@ -49,7 +49,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 		platforms = append(platforms, &Platform{
 			Name:           "Linux",
 			Runtime:        "Proton",
-			Extensions:     []string{".exe", ".msi", ".bat", ".cmd"},
+			Extensions:     ".exe .msi .bat .cmd",
 			StartDirectory: proton.ProtonPath(),
 			Executable:     proton.Executable(),
 			LaunchOptions:  "${ROM}",
@@ -61,7 +61,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 		platforms = append(platforms, &Platform{
 			Name:           "MacOS",
 			Runtime:        "Native",
-			Extensions:     []string{".app", ".sh"},
+			Extensions:     ".app .sh",
 			StartDirectory: "${DIRECTORY}",
 			Executable:     "${ROM}",
 			LaunchOptions:  "",
@@ -73,7 +73,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 		platforms = append(platforms, &Platform{
 			Name:           "Windows",
 			Runtime:        "Native",
-			Extensions:     []string{".exe", ".msi", ".bat", ".cmd"},
+			Extensions:     ".exe .msi .bat .cmd",
 			StartDirectory: "${DIRECTORY}",
 			Executable:     "${ROM}",
 			LaunchOptions:  "",

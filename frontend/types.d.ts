@@ -37,7 +37,7 @@ interface ConsolePlatform {
 interface NativePlatform {
 	name: string
 	runtime: string
-	extensions: string[]
+	extensions: string
 	startDirectory: string
 	executable: string
 	launchOptions: string
