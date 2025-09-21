@@ -85,25 +85,6 @@ func Multiple(args []string, key string, separator string) []string {
 	return result
 }
 
-// Quote or unquote value based on it content
-// This method only deals with double quotes and quote if detects spaces
-func Quote(value string) string {
-
-	// Remove escaped spaces
-	value = strings.ReplaceAll(value, "\\ ", " ")
-
-	// Check for space presence and quote/unquote based on that
-	if strings.Contains(value, " ") {
-		value = strings.Trim(value, `"`)
-		value = fmt.Sprintf(`"%s"`, value)
-	} else {
-		value = strings.Trim(value, " ")
-		value = strings.Trim(value, `"`)
-	}
-
-	return value
-}
-
 // Unquote value based on it content
 // This method only deals with double quotes
 func Unquote(value string) string {
@@ -114,6 +95,21 @@ func Unquote(value string) string {
 	// Remove quotes
 	value = strings.Trim(value, " ")
 	value = strings.Trim(value, `"`)
+
+	return value
+}
+
+// Quote or unquote value based on it content
+// This method only deals with double quotes
+func Quote(value string) string {
+
+	value = Unquote(value)
+
+	// Check for space presence and quote based on that
+	if strings.Contains(value, " ") {
+		value = strings.Trim(value, `"`)
+		value = fmt.Sprintf(`"%s"`, value)
+	}
 
 	return value
 }

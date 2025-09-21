@@ -23,7 +23,7 @@ func (c *Context) Run() error {
 		c.WorkingDirectory = filepath.Dir(c.Executable)
 	}
 
-	// Make sure data in unquoted
+	// Make sure paths is unquoted
 	c.WorkingDirectory = Unquote(c.WorkingDirectory)
 	c.Executable = Unquote(c.Executable)
 

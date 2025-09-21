@@ -70,6 +70,9 @@ func ProcessShortcut(path string, options *Options) (*shortcuts.Shortcut, error)
 	shortcut := &shortcuts.Shortcut{}
 	nameFormat := "${NAME}"
 
+	// Make sure path is unquoted
+	path = cli.Unquote(path)
+
 	// Try to parse a native ROM
 	if shortcut.ID == "" && includeNative {
 
