@@ -128,11 +128,19 @@ func (s *Source) FromZip() error {
 		return err
 	}
 
-	// Print warning message
-	cli.Printf(cli.ColorWarn, "WARNING: Unable to extract from .zip file.\n")
-	cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
-	cli.Printf(cli.ColorWarn, "Archive file: %s\n", archiveFile)
-	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
+	// Extract content to parent folder
+	parentFolder := filepath.Dir(s.Destination)
+	targetFile := strings.TrimPrefix(s.Destination, parentFolder)
+	err = fs.ExtractZip(archiveFile, parentFolder, targetFile)
+	if err != nil {
+		return err
+	}
+
+	// Remove archive file
+	err = fs.RemoveFile(archiveFile)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -148,11 +156,19 @@ func (s *Source) FromTarGz() error {
 		return err
 	}
 
-	// Print warning message
-	cli.Printf(cli.ColorWarn, "WARNING: Unable to extract from .tar.gz file.\n")
-	cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
-	cli.Printf(cli.ColorWarn, "Archive file: %s\n", archiveFile)
-	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
+	// Extract content to parent folder
+	parentFolder := filepath.Dir(s.Destination)
+	targetFile := strings.TrimPrefix(s.Destination, parentFolder)
+	err = fs.ExtractTarGz(archiveFile, parentFolder, targetFile)
+	if err != nil {
+		return err
+	}
+
+	// Remove archive file
+	err = fs.RemoveFile(archiveFile)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
