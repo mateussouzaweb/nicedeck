@@ -35,7 +35,7 @@ func ChiakiNG() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "StreetPea.chiaki-ng",
-			AppExe:    "$PROGRAMS\\chiaki-ng\\chiaki-ng.exe",
+			AppExe:    "$PROGRAMS\\chiaki-ng\\chiaki.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
