@@ -78,8 +78,8 @@ func BattleNet() *Program {
 			AppExe: "$PROGRAMS_X86\\Battle.net\\Battle.net.exe",
 			Arguments: &packaging.Arguments{
 				Install: []string{
-					"--lang=enUS",
-					"--installpath=\"C:\\Program Files (x86)\\Battle.net\"",
+					"--locale=en-US",
+					"--location=\"C:\\Program Files (x86)\\Battle.net\"",
 				},
 				Remove:   []string{},
 				Shortcut: []string{},
@@ -136,7 +136,7 @@ func EAApp() *Program {
 			Launcher:    "C:/Program Files/Electronic Arts/EA Desktop/EA Desktop/EADesktop.exe",
 			Arguments: &packaging.Arguments{
 				Install:  []string{"/quiet"},
-				Remove:   []string{"/uninstall /quiet"},
+				Remove:   []string{"/uninstall", "/quiet"},
 				Shortcut: []string{},
 			},
 			Source: website.Release(
