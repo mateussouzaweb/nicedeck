@@ -131,7 +131,7 @@ func Citron() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: gitlab.Release(
 				"https://git.citron-emu.org", "1",
-				"Citron-Windows-Canary-Refresh_*.zip",
+				"citron_windows.zip",
 			),
 		}),
 	}

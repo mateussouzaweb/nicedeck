@@ -41,6 +41,9 @@ func GetAssetURL(domain string, projectId string, search string) (string, error)
 	// Check for matching asset
 	for _, release := range releases {
 		for _, link := range release.Assets.Links {
+			if searchRegex.MatchString(link.Name) {
+				return link.URL, nil
+			}
 			if searchRegex.MatchString(link.URL) {
 				return link.URL, nil
 			}
