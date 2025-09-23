@@ -36,12 +36,12 @@ func GetAssetURL(domain string, projectId string, search string) (string, error)
 
 	// Create rule from search
 	search = strings.ReplaceAll(search, "*", "(.+)")
-	searchRegex := regexp.MustCompile(search)
+	searchRegex := regexp.MustCompile("(?i)" + search)
 
 	// Check for matching asset
 	for _, release := range releases {
 		for _, link := range release.Assets.Links {
-			if searchRegex.MatchString(link.Name) {
+			if searchRegex.MatchString(link.URL) {
 				return link.URL, nil
 			}
 		}

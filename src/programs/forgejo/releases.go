@@ -35,7 +35,7 @@ func GetAssetURL(domain string, repository string, search string) (string, error
 
 	// Create rule from search
 	search = strings.ReplaceAll(search, "*", "(.+)")
-	searchRegex := regexp.MustCompile(search)
+	searchRegex := regexp.MustCompile("(?i)" + search)
 
 	// Check for matching asset
 	for _, release := range releases {

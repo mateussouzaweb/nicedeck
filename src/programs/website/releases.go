@@ -39,7 +39,7 @@ func GetDownloadURL(pageURL string, prefix string, search string) (string, error
 
 	// Find first download link matching format
 	search = strings.ReplaceAll(search, "*", "(.+)")
-	searchRegex := regexp.MustCompile(search)
+	searchRegex := regexp.MustCompile("(?i)" + search)
 	matches := searchRegex.FindSubmatch(body)
 
 	url := ""
