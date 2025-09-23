@@ -14,7 +14,7 @@ func Launch(shortcut *shortcuts.Shortcut) error {
 	context := &cli.Context{
 		WorkingDirectory: shortcut.StartDirectory,
 		Executable:       shortcut.Executable,
-		Arguments:        []string{shortcut.LaunchOptions},
+		Arguments:        []string{},
 		Environment:      []string{},
 	}
 
@@ -29,6 +29,8 @@ func Launch(shortcut *shortcuts.Shortcut) error {
 			environment := strings.Trim(split[0], " ")
 			context.Environment = strings.Split(environment, " ")
 		}
+	} else if shortcut.LaunchOptions != "" {
+		context.Arguments = []string{shortcut.LaunchOptions}
 	}
 
 	return context.Run()
