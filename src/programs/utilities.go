@@ -34,9 +34,13 @@ func Discord() *Program {
 			AppName:   "Discord.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:     "Discord.Discord",
-			AppExe:    "$PROGRAMS_X86\\Steam\\Steam.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:  "Discord.Discord",
+			AppExe: "$APPDATA\\Local\\Discord\\Update.exe",
+			Arguments: &packaging.Arguments{
+				Install:  []string{},
+				Remove:   []string{},
+				Shortcut: []string{"--processStart", "Discord.exe"},
+			},
 		}),
 	}
 }
