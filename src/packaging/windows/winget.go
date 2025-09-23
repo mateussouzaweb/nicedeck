@@ -30,7 +30,17 @@ func (w *WinGet) Available() bool {
 // Install package
 func (w *WinGet) Install() error {
 	script := fmt.Sprintf(
-		`winget install --accept-package-agreements --accept-source-agreements --disable-interactivity --exact --id %s %s`,
+		`& {
+			winget install --accept-package-agreements --accept-source-agreements --disable-interactivity --silent --exact --id %s %s;
+
+			# 0x8a15002b - installed, no upgrades available
+			$result = $LastExitCode;
+			if ($result -eq 0x8a15002b) {
+				$result = 0;
+			}
+
+			exit $result;
+		}`,
 		w.AppID,
 		strings.Join(w.Arguments.Install, " "),
 	)
@@ -42,7 +52,16 @@ func (w *WinGet) Install() error {
 // Remove package
 func (w *WinGet) Remove() error {
 	script := fmt.Sprintf(
-		`winget uninstall --disable-interactivity --exact --id %s %s`,
+		`& {
+			winget uninstall --disable-interactivity --silent --exact --id %s %s;
+
+			# 0x8A150014 - application is not installed
+			$result = $LastExitCode;
+			if ($result -eq 0x8A150014) {
+				$result = 0;
+			}
+			exit $result;
+		}`,
 		w.AppID,
 		strings.Join(w.Arguments.Remove, " "),
 	)

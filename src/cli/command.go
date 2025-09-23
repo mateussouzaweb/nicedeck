@@ -15,7 +15,7 @@ func Command(script string) *exec.Cmd {
 	// Use PowerShell on Windows
 	// Use Bash on MacOS and Linux
 	if IsWindows() {
-		command = exec.Command("powershell", script)
+		command = exec.Command("powershell", "-Command", script)
 	} else if IsMacOS() {
 		command = exec.Command("bash", "-c", script)
 	} else {
