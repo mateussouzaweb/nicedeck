@@ -19,8 +19,8 @@ func ExtractZip(source string, destination string, expected string) error {
 
 	cli.Debug("Extracting %s to %s\n", source, destination)
 
-	// Open zip file
-	archive, err := zip.OpenReader(source)
+	// Open the archive file
+	archive, err := os.Open(source)
 	if err != nil {
 		return err
 	}
@@ -29,10 +29,24 @@ func ExtractZip(source string, destination string, expected string) error {
 		errors.Join(err, archive.Close())
 	}()
 
+	// Get file info to determine size for zip.NewReader
+	archiveInfo, err := archive.Stat()
+	if err != nil {
+		return err
+	}
+
+	// Open zip file to see its content
+	archiveReader, err := zip.NewReader(archive, archiveInfo.Size())
+	if err != nil {
+		return err
+	}
+
 	// Detects the undesired path based on the expected file path
 	undesired := ""
-	for _, file := range archive.Reader.File {
-		destinationPath := filepath.Join(destination, file.Name)
+	for _, file := range archiveReader.File {
+		destinationPath := NormalizePath(file.Name)
+		destinationPath = filepath.Join(destination, destinationPath)
+
 		if strings.HasSuffix(destinationPath, expected) {
 			undesired = strings.TrimSuffix(destinationPath, expected)
 			undesired = strings.TrimPrefix(undesired, destination)
@@ -42,26 +56,23 @@ func ExtractZip(source string, destination string, expected string) error {
 
 	// Process each item of the archive
 	// Files outside of the archive will not be removed
-	for _, file := range archive.Reader.File {
-
-		// Read directory or file content
-		fileReader, err := file.Open()
-		if err != nil {
-			return err
-		}
-
-		defer func() {
-			errors.Join(err, fileReader.Close())
-		}()
+	for _, file := range archiveReader.File {
 
 		// Get content information
-		destinationPath := filepath.Join(destination, file.Name)
+		destinationPath := NormalizePath(file.Name)
+		destinationPath = filepath.Join(destination, destinationPath)
 		destinationPath = strings.Replace(destinationPath, undesired, "", 1)
+		isDirectory := file.FileInfo().IsDir()
+
+		// Make sure that path is not a directory
+		separator := string(os.PathSeparator)
+		if strings.HasSuffix(NormalizePath(file.Name), separator) {
+			isDirectory = true
+		}
 
 		// If is a directory, just ensure that the folder exists
-		isDirectory := file.FileInfo().IsDir()
 		if isDirectory {
-			err = os.MkdirAll(destinationPath, file.Mode())
+			err = os.MkdirAll(destinationPath, 0755)
 			if err != nil {
 				return err
 			}
@@ -84,6 +95,16 @@ func ExtractZip(source string, destination string, expected string) error {
 
 		defer func() {
 			errors.Join(err, fileWriter.Close())
+		}()
+
+		// Read file content
+		fileReader, err := file.Open()
+		if err != nil {
+			return err
+		}
+
+		defer func() {
+			errors.Join(err, fileReader.Close())
 		}()
 
 		// Copy file content to target
@@ -137,12 +158,15 @@ func ExtractTarGz(source string, destination string, expected string) error {
 			continue
 		}
 
-		destinationPath := filepath.Join(destination, header.Name)
+		destinationPath := NormalizePath(header.Name)
+		destinationPath = filepath.Join(destination, destinationPath)
+
 		if strings.HasSuffix(destinationPath, expected) {
 			undesired = strings.TrimSuffix(destinationPath, expected)
 			undesired = strings.TrimPrefix(undesired, destination)
 			break
 		}
+
 	}
 
 	// Process each item of the archive
@@ -160,11 +184,11 @@ func ExtractTarGz(source string, destination string, expected string) error {
 		}
 
 		// Get content information
-		destinationPath := filepath.Join(destination, header.Name)
+		destinationPath := NormalizePath(header.Name)
+		destinationPath = filepath.Join(destination, destinationPath)
 		destinationPath = strings.Replace(destinationPath, undesired, "", 1)
 		isDirectory := header.Typeflag == tar.TypeDir
 		isRegularFile := header.Typeflag == tar.TypeReg
-		fileMode := os.FileMode(header.Mode)
 
 		// Unknown content type, just ignore
 		if !isDirectory && !isRegularFile {
@@ -173,7 +197,7 @@ func ExtractTarGz(source string, destination string, expected string) error {
 
 		// If is a directory, just ensure that the folder exists
 		if isDirectory {
-			err = os.MkdirAll(destinationPath, fileMode)
+			err = os.MkdirAll(destinationPath, 0755)
 			if err != nil {
 				return err
 			}
@@ -189,6 +213,7 @@ func ExtractTarGz(source string, destination string, expected string) error {
 
 		// Now create or replace the target file
 		flags := os.O_WRONLY | os.O_CREATE | os.O_TRUNC
+		fileMode := os.FileMode(header.Mode)
 		fileWriter, err := os.OpenFile(destinationPath, flags, fileMode)
 		if err != nil {
 			return err
