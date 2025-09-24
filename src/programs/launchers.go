@@ -2,6 +2,7 @@ package programs
 
 import (
 	"github.com/mateussouzaweb/nicedeck/src/esde"
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
@@ -36,7 +37,7 @@ func AmazonGames() *Program {
 			Source:      website.Link("https://download.amazongames.com/AmazonGamesSetup.exe"),
 		}, &windows.WinGet{
 			AppID:     "Amazon.Games",
-			AppExe:    "$APPDATA\\Local\\Amazon Games\\App\\Amazon Games.exe",
+			AppExe:    "$APPDATA/Local/Amazon Games/App/Amazon Games.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -75,11 +76,11 @@ func BattleNet() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:  "Blizzard.BattleNet",
-			AppExe: "$PROGRAMS_X86\\Battle.net\\Battle.net.exe",
+			AppExe: "$PROGRAMS_X86/Battle.net/Battle.net.exe",
 			Arguments: &packaging.Arguments{
 				Install: []string{
 					"--locale=en-US",
-					"--location=\"C:\\Program Files (x86)\\Battle.net\"",
+					fs.ExpandPath("--location=\"$PROGRAMS_X86/Battle.net\""),
 				},
 				Remove:   []string{},
 				Shortcut: []string{},
@@ -149,7 +150,7 @@ func EAApp() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "ElectronicArts.EADesktop",
-			AppExe:    "$PROGRAMS\\Electronic Arts\\EA Desktop\\EA Desktop\\EADesktop.exe",
+			AppExe:    "$PROGRAMS/Electronic Arts/EA Desktop/EA Desktop/EADesktop.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -189,7 +190,7 @@ func EpicGames() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "EpicGames.EpicGamesLauncher",
-			AppExe:    "$PROGRAMS_X86\\Epic Games\\Launcher\\Portal\\Binaries\\Win32\\EpicGamesLauncher.exe",
+			AppExe:    "$PROGRAMS_X86/Epic Games/Launcher/Portal/Binaries/Win32/EpicGamesLauncher.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -252,7 +253,7 @@ func GOGGalaxy() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "GOG.Galaxy",
-			AppExe:    "$PROGRAMS_X86\\GOG Galaxy\\GalaxyClient.exe",
+			AppExe:    "$PROGRAMS_X86/GOG Galaxy/GalaxyClient.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -284,7 +285,7 @@ func HeroicGamesLauncher() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "HeroicGamesLauncher.HeroicGamesLauncher",
-			AppExe:    "$APPDATA\\Local\\Programs\\heroic\\Heroic.exe",
+			AppExe:    "$APPDATA/Local/Programs/heroic/Heroic.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -345,7 +346,7 @@ func Steam() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "Valve.Steam",
-			AppExe:    "$PROGRAMS_X86\\Steam\\Steam.exe",
+			AppExe:    "$PROGRAMS_X86/Steam/Steam.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -381,7 +382,7 @@ func UbisoftConnect() *Program {
 			Source: website.Link("https://static3.cdn.ubi.com/orbit/launcher_installer/UbisoftConnectInstaller.exe"),
 		}, &windows.WinGet{
 			AppID:     "Ubisoft.Connect",
-			AppExe:    "$PROGRAMS_X86\\Ubisoft\\Ubisoft Game Launcher\\UbisoftConnect.exe",
+			AppExe:    "$PROGRAMS_X86/Ubisoft/Ubisoft Game Launcher/UbisoftConnect.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}

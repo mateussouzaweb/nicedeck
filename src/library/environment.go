@@ -42,10 +42,10 @@ func Init(version string) error {
 	// On Windows, add special shortcuts
 	if cli.IsWindows() {
 		cli.SetEnv("APPDATA", filepath.Dir(configDir), true)
-		cli.SetEnv("DOCUMENTS", fs.ExpandPath("$HOME\\Documents"), true)
-		cli.SetEnv("PROGRAMS", fs.ExpandPath("$HOMEDRIVE\\Program Files"), true)
-		cli.SetEnv("PROGRAMS_X86", fs.ExpandPath("$HOMEDRIVE\\Program Files (x86)"), true)
-		cli.SetEnv("START_MENU", fs.ExpandPath("$CONFIG\\Microsoft\\Windows\\Start Menu\\Programs"), true)
+		cli.SetEnv("DOCUMENTS", fs.ExpandPath("$HOME/Documents"), true)
+		cli.SetEnv("PROGRAMS", fs.ExpandPath("$HOMEDRIVE/Program Files"), true)
+		cli.SetEnv("PROGRAMS_X86", fs.ExpandPath("$HOMEDRIVE/Program Files (x86)"), true)
+		cli.SetEnv("START_MENU", fs.ExpandPath("$CONFIG/Microsoft/Windows/Start Menu/Programs"), true)
 	}
 
 	// Expose environment variables for internal usage

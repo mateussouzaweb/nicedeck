@@ -35,7 +35,7 @@ func ChiakiNG() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "StreetPea.chiaki-ng",
-			AppExe:    "$PROGRAMS\\chiaki-ng\\chiaki.exe",
+			AppExe:    "$PROGRAMS/chiaki-ng/chiaki.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -82,7 +82,7 @@ func GeForceNow() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "Nvidia.GeForceNow",
-			AppExe:    "$APPDATA\\Local\\NVIDIA Corporation\\GeForceNOW\\CEF\\GeForceNOW.exe",
+			AppExe:    "$APPDATA/Local/NVIDIA Corporation/GeForceNOW/CEF/GeForceNOW.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -114,7 +114,7 @@ func MoonlightGameStreaming() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "MoonlightGameStreamingProject.Moonlight",
-			AppExe:    "$PROGRAMS\\Moonlight Game Streaming\\Moonlight.exe",
+			AppExe:    "$PROGRAMS/Moonlight Game Streaming/Moonlight.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -160,7 +160,7 @@ func XboxCloudGaming() *Program {
 			},
 		}, &windows.WinGet{
 			AppID:  "Microsoft.Edge",
-			AppExe: "$PROGRAMS_X86\\Microsoft\\Edge\\Application\\msedge.exe",
+			AppExe: "$PROGRAMS_X86/Microsoft/Edge/Application/msedge.exe",
 			Arguments: &packaging.Arguments{
 				Install:  []string{},
 				Remove:   []string{},

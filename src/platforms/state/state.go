@@ -28,7 +28,6 @@ func GetStates(options *Options) []*State {
 			"$SHARE/azahar-emu/sdmc",
 			"$CONFIG/azahar-emu/sdmc",
 			"$CONFIG/Azahar/sdmc",
-			"$CONFIG\\Azahar\\sdmc",
 		},
 	}, &State{
 		Platform: "3DS",
@@ -39,7 +38,6 @@ func GetStates(options *Options) []*State {
 			"$SHARE/azahar-emu/states",
 			"$CONFIG/azahar-emu/states",
 			"$CONFIG/Azahar/states",
-			"$CONFIG\\Azahar\\states",
 		},
 	})
 
@@ -54,7 +52,7 @@ func GetStates(options *Options) []*State {
 			"$SHARE/flycast",
 			"$CONFIG/flycast/data",
 			"$CONFIG/Flycast/data",
-			"$EMULATORS\\Flycast\\data",
+			"$EMULATORS/Flycast/data",
 		},
 	})
 
@@ -68,7 +66,6 @@ func GetStates(options *Options) []*State {
 			"$SHARE/Redream/saves",
 			"$CONFIG/Redream/saves",
 			"$EMULATORS/Redream/saves",
-			"$EMULATORS\\Redream\\saves",
 		},
 	})
 
@@ -86,8 +83,7 @@ func GetStates(options *Options) []*State {
 			"$VAR/io.mgba.mGBA/save",
 			"$SHARE/mGBA/save",
 			"$CONFIG/mGBA/save",
-			"$CONFIG\\mGBA\\save",
-			"$EMULATORS\\MGBA\\save",
+			"$EMULATORS/MGBA/save",
 		},
 	}, &State{
 		Platform: "GBA",
@@ -98,8 +94,7 @@ func GetStates(options *Options) []*State {
 			"$VAR/io.mgba.mGBA/states",
 			"$SHARE/mGBA/states",
 			"$CONFIG/mGBA/states",
-			"$CONFIG\\mGBA\\states",
-			"$EMULATORS\\MGBA\\states",
+			"$EMULATORS/MGBA/states",
 		},
 	})
 
@@ -114,7 +109,7 @@ func GetStates(options *Options) []*State {
 			"$SHARE/dolphin-emu/GC",
 			"$CONFIG/dolphin-emu/GC",
 			"$CONFIG/Dolphin/GC",
-			"$CONFIG\\Dolphin Emulator\\GC",
+			"$CONFIG/Dolphin Emulator/GC",
 		},
 	}, &State{
 		Platform: "GC",
@@ -126,7 +121,7 @@ func GetStates(options *Options) []*State {
 			"$SHARE/dolphin-emu/StateSaves",
 			"$CONFIG/dolphin-emu/StateSaves",
 			"$CONFIG/Dolphin/StateSaves",
-			"$CONFIG\\Dolphin Emulator\\StateSaves",
+			"$CONFIG/Dolphin Emulator/StateSaves",
 		},
 	})
 
@@ -143,8 +138,7 @@ func GetStates(options *Options) []*State {
 			"$VAR/net.kuribo64.melonDS/save",
 			"$SHARE/melonDS/save",
 			"$CONFIG/melonDS/save",
-			"$CONFIG\\melonDS\\save",
-			"$EMULATORS\\MelonDS\\save",
+			"$EMULATORS/MelonDS/save",
 		},
 	}, &State{
 		Platform: "NDS",
@@ -155,8 +149,7 @@ func GetStates(options *Options) []*State {
 			"$VAR/net.kuribo64.melonDS/states",
 			"$SHARE/melonDS/states",
 			"$CONFIG/melonDS/states",
-			"$CONFIG\\melonDS\\states",
-			"$EMULATORS\\MelonDS\\states",
+			"$EMULATORS/MelonDS/states",
 		},
 	})
 
@@ -171,7 +164,7 @@ func GetStates(options *Options) []*State {
 			"$SHARE/duckstation/memcards",
 			"$CONFIG/duckstation/memcards",
 			"$CONFIG/DuckStation/memcards",
-			"$DOCUMENTS\\DuckStation\\memcards",
+			"$DOCUMENTS/DuckStation/memcards",
 		},
 	}, &State{
 		Platform: "PS1",
@@ -183,7 +176,7 @@ func GetStates(options *Options) []*State {
 			"$SHARE/duckstation/savestates",
 			"$CONFIG/duckstation/savestates",
 			"$CONFIG/DuckStation/savestates",
-			"$DOCUMENTS\\DuckStation\\savestates",
+			"$DOCUMENTS/DuckStation/savestates",
 		},
 	})
 
@@ -197,7 +190,7 @@ func GetStates(options *Options) []*State {
 			"$VAR/net.pcsx2.PCSX2/config/PCSX2/memcards",
 			"$SHARE/PCSX2/memcards",
 			"$CONFIG/PCSX2/memcards",
-			"$DOCUMENTS\\PCSX2\\memcards",
+			"$DOCUMENTS/PCSX2/memcards",
 		},
 	}, &State{
 		Platform: "PS2",
@@ -208,7 +201,7 @@ func GetStates(options *Options) []*State {
 			"$VAR/net.pcsx2.PCSX2/config/PCSX2/sstates",
 			"$SHARE/PCSX2/sstates",
 			"$CONFIG/PCSX2/sstates",
-			"$DOCUMENTS\\PCSX2\\sstates",
+			"$DOCUMENTS/PCSX2/sstates",
 		},
 	})
 
@@ -222,7 +215,7 @@ func GetStates(options *Options) []*State {
 			"$VAR/net.rpcs3.RPCS3/config/rpcs3/dev_hdd0/home/00000001/savedata",
 			"$SHARE/rpcs3/dev_hdd0/home/00000001/savedata",
 			"$CONFIG/rpcs3/dev_hdd0/home/00000001/savedata",
-			"$EMULATORS\\RPCS3\\dev_hdd0\\home\\00000001\\savedata",
+			"$EMULATORS/RPCS3/dev_hdd0/home/00000001/savedata",
 		},
 	})
 
@@ -235,7 +228,7 @@ func GetStates(options *Options) []*State {
 		Source: []string{
 			"$SHARE/shadps4/saves",
 			"$CONFIG/shadps4/saves",
-			"$EMULATORS\\ShadPS4\\user\\saves",
+			"$EMULATORS/ShadPS4/user/saves",
 		},
 	})
 
@@ -249,8 +242,7 @@ func GetStates(options *Options) []*State {
 			"$VAR/org.ppsspp.PPSSPP/config/ppsspp/PSP/SAVEDATA",
 			"$SHARE/ppsspp/PSP/SAVEDATA",
 			"$CONFIG/ppsspp/PSP/SAVEDATA",
-			"$CONFIG/PPSSPP/PSP/SAVEDATA",
-			"$EMULATORS\\PPSSPP\\memstick\\PSP\\SAVEDATA",
+			"$EMULATORS/PPSSPP/memstick/PSP/SAVEDATA",
 		},
 	}, &State{
 		Platform: "PSP",
@@ -261,8 +253,7 @@ func GetStates(options *Options) []*State {
 			"$VAR/org.ppsspp.PPSSPP/config/ppsspp/PSP/PPSSPP_STATE",
 			"$SHARE/ppsspp/PSP/PPSSPP_STATE",
 			"$CONFIG/ppsspp/PSP/PPSSPP_STATE",
-			"$CONFIG/PPSSPP/PSP/PPSSPP_STATE",
-			"$EMULATORS\\PPSSPP\\memstick\\PSP\\PPSSPP_STATE",
+			"$EMULATORS/PPSSPP/memstick/PSP/PPSSPP_STATE",
 		},
 	})
 
@@ -276,7 +267,6 @@ func GetStates(options *Options) []*State {
 			"$SHARE/Vita3K/Vita3K/ux0/user/00/savedata",
 			"$CONFIG/Vita3K/Vita3K/ux0/user/00/savedata",
 			"$CONFIG/Vita3K/Vita3K/fs/ux0/user/00/savedata",
-			"$CONFIG\\Vita3K\\Vita3k\\ux0\\user\\00\\savedata",
 		},
 	})
 
@@ -289,7 +279,7 @@ func GetStates(options *Options) []*State {
 		Source: []string{
 			"$SHARE/citron/nand/user/save",
 			"$CONFIG/citron/nand/user/save",
-			"$EMULATORS\\Citron\\user\\nand\\user\\save",
+			"$EMULATORS/Citron/user/nand/user/save",
 		},
 	})
 
@@ -302,7 +292,7 @@ func GetStates(options *Options) []*State {
 		Source: []string{
 			"$SHARE/eden/nand/user/save",
 			"$CONFIG/eden/nand/user/save",
-			"$EMULATORS\\Eden\\user\\nand\\user\\save",
+			"$EMULATORS/Eden/user/nand/user/save",
 		},
 	})
 
@@ -317,7 +307,6 @@ func GetStates(options *Options) []*State {
 			"$VAR/org.ryujinx.Ryujinx/config/Ryujinx/bis/user/save",
 			"$SHARE/Ryujinx/bis/user/save",
 			"$CONFIG/Ryujinx/bis/user/save",
-			"$CONFIG\\Ryujinx\\bis\\user\\save",
 		},
 	}, &State{
 		Platform: "SWITCH",
@@ -328,7 +317,6 @@ func GetStates(options *Options) []*State {
 			"$VAR/org.ryujinx.Ryujinx/config/Ryujinx/bis/user/saveMeta",
 			"$SHARE/Ryujinx/bis/user/saveMeta",
 			"$CONFIG/Ryujinx/bis/user/saveMeta",
-			"$CONFIG\\Ryujinx\\bis\\user\\saveMeta",
 		},
 	}, &State{
 		Platform: "SWITCH",
@@ -339,7 +327,6 @@ func GetStates(options *Options) []*State {
 			"$VAR/org.ryujinx.Ryujinx/config/Ryujinx/system/Profiles.json",
 			"$SHARE/Ryujinx/system/Profiles.json",
 			"$CONFIG/Ryujinx/system/Profiles.json",
-			"$CONFIG\\Ryujinx\\system\\Profiles.json",
 		},
 	})
 
@@ -353,7 +340,6 @@ func GetStates(options *Options) []*State {
 			"$VAR/info.cemu.Cemu/data/Cemu/mlc01/usr/save",
 			"$SHARE/Cemu/mlc01/usr/save",
 			"$CONFIG/Cemu/mlc01/usr/save",
-			"$CONFIG\\Cemu\\mlc01\\usr\\save",
 		},
 	})
 
@@ -368,7 +354,7 @@ func GetStates(options *Options) []*State {
 			"$SHARE/dolphin-emu/Wii",
 			"$CONFIG/dolphin-emu/Wii",
 			"$CONFIG/Dolphin/Wii",
-			"$CONFIG\\Dolphin Emulator\\Wii",
+			"$CONFIG/Dolphin Emulator/Wii",
 		},
 	}, &State{
 		Platform: "WII",
@@ -380,7 +366,7 @@ func GetStates(options *Options) []*State {
 			"$SHARE/dolphin-emu/StateSaves",
 			"$CONFIG/dolphin-emu/StateSaves",
 			"$CONFIG/Dolphin/StateSaves",
-			"$CONFIG\\Dolphin Emulator\\StateSaves",
+			"$CONFIG/Dolphin Emulator/StateSaves",
 		},
 	})
 
@@ -396,7 +382,6 @@ func GetStates(options *Options) []*State {
 			"$VAR/app.xemu.xemu/data/xemu/xemu/eeprom.bin",
 			"$SHARE/xemu/xemu/eeprom.bin",
 			"$CONFIG/xemu/xemu/eeprom.bin",
-			"$CONFIG\\xemu\\xemu\\eeprom.bin",
 		},
 	}, &State{
 		Platform: "XBOX",
@@ -407,7 +392,6 @@ func GetStates(options *Options) []*State {
 			"$VAR/app.xemu.xemu/data/xemu/xemu/xbox_hdd.qcow2",
 			"$SHARE/xemu/xemu/xbox_hdd.qcow2",
 			"$CONFIG/xemu/xemu/xbox_hdd.qcow2",
-			"$CONFIG\\xemu\\xemu\\xbox_hdd.qcow2",
 		},
 	})
 
@@ -421,8 +405,8 @@ func GetStates(options *Options) []*State {
 		Path:     "$STATE/Xenia/content",
 		Source: []string{
 			"$EMULATORS/Xenia/content",
-			"$EMULATORS\\Xenia\\content",
-			"$DOCUMENTS\\xenia\\content",
+			"$EMULATORS/Xenia/content",
+			"$DOCUMENTS/xenia/content",
 		},
 	})
 

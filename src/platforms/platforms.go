@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/library"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/native"
@@ -72,6 +73,7 @@ func ProcessShortcut(path string, options *Options) (*shortcuts.Shortcut, error)
 
 	// Make sure path is unquoted
 	path = cli.Unquote(path)
+	path = fs.NormalizePath(path)
 
 	// Try to parse a native ROM
 	if shortcut.ID == "" && includeNative {

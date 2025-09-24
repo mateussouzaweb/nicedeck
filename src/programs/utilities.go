@@ -35,7 +35,7 @@ func Discord() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:  "Discord.Discord",
-			AppExe: "$APPDATA\\Local\\Discord\\Update.exe",
+			AppExe: "$APPDATA/Local/Discord/Update.exe",
 			Arguments: &packaging.Arguments{
 				Install:  []string{},
 				Remove:   []string{},
@@ -80,8 +80,8 @@ func NiceDeck() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "NiceDeck",
-			AppExe:    "$APPLICATIONS\\NiceDeck\\nicedeck.exe",
-			AppAlias:  "$START_MENU\\NiceDeck.lnk",
+			AppExe:    "$APPLICATIONS/NiceDeck/nicedeck.exe",
+			AppAlias:  "$START_MENU/NiceDeck.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mateussouzaweb/nicedeck",

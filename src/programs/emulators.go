@@ -46,8 +46,8 @@ func Azahar() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "Azahar",
-			AppExe:    "$EMULATORS\\Azahar\\azahar.exe",
-			AppAlias:  "$START_MENU\\Gaming\\Azahar.lnk",
+			AppExe:    "$EMULATORS/Azahar/azahar.exe",
+			AppAlias:  "$START_MENU/Gaming/Azahar.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/azahar-emu/azahar",
@@ -89,8 +89,8 @@ func Cemu() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "Cemu",
-			AppExe:    "$EMULATORS\\Cemu\\Cemu.exe",
-			AppAlias:  "$START_MENU\\Gaming\\Cemu.lnk",
+			AppExe:    "$EMULATORS/Cemu/Cemu.exe",
+			AppAlias:  "$START_MENU/Gaming/Cemu.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/cemu-project/Cemu",
@@ -126,8 +126,8 @@ func Citron() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "Citron",
-			AppExe:    "$EMULATORS\\Citron\\citron.exe",
-			AppAlias:  "$START_MENU\\Gaming\\Citron.lnk",
+			AppExe:    "$EMULATORS/Citron/citron.exe",
+			AppAlias:  "$START_MENU/Gaming/Citron.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: gitlab.Release(
 				"https://git.citron-emu.org", "1",
@@ -169,8 +169,8 @@ func Dolphin() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "Dolphin",
-			AppExe:    "$EMULATORS\\Dolphin\\Dolphin.exe",
-			AppAlias:  "$START_MENU\\Gaming\\Dolphin.lnk",
+			AppExe:    "$EMULATORS/Dolphin/Dolphin.exe",
+			AppAlias:  "$START_MENU/Gaming/Dolphin.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: website.Release(
 				"https://dolphin-emu.org/download/", "",
@@ -212,8 +212,8 @@ func DuckStation() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "DuckStation",
-			AppExe:    "$EMULATORS\\DuckStation\\duckstation-qt-x64-ReleaseLTCG.exe",
-			AppAlias:  "$START_MENU\\Gaming\\DuckStation.lnk",
+			AppExe:    "$EMULATORS/DuckStation/duckstation-qt-x64-ReleaseLTCG.exe",
+			AppAlias:  "$START_MENU/Gaming/DuckStation.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/stenzek/duckstation",
@@ -249,8 +249,8 @@ func Eden() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "Eden",
-			AppExe:    "$EMULATORS\\Eden\\eden.exe",
-			AppAlias:  "$START_MENU\\Gaming\\Eden.lnk",
+			AppExe:    "$EMULATORS/Eden/eden.exe",
+			AppAlias:  "$START_MENU/Gaming/Eden.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/eden-emulator/Releases",
@@ -292,8 +292,8 @@ func Flycast() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "Flycast",
-			AppExe:    "$EMULATORS\\Flycast\\flycast.exe",
-			AppAlias:  "$START_MENU\\Gaming\\Flycast.lnk",
+			AppExe:    "$EMULATORS/Flycast/flycast.exe",
+			AppAlias:  "$START_MENU/Gaming/Flycast.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/flyinghead/flycast",
@@ -335,8 +335,8 @@ func MelonDS() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "MelonDS",
-			AppExe:    "$EMULATORS\\MelonDS\\melonDS.exe",
-			AppAlias:  "$START_MENU\\Gaming\\MelonDS.lnk",
+			AppExe:    "$EMULATORS/MelonDS/melonDS.exe",
+			AppAlias:  "$START_MENU/Gaming/MelonDS.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/melonDS-emu/melonDS",
@@ -378,8 +378,8 @@ func MGBA() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "MGBA",
-			AppExe:    "$EMULATORS\\MGBA\\mGBA.exe",
-			AppAlias:  "$START_MENU\\Gaming\\MGBA.lnk",
+			AppExe:    "$EMULATORS/MGBA/mGBA.exe",
+			AppAlias:  "$START_MENU/Gaming/MGBA.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mgba-emu/mgba",
@@ -421,8 +421,8 @@ func PCSX2() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "PCSX2",
-			AppExe:    "$EMULATORS\\PCSX2\\pcsx2-qt.exe",
-			AppAlias:  "$START_MENU\\Gaming\\PCSX2.lnk",
+			AppExe:    "$EMULATORS/PCSX2/pcsx2-qt.exe",
+			AppAlias:  "$START_MENU/Gaming/PCSX2.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/PCSX2/pcsx2",
@@ -464,8 +464,8 @@ func PPSSPP() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "PPSSPP",
-			AppExe:    "$EMULATORS\\PPSSPP\\PPSSPPWindows64.exe",
-			AppAlias:  "$START_MENU\\Gaming\\PPSSPP.lnk",
+			AppExe:    "$EMULATORS/PPSSPP/PPSSPPWindows64.exe",
+			AppAlias:  "$START_MENU/Gaming/PPSSPP.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: website.Release(
 				"https://www.ppsspp.org/download/", "",
@@ -512,8 +512,8 @@ func Redream() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "Redream",
-			AppExe:    "$EMULATORS\\Redream\\redream.exe",
-			AppAlias:  "$START_MENU\\Gaming\\Redream.lnk",
+			AppExe:    "$EMULATORS/Redream/redream.exe",
+			AppAlias:  "$START_MENU/Gaming/Redream.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: website.Release(
 				"https://redream.io/download",
@@ -556,8 +556,8 @@ func RPCS3() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "RPCS3",
-			AppExe:    "$EMULATORS\\RPCS3\\rpcs3.exe",
-			AppAlias:  "$START_MENU\\Gaming\\RPCS3.lnk",
+			AppExe:    "$EMULATORS/RPCS3/rpcs3.exe",
+			AppAlias:  "$START_MENU/Gaming/RPCS3.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/RPCS3/rpcs3-binaries-win",
@@ -602,8 +602,8 @@ func Ryujinx() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "Ryujinx",
-			AppExe:    "$EMULATORS\\Ryujinx\\Ryujinx.exe",
-			AppAlias:  "$START_MENU\\Gaming\\Ryujinx.lnk",
+			AppExe:    "$EMULATORS/Ryujinx/Ryujinx.exe",
+			AppAlias:  "$START_MENU/Gaming/Ryujinx.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: gitlab.Release(
 				"https://git.ryujinx.app", "1",
@@ -645,8 +645,8 @@ func ShadPS4() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "ShadPS4",
-			AppExe:    "$EMULATORS\\ShadPS4\\shadPS4.exe",
-			AppAlias:  "$START_MENU\\Gaming\\ShadPS4.lnk",
+			AppExe:    "$EMULATORS/ShadPS4/shadPS4.exe",
+			AppAlias:  "$START_MENU/Gaming/ShadPS4.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/shadps4-emu/shadPS4",
@@ -679,8 +679,8 @@ func Simple64() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.Executable{
 			AppID:     "Simple64",
-			AppExe:    "$EMULATORS\\Simple64\\simple64-gui.exe",
-			AppAlias:  "$START_MENU\\Gaming\\Simple64.lnk",
+			AppExe:    "$EMULATORS/Simple64/simple64-gui.exe",
+			AppAlias:  "$START_MENU/Gaming/Simple64.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/simple64/simple64",
@@ -725,8 +725,8 @@ func Vita3K() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "Vita3K",
-			AppExe:    "$EMULATORS\\Vita3K\\Vita3K.exe",
-			AppAlias:  "$START_MENU\\Gaming\\Vita3K.lnk",
+			AppExe:    "$EMULATORS/Vita3K/Vita3K.exe",
+			AppAlias:  "$START_MENU/Gaming/Vita3K.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/Vita3K/Vita3K",
@@ -768,8 +768,8 @@ func Xemu() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "Xemu",
-			AppExe:    "$EMULATORS\\Xemu\\xemu.exe",
-			AppAlias:  "$START_MENU\\Gaming\\Xemu.lnk",
+			AppExe:    "$EMULATORS/Xemu/xemu.exe",
+			AppAlias:  "$START_MENU/Gaming/Xemu.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/xemu-project/xemu",
@@ -805,8 +805,8 @@ func Xenia() *Program {
 			),
 		}, &windows.Executable{
 			AppID:     "Xenia",
-			AppExe:    "$EMULATORS\\Xenia\\xenia_canary.exe",
-			AppAlias:  "$START_MENU\\Gaming\\Xenia.lnk",
+			AppExe:    "$EMULATORS/Xenia/xenia_canary.exe",
+			AppAlias:  "$START_MENU/Gaming/Xenia.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/xenia-canary/xenia-canary-releases",

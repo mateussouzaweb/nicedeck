@@ -70,8 +70,8 @@ func GetPackage() packaging.Package {
 		Source:    Release("macOSApple", "dmg"),
 	}, &windows.Executable{
 		AppID:     "ES-DE",
-		AppExe:    "$APPLICATIONS\\ES-DE\\ES-DE.exe",
-		AppAlias:  "$START_MENU\\ES-DE.lnk",
+		AppExe:    "$APPLICATIONS/ES-DE/ES-DE.exe",
+		AppAlias:  "$START_MENU/ES-DE.lnk",
 		Arguments: packaging.NoArguments(),
 		Source:    Release("WindowsPortable", "zip"),
 	})

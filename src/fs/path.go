@@ -7,7 +7,9 @@ import (
 
 // Normalize a path with correct system separator
 func NormalizePath(path string) string {
-	path = strings.ReplaceAll(path, "/", string(os.PathSeparator))
+	separator := string(os.PathSeparator)
+	path = strings.ReplaceAll(path, "/", separator)
+	path = strings.ReplaceAll(path, "\\", separator)
 	return path
 }
 

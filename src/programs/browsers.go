@@ -35,7 +35,7 @@ func BraveBrowser() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "Brave.Brave",
-			AppExe:    "$APPDATA\\Local\\BraveSoftware\\Brave-Browser\\Application\\brave.exe",
+			AppExe:    "$APPDATA/Local/BraveSoftware/Brave-Browser/Application/brave.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -67,7 +67,7 @@ func Firefox() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "Mozilla.Firefox",
-			AppExe:    "$PROGRAMS\\Mozilla Firefox\\firefox.exe",
+			AppExe:    "$PROGRAMS/Mozilla Firefox/firefox.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -99,7 +99,7 @@ func GoogleChrome() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "Google.Chrome",
-			AppExe:    "$PROGRAMS\\Google\\Chrome\\Application\\chrome.exe",
+			AppExe:    "$PROGRAMS/Google/Chrome/Application/chrome.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -136,7 +136,7 @@ func MicrosoftEdge() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "Microsoft.Edge",
-			AppExe:    "$PROGRAMS_X86\\Microsoft\\Edge\\Application\\msedge.exe",
+			AppExe:    "$PROGRAMS_X86/Microsoft/Edge/Application/msedge.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
