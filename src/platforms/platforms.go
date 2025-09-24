@@ -64,7 +64,7 @@ func ScrapeShortcut(shortcut *shortcuts.Shortcut) (bool, error) {
 }
 
 // Parse and process shortcut with given path
-func ProcessShortcut(path string, options *Options) (*shortcuts.Shortcut, error) {
+func ProcessShortcut(name string, path string, options *Options) (*shortcuts.Shortcut, error) {
 
 	includeNative := true
 	includeConsole := true
@@ -145,6 +145,11 @@ func ProcessShortcut(path string, options *Options) (*shortcuts.Shortcut, error)
 
 	// Scrape additional shortcut information
 	if shortcut.ID != "" {
+
+		// Force custom specific name for scrapping
+		if name != "" {
+			shortcut.Name = name
+		}
 
 		scraped, err := ScrapeShortcut(shortcut)
 		if err != nil {

@@ -28,6 +28,7 @@ launch:
   --id=[ID]                   shortcut ID
 
 create:
+  --name=[value]              name for shortcut
   --path=[value]              file path for shortcut
 
 add:

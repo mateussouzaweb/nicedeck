@@ -221,6 +221,7 @@ func launchShortcut(context *Context) error {
 
 // Create shortcut data
 type CreateShortcutData struct {
+	Name string `json:"name"`
 	Path string `json:"path"`
 }
 
@@ -254,7 +255,12 @@ func createShortcut(context *Context) error {
 
 	// Process shortcut for path
 	options := &platforms.Options{}
-	shortcut, err := platforms.ProcessShortcut(data.Path, options)
+	shortcut, err := platforms.ProcessShortcut(
+		data.Name,
+		data.Path,
+		options,
+	)
+
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()

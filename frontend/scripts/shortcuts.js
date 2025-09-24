@@ -171,6 +171,10 @@ window.addEventListener('load', async () => {
         const content = $('.content', modal)
         const html = `
             <div class="group">
+                <label for="name">Name:</label>
+                <textarea id="name" name="name"></textarea>
+            </div>
+            <div class="group">
                 <label for="path">Path:</label>
                 <textarea id="path" name="path"></textarea>
             </div>`
@@ -564,6 +568,7 @@ window.addEventListener('load', async () => {
 
         /** @type {CreateShortcutData} */
         const body = {
+            name: data.get('name'),
             path: data.get('path')
         }
 

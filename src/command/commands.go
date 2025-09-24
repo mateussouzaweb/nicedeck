@@ -170,6 +170,9 @@ func createShortcut(context Context) error {
 		return fmt.Errorf("file path is required")
 	}
 
+	// Retrieve name
+	name := context.Arg("--name", "")
+
 	// Init user library
 	err := library.Init(context.Version)
 	if err != nil {
@@ -189,7 +192,12 @@ func createShortcut(context Context) error {
 
 	// Process shortcut for path
 	options := &platforms.Options{}
-	shortcut, err := platforms.ProcessShortcut(path, options)
+	shortcut, err := platforms.ProcessShortcut(
+		name,
+		path,
+		options,
+	)
+
 	if err != nil {
 		return err
 	} else if shortcut.ID == "" {

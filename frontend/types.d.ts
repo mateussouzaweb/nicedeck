@@ -118,6 +118,7 @@ interface LaunchShortcutResult {
 }
 
 interface CreateShortcutData {
+	name: string
 	path: string
 }
 
