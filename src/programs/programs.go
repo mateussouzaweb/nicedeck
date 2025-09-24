@@ -230,14 +230,6 @@ func Remove(options *Options) error {
 		// Print step message
 		cli.Printf(cli.ColorNotice, "Removing %s...\n", program.Name)
 
-		// Run program removal
-		if !slices.Contains(program.Flags, "--remove-only-shortcut") {
-			err = program.Package.Remove()
-			if err != nil {
-				return err
-			}
-		}
-
 		// Remove from shortcuts list
 		executable := program.Package.Executable()
 		shortcut := library.Shortcuts.Find(program.Name, executable)
@@ -247,9 +239,21 @@ func Remove(options *Options) error {
 			if err != nil {
 				return err
 			}
+
+			cli.Printf(cli.ColorSuccess, "%s shortcut removed!\n", program.Name)
 		}
 
-		// Print success message
+		// Run program removal when possible
+		if slices.Contains(program.Flags, "--remove-only-shortcut") {
+			cli.Printf(cli.ColorWarn, "Skipped: %s cannot be removed.\n", program.Name)
+			continue
+		}
+
+		err = program.Package.Remove()
+		if err != nil {
+			return err
+		}
+
 		cli.Printf(cli.ColorSuccess, "%s removed!\n", program.Name)
 
 	}
