@@ -78,7 +78,7 @@ func GeForceNow() *Program {
 			},
 		}, &macos.Homebrew{
 			AppID:     "nvidia-geforce-now",
-			AppName:   "NVIDIA GeForce NOW.app",
+			AppName:   "GeForceNOW.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "Nvidia.GeForceNow",
