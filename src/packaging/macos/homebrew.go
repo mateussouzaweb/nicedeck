@@ -2,6 +2,7 @@ package macos
 
 import (
 	"fmt"
+	"path/filepath"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -53,6 +54,17 @@ func (h *Homebrew) Remove() error {
 
 // Installed verification
 func (h *Homebrew) Installed() (bool, error) {
+
+	// MacOs.app files are considered a directory
+	if filepath.Ext(h.Executable()) == ".app" {
+		exist, err := fs.DirectoryExist(h.Executable())
+		if err != nil {
+			return false, err
+		} else if exist {
+			return true, nil
+		}
+	}
+
 	exist, err := fs.FileExist(h.Executable())
 	if err != nil {
 		return false, err

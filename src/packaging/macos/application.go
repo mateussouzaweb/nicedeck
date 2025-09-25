@@ -76,6 +76,17 @@ func (a *Application) Remove() error {
 
 // Installed verification
 func (a *Application) Installed() (bool, error) {
+
+	// MacOs.app files are considered a directory
+	if filepath.Ext(a.Executable()) == ".app" {
+		exist, err := fs.DirectoryExist(a.Executable())
+		if err != nil {
+			return false, err
+		} else if exist {
+			return true, nil
+		}
+	}
+
 	exist, err := fs.FileExist(a.Executable())
 	if err != nil {
 		return false, err
