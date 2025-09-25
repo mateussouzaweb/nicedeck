@@ -28,3 +28,12 @@ func IsMacOS() bool {
 func IsWindows() bool {
 	return runtime.GOOS == "windows"
 }
+
+// Return the best string based on running system
+func ArchVariant(amd64 string, arm64 string) string {
+	if IsAmd64() {
+		return amd64
+	}
+
+	return arm64
+}

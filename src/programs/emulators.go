@@ -1,6 +1,7 @@
 package programs
 
 import (
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
@@ -33,7 +34,10 @@ func Azahar() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/azahar-emu/azahar",
-				"azahar.AppImage",
+				cli.ArchVariant(
+					"azahar.AppImage", // amd64
+					"azahar.AppImage", // arm64 (WIP)
+				),
 			),
 		}, &macos.Application{
 			AppID:     "azahar",
@@ -42,7 +46,10 @@ func Azahar() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/azahar-emu/azahar",
-				"azahar-*-macos-universal.zip",
+				cli.ArchVariant(
+					"azahar-*-macos-x86_64.zip", // amd64
+					"azahar-*-macos-arm64.zip",  // arm64
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "Azahar",
@@ -51,7 +58,10 @@ func Azahar() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/azahar-emu/azahar",
-				"azahar-*-windows-msvc.zip",
+				cli.ArchVariant(
+					"azahar-*-windows-msvc.zip", // amd64
+					"azahar-*-windows-msvc.zip", // arm64 (WIP)
+				),
 			),
 		}),
 	}
@@ -85,7 +95,10 @@ func Cemu() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/cemu-project/Cemu",
-				"cemu-*-macos-*-x64.dmg",
+				cli.ArchVariant(
+					"cemu-*-macos-*-x64.dmg", // amd64
+					"cemu-*-macos-*-x64.dmg", // arm64 (WIP)
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "Cemu",
@@ -94,7 +107,10 @@ func Cemu() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/cemu-project/Cemu",
-				"cemu-*-windows-x64.zip",
+				cli.ArchVariant(
+					"cemu-*-windows-x64.zip", // amd64
+					"cemu-*-windows-x64.zip", // arm64 (WIP)
+				),
 			),
 		}),
 	}
@@ -122,7 +138,10 @@ func Citron() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: gitlab.Release(
 				"https://git.citron-emu.org", "1",
-				"Citron-*-anylinux-x86_64.AppImage",
+				cli.ArchVariant(
+					"Citron-*-anylinux-x86_64.AppImage",  // amd64
+					"Citron-*-anylinux-aarch64.AppImage", // arm64
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "Citron",
@@ -131,7 +150,10 @@ func Citron() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: gitlab.Release(
 				"https://git.citron-emu.org", "1",
-				"citron_windows.zip",
+				cli.ArchVariant(
+					"citron_windows.zip", // amd64
+					"citron_windows.zip", // arm64 (WIP)
+				),
 			),
 		}),
 	}
@@ -165,7 +187,10 @@ func Dolphin() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: website.Release(
 				"https://dolphin-emu.org/download/", "",
-				"https://dl.dolphin-emu.org/releases/*/dolphin-*-universal.dmg",
+				cli.ArchVariant(
+					"https://dl.dolphin-emu.org/releases/*/dolphin-*-universal.dmg", // amd64
+					"https://dl.dolphin-emu.org/releases/*/dolphin-*-universal.dmg", // arm64
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "Dolphin",
@@ -174,7 +199,10 @@ func Dolphin() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: website.Release(
 				"https://dolphin-emu.org/download/", "",
-				"https://dl.dolphin-emu.org/releases/*/dolphin-*-x64.7z",
+				cli.ArchVariant(
+					"https://dl.dolphin-emu.org/releases/*/dolphin-*-x64.7z",   // amd64
+					"https://dl.dolphin-emu.org/releases/*/dolphin-*-ARM64.7z", // arm64
+				),
 			),
 		}),
 	}
@@ -208,7 +236,10 @@ func DuckStation() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/stenzek/duckstation",
-				"duckstation-mac-release.zip",
+				cli.ArchVariant(
+					"duckstation-mac-release.zip", // amd64
+					"duckstation-mac-release.zip", // arm64 (WIP)
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "DuckStation",
@@ -217,7 +248,10 @@ func DuckStation() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/stenzek/duckstation",
-				"duckstation-windows-x64-release.zip",
+				cli.ArchVariant(
+					"duckstation-windows-x64-release.zip",   // amd64
+					"duckstation-windows-arm64-release.zip", // arm64
+				),
 			),
 		}),
 	}
@@ -245,7 +279,10 @@ func Eden() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/eden-emulator/Releases",
-				"Eden-Linux-*-amd64.AppImage",
+				cli.ArchVariant(
+					"Eden-Linux-*-amd64.AppImage", // amd64
+					"Eden-Linux-*-amd64.AppImage", // arm64 (WIP)
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "Eden",
@@ -254,7 +291,10 @@ func Eden() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/eden-emulator/Releases",
-				"Eden-Windows-*-amd64.zip",
+				cli.ArchVariant(
+					"Eden-Windows-*-amd64.zip", // amd64
+					"Eden-Windows-*-amd64.zip", // arm64 (WIP)
+				),
 			),
 		}),
 	}
@@ -288,7 +328,10 @@ func Flycast() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/flyinghead/flycast",
-				"flycast-macOS-*.zip",
+				cli.ArchVariant(
+					"flycast-macOS-*.zip", // amd64
+					"flycast-macOS-*.zip", // arm64 (WIP)
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "Flycast",
@@ -297,7 +340,10 @@ func Flycast() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/flyinghead/flycast",
-				"flycast-win64-*.zip",
+				cli.ArchVariant(
+					"flycast-win64-*.zip", // amd64
+					"flycast-win64-*.zip", // arm64 (WIP)
+				),
 			),
 		}),
 	}
@@ -331,7 +377,10 @@ func MelonDS() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/melonDS-emu/melonDS",
-				"macOS-universal.zip",
+				cli.ArchVariant(
+					"macOS-universal.zip", // amd64
+					"macOS-universal.zip", // arm64
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "MelonDS",
@@ -340,7 +389,10 @@ func MelonDS() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/melonDS-emu/melonDS",
-				"melonDS-windows-x86_64.zip",
+				cli.ArchVariant(
+					"melonDS-windows-x86_64.zip", // amd64
+					"melonDS-windows-x86_64.zip", // arm64 (WIP)
+				),
 			),
 		}),
 	}
@@ -374,7 +426,10 @@ func MGBA() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mgba-emu/mgba",
-				"mGBA-*-macos.dmg",
+				cli.ArchVariant(
+					"mGBA-*-macos.dmg", // amd64
+					"mGBA-*-macos.dmg", // arm64 (WIP)
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "MGBA",
@@ -383,7 +438,10 @@ func MGBA() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mgba-emu/mgba",
-				"mGBA-*-win64.7z",
+				cli.ArchVariant(
+					"mGBA-*-win64.7z", // amd64
+					"mGBA-*-win64.7z", // arm64 (WIP)
+				),
 			),
 		}),
 	}
@@ -417,7 +475,10 @@ func PCSX2() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/PCSX2/pcsx2",
-				"pcsx2-*-macos-Qt.tar.xz",
+				cli.ArchVariant(
+					"pcsx2-*-macos-Qt.tar.xz", // amd64
+					"pcsx2-*-macos-Qt.tar.xz", // arm64 (WIP)
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "PCSX2",
@@ -426,7 +487,10 @@ func PCSX2() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/PCSX2/pcsx2",
-				"pcsx2-*-windows-x64-Qt.7z",
+				cli.ArchVariant(
+					"pcsx2-*-windows-x64-Qt.7z", // amd64
+					"pcsx2-*-windows-x64-Qt.7z", // arm64 (WIP)
+				),
 			),
 		}),
 	}
@@ -460,7 +524,10 @@ func PPSSPP() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: website.Release(
 				"https://www.ppsspp.org/download/", "",
-				"https://www.ppsspp.org/files/*/PPSSPP_macOS.dmg",
+				cli.ArchVariant(
+					"https://www.ppsspp.org/files/*/PPSSPP_macOS.dmg", // amd64
+					"https://www.ppsspp.org/files/*/PPSSPP_macOS.dmg", // arm64 (WIP)
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "PPSSPP",
@@ -469,7 +536,10 @@ func PPSSPP() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: website.Release(
 				"https://www.ppsspp.org/download/", "",
-				"https://www.ppsspp.org/files/*/ppsspp_win.zip",
+				cli.ArchVariant(
+					"https://www.ppsspp.org/files/*/ppsspp_win.zip",         // amd64
+					"https://www.ppsspp.org/files/*/PPSSPPWindowsARM64.zip", // arm64
+				),
 			),
 		}),
 	}
@@ -498,7 +568,10 @@ func Redream() *Program {
 			Source: website.Release(
 				"https://redream.io/download",
 				"https://redream.io/",
-				"download/redream.x86_64-linux-v*-*-*.tar.gz",
+				cli.ArchVariant(
+					"download/redream.x86_64-linux-v*-*-*.tar.gz", // amd64
+					"download/redream.x86_64-linux-v*-*-*.tar.gz", // arm64 (WIP)
+				),
 			),
 		}, &macos.Application{
 			AppID:     "redream",
@@ -508,7 +581,10 @@ func Redream() *Program {
 			Source: website.Release(
 				"https://redream.io/download",
 				"https://redream.io/",
-				"download/redream.universal-mac-v*-*-*.tar.gz",
+				cli.ArchVariant(
+					"download/redream.universal-mac-v*-*-*.tar.gz", // amd64
+					"download/redream.universal-mac-v*-*-*.tar.gz", // arm64
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "Redream",
@@ -518,7 +594,10 @@ func Redream() *Program {
 			Source: website.Release(
 				"https://redream.io/download",
 				"https://redream.io/",
-				"download/redream.x86_64-windows-v*-*-*.zip",
+				cli.ArchVariant(
+					"download/redream.x86_64-windows-v*-*-*.zip", // amd64
+					"download/redream.x86_64-windows-v*-*-*.zip", // arm64 (WIP)
+				),
 			),
 		}),
 	}
@@ -551,8 +630,14 @@ func RPCS3() *Program {
 			AppAlias:  "$HOME/Applications/Gaming/RPCS3.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
-				"https://github.com/RPCS3/rpcs3-binaries-mac-arm64",
-				"rpcs3-*_macos_arm64.7z",
+				cli.ArchVariant(
+					"https://github.com/RPCS3/rpcs3-binaries-mac",       // amd64
+					"https://github.com/RPCS3/rpcs3-binaries-mac-arm64", // arm64
+				),
+				cli.ArchVariant(
+					"rpcs3-*_macos.7z",       // amd64
+					"rpcs3-*_macos_arm64.7z", // arm64
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "RPCS3",
@@ -561,7 +646,10 @@ func RPCS3() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/RPCS3/rpcs3-binaries-win",
-				"rpcs3-*_win64.7z",
+				cli.ArchVariant(
+					"rpcs3-*_win64.7z", // amd64
+					"rpcs3-*_win64.7z", // arm64 (WIP)
+				),
 			),
 		}),
 	}
@@ -589,7 +677,10 @@ func Ryujinx() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: gitlab.Release(
 				"https://git.ryujinx.app", "1",
-				"ryujinx-*-x64.AppImage",
+				cli.ArchVariant(
+					"ryujinx-*-x64.AppImage",   // amd64
+					"ryujinx-*-arm64.AppImage", // arm64
+				),
 			),
 		}, &macos.Application{
 			AppID:     "ryujinx",
@@ -598,7 +689,10 @@ func Ryujinx() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: gitlab.Release(
 				"https://git.ryujinx.app", "1",
-				"ryujinx-*-macos_universal.app.tar.gz",
+				cli.ArchVariant(
+					"ryujinx-*-macos_universal.app.tar.gz", // amd64
+					"ryujinx-*-macos_universal.app.tar.gz", // arm64
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "Ryujinx",
@@ -607,7 +701,10 @@ func Ryujinx() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: gitlab.Release(
 				"https://git.ryujinx.app", "1",
-				"ryujinx-*-win_x64.zip",
+				cli.ArchVariant(
+					"ryujinx-*-win_x64.zip", // amd64
+					"ryujinx-*-win_x64.zip", // arm64 (WIP)
+				),
 			),
 		}),
 	}
@@ -641,7 +738,10 @@ func ShadPS4() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/shadps4-emu/shadPS4",
-				"shadps4-macos-qt-*.zip",
+				cli.ArchVariant(
+					"shadps4-macos-qt-*.zip", // amd64
+					"shadps4-macos-qt-*.zip", // arm64 (WIP)
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "ShadPS4",
@@ -650,7 +750,10 @@ func ShadPS4() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/shadps4-emu/shadPS4",
-				"shadps4-win64-qt-*.zip",
+				cli.ArchVariant(
+					"shadps4-win64-qt-*.zip", // amd64
+					"shadps4-win64-qt-*.zip", // arm64 (WIP)
+				),
 			),
 		}),
 	}
@@ -684,7 +787,10 @@ func Simple64() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/simple64/simple64",
-				"simple64-win64-*.zip",
+				cli.ArchVariant(
+					"simple64-win64-*.zip", // amd64
+					"simple64-win64-*.zip", // arm64 (WIP)
+				),
 			),
 		}),
 	}
@@ -712,7 +818,10 @@ func Vita3K() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/Vita3K/Vita3K",
-				"Vita3K-x86_64.AppImage",
+				cli.ArchVariant(
+					"Vita3K-x86_64.AppImage", // amd64
+					"Vita3K-x86_64.AppImage", // arm64 (WIP)
+				),
 			),
 		}, &macos.Application{
 			AppID:     "vita3k",
@@ -721,7 +830,10 @@ func Vita3K() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/Vita3K/Vita3K",
-				"macos-latest.dmg",
+				cli.ArchVariant(
+					"macos-latest.dmg", // amd64
+					"macos-latest.dmg", // arm64 (WIP)
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "Vita3K",
@@ -730,7 +842,10 @@ func Vita3K() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/Vita3K/Vita3K",
-				"windows-latest.zip",
+				cli.ArchVariant(
+					"windows-latest.zip", // amd64
+					"windows-latest.zip", // arm64 (WIP)
+				),
 			),
 		}),
 	}
@@ -764,7 +879,10 @@ func Xemu() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/xemu-project/xemu",
-				"xemu-macos-universal-release.zip",
+				cli.ArchVariant(
+					"xemu-macos-universal-release.zip", // amd64
+					"xemu-macos-universal-release.zip", // arm64
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "Xemu",
@@ -773,7 +891,10 @@ func Xemu() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/xemu-project/xemu",
-				"xemu-win-release.zip",
+				cli.ArchVariant(
+					"xemu-win-x86_64-release.zip",  // amd64
+					"xemu-win-aarch64-release.zip", // arm64
+				),
 			),
 		}),
 	}
@@ -801,7 +922,10 @@ func Xenia() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/xenia-canary/xenia-canary-releases",
-				"xenia_canary_linux.tar.gz",
+				cli.ArchVariant(
+					"xenia_canary_linux.tar.gz", // amd64
+					"xenia_canary_linux.tar.gz", // arm64 (WIP)
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "Xenia",
@@ -810,7 +934,10 @@ func Xenia() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/xenia-canary/xenia-canary-releases",
-				"xenia_canary_windows.zip",
+				cli.ArchVariant(
+					"xenia_canary_windows.zip", // amd64
+					"xenia_canary_windows.zip", // arm64 (WIP)
+				),
 			),
 		}),
 	}

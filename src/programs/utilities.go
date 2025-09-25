@@ -1,6 +1,7 @@
 package programs
 
 import (
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
@@ -67,7 +68,10 @@ func NiceDeck() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mateussouzaweb/nicedeck",
-				"nicedeck-linux-amd64",
+				cli.ArchVariant(
+					"nicedeck-linux-amd64", // amd64
+					"nicedeck-linux-arm64", // arm64
+				),
 			),
 		}, &macos.Application{
 			AppID:     "nicedeck",
@@ -76,7 +80,10 @@ func NiceDeck() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mateussouzaweb/nicedeck",
-				"nicedeck-macos-arm64",
+				cli.ArchVariant(
+					"nicedeck-macos-amd64", // amd64
+					"nicedeck-macos-arm64", // arm64
+				),
 			),
 		}, &windows.Executable{
 			AppID:     "NiceDeck",
@@ -85,7 +92,10 @@ func NiceDeck() *Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mateussouzaweb/nicedeck",
-				"nicedeck-windows-amd64.exe",
+				cli.ArchVariant(
+					"nicedeck-windows-amd64.exe", // amd64
+					"nicedeck-windows-arm64.exe", // arm64
+				),
 			),
 		}),
 	}
