@@ -575,7 +575,7 @@ func Redream() *Program {
 			),
 		}, &macos.Application{
 			AppID:     "redream",
-			AppName:   "$EMULATORS/Redream/Redream.app",
+			AppName:   "$EMULATORS/Redream/redream.app",
 			AppAlias:  "$HOME/Applications/Gaming/Redream.app",
 			Arguments: packaging.NoArguments(),
 			Source: website.Release(
