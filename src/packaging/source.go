@@ -38,19 +38,31 @@ func (s *Source) Download(target Package) error {
 	}
 
 	// Download based on format
+	var err error
 	switch s.Format {
 	case "file":
-		return s.FromFile()
+		err = s.FromFile()
 	case "zip":
-		return s.FromZip()
+		err = s.FromZip()
 	case "tar.gz":
-		return s.FromTarGz()
+		err = s.FromTarGz()
 	case "tar.xz":
-		return s.FromTarXz()
+		err = s.FromTarXz()
 	case "7z":
-		return s.From7z()
+		err = s.From7z()
 	case "dmg":
-		return s.FromDMG()
+		err = s.FromDMG()
+	}
+	if err != nil {
+		return err
+	}
+
+	// Validate if download was success
+	installed, err := target.Installed()
+	if err != nil {
+		return err
+	} else if !installed {
+		return fmt.Errorf("expected content not detected: %s", s.Destination)
 	}
 
 	return nil
