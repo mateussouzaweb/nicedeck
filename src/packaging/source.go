@@ -236,11 +236,32 @@ func (s *Source) FromDMG() error {
 		return err
 	}
 
-	// Print warning message
-	cli.Printf(cli.ColorWarn, "WARNING: Unable to extract from .dmg file.\n")
-	cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
-	cli.Printf(cli.ColorWarn, "DMG file: %s\n", dmgFile)
-	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
+	// Create script to extract from DMG
+	destinationFolder := filepath.Dir(s.Destination)
+	appFile := filepath.Base(s.Destination)
+	script := fmt.Sprintf(`
+		export PAGER="cat";
+		VOLUME=$(yes | hdiutil attach -nobrowse -readonly %s);
+		VOLUME=$(echo "$VOLUME" | sed -n 's/^.*\(\/Volumes\/.*\)$/\1/p');
+		cp -R "$VOLUME/%s" "%s/";
+		hdiutil detach "$VOLUME";`,
+		dmgFile,
+		appFile,
+		destinationFolder,
+	)
+
+	// Run extraction process
+	command := cli.Command(script)
+	err = cli.Run(command)
+	if err != nil {
+		return err
+	}
+
+	// Remove DMG file
+	err = fs.RemoveFile(dmgFile)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
