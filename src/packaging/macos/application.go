@@ -2,7 +2,6 @@ package macos
 
 import (
 	"fmt"
-	"os"
 	"path/filepath"
 	"strings"
 
@@ -66,7 +65,7 @@ func (a *Application) Remove() error {
 	}
 
 	// Remove alias file
-	err = fs.RemoveFile(a.Alias())
+	err = fs.RemoveSymlink(a.Alias())
 	if err != nil {
 		return err
 	}
@@ -114,18 +113,8 @@ func (a *Application) OnShortcut(shortcut *shortcuts.Shortcut) error {
 	shortcut.ShortcutPath = a.Alias()
 	shortcut.LaunchOptions = strings.Join(a.Arguments.Shortcut, " ")
 
-	// Write the application shortcut
-	err := os.MkdirAll(filepath.Dir(shortcut.ShortcutPath), 0755)
-	if err != nil {
-		return err
-	}
-
-	err = fs.RemoveFile(shortcut.ShortcutPath)
-	if err != nil {
-		return err
-	}
-
-	err = os.Symlink(shortcut.Executable, shortcut.ShortcutPath)
+	// Make link to main executable
+	err := fs.MakeSymlink(shortcut.Executable, shortcut.ShortcutPath)
 	if err != nil {
 		return err
 	}
