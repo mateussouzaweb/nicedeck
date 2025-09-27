@@ -733,7 +733,7 @@ func ShadPS4() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &macos.Application{
 			AppID:     "shadps4",
-			AppName:   "$EMULATORS/ShadPS4/ShadPS4.app",
+			AppName:   "$EMULATORS/ShadPS4/shadps4.app",
 			AppAlias:  "$HOME/Applications/Gaming/ShadPS4.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
@@ -874,7 +874,7 @@ func Xemu() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &macos.Application{
 			AppID:     "xemu",
-			AppName:   "$EMULATORS/Xemu/Xemu.app",
+			AppName:   "$EMULATORS/Xemu/xemu.app",
 			AppAlias:  "$HOME/Applications/Gaming/Xemu.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
