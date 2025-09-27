@@ -108,7 +108,7 @@ func CopyFile(source string, destination string, overwriteExisting bool) error {
 		}
 	}
 
-	cli.Debug("Coping %s to %s\n", source, destination)
+	cli.Debug("Copying %s to %s\n", source, destination)
 
 	// Open source file
 	sourceFile, err := os.Open(source)
@@ -148,14 +148,14 @@ func CopyFile(source string, destination string, overwriteExisting bool) error {
 		return err
 	}
 
-	// Apply copied permissions to file
-	err = os.Chmod(destination, sourceStat.Mode())
+	// Apply access and modification times to file
+	err = os.Chtimes(destination, sourceStat.ModTime(), sourceStat.ModTime())
 	if err != nil {
 		return err
 	}
 
-	// Apply access and modification times to file
-	err = os.Chtimes(destination, sourceStat.ModTime(), sourceStat.ModTime())
+	// Apply copied permissions to file
+	err = os.Chmod(destination, sourceStat.Mode())
 	if err != nil {
 		return err
 	}

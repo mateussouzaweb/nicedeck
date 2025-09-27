@@ -5,6 +5,7 @@ import (
 	"archive/zip"
 	"compress/gzip"
 	"errors"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -14,8 +15,7 @@ import (
 )
 
 // Extract given source .zip file into destination
-// Also consider the expected file path to ignore parent directories
-func ExtractZip(source string, destination string, expected string) error {
+func ExtractZip(source string, destination string) error {
 
 	cli.Debug("Extracting %s to %s\n", source, destination)
 
@@ -41,19 +41,6 @@ func ExtractZip(source string, destination string, expected string) error {
 		return err
 	}
 
-	// Detects the undesired path based on the expected file path
-	undesired := ""
-	for _, file := range archiveReader.File {
-		destinationPath := NormalizePath(file.Name)
-		destinationPath = filepath.Join(destination, destinationPath)
-
-		if strings.HasSuffix(destinationPath, expected) {
-			undesired = strings.TrimSuffix(destinationPath, expected)
-			undesired = strings.TrimPrefix(undesired, destination)
-			break
-		}
-	}
-
 	// Process each item of the archive
 	// Files outside of the archive will not be removed
 	for _, file := range archiveReader.File {
@@ -61,7 +48,6 @@ func ExtractZip(source string, destination string, expected string) error {
 		// Get content information
 		destinationPath := NormalizePath(file.Name)
 		destinationPath = filepath.Join(destination, destinationPath)
-		destinationPath = strings.Replace(destinationPath, undesired, "", 1)
 		isDirectory := file.FileInfo().IsDir()
 
 		// Make sure that path is not a directory
@@ -119,8 +105,7 @@ func ExtractZip(source string, destination string, expected string) error {
 }
 
 // Extract given source .tar.gz file content into destination
-// Also consider the expected file path to ignore parent directories
-func ExtractTarGz(source string, destination string, expected string) error {
+func ExtractTarGz(source string, destination string) error {
 
 	cli.Debug("Extracting %s to %s\n", source, destination)
 
@@ -144,34 +129,9 @@ func ExtractTarGz(source string, destination string, expected string) error {
 		errors.Join(err, gzipReader.Close())
 	}()
 
-	// Detects the undesired path based on the expected file path
-	undesired := ""
-	tarReader := tar.NewReader(gzipReader)
-	for {
-
-		header, err := tarReader.Next()
-		if err == io.EOF {
-			break // End of archive
-		} else if err != nil {
-			return err
-		} else if header == nil {
-			continue
-		}
-
-		destinationPath := NormalizePath(header.Name)
-		destinationPath = filepath.Join(destination, destinationPath)
-
-		if strings.HasSuffix(destinationPath, expected) {
-			undesired = strings.TrimSuffix(destinationPath, expected)
-			undesired = strings.TrimPrefix(undesired, destination)
-			break
-		}
-
-	}
-
 	// Process each item of the archive
 	// Files outside of the archive will not be removed
-	tarReader = tar.NewReader(gzipReader)
+	tarReader := tar.NewReader(gzipReader)
 	for {
 
 		header, err := tarReader.Next()
@@ -186,7 +146,6 @@ func ExtractTarGz(source string, destination string, expected string) error {
 		// Get content information
 		destinationPath := NormalizePath(header.Name)
 		destinationPath = filepath.Join(destination, destinationPath)
-		destinationPath = strings.Replace(destinationPath, undesired, "", 1)
 		isDirectory := header.Typeflag == tar.TypeDir
 		isRegularFile := header.Typeflag == tar.TypeReg
 
@@ -229,6 +188,37 @@ func ExtractTarGz(source string, destination string, expected string) error {
 			return err
 		}
 
+	}
+
+	return nil
+}
+
+// Extract given source .7z file content into destination
+func Extract7z(source string, destination string) error {
+
+	cli.Debug("Extracting %s to %s\n", source, destination)
+
+	// Create script to perform operation
+	script := ""
+	if cli.IsLinux() || cli.IsMacOS() {
+		script = fmt.Sprintf(
+			`7z x "%s" -o"%s/"`,
+			source,
+			destination,
+		)
+	} else if cli.IsWindows() {
+		script = fmt.Sprintf(
+			`"C:\Program Files\7-Zip\7z.exe" x "%s" -o"%s\"`,
+			source,
+			destination,
+		)
+	}
+
+	// Run extraction process
+	command := cli.Command(script)
+	err := cli.Run(command)
+	if err != nil {
+		return err
 	}
 
 	return nil

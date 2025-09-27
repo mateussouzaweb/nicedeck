@@ -2,6 +2,7 @@ package packaging
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -42,14 +43,8 @@ func (s *Source) Download(target Package) error {
 	switch s.Format {
 	case "file":
 		err = s.FromFile()
-	case "zip":
-		err = s.FromZip()
-	case "tar.gz":
-		err = s.FromTarGz()
-	case "tar.xz":
-		err = s.FromTarXz()
-	case "7z":
-		err = s.From7z()
+	case "zip", "tar.gz", "tar.xz", "7z":
+		err = s.FromArchive()
 	case "dmg":
 		err = s.FromDMG()
 	}
@@ -129,21 +124,64 @@ func (s *Source) FromFile() error {
 	return nil
 }
 
-// Download source from .zip
-func (s *Source) FromZip() error {
+// Download source from archive file and extract the content
+func (s *Source) FromArchive() error {
+
+	// Gather information
+	parentFolder := filepath.Dir(s.Destination)
+	extractFolder := filepath.Join(parentFolder, ".extract")
+	targetFile := strings.TrimPrefix(s.Destination, parentFolder)
+	targetName := strings.TrimSuffix(targetFile, filepath.Ext(targetFile))
+	archiveName := fmt.Sprintf("%s.%s", targetName, s.Format)
+	archiveFile := filepath.Join(parentFolder, archiveName)
 
 	// Download file
-	archiveFile := strings.TrimSuffix(s.Destination, filepath.Ext(s.Destination))
-	archiveFile = fmt.Sprintf("%s.zip", archiveFile)
 	err := s.SafeDownload(s.URL, archiveFile)
 	if err != nil {
 		return err
 	}
 
-	// Extract content to parent folder
-	parentFolder := filepath.Dir(s.Destination)
-	targetFile := strings.TrimPrefix(s.Destination, parentFolder)
-	err = fs.ExtractZip(archiveFile, parentFolder, targetFile)
+	// Create temporary extract folder
+	err = os.MkdirAll(extractFolder, 0755)
+	if err != nil {
+		return err
+	}
+
+	// Extract content to temporary extract folder
+	switch s.Format {
+	case "zip":
+		err = fs.ExtractZip(archiveFile, extractFolder)
+	case "tar.gz":
+		err = fs.ExtractTarGz(archiveFile, extractFolder)
+	case "7z":
+		err = fs.Extract7z(archiveFile, extractFolder)
+	default:
+		err = fmt.Errorf("manual extract required")
+		cli.Printf(cli.ColorWarn, "Unable to extract from archive file.\n")
+		cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
+		cli.Printf(cli.ColorWarn, "Archive file: %s\n", archiveFile)
+		cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
+	}
+	if err != nil {
+		return err
+	}
+
+	// Detects where the target file is located in the extract folder
+	realPath, err := fs.FindPath(extractFolder, targetFile)
+	if err != nil {
+		return err
+	}
+
+	// Copy files from extract to final destination
+	// Use copy to avoid losing files
+	copyFrom := filepath.Dir(realPath)
+	err = fs.CopyDirectory(copyFrom, parentFolder)
+	if err != nil {
+		return err
+	}
+
+	// Remove extract folder
+	err = fs.RemoveDirectory(extractFolder)
 	if err != nil {
 		return err
 	}
@@ -153,74 +191,6 @@ func (s *Source) FromZip() error {
 	if err != nil {
 		return err
 	}
-
-	return nil
-}
-
-// Download source from .tar.gz
-func (s *Source) FromTarGz() error {
-
-	// Download file
-	archiveFile := strings.TrimSuffix(s.Destination, filepath.Ext(s.Destination))
-	archiveFile = fmt.Sprintf("%s.tar.gz", archiveFile)
-	err := s.SafeDownload(s.URL, archiveFile)
-	if err != nil {
-		return err
-	}
-
-	// Extract content to parent folder
-	parentFolder := filepath.Dir(s.Destination)
-	targetFile := strings.TrimPrefix(s.Destination, parentFolder)
-	err = fs.ExtractTarGz(archiveFile, parentFolder, targetFile)
-	if err != nil {
-		return err
-	}
-
-	// Remove archive file
-	err = fs.RemoveFile(archiveFile)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// Download source from .tar.xz
-func (s *Source) FromTarXz() error {
-
-	// Download file
-	archiveFile := strings.TrimSuffix(s.Destination, filepath.Ext(s.Destination))
-	archiveFile = fmt.Sprintf("%s.tar.xz", archiveFile)
-	err := s.SafeDownload(s.URL, archiveFile)
-	if err != nil {
-		return err
-	}
-
-	// Print warning message
-	cli.Printf(cli.ColorWarn, "WARNING: Unable to extract from .tar.xz file.\n")
-	cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
-	cli.Printf(cli.ColorWarn, "Archive file: %s\n", archiveFile)
-	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
-
-	return nil
-}
-
-// Download source from .7z
-func (s *Source) From7z() error {
-
-	// Download file
-	archiveFile := strings.TrimSuffix(s.Destination, filepath.Ext(s.Destination))
-	archiveFile = fmt.Sprintf("%s.7z", archiveFile)
-	err := s.SafeDownload(s.URL, archiveFile)
-	if err != nil {
-		return err
-	}
-
-	// Print warning message
-	cli.Printf(cli.ColorWarn, "WARNING: Unable to extract from .7z file.\n")
-	cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
-	cli.Printf(cli.ColorWarn, "Archive file: %s\n", archiveFile)
-	cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
 
 	return nil
 }
