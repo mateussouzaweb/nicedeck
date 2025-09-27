@@ -202,13 +202,16 @@ func Extract7z(source string, destination string) error {
 	script := ""
 	if cli.IsLinux() || cli.IsMacOS() {
 		script = fmt.Sprintf(
-			`7z x "%s" -o"%s/"`,
+			`7z x "%s" "-o%s" -y`,
 			source,
 			destination,
 		)
 	} else if cli.IsWindows() {
-		script = fmt.Sprintf(
-			`"C:\Program Files\7-Zip\7z.exe" x "%s" -o"%s\"`,
+		script = fmt.Sprintf(``+
+			`$sevenZip = "C:\Program Files\7-Zip\7z.exe";`+
+			`$archive = "%s";`+
+			`$destination = "%s";`+
+			`& "$sevenZip" x "$archive" -o"$destination" -y`,
 			source,
 			destination,
 		)
