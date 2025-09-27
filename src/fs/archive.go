@@ -193,6 +193,28 @@ func ExtractTarGz(source string, destination string) error {
 	return nil
 }
 
+// Extract given source .tar.xz file content into destination
+func ExtractTarXz(source string, destination string) error {
+
+	cli.Debug("Extracting %s to %s\n", source, destination)
+
+	// Create script to perform operation
+	script := fmt.Sprintf(
+		`tar -xf "%s" -C "%s"`,
+		source,
+		destination,
+	)
+
+	// Run extraction process
+	command := cli.Command(script)
+	err := cli.Run(command)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Extract given source .7z file content into destination
 func Extract7z(source string, destination string) error {
 

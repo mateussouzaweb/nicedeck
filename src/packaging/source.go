@@ -153,14 +153,12 @@ func (s *Source) FromArchive() error {
 		err = fs.ExtractZip(archiveFile, extractFolder)
 	case "tar.gz":
 		err = fs.ExtractTarGz(archiveFile, extractFolder)
+	case "tar.xz":
+		err = fs.ExtractTarXz(archiveFile, extractFolder)
 	case "7z":
 		err = fs.Extract7z(archiveFile, extractFolder)
 	default:
-		err = fmt.Errorf("manual extract required")
-		cli.Printf(cli.ColorWarn, "Unable to extract from archive file.\n")
-		cli.Printf(cli.ColorWarn, "Please manually extract the program.\n")
-		cli.Printf(cli.ColorWarn, "Archive file: %s\n", archiveFile)
-		cli.Printf(cli.ColorWarn, "Expected executable: %s\n", s.Destination)
+		err = fmt.Errorf("unknown archive format: %s", s.Format)
 	}
 	if err != nil {
 		return err
