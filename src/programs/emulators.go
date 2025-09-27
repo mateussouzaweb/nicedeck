@@ -242,8 +242,11 @@ func DuckStation() *Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "DuckStation",
-			AppExe:    "$EMULATORS/DuckStation/duckstation-qt-x64-ReleaseLTCG.exe",
+			AppID: "DuckStation",
+			AppExe: cli.ArchVariant(
+				"$EMULATORS/DuckStation/duckstation-qt-x64-ReleaseLTCG.exe",   // amd64
+				"$EMULATORS/DuckStation/duckstation-qt-ARM64-ReleaseLTCG.exe", // arm64
+			),
 			AppAlias:  "$START_MENU/Gaming/DuckStation.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
@@ -530,8 +533,11 @@ func PPSSPP() *Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "PPSSPP",
-			AppExe:    "$EMULATORS/PPSSPP/PPSSPPWindows64.exe",
+			AppID: "PPSSPP",
+			AppExe: cli.ArchVariant(
+				"$EMULATORS/PPSSPP/PPSSPPWindows64.exe",    // amd64
+				"$EMULATORS/PPSSPP/PPSSPPWindowsARM64.exe", // arm64
+			),
 			AppAlias:  "$START_MENU/Gaming/PPSSPP.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: website.Release(
