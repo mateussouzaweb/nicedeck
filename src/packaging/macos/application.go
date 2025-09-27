@@ -1,7 +1,6 @@
 package macos
 
 import (
-	"fmt"
 	"path/filepath"
 	"strings"
 
@@ -36,16 +35,6 @@ func (a *Application) Install() error {
 	// Download from source
 	if a.Source != nil {
 		err := a.Source.Download(a)
-		if err != nil {
-			return err
-		}
-	}
-
-	// Add package to quarantine
-	if installed, _ := a.Installed(); installed {
-		script := fmt.Sprintf(`xattr -r -d com.apple.quarantine %s`, a.Executable())
-		command := cli.Command(script)
-		err := cli.Run(command)
 		if err != nil {
 			return err
 		}
