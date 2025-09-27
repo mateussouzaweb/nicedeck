@@ -49,6 +49,7 @@ func Printf(color string, format string, args ...any) {
 // Print debug message
 func Debug(format string, args ...any) {
 	if os.Getenv("DEBUG") == "1" {
-		Printf(ColorPurple, "[DEBUG] "+format, args...)
+		format = ColorPurple + "[DEBUG] " + format + ColorReset
+		fmt.Fprintf(os.Stdout, format, args...)
 	}
 }
