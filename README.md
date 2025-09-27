@@ -25,17 +25,30 @@ Some features of NiceDeck:
 
 ## System Requirements
 
-In general, the NiceDeck program needs that you **install and setup Steam first** in order to have the necessary folders of Steam in your system. Nothing else is required on Steam Deck devices.
+Here is the requirements details based on your device or operational system: 
 
-- You can also run NiceDeck in any Linux distribution that supports [Flatpak](https://flatpak.org/) with [Flathub](https://flathub.org) repository enable, but make sure to install the ``flatpak-xdg-utils`` package too.
-- For MacOS systems, you must have the [Homebrew](https://brew.sh/) package manager to be able to manage programs. 
-- On Windows, you must have the new [WinGet](https://github.com/microsoft/winget-cli) package manager, which is automatically included in Windows 11.
+Steam OS:
+- No additional requirements, everything is included on Steam OS devices like the Steam Deck.
+
+Linux:
+- You can also run NiceDeck in any Linux distribution that supports [Flatpak](https://flatpak.org/) with [Flathub](https://flathub.org) repository enabled, but make sure to install the ``flatpak-xdg-utils`` package too. 
+- 7zip is also required if your distribution does not include it: ``sudo apt install p7zip-full``.
+
+MacOS:
+- For MacOS systems, you must have the [Homebrew](https://brew.sh/) package manager to be able to manage programs.
+- You also need the 7zip program to extract archive files: ``brew install p7zip``. 
+
+Windows:
+- On Windows, you must have the new [WinGet](https://github.com/microsoft/winget-cli) package manager (included in Windows 11).
+- You also need the 7zip program to extract archive files: ``winget install -e --id 7zip.7zip``.
 
 Once you have solved the system dependencies, just download and run NiceDeck!
 
 ## Installation and Usage
 
 NOTE: You need go into ``Desktop Mode`` in Steam Deck to follow these instructions.
+
+In general, we recommend that you **install and setup Steam first** first in order to have the necessary folders of Steam in your system to sync library before trying to install any other additional software within NiceDeck.
 
 Go to the project [RELEASES](https://github.com/mateussouzaweb/nicedeck/releases) page and download the latest version of NiceDeck for your operating system:
 
