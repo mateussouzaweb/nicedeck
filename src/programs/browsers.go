@@ -29,6 +29,10 @@ func BraveBrowser() *Program {
 			Namespace: "system",
 			AppID:     "com.brave.Browser",
 			Arguments: packaging.NoArguments(),
+		}, &linux.Binary{
+			AppID:     "brave-browser",
+			AppBin:    "/usr/bin/brave-browser",
+			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
 			AppID:     "brave-browser",
 			AppName:   "Brave Browser.app",
@@ -60,6 +64,10 @@ func Firefox() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "org.mozilla.firefox",
+			Arguments: packaging.NoArguments(),
+		}, &linux.Binary{
+			AppID:     "firefox",
+			AppBin:    "/usr/bin/firefox",
 			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
 			AppID:     "firefox",
