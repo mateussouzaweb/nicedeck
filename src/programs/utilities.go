@@ -51,7 +51,7 @@ func NiceDeck() *Program {
 	return &Program{
 		ID:          "nicedeck",
 		Name:        "NiceDeck",
-		Description: "YES, self installer and updater",
+		Description: "Steam companion app and library manager",
 		Category:    "Gaming",
 		Tags:        []string{"Gaming", "Utilities"},
 		Flags:       []string{"--remove-only-shortcut"},
