@@ -90,9 +90,28 @@ func (p *Proton) VirtualPath(path string) string {
 // Install package
 func (p *Proton) Install() error {
 
-	// Get relevant paths
+	// Gather information
 	mainPath := p.ProtonPath()
 	drivePath := p.DrivePath()
+	steamClientPath := p.SteamClientPath()
+	steamRuntime := p.SteamRuntime()
+	protonRuntime := p.ProtonRuntime()
+
+	// Make sure that Proton is installed
+	protonExists, err := fs.FileExist(protonRuntime)
+	if err != nil {
+		return err
+	} else if !protonExists {
+
+		// Request Proton installation from Steam URL handler
+		// 1493710 - Proton Experimental
+		err = cli.Open("steam://install/1493710")
+		if err != nil {
+			return err
+		}
+
+		return fmt.Errorf("proton install missing, please install proton first")
+	}
 
 	// Download install from source
 	if p.Source != nil {
@@ -102,11 +121,6 @@ func (p *Proton) Install() error {
 			return err
 		}
 	}
-
-	// Gather information
-	steamClientPath := p.SteamClientPath()
-	steamRuntime := p.SteamRuntime()
-	protonRuntime := p.ProtonRuntime()
 
 	// Create run executable script
 	// Will be used to launch applications
@@ -138,7 +152,7 @@ func (p *Proton) Install() error {
 		drivePath,
 	)
 
-	err := fs.WriteFile(runFile, runScript)
+	err = fs.WriteFile(runFile, runScript)
 	if err != nil {
 		return err
 	}
