@@ -33,20 +33,77 @@ func (p *Proton) Available() bool {
 	return cli.IsLinux()
 }
 
-// Return Steam client path
-func (p *Proton) SteamClientPath() string {
-	return fs.ExpandPath("$HOME/.steam/steam")
+// Steam installed verification
+func (p *Proton) SteamInstalled() bool {
+
+	steamPackage := packaging.Installed(&Flatpak{
+		Namespace: "system",
+		AppID:     "com.valvesoftware.Steam",
+		Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
+		Arguments: packaging.NoArguments(),
+	}, &Flatpak{
+		Namespace: "user",
+		AppID:     "com.valvesoftware.Steam",
+		Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
+		Arguments: packaging.NoArguments(),
+	}, &Snap{
+		AppID:     "steam",
+		AppBin:    "steam",
+		Arguments: packaging.NoArguments(),
+	}, &Binary{
+		AppID:     "steam",
+		AppBin:    "/usr/bin/steam",
+		Arguments: packaging.NoArguments(),
+	})
+
+	return steamPackage.Available()
+}
+
+// Return Steam client data path
+func (p *Proton) SteamPath() (string, error) {
+
+	// Fill possible locations
+	paths := []string{
+		fs.ExpandPath("$VAR/com.valvesoftware.Steam/.steam/steam"),
+		fs.ExpandPath("$HOME/snap/steam/common/.local/share/Steam"),
+		fs.ExpandPath("$HOME/.steam/steam"),
+		fs.ExpandPath("$SHARE/Steam"),
+		fs.ExpandPath("$CONFIG/Steam"),
+		fs.ExpandPath("$PROGRAMS_X86/Steam"),
+	}
+
+	// Checks what directory path is available
+	for _, possiblePath := range paths {
+		exist, err := fs.DirectoryExist(possiblePath)
+		if err != nil {
+			return "", err
+		} else if exist {
+			return possiblePath, nil
+		}
+	}
+
+	return "", nil
 }
 
 // Retrieve the steam runtime path
-func (p *Proton) SteamRuntime() string {
-	runtime := p.SteamClientPath()
+func (p *Proton) SteamRuntime() (string, error) {
+
+	runtime, err := p.SteamPath()
+	if err != nil {
+		return "", err
+	}
+
 	runtime = filepath.Join(runtime, "ubuntu12_32", "steam-runtime", "run.sh")
-	return runtime
+	return runtime, nil
 }
 
 // Retrieve the proton runtime path
-func (p *Proton) ProtonRuntime() string {
+func (p *Proton) ProtonRuntime() (string, error) {
+
+	runtime, err := p.SteamPath()
+	if err != nil {
+		return "", err
+	}
 
 	// Prefix is not customizable for now
 	implementation := "native"
@@ -54,17 +111,15 @@ func (p *Proton) ProtonRuntime() string {
 
 	// Native runtime, such as Proton - Experimental
 	if implementation == "native" {
-		runtime := p.SteamClientPath()
 		runtime = filepath.Join(runtime, "steamapps", "common")
 		runtime = filepath.Join(runtime, version, "proton")
-		return runtime
+		return runtime, nil
 	}
 
 	// Custom runtime, such as Proton-GE
-	runtime := p.SteamClientPath()
 	runtime = filepath.Join(runtime, "compatibilitytools.d")
 	runtime = filepath.Join(runtime, version, "proton")
-	return runtime
+	return runtime, nil
 }
 
 // Retrieve proton data path
@@ -90,26 +145,36 @@ func (p *Proton) VirtualPath(path string) string {
 // Install package
 func (p *Proton) Install() error {
 
+	// Make sure Steam is installed
+	if !p.SteamInstalled() {
+		return fmt.Errorf("requirement error, Steam must be installed")
+	}
+
 	// Gather information
 	mainPath := p.ProtonPath()
 	drivePath := p.DrivePath()
-	steamClientPath := p.SteamClientPath()
-	steamRuntime := p.SteamRuntime()
-	protonRuntime := p.ProtonRuntime()
-
-	// Make sure that Proton is installed
-	protonExists, err := fs.FileExist(protonRuntime)
+	steamClientPath, err := p.SteamPath()
 	if err != nil {
 		return err
-	} else if !protonExists {
+	}
 
-		// Request Proton installation from Steam URL handler
-		// 1493710 - Proton Experimental
-		err = cli.Open("steam://install/1493710")
-		if err != nil {
-			return err
-		}
+	steamRuntime, err := p.SteamRuntime()
+	if err != nil {
+		return err
+	}
 
+	protonRuntime, err := p.ProtonRuntime()
+	if err != nil {
+		return err
+	}
+
+	// Make sure that Proton is installed
+	// When missing, request Proton installation from Steam URL handler
+	protonInstalled, err := fs.FileExist(protonRuntime)
+	if err != nil {
+		return err
+	} else if !protonInstalled {
+		defer cli.Open("steam://install/1493710") // Proton Experimental
 		return fmt.Errorf("proton install missing, please install proton first")
 	}
 
