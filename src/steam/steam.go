@@ -5,7 +5,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
@@ -44,28 +43,8 @@ func GetPackage() packaging.Package {
 	})
 }
 
-// Check the runtime that Steam installation is running
-func GetRuntime() (string, error) {
-
-	// Check from environment variable
-	fromEnv := cli.GetEnv("STEAM_RUNTIME", "")
-	if fromEnv != "" {
-		return fromEnv, nil
-	}
-
-	// Check from packaging program
-	program := GetPackage()
-	return program.Runtime(), nil
-}
-
 // Retrieve the absolute Steam path
-func GetPath() (string, error) {
-
-	// Check from environment variable
-	fromEnv := cli.GetEnv("STEAM_PATH", "")
-	if fromEnv != "" {
-		return fs.ExpandPath(fromEnv), nil
-	}
+func GetBasePath() (string, error) {
 
 	// Fill possible locations
 	paths := []string{
@@ -93,14 +72,8 @@ func GetPath() (string, error) {
 // Retrieve Steam user config path
 func GetConfigPath() (string, error) {
 
-	// Check from environment variable
-	fromEnv := cli.GetEnv("STEAM_CONFIG_PATH", "")
-	if fromEnv != "" {
-		return fs.ExpandPath(fromEnv), nil
-	}
-
 	// Retrieve Steam base path
-	steamPath, err := GetPath()
+	steamPath, err := GetBasePath()
 	if err != nil {
 		return "", fmt.Errorf("could not detect Steam installation: %s", err)
 	}

@@ -54,7 +54,7 @@ func (l *Library) Load(databasePath string) error {
 
 	// Retrieve base path
 	if l.BasePath == "" {
-		l.BasePath, err = GetPath()
+		l.BasePath, err = GetBasePath()
 		if err != nil {
 			return fmt.Errorf("could not detect Steam installation: %s", err)
 		}
@@ -69,10 +69,11 @@ func (l *Library) Load(databasePath string) error {
 
 	// Check how is Steam running
 	if l.Runtime == "" {
-		l.Runtime, err = GetRuntime()
-		if err != nil {
-			return fmt.Errorf("could not determine Steam runtime: %s", err)
-		}
+		program := GetPackage()
+		l.Runtime = program.Runtime()
+	}
+	if l.Runtime == "" || l.Runtime == "none" {
+		return fmt.Errorf("could not determine Steam runtime")
 	}
 
 	// Retrieve user config path
