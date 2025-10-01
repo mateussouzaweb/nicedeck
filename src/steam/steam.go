@@ -20,6 +20,7 @@ func GetPackage() packaging.Package {
 		Overrides: []string{
 			fs.ExpandPath("--filesystem=$GAMES"),
 			"--talk-name=org.freedesktop.Flatpak",
+			"--system-talk-name=org.freedesktop.NetworkManager",
 		},
 		Arguments: packaging.NoArguments(),
 	}, &linux.Flatpak{
@@ -28,6 +29,7 @@ func GetPackage() packaging.Package {
 		Overrides: []string{
 			fs.ExpandPath("--filesystem=$GAMES"),
 			"--talk-name=org.freedesktop.Flatpak",
+			"--system-talk-name=org.freedesktop.NetworkManager",
 		},
 		Arguments: packaging.NoArguments(),
 	}, &linux.Snap{

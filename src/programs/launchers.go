@@ -341,6 +341,7 @@ func Steam() *Program {
 			Overrides: []string{
 				fs.ExpandPath("--filesystem=$GAMES"),
 				"--talk-name=org.freedesktop.Flatpak",
+				"--system-talk-name=org.freedesktop.NetworkManager",
 			},
 			Arguments: packaging.NoArguments(),
 		}, &linux.Binary{
