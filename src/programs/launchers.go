@@ -109,6 +109,7 @@ func Bottles() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.usebottles.bottles",
+			Overrides: []string{fs.ExpandPath("--filesystem=$GAMES")},
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -279,6 +280,7 @@ func HeroicGamesLauncher() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.heroicgameslauncher.hgl",
+			Overrides: []string{fs.ExpandPath("--filesystem=$GAMES")},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
 			AppID:     "heroic",
@@ -311,6 +313,7 @@ func Lutris() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "net.lutris.Lutris",
+			Overrides: []string{fs.ExpandPath("--filesystem=$GAMES")},
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -335,7 +338,10 @@ func Steam() *Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.valvesoftware.Steam",
-			Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
+			Overrides: []string{
+				fs.ExpandPath("--filesystem=$GAMES"),
+				"--talk-name=org.freedesktop.Flatpak",
+			},
 			Arguments: packaging.NoArguments(),
 		}, &linux.Binary{
 			AppID:     "steam",

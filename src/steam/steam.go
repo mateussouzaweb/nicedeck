@@ -17,12 +17,18 @@ func GetPackage() packaging.Package {
 	return packaging.Installed(&linux.Flatpak{
 		Namespace: "system",
 		AppID:     "com.valvesoftware.Steam",
-		Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
+		Overrides: []string{
+			fs.ExpandPath("--filesystem=$GAMES"),
+			"--talk-name=org.freedesktop.Flatpak",
+		},
 		Arguments: packaging.NoArguments(),
 	}, &linux.Flatpak{
 		Namespace: "user",
 		AppID:     "com.valvesoftware.Steam",
-		Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
+		Overrides: []string{
+			fs.ExpandPath("--filesystem=$GAMES"),
+			"--talk-name=org.freedesktop.Flatpak",
+		},
 		Arguments: packaging.NoArguments(),
 	}, &linux.Snap{
 		AppID:     "steam",
