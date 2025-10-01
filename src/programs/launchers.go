@@ -6,6 +6,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/proton"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/programs/assets"
 	"github.com/mateussouzaweb/nicedeck/src/programs/website"
@@ -27,7 +28,7 @@ func AmazonGames() *Program {
 		CoverURL:    assets.Cover("bc5787c3784d39729b4d950eb5143cd2.png"),
 		BannerURL:   assets.Banner("110c01f002b7848d931b406b6adee66c.png"),
 		HeroURL:     assets.Hero("a21e85aedf84619520f0c5e30bd55042.png"),
-		Package: packaging.Best(&linux.Proton{
+		Package: packaging.Best(&proton.Proton{
 			AppID:       "amazon-games",
 			AppName:     "AmazonGames",
 			Installer:   "C:/Downloads/AmazonGamesSetup.exe",
@@ -59,7 +60,7 @@ func BattleNet() *Program {
 		CoverURL:    assets.Cover("356c41d28e278e936b46739712043616.png"),
 		BannerURL:   assets.Banner("95dc580680cdd8578951011c081121c4.png"),
 		HeroURL:     assets.Hero("9f319422ca17b1082ea49820353f14ab.jpg"),
-		Package: packaging.Best(&linux.Proton{
+		Package: packaging.Best(&proton.Proton{
 			AppID:       "battle-net",
 			AppName:     "BattleNet",
 			Installer:   "C:/Downloads/Battle.net-Setup.exe",
@@ -129,7 +130,7 @@ func EAApp() *Program {
 		CoverURL:    assets.Cover("67fce8ab05c7c0a28fa66b353e813cbd.png"),
 		BannerURL:   assets.Banner("f1b499e8db3046ebec712209e22f830d.png"),
 		HeroURL:     assets.Hero("6458ed5e1bb03b8da47c065c2f647b26.png"),
-		Package: packaging.Best(&linux.Proton{
+		Package: packaging.Best(&proton.Proton{
 			AppID:       "ea-app",
 			AppName:     "EA",
 			Installer:   "C:/Downloads/EAappInstaller.exe",
@@ -172,7 +173,7 @@ func EpicGames() *Program {
 		CoverURL:    assets.Cover("67f56a2fe648cfdb82822bfdc360ef6a.png"),
 		BannerURL:   assets.Banner("02d7e610ae675ae3be88626d18fa7999.png"),
 		HeroURL:     assets.Hero("164fbf608021ece8933758ee2b28dd7d.png"),
-		Package: packaging.Best(&linux.Proton{
+		Package: packaging.Best(&proton.Proton{
 			AppID:       "epic-games",
 			AppName:     "EpicGames",
 			Installer:   "C:/Downloads/EpicGamesLauncherInstaller.msi",
@@ -232,7 +233,7 @@ func GOGGalaxy() *Program {
 		CoverURL:    assets.Cover("c3d13ca6a5797b92dcaf18529d9d795f.png"),
 		BannerURL:   assets.Banner("5f77d1e72f72a5ea4cfd99b4a21e7fdd.png"),
 		HeroURL:     assets.Hero("01ccb68a74dd1edfbccbd76d86dbd51f.png"),
-		Package: packaging.Best(&linux.Proton{
+		Package: packaging.Best(&proton.Proton{
 			AppID:       "gog-galaxy",
 			AppName:     "GOG",
 			Installer:   "C:/Downloads/GOG_Galaxy_2.0.exe",
@@ -368,7 +369,7 @@ func UbisoftConnect() *Program {
 		CoverURL:    assets.Cover("09d966b427fe08f5674b7e22a58bce8b.jpg"),
 		BannerURL:   assets.Banner("5070c1f86e4885d73865919ce537fd21.png"),
 		HeroURL:     assets.Hero("b1d49d65692f373bd3ae6ed4af9eda30.png"),
-		Package: packaging.Best(&linux.Proton{
+		Package: packaging.Best(&proton.Proton{
 			AppID:       "ubisoft-connect",
 			AppName:     "Ubisoft",
 			Installer:   "C:/Downloads/UbisoftConnectInstaller.exe",

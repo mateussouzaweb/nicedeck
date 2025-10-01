@@ -1,6 +1,8 @@
-package linux
+package proton
 
 import (
+	"bytes"
+	"embed"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -9,8 +11,13 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
+	"github.com/mateussouzaweb/nicedeck/src/steam"
 )
+
+//go:embed resources/*
+var resourcesContent embed.FS
 
 // Proton struct
 type Proton struct {
@@ -33,62 +40,10 @@ func (p *Proton) Available() bool {
 	return cli.IsLinux()
 }
 
-// Steam installed verification
-func (p *Proton) SteamInstalled() bool {
-
-	steamPackage := packaging.Installed(&Flatpak{
-		Namespace: "system",
-		AppID:     "com.valvesoftware.Steam",
-		Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
-		Arguments: packaging.NoArguments(),
-	}, &Flatpak{
-		Namespace: "user",
-		AppID:     "com.valvesoftware.Steam",
-		Overrides: []string{"--talk-name=org.freedesktop.Flatpak"},
-		Arguments: packaging.NoArguments(),
-	}, &Snap{
-		AppID:     "steam",
-		AppBin:    "steam",
-		Arguments: packaging.NoArguments(),
-	}, &Binary{
-		AppID:     "steam",
-		AppBin:    "/usr/bin/steam",
-		Arguments: packaging.NoArguments(),
-	})
-
-	return steamPackage.Available()
-}
-
-// Return Steam client data path
-func (p *Proton) SteamPath() (string, error) {
-
-	// Fill possible locations
-	paths := []string{
-		fs.ExpandPath("$VAR/com.valvesoftware.Steam/.steam/steam"),
-		fs.ExpandPath("$HOME/snap/steam/common/.local/share/Steam"),
-		fs.ExpandPath("$HOME/.steam/steam"),
-		fs.ExpandPath("$SHARE/Steam"),
-		fs.ExpandPath("$CONFIG/Steam"),
-		fs.ExpandPath("$PROGRAMS_X86/Steam"),
-	}
-
-	// Checks what directory path is available
-	for _, possiblePath := range paths {
-		exist, err := fs.DirectoryExist(possiblePath)
-		if err != nil {
-			return "", err
-		} else if exist {
-			return possiblePath, nil
-		}
-	}
-
-	return "", nil
-}
-
 // Retrieve the steam runtime path
 func (p *Proton) SteamRuntime() (string, error) {
 
-	runtime, err := p.SteamPath()
+	runtime, err := steam.GetBasePath()
 	if err != nil {
 		return "", err
 	}
@@ -100,7 +55,7 @@ func (p *Proton) SteamRuntime() (string, error) {
 // Retrieve the proton runtime path
 func (p *Proton) ProtonRuntime() (string, error) {
 
-	runtime, err := p.SteamPath()
+	runtime, err := steam.GetBasePath()
 	if err != nil {
 		return "", err
 	}
@@ -146,14 +101,16 @@ func (p *Proton) VirtualPath(path string) string {
 func (p *Proton) Install() error {
 
 	// Make sure Steam is installed
-	if !p.SteamInstalled() {
+	steamPackage := steam.GetPackage()
+	if !steamPackage.Available() {
 		return fmt.Errorf("requirement error, Steam must be installed")
 	}
 
 	// Gather information
-	mainPath := p.ProtonPath()
+	dataPath := p.ProtonPath()
 	drivePath := p.DrivePath()
-	steamClientPath, err := p.SteamPath()
+	steamInstallType := steamPackage.Runtime()
+	steamClientPath, err := steam.GetBasePath()
 	if err != nil {
 		return err
 	}
@@ -179,7 +136,7 @@ func (p *Proton) Install() error {
 	}
 
 	// Download install from source
-	// Also makes verification to check at the installer file
+	// Makes verification to check at the installer file
 	if p.Source != nil {
 		originalLauncher := p.Launcher
 		p.Launcher = p.Installer
@@ -194,37 +151,36 @@ func (p *Proton) Install() error {
 		}
 	}
 
-	// Create run executable script
+	// Create run executable script to avoid NiceDeck direct dependency
 	// Will be used to launch applications
-	// Write a script to avoid NiceDeck direct dependency
-	runFile := filepath.Join(mainPath, "run.sh")
-	runScript := fmt.Sprintf(strings.Join([]string{
-		`#!/bin/bash`,
-		``,
-		`# Variables for execution`,
-		`export STEAM_COMPAT_CLIENT_INSTALL_PATH=$(realpath "%s")`,
-		`export STEAM_COMPAT_DATA_PATH=$(realpath "%s")`,
-		`export STEAM_RUNTIME=$(realpath "%s")`,
-		`export PROTON_RUNTIME=$(realpath "%s")`,
-		`export DRIVE_PATH=$(realpath "%s")`,
-		``,
-		`# Replace C: with driver path`,
-		`set -- "${1/C:/$DRIVE_PATH}" "${@:2}"`,
-		``,
-		`# Go to target executable path`,
-		`# This step is required for some games`,
-		`cd "$(dirname "$1")"`,
-		``,
-		`# Run command`,
-		`exec "$STEAM_RUNTIME" "$PROTON_RUNTIME" run "$@" 2>&1`}, "\n"),
-		steamClientPath,
-		mainPath,
-		steamRuntime,
-		protonRuntime,
-		drivePath,
-	)
+	runFile := filepath.Join(dataPath, "run.sh")
+	runScript, err := resourcesContent.ReadFile("resources/run.sh")
+	if err != nil {
+		return err
+	}
 
-	err = fs.WriteFile(runFile, runScript)
+	// When Steam is installed with flatpak, make use of flatpak sandbox paths
+	if steamInstallType == "flatpak" {
+		appID := steamPackage.(*linux.Flatpak).AppID
+		appFolder := fmt.Sprintf("/.var/app/%s", appID)
+		steamClientPath = strings.Replace(steamClientPath, appFolder, "", 1)
+		steamRuntime = strings.Replace(steamRuntime, appFolder, "", 1)
+		protonRuntime = strings.Replace(protonRuntime, appFolder, "", 1)
+	}
+
+	replaces := map[string]string{
+		"${DATA_PATH}":         dataPath,
+		"${DRIVE_PATH}":        drivePath,
+		"${INSTALL_TYPE}":      steamInstallType,
+		"${PROTON_RUNTIME}":    protonRuntime,
+		"${STEAM_CLIENT_PATH}": steamClientPath,
+		"${STEAM_RUNTIME}":     steamRuntime,
+	}
+	for key, value := range replaces {
+		runScript = bytes.ReplaceAll(runScript, []byte(key), []byte(value))
+	}
+
+	err = fs.WriteFile(runFile, string(runScript))
 	if err != nil {
 		return err
 	}
@@ -329,7 +285,7 @@ func (p *Proton) OnShortcut(shortcut *shortcuts.Shortcut) error {
 	shortcut.LaunchOptions = strings.Join(arguments, " ")
 
 	// Write the desktop shortcut
-	err := CreateDesktopShortcut(shortcut)
+	err := linux.CreateDesktopShortcut(shortcut)
 	if err != nil {
 		return err
 	}

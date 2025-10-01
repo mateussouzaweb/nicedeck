@@ -3,7 +3,7 @@ package native
 import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
+	"github.com/mateussouzaweb/nicedeck/src/packaging/proton"
 )
 
 // Platform struct
@@ -34,7 +34,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	}
 
 	// Linux (Proton)
-	proton := linux.Proton{
+	proton := proton.Proton{
 		Arguments: packaging.NoArguments(),
 		Source:    &packaging.Source{},
 	}
