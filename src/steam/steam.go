@@ -32,10 +32,6 @@ func GetPackage() packaging.Package {
 			"--system-talk-name=org.freedesktop.NetworkManager",
 		},
 		Arguments: packaging.NoArguments(),
-	}, &linux.Snap{
-		AppID:     "steam",
-		AppBin:    "steam",
-		Arguments: packaging.NoArguments(),
 	}, &linux.Binary{
 		AppID:     "steam",
 		AppBin:    "/usr/bin/steam",
@@ -57,7 +53,6 @@ func GetBasePath() (string, error) {
 	// Fill possible locations
 	paths := []string{
 		fs.ExpandPath("$VAR/com.valvesoftware.Steam/.steam/steam"),
-		fs.ExpandPath("$HOME/snap/steam/common/.local/share/Steam"),
 		fs.ExpandPath("$HOME/.steam/steam"),
 		fs.ExpandPath("$SHARE/Steam"),
 		fs.ExpandPath("$CONFIG/Steam"),
