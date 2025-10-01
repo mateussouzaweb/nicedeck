@@ -109,8 +109,8 @@ func (p *Proton) Install() error {
 	// Gather information
 	dataPath := p.ProtonPath()
 	drivePath := p.DrivePath()
-	steamInstallType := steamPackage.Runtime()
-	steamClientPath, err := steam.GetBasePath()
+
+	steamPath, err := steam.GetBasePath()
 	if err != nil {
 		return err
 	}
@@ -159,22 +159,16 @@ func (p *Proton) Install() error {
 		return err
 	}
 
-	// When Steam is installed with flatpak, make use of flatpak sandbox paths
-	if steamInstallType == "flatpak" {
-		appID := steamPackage.(*linux.Flatpak).AppID
-		appFolder := fmt.Sprintf("/.var/app/%s", appID)
-		steamClientPath = strings.Replace(steamClientPath, appFolder, "", 1)
-		steamRuntime = strings.Replace(steamRuntime, appFolder, "", 1)
-		protonRuntime = strings.Replace(protonRuntime, appFolder, "", 1)
-	}
-
+	steamInstallType := steamPackage.Runtime()
+	steamFlatpakID := "com.valvesoftware.Steam"
 	replaces := map[string]string{
-		"${DATA_PATH}":         dataPath,
-		"${DRIVE_PATH}":        drivePath,
-		"${INSTALL_TYPE}":      steamInstallType,
-		"${PROTON_RUNTIME}":    protonRuntime,
-		"${STEAM_CLIENT_PATH}": steamClientPath,
-		"${STEAM_RUNTIME}":     steamRuntime,
+		"@{DATA_PATH}":      dataPath,
+		"@{DRIVE_PATH}":     drivePath,
+		"@{FLATPAK_ID}":     steamFlatpakID,
+		"@{INSTALL_TYPE}":   steamInstallType,
+		"@{PROTON_RUNTIME}": protonRuntime,
+		"@{STEAM_PATH}":     steamPath,
+		"@{STEAM_RUNTIME}":  steamRuntime,
 	}
 	for key, value := range replaces {
 		runScript = bytes.ReplaceAll(runScript, []byte(key), []byte(value))
