@@ -39,14 +39,14 @@ func (b *Binary) Install() error {
 		if err != nil {
 			return err
 		}
-	}
 
-	// Make sure is executable
-	if installed, _ := b.Installed(); installed {
-		executable := b.Executable()
-		err := os.Chmod(executable, 0775)
-		if err != nil {
-			return err
+		// Make sure is executable
+		if installed, _ := b.Installed(); installed {
+			executable := b.Executable()
+			err := os.Chmod(executable, 0775)
+			if err != nil {
+				return err
+			}
 		}
 	}
 

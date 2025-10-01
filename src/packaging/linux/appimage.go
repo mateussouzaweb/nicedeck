@@ -39,14 +39,14 @@ func (a *AppImage) Install() error {
 		if err != nil {
 			return err
 		}
-	}
 
-	// Make sure is executable
-	if installed, _ := a.Installed(); installed {
-		executable := a.Executable()
-		err := os.Chmod(executable, 0775)
-		if err != nil {
-			return err
+		// Make sure is executable
+		if installed, _ := a.Installed(); installed {
+			executable := a.Executable()
+			err := os.Chmod(executable, 0775)
+			if err != nil {
+				return err
+			}
 		}
 	}
 
