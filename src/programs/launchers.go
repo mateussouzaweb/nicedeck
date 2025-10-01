@@ -10,6 +10,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/programs/assets"
 	"github.com/mateussouzaweb/nicedeck/src/programs/website"
+	"github.com/mateussouzaweb/nicedeck/src/steam"
 )
 
 // Installer for Amazon Games
@@ -335,28 +336,7 @@ func Steam() *Program {
 		CoverURL:    assets.Cover("c5174327c1975f78b7ffc788ed60b80e.png"),
 		BannerURL:   assets.Banner("0e18441e60c88b9af7ebde5cdf65a23a.jpg"),
 		HeroURL:     assets.Hero("63ca87b524b54b70a2bb83a5d20909c0.jpg"),
-		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
-			AppID:     "com.valvesoftware.Steam",
-			Overrides: []string{
-				fs.ExpandPath("--filesystem=$GAMES"),
-				"--talk-name=org.freedesktop.Flatpak",
-				"--system-talk-name=org.freedesktop.NetworkManager",
-			},
-			Arguments: packaging.NoArguments(),
-		}, &linux.Binary{
-			AppID:     "steam",
-			AppBin:    "/usr/bin/steam",
-			Arguments: packaging.NoArguments(),
-		}, &macos.Homebrew{
-			AppID:     "steam",
-			AppName:   "Steam.app",
-			Arguments: packaging.NoArguments(),
-		}, &windows.WinGet{
-			AppID:     "Valve.Steam",
-			AppExe:    "$PROGRAMS_X86/Steam/Steam.exe",
-			Arguments: packaging.NoArguments(),
-		}),
+		Package:     steam.GetPackage(),
 	}
 }
 
