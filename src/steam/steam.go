@@ -14,7 +14,7 @@ import (
 
 // Retrieve Steam package
 func GetPackage() packaging.Package {
-	return packaging.Installed(&linux.Flatpak{
+	return packaging.Best(&linux.Flatpak{
 		Namespace: "system",
 		AppID:     "com.valvesoftware.Steam",
 		Overrides: []string{

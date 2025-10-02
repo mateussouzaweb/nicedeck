@@ -103,6 +103,13 @@ func (p *Proton) Install() error {
 	// Make sure Steam is installed
 	steamPackage := steam.GetPackage()
 	if !steamPackage.Available() {
+		return fmt.Errorf("requirement error, Steam is not available")
+	}
+
+	installed, err := steamPackage.Installed()
+	if err != nil {
+		return err
+	} else if !installed {
 		return fmt.Errorf("requirement error, Steam must be installed")
 	}
 

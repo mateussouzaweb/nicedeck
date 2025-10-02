@@ -45,34 +45,31 @@ func (l *Library) Load(databasePath string) error {
 	l.ShortcutsPath = ""
 	l.Shortcuts = make([]*Shortcut, 0)
 
+	// Check if Steam is installed
+	stackPackage := GetPackage()
+	installed, err := stackPackage.Installed()
+	if err != nil {
+		return err
+	} else if !installed {
+		return nil
+	}
+
 	// Read database file content
 	// Missing information will be filled below
-	err := fs.ReadJSON(databasePath, &l)
+	err = fs.ReadJSON(databasePath, &l)
 	if err != nil {
 		return err
 	}
 
 	// Retrieve base path
-	if l.BasePath == "" {
-		l.BasePath, err = GetBasePath()
-		if err != nil {
-			return fmt.Errorf("could not detect Steam installation: %s", err)
-		}
-	}
-
-	// Show message based on Steam detection
-	if l.BasePath == "" {
-		cli.Printf(cli.ColorWarn, "Note: Steam installation was not detected.\n")
-		cli.Printf(cli.ColorWarn, "Please make sure to install and login into Steam first to sync library.\n")
-		return nil
+	l.BasePath, err = GetBasePath()
+	if err != nil {
+		return err
 	}
 
 	// Check how is Steam running
-	if l.Runtime == "" {
-		program := GetPackage()
-		l.Runtime = program.Runtime()
-	}
-	if l.Runtime == "" || l.Runtime == "none" {
+	l.Runtime = stackPackage.Runtime()
+	if l.Runtime == "none" {
 		return fmt.Errorf("could not determine Steam runtime")
 	}
 
@@ -80,7 +77,7 @@ func (l *Library) Load(databasePath string) error {
 	if l.ConfigPath == "" {
 		l.ConfigPath, err = GetConfigPath()
 		if err != nil {
-			return fmt.Errorf("could not detect Steam user config path: %s", err)
+			return err
 		}
 	}
 
@@ -261,15 +258,19 @@ func (l *Library) Save() error {
 	}
 
 	// Make sure Steam on flatpak has the necessary permission
-	if _, ok := GetPackage().(*linux.Flatpak); ok {
-		err := GetPackage().(*linux.Flatpak).ApplyOverrides()
+	stackPackage := GetPackage()
+	if _, ok := stackPackage.(*linux.Flatpak); ok {
+		err := stackPackage.(*linux.Flatpak).ApplyOverrides()
 		if err != nil {
 			return fmt.Errorf("could not perform Steam runtime setup: %s", err)
 		}
 	}
 
 	// Write controller template
-	controllerTemplatesPaths := filepath.Join(l.BasePath, "controller_base", "templates")
+	controllerTemplatesPaths := filepath.Join(
+		l.BasePath, "controller_base", "templates",
+	)
+
 	err = controller.WriteTemplates(controllerTemplatesPaths)
 	if err != nil {
 		return fmt.Errorf("could not perform Steam controller setup: %s", err)
