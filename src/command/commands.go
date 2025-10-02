@@ -1,13 +1,13 @@
 package command
 
 import (
+	"embed"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"path/filepath"
 	"strings"
 
-	"github.com/mateussouzaweb/nicedeck/docs"
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/library"
 	"github.com/mateussouzaweb/nicedeck/src/platforms"
@@ -20,6 +20,9 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
+//go:embed resources/*
+var resourcesContent embed.FS
+
 // Print application version
 func printVersion(context Context) error {
 	cli.Printf(cli.ColorDefault, "%s\n", context.Version)
@@ -29,7 +32,7 @@ func printVersion(context Context) error {
 // Print application help
 func printHelp(_ Context) error {
 
-	help, err := docs.Read("HELP.md")
+	help, err := resourcesContent.ReadFile("resources/help")
 	if err != nil {
 		return err
 	}
