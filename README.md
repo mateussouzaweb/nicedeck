@@ -22,6 +22,7 @@ Some features of NiceDeck:
 - Beautiful and automated covers images for shortcuts in the ``Steam Library``.
 - Built-in tool to backup and restore saved games progress and states on each emulator.
 - A correct and workable ``ES-DE`` settings, with systems and rules to run games using the installed emulators.
+- Linux only: support for additional stores and Windows native games or applications through custom Proton layer.
 
 ## System Requirements
 
@@ -39,7 +40,7 @@ MacOS:
 - You also need the 7zip program to extract archive files: ``brew install p7zip``. 
 
 Windows:
-- On Windows, you must have the new [WinGet](https://github.com/microsoft/winget-cli) package manager (included in Windows 11).
+- On Windows, you must have the new [WinGet](https://github.com/microsoft/winget-cli) package manager that is already included in Windows 11.
 - You also need the 7zip program to extract archive files: ``winget install -e --id 7zip.7zip``.
 
 Once you have solved the system dependencies, just download and run NiceDeck!
@@ -71,10 +72,11 @@ Once you follow these instructions, double click on the program to start it. Wit
 
 Folders and Structure:
 
-- NiceDeck will create the ``$HOME/Games`` folder with basic structure for emulation.
+- NiceDeck will create the ``$HOME/Games`` folder with basic structure for emulation and general gaming.
 - You can optionally map external disks or MicroSD cards with symbolic links on the games folder to keep data separated from main drive.
 - Once you have installed the desired emulators, place the ``BIOS`` and ``ROMs`` for each emulator in their respective folders.
 - Make sure to read the [ROMs documentation](docs/ROMs.md) to learn how to organize and parser your ROMs.
+- For additional gaming in Linux, make sure to read the [Proton documentation](docs/Proton.md) to learn how to use the Proton layer.
 
 Programs and Emulators:
 
@@ -90,7 +92,7 @@ Steam Library:
 
 Controller Layout:
 
-- NiceDeck includes a custom ``Controller Template`` in Steam for general usage, but mainly target for emulators. The template is called ``[NICEDECK] - Gamepad``.
+- NiceDeck includes a custom ``Controller Template`` in Steam for general usage, but mainly targeted for emulators. The template is called ``[NICEDECK] - Gamepad``.
 - You should set the best controller layout for each application before running it (for browser like softwares like ``Google Chrome`` use the ``Web Browser`` template for example).
 - Open the ``Steam Library``, select the program that you desire and click on ``Controller Icon`` to reveal the customization menu. From the menu, select the template and save changes.
 - Please note that this controller layout is available only on Steam Deck devices.

@@ -1,10 +1,10 @@
-# Tips and Tricks
+# Additional Tips and Tricks
 
 Here are a few tips and tricks to expand the features of NiceDeck in your device:
 
 ## KDE Context Service Menu
 
-If you are using Linux, you can use the script below to create a new KDE context service menu to directly add a Windows native application to the library or run it with Proton:
+If you are using Linux, you can use the script below to create a new KDE context service menu to directly add a Windows native application to the library or run it with the Proton layer:
 
 ```bash
 DESTINATION="$HOME/.local/share/kio/servicemenus/nicedeck.proton.desktop"
@@ -35,16 +35,11 @@ Exec=$PROTON_RUN "%u"
 EOF
 ```
 
-If you need to remove the service menu in the future:
+Once you set up this context menu, you will see two new options on files management context menu: "Add to Library" and "Run with Proton".
+
+If you need to remove the service menu in the future, just remove the file:
 
 ```bash
 DESTINATION="$HOME/.local/share/kio/servicemenus/nicedeck.proton.desktop"
 rm $DESTINATION
 ```
-
-## Running Games with Proton
-
-- Some games will crash if ``NVAPI`` is enabled. You can tweak the launch options in the shortcut to disable ``NVAPI`` or made other tweaks.
-- Disabling ``NVAPI`` is required in GRID racing series for example (``Race Drive GRID``, ``GRID 2``, ``GRID AutoSports``, ...)
-- To disable NVAPI, edit the shortcut from NiceDeck and set launch options like: ``PROTON_DISABLE_NVAPI=1 %command% ...``.
-- Additional options for more tweaks are provided on the [Proton repository](https://github.com/ValveSoftware/Proton?tab=readme-ov-file#runtime-config-options).
