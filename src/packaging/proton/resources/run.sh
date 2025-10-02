@@ -18,7 +18,7 @@ WORKING_DIRECTORY=$(dirname "$1")
 cd "$WORKING_DIRECTORY"
 
 # Steam Flatpak
-if [[ "$INSTALL_TYPE" -eq "flatpak" ]]; then
+if [[ "$INSTALL_TYPE" == "flatpak" ]]; then
 
   # When running with flatpak, need to use sandboxed paths 
   SEARCH="/.var/app/$FLATPAK_ID/"
@@ -34,7 +34,7 @@ if [[ "$INSTALL_TYPE" -eq "flatpak" ]]; then
     "$FLATPAK_ID" "$PROTON_RUNTIME" run "$@" 2>&1
 
 # Steam Native
-elif [[ "$INSTALL_TYPE" -eq "native" ]]; then
+elif [[ "$INSTALL_TYPE" == "native" ]]; then
 
   export STEAM_COMPAT_CLIENT_INSTALL_PATH="$STEAM_PATH"
   export STEAM_COMPAT_DATA_PATH="$DATA_PATH"
