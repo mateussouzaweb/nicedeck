@@ -86,13 +86,13 @@ Before: ``MSR - Metropolis Street Racer (USA) (Rev A).cue``\
 After: ``Metropolis Street Racer (USA).cue``
 
 **- The scrapped details for my game is incorrect...**\
-Make sure you have the correct ROM file name, like in the previous question. You can also search for the correct game name on Steam Grid DB if you have doubts.
+Make sure you have the correct ROM file name, like in the previous question. You can also search for the correct game name on SteamGridDB if you have doubts.
 
 **- I got some error while running the parser...**\
-That can happen because the Steam Grid DB service cannot handle all of your request with a valid response time. Simply run the command again and see if the error persist - when you run the command again, the parse will continue from where it has been stopped.
+That can happen because the SteamGridDB service cannot handle all of your request with a valid response time. Simply run the command again and see if the error persist - when you run the command again, the parse will continue from where it has been stopped.
 
 **- The parser runs fine, but some of my games does not have cover images...**\
-That is expected in non popular games. Steam Grid DB does not have images for all games in the world and someone will need to push artworks for that game in the service. If you can contribute to the project, please consider submit the game cover images to Steam Grid DB via the following link: <https://www.steamgriddb.com/upload>
+That is expected in non popular games. SteamGridDB does not have images for all games in the world and someone will need to push artworks for that game in the service. If you can contribute to the project, please consider submit the game cover images to SteamGridDB via the following link: <https://www.steamgriddb.com/upload>
 
 **- I don't want all of my games in Steam Library, how to manage which game will go to Steam Library?**\
 As you know, this process is automated and does not have an interface to manage games individually. If you don't want to a game appears in the Library, I should start saying that then you should not had put the games that you do not want to play in the ROMs folder. If by somehow you still want to play a game, but do not want them to appear in the Steam Library, read the organization section again to learn how to do it.

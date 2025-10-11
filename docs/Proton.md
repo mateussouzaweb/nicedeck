@@ -59,9 +59,9 @@ Some games may need specific tweaks or won't will work at all. To know the addit
 
 When running Steam application with flatpak, you will have a few limitations due to the sandbox environment:
 
-1 - Steam / Proton will see only the content that is inside your ``$HOME/Games` folder. **This is very important to understand**, otherwise you will be lost in a big hole - always put the Windows games and applications inside that folder.
+1 - Steam / Proton will see only the content that is inside your ``$HOME/Games`` folder. **This is very important to understand**, otherwise you will be lost in a big hole - always put the Windows games and applications inside that folder.
 
-2 - Symbolic Links will not work for content that is outside of the ``$HOME/Games` folder. If you need to let Steam and Proton access content outside of this folder, you need to run the following command to add support for additional locations:
+2 - Symbolic Links will not work for content that is outside of the ``$HOME/Games`` folder. If you need to let Steam and Proton access content outside of this folder, you need to run the following command to add support for additional locations:
 
 ```bash
 # Specific folder
