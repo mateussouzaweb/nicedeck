@@ -28,8 +28,8 @@ func main() {
 	linux := build.New(Env(
 		"GOOS=linux",
 	)).Add(&build.Step{
-		ID:      "build-linux-x64",
-		Name:    "Building Linux X64",
+		ID:      "build-linux-amd64",
+		Name:    "Building Linux AMD64",
 		Context: Env("GOARCH=amd64"),
 		Command: Cmd("go build -o bin/nicedeck-linux-amd64 cmd/main.go"),
 	}).Add(&build.Step{
@@ -43,7 +43,7 @@ func main() {
 	macos := build.New(Env(
 		"GOOS=darwin",
 	)).Add(&build.Step{
-		ID:      "build-macos-x64",
+		ID:      "build-macos-amd64",
 		Name:    "Building MacOS Intel",
 		Context: Env("GOARCH=amd64"),
 		Command: Cmd("go build -o bin/nicedeck-macos-amd64 cmd/main.go"),
