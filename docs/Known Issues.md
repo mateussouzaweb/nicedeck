@@ -6,13 +6,21 @@ Luckily, there is not much here, but you should read the [Proton](./Proton.md) s
 
 ## Windows Specific Issues
 
+Installing and removing programs:
+
 - When removing Discord, it does not fully remove itself and you will still see the app on Windows.
 - Brave Browser removes automatically when requested, but return error on NiceDeck.
 - Ubisoft Connect will remove automatically when requested, but the Windows start menu shortcut is not removed.
 
+Windows file and folder shortcuts:
+
+- Windows shortcut ``.lnk`` files or junction points are not accepted or handled by NiceDeck.
+- If you want to put additional content in another location with a symbolic link, you must create a valid directory shortcut from Terminal.
+- For example, to create a directory shortcut for **ROMs** in another disk (*D:*), open the *Terminal* application with **administrator privilegies**, go to the ``$GAMES`` folder and run the following command to create the symbolic link: ``cmd /c mklink /d ".\ROMs" "D:\ROMs"``.
+
 ## MacOS Specific Issues
 
-In general, MacOS gaming still is not a good experience. Do not expect that everything will work flawlessly.
+In general, MacOS gaming still is not a good experience. Do not expect that everything will work flawlessly:
 
 - You may need to give "Full Disk Access" system permissions to the "Terminal" app before trying to use NiceDeck.
 - You may need to install Rosetta 2 before trying to install or running non-native applications on Apple Silicon.
