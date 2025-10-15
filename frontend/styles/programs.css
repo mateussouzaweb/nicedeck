@@ -47,23 +47,19 @@
     min-width: 72px;
 }
 
-#programs #list .installed .area::after {
-    background: #000;
-    border-radius: 50%;
-    bottom: 5px;
-    content: '';
-    height: 10px;
-    position: absolute;
-    right: 5px;
-    width: 10px;
+#programs #list .checkbox .flags {
+    margin: 3px -3px -3px;
 }
-#programs #list .remove-only-shortcut .area::before {
-    background: #000;
-    border-radius: 1px;
-    content: '';
-    height: 2px;
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    width: 5px;
+#programs #list .checkbox .flags span {
+    border: 1px solid #000;
+    border-radius: 3px;
+    display: inline-block;
+    font-size: smaller;
+    margin: 2px;
+    padding: 2px 5px;
+    vertical-align: middle;
+}
+#programs #list .checkbox .flags .flag-installed {
+    background-color: #000;
+    color: #FFF;
 }

@@ -28,9 +28,13 @@ window.addEventListener('load', async () => {
                     return
                 }
 
-                var classes = program.flags.join(' ').replaceAll('--', '')
+                var flags = program.flags.map((flag) => {
+                    flag = flag.replaceAll('--', '')
+                    return `<span class="flag flag-${flag}">${flag}</span>`
+                }).join('')
+
                 html.push(
-                `<label class="checkbox ${classes}" title="${program.name}">
+                `<label class="checkbox" title="${program.name}">
                     <input type="checkbox" name="programs[]" value="${program.id}" />
                     <div class="area">
                         <div class="icon">
@@ -39,6 +43,7 @@ window.addEventListener('load', async () => {
                         <div class="info">
                             <b>${program.name}</b><br/>
                             <small>${program.description}</small>
+                            <div class="flags">${flags}</div>
                         </div>
                     </div>
                 </label>`)
