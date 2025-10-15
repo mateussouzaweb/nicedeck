@@ -23,7 +23,7 @@ window.addEventListener('load', async () => {
             link: link.href
         }
 
-        await window.runAndCaptureConsole(link, true, async () => {
+        await window.runAndCaptureConsole(link, false, async () => {
             try {
                 /** @type {OpenLinkResult} */
                 await requestJson('POST', '/api/link/open', JSON.stringify(body))
