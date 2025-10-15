@@ -228,35 +228,35 @@ window.addEventListener('load', async () => {
                 <h4>Cover Artworks:</h4>
                 <div class="options">
                     <input type="hidden" name="cover" value="" />
-                    <p>Set the shortcut name to see artworks.</p>
+                    <small>Set the shortcut name to see artworks.</small>
                 </div>
             </section>
             <section class="group group-banner">
                 <h4>Banner Artworks:</h4>
                 <div class="options">
                     <input type="hidden" name="banner" value="" />
-                    <p>Set the shortcut name to see artworks.</p>
+                    <small>Set the shortcut name to see artworks.</small>
                 </div>
             </section>
             <section class="group group-hero">
                 <h4>Hero Artworks:</h4>
                 <div class="options">
                     <input type="hidden" name="hero" value="" />
-                    <p>Set the shortcut name to see artworks.</p>
+                    <small>Set the shortcut name to see artworks.</small>
                 </div>
             </section>
             <section class="group group-icon">
                 <h4>Icon Artworks:</h4>
                 <div class="options">
                     <input type="hidden" name="icon" value="" />
-                    <p>Set the shortcut name to see artworks.</p>
+                    <small>Set the shortcut name to see artworks.</small>
                 </div>
             </section>
             <section class="group group-logo">
                 <h4>Logo Artworks:</h4>
                 <div class="options">
                     <input type="hidden" name="logo" value="" />
-                    <p>Set the shortcut name to see artworks.</p>
+                    <small>Set the shortcut name to see artworks.</small>
                 </div>
             </section>
         `
@@ -264,12 +264,6 @@ window.addEventListener('load', async () => {
         content.innerHTML = html
         window.showModal(modal)
 
-        const searchInput = $('[data-search-artworks]', content)
-        const changeEvent = new CustomEvent('change', {
-            bubbles: true
-        })
-
-        searchInput.dispatchEvent(changeEvent)
     }
 
     /**
