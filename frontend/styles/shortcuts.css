@@ -134,6 +134,8 @@
     display: flex;
     flex-flow: column;
     height: 100%;
+    overflow: hidden;
+    position: relative;
 }
 
 #shortcuts #list .item.message {
@@ -159,13 +161,18 @@
 
 #shortcuts #list .info {
     align-items: stretch;
+    border-top: 1px solid #000;
     display: flex;
     flex: 1;
     flex-flow: column;
 }
 #shortcuts #list .info .title {
+    align-items: center;
+    display: flex;
     flex: 1;
+    justify-content: center;
     padding: 10px;
+    text-align: center;
 }
 #shortcuts #list .info .title h4 {
     margin: 0;
