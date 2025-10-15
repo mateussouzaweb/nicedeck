@@ -89,6 +89,10 @@
 .modal .header h3 {
     margin: 0;
 }
+.modal .header h3 small {
+    font-weight: normal;
+    opacity: 0.5;
+}
 .modal .header .close {
     font-size: 1.5em;
     justify-self: flex-end;

@@ -273,7 +273,9 @@ window.addEventListener('load', async () => {
     async function renderUpdateShortcut(shortcut) {
 
         const modal = $('#modal-update-shortcut')
+        const subTitle = $('.header h3 small', modal)
         const content = $('.content', modal)
+
         const html = `
             <div class="group">
                 <label for="program">Program:</label>
@@ -341,6 +343,7 @@ window.addEventListener('load', async () => {
         `
 
         modal.dataset.shortcut = shortcut.id
+        subTitle.innerText = `(${shortcut.id})`
         content.innerHTML = html
         window.showModal(modal)
 
@@ -470,9 +473,11 @@ window.addEventListener('load', async () => {
         const shortcut = getShortcut(element.dataset.deleteShortcut)
 
         const modal = $('#modal-delete-shortcut')
+        const subTitle = $('.header h3 small', modal)
         const content = $('.content', modal)
 
         modal.dataset.shortcut = shortcut.id
+        subTitle.innerText = `(${shortcut.id})`
         content.innerHTML = `<p>Are you sure you want to delete the shortcut to <b>${shortcut.name}</b>?</p>`
         window.showModal(modal)
 
