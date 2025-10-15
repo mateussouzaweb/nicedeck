@@ -21,6 +21,11 @@ body {
 header {
     background: #cdb3d3;
     border-bottom: 1px solid #000;
+    left: 0;
+    position: sticky;
+    right: 0;
+    top: 0;
+    z-index: 10;
 }
 
 footer .centered {
