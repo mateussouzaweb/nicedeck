@@ -942,8 +942,8 @@ func Xenia() *Program {
 			Source: github.Release(
 				"https://github.com/xenia-canary/xenia-canary-releases",
 				cli.ArchVariant(
-					"xenia_canary_linux.tar.gz", // amd64
-					"xenia_canary_linux.tar.gz", // arm64 (WIP)
+					"xenia_canary_linux.tar.xz", // amd64
+					"xenia_canary_linux.tar.xz", // arm64 (WIP)
 				),
 			),
 		}, &windows.Executable{
