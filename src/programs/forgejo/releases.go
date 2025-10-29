@@ -3,6 +3,7 @@ package forgejo
 import (
 	"fmt"
 	"regexp"
+	"sort"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -19,8 +20,9 @@ func GetAssetURL(domain string, repository string, search string) (string, error
 
 	// Response struct
 	var releases []struct {
-		Name   string `json:"name"`
-		Assets []struct {
+		Name        string `json:"name"`
+		PublishedAt string `json:"published_at"`
+		Assets      []struct {
 			Name        string `json:"name"`
 			Type        string `json:"type"`
 			DownloadURL string `json:"browser_download_url"`
@@ -32,6 +34,11 @@ func GetAssetURL(domain string, repository string, search string) (string, error
 	if err != nil {
 		return "", err
 	}
+
+	// Sort releases by published date (newest first)
+	sort.SliceStable(releases, func(i int, j int) bool {
+		return releases[i].PublishedAt > releases[j].PublishedAt
+	})
 
 	// Create rule from search
 	search = strings.ReplaceAll(search, "*", "(.+)")
