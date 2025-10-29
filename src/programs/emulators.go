@@ -283,8 +283,20 @@ func Eden() *Program {
 			Source: github.Release(
 				"https://github.com/eden-emulator/Releases",
 				cli.ArchVariant(
-					"Eden-Linux-*-amd64.AppImage", // amd64
-					"Eden-Linux-*-amd64.AppImage", // arm64 (WIP)
+					"Eden-Linux-*-amd64-gcc-standard.AppImage",   // amd64
+					"Eden-Linux-*-aarch64-gcc-standard.AppImage", // arm64
+				),
+			),
+		}, &macos.Application{
+			AppID:     "eden",
+			AppName:   "$EMULATORS/Eden/Eden.app",
+			AppAlias:  "$HOME/Applications/Gaming/Eden.app",
+			Arguments: packaging.NoArguments(),
+			Source: github.Release(
+				"https://github.com/eden-emulator/Releases",
+				cli.ArchVariant(
+					"Eden-macOS-*.tar.gz", // amd64 (WIP)
+					"Eden-macOS-*.tar.gz", // arm64
 				),
 			),
 		}, &windows.Executable{
@@ -295,8 +307,8 @@ func Eden() *Program {
 			Source: github.Release(
 				"https://github.com/eden-emulator/Releases",
 				cli.ArchVariant(
-					"Eden-Windows-*-amd64.zip", // amd64
-					"Eden-Windows-*-amd64.zip", // arm64 (WIP)
+					"Eden-Windows-*-amd64-msvc-standard.zip", // amd64
+					"Eden-Windows-*-arm64-msvc-standard.zip", // arm64
 				),
 			),
 		}),
