@@ -3,6 +3,7 @@ package gitlab
 import (
 	"fmt"
 	"regexp"
+	"sort"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -19,6 +20,7 @@ func GetAssetURL(domain string, projectId string, search string) (string, error)
 	var releases []struct {
 		Name            string `json:"name"`
 		UpcomingRelease bool   `json:"upcoming_release"`
+		ReleasedAt      string `json:"released_at"`
 		Assets          struct {
 			Links []struct {
 				Name           string `json:"name"`
@@ -33,6 +35,11 @@ func GetAssetURL(domain string, projectId string, search string) (string, error)
 	if err != nil {
 		return "", err
 	}
+
+	// Sort releases by published date (newest first)
+	sort.SliceStable(releases, func(i int, j int) bool {
+		return releases[i].ReleasedAt > releases[j].ReleasedAt
+	})
 
 	// Create rule from search
 	search = strings.ReplaceAll(search, "*", "(.+)")
