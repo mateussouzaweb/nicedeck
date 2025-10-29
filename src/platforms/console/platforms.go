@@ -178,17 +178,17 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 		Emulators: []*Emulator{{
 			Name:          "Ryujinx",
 			Program:       "ryujinx",
-			Extensions:    "nca .nro .nso .nsp .xci",
+			Extensions:    ".nca .nro .nso .nsp .xci",
 			LaunchOptions: "--fullscreen ${ROM}",
 		}, {
 			Name:          "Citron",
 			Program:       "citron",
-			Extensions:    "nca .nro .nso .nsp .xci",
+			Extensions:    ".nca .nro .nso .nsp .xci",
 			LaunchOptions: "-f -g ${ROM}",
 		}, {
 			Name:          "Eden",
 			Program:       "eden",
-			Extensions:    "nca .nro .nso .nsp .xci",
+			Extensions:    ".nca .nro .nso .nsp .xci",
 			LaunchOptions: "-f -g ${ROM}",
 		}},
 	})
