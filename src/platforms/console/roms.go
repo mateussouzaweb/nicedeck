@@ -124,8 +124,11 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 			return err
 		}
 
-		// Ignore directories
-		if dir.IsDir() {
+		// Ignore directories without a directory extension
+		// Please note that some emulators like PS3/PS4 use folders as ROM
+		// These folders will always have a directory extension
+		// So we only skip folders without an extension
+		if dir.IsDir() && filepath.Ext(realPath) == "" {
 			return nil
 		}
 

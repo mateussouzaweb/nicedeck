@@ -77,7 +77,7 @@
         <name>ps3</name>
         <fullname>Sony PlayStation 3</fullname>
         <path>%ROMPATH%/PS3</path>
-        <extension>.desktop .DESKTOP .ps3 .PS3 .ps3dir .PS3DIR</extension>
+        <extension>.app .APP .desktop .DESKTOP .lnk .LNK .ps3 .PS3 .ps3dir .PS3DIR</extension>
         <command label="RPCS3">%EMULATOR_RPCS3% --no-gui %ROM%</command>
         <platform>ps3</platform>
         <theme>ps3</theme>
@@ -86,7 +86,7 @@
         <name>ps4</name>
         <fullname>Sony PlayStation 4</fullname>
         <path>%ROMPATH%/PS4</path>
-        <extension>.desktop .DESKTOP</extension>
+        <extension>.app .APP .bin .BIN .desktop .DESKTOP .lnk .LNK .ps4 .PS4</extension>
         <command label="SHADPS4">%EMULATOR_SHADPS4% -g %ROM%</command>
         <platform>ps4</platform>
         <theme>ps4</theme>
