@@ -7,6 +7,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/programs/assets"
+	"github.com/mateussouzaweb/nicedeck/src/programs/forgejo"
 	"github.com/mateussouzaweb/nicedeck/src/programs/github"
 	"github.com/mateussouzaweb/nicedeck/src/programs/gitlab"
 	"github.com/mateussouzaweb/nicedeck/src/programs/website"
@@ -136,8 +137,8 @@ func Citron() *Program {
 			AppID:     "citron",
 			AppName:   "$EMULATORS/Citron/Citron.AppImage",
 			Arguments: packaging.NoArguments(),
-			Source: gitlab.Release(
-				"https://git.citron-emu.org", "1",
+			Source: github.Release(
+				"https://github.com/pkgforge-dev/Citron-AppImage",
 				cli.ArchVariant(
 					"Citron-*-anylinux-x86_64.AppImage",  // amd64
 					"Citron-*-anylinux-aarch64.AppImage", // arm64
@@ -148,11 +149,11 @@ func Citron() *Program {
 			AppExe:    "$EMULATORS/Citron/citron.exe",
 			AppAlias:  "$START_MENU/Gaming/Citron.lnk",
 			Arguments: packaging.NoArguments(),
-			Source: gitlab.Release(
-				"https://git.citron-emu.org", "1",
+			Source: forgejo.Release(
+				"https://git.citron-emu.org", "Citron/Emulator",
 				cli.ArchVariant(
-					"citron_windows.zip", // amd64
-					"citron_windows.zip", // arm64 (WIP)
+					"citron-windows-*.zip", // amd64
+					"citron-windows-*.zip", // arm64 (WIP)
 				),
 			),
 		}),
