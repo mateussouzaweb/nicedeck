@@ -73,7 +73,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 		platforms = append(platforms, &Platform{
 			Name:           "Windows",
 			Runtime:        "Native",
-			Extensions:     ".exe .msi .bat .cmd",
+			Extensions:     ".exe .msi .bat .cmd .lnk",
 			StartDirectory: "${DIRECTORY}",
 			Executable:     "${ROM}",
 			LaunchOptions:  "",
