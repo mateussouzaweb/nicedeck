@@ -69,13 +69,6 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 		return rom, nil
 	}
 
-	// Validate if extension is in the valid list
-	valid := strings.Split(runtime.Emulator.Extensions, " ")
-	if !slices.Contains(valid, strings.ToLower(extension)) {
-		cli.Debug("Skipped: invalid ROM format for %s emulator.\n", runtime.Emulator.Name)
-		return rom, nil
-	}
-
 	// Valid, fill ROM data with runtime
 	executable := runtime.Program.Package.Executable()
 	launchOptions := runtime.Emulator.LaunchOptions

@@ -3,6 +3,7 @@ package console
 import (
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/programs"
@@ -25,6 +26,7 @@ func FindRuntime(romPath string, options *Options) (*Runtime, error) {
 	}
 
 	romPath = strings.ToLower(romPath)
+	romExtension := filepath.Ext(romPath)
 
 	// Retrieve platforms
 	platforms, err := GetPlatforms(options)
@@ -52,10 +54,25 @@ func FindRuntime(romPath string, options *Options) (*Runtime, error) {
 			continue
 		}
 
+		// Filter emulators by validating ROM extension
+		// Create a list of valid emulators for the current ROM extension
+		emulators := []*Emulator{}
+		for _, emulator := range platform.Emulators {
+			valid := strings.Split(emulator.Extensions, " ")
+			if slices.Contains(valid, romExtension) {
+				emulators = append(emulators, emulator)
+			}
+		}
+
+		// Skip platform if there is no valid emulator for the ROM extension
+		if len(emulators) == 0 {
+			continue
+		}
+
 		// Special case to enforce an specific emulator of the platform
 		// The condition is to have the emulator name as subfolder
 		// Please note that is important to check subfolder with path separator
-		for _, emulator := range platform.Emulators {
+		for _, emulator := range emulators {
 			subFolder := strings.ReplaceAll(emulator.Name, " ", "-")
 			subFolder = filepath.Join(mainFolder, subFolder)
 			subFolder = strings.ToLower(subFolder + separator)
@@ -77,7 +94,7 @@ func FindRuntime(romPath string, options *Options) (*Runtime, error) {
 
 		// Default case that will use the installed emulator
 		// Check and use the first emulator that is installed for the platform
-		for _, emulator := range platform.Emulators {
+		for _, emulator := range emulators {
 			program, err := programs.GetProgramByID(emulator.Program)
 			if err != nil {
 				return result, err
@@ -96,7 +113,7 @@ func FindRuntime(romPath string, options *Options) (*Runtime, error) {
 
 		// Last case that will use the available emulator
 		// Check and use the first emulator that is available for the platform
-		for _, emulator := range platform.Emulators {
+		for _, emulator := range emulators {
 			program, err := programs.GetProgramByID(emulator.Program)
 			if err != nil {
 				return result, err
