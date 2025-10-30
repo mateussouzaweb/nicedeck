@@ -9,7 +9,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/command"
 )
 
-var version = "0.2.3"
+var version = "0.2.4"
 
 // Main command
 func main() {
