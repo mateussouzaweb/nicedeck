@@ -46,7 +46,7 @@ func Load() error {
 	// EpicGames.Load()
 	// GOG.Load()
 
-	// Sync additional libraries
+	// Sync libraries
 	err = Sync()
 	if err != nil {
 		return err
@@ -58,18 +58,16 @@ func Load() error {
 // Save library on config path
 func Save() error {
 
-	// Save shortcuts library
-	err := Shortcuts.Save()
+	// Sync libraries
+	err := Sync()
 	if err != nil {
 		return err
 	}
 
-	// Sync change history with Steam to update shortcuts
-	for _, history := range Shortcuts.History {
-		err := Steam.Sync(history)
-		if err != nil {
-			return err
-		}
+	// Save shortcuts library
+	err = Shortcuts.Save()
+	if err != nil {
+		return err
 	}
 
 	// Save Steam library
@@ -84,33 +82,20 @@ func Save() error {
 		return err
 	}
 
-	// Desktop.Sync()
 	// Desktop.Save()
-	// EpicGames.Sync()
 	// EpicGames.Save()
-	// GOG.Sync()
 	// GOG.Save()
 
 	return nil
 }
 
-// Sync additional libraries into internal library to add or update entries
+// Sync libraries to add, update or remove entries
 func Sync() error {
 
-	// Steam shortcuts
-	for _, steamShortcut := range Steam.Shortcuts {
-		shortcut := Steam.ToInternal(steamShortcut)
-		existing := Shortcuts.Get(shortcut.ID)
-
-		if existing.ID != "" {
-			existing.Merge(shortcut)
-			shortcut = existing
-		}
-
-		err := Shortcuts.Set(shortcut, false)
-		if err != nil {
-			return err
-		}
+	// Sync Steam library
+	err := Steam.Sync(Shortcuts)
+	if err != nil {
+		return err
 	}
 
 	return nil

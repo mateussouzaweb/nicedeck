@@ -15,7 +15,6 @@ import (
 )
 
 type Image = shortcuts.Image
-type History = shortcuts.History
 type Internal = shortcuts.Shortcut
 
 // Library struct
@@ -29,6 +28,7 @@ type Library struct {
 	ImagesPath    string      `json:"imagesPath"`
 	ShortcutsPath string      `json:"shortcutsPath"`
 	Shortcuts     []*Shortcut `json:"-"`
+	Timestamp     int64       `json:"-"`
 }
 
 // Load library from database file
@@ -44,10 +44,11 @@ func (l *Library) Load(databasePath string) error {
 	l.ImagesPath = ""
 	l.ShortcutsPath = ""
 	l.Shortcuts = make([]*Shortcut, 0)
+	l.Timestamp = 0
 
 	// Check if Steam is installed
-	stackPackage := GetPackage()
-	installed, err := stackPackage.Installed()
+	steamPackage := GetPackage()
+	installed, err := steamPackage.Installed()
 	if err != nil {
 		return err
 	} else if !installed {
@@ -68,7 +69,7 @@ func (l *Library) Load(databasePath string) error {
 	}
 
 	// Check how is Steam running
-	l.Runtime = stackPackage.Runtime()
+	l.Runtime = steamPackage.Runtime()
 	if l.Runtime == "none" {
 		return fmt.Errorf("could not determine Steam runtime")
 	}
@@ -240,6 +241,12 @@ func (l *Library) Load(databasePath string) error {
 		l.Shortcuts = append(l.Shortcuts, &shortcut)
 	}
 
+	// Read VDF modified time and use as timestamp reference
+	l.Timestamp, err = fs.ModificationTime(l.ShortcutsPath)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -258,9 +265,9 @@ func (l *Library) Save() error {
 	}
 
 	// Make sure Steam on flatpak has the necessary permission
-	stackPackage := GetPackage()
-	if _, ok := stackPackage.(*linux.Flatpak); ok {
-		err := stackPackage.(*linux.Flatpak).ApplyOverrides()
+	steamPackage := GetPackage()
+	if _, ok := steamPackage.(*linux.Flatpak); ok {
+		err := steamPackage.(*linux.Flatpak).ApplyOverrides()
 		if err != nil {
 			return fmt.Errorf("could not perform Steam runtime setup: %s", err)
 		}
@@ -342,87 +349,187 @@ func (l *Library) Save() error {
 	return nil
 }
 
-// Sync change history to the library
-func (l *Library) Sync(history *History) error {
+// Sync shortcuts between libraries
+func (l *Library) Sync(Shortcuts *shortcuts.Library) error {
 
 	// Check if can sync library
 	if l.BasePath == "" || l.AccountId == "" {
 		return nil
 	}
 
-	// Remove shortcut to sync
-	if history.Action == "removed" {
-		reference := history.Original
-		shortcut := l.FromInternal(reference)
+	// Generate a new internal shortcut from Steam shortcut
+	// Used to sync Steam shortcuts into main library
+	toInternal := func(shortcut *Shortcut) *Internal {
 
-		for index, existing := range l.Shortcuts {
-			if existing.AppID != shortcut.AppID {
-				continue
+		internal := &Internal{}
+		internal.ID = shortcuts.FromUint(shortcut.AppID)
+		internal.Name = shortcut.AppName
+		internal.StartDirectory = shortcut.StartDir
+		internal.Executable = CleanExec(shortcut.Exe)
+		internal.LaunchOptions = shortcut.LaunchOptions
+		internal.ShortcutPath = shortcut.ShortcutPath
+		internal.Tags = shortcut.Tags
+
+		// Extended specs
+		// @deprecated and will be removed in future versions
+		internal.Description = shortcut.Description
+		internal.RelativePath = shortcut.RelativePath
+		internal.IconURL = shortcut.IconURL
+		internal.LogoURL = shortcut.LogoURL
+		internal.CoverURL = shortcut.CoverURL
+		internal.BannerURL = shortcut.BannerURL
+		internal.HeroURL = shortcut.HeroURL
+
+		return internal
+	}
+
+	// Generate a new Steam shortcut from internal shortcut
+	// Used to sync internal shortcuts into Steam library
+	fromInternal := func(internal *Internal) *Shortcut {
+
+		shortcut := &Shortcut{}
+		shortcut.AppID = shortcuts.ToUint(internal.ID)
+		shortcut.AppName = internal.Name
+		shortcut.StartDir = internal.StartDirectory
+		shortcut.Exe = EnsureExec(l.Runtime, internal.Executable)
+		shortcut.LaunchOptions = internal.LaunchOptions
+		shortcut.ShortcutPath = internal.ShortcutPath
+		shortcut.Tags = internal.Tags
+
+		return shortcut
+	}
+
+	// Sync Steam shortcuts to main library
+	// Libraries must have at least one minute difference between timestamps
+	// In such case, Steam is considered as newest library reference
+	if l.Timestamp > Shortcuts.Timestamp && l.Timestamp > Shortcuts.Timestamp-60 {
+		cli.Debug("Synchronizing Steam library to main library.\n")
+
+		// Add or update shortcuts to sync
+		processed := make(map[string]bool)
+		for _, shortcut := range l.Shortcuts {
+			internal := toInternal(shortcut)
+			existing := Shortcuts.Get(internal.ID)
+
+			if existing.ID != "" {
+				existing.Merge(internal)
+				internal = existing
 			}
 
-			// Handle shortcut assets
-			err := l.Assets(reference, existing, "remove", true)
+			err := Shortcuts.Set(internal, false)
 			if err != nil {
 				return err
 			}
 
-			// Update library of shortcuts
-			updated := make([]*Shortcut, 0)
-			updated = append(updated, l.Shortcuts[:index]...)
-			updated = append(updated, l.Shortcuts[index+1:]...)
-			l.Shortcuts = updated
-			break
+			processed[internal.ID] = true
 		}
 
-		return nil
+		// Remove shortcuts based on processed ones to sync
+		for _, internal := range Shortcuts.All() {
+			if _, ok := processed[internal.ID]; !ok {
+				err := Shortcuts.Remove(internal)
+				if err != nil {
+					return err
+				}
+			}
+		}
+
 	}
 
-	// Add or update shortcut to sync
-	reference := history.Result
-	shortcut := l.FromInternal(history.Result)
-	found := false
+	// Sync main library to Steam shortcuts
+	// Libraries must have at least one minute difference between timestamps
+	// In such case, main library is considered as newest library reference
+	if Shortcuts.Timestamp > l.Timestamp && Shortcuts.Timestamp > l.Timestamp-60 {
+		cli.Debug("Synchronizing main library to Steam library.\n")
 
-	// First, check if already exists the same shortcut
-	// This will prevent double additions
-	for index, existing := range l.Shortcuts {
-		if existing.AppID != shortcut.AppID {
-			continue
+		// Add or update shortcuts to sync
+		processed := make(map[uint]bool)
+		for _, reference := range Shortcuts.All() {
+			shortcut := fromInternal(reference)
+			found := false
+
+			// First, check if already exists the same shortcut
+			// This will prevent double additions
+			for index, existing := range l.Shortcuts {
+				if existing.AppID != shortcut.AppID {
+					continue
+				}
+
+				cli.Debug("Updating Steam shortcut: %v\n", shortcut.AppID)
+
+				// Keep current value for some keys
+				// These are Steam internal data, we don't modify it
+				shortcut.IsHidden = existing.IsHidden
+				shortcut.AllowDesktopConfig = existing.AllowDesktopConfig
+				shortcut.AllowOverlay = existing.AllowOverlay
+				shortcut.OpenVR = existing.OpenVR
+				shortcut.DevKit = existing.DevKit
+				shortcut.DevKitGameID = existing.DevKitGameID
+				shortcut.DevKitOverrideAppID = existing.DevKitOverrideAppID
+				shortcut.LastPlayTime = existing.LastPlayTime
+
+				// Handle shortcut assets
+				err := l.Assets(reference, shortcut, "sync", true)
+				if err != nil {
+					return err
+				}
+
+				// Replace shortcut at index
+				l.Shortcuts[index] = shortcut
+				processed[shortcut.AppID] = true
+				found = true
+				break
+			}
+
+			// Not found in library, can be added safely
+			if !found {
+
+				cli.Debug("Adding Steam shortcut: %v\n", shortcut.AppID)
+
+				// Handle shortcut assets
+				err := l.Assets(reference, shortcut, "sync", true)
+				if err != nil {
+					return err
+				}
+
+				// Add shortcut to the library
+				l.Shortcuts = append(l.Shortcuts, shortcut)
+				processed[shortcut.AppID] = true
+
+			}
+
 		}
 
-		// Keep current value for some keys
-		// These are Steam internal data, we don't modify it
-		shortcut.IsHidden = existing.IsHidden
-		shortcut.AllowDesktopConfig = existing.AllowDesktopConfig
-		shortcut.AllowOverlay = existing.AllowOverlay
-		shortcut.OpenVR = existing.OpenVR
-		shortcut.DevKit = existing.DevKit
-		shortcut.DevKitGameID = existing.DevKitGameID
-		shortcut.DevKitOverrideAppID = existing.DevKitOverrideAppID
-		shortcut.LastPlayTime = existing.LastPlayTime
+		// Remove shortcuts based on processed ones to sync
+		for index, shortcut := range l.Shortcuts {
+			if _, ok := processed[shortcut.AppID]; !ok {
 
-		// Handle shortcut assets
-		err := l.Assets(reference, shortcut, "sync", true)
-		if err != nil {
-			return err
+				cli.Debug("Removing Steam shortcut: %v\n", shortcut.AppID)
+
+				// Handle shortcut assets
+				reference := toInternal(shortcut)
+				err := l.Assets(reference, shortcut, "remove", true)
+				if err != nil {
+					return err
+				}
+
+				// Empty the shortcut at index
+				// We will remove empty shortcuts later
+				l.Shortcuts[index] = &Shortcut{}
+
+			}
 		}
 
-		// Replace shortcut at index
-		l.Shortcuts[index] = shortcut
-		found = true
-		break
-	}
-
-	// Not found in library, can be added safely
-	if !found {
-
-		// Handle shortcut assets
-		err := l.Assets(reference, shortcut, "sync", true)
-		if err != nil {
-			return err
+		// Remove empty shortcuts if any
+		// Method is optimized to remove multiple items from slice
+		updated := make([]*Shortcut, 0)
+		for _, shortcut := range l.Shortcuts {
+			if shortcut.AppID != 0 {
+				updated = append(updated, shortcut)
+			}
 		}
 
-		// Add shortcut to the library
-		l.Shortcuts = append(l.Shortcuts, shortcut)
+		l.Shortcuts = updated
 
 	}
 
@@ -528,46 +635,4 @@ func (l *Library) Assets(specs *Internal, shortcut *Shortcut, action string, ove
 	}
 
 	return nil
-}
-
-// Generate a new internal shortcut from Steam shortcut
-// Used to sync Steam shortcuts into main library
-func (l *Library) ToInternal(shortcut *Shortcut) *Internal {
-
-	internal := &Internal{}
-	internal.ID = shortcuts.FromUint(shortcut.AppID)
-	internal.Name = shortcut.AppName
-	internal.StartDirectory = shortcut.StartDir
-	internal.Executable = CleanExec(shortcut.Exe)
-	internal.LaunchOptions = shortcut.LaunchOptions
-	internal.ShortcutPath = shortcut.ShortcutPath
-	internal.Tags = shortcut.Tags
-
-	// Extended specs
-	// @deprecated and will be removed in future versions
-	internal.Description = shortcut.Description
-	internal.RelativePath = shortcut.RelativePath
-	internal.IconURL = shortcut.IconURL
-	internal.LogoURL = shortcut.LogoURL
-	internal.CoverURL = shortcut.CoverURL
-	internal.BannerURL = shortcut.BannerURL
-	internal.HeroURL = shortcut.HeroURL
-
-	return internal
-}
-
-// Generate a new Steam shortcut from internal shortcut
-// Used to sync internal shortcuts into Steam library
-func (l *Library) FromInternal(internal *Internal) *Shortcut {
-
-	shortcut := &Shortcut{}
-	shortcut.AppID = shortcuts.ToUint(internal.ID)
-	shortcut.AppName = internal.Name
-	shortcut.StartDir = internal.StartDirectory
-	shortcut.Exe = EnsureExec(l.Runtime, internal.Executable)
-	shortcut.LaunchOptions = internal.LaunchOptions
-	shortcut.ShortcutPath = internal.ShortcutPath
-	shortcut.Tags = internal.Tags
-
-	return shortcut
 }

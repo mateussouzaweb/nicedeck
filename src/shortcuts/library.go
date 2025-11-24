@@ -7,6 +7,7 @@ import (
 	"reflect"
 	"sort"
 
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 )
 
@@ -23,6 +24,7 @@ type Library struct {
 	ImagesPath   string      `json:"imagesPath"`
 	Shortcuts    []*Shortcut `json:"shortcuts"`
 	History      []*History  `json:"-"`
+	Timestamp    int64       `json:"-"`
 }
 
 // Load library from database file
@@ -33,9 +35,16 @@ func (l *Library) Load(databasePath string) error {
 	l.ImagesPath = filepath.Join(filepath.Dir(databasePath), "images")
 	l.Shortcuts = make([]*Shortcut, 0)
 	l.History = make([]*History, 0)
+	l.Timestamp = 0
 
 	// Read database file content
-	err := fs.ReadJSON(databasePath, &l)
+	err := fs.ReadJSON(l.DatabasePath, &l)
+	if err != nil {
+		return err
+	}
+
+	// Read database modified time
+	l.Timestamp, err = fs.ModificationTime(l.DatabasePath)
 	if err != nil {
 		return err
 	}
@@ -103,6 +112,8 @@ func (l *Library) Find(name string, executable string) *Shortcut {
 // Add shortcut to the library
 func (l *Library) Add(shortcut *Shortcut) error {
 
+	cli.Debug("Adding shortcut: %s\n", shortcut.ID)
+
 	// Handle shortcut assets
 	err := l.Assets(shortcut, "sync", true)
 	if err != nil {
@@ -134,6 +145,8 @@ func (l *Library) Update(shortcut *Shortcut, overwriteAssets bool) error {
 		if !reflect.DeepEqual(item, shortcut) {
 			return nil
 		}
+
+		cli.Debug("Updating shortcut: %s\n", shortcut.ID)
 
 		// Handle shortcut assets
 		err := l.Assets(shortcut, "sync", overwriteAssets)
@@ -182,6 +195,8 @@ func (l *Library) Remove(shortcut *Shortcut) error {
 			continue
 		}
 
+		cli.Debug("Removing shortcut: %s\n", shortcut.ID)
+
 		// Handle shortcut assets
 		err := l.Assets(shortcut, "remove", true)
 		if err != nil {
@@ -189,6 +204,7 @@ func (l *Library) Remove(shortcut *Shortcut) error {
 		}
 
 		// Update library shortcuts and history
+		// Method is optimized to remove single item from slice
 		updated := make([]*Shortcut, 0)
 		updated = append(updated, l.Shortcuts[:index]...)
 		updated = append(updated, l.Shortcuts[index+1:]...)
