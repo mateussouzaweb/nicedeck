@@ -7,6 +7,7 @@ help            print application help
 programs        list available programs
 platforms       list available platforms
 shortcuts       list current user shortcuts
+sync            sync internal library with external libraries
 scrape          scrape data on SteamGridDB
 launch          launch shortcut with given ID
 create          create a new shortcut from given path

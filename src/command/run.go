@@ -41,6 +41,8 @@ func Run(version string, args []string, done chan bool) error {
 		err = listShortcuts(context)
 	case "scrape":
 		err = scrapeData(context)
+	case "sync":
+		err = syncLibrary(context)
 	case "launch":
 		err = launchShortcut(context)
 	case "create":

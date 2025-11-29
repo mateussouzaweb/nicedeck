@@ -89,6 +89,11 @@ interface SaveLibraryResult {
 	error: string
 }
 
+interface SyncLibraryResult {
+	status: string
+	error: string
+}
+
 interface ListProgramsResult {
 	status: string
 	error: string

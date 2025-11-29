@@ -420,6 +420,27 @@ window.addEventListener('load', async () => {
         await renderAddShortcut()
     })
 
+    on('#shortcuts #sync', 'click', async (event) => {
+        event.preventDefault()
+        
+        await window.runAndCaptureConsole(button, false, async () => {
+            try {
+                /** @type {LoadLibraryResult} */
+                await requestJson('POST', '/api/library/load')
+
+                /** @type {SyncLibraryResult} */
+                await requestJson('POST', '/api/library/sync')
+
+                /** @type {SaveLibraryResult} */
+                await requestJson('POST', '/api/library/save')
+
+                await loadShortcuts()
+            } catch (error) {
+                window.showError(error)
+            }
+        })
+    })
+
     on('#shortcuts [data-launch-shortcut]', 'click', async (event) => {
         event.preventDefault()
 

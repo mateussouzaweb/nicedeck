@@ -95,6 +95,29 @@ func saveLibrary(context *Context) error {
 	return context.Status(200).JSON(result)
 }
 
+// Sync library result
+type SyncLibraryResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
+// Sync library action
+func syncLibrary(context *Context) error {
+
+	result := SyncLibraryResult{}
+
+	// Sync user library
+	err := library.Sync()
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
+}
+
 // List platforms result
 type ListProgramsResult struct {
 	Status string              `json:"status"`
@@ -804,6 +827,7 @@ func Setup(version string, developmentMode bool, shutdown chan bool) error {
 	Add("GET", "/api/scrape", scrapeData)
 	Add("POST", "/api/library/load", loadLibrary)
 	Add("POST", "/api/library/save", saveLibrary)
+	Add("POST", "/api/library/sync", syncLibrary)
 	Add("POST", "/api/shortcut/launch", launchShortcut)
 	Add("POST", "/api/shortcut/create", createShortcut)
 	Add("POST", "/api/shortcut/add", addShortcut)

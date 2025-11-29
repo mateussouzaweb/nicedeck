@@ -133,6 +133,37 @@ func scrapeData(context Context) error {
 	return nil
 }
 
+// Sync library
+func syncLibrary(context Context) error {
+
+	// Init user library
+	err := library.Init(context.Version)
+	if err != nil {
+		return err
+	}
+
+	// Load user library
+	err = library.Load()
+	if err != nil {
+		return err
+	}
+
+	// Make sure to save library on finish
+	defer func() {
+		errors.Join(err, library.Save())
+	}()
+
+	// Sync library
+	err = library.Sync()
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Libraries synchronized!\n")
+
+	return nil
+}
+
 // Launch shortcut
 func launchShortcut(context Context) error {
 
