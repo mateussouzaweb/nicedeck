@@ -231,7 +231,7 @@ func launchShortcut(context *Context) error {
 	}
 
 	// Launch the shortcut
-	err = library.Launch(shortcut)
+	err = library.Shortcuts.Launch(shortcut)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()

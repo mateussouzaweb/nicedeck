@@ -192,7 +192,7 @@ func launchShortcut(context Context) error {
 	}
 
 	// Launch the shortcut
-	return library.Launch(shortcut)
+	return library.Shortcuts.Launch(shortcut)
 }
 
 // Parse and create a new shortcut from path

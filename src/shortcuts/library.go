@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"reflect"
 	"sort"
+	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -107,6 +108,35 @@ func (l *Library) Get(ID string) *Shortcut {
 func (l *Library) Find(name string, executable string) *Shortcut {
 	ID := GenerateID(name, executable)
 	return l.Get(ID)
+}
+
+// Launch shortcut
+func (l *Library) Launch(shortcut *Shortcut) error {
+
+	cli.Printf(cli.ColorSuccess, "Launching: %s\n", shortcut.Name)
+	context := &cli.Context{
+		WorkingDirectory: shortcut.StartDirectory,
+		Executable:       shortcut.Executable,
+		Arguments:        []string{},
+		Environment:      []string{},
+	}
+
+	// Split launch options into parameters and environment variables
+	// Implementation match Steam launch options format
+	if strings.Contains(shortcut.LaunchOptions, "%command%") {
+		split := strings.Split(shortcut.LaunchOptions, "%command%")
+		arguments := strings.Trim(split[1], " ")
+		context.Arguments = []string{arguments}
+
+		if split[0] != "" {
+			environment := strings.Trim(split[0], " ")
+			context.Environment = strings.Split(environment, " ")
+		}
+	} else if shortcut.LaunchOptions != "" {
+		context.Arguments = []string{shortcut.LaunchOptions}
+	}
+
+	return context.Run()
 }
 
 // Add shortcut to the library
