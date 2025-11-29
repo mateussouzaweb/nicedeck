@@ -1,6 +1,7 @@
 package esde
 
 import (
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/esde/settings"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
@@ -16,6 +17,14 @@ type Library struct {
 
 // Load library
 func (l *Library) Load() error {
+
+	// Windows portable version uses application path
+	if cli.IsWindows() {
+		l.BasePath = fs.ExpandPath("$APPLICATIONS/ES-DE/ES-DE")
+		return nil
+	}
+
+	// Default path for other OS (Linux and MacOS)
 	l.BasePath = fs.ExpandPath("$HOME/ES-DE")
 	return nil
 }
