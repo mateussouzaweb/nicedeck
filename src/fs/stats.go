@@ -2,7 +2,7 @@ package fs
 
 import "os"
 
-// Read file modification time in unix timestamp
+// Read file modification time in UTC unix timestamp
 func ModificationTime(path string) (int64, error) {
 
 	// Check if file exist
@@ -19,6 +19,6 @@ func ModificationTime(path string) (int64, error) {
 		return 0, err
 	}
 
-	modificationTime := fileInfo.ModTime().Unix()
+	modificationTime := fileInfo.ModTime().UTC().Unix()
 	return modificationTime, nil
 }

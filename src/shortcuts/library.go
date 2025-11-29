@@ -156,7 +156,7 @@ func (l *Library) Launch(shortcut *Shortcut) error {
 func (l *Library) Add(shortcut *Shortcut) error {
 
 	cli.Debug("Adding shortcut: %s\n", shortcut.ID)
-	shortcut.Timestamp = time.Now().Unix()
+	shortcut.Timestamp = time.Now().UTC().Unix()
 
 	// Handle shortcut assets
 	err := l.Assets(shortcut, "sync", true)
@@ -191,7 +191,7 @@ func (l *Library) Update(shortcut *Shortcut, overwriteAssets bool) error {
 		}
 
 		cli.Debug("Updating shortcut: %s\n", shortcut.ID)
-		shortcut.Timestamp = time.Now().Unix()
+		shortcut.Timestamp = time.Now().UTC().Unix()
 
 		// Handle shortcut assets
 		err := l.Assets(shortcut, "sync", overwriteAssets)
