@@ -130,7 +130,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 		Emulators: []*Emulator{{
 			Name:          "RPCS3",
 			Program:       "rpcs3",
-			Extensions:    ".app .desktop .lnk .ps3 .ps3dir",
+			Extensions:    ".ps3 .ps3dir",
 			LaunchOptions: "--no-gui ${ROM}",
 		}},
 	})
@@ -142,7 +142,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 		Emulators: []*Emulator{{
 			Name:          "ShadPS4",
 			Program:       "shadps4",
-			Extensions:    ".app .desktop .lnk .bin .ps4",
+			Extensions:    ".ps4",
 			LaunchOptions: "-g ${ROM}",
 		}},
 	})
