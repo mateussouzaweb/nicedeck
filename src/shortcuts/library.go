@@ -7,6 +7,7 @@ import (
 	"reflect"
 	"sort"
 	"strings"
+	"time"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -25,18 +26,23 @@ type Library struct {
 	ImagesPath   string      `json:"imagesPath"`
 	Shortcuts    []*Shortcut `json:"shortcuts"`
 	History      []*History  `json:"-"`
-	Timestamp    int64       `json:"-"`
 }
 
-// Load library from database file
-func (l *Library) Load(databasePath string) error {
+// Init library
+func (l *Library) Init(databasePath string) error {
 
-	// Reset and fill basic information
 	l.DatabasePath = databasePath
 	l.ImagesPath = filepath.Join(filepath.Dir(databasePath), "images")
+
+	return nil
+}
+
+// Load library
+func (l *Library) Load() error {
+
+	// Reset and fill basic information
 	l.Shortcuts = make([]*Shortcut, 0)
 	l.History = make([]*History, 0)
-	l.Timestamp = 0
 
 	// Read database file content
 	err := fs.ReadJSON(l.DatabasePath, &l)
@@ -44,10 +50,17 @@ func (l *Library) Load(databasePath string) error {
 		return err
 	}
 
-	// Read database modified time
-	l.Timestamp, err = fs.ModificationTime(l.DatabasePath)
+	// Read database modified time and use as timestamp reference
+	// Process will fill shortcut timestamps if missing
+	timestamp, err := fs.ModificationTime(l.DatabasePath)
 	if err != nil {
 		return err
+	}
+
+	for _, shortcut := range l.Shortcuts {
+		if shortcut.Timestamp == 0 {
+			shortcut.Timestamp = timestamp
+		}
 	}
 
 	// Make sure images path exists
@@ -143,6 +156,7 @@ func (l *Library) Launch(shortcut *Shortcut) error {
 func (l *Library) Add(shortcut *Shortcut) error {
 
 	cli.Debug("Adding shortcut: %s\n", shortcut.ID)
+	shortcut.Timestamp = time.Now().Unix()
 
 	// Handle shortcut assets
 	err := l.Assets(shortcut, "sync", true)
@@ -177,6 +191,7 @@ func (l *Library) Update(shortcut *Shortcut, overwriteAssets bool) error {
 		}
 
 		cli.Debug("Updating shortcut: %s\n", shortcut.ID)
+		shortcut.Timestamp = time.Now().Unix()
 
 		// Handle shortcut assets
 		err := l.Assets(shortcut, "sync", overwriteAssets)

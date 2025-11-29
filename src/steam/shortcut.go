@@ -18,6 +18,7 @@ type Shortcut struct {
 	DevKitOverrideAppID uint     `json:"devKitOverrideAppId"`
 	LastPlayTime        uint     `json:"lastPlayTime"`
 	Tags                []string `json:"tags"`
+	Timestamp           int64    `json:"timestamp"`
 
 	// Extended specs
 	// @deprecated and will be removed in future versions

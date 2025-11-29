@@ -22,6 +22,7 @@ type Shortcut struct {
 	HeroPath       string   `json:"heroPath"`
 	HeroURL        string   `json:"heroUrl"`
 	Tags           []string `json:"tags"`
+	Timestamp      int64    `json:"timestamp"`
 }
 
 // Safely merge shortcuts
@@ -67,5 +68,8 @@ func (s *Shortcut) Merge(source *Shortcut) {
 	}
 	if len(source.Tags) > 0 {
 		s.Tags = source.Tags
+	}
+	if source.Timestamp > s.Timestamp {
+		s.Timestamp = source.Timestamp
 	}
 }
