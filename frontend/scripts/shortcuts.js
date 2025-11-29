@@ -423,6 +423,12 @@ window.addEventListener('load', async () => {
     on('#shortcuts #sync', 'click', async (event) => {
         event.preventDefault()
         
+        const button = $('#shortcuts #sync')
+
+        if (button.disabled) {
+            return
+        }
+
         await window.runAndCaptureConsole(button, false, async () => {
             try {
                 /** @type {LoadLibraryResult} */
