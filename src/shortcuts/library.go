@@ -28,6 +28,11 @@ type Library struct {
 	History      []*History  `json:"-"`
 }
 
+// String representation of the library
+func (l *Library) String() string {
+	return "Shortcuts"
+}
+
 // Init library
 func (l *Library) Init(databasePath string) error {
 

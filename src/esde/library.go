@@ -15,6 +15,11 @@ type Library struct {
 	BasePath string `json:"basePath"`
 }
 
+// String representation of the library
+func (l *Library) String() string {
+	return "ES-DE"
+}
+
 // Load library
 func (l *Library) Load() error {
 

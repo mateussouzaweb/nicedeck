@@ -2,7 +2,9 @@ package library
 
 import (
 	"path/filepath"
+	"time"
 
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/esde"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
@@ -22,6 +24,7 @@ type Diff struct {
 
 // Synchronizable interface
 type Synchronizable interface {
+	String() string
 	Load() error
 	Save() error
 	Export() []*Shortcut
@@ -132,10 +135,23 @@ func Compare(current []*Shortcut, compare []*Shortcut) Diff {
 			continue
 		}
 
+		cli.Debug(
+			"Found update on %s: %s vs %s\n",
+			shortcut.ID,
+			time.Unix(shortcut.Timestamp, 0).String(),
+			time.Unix(comparable.Timestamp, 0).String(),
+		)
+
 		// Mark as updated entry
 		shortcut.Merge(comparable)
 		updated = append(updated, shortcut)
 
+	}
+
+	if len(added) == 0 && len(removed) == 0 && len(updated) == 0 {
+		cli.Debug("Diff: no differences found\n")
+	} else {
+		cli.Debug("Diff: added: %d / updated: %d / removed: %d\n", len(added), len(updated), len(removed))
 	}
 
 	return Diff{
@@ -179,6 +195,8 @@ func Sync() error {
 	// Process is done gradually for each additional library
 	for _, library := range libraries {
 
+		cli.Debug("Synchronizing %s to library\n", library.String())
+
 		// Load library data
 		err := library.Load()
 		if err != nil {
@@ -221,6 +239,8 @@ func Sync() error {
 	// At this stage, main library is full synchronized
 	// We now find and apply differences to each additional library
 	for _, library := range libraries {
+
+		cli.Debug("Synchronizing library to %s\n", library.String())
 
 		// Compare library with main shortcuts library
 		current := library.Export()

@@ -32,6 +32,11 @@ type Library struct {
 	Shortcuts     []*Shortcut `json:"-"`
 }
 
+// String representation of the library
+func (l *Library) String() string {
+	return "Steam"
+}
+
 // Init library
 func (l *Library) Init(databasePath string) error {
 	l.DatabasePath = databasePath
