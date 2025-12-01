@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"reflect"
 	"time"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -541,11 +540,6 @@ func (l *Library) Update(reference *Internal, overwriteAssets bool) error {
 	for index, existing := range l.Shortcuts {
 		if existing.AppID != shortcut.AppID {
 			continue
-		}
-
-		// When no changes are detect, don't do anything
-		if !reflect.DeepEqual(existing, shortcut) {
-			return nil
 		}
 
 		cli.Debug("Updating shortcut in Steam: %v\n", existing.AppID)

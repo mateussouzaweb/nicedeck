@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"reflect"
 	"sort"
 	"strings"
 	"time"
@@ -188,11 +187,6 @@ func (l *Library) Update(shortcut *Shortcut, overwriteAssets bool) error {
 	for index, item := range l.Shortcuts {
 		if item.ID != shortcut.ID {
 			continue
-		}
-
-		// When no changes are detect, don't do anything
-		if !reflect.DeepEqual(item, shortcut) {
-			return nil
 		}
 
 		cli.Debug("Updating shortcut: %s\n", shortcut.ID)
