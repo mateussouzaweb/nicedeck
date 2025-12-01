@@ -1,5 +1,11 @@
 package steam
 
+import (
+	"crypto/md5"
+	"fmt"
+	"slices"
+)
+
 // Shortcut struct
 type Shortcut struct {
 	AppID               uint     `json:"appId"`
@@ -29,4 +35,33 @@ type Shortcut struct {
 	CoverURL     string `json:"coverUrl"`
 	BannerURL    string `json:"bannerUrl"`
 	HeroURL      string `json:"heroUrl"`
+}
+
+// Generate checksum for shortcut from relevant fields
+func (s *Shortcut) Checksum() string {
+
+	// Make sure to sort tags before generating checksum
+	slices.Sort(s.Tags)
+
+	// Create data string from relevant fields
+	data := fmt.Sprintf(
+		"%v|%v|%v|%v|%v|%v|%v|%v|%v|%v|%v|%v|%v|%v",
+		s.AppName,
+		s.StartDir,
+		s.Exe,
+		s.LaunchOptions,
+		s.ShortcutPath,
+		s.Icon,
+		s.IsHidden,
+		s.AllowDesktopConfig,
+		s.AllowOverlay,
+		s.OpenVR,
+		s.DevKit,
+		s.DevKitGameID,
+		s.DevKitOverrideAppID,
+		s.Tags,
+	)
+
+	checksum := md5.Sum([]byte(data))
+	return fmt.Sprintf("%x", checksum)
 }

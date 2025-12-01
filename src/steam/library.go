@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"time"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -21,15 +22,17 @@ type Internal = shortcuts.Shortcut
 
 // Library struct
 type Library struct {
-	DatabasePath  string      `json:"databasePath"`
-	BasePath      string      `json:"basePath"`
-	Runtime       string      `json:"runtime"`
-	AccountId     string      `json:"accountId"`
-	AccountName   string      `json:"accountName"`
-	ConfigPath    string      `json:"configPath"`
-	ImagesPath    string      `json:"imagesPath"`
-	ShortcutsPath string      `json:"shortcutsPath"`
-	Shortcuts     []*Shortcut `json:"-"`
+	DatabasePath  string          `json:"databasePath"`
+	BasePath      string          `json:"basePath"`
+	Runtime       string          `json:"runtime"`
+	AccountId     string          `json:"accountId"`
+	AccountName   string          `json:"accountName"`
+	ConfigPath    string          `json:"configPath"`
+	ImagesPath    string          `json:"imagesPath"`
+	ShortcutsPath string          `json:"shortcutsPath"`
+	Checksums     map[uint]string `json:"checksums"`
+	Timestamps    map[uint]int64  `json:"timestamps"`
+	Shortcuts     []*Shortcut     `json:"-"`
 }
 
 // String representation of the library
@@ -54,6 +57,8 @@ func (l *Library) Load() error {
 	l.ConfigPath = ""
 	l.ImagesPath = ""
 	l.ShortcutsPath = ""
+	l.Checksums = make(map[uint]string, 0)
+	l.Timestamps = make(map[uint]int64, 0)
 	l.Shortcuts = make([]*Shortcut, 0)
 
 	// Check if Steam is installed
@@ -153,13 +158,6 @@ func (l *Library) Load() error {
 
 	cli.Debug("Reading VDF at %s\n", l.ShortcutsPath)
 
-	// Read VDF modified time and use as timestamp reference
-	// Necessary because Steam does not store change timestamp per shortcut
-	timestamp, err := fs.ModificationTime(l.ShortcutsPath)
-	if err != nil {
-		return err
-	}
-
 	// Read VDF file content
 	content, err := os.ReadFile(l.ShortcutsPath)
 	if err != nil {
@@ -236,6 +234,7 @@ func (l *Library) Load() error {
 		}
 
 		// Convert to manageable shortcut
+		// Timestamp will be filled during indexing
 		shortcut := Shortcut{
 			AppID:               item["appid"].(uint),
 			AppName:             item["AppName"].(string),
@@ -253,10 +252,17 @@ func (l *Library) Load() error {
 			DevKitOverrideAppID: item["DevkitOverrideAppID"].(uint),
 			LastPlayTime:        item["LastPlayTime"].(uint),
 			Tags:                tags,
-			Timestamp:           timestamp,
+			Timestamp:           0,
 		}
 
+		// Append to library shortcuts
 		l.Shortcuts = append(l.Shortcuts, &shortcut)
+	}
+
+	// Index shortcuts to detect external changes
+	err = l.Index()
+	if err != nil {
+		return err
 	}
 
 	return nil
@@ -270,8 +276,14 @@ func (l *Library) Save() error {
 		return nil
 	}
 
+	// Index shortcuts to update references before saving
+	err := l.Index()
+	if err != nil {
+		return err
+	}
+
 	// Save database state to file
-	err := fs.WriteJSON(l.DatabasePath, l)
+	err = fs.WriteJSON(l.DatabasePath, l)
 	if err != nil {
 		return err
 	}
@@ -366,6 +378,55 @@ func (l *Library) Available() bool {
 	return l.BasePath != "" && l.AccountId != ""
 }
 
+// Index shortcuts to detect external changes
+func (l *Library) Index() error {
+
+	// Skip indexing if library is not available
+	if !l.Available() {
+		return nil
+	}
+
+	// Take each shortcut and make change verification
+	// Use internal checksum and timestamp to detect changes
+	// Necessary because Steam does not store change timestamp per shortcut
+	// Finally, clean up any checksum and timestamp that no longer exist
+	processed := make(map[uint]bool, 0)
+	timestamp := time.Now().UTC().Unix()
+
+	for _, shortcut := range l.Shortcuts {
+		appID := shortcut.AppID
+		checksum := shortcut.Checksum()
+		processed[appID] = true
+
+		// When checksum exists and differ, shortcut was updated
+		// When checksum does not exist, consider as new shortcut
+		if value, ok := l.Checksums[appID]; ok {
+			if value != checksum {
+				l.Checksums[appID] = checksum
+				l.Timestamps[appID] = timestamp
+			}
+		} else {
+			l.Checksums[appID] = checksum
+			l.Timestamps[appID] = timestamp
+		}
+	}
+
+	// Remove entries that no longer exist
+	for appID := range l.Checksums {
+		if _, ok := processed[appID]; !ok {
+			delete(l.Checksums, appID)
+			delete(l.Timestamps, appID)
+		}
+	}
+
+	// Update timestamp in all shortcuts
+	for _, shortcut := range l.Shortcuts {
+		shortcut.Timestamp = l.Timestamps[shortcut.AppID]
+	}
+
+	return nil
+}
+
 // Export shortcuts to internal format
 func (l *Library) Export() []*Internal {
 
@@ -456,6 +517,8 @@ func (l *Library) Add(reference *Internal) error {
 
 	// Add shortcut to the library
 	l.Shortcuts = append(l.Shortcuts, shortcut)
+	l.Checksums[shortcut.AppID] = shortcut.Checksum()
+	l.Timestamps[shortcut.AppID] = shortcut.Timestamp
 
 	return nil
 }
@@ -504,8 +567,11 @@ func (l *Library) Update(reference *Internal, overwriteAssets bool) error {
 			return err
 		}
 
-		// Replace shortcut at index
+		// Replace shortcut at index and update references
 		l.Shortcuts[index] = shortcut
+		l.Checksums[shortcut.AppID] = shortcut.Checksum()
+		l.Timestamps[shortcut.AppID] = shortcut.Timestamp
+
 		break
 	}
 
