@@ -626,30 +626,35 @@ func (l *Library) Assets(specs *Internal, shortcut *Shortcut, action string, ove
 	// Process usually means copy image from path to path
 	iconImage := &Image{
 		SourcePath:      specs.IconPath,
+		SourceURL:       specs.IconURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%v_icon", shortcut.AppID),
 		Extensions:      []string{".png", ".ico"},
 	}
 	logoImage := &Image{
 		SourcePath:      specs.LogoPath,
+		SourceURL:       specs.LogoURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%v_logo", shortcut.AppID),
 		Extensions:      []string{".png"},
 	}
 	coverImage := &Image{
 		SourcePath:      specs.CoverPath,
+		SourceURL:       specs.CoverURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%vp", shortcut.AppID),
 		Extensions:      []string{".png", ".jpg"},
 	}
 	bannerImage := &Image{
 		SourcePath:      specs.BannerPath,
+		SourceURL:       specs.BannerURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%v", shortcut.AppID),
 		Extensions:      []string{".png", ".jpg"},
 	}
 	heroImage := &Image{
 		SourcePath:      specs.HeroPath,
+		SourceURL:       specs.HeroURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%v_hero", shortcut.AppID),
 		Extensions:      []string{".png", ".jpg"},
