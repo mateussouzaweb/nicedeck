@@ -142,7 +142,7 @@ func Compare(current []*Shortcut, compare []*Shortcut) Diff {
 			time.Unix(comparable.Timestamp, 0).String(),
 		)
 
-		// Mark as updated entry
+		// Merge information and mark as updated entry
 		shortcut.Merge(comparable)
 		updated = append(updated, shortcut)
 

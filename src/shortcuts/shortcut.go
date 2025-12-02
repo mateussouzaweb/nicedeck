@@ -54,17 +54,32 @@ func (s *Shortcut) Merge(source *Shortcut) {
 	if source.IconURL != "" {
 		s.IconURL = source.IconURL
 	}
+	if source.IconPath != "" {
+		s.IconPath = source.IconPath
+	}
 	if source.LogoURL != "" {
 		s.LogoURL = source.LogoURL
+	}
+	if source.LogoPath != "" {
+		s.LogoPath = source.LogoPath
 	}
 	if source.CoverURL != "" {
 		s.CoverURL = source.CoverURL
 	}
+	if source.CoverPath != "" {
+		s.CoverPath = source.CoverPath
+	}
 	if source.BannerURL != "" {
 		s.BannerURL = source.BannerURL
 	}
+	if source.BannerPath != "" {
+		s.BannerPath = source.BannerPath
+	}
 	if source.HeroURL != "" {
 		s.HeroURL = source.HeroURL
+	}
+	if source.HeroPath != "" {
+		s.HeroPath = source.HeroPath
 	}
 	if len(source.Tags) > 0 {
 		s.Tags = source.Tags
