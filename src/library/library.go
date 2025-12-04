@@ -313,7 +313,7 @@ func Sync() error {
 			}
 		}
 		for _, shortcut := range diff.Updated {
-			err := library.Update(shortcut, false)
+			err := library.Update(shortcut, true)
 			if err != nil {
 				return err
 			}
