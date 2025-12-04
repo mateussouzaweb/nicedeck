@@ -35,6 +35,12 @@ type Synchronizable interface {
 
 // Global shortcuts library
 var Shortcuts = &shortcuts.Library{}
+var Steam = &steam.Library{}
+var ESDE = &esde.Library{}
+
+// var Desktop = &desktop.Library{}
+// var EpicGames = &epic.Library{}
+// var GOG = &gog.Library{}
 
 // Load library from config path
 func Load() error {
@@ -42,13 +48,21 @@ func Load() error {
 	// Normalize path
 	configPath := filepath.Join(fs.ExpandPath("$APPLICATIONS"), "NiceDeck")
 	shortcutsConfigPath := filepath.Join(configPath, "shortcuts.json")
+	steamConfigPath := filepath.Join(configPath, "steam.json")
 
-	// Load shortcuts
+	// Init shortcuts library
 	err := Shortcuts.Init(shortcutsConfigPath)
 	if err != nil {
 		return err
 	}
 
+	// Init Steam library
+	err = Steam.Init(steamConfigPath)
+	if err != nil {
+		return err
+	}
+
+	// Load shortcuts
 	err = Shortcuts.Load()
 	if err != nil {
 		return err
@@ -65,6 +79,64 @@ func Save() error {
 	if err != nil {
 		return err
 	}
+
+	// Check if there are recent changes to synchronize
+	if len(Shortcuts.History) == 0 {
+		cli.Debug("No recent changes to synchronize\n")
+		return nil
+	}
+
+	// Perform synchronization to additional libraries after saving main library
+	// This happens only on this context as one-way sync
+	libraries := make([]Synchronizable, 0)
+	libraries = append(libraries, Steam)
+	libraries = append(libraries, ESDE)
+	// libraries = append(libraries, Desktop)
+	// libraries = append(libraries, EpicGames)
+	// libraries = append(libraries, GOG)
+
+	for _, library := range libraries {
+
+		cli.Debug("Synchronizing recent changes %s to library\n", library.String())
+
+		// Load library data
+		err := library.Load()
+		if err != nil {
+			return err
+		}
+
+		// Perform synchronization based on recent history only
+		for _, history := range Shortcuts.History {
+			if history.Action == "added" {
+				err := library.Add(history.Result)
+				if err != nil {
+					return err
+				}
+			}
+			if history.Action == "updated" {
+				err := library.Update(history.Result, true)
+				if err != nil {
+					return err
+				}
+			}
+			if history.Action == "removed" {
+				err := library.Remove(history.Original)
+				if err != nil {
+					return err
+				}
+			}
+		}
+
+		// Save library
+		err = library.Save()
+		if err != nil {
+			return err
+		}
+
+	}
+
+	// Clear history after synchronization
+	Shortcuts.Reset()
 
 	return nil
 }
@@ -165,22 +237,6 @@ func Compare(current []*Shortcut, compare []*Shortcut) Diff {
 // Sync libraries to add, update or remove entries
 func Sync() error {
 
-	var Steam = &steam.Library{}
-	var ESDE = &esde.Library{}
-	// var Desktop = &desktop.Library{}
-	// var EpicGames = &epic.Library{}
-	// var GOG = &gog.Library{}
-
-	// Normalize path
-	configPath := filepath.Join(fs.ExpandPath("$APPLICATIONS"), "NiceDeck")
-	steamConfigPath := filepath.Join(configPath, "steam.json")
-
-	// Init Steam data
-	err := Steam.Init(steamConfigPath)
-	if err != nil {
-		return err
-	}
-
 	libraries := make([]Synchronizable, 0)
 	libraries = append(libraries, Steam)
 	libraries = append(libraries, ESDE)
@@ -235,6 +291,9 @@ func Sync() error {
 
 	}
 
+	// Clear history after synchronization
+	Shortcuts.Reset()
+
 	// Perform synchronization process to additional libraries
 	// At this stage, main library is full synchronized
 	// We now find and apply differences to each additional library
@@ -267,7 +326,7 @@ func Sync() error {
 		}
 
 		// Save library
-		err = library.Save()
+		err := library.Save()
 		if err != nil {
 			return err
 		}

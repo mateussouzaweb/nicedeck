@@ -41,6 +41,11 @@ func (l *Library) Init(databasePath string) error {
 	return nil
 }
 
+// Reset library history of changes
+func (l *Library) Reset() {
+	l.History = make([]*History, 0)
+}
+
 // Load library
 func (l *Library) Load() error {
 
