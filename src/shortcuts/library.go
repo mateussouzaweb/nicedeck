@@ -285,30 +285,35 @@ func (l *Library) Assets(shortcut *Shortcut, action string, overwrite bool) erro
 	// Process usually mean download image from URL
 	iconImage := &Image{
 		SourceURL:       shortcut.IconURL,
+		SourcePath:      shortcut.IconPath,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_icon", shortcut.ID),
 		Extensions:      []string{".png", ".ico"},
 	}
 	logoImage := &Image{
 		SourceURL:       shortcut.LogoURL,
+		SourcePath:      shortcut.LogoPath,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_logo", shortcut.ID),
 		Extensions:      []string{".png"},
 	}
 	coverImage := &Image{
 		SourceURL:       shortcut.CoverURL,
+		SourcePath:      shortcut.CoverPath,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_cover", shortcut.ID),
 		Extensions:      []string{".png", ".jpg"},
 	}
 	bannerImage := &Image{
 		SourceURL:       shortcut.BannerURL,
+		SourcePath:      shortcut.BannerPath,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_banner", shortcut.ID),
 		Extensions:      []string{".png", ".jpg"},
 	}
 	heroImage := &Image{
 		SourceURL:       shortcut.HeroURL,
+		SourcePath:      shortcut.HeroPath,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_hero", shortcut.ID),
 		Extensions:      []string{".png", ".jpg"},
