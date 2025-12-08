@@ -2,7 +2,6 @@ package settings
 
 import (
 	"embed"
-	"os"
 	"path/filepath"
 
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -14,49 +13,38 @@ var resourcesContent embed.FS
 // Write settings for ES-DE
 func WriteSettings(destinationPath string) error {
 
-	// Settings (write file only if not exist yet)
-	settingsFile := filepath.Join(destinationPath, "settings", "es_settings.xml")
-	settingsExist, err := fs.FileExist(settingsFile)
+	// Settings
+	err := fs.CopyEmbedded(
+		resourcesContent,
+		"resources/es_settings.xml",
+		filepath.Join(destinationPath, "settings", "es_settings.xml"),
+		false, // Do not overwrite existing
+	)
+
 	if err != nil {
 		return err
-	}
-
-	// Create file if not exist
-	if !settingsExist {
-		settingsConfig, err := resourcesContent.ReadFile("resources/es_settings.xml")
-		if err != nil {
-			return err
-		}
-
-		settingsContent := os.ExpandEnv(string(settingsConfig))
-		err = fs.WriteFile(settingsFile, settingsContent)
-		if err != nil {
-			return err
-		}
 	}
 
 	// Systems
-	systemsFile := filepath.Join(destinationPath, "custom_systems", "es_systems.xml")
-	systemsConfig, err := resourcesContent.ReadFile("resources/es_systems.xml")
-	if err != nil {
-		return err
-	}
+	err = fs.CopyEmbedded(
+		resourcesContent,
+		"resources/es_systems.xml",
+		filepath.Join(destinationPath, "custom_systems", "es_systems.xml"),
+		true,
+	)
 
-	systemsContent := os.ExpandEnv(string(systemsConfig))
-	err = fs.WriteFile(systemsFile, systemsContent)
 	if err != nil {
 		return err
 	}
 
 	// Find Rules
-	findRulesFile := filepath.Join(destinationPath, "custom_systems", "es_find_rules.xml")
-	findRulesConfig, err := resourcesContent.ReadFile("resources/es_find_rules.xml")
-	if err != nil {
-		return err
-	}
+	err = fs.CopyEmbedded(
+		resourcesContent,
+		"resources/es_find_rules.xml",
+		filepath.Join(destinationPath, "custom_systems", "es_find_rules.xml"),
+		true,
+	)
 
-	findRulesContent := os.ExpandEnv(string(findRulesConfig))
-	err = fs.WriteFile(findRulesFile, findRulesContent)
 	if err != nil {
 		return err
 	}

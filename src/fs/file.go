@@ -127,7 +127,8 @@ func CopyFile(source string, destination string, overwriteExisting bool) error {
 	}
 
 	// Open destination file
-	destinationFile, err := os.OpenFile(destination, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0666)
+	flags := os.O_WRONLY | os.O_CREATE | os.O_TRUNC
+	destinationFile, err := os.OpenFile(destination, flags, 0666)
 	if err != nil {
 		return err
 	}
@@ -195,7 +196,8 @@ func DownloadFile(url string, destination string, overwriteExisting bool) error 
 	}
 
 	// Make sure file is created and writable
-	file, err := os.OpenFile(destination, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0666)
+	flags := os.O_WRONLY | os.O_CREATE | os.O_TRUNC
+	file, err := os.OpenFile(destination, flags, 0666)
 	if err != nil {
 		return err
 	}
