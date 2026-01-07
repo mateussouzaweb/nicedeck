@@ -318,6 +318,7 @@ type AddShortcutData struct {
 	StartDirectory string   `json:"startDirectory"`
 	Executable     string   `json:"executable"`
 	LaunchOptions  string   `json:"launchOptions"`
+	RelativePath   string   `json:"relativePath"`
 	IconURL        string   `json:"iconUrl"`
 	LogoURL        string   `json:"logoUrl"`
 	CoverURL       string   `json:"coverUrl"`
@@ -362,6 +363,7 @@ func addShortcut(context *Context) error {
 		StartDirectory: cli.Quote(data.StartDirectory),
 		Executable:     cli.Quote(data.Executable),
 		LaunchOptions:  data.LaunchOptions,
+		RelativePath:   data.RelativePath,
 		IconURL:        data.IconURL,
 		LogoURL:        data.LogoURL,
 		CoverURL:       data.CoverURL,
@@ -393,6 +395,7 @@ type ModifyShortcutData struct {
 	StartDirectory string   `json:"startDirectory"`
 	Executable     string   `json:"executable"`
 	LaunchOptions  string   `json:"launchOptions"`
+	RelativePath   string   `json:"relativePath"`
 	IconURL        string   `json:"iconUrl"`
 	LogoURL        string   `json:"logoUrl"`
 	CoverURL       string   `json:"coverUrl"`
@@ -438,6 +441,7 @@ func modifyShortcut(context *Context) error {
 		shortcut.StartDirectory = cli.Quote(data.StartDirectory)
 		shortcut.Executable = cli.Quote(data.Executable)
 		shortcut.LaunchOptions = data.LaunchOptions
+		shortcut.RelativePath = data.RelativePath
 		shortcut.IconURL = data.IconURL
 		shortcut.LogoURL = data.LogoURL
 		shortcut.CoverURL = data.CoverURL

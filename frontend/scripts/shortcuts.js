@@ -221,6 +221,10 @@ window.addEventListener('load', async () => {
                 <textarea class="resizable" id="launchOptions" name="launchOptions"></textarea>
             </div>
             <div class="group">
+                <label for="relativePath">Relative Path:</label>
+                <textarea class="resizable" id="relativePath" name="relativePath"></textarea>
+            </div>
+            <div class="group">
                 <label for="tags">Tags:</label>
                 <textarea id="tags" name="tags"></textarea>
             </div>
@@ -300,6 +304,10 @@ window.addEventListener('load', async () => {
             <div class="group">
                 <label for="launchOptions">Launch Options:</label>
                 <textarea class="resizable" id="launchOptions" name="launchOptions">${shortcut.launchOptions}</textarea>
+            </div>
+            <div class="group">
+                <label for="relativePath">Relative Path:</label>
+                <textarea class="resizable" id="relativePath" name="relativePath">${shortcut.relativePath}</textarea>
             </div>
             <div class="group">
                 <label for="tags">Tags:</label>
@@ -636,6 +644,7 @@ window.addEventListener('load', async () => {
             startDirectory: data.get('startDirectory'),
             executable: data.get('executable'),
             launchOptions: data.get('launchOptions'),
+            relativePath: data.get('relativePath'),
             iconUrl: data.get('icon'),
             logoUrl: data.get('logo'),
             coverUrl: data.get('cover'),
@@ -684,6 +693,7 @@ window.addEventListener('load', async () => {
             startDirectory: data.get('startDirectory'),
             executable: data.get('executable'),
             launchOptions: data.get('launchOptions'),
+            relativePath: data.get('relativePath'),
             iconUrl: data.get('icon'),
             logoUrl: data.get('logo'),
             coverUrl: data.get('cover'),

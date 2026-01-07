@@ -139,6 +139,7 @@ interface AddShortcutData {
 	startDirectory: string
 	executable: string
 	launchOptions: string
+	relativePath: string
 	iconUrl: string
 	logoUrl: string
 	coverUrl: string
@@ -161,6 +162,7 @@ interface ModifyShortcutData {
 	startDirectory: string
 	executable: string
 	launchOptions: string
+	relativePath: string
 	iconUrl: string
 	logoUrl: string
 	coverUrl: string
