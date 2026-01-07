@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"slices"
+	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -164,11 +165,20 @@ func Install(options *Options) error {
 			return err
 		}
 
-		// Fill basic shortcut information
+		// Add desktop flag or tag to control automatic shortcut creation
+		// Based on formats that requires desktop shortcut creation
+		// These packages do not create shortcuts by default
+		if program.Package.Alias() == "" {
+			program.Tags = append(program.Tags, "Desktop")
+		}
+
+		// Retrieve shortcut information
 		executable := program.Package.Executable()
-		alias := program.Package.Alias()
+		arguments := program.Package.Args()
 		startDirectory := filepath.Dir(executable)
 		shortcutID := shortcuts.GenerateID(program.Name, executable)
+
+		// Create final shortcut specs
 		shortcut := &shortcuts.Shortcut{
 			ID:             shortcutID,
 			Program:        program.ID,
@@ -176,8 +186,7 @@ func Install(options *Options) error {
 			Description:    program.Description,
 			StartDirectory: cli.Quote(startDirectory),
 			Executable:     cli.Quote(executable),
-			LaunchOptions:  "",
-			ShortcutPath:   alias,
+			LaunchOptions:  strings.Join(arguments, " "),
 			RelativePath:   "",
 			IconURL:        program.IconURL,
 			LogoURL:        program.LogoURL,
@@ -185,12 +194,6 @@ func Install(options *Options) error {
 			BannerURL:      program.BannerURL,
 			HeroURL:        program.HeroURL,
 			Tags:           program.Tags,
-		}
-
-		// Fill additional shortcut information from package
-		err = program.Package.OnShortcut(shortcut)
-		if err != nil {
-			return err
 		}
 
 		// Add to shortcuts list

@@ -76,7 +76,6 @@ func NiceDeck() *Program {
 		}, &macos.Application{
 			AppID:     "nicedeck",
 			AppName:   "$APPLICATIONS/NiceDeck/nicedeck",
-			AppAlias:  "$HOME/Applications/NiceDeck",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mateussouzaweb/nicedeck",
@@ -88,7 +87,6 @@ func NiceDeck() *Program {
 		}, &windows.Executable{
 			AppID:     "NiceDeck",
 			AppExe:    "$APPLICATIONS/NiceDeck/nicedeck.exe",
-			AppAlias:  "$START_MENU/NiceDeck.lnk",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mateussouzaweb/nicedeck",

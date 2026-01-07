@@ -51,7 +51,6 @@ interface Shortcut {
 	startDirectory: string
 	executable: string
 	launchOptions: string
-	shortcutPath: string
 	relativePath: string
 	iconPath: string
 	iconUrl: string

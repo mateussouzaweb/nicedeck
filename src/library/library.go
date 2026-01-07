@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
+	"github.com/mateussouzaweb/nicedeck/src/desktop"
 	"github.com/mateussouzaweb/nicedeck/src/esde"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
@@ -37,8 +38,8 @@ type Synchronizable interface {
 var Shortcuts = &shortcuts.Library{}
 var Steam = &steam.Library{}
 var ESDE = &esde.Library{}
+var Desktop = &desktop.Library{}
 
-// var Desktop = &desktop.Library{}
 // var EpicGames = &epic.Library{}
 // var GOG = &gog.Library{}
 
@@ -49,6 +50,7 @@ func Load() error {
 	configPath := filepath.Join(fs.ExpandPath("$APPLICATIONS"), "NiceDeck")
 	shortcutsConfigPath := filepath.Join(configPath, "shortcuts.json")
 	steamConfigPath := filepath.Join(configPath, "steam.json")
+	desktopConfigPath := filepath.Join(configPath, "desktop.json")
 
 	// Init shortcuts library
 	err := Shortcuts.Init(shortcutsConfigPath)
@@ -58,6 +60,12 @@ func Load() error {
 
 	// Init Steam library
 	err = Steam.Init(steamConfigPath)
+	if err != nil {
+		return err
+	}
+
+	// Init Desktop library
+	err = Desktop.Init(desktopConfigPath)
 	if err != nil {
 		return err
 	}
@@ -91,7 +99,7 @@ func Save() error {
 	libraries := make([]Synchronizable, 0)
 	libraries = append(libraries, Steam)
 	libraries = append(libraries, ESDE)
-	// libraries = append(libraries, Desktop)
+	libraries = append(libraries, Desktop)
 	// libraries = append(libraries, EpicGames)
 	// libraries = append(libraries, GOG)
 
@@ -240,7 +248,7 @@ func Sync() error {
 	libraries := make([]Synchronizable, 0)
 	libraries = append(libraries, Steam)
 	libraries = append(libraries, ESDE)
-	// libraries = append(libraries, Desktop)
+	libraries = append(libraries, Desktop)
 	// libraries = append(libraries, EpicGames)
 	// libraries = append(libraries, GOG)
 

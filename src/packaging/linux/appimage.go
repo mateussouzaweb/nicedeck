@@ -1,15 +1,12 @@
 package linux
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // AppImage struct
@@ -63,12 +60,6 @@ func (a *AppImage) Remove() error {
 		return err
 	}
 
-	// Remove alias file
-	err = fs.RemoveFile(a.Alias())
-	if err != nil {
-		return err
-	}
-
 	return nil
 }
 
@@ -91,24 +82,10 @@ func (a *AppImage) Executable() string {
 
 // Return executable alias file path
 func (a *AppImage) Alias() string {
-	return fs.ExpandPath(fmt.Sprintf(
-		"$SHARE/applications/%s.desktop",
-		a.AppID,
-	))
+	return ""
 }
 
-// Fill shortcut additional details
-func (a *AppImage) OnShortcut(shortcut *shortcuts.Shortcut) error {
-
-	// Fill shortcut information for application
-	shortcut.ShortcutPath = a.Alias()
-	shortcut.LaunchOptions = strings.Join(a.Arguments.Shortcut, " ")
-
-	// Write the desktop shortcut
-	err := CreateDesktopShortcut(shortcut)
-	if err != nil {
-		return err
-	}
-
-	return nil
+// Return executable arguments
+func (a *AppImage) Args() []string {
+	return a.Arguments.Shortcut
 }

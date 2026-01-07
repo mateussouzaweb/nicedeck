@@ -7,7 +7,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Snap struct
@@ -82,12 +81,7 @@ func (s *Snap) Alias() string {
 	))
 }
 
-// Fill shortcut additional details
-func (s *Snap) OnShortcut(shortcut *shortcuts.Shortcut) error {
-
-	// Fill shortcut information for snap application
-	shortcut.ShortcutPath = s.Alias()
-	shortcut.LaunchOptions = strings.Join(s.Arguments.Shortcut, " ")
-
-	return nil
+// Return executable arguments
+func (s *Snap) Args() []string {
+	return s.Arguments.Shortcut
 }

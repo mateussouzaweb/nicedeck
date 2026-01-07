@@ -2,8 +2,6 @@ package packaging
 
 import (
 	"fmt"
-
-	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Missing struct
@@ -44,7 +42,7 @@ func (m *Missing) Alias() string {
 	return ""
 }
 
-// Fill shortcut additional details
-func (m *Missing) OnShortcut(shortcut *shortcuts.Shortcut) error {
-	return nil
+// Return executable arguments
+func (m *Missing) Args() []string {
+	return []string{}
 }

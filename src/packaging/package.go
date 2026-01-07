@@ -1,9 +1,5 @@
 package packaging
 
-import (
-	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
-)
-
 // Package interface
 type Package interface {
 	Runtime() string
@@ -13,7 +9,7 @@ type Package interface {
 	Installed() (bool, error)
 	Executable() string
 	Alias() string
-	OnShortcut(shortcut *shortcuts.Shortcut) error
+	Args() []string
 }
 
 // Find best package match based on availability with installed prioritization

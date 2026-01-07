@@ -8,7 +8,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Homebrew struct
@@ -88,8 +87,7 @@ func (h *Homebrew) Alias() string {
 	return h.Executable()
 }
 
-// Fill shortcut additional details
-func (h *Homebrew) OnShortcut(shortcut *shortcuts.Shortcut) error {
-	shortcut.LaunchOptions = strings.Join(h.Arguments.Shortcut, " ")
-	return nil
+// Return executable arguments
+func (h *Homebrew) Args() []string {
+	return h.Arguments.Shortcut
 }

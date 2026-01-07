@@ -7,7 +7,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // WinGet struct
@@ -92,8 +91,7 @@ func (w *WinGet) Alias() string {
 	return w.Executable()
 }
 
-// Fill shortcut additional details
-func (w *WinGet) OnShortcut(shortcut *shortcuts.Shortcut) error {
-	shortcut.LaunchOptions = strings.Join(w.Arguments.Shortcut, " ")
-	return nil
+// Return executable arguments
+func (w *WinGet) Args() []string {
+	return w.Arguments.Shortcut
 }

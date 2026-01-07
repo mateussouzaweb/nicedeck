@@ -446,7 +446,6 @@ func (l *Library) Export() []*Internal {
 		internal.StartDirectory = shortcut.StartDir
 		internal.Executable = CleanExec(shortcut.Exe)
 		internal.LaunchOptions = shortcut.LaunchOptions
-		internal.ShortcutPath = shortcut.ShortcutPath
 		internal.Tags = shortcut.Tags
 		internal.Timestamp = shortcut.Timestamp
 
@@ -475,7 +474,6 @@ func (l *Library) Transform(reference *Internal) (*Shortcut, error) {
 	shortcut.StartDir = reference.StartDirectory
 	shortcut.Exe = EnsureExec(l.Runtime, reference.Executable)
 	shortcut.LaunchOptions = reference.LaunchOptions
-	shortcut.ShortcutPath = reference.ShortcutPath
 	shortcut.Tags = reference.Tags
 	shortcut.Timestamp = reference.Timestamp
 

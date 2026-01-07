@@ -8,7 +8,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Flatpak struct
@@ -123,12 +122,7 @@ func (f *Flatpak) Alias() string {
 	))
 }
 
-// Fill shortcut additional details
-func (f *Flatpak) OnShortcut(shortcut *shortcuts.Shortcut) error {
-
-	// Fill shortcut information for flatpak application
-	shortcut.ShortcutPath = f.Alias()
-	shortcut.LaunchOptions = strings.Join(f.Arguments.Shortcut, " ")
-
-	return nil
+// Return executable arguments
+func (f *Flatpak) Args() []string {
+	return f.Arguments.Shortcut
 }

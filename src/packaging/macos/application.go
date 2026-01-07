@@ -2,19 +2,16 @@ package macos
 
 import (
 	"path/filepath"
-	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Application struct
 type Application struct {
 	AppID     string               `json:"appId"`
 	AppName   string               `json:"appName"`
-	AppAlias  string               `json:"appAlias"`
 	Arguments *packaging.Arguments `json:"arguments"`
 	Source    *packaging.Source    `json:"source"`
 }
@@ -53,12 +50,6 @@ func (a *Application) Remove() error {
 		return err
 	}
 
-	// Remove alias file
-	err = fs.RemoveSymlink(a.Alias())
-	if err != nil {
-		return err
-	}
-
 	return nil
 }
 
@@ -92,21 +83,10 @@ func (a *Application) Executable() string {
 
 // Return executable alias file path
 func (a *Application) Alias() string {
-	return fs.ExpandPath(a.AppAlias)
+	return ""
 }
 
-// Fill shortcut additional details
-func (a *Application) OnShortcut(shortcut *shortcuts.Shortcut) error {
-
-	// Fill shortcut information for application
-	shortcut.ShortcutPath = a.Alias()
-	shortcut.LaunchOptions = strings.Join(a.Arguments.Shortcut, " ")
-
-	// Make link to main executable
-	err := fs.MakeSymlink(shortcut.Executable, shortcut.ShortcutPath)
-	if err != nil {
-		return err
-	}
-
-	return nil
+// Return executable arguments
+func (a *Application) Args() []string {
+	return a.Arguments.Shortcut
 }

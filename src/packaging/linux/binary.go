@@ -1,15 +1,12 @@
 package linux
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
 // Binary struct
@@ -63,12 +60,6 @@ func (b *Binary) Remove() error {
 		return err
 	}
 
-	// Remove alias file
-	err = fs.RemoveFile(b.Alias())
-	if err != nil {
-		return err
-	}
-
 	return nil
 }
 
@@ -91,24 +82,10 @@ func (b *Binary) Executable() string {
 
 // Return executable alias file path
 func (b *Binary) Alias() string {
-	return fs.ExpandPath(fmt.Sprintf(
-		"$SHARE/applications/%s.desktop",
-		b.AppID,
-	))
+	return ""
 }
 
-// Fill shortcut additional details
-func (b *Binary) OnShortcut(shortcut *shortcuts.Shortcut) error {
-
-	// Fill shortcut information for binary application
-	shortcut.ShortcutPath = b.Alias()
-	shortcut.LaunchOptions = strings.Join(b.Arguments.Shortcut, " ")
-
-	// Write the desktop shortcut
-	err := CreateDesktopShortcut(shortcut)
-	if err != nil {
-		return err
-	}
-
-	return nil
+// Return executable arguments
+func (b *Binary) Args() []string {
+	return b.Arguments.Shortcut
 }

@@ -11,8 +11,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
-	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 	"github.com/mateussouzaweb/nicedeck/src/steam"
 )
 
@@ -236,12 +234,6 @@ func (p *Proton) Remove() error {
 		return err
 	}
 
-	// Remove alias file
-	err = fs.RemoveFile(p.Alias())
-	if err != nil {
-		return err
-	}
-
 	return nil
 }
 
@@ -269,27 +261,12 @@ func (p *Proton) Executable() string {
 
 // Return executable alias file path
 func (p *Proton) Alias() string {
-	return fs.ExpandPath(fmt.Sprintf(
-		"$SHARE/applications/%s.desktop",
-		p.AppID,
-	))
+	return ""
 }
 
-// Fill shortcut additional details
-func (p *Proton) OnShortcut(shortcut *shortcuts.Shortcut) error {
-
-	// Fill shortcut information for Proton application
+// Return executable arguments
+func (p *Proton) Args() []string {
 	arguments := []string{cli.Quote(p.Launcher)}
 	arguments = append(arguments, p.Arguments.Shortcut...)
-
-	shortcut.ShortcutPath = p.Alias()
-	shortcut.LaunchOptions = strings.Join(arguments, " ")
-
-	// Write the desktop shortcut
-	err := linux.CreateDesktopShortcut(shortcut)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return arguments
 }

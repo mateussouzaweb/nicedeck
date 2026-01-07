@@ -9,7 +9,6 @@ type Shortcut struct {
 	StartDirectory string   `json:"startDirectory"`
 	Executable     string   `json:"executable"`
 	LaunchOptions  string   `json:"launchOptions"`
-	ShortcutPath   string   `json:"shortcutPath"`
 	RelativePath   string   `json:"relativePath"`
 	IconPath       string   `json:"iconPath"`
 	IconURL        string   `json:"iconUrl"`
@@ -44,9 +43,6 @@ func (s *Shortcut) Merge(source *Shortcut) {
 	}
 	if source.LaunchOptions != "" {
 		s.LaunchOptions = source.LaunchOptions
-	}
-	if source.ShortcutPath != "" {
-		s.ShortcutPath = source.ShortcutPath
 	}
 	if source.RelativePath != "" {
 		s.RelativePath = source.RelativePath
