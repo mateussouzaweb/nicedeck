@@ -1,0 +1,35 @@
+package shortcuts
+
+import (
+	"strings"
+
+	"github.com/mateussouzaweb/nicedeck/src/cli"
+)
+
+// Prepare execution context from shortcut data
+func PrepareContext(shortcut *Shortcut) *cli.Context {
+
+	context := &cli.Context{
+		WorkingDirectory: shortcut.StartDirectory,
+		Executable:       shortcut.Executable,
+		Arguments:        []string{},
+		Environment:      []string{},
+	}
+
+	// Split launch options into parameters and environment variables
+	// Implementation match Steam launch options format
+	if strings.Contains(shortcut.LaunchOptions, "%command%") {
+		split := strings.Split(shortcut.LaunchOptions, "%command%")
+		arguments := strings.Trim(split[1], " ")
+		context.Arguments = []string{arguments}
+
+		if split[0] != "" {
+			environment := strings.Trim(split[0], " ")
+			context.Environment = strings.Split(environment, " ")
+		}
+	} else if shortcut.LaunchOptions != "" {
+		context.Arguments = []string{shortcut.LaunchOptions}
+	}
+
+	return context
+}

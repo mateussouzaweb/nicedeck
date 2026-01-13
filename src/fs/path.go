@@ -8,6 +8,34 @@ import (
 	"strings"
 )
 
+// Normalize filename to remove undesired characters
+func NormalizeFilename(name string) string {
+
+	// Windows does not allow certain characters in file names
+	// Linux and MacOS are more permissive, but we keep consistency across platforms
+	name = strings.ReplaceAll(name, "<", "")
+	name = strings.ReplaceAll(name, ">", "")
+	name = strings.ReplaceAll(name, "\\", "")
+	name = strings.ReplaceAll(name, "/", "")
+	name = strings.ReplaceAll(name, "|", "")
+	name = strings.ReplaceAll(name, "?", "")
+	name = strings.ReplaceAll(name, "*", "")
+	name = strings.ReplaceAll(name, "#", "")
+	name = strings.ReplaceAll(name, "~", "")
+	name = strings.ReplaceAll(name, "\"", "")
+
+	// These characters are replaced with a hyphen
+	name = strings.ReplaceAll(name, ":", " - ")
+
+	// Finally, remove duplicate spaces and trim
+	name = strings.Join(strings.Fields(name), " ")
+	name = strings.TrimSpace(name)
+	name = strings.TrimRight(name, "-")
+	name = strings.TrimRight(name, ".")
+
+	return name
+}
+
 // Normalize a path with correct system separator
 func NormalizePath(path string) string {
 	separator := string(os.PathSeparator)

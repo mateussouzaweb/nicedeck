@@ -2,7 +2,7 @@ package macos
 
 import (
 	"fmt"
-	"slices"
+	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
@@ -10,25 +10,34 @@ import (
 
 // Retrieve desktop entry shortcut path
 func GetShortcutPath(shortcut *shortcuts.Shortcut) string {
-
-	if slices.Contains(shortcut.Tags, "Gaming") {
-		return fs.ExpandPath(fmt.Sprintf(
-			"$HOME/Applications/Gaming/%s.app",
-			shortcut.Name,
-		))
-	}
-
 	return fs.ExpandPath(fmt.Sprintf(
 		"$HOME/Applications/%s.app",
-		shortcut.Name,
+		fs.NormalizeFilename(shortcut.Name),
 	))
 }
 
 // Create a desktop entry from shortcut data
 func CreateShortcut(shortcut *shortcuts.Shortcut, destination string) error {
 
-	// Make link to main executable
-	err := fs.MakeSymlink(shortcut.Executable, destination)
+	// Prepare execution context and bundle data
+	context := shortcuts.PrepareContext(shortcut)
+	bundle := &Bundle{
+		AppName:          shortcut.Name,
+		BundleID:         fmt.Sprintf("com.nicedeck.%s", shortcut.ID),
+		IconPath:         "",
+		WorkingDirectory: context.WorkingDirectory,
+		Executable:       context.Executable,
+		Arguments:        context.Arguments,
+		Environment:      context.Environment,
+	}
+
+	// If available, we use current PNG icon from shortcut
+	if strings.HasSuffix(shortcut.IconPath, ".png") {
+		bundle.IconPath = shortcut.IconPath
+	}
+
+	// Write .app bundle to destination
+	err := WriteBundle(destination, bundle)
 	if err != nil {
 		return err
 	}
@@ -39,7 +48,8 @@ func CreateShortcut(shortcut *shortcuts.Shortcut, destination string) error {
 // Remove desktop entry shortcut
 func RemoveShortcut(shortcut *shortcuts.Shortcut, destination string) error {
 
-	err := fs.RemoveSymlink(destination)
+	// Remove .app bundle directory
+	err := fs.RemoveDirectory(destination)
 	if err != nil {
 		return err
 	}

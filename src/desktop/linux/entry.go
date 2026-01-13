@@ -12,26 +12,31 @@ import (
 
 // DesktopEntry represents the standard keys in a .desktop file
 type DesktopEntry struct {
-	Type            string   `json:"type"`
-	Name            string   `json:"name"`
-	GenericName     string   `json:"genericName"`
-	Comment         string   `json:"comment"`
-	Exec            string   `json:"exec"`
-	Icon            string   `json:"icon"`
-	Terminal        bool     `json:"terminal"`
-	MimeType        string   `json:"mimeType"`
-	Categories      []string `json:"categories"`
-	StartupNotify   bool     `json:"startupNotify"`
-	StartupWMClass  string   `json:"startupWMClass"`
-	OnlyShowIn      []string `json:"onlyShowIn"`
-	NotShowIn       []string `json:"notShowIn"`
-	TryExec         string   `json:"tryExec"`
-	Hidden          bool     `json:"hidden"`
-	NoDisplay       bool     `json:"noDisplay"`
-	Keywords        []string `json:"keywords"`
-	Actions         []string `json:"actions"`
-	DBusActivatable bool     `json:"dBusActivatable"`
-	Path            string   `json:"path"`
+	Type               string   `json:"type"`
+	Name               string   `json:"name"`
+	GenericName        string   `json:"genericName"`
+	Comment            string   `json:"comment"`
+	Exec               string   `json:"exec"`
+	Icon               string   `json:"icon"`
+	Terminal           bool     `json:"terminal"`
+	HasTerminal        bool     `json:"hasTerminal"`
+	MimeType           string   `json:"mimeType"`
+	Categories         []string `json:"categories"`
+	StartupNotify      bool     `json:"startupNotify"`
+	HasStartupNotify   bool     `json:"hasStartupNotify"`
+	StartupWMClass     string   `json:"startupWMClass"`
+	OnlyShowIn         []string `json:"onlyShowIn"`
+	NotShowIn          []string `json:"notShowIn"`
+	TryExec            string   `json:"tryExec"`
+	Hidden             bool     `json:"hidden"`
+	HasHidden          bool     `json:"hasHidden"`
+	NoDisplay          bool     `json:"noDisplay"`
+	HasNoDisplay       bool     `json:"hasNoDisplay"`
+	Keywords           []string `json:"keywords"`
+	Actions            []string `json:"actions"`
+	DBusActivatable    bool     `json:"dBusActivatable"`
+	HasDBusActivatable bool     `json:"hasDBusActivatable"`
+	Path               string   `json:"path"`
 }
 
 // Read .desktop file and return it structure
@@ -93,12 +98,14 @@ func ReadDesktopFile(path string) (*DesktopEntry, error) {
 			case "Icon":
 				entry.Icon = stringValue
 			case "Terminal":
+				entry.HasTerminal = true
 				entry.Terminal = boolValue
 			case "MimeType":
 				entry.MimeType = stringValue
 			case "Categories":
 				entry.Categories = sliceValue
 			case "StartupNotify":
+				entry.HasStartupNotify = true
 				entry.StartupNotify = boolValue
 			case "StartupWMClass":
 				entry.StartupWMClass = stringValue
@@ -109,14 +116,17 @@ func ReadDesktopFile(path string) (*DesktopEntry, error) {
 			case "TryExec":
 				entry.TryExec = stringValue
 			case "Hidden":
+				entry.HasHidden = true
 				entry.Hidden = boolValue
 			case "NoDisplay":
+				entry.HasNoDisplay = true
 				entry.NoDisplay = boolValue
 			case "Keywords":
 				entry.Keywords = sliceValue
 			case "Actions":
 				entry.Actions = sliceValue
 			case "DBusActivatable":
+				entry.HasDBusActivatable = true
 				entry.DBusActivatable = boolValue
 			case "Path":
 				entry.Path = stringValue
@@ -145,12 +155,13 @@ func WriteDesktopFile(destination string, entry *DesktopEntry) error {
 	}
 
 	// Retrieve .desktop boolean line
-	getBoolean := func(key string, value bool) string {
-		if value {
+	getBoolean := func(key string, value bool, condition bool) string {
+		if value && condition {
 			return fmt.Sprintf("%s=true", key)
-		} else {
+		} else if condition {
 			return fmt.Sprintf("%s=false", key)
 		}
+		return ""
 	}
 
 	// Retrieve .desktop slice line
@@ -170,19 +181,19 @@ func WriteDesktopFile(destination string, entry *DesktopEntry) error {
 		getString("Comment", entry.Comment),
 		getString("Exec", entry.Exec),
 		getString("Icon", entry.Icon),
-		getBoolean("Terminal", entry.Terminal),
+		getBoolean("Terminal", entry.Terminal, entry.HasTerminal),
 		getString("MimeType", entry.MimeType),
 		getSlice("Categories", entry.Categories),
-		getBoolean("StartupNotify", entry.StartupNotify),
+		getBoolean("StartupNotify", entry.StartupNotify, entry.HasStartupNotify),
 		getString("StartupWMClass", entry.StartupWMClass),
 		getSlice("OnlyShowIn", entry.OnlyShowIn),
 		getSlice("NotShowIn", entry.NotShowIn),
 		getString("TryExec", entry.TryExec),
-		getBoolean("Hidden", entry.Hidden),
-		getBoolean("NoDisplay", entry.NoDisplay),
+		getBoolean("Hidden", entry.Hidden, entry.HasHidden),
+		getBoolean("NoDisplay", entry.NoDisplay, entry.HasNoDisplay),
 		getSlice("Keywords", entry.Keywords),
 		getSlice("Actions", entry.Actions),
-		getBoolean("DBusActivatable", entry.DBusActivatable),
+		getBoolean("DBusActivatable", entry.DBusActivatable, entry.HasDBusActivatable),
 		getString("Path", entry.Path),
 	}
 

@@ -2,9 +2,8 @@ package linux
 
 import (
 	"fmt"
-	"os"
 	"path/filepath"
-	"regexp"
+	"slices"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -13,69 +12,69 @@ import (
 
 // Retrieve desktop entry shortcut path
 func GetShortcutPath(shortcut *shortcuts.Shortcut) string {
-
-	// Transform name into slug format
-	pattern := regexp.MustCompile("[^a-z0-9]+")
-	slug := strings.ToLower(shortcut.Name)
-	slug = strings.Trim(pattern.ReplaceAllString(slug, "-"), "-")
-
 	return fs.ExpandPath(fmt.Sprintf(
 		"$SHARE/applications/%s.desktop",
-		slug,
+		fs.NormalizeFilename(shortcut.Name),
 	))
 }
 
 // Create a desktop entry from shortcut data
 func CreateShortcut(shortcut *shortcuts.Shortcut, destination string, overwriteAssets bool) error {
 
+	// Prepare execution context
+	context := shortcuts.PrepareContext(shortcut)
+
 	// Icon by default follows XDG icon resource name
-	iconFile := filepath.Base(destination)
-	iconFile = strings.Replace(iconFile, ".desktop", "", 1)
+	iconFile := filepath.Base(context.Executable)
+	iconFile = strings.Replace(iconFile, filepath.Ext(iconFile), "", 1)
 
-	// If possible, we copy PNG icon from shortcut
+	// If available, we use current PNG icon from shortcut
 	if strings.HasSuffix(shortcut.IconPath, ".png") {
-		iconName := fmt.Sprintf("%s.png", iconFile)
-		iconPath := fs.ExpandPath("$SHARE/icons")
-		iconFile = filepath.Join(iconPath, iconName)
-
-		err := fs.CopyFile(shortcut.IconPath, iconFile, overwriteAssets)
-		if err != nil {
-			return err
-		}
+		iconFile = shortcut.IconPath
 	}
 
-	// Map categories into closest values from desktop menu spec
-	categories := shortcut.Tags
+	// Map categories into closest values from XDG desktop entry spec
+	categories := []string{}
 	replaces := map[string]string{
 		"Gaming":    "Game",
+		"ROM":       "Game",
+		"Emulator":  "Game",
+		"Proton":    "Game",
 		"Utilities": "Utility",
 		"Streaming": "Network",
 	}
 
-	for index, category := range categories {
+	for _, category := range shortcut.Tags {
 		if value, ok := replaces[category]; ok {
-			categories[index] = value
+			category = value
+		}
+		if !slices.Contains(categories, category) {
+			categories = append(categories, category)
 		}
 	}
 
-	// Create and write desktop entry shortcut
-	executable := fmt.Sprintf(
-		"%s %s",
-		os.ExpandEnv(shortcut.Executable),
-		os.ExpandEnv(shortcut.LaunchOptions),
-	)
+	// Create desktop entry shortcut
+	executable := strings.TrimSpace(fmt.Sprintf(
+		"%s %s %s",
+		strings.Join(context.Environment, " "),
+		context.Executable,
+		strings.Join(context.Arguments, " "),
+	))
 
 	entry := &DesktopEntry{
-		Terminal:   false,
-		Type:       "Application",
-		Name:       shortcut.Name,
-		Comment:    shortcut.Description,
-		Icon:       iconFile,
-		Exec:       executable,
-		Categories: categories,
+		HasTerminal: true,
+		Terminal:    false,
+		Type:        "Application",
+		Name:        shortcut.Name,
+		Comment:     shortcut.Description,
+		Icon:        iconFile,
+		Path:        context.WorkingDirectory,
+		TryExec:     context.Executable,
+		Exec:        executable,
+		Categories:  categories,
 	}
 
-	// Create and write desktop shortcut
+	// Write desktop shortcut
 	err := WriteDesktopFile(destination, entry)
 	if err != nil {
 		return err
@@ -87,20 +86,8 @@ func CreateShortcut(shortcut *shortcuts.Shortcut, destination string, overwriteA
 // Remove desktop entry shortcut
 func RemoveShortcut(shortcut *shortcuts.Shortcut, destination string) error {
 
-	// Remove possible stored icon file
-	iconPath := fs.ExpandPath("$SHARE/icons")
-	iconFile := filepath.Base(destination)
-	iconFile = strings.Replace(iconFile, ".desktop", "", 1)
-	iconFile = fmt.Sprintf("%s.png", iconFile)
-	iconFile = filepath.Join(iconPath, iconFile)
-
-	err := fs.RemoveFile(iconFile)
-	if err != nil {
-		return err
-	}
-
 	// Remove desktop entry file
-	err = fs.RemoveFile(destination)
+	err := fs.RemoveFile(destination)
 	if err != nil {
 		return err
 	}

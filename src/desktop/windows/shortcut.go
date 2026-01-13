@@ -15,29 +15,31 @@ import (
 // Retrieve desktop entry shortcut path
 func GetShortcutPath(shortcut *shortcuts.Shortcut) string {
 
-	// Remove invalid characters from name
-	// Windows does not allow certain characters in file names
-	name := shortcut.Name
-	name = strings.ReplaceAll(name, "<", "")
-	name = strings.ReplaceAll(name, ">", "")
-	name = strings.ReplaceAll(name, "\\", "")
-	name = strings.ReplaceAll(name, "/", "")
-	name = strings.ReplaceAll(name, "|", "")
-	name = strings.ReplaceAll(name, ":", "")
-	name = strings.ReplaceAll(name, "?", "")
-	name = strings.ReplaceAll(name, "*", "")
-	name = strings.ReplaceAll(name, "\"", "")
+	name := fs.NormalizeFilename(shortcut.Name)
+	categories := shortcut.Tags
 
-	// Check for specific categories to place shortcut accordingly
-	categories := []string{"Gaming", "Utilities"}
+	// Specify category resolution to place shortcut accordingly
+	accepts := []string{
+		"Gaming",
+		"Utilities",
+	}
+	replaces := map[string]string{
+		"ROM":       "Gaming",
+		"Emulator":  "Gaming",
+		"Streaming": "Utilities",
+	}
+
+	// Check for accepted categories in shortcut tags
+	// When found, place shortcut inside respective folder
 	for _, category := range categories {
-		if !slices.Contains(shortcut.Tags, category) {
-			continue
+		if value, ok := replaces[category]; ok {
+			category = value
 		}
-
-		return fs.ExpandPath(fmt.Sprintf(
-			"$START_MENU/%s/%s.lnk", category, name,
-		))
+		if slices.Contains(accepts, category) {
+			return fs.ExpandPath(fmt.Sprintf(
+				"$START_MENU/%s/%s.lnk", category, name,
+			))
+		}
 	}
 
 	// Default location
@@ -49,6 +51,9 @@ func GetShortcutPath(shortcut *shortcuts.Shortcut) string {
 // Create a desktop entry from shortcut data
 func CreateShortcut(shortcut *shortcuts.Shortcut, destination string) error {
 
+	// Prepare execution context
+	context := shortcuts.PrepareContext(shortcut)
+
 	// Ensure shortcut directory exists
 	err := os.MkdirAll(filepath.Dir(destination), 0755)
 	if err != nil {
@@ -57,7 +62,7 @@ func CreateShortcut(shortcut *shortcuts.Shortcut, destination string) error {
 
 	// Detect icon path or defaults to executable icon
 	// Windows accepts only .ico format for shortcuts
-	iconPath := shortcut.Executable
+	iconPath := context.Executable
 	if strings.HasSuffix(shortcut.IconPath, ".ico") {
 		iconPath = shortcut.IconPath
 	}
@@ -72,9 +77,9 @@ func CreateShortcut(shortcut *shortcuts.Shortcut, destination string) error {
 		`$Shortcut.IconLocation = "%s,0";`+
 		`$Shortcut.Save()`,
 		destination,
-		strings.ReplaceAll(shortcut.StartDirectory, `"`, ``),
-		strings.ReplaceAll(shortcut.Executable, `"`, ``),
-		strings.ReplaceAll(shortcut.LaunchOptions, `"`, `""`),
+		strings.ReplaceAll(context.WorkingDirectory, `"`, ``),
+		strings.ReplaceAll(context.Executable, `"`, ``),
+		strings.ReplaceAll(strings.Join(context.Arguments, " "), `"`, `""`),
 		strings.ReplaceAll(iconPath, `"`, ``),
 	)
 
