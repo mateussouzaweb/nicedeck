@@ -3,6 +3,7 @@ package macos
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
@@ -22,6 +23,7 @@ import (
 type Bundle struct {
 	AppName          string   `json:"appName"`
 	BundleID         string   `json:"bundleID"`
+	Launcher         string   `json:"launcher"`
 	IconPath         string   `json:"iconPath"`
 	WorkingDirectory string   `json:"workingDirectory"`
 	Executable       string   `json:"executable"`
@@ -32,9 +34,12 @@ type Bundle struct {
 // Write the bundled application into destination folder
 func WriteBundle(destination string, bundle *Bundle) error {
 
-	contents := fmt.Sprintf("%s/Contents", destination)
-	macOS := fmt.Sprintf("%s/Contents/MacOS", destination)
-	resources := fmt.Sprintf("%s/Contents/Resources", destination)
+	contents := filepath.Join(destination, "Contents")
+	macOS := filepath.Join(destination, "Contents", "MacOS")
+	resources := filepath.Join(destination, "Contents", "Resources")
+	appIconPath := filepath.Join(resources, "AppIcon.icns")
+	launcherPath := filepath.Join(macOS, bundle.Launcher)
+	infoPlistPath := filepath.Join(contents, "Info.plist")
 
 	// Create necessary directories
 	err := os.MkdirAll(contents, os.ModePerm)
@@ -50,24 +55,31 @@ func WriteBundle(destination string, bundle *Bundle) error {
 		return err
 	}
 
-	// Convert PNG file to .icns if provided
-	if bundle.IconPath != "" {
+	// Copy .icns to location when file already exists
+	if filepath.Ext(bundle.IconPath) == ".icns" {
+		err = fs.CopyFile(bundle.IconPath, appIconPath, true)
+		if err != nil {
+			return err
+		}
+	}
+
+	// Convert .png file to .icns if necessary
+	if filepath.Ext(bundle.IconPath) == ".png" {
 
 		iconSetPath := fmt.Sprintf("%s/icon.iconset", resources)
-		appIconPath := fmt.Sprintf("%s/AppIcon.icns", resources)
-		script := fmt.Sprintf(``+
+		convertScript := fmt.Sprintf(``+
 			`mkdir "%s";`+
-			`sips -z 16 16 "%s" --out "%s/icon_16x16.png";`+
-			`sips -z 32 32 "%s" --out "%s/icon_16x16@2x.png";`+
-			`sips -z 32 32 "%s" --out "%s/icon_32x32.png";`+
-			`sips -z 64 64 "%s" --out "%s/icon_32x32@2x.png";`+
-			`sips -z 128 128 "%s" --out "%s/icon_128x128.png";`+
-			`sips -z 256 256 "%s" --out "%s/icon_128x128@2x.png";`+
-			`sips -z 256 256 "%s" --out "%s/icon_256x256.png";`+
-			`sips -z 512 512 "%s" --out "%s/icon_256x256@2x.png";`+
-			`sips -z 512 512 "%s" --out "%s/icon_512x512.png";`+
-			`sips -z 1024 1024 "%s" --out "%s/icon_512x512@2x.png";`+
-			`iconutil -c icns "%s" -o "%s";`+
+			`sips -z 16 16 "%s" --out "%s/icon_16x16.png" > /dev/null;`+
+			`sips -z 32 32 "%s" --out "%s/icon_16x16@2x.png" > /dev/null;`+
+			`sips -z 32 32 "%s" --out "%s/icon_32x32.png" > /dev/null;`+
+			`sips -z 64 64 "%s" --out "%s/icon_32x32@2x.png" > /dev/null;`+
+			`sips -z 128 128 "%s" --out "%s/icon_128x128.png" > /dev/null;`+
+			`sips -z 256 256 "%s" --out "%s/icon_128x128@2x.png" > /dev/null;`+
+			`sips -z 256 256 "%s" --out "%s/icon_256x256.png" > /dev/null;`+
+			`sips -z 512 512 "%s" --out "%s/icon_256x256@2x.png" > /dev/null;`+
+			`sips -z 512 512 "%s" --out "%s/icon_512x512.png" > /dev/null;`+
+			`sips -z 1024 1024 "%s" --out "%s/icon_512x512@2x.png" > /dev/null;`+
+			`iconutil -c icns "%s" -o "%s" > /dev/null;`+
 			`rm -Rf "%s"`,
 			iconSetPath,
 			bundle.IconPath, iconSetPath,
@@ -84,18 +96,18 @@ func WriteBundle(destination string, bundle *Bundle) error {
 			iconSetPath,
 		)
 
-		command := cli.Command(script)
+		command := cli.Command(convertScript)
 		err = cli.Run(command)
 		if err != nil {
 			return err
 		}
 	}
 
-	// Create launcher script
-	launcherPath := fmt.Sprintf("%s/launcher", macOS)
+	// Create launcher script for the appBundle
+	// Please note that this launcher script expect to call another .app
 	launcherScript := fmt.Sprintf(``+
 		`#!/bin/bash`+"\n"+
-		`cd "%s" && exec %s open -n "%s" --args %s`,
+		`cd "%s" && %s open -n "%s" --args %s`,
 		cli.Unquote(bundle.WorkingDirectory),
 		strings.Join(bundle.Environment, " "),
 		cli.Unquote(bundle.Executable),
@@ -115,7 +127,6 @@ func WriteBundle(destination string, bundle *Bundle) error {
 	}
 
 	// Create Info.plist file
-	infoPlistPath := fmt.Sprintf("%s/Info.plist", contents)
 	infoPlist := fmt.Sprintf(``+
 		`<?xml version="1.0" encoding="UTF-8"?>`+"\n"+
 		`<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">`+"\n"+
@@ -128,7 +139,7 @@ func WriteBundle(destination string, bundle *Bundle) error {
 		`    <key>CFBundleIdentifier</key>`+"\n"+
 		`    <string>%s</string>`+"\n"+
 		`    <key>CFBundleExecutable</key>`+"\n"+
-		`    <string>launcher</string>`+"\n"+
+		`    <string>%s</string>`+"\n"+
 		`    <key>CFBundleIconFile</key>`+"\n"+
 		`    <string>AppIcon</string>`+"\n"+
 		`    <key>CFBundlePackageType</key>`+"\n"+
@@ -140,6 +151,7 @@ func WriteBundle(destination string, bundle *Bundle) error {
 		bundle.AppName,
 		bundle.AppName,
 		bundle.BundleID,
+		bundle.Launcher,
 	)
 
 	// Write Info.plist file

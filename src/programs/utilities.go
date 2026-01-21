@@ -75,13 +75,13 @@ func NiceDeck() *Program {
 			),
 		}, &macos.Application{
 			AppID:     "nicedeck",
-			AppName:   "$APPLICATIONS/NiceDeck/nicedeck",
+			AppName:   "$APPLICATIONS/NiceDeck/NiceDeck.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mateussouzaweb/nicedeck",
 				cli.ArchVariant(
-					"nicedeck-macos-amd64", // amd64
-					"nicedeck-macos-arm64", // arm64
+					"nicedeck-macos-universal.zip", // amd64
+					"nicedeck-macos-universal.zip", // arm64
 				),
 			),
 		}, &windows.Executable{

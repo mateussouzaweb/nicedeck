@@ -64,7 +64,7 @@ func (c *Context) Run(callback func() error) error {
 	return nil
 }
 
-// Create a new context with environment variables
+// Create a new build context with environment variables
 func Env(env ...string) *Context {
 	return &Context{
 		Env: env,

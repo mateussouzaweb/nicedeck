@@ -56,15 +56,17 @@ Go to the project [RELEASES](https://github.com/mateussouzaweb/nicedeck/releases
 - Steam Deck: ``nicedeck-linux-amd64``.
 - Linux x86: ``nicedeck-linux-amd64``.
 - Linux ARM: ``nicedeck-linux-arm64``.
-- MacOS Apple Silicon: ``nicedeck-macos-arm64``.
-- MacOS Intel: ``nicedeck-macos-amd64``.
+- MacOS Apple Silicon: ``nicedeck-macos-universal.zip``.
+- MacOS Intel: ``nicedeck-macos-universal.zip``.
 - Windows x86: ``nicedeck-windows-amd64.exe``.
 - Windows ARM: ``nicedeck-windows-arm64.exe``.
 
-On Linux and MacOS, make sure that the file executable: 
+On Linux, make sure that the file executable: 
 
 - From file navigator, open the file properties and check the *executable* field.
 - From terminal, run the command  like ``chmod +x $FILE``.
+
+On MacOS, extract the downloaded zip file to obtain the application: ``NiceDeck.app``.
 
 Once you follow these instructions, double click on the program to start it. With the program running you can finally install the desired programs, parse your ROMs or manage Steam shortcuts from the GUI.
 

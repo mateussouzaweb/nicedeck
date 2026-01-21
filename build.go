@@ -22,6 +22,7 @@ func Env(env ...string) *build.Context {
 	return build.Env(env...)
 }
 
+// Main build process
 func main() {
 
 	// Linux build process
@@ -52,6 +53,14 @@ func main() {
 		Name:    "Building MacOS ARM64",
 		Context: Env("GOARCH=arm64"),
 		Command: Cmd("go build -o bin/nicedeck-macos-arm64 cmd/main.go"),
+	})
+
+	// MacOS .app bundle build process
+	macosApp := build.New(Env()).Add(&build.Step{
+		ID:      "build-macos-app",
+		Name:    "Building MacOS App",
+		Context: Env(),
+		Command: Cmd("go run packaging/macos/build.go"),
 	})
 
 	// Windows build process
@@ -92,6 +101,7 @@ func main() {
 	}).Add(
 		linux,
 		macos,
+		macosApp,
 		windows,
 	).Add(&build.Step{
 		ID:      "set-permissions",

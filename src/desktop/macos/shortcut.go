@@ -24,6 +24,7 @@ func CreateShortcut(shortcut *shortcuts.Shortcut, destination string) error {
 	bundle := &Bundle{
 		AppName:          shortcut.Name,
 		BundleID:         fmt.Sprintf("com.nicedeck.%s", shortcut.ID),
+		Launcher:         "launcher",
 		IconPath:         "",
 		WorkingDirectory: context.WorkingDirectory,
 		Executable:       context.Executable,
