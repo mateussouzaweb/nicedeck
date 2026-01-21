@@ -130,7 +130,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 		Emulators: []*Emulator{{
 			Name:          "RPCS3",
 			Program:       "rpcs3",
-			Extensions:    ".ps3 .ps3dir",
+			Extensions:    ".ps3 .ps3dir .iso",
 			LaunchOptions: "--no-gui ${ROM}",
 		}},
 	})
