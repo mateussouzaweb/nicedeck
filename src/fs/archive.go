@@ -222,9 +222,15 @@ func Extract7z(source string, destination string) error {
 
 	// Create script to perform operation
 	script := ""
-	if cli.IsLinux() || cli.IsMacOS() {
+	if cli.IsLinux() {
 		script = fmt.Sprintf(
 			`7z x "%s" "-o%s" -y`,
+			source,
+			destination,
+		)
+	} else if cli.IsMacOS() {
+		script = fmt.Sprintf(
+			`/opt/homebrew/bin/7z x "%s" "-o%s" -y`,
 			source,
 			destination,
 		)
