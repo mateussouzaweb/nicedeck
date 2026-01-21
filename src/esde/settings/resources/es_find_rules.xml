@@ -128,9 +128,9 @@
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/net.shadps4.shadPS4</entry>
             <entry>~/.local/share/flatpak/exports/bin/net.shadps4.shadPS4</entry>
-            <entry>$EMULATORS/ShadPS4/ShadPS4.AppImage</entry>
-            <entry>$EMULATORS/ShadPS4/ShadPS4.app</entry>
-            <entry>$EMULATORS\ShadPS4\shadPS4.exe</entry>
+            <entry>$EMULATORS/ShadPS4/shadPS4QtLauncher-qt.AppImage</entry>
+            <entry>$EMULATORS/ShadPS4/shadPS4QtLauncher.app</entry>
+            <entry>$EMULATORS\ShadPS4\shadPS4QtLauncher.exe</entry>
         </rule>
     </emulator>
     <emulator name="SIMPLE64">

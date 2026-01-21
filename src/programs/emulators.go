@@ -725,24 +725,24 @@ func ShadPS4() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &macos.Application{
 			AppID:     "shadps4",
-			AppName:   "$EMULATORS/ShadPS4/shadps4.app",
+			AppName:   "$EMULATORS/ShadPS4/shadPS4QtLauncher.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
-				"https://github.com/shadps4-emu/shadPS4",
+				"https://github.com/shadps4-emu/shadps4-qtlauncher",
 				cli.ArchVariant(
-					"shadps4-macos-qt-*.zip", // amd64
-					"shadps4-macos-qt-*.zip", // arm64 (WIP)
+					"shadPS4QtLauncher-macos-qt-*.zip", // amd64
+					"shadPS4QtLauncher-macos-qt-*.zip", // arm64 (WIP)
 				),
 			),
 		}, &windows.Executable{
 			AppID:     "ShadPS4",
-			AppExe:    "$EMULATORS/ShadPS4/shadPS4.exe",
+			AppExe:    "$EMULATORS/ShadPS4/shadPS4QtLauncher.exe",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
-				"https://github.com/shadps4-emu/shadPS4",
+				"https://github.com/shadps4-emu/shadps4-qtlauncher",
 				cli.ArchVariant(
-					"shadps4-win64-qt-*.zip", // amd64
-					"shadps4-win64-qt-*.zip", // arm64 (WIP)
+					"shadPS4QtLauncher-win64-qt-*.zip", // amd64
+					"shadPS4QtLauncher-win64-qt-*.zip", // arm64 (WIP)
 				),
 			),
 		}),
