@@ -91,4 +91,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG="${{ needs.extract-information.outputs.tag }}"
-          gh release upload $TAG $(echo bin/nicedeck-*)
+          FILES=$(echo bin/nicedeck-*)
+
+          echo "Uploading files: $FILES"
+          gh release upload $TAG $FILES --clobber
