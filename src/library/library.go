@@ -156,6 +156,21 @@ func Save() error {
 	return nil
 }
 
+// Fill missing details when shortcut is provided as ID only
+func Fill(list []*Shortcut) []*Shortcut {
+
+	for index, shortcut := range list {
+		if shortcut.ID != "" && shortcut.Name == "" {
+			found := Shortcuts.Get(shortcut.ID)
+			if found.ID == shortcut.ID {
+				list[index] = found
+			}
+		}
+	}
+
+	return list
+}
+
 // Compare two shortcut lists and return the differences
 func Compare(current []*Shortcut, compare []*Shortcut) Diff {
 
@@ -276,7 +291,7 @@ func Sync() error {
 
 		// Export library shortcuts to internal format
 		// Avoid processing empty libraries
-		exported := library.Export()
+		exported := Fill(library.Export())
 		if len(exported) == 0 {
 			continue
 		}
@@ -317,7 +332,7 @@ func Sync() error {
 		cli.Debug("Synchronizing library to %s\n", library.String())
 
 		// Compare library with main shortcuts library
-		current := library.Export()
+		current := Fill(library.Export())
 		diff := Compare(current, Shortcuts.All())
 
 		// Apply differences to additional library

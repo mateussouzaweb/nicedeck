@@ -61,13 +61,19 @@ func (l *Library) Save() error {
 // Export shortcuts to internal format
 func (l *Library) Export() []*Shortcut {
 	results := make([]*Shortcut, 0)
+	for id := range l.References {
+		results = append(results, &Shortcut{ID: id})
+	}
+
 	return results
 }
 
 // Add shortcut to the library
 func (l *Library) Add(shortcut *Shortcut) error {
 
+	// Skip if not tagged for desktop but keep reference
 	if !slices.Contains(shortcut.Tags, "Desktop") {
+		l.References[shortcut.ID] = ""
 		return nil
 	}
 
@@ -159,8 +165,9 @@ func (l *Library) Update(shortcut *Shortcut, overwriteAssets bool) error {
 // Remove shortcut from the library
 func (l *Library) Remove(shortcut *Shortcut) error {
 
-	// Skip if not present
+	// Skip when empty reference
 	if l.References[shortcut.ID] == "" {
+		delete(l.References, shortcut.ID)
 		return nil
 	}
 

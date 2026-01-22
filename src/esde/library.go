@@ -12,8 +12,9 @@ type Shortcut = shortcuts.Shortcut
 
 // Library struct
 type Library struct {
-	DatabasePath string `json:"databasePath"`
-	BasePath     string `json:"basePath"`
+	DatabasePath string            `json:"databasePath"`
+	BasePath     string            `json:"basePath"`
+	References   map[string]string `json:"references"`
 }
 
 // String representation of the library
@@ -32,6 +33,7 @@ func (l *Library) Load() error {
 
 	// Reset and fill basic information
 	l.BasePath = ""
+	l.References = make(map[string]string, 0)
 
 	// Read database file content
 	err := fs.ReadJSON(l.DatabasePath, &l)
@@ -79,20 +81,27 @@ func (l *Library) Save() error {
 // Export shortcuts to internal format
 func (l *Library) Export() []*Shortcut {
 	results := make([]*Shortcut, 0)
+	for id := range l.References {
+		results = append(results, &Shortcut{ID: id})
+	}
+
 	return results
 }
 
 // Add shortcut to the library
 func (l *Library) Add(shortcut *Shortcut) error {
+	l.References[shortcut.ID] = ""
 	return nil
 }
 
 // Update shortcut on library
 func (l *Library) Update(shortcut *Shortcut, overwriteAssets bool) error {
+	l.References[shortcut.ID] = ""
 	return nil
 }
 
 // Remove shortcut from the library
 func (l *Library) Remove(shortcut *Shortcut) error {
+	delete(l.References, shortcut.ID)
 	return nil
 }
