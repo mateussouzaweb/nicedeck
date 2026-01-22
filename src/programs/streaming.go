@@ -46,7 +46,6 @@ func GeForceNow() *Program {
 	flags := []string{}
 	if cli.IsLinux() {
 		flags = append(flags, "--browser-shortcut")
-		flags = append(flags, "--remove-only-shortcut")
 	}
 
 	return &Program{
@@ -129,17 +128,14 @@ func XboxCloudGaming() *Program {
 		Description: "Client for Xbox Cloud Gaming",
 		Category:    "Streaming",
 		Tags:        []string{"Gaming", "Streaming"},
-		Flags: []string{
-			"--browser-shortcut",
-			"--remove-only-shortcut",
-		},
-		Folders:   []string{},
-		Website:   "https://www.xbox.com/cloud-gaming",
-		IconURL:   assets.Icon("164f545c22e17e5e9298b1c84b9e3e1e.png"),
-		LogoURL:   assets.Logo("e3667b435e999b653dba291634579db1.png"),
-		CoverURL:  assets.Cover("8a0657375c4d4024a7d9d5cc84b3c490.png"),
-		BannerURL: assets.Banner("2b16dcbe37a15a4932affb27447d7e21.png"),
-		HeroURL:   assets.Hero("f6ba16107e08c04fc684308ab18d207a.png"),
+		Flags:       []string{"--browser-shortcut"},
+		Folders:     []string{},
+		Website:     "https://www.xbox.com/cloud-gaming",
+		IconURL:     assets.Icon("164f545c22e17e5e9298b1c84b9e3e1e.png"),
+		LogoURL:     assets.Logo("e3667b435e999b653dba291634579db1.png"),
+		CoverURL:    assets.Cover("8a0657375c4d4024a7d9d5cc84b3c490.png"),
+		BannerURL:   assets.Banner("2b16dcbe37a15a4932affb27447d7e21.png"),
+		HeroURL:     assets.Hero("f6ba16107e08c04fc684308ab18d207a.png"),
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.microsoft.Edge",

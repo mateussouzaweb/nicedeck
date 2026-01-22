@@ -54,7 +54,7 @@ func NiceDeck() *Program {
 		Description: "Steam companion app and library manager",
 		Category:    "Gaming",
 		Tags:        []string{"Gaming", "Utilities"},
-		Flags:       []string{"--remove-only-shortcut"},
+		Flags:       []string{"--nicedeck"},
 		Folders:     []string{},
 		Website:     "https://github.com/mateussouzaweb/nicedeck",
 		IconURL:     assets.Icon("84ad88e9ffaeb60e8a2c83b6c108debd.png"),

@@ -3,6 +3,7 @@ package linux
 import (
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -19,6 +20,10 @@ type Binary struct {
 
 // Return package runtime
 func (b *Binary) Runtime() string {
+	if strings.HasPrefix(b.AppBin, "/usr/bin") {
+		return "system"
+	}
+
 	return "native"
 }
 

@@ -146,9 +146,6 @@ func Install(options *Options) error {
 			return fmt.Errorf("program is not available to install: %s", id)
 		}
 
-		// Print step message
-		cli.Printf(cli.ColorNotice, "Installing %s...\n", program.Name)
-
 		// Make sure required folders exist
 		if len(program.Folders) > 0 {
 			for _, folder := range program.Folders {
@@ -159,10 +156,27 @@ func Install(options *Options) error {
 			}
 		}
 
-		// Run program installation
-		err = program.Package.Install()
-		if err != nil {
-			return err
+		// Determine if can install package
+		canInstallPackage := true
+		if slices.Contains(program.Flags, "--browser-shortcut") {
+			if slices.Contains(program.Flags, "--installed") {
+				cli.Printf(cli.ColorWarn, "Skipping browser installation because it already is installed.\n")
+				canInstallPackage = false
+			}
+		} else if slices.Contains(program.Flags, "--system") {
+			cli.Printf(cli.ColorWarn, "Skipping %s installation because it already is provided from system.\n", program.Name)
+			canInstallPackage = false
+		}
+
+		// Run program installation when possible
+		if canInstallPackage {
+			cli.Printf(cli.ColorNotice, "Installing %s...\n", program.Name)
+			err = program.Package.Install()
+			if err != nil {
+				return err
+			}
+
+			cli.Printf(cli.ColorSuccess, "%s installed!\n", program.Name)
 		}
 
 		// Add desktop flag or tag to control automatic shortcut creation
@@ -202,8 +216,7 @@ func Install(options *Options) error {
 			return err
 		}
 
-		// Print success message
-		cli.Printf(cli.ColorSuccess, "%s installed!\n", program.Name)
+		cli.Printf(cli.ColorSuccess, "%s shortcut created!\n", program.Name)
 
 	}
 
@@ -230,9 +243,6 @@ func Remove(options *Options) error {
 			return fmt.Errorf("program is not available to remove: %s", id)
 		}
 
-		// Print step message
-		cli.Printf(cli.ColorNotice, "Removing %s...\n", program.Name)
-
 		// Remove from shortcuts list
 		executable := program.Package.Executable()
 		shortcut := library.Shortcuts.Find(program.Name, executable)
@@ -246,18 +256,30 @@ func Remove(options *Options) error {
 			cli.Printf(cli.ColorSuccess, "%s shortcut removed!\n", program.Name)
 		}
 
+		// Determine if can remove package
+		canRemovePackage := true
+		if slices.Contains(program.Flags, "--browser-shortcut") {
+			cli.Printf(cli.ColorWarn, "Note: Only the %s shortcut was be removed because it is a browser shortcut.\n", program.Name)
+			canRemovePackage = false
+		} else if slices.Contains(program.Flags, "--system") {
+			cli.Printf(cli.ColorWarn, "Note: %s is provided by the system and cannot removed.\n", program.Name)
+			canRemovePackage = false
+		} else if slices.Contains(program.Flags, "--nicedeck") {
+			cli.Printf(cli.ColorWarn, "Warning: %s cannot be fully removed because it is running.\n", program.Name)
+			cli.Printf(cli.ColorWarn, "Please close the program and remove it manually.\n")
+			canRemovePackage = false
+		}
+
 		// Run program removal when possible
-		if slices.Contains(program.Flags, "--remove-only-shortcut") {
-			cli.Printf(cli.ColorWarn, "Skipped: %s cannot be removed.\n", program.Name)
-			continue
-		}
+		if canRemovePackage {
+			cli.Printf(cli.ColorNotice, "Removing %s...\n", program.Name)
+			err = program.Package.Remove()
+			if err != nil {
+				return err
+			}
 
-		err = program.Package.Remove()
-		if err != nil {
-			return err
+			cli.Printf(cli.ColorSuccess, "%s removed!\n", program.Name)
 		}
-
-		cli.Printf(cli.ColorSuccess, "%s removed!\n", program.Name)
 
 	}
 

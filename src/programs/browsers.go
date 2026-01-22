@@ -117,7 +117,7 @@ func GoogleChrome() *Program {
 func MicrosoftEdge() *Program {
 	flags := []string{}
 	if cli.IsWindows() {
-		flags = append(flags, "--remove-only-shortcut")
+		flags = append(flags, "--system")
 	}
 
 	return &Program{
