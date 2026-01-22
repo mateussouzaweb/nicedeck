@@ -12,7 +12,8 @@ type Shortcut = shortcuts.Shortcut
 
 // Library struct
 type Library struct {
-	BasePath string `json:"basePath"`
+	DatabasePath string `json:"databasePath"`
+	BasePath     string `json:"basePath"`
 }
 
 // String representation of the library
@@ -20,8 +21,23 @@ func (l *Library) String() string {
 	return "ES-DE"
 }
 
+// Init library
+func (l *Library) Init(databasePath string) error {
+	l.DatabasePath = databasePath
+	return nil
+}
+
 // Load library
 func (l *Library) Load() error {
+
+	// Reset and fill basic information
+	l.BasePath = ""
+
+	// Read database file content
+	err := fs.ReadJSON(l.DatabasePath, &l)
+	if err != nil {
+		return err
+	}
 
 	// Windows portable version uses application path
 	if cli.IsWindows() {
@@ -37,6 +53,13 @@ func (l *Library) Load() error {
 // Save library
 func (l *Library) Save() error {
 
+	// Save database state to file
+	err := fs.WriteJSON(l.DatabasePath, l)
+	if err != nil {
+		return err
+	}
+
+	// Check if ES-DE is installed
 	installed, err := GetPackage().Installed()
 	if err != nil {
 		return err

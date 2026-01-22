@@ -50,6 +50,7 @@ func Load() error {
 	configPath := filepath.Join(fs.ExpandPath("$APPLICATIONS"), "NiceDeck")
 	shortcutsConfigPath := filepath.Join(configPath, "shortcuts.json")
 	steamConfigPath := filepath.Join(configPath, "steam.json")
+	esdeConfigPath := filepath.Join(configPath, "esde.json")
 	desktopConfigPath := filepath.Join(configPath, "desktop.json")
 
 	// Init shortcuts library
@@ -60,6 +61,12 @@ func Load() error {
 
 	// Init Steam library
 	err = Steam.Init(steamConfigPath)
+	if err != nil {
+		return err
+	}
+
+	// Init ESDE library
+	err = ESDE.Init(esdeConfigPath)
 	if err != nil {
 		return err
 	}
