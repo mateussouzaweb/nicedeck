@@ -184,6 +184,8 @@ func Install(options *Options) error {
 		// These packages do not create shortcuts by default
 		if program.Package.Alias() == "" {
 			program.Tags = append(program.Tags, "Desktop")
+		} else if slices.Contains(program.Flags, "--browser-shortcut") {
+			program.Tags = append(program.Tags, "Desktop")
 		}
 
 		// Retrieve shortcut information
