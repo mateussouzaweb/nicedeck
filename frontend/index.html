@@ -172,8 +172,7 @@
                         <span>Add Shortcut</span>
                     </button>
                     <button type="button" id="sync">
-                        <span>Sync Library</span>
-                        <img src="./img/icons/steam.svg" alt="" width="24" height="24" />
+                        <span>Sync Shortcuts</span>
                     </button>
                 </div>
 
@@ -286,6 +285,31 @@
                             <div class="actions">
                                 <button type="submit">
                                     <span>Yes, Delete</span>
+                                    <span>Processing...</span>
+                                </button>
+                                <button type="button" class="close">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal hidden" id="modal-sync-shortcuts">
+                    <div class="backdrop"></div>
+                    <div class="container">
+                        <form action="#" class="inside">
+                            <div class="header">
+                                <h3>
+                                    <span>Sync Shortcuts</span>
+                                </h3>
+                                <button type="button" class="close">&times;</button>
+                            </div>
+                            <div class="content">
+                                <p><b>WARNING:</b> NiceDeck automatically replicate changes to Steam and additional libraries when necessary. In general, you should perform this action only when shortcuts are created or updated outside NiceDeck.</p>
+                                
+                                <p>Are you sure that you want to perform a full synchronization process? By continuing, you will sincronize all Steam shortcuts into NiceDeck and then all NiceDeck shortcuts into Steam. Please be aware that if there is no Steam shortcuts, NiceDeck will remove all shortcuts as well...</p>
+                            </div>
+                            <div class="actions">
+                                <button type="submit">
+                                    <span>Yes, Continue</span>
                                     <span>Processing...</span>
                                 </button>
                                 <button type="button" class="close">Cancel</button>

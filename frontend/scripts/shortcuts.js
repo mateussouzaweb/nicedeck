@@ -430,29 +430,8 @@ window.addEventListener('load', async () => {
 
     on('#shortcuts #sync', 'click', async (event) => {
         event.preventDefault()
-        
-        const button = $('#shortcuts #sync')
-
-        if (button.disabled) {
-            return
-        }
-
-        await window.runAndCaptureConsole(button, false, async () => {
-            try {
-                /** @type {LoadLibraryResult} */
-                await requestJson('POST', '/api/library/load')
-
-                /** @type {SyncLibraryResult} */
-                await requestJson('POST', '/api/library/sync')
-
-                /** @type {SaveLibraryResult} */
-                await requestJson('POST', '/api/library/save')
-
-                await loadShortcuts()
-            } catch (error) {
-                window.showError(error)
-            }
-        })
+        const modal = $('#modal-sync-shortcuts')
+        window.showModal(modal)
     })
 
     on('#shortcuts [data-launch-shortcut]', 'click', async (event) => {
@@ -743,6 +722,38 @@ window.addEventListener('load', async () => {
                 await requestJson('POST', '/api/shortcut/modify', JSON.stringify(body))
                 /** @type {SaveLibraryResult} */
                 await requestJson('POST', '/api/library/save')
+                await loadShortcuts()
+            } catch (error) {
+                window.showError(error)
+            }
+        })
+
+        window.hideModal(modal)
+
+    })
+
+    on('#shortcuts #modal-sync-shortcuts form', 'submit', async (event) => {
+        event.preventDefault()
+
+        const modal = $('#modal-sync-shortcuts')
+        const form = $('form', modal)
+        const button = $('button[type="submit"]', form)
+
+        if (button.disabled) {
+            return
+        }
+
+        await window.runAndCaptureConsole(button, false, async () => {
+            try {
+                /** @type {LoadLibraryResult} */
+                await requestJson('POST', '/api/library/load')
+
+                /** @type {SyncLibraryResult} */
+                await requestJson('POST', '/api/library/sync')
+
+                /** @type {SaveLibraryResult} */
+                await requestJson('POST', '/api/library/save')
+
                 await loadShortcuts()
             } catch (error) {
                 window.showError(error)
