@@ -69,8 +69,8 @@ jobs:
             --generate-notes \
             LICENSE.md
 
-  build-binary:
-    name: Build Binary
+  build-binaries:
+    name: Build Binaries
     needs: [extract-information, create-release]
     runs-on: ubuntu-latest
     container:
@@ -81,17 +81,21 @@ jobs:
         name: Checkout repository
         uses: actions/checkout@v4
 
-      - id: build-binary
-        name: Build binary app
+      - id: build-binaries
+        name: Build binaries
         run: go run build.go
 
-      - id: upload-binary
-        name: Upload binary app
+      - id: list-generated-binaries
+        name: List generated binaries
+        run: ls -lah bin/
+
+      - id: upload-binaries
+        name: Upload binaries
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG="${{ needs.extract-information.outputs.tag }}"
-          FILES=$(echo bin/nicedeck-*)
-
+          FILES=$(ls -1 bin/nicedeck-* | xargs)
           echo "Uploading files: $FILES"
-          gh release upload $TAG $FILES --clobber
+          set -- $FILES
+          gh release upload "$TAG" "$@" --clobber
