@@ -71,7 +71,7 @@
                     <li>Need to backup or restore your progress in games? Use the <b>state</b> section.</li>
                     <li>Customize launch shortcuts individually on the <b>shortcuts</b> tab.</li>
                 </ul>
-                
+
                 <p>NiceDeck is happy to do most of the work for you, but don't forget to check the help documentation and the console area below to keep track of progress and read additional instructions. Have a nice gaming experience! :D</p>
             </section>
 
@@ -185,8 +185,8 @@
                         <div class="dropdown"></div>
                     </div>
                     <div class="search">
-                        <input type="text" 
-                            name="search" 
+                        <input type="text"
+                            name="search"
                             placeholder="Search..."
                             autocomplete="off" />
                     </div>
@@ -195,128 +195,11 @@
                             <span>Refresh</span>
                             <span>Loading...</span>
                         </button>
-                        
+
                     </div>
                 </form>
 
                 <div id="list"></div>
-
-                <div class="modal hidden" id="modal-launch-shortcut">
-                    <div class="backdrop"></div>
-                    <div class="container">
-                        <div class="inside">
-                            <button type="button" class="close">&times;</button>
-                            <div class="content"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal hidden" id="modal-create-shortcut">
-                    <div class="backdrop"></div>
-                    <div class="container">
-                        <form action="#" class="inside">
-                            <div class="header">
-                                <h3>Create Shortcut</h3>
-                                <button type="button" class="close">&times;</button>
-                            </div>
-                            <div class="content"></div>
-                            <div class="actions">
-                                <button type="submit">
-                                    <span>Create Shortcut</span>
-                                    <span>Processing...</span>
-                                </button>
-                                <button type="button" class="close">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="modal hidden" id="modal-add-shortcut">
-                    <div class="backdrop"></div>
-                    <div class="container">
-                        <form action="#" class="inside">
-                            <div class="header">
-                                <h3>Add Shortcut</h3>
-                                <button type="button" class="close">&times;</button>
-                            </div>
-                            <div class="content"></div>
-                            <div class="actions">
-                                <button type="submit">
-                                    <span>Add Shortcut</span>
-                                    <span>Processing...</span>
-                                </button>
-                                <button type="button" class="close">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="modal hidden" id="modal-update-shortcut">
-                    <div class="backdrop"></div>
-                    <div class="container">
-                        <form action="#" class="inside">
-                            <div class="header">
-                                <h3>
-                                    <span>Update Shortcut</span>
-                                    <small></small>
-                                </h3>
-                                <button type="button" class="close">&times;</button>
-                            </div>
-                            <div class="content"></div>
-                            <div class="actions">
-                                <button type="submit">
-                                    <span>Update Shortcut</span>
-                                    <span>Processing...</span>
-                                </button>
-                                <button type="button" class="close">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="modal hidden" id="modal-delete-shortcut">
-                    <div class="backdrop"></div>
-                    <div class="container">
-                        <form action="#" class="inside">
-                            <div class="header">
-                                <h3>
-                                    <span>Delete Shortcut</span>
-                                    <small></small>
-                                </h3>
-                                <button type="button" class="close">&times;</button>
-                            </div>
-                            <div class="content"></div>
-                            <div class="actions">
-                                <button type="submit">
-                                    <span>Yes, Delete</span>
-                                    <span>Processing...</span>
-                                </button>
-                                <button type="button" class="close">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="modal hidden" id="modal-sync-shortcuts">
-                    <div class="backdrop"></div>
-                    <div class="container">
-                        <form action="#" class="inside">
-                            <div class="header">
-                                <h3>
-                                    <span>Sync Shortcuts</span>
-                                </h3>
-                                <button type="button" class="close">&times;</button>
-                            </div>
-                            <div class="content">
-                                <p><b>WARNING:</b> NiceDeck automatically replicate changes to Steam and additional libraries when necessary. In general, you should perform this action only when shortcuts are created or updated outside NiceDeck.</p>
-                                
-                                <p>Are you sure that you want to perform a full synchronization process? By continuing, you will sincronize all Steam shortcuts into NiceDeck and then all NiceDeck shortcuts into Steam. Please be aware that if there is no Steam shortcuts, NiceDeck will remove all shortcuts as well...</p>
-                            </div>
-                            <div class="actions">
-                                <button type="submit">
-                                    <span>Yes, Continue</span>
-                                    <span>Processing...</span>
-                                </button>
-                                <button type="button" class="close">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
             </section>
 
         </div>
@@ -347,6 +230,128 @@
             </span>
         </div>
     </footer>
+
+    <div class="modal hidden shortcuts-modal" id="modal-launch-shortcut">
+        <div class="backdrop"></div>
+        <div class="container">
+            <div class="inside">
+                <button type="button" class="close">&times;</button>
+                <div class="content"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="modal-create-shortcut">
+        <div class="backdrop"></div>
+        <div class="container">
+            <form action="#" class="inside">
+                <div class="header">
+                    <h3>Create Shortcut</h3>
+                    <button type="button" class="close">&times;</button>
+                </div>
+                <div class="content"></div>
+                <div class="actions">
+                    <button type="submit">
+                        <span>Create Shortcut</span>
+                        <span>Processing...</span>
+                    </button>
+                    <button type="button" class="close">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="modal-add-shortcut">
+        <div class="backdrop"></div>
+        <div class="container">
+            <form action="#" class="inside">
+                <div class="header">
+                    <h3>Add Shortcut</h3>
+                    <button type="button" class="close">&times;</button>
+                </div>
+                <div class="content"></div>
+                <div class="actions">
+                    <button type="submit">
+                        <span>Add Shortcut</span>
+                        <span>Processing...</span>
+                    </button>
+                    <button type="button" class="close">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="modal-update-shortcut">
+        <div class="backdrop"></div>
+        <div class="container">
+            <form action="#" class="inside">
+                <div class="header">
+                    <h3>
+                        <span>Update Shortcut</span>
+                        <small></small>
+                    </h3>
+                    <button type="button" class="close">&times;</button>
+                </div>
+                <div class="content"></div>
+                <div class="actions">
+                    <button type="submit">
+                        <span>Update Shortcut</span>
+                        <span>Processing...</span>
+                    </button>
+                    <button type="button" class="close">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="modal-delete-shortcut">
+        <div class="backdrop"></div>
+        <div class="container">
+            <form action="#" class="inside">
+                <div class="header">
+                    <h3>
+                        <span>Delete Shortcut</span>
+                        <small></small>
+                    </h3>
+                    <button type="button" class="close">&times;</button>
+                </div>
+                <div class="content"></div>
+                <div class="actions">
+                    <button type="submit">
+                        <span>Yes, Delete</span>
+                        <span>Processing...</span>
+                    </button>
+                    <button type="button" class="close">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="modal-sync-shortcuts">
+        <div class="backdrop"></div>
+        <div class="container">
+            <form action="#" class="inside">
+                <div class="header">
+                    <h3>
+                        <span>Sync Shortcuts</span>
+                    </h3>
+                    <button type="button" class="close">&times;</button>
+                </div>
+                <div class="content">
+                    <p><b>WARNING:</b> NiceDeck automatically replicate changes to Steam and additional libraries when necessary. In general, you should perform this action only when shortcuts are created or updated outside NiceDeck.</p>
+
+                    <p>Are you sure that you want to perform a full synchronization process? By continuing, you will sincronize all Steam shortcuts into NiceDeck and then all NiceDeck shortcuts into Steam. Please be aware that if there is no Steam shortcuts, NiceDeck will remove all shortcuts as well...</p>
+                </div>
+                <div class="actions">
+                    <button type="submit">
+                        <span>Yes, Continue</span>
+                        <span>Processing...</span>
+                    </button>
+                    <button type="button" class="close">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script type="text/javascript" src="./scripts/app.js"></script>
     <script type="text/javascript" src="./scripts/console.js"></script>

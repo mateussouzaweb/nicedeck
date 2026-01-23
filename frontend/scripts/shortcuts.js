@@ -497,7 +497,13 @@ window.addEventListener('load', async () => {
 
     })
 
-    on('#shortcuts [data-search-artworks]', 'change', async (event) => {
+    const searchArtworksElements = [
+        '#modal-create-shortcut [data-search-artworks]',
+        '#modal-add-shortcut [data-search-artworks]',
+        '#modal-update-shortcut [data-search-artworks]'
+    ].join(', ')
+
+    on(searchArtworksElements, 'change', async (event) => {
 
         const modal = event.target.closest('.modal')
         const form = $('form', modal)
@@ -566,7 +572,7 @@ window.addEventListener('load', async () => {
 
     })
 
-    on('#shortcuts #modal-create-shortcut form', 'submit', async (event) => {
+    on('#modal-create-shortcut form', 'submit', async (event) => {
         event.preventDefault()
 
         const modal = $('#modal-create-shortcut')
@@ -601,7 +607,7 @@ window.addEventListener('load', async () => {
 
     })
 
-    on('#shortcuts #modal-add-shortcut form', 'submit', async (event) => {
+    on('#modal-add-shortcut form', 'submit', async (event) => {
         event.preventDefault()
 
         const modal = $('#modal-add-shortcut')
@@ -648,7 +654,7 @@ window.addEventListener('load', async () => {
 
     })
 
-    on('#shortcuts #modal-update-shortcut form', 'submit', async (event) => {
+    on('#modal-update-shortcut form', 'submit', async (event) => {
         event.preventDefault()
 
         const modal = $('#modal-update-shortcut')
@@ -697,7 +703,7 @@ window.addEventListener('load', async () => {
 
     })
 
-    on('#shortcuts #modal-delete-shortcut form', 'submit', async (event) => {
+    on('#modal-delete-shortcut form', 'submit', async (event) => {
         event.preventDefault()
 
         const modal = $('#modal-delete-shortcut')
@@ -732,7 +738,7 @@ window.addEventListener('load', async () => {
 
     })
 
-    on('#shortcuts #modal-sync-shortcuts form', 'submit', async (event) => {
+    on('#modal-sync-shortcuts form', 'submit', async (event) => {
         event.preventDefault()
 
         const modal = $('#modal-sync-shortcuts')
