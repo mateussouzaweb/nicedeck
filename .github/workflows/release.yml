@@ -68,15 +68,18 @@ jobs:
           VERSION="${{ needs.extract-information.outputs.version }}"
           TAG="${{ needs.extract-information.outputs.tag }}"
           PREVIOUS=$(git describe --tags --abbrev=0 HEAD^)
+          REPOSITORY="$(gh repo view --json url -q .url)"
 
           git log "$PREVIOUS..HEAD" \
             --no-merges \
-            --pretty=format:"- %s (#%h)" > NOTES.md
+            --pretty=format:"- %s ([%h]($REPOSITORY/commit/%H))" \ 
+            > NOTES.md
 
           gh release create "$TAG" \
             --title "Version $VERSION" \
             --notes-file NOTES.md \
-            --latest LICENSE.md
+            --latest \
+            LICENSE.md
 
   build-binaries:
     name: Build Binaries
