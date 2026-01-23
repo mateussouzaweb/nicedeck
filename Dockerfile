@@ -12,7 +12,7 @@ ENV LANG=en_US.utf8
 
 # Install system dependencies
 RUN apt update && apt install -y \
-    build-essential g++ pkg-config git curl wget
+    build-essential g++ pkg-config git curl wget zip unzip
 
 # Install GitHub CLI
 RUN mkdir -p -m 755 /etc/apt/keyrings \
