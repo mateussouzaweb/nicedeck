@@ -85,7 +85,7 @@ func build() error {
 
 	// Compress the .app bundle into a .zip file
 	compressCommand := cli.Command(fmt.Sprintf(
-		`cd %s && zip -r %s %s > /dev/null; rm -rf %s`,
+		`cd %s && zip -r %s %s > /dev/null && rm -rf %s`,
 		binDir,
 		filepath.Base(targetZipPath),
 		filepath.Base(appBundleDir),
