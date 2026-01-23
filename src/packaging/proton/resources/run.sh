@@ -34,7 +34,7 @@ if [[ "$INSTALL_TYPE" == "flatpak" ]]; then
     "$FLATPAK_ID" "$PROTON_RUNTIME" run "$@" 2>&1
 
 # Steam Native
-elif [[ "$INSTALL_TYPE" == "native" ]]; then
+elif [[ "$INSTALL_TYPE" == "system" || "$INSTALL_TYPE" == "native" ]]; then
 
   export STEAM_COMPAT_CLIENT_INSTALL_PATH="$STEAM_PATH"
   export STEAM_COMPAT_DATA_PATH="$DATA_PATH"
