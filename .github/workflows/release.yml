@@ -57,17 +57,26 @@ jobs:
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - id: create-release
         name: Create release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create ${{ needs.extract-information.outputs.tag }} \
-            --title "Version ${{ needs.extract-information.outputs.version }}" \
-            --latest \
-            --generate-notes \
-            LICENSE.md
+          VERSION="${{ needs.extract-information.outputs.version }}"
+          TAG="${{ needs.extract-information.outputs.tag }}"
+          PREVIOUS=$(git describe --tags --abbrev=0 HEAD^)
+
+          git log "$PREVIOUS..HEAD" \
+            --no-merges \
+            --pretty=format:"- %s (#%h)" > NOTES.md
+
+          gh release create "$TAG" \
+            --title "Version $VERSION" \
+            --notes-file NOTES.md \
+            --latest LICENSE.md
 
   build-binaries:
     name: Build Binaries
@@ -87,7 +96,7 @@ jobs:
 
       - id: list-generated-binaries
         name: List generated binaries
-        run: ls -lah bin/
+        run: ls -1 bin/
 
       - id: upload-binaries
         name: Upload binaries
