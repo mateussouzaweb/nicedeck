@@ -26,6 +26,7 @@ type Diff struct {
 // Synchronizable interface
 type Synchronizable interface {
 	String() string
+	Mode() string
 	Load() error
 	Save() error
 	Export() []*Shortcut
@@ -164,6 +165,8 @@ func Fill(list []*Shortcut) []*Shortcut {
 			found := Shortcuts.Get(shortcut.ID)
 			if found.ID == shortcut.ID {
 				list[index] = found
+			} else {
+				cli.Debug("Shortcut details not found: %s\n", shortcut.ID)
 			}
 		}
 	}
@@ -281,22 +284,22 @@ func Sync() error {
 	// Process is done gradually for each additional library
 	for _, library := range libraries {
 
-		cli.Debug("Synchronizing %s to library\n", library.String())
-
 		// Load library data
 		err := library.Load()
 		if err != nil {
 			return err
 		}
 
-		// Export library shortcuts to internal format
-		// Avoid processing empty libraries
-		exported := Fill(library.Export())
-		if len(exported) == 0 {
+		// Skip partial libraries
+		// These libraries cannot submit data to main library
+		if library.Mode() == "PARTIAL" {
 			continue
 		}
 
+		cli.Debug("Synchronizing %s to library\n", library.String())
+
 		// Compare library with main shortcuts library
+		exported := Fill(library.Export())
 		diff := Compare(Shortcuts.All(), exported)
 
 		// Apply differences to main shortcuts library

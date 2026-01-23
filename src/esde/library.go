@@ -22,6 +22,11 @@ func (l *Library) String() string {
 	return "ES-DE"
 }
 
+// Operation mode of the library
+func (l *Library) Mode() string {
+	return "PARTIAL"
+}
+
 // Init library
 func (l *Library) Init(databasePath string) error {
 	l.DatabasePath = databasePath

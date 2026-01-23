@@ -39,6 +39,11 @@ func (l *Library) String() string {
 	return "Steam"
 }
 
+// Operation mode of the library
+func (l *Library) Mode() string {
+	return "FULL"
+}
+
 // Init library
 func (l *Library) Init(databasePath string) error {
 	l.DatabasePath = databasePath
