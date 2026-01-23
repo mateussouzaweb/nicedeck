@@ -53,7 +53,7 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 
 	// Check against exclusion list
 	if options.ShouldExclude(relativePath) {
-		cli.Debug("Skipped: file is in the exclude list.\n")
+		cli.Debug("Skipped: file is in the exclude list\n")
 		return rom, nil
 	}
 
@@ -65,7 +65,7 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 
 	// Ignore if could not detect the emulator
 	if runtime.Emulator.Name == "" {
-		cli.Debug("Skipped: no emulator found for ROM.\n")
+		cli.Debug("Skipped: no emulator found for ROM\n")
 		return rom, nil
 	}
 
@@ -138,12 +138,12 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 		// This will prevent multiple results for the same ROM
 		for _, item := range results {
 			if item.Platform == rom.Platform && item.Name == rom.Name {
-				cli.Debug("Skipped: multiple results detected for %s.\n", rom.Name)
+				cli.Debug("Skipped: multiple results detected for %s\n", rom.Name)
 				return nil
 			}
 		}
 
-		cli.Debug("Valid: ROM is valid for %s emulator.\n", rom.Emulator)
+		cli.Debug("Valid: ROM is valid for %s emulator\n", rom.Emulator)
 		results = append(results, rom)
 		return nil
 	})

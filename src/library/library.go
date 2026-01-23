@@ -113,7 +113,7 @@ func Save() error {
 
 	for _, library := range libraries {
 
-		cli.Debug("Synchronizing recent changes from %s to library\n", library.String())
+		cli.Debug("Synchronizing recent changes to %s\n", library.String())
 
 		// Load library data
 		err := library.Load()
