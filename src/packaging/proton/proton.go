@@ -85,9 +85,26 @@ func (p *Proton) ProtonRuntime() (string, error) {
 	return runtime, nil
 }
 
+// Retrieve the wine binary path
+func (p *Proton) WineBinary() (string, error) {
+
+	path, err := p.ProtonPath()
+	if err != nil {
+		return "", err
+	}
+
+	binary := filepath.Join(path, "files", "bin", "wine")
+	return binary, nil
+}
+
 // Retrieve proton data path
 func (p *Proton) DataPath() string {
 	return fs.ExpandPath("$GAMES/Proton")
+}
+
+// Retrieve proton wine path
+func (p *Proton) WinePath() string {
+	return filepath.Join(p.DataPath(), "pfx")
 }
 
 // Retrieve proton drive path
@@ -123,6 +140,7 @@ func (p *Proton) Install() error {
 
 	// Gather information
 	dataPath := p.DataPath()
+	winePath := p.WinePath()
 	drivePath := p.DrivePath()
 
 	steamPath, err := steam.GetBasePath()
@@ -136,6 +154,11 @@ func (p *Proton) Install() error {
 	}
 
 	protonRuntime, err := p.ProtonRuntime()
+	if err != nil {
+		return err
+	}
+
+	wineBinary, err := p.WineBinary()
 	if err != nil {
 		return err
 	}
@@ -179,11 +202,13 @@ func (p *Proton) Install() error {
 	replaces := map[string]string{
 		"@{DATA_PATH}":      dataPath,
 		"@{DRIVE_PATH}":     drivePath,
+		"@{WINE_PATH}":      winePath,
 		"@{FLATPAK_ID}":     steamFlatpakID,
 		"@{INSTALL_TYPE}":   steamInstallType,
 		"@{PROTON_RUNTIME}": protonRuntime,
 		"@{STEAM_PATH}":     steamPath,
 		"@{STEAM_RUNTIME}":  steamRuntime,
+		"@{WINE_BINARY}":    wineBinary,
 	}
 	for key, value := range replaces {
 		runScript = bytes.ReplaceAll(runScript, []byte(key), []byte(value))

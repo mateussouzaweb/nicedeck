@@ -4,10 +4,12 @@
 INSTALL_TYPE="@{INSTALL_TYPE}"
 FLATPAK_ID="@{FLATPAK_ID}"
 DATA_PATH=$(realpath "@{DATA_PATH}")
+WINE_PATH=$(realpath "@{WINE_PATH}")
 DRIVE_PATH=$(realpath "@{DRIVE_PATH}")
 STEAM_PATH=$(realpath "@{STEAM_PATH}")
 STEAM_RUNTIME=$(realpath "@{STEAM_RUNTIME}")
 PROTON_RUNTIME=$(realpath "@{PROTON_RUNTIME}")
+WINE_BINARY=$(realpath "@{WINE_BINARY}")
 
 # Replace C: with driver path
 set -- "${1/C:/$DRIVE_PATH}" "${@:2}"
