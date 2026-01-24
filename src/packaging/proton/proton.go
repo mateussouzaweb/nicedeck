@@ -76,13 +76,13 @@ func (p *Proton) ProtonRuntime() (string, error) {
 }
 
 // Retrieve proton data path
-func (p *Proton) ProtonPath() string {
+func (p *Proton) DataPath() string {
 	return fs.ExpandPath("$GAMES/Proton")
 }
 
-// Retrieve proton data path
+// Retrieve proton drive path
 func (p *Proton) DrivePath() string {
-	return filepath.Join(p.ProtonPath(), "pfx", "drive_c")
+	return filepath.Join(p.DataPath(), "pfx", "drive_c")
 }
 
 // Retrieve real path for given path
@@ -112,7 +112,7 @@ func (p *Proton) Install() error {
 	}
 
 	// Gather information
-	dataPath := p.ProtonPath()
+	dataPath := p.DataPath()
 	drivePath := p.DrivePath()
 
 	steamPath, err := steam.GetBasePath()
@@ -254,8 +254,8 @@ func (p *Proton) Installed() (bool, error) {
 // Return executable file path
 // In Proton implementations, this return the run script file
 func (p *Proton) Executable() string {
-	mainPath := p.ProtonPath()
-	runFile := filepath.Join(mainPath, "run.sh")
+	dataPath := p.DataPath()
+	runFile := filepath.Join(dataPath, "run.sh")
 	return runFile
 }
 
