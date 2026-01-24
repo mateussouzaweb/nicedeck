@@ -50,10 +50,10 @@ func (p *Proton) SteamRuntime() (string, error) {
 	return runtime, nil
 }
 
-// Retrieve the proton runtime path
-func (p *Proton) ProtonRuntime() (string, error) {
+// Retrieve the proton path for proton runtime
+func (p *Proton) ProtonPath() (string, error) {
 
-	runtime, err := steam.GetBasePath()
+	path, err := steam.GetBasePath()
 	if err != nil {
 		return "", err
 	}
@@ -64,14 +64,24 @@ func (p *Proton) ProtonRuntime() (string, error) {
 
 	// Native runtime, such as Proton - Experimental
 	if implementation == "native" {
-		runtime = filepath.Join(runtime, "steamapps", "common")
-		runtime = filepath.Join(runtime, version, "proton")
-		return runtime, nil
+		path = filepath.Join(path, "steamapps", "common", version)
+		return path, nil
 	}
 
 	// Custom runtime, such as Proton-GE
-	runtime = filepath.Join(runtime, "compatibilitytools.d")
-	runtime = filepath.Join(runtime, version, "proton")
+	path = filepath.Join(path, "compatibilitytools.d", version)
+	return path, nil
+}
+
+// Retrieve the proton runtime path
+func (p *Proton) ProtonRuntime() (string, error) {
+
+	path, err := p.ProtonPath()
+	if err != nil {
+		return "", err
+	}
+
+	runtime := filepath.Join(path, "proton")
 	return runtime, nil
 }
 
