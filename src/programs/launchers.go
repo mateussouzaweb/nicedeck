@@ -180,7 +180,7 @@ func EpicGames() *Program {
 			AppName:     "EpicGames",
 			Installer:   "C:/Downloads/EpicGamesLauncherInstaller.msi",
 			Uninstaller: "C:/Downloads/EpicGamesLauncherInstaller.msi",
-			Launcher:    "C:/Program Files (x86)/Epic Games/Launcher/Portal/Binaries/Win32/EpicGamesLauncher.exe",
+			Launcher:    "C:/Program Files/Epic Games/Launcher/Portal/Binaries/Win64/EpicGamesLauncher.exe",
 			Arguments: &packaging.Arguments{
 				Install:  []string{"-opengl"},
 				Remove:   []string{"-opengl"},
@@ -193,7 +193,7 @@ func EpicGames() *Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "EpicGames.EpicGamesLauncher",
-			AppExe:    "$PROGRAMS_X86/Epic Games/Launcher/Portal/Binaries/Win32/EpicGamesLauncher.exe",
+			AppExe:    "$PROGRAMS/Epic Games/Launcher/Portal/Binaries/Win64/EpicGamesLauncher.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
