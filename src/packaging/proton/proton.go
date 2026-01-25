@@ -197,8 +197,20 @@ func (p *Proton) Install() error {
 		return err
 	}
 
+	// Special handling for Steam in Flatpak
+	// When true, binaries need to use paths inside sandbox environment
 	steamInstallType := steamPackage.Runtime()
 	steamFlatpakID := "com.valvesoftware.Steam"
+
+	if steamInstallType == "flatpak" {
+		pathToRemove := fmt.Sprintf("/.var/app/%s/", steamFlatpakID)
+		steamPath = strings.Replace(steamPath, pathToRemove, "", 1)
+		steamRuntime = strings.Replace(steamRuntime, pathToRemove, "", 1)
+		protonRuntime = strings.Replace(protonRuntime, pathToRemove, "", 1)
+		wineBinary = strings.Replace(wineBinary, pathToRemove, "", 1)
+	}
+
+	// Replace variables in run script
 	replaces := map[string]string{
 		"@{DATA_PATH}":      dataPath,
 		"@{DRIVE_PATH}":     drivePath,

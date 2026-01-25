@@ -11,39 +11,42 @@ STEAM_RUNTIME=$(realpath "@{STEAM_RUNTIME}")
 PROTON_RUNTIME=$(realpath "@{PROTON_RUNTIME}")
 WINE_BINARY=$(realpath "@{WINE_BINARY}")
 
-# Replace C: with driver path
-set -- "${1/C:/$DRIVE_PATH}" "${@:2}"
-
-# Go to target executable path
-# This step is required for some games
-WORKING_DIRECTORY=$(dirname "$1")
-cd "$WORKING_DIRECTORY"
-
-# Steam Flatpak
-if [[ "$INSTALL_TYPE" == "flatpak" ]]; then
-
-  # When running with flatpak, need to use sandboxed paths 
-  SEARCH="/.var/app/$FLATPAK_ID/"
-  STEAM_PATH="${STEAM_PATH/$SEARCH//}"
-  STEAM_RUNTIME="${STEAM_RUNTIME/$SEARCH//}"
-  PROTON_RUNTIME="${PROTON_RUNTIME/$SEARCH//}"
-
-  export STEAM_COMPAT_CLIENT_INSTALL_PATH="$STEAM_PATH"
-  export STEAM_COMPAT_DATA_PATH="$DATA_PATH"
-  exec /usr/bin/flatpak run \
-    --branch=stable --file-forwarding \
-    --cwd="$WORKING_DIRECTORY" --command="$STEAM_RUNTIME" \
-    "$FLATPAK_ID" "$PROTON_RUNTIME" run "$@" 2>&1
-
-# Steam Native
-elif [[ "$INSTALL_TYPE" == "system" || "$INSTALL_TYPE" == "native" ]]; then
-
-  export STEAM_COMPAT_CLIENT_INSTALL_PATH="$STEAM_PATH"
-  export STEAM_COMPAT_DATA_PATH="$DATA_PATH"
-  exec "$STEAM_RUNTIME" "$PROTON_RUNTIME" run "$@" 2>&1
-
-# Unknown
+# Determine environment variables, command and its arguments
+if [[ "$1" == "wine" ]]; then
+  export WINEPREFIX="$WINE_PATH"
+  COMMAND=("$WINE_BINARY")
+  ARGUMENTS=()
+  shift
 else
-  echo "ERROR: Unknown installation type: $INSTALL_TYPE"
-  exit 1
+  export STEAM_COMPAT_CLIENT_INSTALL_PATH="$STEAM_PATH"
+  export STEAM_COMPAT_DATA_PATH="$DATA_PATH"
+  COMMAND=("$STEAM_RUNTIME")
+  ARGUMENTS=("$PROTON_RUNTIME" "run")
 fi
+
+# Replace C: with driver path
+if [[ "$1" =~ ^[Cc]: ]]; then
+  set -- "${1/C:/$DRIVE_PATH}" "${@:2}"
+  set -- "${1/c:/$DRIVE_PATH}" "${@:2}"
+fi
+
+# Go to target working directory based on executable path if defined
+# This step is required for some games / applications
+if [[ -n "$1" && "$1" == /* && -e "$1" ]]; then
+  cd "$(dirname "$1")" || exit 1
+fi
+
+# Wrapper for Flatpak compatibility
+if [[ "$INSTALL_TYPE" == "flatpak" ]]; then
+  COMMAND=(
+    /usr/bin/flatpak run
+    --branch="stable"
+    --file-forwarding
+    --cwd="$PWD"
+    --command="${COMMAND[0]}"
+    "$FLATPAK_ID"
+  )
+fi
+
+# Execute the command
+exec "${COMMAND[@]}" "${ARGUMENTS[@]}" "$@" 2>&1
