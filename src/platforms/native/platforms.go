@@ -50,7 +50,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:           "Linux",
 			Runtime:        "Proton",
 			Extensions:     ".exe .msi .bat .cmd",
-			StartDirectory: proton.ProtonPath(),
+			StartDirectory: proton.DataPath(),
 			Executable:     proton.Executable(),
 			LaunchOptions:  "${ROM}",
 		})
