@@ -72,7 +72,7 @@ jobs:
 
           git log "$PREVIOUS..HEAD" \
             --no-merges \
-            --pretty=format:"- %s ([%h]($REPOSITORY/commit/%H))" \ 
+            --pretty=format:"- %s ([%h]($REPOSITORY/commit/%H))" \
             > NOTES.md
 
           gh release create "$TAG" \
