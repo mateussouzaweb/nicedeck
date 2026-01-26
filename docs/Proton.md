@@ -11,7 +11,9 @@ NiceDeck offers a very robust Proton layer to run Windows native games and appli
 
 *That is great! How can I use this Proton layer?*
 
-Just install any Windows native only application with NiceDeck, such as **Epic Games Launcher**, **EA App**, **Ubisoft Connect**, **Amazon Games**, **Battle.Net** and **GOG Galaxy**. After installation you will see that the Proton executable and the ``$HOME/Games/Proton`` folder is available at your device, ready for use! 
+You should install Steam and the ``Proton - Experimental`` package from Steam in your device first. Make sure to follow these requirements before trying to use the NiceDeck Proton layer.
+
+Then, Just install any Windows native only application with NiceDeck, such as **Epic Games Launcher**, **EA App**, **Ubisoft Connect**, **Amazon Games**, **Battle.Net** and **GOG Galaxy**. After installation you will see that the Proton executable and the ``$HOME/Games/Proton`` folder is available at your device, ready for use! 
 
 ## Manually Adding Games
 
@@ -29,6 +31,32 @@ Here is the steps to follow if you need to install additional drivers for your P
 - Download the driver from the trusted source.
 - Place the executable inside your ``$HOME/Games`` folder.
 - Follow the explanation in the **"Running Games with Proton"** section below to run such driver applications without the need to create a shortcut for it.
+
+## Tweaking Environment with Wine
+
+Proton includes Wine components that are very powerful and you can use it to tweak settings and apply optimizations to the Proton environment such as:
+
+- Set DPI for fractional scaling on 1440p or 4k screen resolutions.
+- Emulate a virtual desktop with custom screen size.
+- Switch graphical rendering API.
+- Open Windows Explorer, RegEdit, Task Manager implementations.
+- Many more.
+
+To execute Wine programs, open the terminal and run commands like:
+
+```bash
+# Request to open Wine programs
+"$HOME/Games/Proton/run.sh" wine winecfg # Open WineConfig
+"$HOME/Games/Proton/run.sh" wine regedit # Open RegEdit
+"$HOME/Games/Proton/run.sh" wine taskmgr # Open Task Manager
+"$HOME/Games/Proton/run.sh" wine explorer # Open Explorer
+
+# Manipulate DPI size directly from CLI
+# Valid values for DPI are: 96, 120, 144, 192
+"$HOME/Games/Proton/run.sh" wine reg add "HCU\\Control Panel\\Desktop" /v LogPixels /t REG_DWORD /d "192" /f
+```
+
+For more details, please check the official [Wine documentation](https://gitlab.winehq.org/wine/wine/-/wikis/Commands).
 
 ## Running Games with Proton
 
@@ -78,6 +106,5 @@ flatpak override --user --filesystem=/path/to/mount/point com.valvesoftware.Stea
 Here are a few important details that is good to know about the Proton layer provided by NiceDeck:
 
 - Windows native programs provided with Proton layer implementation from NiceDeck always use ``Proton - Experimental`` version provided to you by Steam. You are encouraged to not change the Proton version, even if you know how to do it.
-- You should install Steam and manually install the ``Proton - Experimental`` version from Steam in your device first, before trying to use the NiceDeck Proton layer.
 - Once you create a library shortcut to directly launch games, you don't need or should configure the Proton version inside Steam shortcuts as this is automatically handled by NiceDeck Proton layer internally *(making such action will result in error)*.
 - If the game don't work with NiceDeck Proton layer implementation due to compatibility issues with the used Proton version, it's recommended to remove the NiceDeck Proton shortcut of the game and try to use it natively with Steam, adding it to the Steam library as *non-steam-shortcut* and manually selecting another Proton version inside Steam.
