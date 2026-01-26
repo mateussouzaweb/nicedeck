@@ -78,7 +78,7 @@ jobs:
           gh release create "$TAG" \
             --title "Version $VERSION" \
             --notes-file NOTES.md \
-            --latest \
+            --draft \
             LICENSE.md
 
   build-binaries:
@@ -111,3 +111,11 @@ jobs:
           echo "Uploading files: $FILES"
           set -- $FILES
           gh release upload "$TAG" "$@" --clobber
+
+      - id: publish-release
+        name: Publish Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ needs.extract-information.outputs.tag }}"
+          gh release edit "$TAG" --draft=false --latest
