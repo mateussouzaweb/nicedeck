@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/scraper/steamgriddb"
 )
 
@@ -154,6 +155,18 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 	if hero.Success && len(hero.Data) > 0 {
 		for _, item := range hero.Data {
 			result.HeroURLs = append(result.HeroURLs, item.URL)
+		}
+	}
+
+	// Apply preferred icon format based on platform
+	// Linux and MacOS prefer .png while Windows prefers .ico
+	// SteamGridDB provides PNG versions of ICO icons by changing the URL
+	// Example: .../icon.ico -> .../icon/32/256x256.png
+	if cli.IsLinux() || cli.IsMacOS() {
+		for index, value := range result.IconURLs {
+			if strings.HasSuffix(value, ".ico") {
+				result.IconURLs[index] = strings.Replace(value, ".ico", "/32/256x256.png", 1)
+			}
 		}
 	}
 
