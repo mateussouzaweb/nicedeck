@@ -25,16 +25,6 @@ type Shortcut struct {
 	LastPlayTime        uint     `json:"lastPlayTime"`
 	Tags                []string `json:"tags"`
 	Timestamp           int64    `json:"timestamp"`
-
-	// Extended specs
-	// @deprecated and will be removed in future versions
-	RelativePath string `json:"relativePath"`
-	Description  string `json:"description"`
-	IconURL      string `json:"iconUrl"`
-	LogoURL      string `json:"logoUrl"`
-	CoverURL     string `json:"coverUrl"`
-	BannerURL    string `json:"bannerUrl"`
-	HeroURL      string `json:"heroUrl"`
 }
 
 // Generate checksum for shortcut from relevant fields

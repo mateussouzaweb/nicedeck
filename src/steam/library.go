@@ -131,22 +131,6 @@ func (l *Library) Load() error {
 		l.AccountName = l.AccountId
 	}
 
-	// Load shortcuts from old format for migrated reasons
-	// When using this model, we avoid loading the shortcuts from VDF file
-	// @deprecated and will be removed in future versions
-	var deprecatedFile = filepath.Join(l.ConfigPath, "niceconfig.json")
-	var deprecatedConfig struct {
-		Shortcuts []*Shortcut `json:"shortcuts"`
-	}
-
-	err = fs.ReadJSON(deprecatedFile, &deprecatedConfig)
-	if err != nil {
-		return err
-	} else if len(deprecatedConfig.Shortcuts) > 0 {
-		l.Shortcuts = deprecatedConfig.Shortcuts
-		return nil
-	}
-
 	// Load Steam shortcuts from VDF file
 	// Shortcuts file can possible be updated by other services or Steam UI
 	// Because the library represents the Steam data
@@ -362,15 +346,6 @@ func (l *Library) Save() error {
 		return err
 	}
 
-	// Move deprecated file to avoid loading it again
-	// @deprecated and will be removed in future versions
-	deprecatedFile := filepath.Join(l.ConfigPath, "niceconfig.json")
-	deprecatedDestination := fmt.Sprintf("%s.deprecated", deprecatedFile)
-	err = fs.MoveFile(deprecatedFile, deprecatedDestination)
-	if err != nil {
-		return err
-	}
-
 	cli.Printf(cli.ColorNotice, "Note: Steam library has been updated.\n")
 	cli.Printf(cli.ColorNotice, "Please restart Steam or the device to changes take effect.\n")
 
@@ -454,16 +429,6 @@ func (l *Library) Export() []*Internal {
 		internal.Tags = shortcut.Tags
 		internal.Timestamp = shortcut.Timestamp
 
-		// Extended specs
-		// @deprecated and will be removed in future versions
-		internal.Description = shortcut.Description
-		internal.RelativePath = shortcut.RelativePath
-		internal.IconURL = shortcut.IconURL
-		internal.LogoURL = shortcut.LogoURL
-		internal.CoverURL = shortcut.CoverURL
-		internal.BannerURL = shortcut.BannerURL
-		internal.HeroURL = shortcut.HeroURL
-
 		results = append(results, internal)
 	}
 
@@ -481,16 +446,6 @@ func (l *Library) Transform(reference *Internal) (*Shortcut, error) {
 	shortcut.LaunchOptions = reference.LaunchOptions
 	shortcut.Tags = reference.Tags
 	shortcut.Timestamp = reference.Timestamp
-
-	// Extended specs
-	// @deprecated and will be removed in future versions
-	shortcut.Description = reference.Description
-	shortcut.RelativePath = reference.RelativePath
-	shortcut.IconURL = reference.IconURL
-	shortcut.LogoURL = reference.LogoURL
-	shortcut.CoverURL = reference.CoverURL
-	shortcut.BannerURL = reference.BannerURL
-	shortcut.HeroURL = reference.HeroURL
 
 	return shortcut, nil
 }
