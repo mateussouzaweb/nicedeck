@@ -384,6 +384,7 @@ func modifyShortcut(context Context) error {
 		shortcut.BannerURL = bannerURL
 		shortcut.HeroURL = heroURL
 		shortcut.Tags = strings.Split(tags, ",")
+		shortcut.Force()
 
 		err := library.Shortcuts.Update(shortcut, true)
 		if err != nil {

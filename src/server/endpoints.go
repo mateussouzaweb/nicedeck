@@ -448,6 +448,7 @@ func modifyShortcut(context *Context) error {
 		shortcut.BannerURL = data.BannerURL
 		shortcut.HeroURL = data.HeroURL
 		shortcut.Tags = data.Tags
+		shortcut.Force()
 
 		err := library.Shortcuts.Update(shortcut, true)
 		if err != nil {

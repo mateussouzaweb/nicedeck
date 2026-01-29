@@ -84,3 +84,23 @@ func (s *Shortcut) Merge(source *Shortcut) {
 		s.Timestamp = source.Timestamp
 	}
 }
+
+// Clean shortcut image path references when URLs are empty
+// This will make sure that a empty image URL is propagated to filesystem
+func (s *Shortcut) Force() {
+	if s.IconURL == "" {
+		s.IconPath = ""
+	}
+	if s.LogoURL == "" {
+		s.LogoPath = ""
+	}
+	if s.CoverURL == "" {
+		s.CoverPath = ""
+	}
+	if s.BannerURL == "" {
+		s.BannerPath = ""
+	}
+	if s.HeroURL == "" {
+		s.HeroPath = ""
+	}
+}
