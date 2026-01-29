@@ -448,7 +448,13 @@ func modifyShortcut(context *Context) error {
 		shortcut.BannerURL = data.BannerURL
 		shortcut.HeroURL = data.HeroURL
 		shortcut.Tags = data.Tags
-		shortcut.Force()
+
+		// Empty images to download again
+		shortcut.IconPath = ""
+		shortcut.LogoPath = ""
+		shortcut.CoverPath = ""
+		shortcut.BannerPath = ""
+		shortcut.HeroPath = ""
 
 		err := library.Shortcuts.Update(shortcut, true)
 		if err != nil {
