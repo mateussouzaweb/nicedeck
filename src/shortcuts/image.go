@@ -1,6 +1,7 @@
 package shortcuts
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -26,53 +27,83 @@ func (i *Image) Path(extension string) string {
 // Process image to keep only one format and remove others
 func (i *Image) Process(overwriteExisting bool) error {
 
-	toRemove := []string{}
+	var err error
 
-	// Determine the target filename and the extension
-	for _, extension := range i.Extensions {
-		if strings.HasSuffix(i.SourcePath, extension) {
-			i.TargetPath = i.Path(extension)
-		} else if strings.HasSuffix(i.SourceURL, extension) {
-			i.TargetPath = i.Path(extension)
-		} else {
-			toRemove = append(toRemove, i.Path(extension))
+	// Remove duplicated or unnecessary images on function exit
+	// We should keep only the final target path image on exit
+	defer func() {
+		for _, extension := range i.Extensions {
+			file := i.Path(extension)
+			if file != i.TargetPath {
+				errors.Join(err, fs.RemoveFile(file))
+			}
 		}
+	}()
+
+	// Find the valid extension for the given value
+	validExtension := func(value string) string {
+		for _, extension := range i.Extensions {
+			if strings.HasSuffix(value, extension) {
+				return extension
+			}
+		}
+
+		return ""
 	}
 
-	// Remove duplicated or unnecessary images
-	for _, file := range toRemove {
-		err := fs.RemoveFile(file)
-		if err != nil {
-			return err
-		}
-	}
+	// Determine source path and URL valid extension
+	sourceURLExtension := validExtension(i.SourceURL)
+	sourcePathExtension := validExtension(i.SourcePath)
 
-	// Ignore image processing when no target path is detected
-	if i.TargetPath == "" {
+	// When no valid extension found, ignore further processing
+	sourceURLValid := sourceURLExtension != ""
+	sourcePathValid := sourcePathExtension != ""
+	if !sourceURLValid && !sourcePathValid {
 		return nil
 	}
 
-	// If source image exists locally, copy it to the target path
+	// Determine target details based valid extension
+	sourceURLTarget := i.Path(sourceURLExtension)
+	sourcePathTarget := i.Path(sourcePathExtension)
+	sourcePathEqualsTarget := i.SourcePath == sourcePathTarget
+
+	// Check if provided source path image exists
+	sourcePathExist := false
 	if i.SourcePath != "" {
-		exist, err := fs.FileExist(i.SourcePath)
+		sourcePathExist, err = fs.FileExist(i.SourcePath)
 		if err != nil {
 			return err
-		} else if exist && i.SourcePath != i.TargetPath {
-			err := fs.CopyFile(i.SourcePath, i.TargetPath, overwriteExisting)
-			if err != nil {
-				return err
-			}
-
-			return nil
 		}
 	}
 
+	// If source image exists locally, copy it to the target path
+	// This case is valid only when source and target are different
+	if sourcePathValid && sourcePathExist && !sourcePathEqualsTarget {
+		i.TargetPath = sourcePathTarget
+		err := fs.CopyFile(i.SourcePath, i.TargetPath, overwriteExisting)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
+
 	// If source image URL exists, download the image
-	if i.SourceURL != "" {
+	// This case act as priority when source path is equal to target path
+	if sourceURLValid {
+		i.TargetPath = sourceURLTarget
 		err := fs.DownloadFile(i.SourceURL, i.TargetPath, overwriteExisting)
 		if err != nil {
 			return err
 		}
+
+		return nil
+	}
+
+	// If source path exists and is equal to target, set the target path
+	// This case act when no download is needed
+	if sourcePathValid && sourcePathExist && sourcePathEqualsTarget {
+		i.TargetPath = sourcePathTarget
 	}
 
 	return nil
