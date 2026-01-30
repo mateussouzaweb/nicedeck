@@ -319,10 +319,15 @@ func (l *Library) Assets(shortcut *Shortcut, action string, overwrite bool) erro
 			return err
 		}
 
+		shortcut.IconURL = iconImage.SourceURL
 		shortcut.IconPath = iconImage.TargetPath
+		shortcut.LogoURL = logoImage.SourceURL
 		shortcut.LogoPath = logoImage.TargetPath
+		shortcut.CoverURL = coverImage.SourceURL
 		shortcut.CoverPath = coverImage.TargetPath
+		shortcut.BannerURL = bannerImage.SourceURL
 		shortcut.BannerPath = bannerImage.TargetPath
+		shortcut.HeroURL = heroImage.SourceURL
 		shortcut.HeroPath = heroImage.TargetPath
 	}
 

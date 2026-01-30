@@ -55,9 +55,16 @@ func (i *Image) Process(overwriteExisting bool) error {
 	sourceURLExtension := validExtension(i.SourceURL)
 	sourcePathExtension := validExtension(i.SourcePath)
 
-	// When no valid extension found, ignore further processing
+	// When no valid extension found, clean and ignore further processing
 	sourceURLValid := sourceURLExtension != ""
 	sourcePathValid := sourcePathExtension != ""
+
+	if !sourceURLValid {
+		i.SourceURL = ""
+	}
+	if !sourcePathValid {
+		i.SourcePath = ""
+	}
 	if !sourceURLValid && !sourcePathValid {
 		return nil
 	}
@@ -78,25 +85,27 @@ func (i *Image) Process(overwriteExisting bool) error {
 
 	// If source image exists locally, copy it to the target path
 	// This case is valid only when source and target are different
+	// Also clean source URL since image is provided by another method
 	if sourcePathValid && sourcePathExist && !sourcePathEqualsTarget {
-		i.TargetPath = sourcePathTarget
-		err := fs.CopyFile(i.SourcePath, i.TargetPath, overwriteExisting)
+		err := fs.CopyFile(i.SourcePath, sourcePathTarget, overwriteExisting)
 		if err != nil {
 			return err
 		}
 
+		i.SourceURL = ""
+		i.TargetPath = sourcePathTarget
 		return nil
 	}
 
 	// If source image URL exists, download the image
 	// This case act as priority when source path is equal to target path
-	if sourceURLValid {
-		i.TargetPath = sourceURLTarget
-		err := fs.DownloadFile(i.SourceURL, i.TargetPath, overwriteExisting)
+	if sourceURLValid && i.SourceURL != "" {
+		err := fs.DownloadFile(i.SourceURL, sourceURLTarget, overwriteExisting)
 		if err != nil {
 			return err
 		}
 
+		i.TargetPath = sourceURLTarget
 		return nil
 	}
 
