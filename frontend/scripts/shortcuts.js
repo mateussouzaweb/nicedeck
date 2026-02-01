@@ -29,9 +29,10 @@ window.addEventListener('load', async () => {
      * @returns {String}
      */
     function getImage(type, path) {
-        url = (path) ? String(path) : `./img/default/${type}.png`
-        url = url.replace(library.imagesPath, "/grid/image")
-        return url + '?t=' + library.timestamp
+        path = (path) ? String(path) : `/img/default/${type}.png`
+        const url = path.replace(library.imagesPath, `/grid/image`)
+        const domain = window.location.origin
+        return domain + url + '?t=' + library.timestamp
     }
 
     /**
@@ -114,13 +115,13 @@ window.addEventListener('load', async () => {
         })
 
         const items = filtered.map((shortcut) => {
-            const coverUrl = getImage('cover', shortcut.coverPath)
+            const coverImage = getImage('cover', shortcut.coverPath)
 
             return `
             <article class="item shortcut" title="${shortcut.name}">
                 <div class="area">
                     <div class="image">
-                        <img loading="lazy" src="${coverUrl}" alt="${shortcut.name}" width="600" height="900"/>
+                        <img loading="lazy" src="${coverImage}" alt="${shortcut.name}" width="600" height="900"/>
                     </div>
                     <div class="info">
                         <div class="title">
@@ -280,6 +281,11 @@ window.addEventListener('load', async () => {
         const subTitle = $('.header h3 small', modal)
         const content = $('.content', modal)
 
+        const coverImage = getImage('cover', shortcut.coverPath)
+        const bannerImage = getImage('banner', shortcut.bannerPath)
+        const heroImage = getImage('hero', shortcut.heroPath)
+        const iconImage = getImage('icon', shortcut.iconPath)
+        const logoImage = getImage('logo', shortcut.logoPath)
         const html = `
             <div class="group">
                 <label for="program">Program:</label>
@@ -316,35 +322,35 @@ window.addEventListener('load', async () => {
             <section class="group group-cover">
                 <h4>Cover Artworks:</h4>
                 <div class="options">
-                    <input type="hidden" name="cover" value="${shortcut.coverUrl}" />
+                    <input type="hidden" name="cover" value="${coverImage}" />
                     <p>Loading images, please wait...</p>
                 </div>
             </section>
             <section class="group group-banner">
                 <h4>Banner Artworks:</h4>
                 <div class="options">
-                    <input type="hidden" name="banner" value="${shortcut.bannerUrl}" />
+                    <input type="hidden" name="banner" value="${bannerImage}" />
                     <p>Loading images, please wait...</p>
                 </div>
             </section>
             <section class="group group-hero">
                 <h4>Hero Artworks:</h4>
                 <div class="options">
-                    <input type="hidden" name="hero" value="${shortcut.heroUrl}" />
+                    <input type="hidden" name="hero" value="${heroImage}" />
                     <p>Loading images, please wait...</p>
                 </div>
             </section>
             <section class="group group-icon">
                 <h4>Icon Artworks:</h4>
                 <div class="options">
-                    <input type="hidden" name="icon" value="${shortcut.iconUrl}" />
+                    <input type="hidden" name="icon" value="${iconImage}" />
                     <p>Loading images, please wait...</p>
                 </div>
             </section>
             <section class="group group-logo">
                 <h4>Logo Artworks:</h4>
                 <div class="options">
-                    <input type="hidden" name="logo" value="${shortcut.logoUrl}" />
+                    <input type="hidden" name="logo" value="${logoImage}" />
                     <p>Loading images, please wait...</p>
                 </div>
             </section>

@@ -853,17 +853,21 @@ func Setup(version string, developmentMode bool, shutdown chan bool) error {
 	// Grid image request
 	Add("GET", "/grid/image/(.*)", func(context *Context) error {
 
+		// Retrieve relevant parts from URI
+		image := strings.TrimPrefix(context.URI, "/grid/image/")
+		extension := filepath.Ext(image)
+		parts := strings.Split(image, "_")
+		format := strings.TrimSuffix(parts[1], extension)
+
 		// Check if requested file exist
-		filename := strings.TrimPrefix(context.URI, "/grid/image/")
-		filename = strings.ReplaceAll(filename, "/", string(os.PathSeparator))
-		file, err := gridFS.Open(filename)
+		file, err := gridFS.Open(image)
 		if err == nil {
 			defer file.Close()
 		}
 
 		// Reply with default image when not found
 		if err != nil && errors.Is(err, fs.ErrNotExist) {
-			context.Request.URL.Path = "/img/default/cover.png"
+			context.Request.URL.Path = fmt.Sprintf("/img/default/%s.png", format)
 			staticHandler.ServeHTTP(context.Response, context.Request)
 			return nil
 		}
