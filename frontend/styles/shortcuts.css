@@ -245,19 +245,3 @@
     font-size: 1.2em;
     padding: 5px;
 }
-
-#modal-add-shortcut section.group-banner .radio,
-#modal-update-shortcut section.group-banner .radio {
-    max-width: 33.33%;
-    min-width: 33.33%;
-}
-#modal-add-shortcut section.group-hero .radio,
-#modal-update-shortcut section.group-hero .radio {
-    max-width: 33.33%;
-    min-width: 33.33%;
-}
-#modal-add-shortcut section.group-icon .radio,
-#modal-update-shortcut section.group-icon .radio {
-    max-width: 10%;
-    min-width: 10%;
-}

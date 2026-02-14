@@ -1,0 +1,132 @@
+.images {
+    align-items: start;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 -5px;
+}
+.images .column {
+    display: flex;
+    flex: 1;
+    flex-flow: column;
+}
+.images .column.icon {
+    max-width: 110px;
+}
+.images .image {
+    background: #FFF;
+    border: 1px solid #000;
+    border-radius: 5px;
+    display: block;
+    flex: 1;
+    height: 100%;
+    min-width: 64px;
+    padding: 5px;
+    position: relative;
+    margin: 5px;
+}
+.images .image small {
+    display: block;
+    font-size: 90%;
+    height: 20px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+.images .image img {
+    border-radius: 5px;
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    width: 100%;
+}
+.images .image span.select {
+    align-items: center;
+    background: #ead4ef;
+    border-radius: 5px;
+    bottom: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    left: 5px;
+    opacity: 0;
+    padding: 10px;
+    position: absolute;
+    right: 5px;
+    text-align: center;
+    top: 30px;
+    transition: opacity 0.1s ease-in-out;
+    z-index: 2;
+}
+.images .image span.remove {
+    background: #db2020;
+    border-radius: 0 5px 0 0;
+    color: #FFF;
+    cursor: pointer;
+    display: block;
+    font-size: 18px;
+    height: 30px;
+    line-height: 30px;
+    opacity: 0;
+    position: absolute;
+    right: 5px;
+    text-align: center;
+    top: 30px;
+    transition: opacity 0.1s ease-in-out;
+    width: 30px;
+    z-index: 3;
+}
+.images .image:hover span,
+.images .image.no-image span {
+    opacity: 1;
+}
+.images .image .empty {
+    align-items: center;
+    background: #d9b6e1;
+    border-radius: 5px;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+}
+
+#modal-select-image .backdrop {
+    opacity: 0.8;
+}
+#modal-select-image .content {
+    flex: 1;
+}
+#modal-select-image .options p {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+    border: 1px solid #000;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    margin: 0 5px;
+    overflow: auto;
+    padding: 10px;
+    text-align: center;
+}
+#modal-select-image .options.cover .radio {
+    max-width: 33.33%;
+    min-width: 33.33%;
+}
+#modal-select-image .options.banner .radio {
+    max-width: 50%;
+    min-width: 50%;
+}
+#modal-select-image .options.hero .radio {
+    max-width: 50%;
+    min-width: 50%;
+}
+#modal-select-image .options.icon .radio {
+    max-width: 20%;
+    min-width: 20%;
+}
+#modal-select-image .options.logo .radio {
+    max-width: 33.33%;
+    min-width: 33.33%;
+}
+#modal-select-image input:checked + .image {
+    background: #ac78b7;
+}

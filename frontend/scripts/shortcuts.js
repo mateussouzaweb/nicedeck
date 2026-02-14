@@ -229,45 +229,37 @@ window.addEventListener('load', async () => {
                 <label for="tags">Tags:</label>
                 <textarea id="tags" name="tags"></textarea>
             </div>
-            <section class="group group-cover">
-                <h4>Cover Artworks:</h4>
-                <div class="options">
-                    <input type="hidden" name="cover" value="" />
-                    <small>Set the shortcut name to see artworks.</small>
+            <div class="group">
+                <h4>Images:</h4>
+                <div class="images">
+                    <div class="column">
+                        <div data-select-image="cover"
+                            data-current-value=""
+                            data-current-image=""></div>
+                    </div>
+                    <div class="column">
+                        <div data-select-image="banner"
+                            data-current-value=""
+                            data-current-image=""></div>
+                        <div data-select-image="hero"
+                            data-current-value=""
+                            data-current-image=""></div>
+                        <div data-select-image="logo"
+                            data-current-value=""
+                            data-current-image=""></div>
+                    </div>
+                    <div class="column icon">
+                        <div data-select-image="icon"
+                            data-current-value=""
+                            data-current-image=""></div>
+                    </div>
                 </div>
-            </section>
-            <section class="group group-banner">
-                <h4>Banner Artworks:</h4>
-                <div class="options">
-                    <input type="hidden" name="banner" value="" />
-                    <small>Set the shortcut name to see artworks.</small>
-                </div>
-            </section>
-            <section class="group group-hero">
-                <h4>Hero Artworks:</h4>
-                <div class="options">
-                    <input type="hidden" name="hero" value="" />
-                    <small>Set the shortcut name to see artworks.</small>
-                </div>
-            </section>
-            <section class="group group-icon">
-                <h4>Icon Artworks:</h4>
-                <div class="options">
-                    <input type="hidden" name="icon" value="" />
-                    <small>Set the shortcut name to see artworks.</small>
-                </div>
-            </section>
-            <section class="group group-logo">
-                <h4>Logo Artworks:</h4>
-                <div class="options">
-                    <input type="hidden" name="logo" value="" />
-                    <small>Set the shortcut name to see artworks.</small>
-                </div>
-            </section>
+            </div>
         `
 
         content.innerHTML = html
         window.showModal(modal)
+        window.renderImageSelectors(modal)
 
     }
 
@@ -319,54 +311,41 @@ window.addEventListener('load', async () => {
                 <label for="tags">Tags:</label>
                 <textarea id="tags" name="tags">${shortcut.tags.join(',')}</textarea>
             </div>
-            <section class="group group-cover">
-                <h4>Cover Artworks:</h4>
-                <div class="options">
-                    <input type="hidden" name="cover" value="${coverImage}" />
-                    <p>Loading images, please wait...</p>
+            <div class="group">
+                <span>Images:</span>
+                <div class="images">
+                    <div class="column">
+                        <div data-select-image="cover"
+                            data-current-value="${shortcut.coverPath}"
+                            data-current-image="${coverImage}"></div>
+                    </div>
+                    <div class="column">
+                        <div data-select-image="banner"
+                            data-current-value="${shortcut.bannerPath}"
+                            data-current-image="${bannerImage}"></div>
+                        <div data-select-image="hero"
+                            data-current-value="${shortcut.heroPath}"
+                            data-current-image="${heroImage}"></div>
+                        <div data-select-image="logo"
+                            data-current-value="${shortcut.logoPath}"
+                            data-current-image="${logoImage}"></div>
+                    </div>
+                    <div class="column icon">
+                        <div data-select-image="icon"
+                            data-current-value="${shortcut.iconPath}"
+                            data-current-image="${iconImage}"></div>
+                    </div>
                 </div>
-            </section>
-            <section class="group group-banner">
-                <h4>Banner Artworks:</h4>
-                <div class="options">
-                    <input type="hidden" name="banner" value="${bannerImage}" />
-                    <p>Loading images, please wait...</p>
-                </div>
-            </section>
-            <section class="group group-hero">
-                <h4>Hero Artworks:</h4>
-                <div class="options">
-                    <input type="hidden" name="hero" value="${heroImage}" />
-                    <p>Loading images, please wait...</p>
-                </div>
-            </section>
-            <section class="group group-icon">
-                <h4>Icon Artworks:</h4>
-                <div class="options">
-                    <input type="hidden" name="icon" value="${iconImage}" />
-                    <p>Loading images, please wait...</p>
-                </div>
-            </section>
-            <section class="group group-logo">
-                <h4>Logo Artworks:</h4>
-                <div class="options">
-                    <input type="hidden" name="logo" value="${logoImage}" />
-                    <p>Loading images, please wait...</p>
-                </div>
-            </section>
+            </div>
         `
 
         modal.dataset.shortcut = shortcut.id
         subTitle.innerText = `(${shortcut.id})`
         content.innerHTML = html
+
         window.showModal(modal)
+        window.renderImageSelectors(modal)
 
-        const searchInput = $('[data-search-artworks]', content)
-        const changeEvent = new CustomEvent('change', {
-            bubbles: true
-        })
-
-        searchInput.dispatchEvent(changeEvent)
     }
 
     /**
@@ -500,81 +479,6 @@ window.addEventListener('load', async () => {
         subTitle.innerText = `(${shortcut.id})`
         content.innerHTML = `<p>Are you sure you want to delete the shortcut to <b>${shortcut.name}</b>?</p>`
         window.showModal(modal)
-
-    })
-
-    const searchArtworksElements = [
-        '#modal-create-shortcut [data-search-artworks]',
-        '#modal-add-shortcut [data-search-artworks]',
-        '#modal-update-shortcut [data-search-artworks]'
-    ].join(', ')
-
-    on(searchArtworksElements, 'change', async (event) => {
-
-        const modal = event.target.closest('.modal')
-        const form = $('form', modal)
-        const data = new FormData(form)
-
-        try {
-
-            /** @type {ScrapeDataResult} */
-            const term = encodeURIComponent(data.get('name'))
-            const request = await requestJson('GET', '/api/scrape?term=' + term)
-            const scrape = request.result
-
-            const appendResults = (type, selected, images, width, height) => {
-                const subContent = $(`.group-${type} .options`, modal)
-                const hasSelected = images.some((item) => { return selected === item })
-                const html = []
-
-                if (!images.length) {
-                    html.push(`<small>No additional images could be found for this artwork type.</small>`)
-                }
-
-                if (selected && !hasSelected) {
-                    html.push(`
-                    <label class="radio">
-                        <input type="radio" name="${type}" value="${selected}" checked="checked" />
-                        <div class="image">
-                            <img loading="lazy" src="${selected}" alt="Current Image"
-                            width="${width}" height="${height}"/>
-                        </div>
-                    </label>`)
-                }
-
-                images.forEach((item, index) => {
-                    const checked = selected === item ? 'checked="checked"' : ''
-                    html.push(`
-                    <label class="radio">
-                        <input type="radio" name="${type}" value="${item}" ${checked} />
-                        <div class="image">
-                            <img loading="lazy" src="${item}" alt="Image ${index}"
-                            width="${width}" height="${height}"/>
-                        </div>
-                    </label>`)
-                })
-
-                html.push(`
-                <label class="radio">
-                    <input type="radio" name="${type}" value="" ${!selected ? 'checked="checked"' : ''} />
-                    <div class="image">
-                        <div class="no-image">No Image</div>
-                    </div>
-                </label>`)
-
-                subContent.innerHTML = html.join('')
-            }
-
-            appendResults('cover', data.get('cover'), scrape.coverUrls, 600, 900)
-            appendResults('banner', data.get('banner'), scrape.bannerUrls, 920, 430)
-            appendResults('hero', data.get('hero'), scrape.heroUrls, 600, 900)
-            appendResults('icon', data.get('icon'), scrape.iconUrls, 192, 192)
-            appendResults('logo', data.get('logo'), scrape.logoUrls, 600, 900)
-
-        } catch (error) {
-            window.showError(error)
-            window.hideModal(modal)
-        }
 
     })
 

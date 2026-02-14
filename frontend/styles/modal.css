@@ -116,54 +116,9 @@
     margin-bottom: 0;
 }
 
-.modal .actions {
-    border-top: 1px solid rgba(0, 0, 0, 0.10);
-    border-radius: 0 0 0.25em 0.25em;
-    display: flex;
-    justify-content: flex-end;
-    margin: 0;
-    padding: 1em;
-    text-align: right;
-}
-.modal .actions button {
-    margin-bottom: 0;
-    width: auto;
-}
-.modal .actions button + button {
-    margin-left: 10px;
-}
-
-
 .modal form input[type="text"], 
 .modal form textarea {
     width: 100%;
-}
-.modal form .options {
-    background: #FFF;
-    border-radius: 5px;
-    border: 1px solid #000;
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 -2px;
-    max-height: 260px;
-    overflow: auto;
-    padding: 10px;
-}
-.modal form .options p {
-    flex-basis: 100%;
-    margin: 0;
-}
-.modal form .options small {
-    background: rgba(245, 220, 170, 0.30);
-    border: 1px solid #cf9e20;
-    border-radius: 5px;
-    flex-basis: 100%;
-    margin-bottom: 10px;
-    padding: 5px 10px;
-    text-align: left;
-}
-.modal form .options small:last-child {
-    margin-bottom: 0;
 }
 .modal form .radio {
     flex: 1;
@@ -181,36 +136,19 @@
     padding: 15px;
 }
 
-.modal .image {
-    border: 2px solid transparent;
-    border-radius: 5px;
-    display: block;
-    height: 100%;
-    min-width: 64px;
-    opacity: 0.75;
-    padding: 2px;
-}
-.modal .image:hover {
-    opacity: 1;
-}
-.modal .image img {
-    border-radius: 5px;
-    display: block;
-    height: auto;
-    width: 100%;
-}
-.modal .image .no-image {
-    align-items: center;
-    background: #d9b6e1;
-    border-radius: 5px;
+.modal .actions {
+    border-top: 1px solid rgba(0, 0, 0, 0.10);
+    border-radius: 0 0 0.25em 0.25em;
     display: flex;
-    height: 100%;
-    justify-content: center;
-    padding: 10px;
-    width: 100%;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 1em;
+    text-align: right;
 }
-.modal input:checked + .image {
-    background: #d9b6e1;
-    border: 2px solid #000;
-    opacity: 1;
+.modal .actions button {
+    margin-bottom: 0;
+    width: auto;
+}
+.modal .actions button + button {
+    margin-left: 10px;
 }
