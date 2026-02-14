@@ -32,7 +32,6 @@ var staticHandler http.Handler
 
 // Library data result
 type LibraryData struct {
-	Timestamp  int64  `json:"timestamp"`
 	ImagesPath string `json:"imagesPath"`
 }
 
@@ -62,7 +61,6 @@ func loadLibrary(context *Context) error {
 	gridHandler = http.FileServer(http.FS(gridFS))
 
 	data := LibraryData{
-		Timestamp:  time.Now().Unix(),
 		ImagesPath: library.Shortcuts.ImagesPath,
 	}
 

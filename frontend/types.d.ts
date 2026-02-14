@@ -1,6 +1,5 @@
 // Objects
 interface Library {
-	timestamp: number
 	imagesPath: string
 }
 
