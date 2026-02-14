@@ -261,36 +261,26 @@ func (l *Library) Assets(shortcut *Shortcut, action string, overwrite bool) erro
 	// Handle images
 	// Process usually mean download image from URL
 	iconImage := &Image{
-		SourceURL:       shortcut.IconURL,
-		SourcePath:      shortcut.IconPath,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_icon", shortcut.ID),
 		Extensions:      []string{".png", ".ico"},
 	}
 	logoImage := &Image{
-		SourceURL:       shortcut.LogoURL,
-		SourcePath:      shortcut.LogoPath,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_logo", shortcut.ID),
 		Extensions:      []string{".png"},
 	}
 	coverImage := &Image{
-		SourceURL:       shortcut.CoverURL,
-		SourcePath:      shortcut.CoverPath,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_cover", shortcut.ID),
 		Extensions:      []string{".png", ".jpg"},
 	}
 	bannerImage := &Image{
-		SourceURL:       shortcut.BannerURL,
-		SourcePath:      shortcut.BannerPath,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_banner", shortcut.ID),
 		Extensions:      []string{".png", ".jpg"},
 	}
 	heroImage := &Image{
-		SourceURL:       shortcut.HeroURL,
-		SourcePath:      shortcut.HeroPath,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%s_hero", shortcut.ID),
 		Extensions:      []string{".png", ".jpg"},
@@ -298,36 +288,31 @@ func (l *Library) Assets(shortcut *Shortcut, action string, overwrite bool) erro
 
 	// Sync all images based on the action
 	if action == "sync" || action == "add" {
-		err := iconImage.Process(overwrite)
+		err := iconImage.Process(shortcut.IconPath, overwrite)
 		if err != nil {
 			return err
 		}
-		err = logoImage.Process(overwrite)
+		err = logoImage.Process(shortcut.LogoPath, overwrite)
 		if err != nil {
 			return err
 		}
-		err = coverImage.Process(overwrite)
+		err = coverImage.Process(shortcut.CoverPath, overwrite)
 		if err != nil {
 			return err
 		}
-		err = bannerImage.Process(overwrite)
+		err = bannerImage.Process(shortcut.BannerPath, overwrite)
 		if err != nil {
 			return err
 		}
-		err = heroImage.Process(overwrite)
+		err = heroImage.Process(shortcut.HeroPath, overwrite)
 		if err != nil {
 			return err
 		}
 
-		shortcut.IconURL = iconImage.SourceURL
 		shortcut.IconPath = iconImage.TargetPath
-		shortcut.LogoURL = logoImage.SourceURL
 		shortcut.LogoPath = logoImage.TargetPath
-		shortcut.CoverURL = coverImage.SourceURL
 		shortcut.CoverPath = coverImage.TargetPath
-		shortcut.BannerURL = bannerImage.SourceURL
 		shortcut.BannerPath = bannerImage.TargetPath
-		shortcut.HeroURL = heroImage.SourceURL
 		shortcut.HeroPath = heroImage.TargetPath
 	}
 

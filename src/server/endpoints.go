@@ -320,11 +320,11 @@ type AddShortcutData struct {
 	Executable     string   `json:"executable"`
 	LaunchOptions  string   `json:"launchOptions"`
 	RelativePath   string   `json:"relativePath"`
-	IconURL        string   `json:"iconUrl"`
-	LogoURL        string   `json:"logoUrl"`
-	CoverURL       string   `json:"coverUrl"`
-	BannerURL      string   `json:"bannerUrl"`
-	HeroURL        string   `json:"heroUrl"`
+	IconPath       string   `json:"iconPath"`
+	LogoPath       string   `json:"logoPath"`
+	CoverPath      string   `json:"coverPath"`
+	BannerPath     string   `json:"bannerPath"`
+	HeroPath       string   `json:"heroPath"`
 	Tags           []string `json:"tags"`
 }
 
@@ -365,11 +365,11 @@ func addShortcut(context *Context) error {
 		Executable:     cli.Quote(data.Executable),
 		LaunchOptions:  data.LaunchOptions,
 		RelativePath:   data.RelativePath,
-		IconURL:        data.IconURL,
-		LogoURL:        data.LogoURL,
-		CoverURL:       data.CoverURL,
-		BannerURL:      data.BannerURL,
-		HeroURL:        data.HeroURL,
+		IconPath:       data.IconPath,
+		LogoPath:       data.LogoPath,
+		CoverPath:      data.CoverPath,
+		BannerPath:     data.BannerPath,
+		HeroPath:       data.HeroPath,
 		Tags:           data.Tags,
 	}
 
@@ -397,11 +397,11 @@ type ModifyShortcutData struct {
 	Executable     string   `json:"executable"`
 	LaunchOptions  string   `json:"launchOptions"`
 	RelativePath   string   `json:"relativePath"`
-	IconURL        string   `json:"iconUrl"`
-	LogoURL        string   `json:"logoUrl"`
-	CoverURL       string   `json:"coverUrl"`
-	BannerURL      string   `json:"bannerUrl"`
-	HeroURL        string   `json:"heroUrl"`
+	IconPath       string   `json:"iconPath"`
+	LogoPath       string   `json:"logoPath"`
+	CoverPath      string   `json:"coverPath"`
+	BannerPath     string   `json:"bannerPath"`
+	HeroPath       string   `json:"heroPath"`
 	Tags           []string `json:"tags"`
 }
 
@@ -443,19 +443,12 @@ func modifyShortcut(context *Context) error {
 		shortcut.Executable = cli.Quote(data.Executable)
 		shortcut.LaunchOptions = data.LaunchOptions
 		shortcut.RelativePath = data.RelativePath
-		shortcut.IconURL = data.IconURL
-		shortcut.LogoURL = data.LogoURL
-		shortcut.CoverURL = data.CoverURL
-		shortcut.BannerURL = data.BannerURL
-		shortcut.HeroURL = data.HeroURL
+		shortcut.IconPath = data.IconPath
+		shortcut.LogoPath = data.LogoPath
+		shortcut.CoverPath = data.CoverPath
+		shortcut.BannerPath = data.BannerPath
+		shortcut.HeroPath = data.HeroPath
 		shortcut.Tags = data.Tags
-
-		// Empty images to download again
-		shortcut.IconPath = ""
-		shortcut.LogoPath = ""
-		shortcut.CoverPath = ""
-		shortcut.BannerPath = ""
-		shortcut.HeroPath = ""
 
 		err := library.Shortcuts.Update(shortcut, true)
 		if err != nil {

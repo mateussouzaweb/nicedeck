@@ -10,8 +10,6 @@ import (
 
 // Image struct
 type Image struct {
-	SourcePath      string   `json:"sourcePath"`
-	SourceURL       string   `json:"sourceUrl"`
 	TargetDirectory string   `json:"targetDirectory"`
 	TargetName      string   `json:"targetName"`
 	TargetPath      string   `json:"targetPath"`
@@ -24,8 +22,9 @@ func (i *Image) Path(extension string) string {
 	return fs.NormalizePath(path)
 }
 
-// Process image to keep only one format and remove others
-func (i *Image) Process(overwriteExisting bool) error {
+// Process image to sync image from source
+// Also keep only one valid format and remove others
+func (i *Image) Process(source string, overwriteExisting bool) error {
 
 	var err error
 
@@ -51,33 +50,24 @@ func (i *Image) Process(overwriteExisting bool) error {
 		return ""
 	}
 
-	// Determine source path and URL valid extension
-	sourceURLExtension := validExtension(i.SourceURL)
-	sourcePathExtension := validExtension(i.SourcePath)
+	// Determine processing details based on source
+	sourceIsURL := strings.HasPrefix(source, "http")
+	sourceExtension := validExtension(source)
+	sourceTarget := i.Path(sourceExtension)
+	sourceEqualsTarget := source == sourceTarget
+	sourceValid := sourceExtension != ""
 
-	// When no valid extension found, clean and ignore further processing
-	sourceURLValid := sourceURLExtension != ""
-	sourcePathValid := sourcePathExtension != ""
-
-	if !sourceURLValid {
-		i.SourceURL = ""
-	}
-	if !sourcePathValid {
-		i.SourcePath = ""
-	}
-	if !sourceURLValid && !sourcePathValid {
+	// When no valid extension found, ignore further processing
+	// In such case, target path will be empty, representing no image
+	if !sourceValid {
+		i.TargetPath = ""
 		return nil
 	}
 
-	// Determine target details based valid extension
-	sourceURLTarget := i.Path(sourceURLExtension)
-	sourcePathTarget := i.Path(sourcePathExtension)
-	sourcePathEqualsTarget := i.SourcePath == sourcePathTarget
-
 	// Check if provided source path image exists
 	sourcePathExist := false
-	if i.SourcePath != "" {
-		sourcePathExist, err = fs.FileExist(i.SourcePath)
+	if !sourceIsURL {
+		sourcePathExist, err = fs.FileExist(source)
 		if err != nil {
 			return err
 		}
@@ -85,34 +75,32 @@ func (i *Image) Process(overwriteExisting bool) error {
 
 	// If source image exists locally, copy it to the target path
 	// This case is valid only when source and target are different
-	// Also clean source URL since image is provided by another method
-	if sourcePathValid && sourcePathExist && !sourcePathEqualsTarget {
-		err := fs.CopyFile(i.SourcePath, sourcePathTarget, overwriteExisting)
+	if sourcePathExist && !sourceEqualsTarget {
+		err := fs.CopyFile(source, sourceTarget, overwriteExisting)
 		if err != nil {
 			return err
 		}
 
-		i.SourceURL = ""
-		i.TargetPath = sourcePathTarget
+		i.TargetPath = sourceTarget
 		return nil
 	}
 
-	// If source image URL exists, download the image
+	// If source image is URL, download the image
 	// This case act as priority when source path is equal to target path
-	if sourceURLValid && i.SourceURL != "" {
-		err := fs.DownloadFile(i.SourceURL, sourceURLTarget, overwriteExisting)
+	if sourceIsURL {
+		err := fs.DownloadFile(source, sourceTarget, overwriteExisting)
 		if err != nil {
 			return err
 		}
 
-		i.TargetPath = sourceURLTarget
+		i.TargetPath = sourceTarget
 		return nil
 	}
 
 	// If source path exists and is equal to target, set the target path
 	// This case act when no download is needed
-	if sourcePathValid && sourcePathExist && sourcePathEqualsTarget {
-		i.TargetPath = sourcePathTarget
+	if !sourceIsURL && sourcePathExist && sourceEqualsTarget {
+		i.TargetPath = sourceTarget
 	}
 
 	return nil

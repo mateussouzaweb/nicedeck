@@ -53,15 +53,10 @@ interface Shortcut {
 	launchOptions: string
 	relativePath: string
 	iconPath: string
-	iconUrl: string
 	logoPath: string
-	logoUrl: string
 	coverPath: string
-	coverUrl: string
 	bannerPath: string
-	bannerUrl: string
 	heroPath: string
-	heroUrl: string
 	tags: string[]
 }
 
@@ -140,11 +135,11 @@ interface AddShortcutData {
 	executable: string
 	launchOptions: string
 	relativePath: string
-	iconUrl: string
-	logoUrl: string
-	coverUrl: string
-	bannerUrl: string
-	heroUrl: string
+	iconPath: string
+	logoPath: string
+	coverPath: string
+	bannerPath: string
+	heroPath: string
 	tags: string[]
 }
 
@@ -163,11 +158,11 @@ interface ModifyShortcutData {
 	executable: string
 	launchOptions: string
 	relativePath: string
-	iconUrl: string
-	logoUrl: string
-	coverUrl: string
-	bannerUrl: string
-	heroUrl: string
+	iconPath: string
+	logoPath: string
+	coverPath: string
+	bannerPath: string
+	heroPath: string
 	tags: string[]
 }
 

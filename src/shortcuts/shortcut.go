@@ -11,15 +11,10 @@ type Shortcut struct {
 	LaunchOptions  string   `json:"launchOptions"`
 	RelativePath   string   `json:"relativePath"`
 	IconPath       string   `json:"iconPath"`
-	IconURL        string   `json:"iconUrl"`
 	LogoPath       string   `json:"logoPath"`
-	LogoURL        string   `json:"logoUrl"`
 	CoverPath      string   `json:"coverPath"`
-	CoverURL       string   `json:"coverUrl"`
 	BannerPath     string   `json:"bannerPath"`
-	BannerURL      string   `json:"bannerUrl"`
 	HeroPath       string   `json:"heroPath"`
-	HeroURL        string   `json:"heroUrl"`
 	Tags           []string `json:"tags"`
 	Timestamp      int64    `json:"timestamp"`
 }
@@ -47,32 +42,17 @@ func (s *Shortcut) Merge(source *Shortcut) {
 	if source.RelativePath != "" {
 		s.RelativePath = source.RelativePath
 	}
-	if source.IconURL != "" {
-		s.IconURL = source.IconURL
-	}
 	if source.IconPath != "" {
 		s.IconPath = source.IconPath
-	}
-	if source.LogoURL != "" {
-		s.LogoURL = source.LogoURL
 	}
 	if source.LogoPath != "" {
 		s.LogoPath = source.LogoPath
 	}
-	if source.CoverURL != "" {
-		s.CoverURL = source.CoverURL
-	}
 	if source.CoverPath != "" {
 		s.CoverPath = source.CoverPath
 	}
-	if source.BannerURL != "" {
-		s.BannerURL = source.BannerURL
-	}
 	if source.BannerPath != "" {
 		s.BannerPath = source.BannerPath
-	}
-	if source.HeroURL != "" {
-		s.HeroURL = source.HeroURL
 	}
 	if source.HeroPath != "" {
 		s.HeroPath = source.HeroPath

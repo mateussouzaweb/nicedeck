@@ -31,35 +31,23 @@ func ScrapeShortcut(shortcut *shortcuts.Shortcut) (bool, error) {
 	}
 
 	// Determine best name and images for the shortcut
-	name := scrape.Name
-	iconURL := ""
-	logoURL := ""
-	coverURL := ""
-	bannerURL := ""
-	heroURL := ""
+	shortcut.Name = scrape.Name
 
 	if len(scrape.IconURLs) > 0 {
-		iconURL = scrape.IconURLs[0]
+		shortcut.IconPath = scrape.IconURLs[0]
 	}
 	if len(scrape.LogoURLs) > 0 {
-		logoURL = scrape.LogoURLs[0]
+		shortcut.LogoPath = scrape.LogoURLs[0]
 	}
 	if len(scrape.CoverURLs) > 0 {
-		coverURL = scrape.CoverURLs[0]
+		shortcut.CoverPath = scrape.CoverURLs[0]
 	}
 	if len(scrape.BannerURLs) > 0 {
-		bannerURL = scrape.BannerURLs[0]
+		shortcut.BannerPath = scrape.BannerURLs[0]
 	}
 	if len(scrape.HeroURLs) > 0 {
-		heroURL = scrape.HeroURLs[0]
+		shortcut.HeroPath = scrape.HeroURLs[0]
 	}
-
-	shortcut.Name = name
-	shortcut.IconURL = iconURL
-	shortcut.LogoURL = logoURL
-	shortcut.CoverURL = coverURL
-	shortcut.BannerURL = bannerURL
-	shortcut.HeroURL = heroURL
 
 	return true, nil
 }
@@ -97,11 +85,11 @@ func ProcessShortcut(name string, path string, options *Options) (*shortcuts.Sho
 				Executable:     cli.Quote(rom.Executable),
 				LaunchOptions:  rom.LaunchOptions,
 				RelativePath:   rom.Executable,
-				IconURL:        "",
-				LogoURL:        "",
-				CoverURL:       "",
-				BannerURL:      "",
-				HeroURL:        "",
+				IconPath:       "",
+				LogoPath:       "",
+				CoverPath:      "",
+				BannerPath:     "",
+				HeroPath:       "",
 				Tags:           []string{rom.Runtime},
 			}
 		}
@@ -131,11 +119,11 @@ func ProcessShortcut(name string, path string, options *Options) (*shortcuts.Sho
 				Executable:     cli.Quote(rom.Executable),
 				LaunchOptions:  rom.LaunchOptions,
 				RelativePath:   rom.RelativePath,
-				IconURL:        "",
-				LogoURL:        "",
-				CoverURL:       "",
-				BannerURL:      "",
-				HeroURL:        "",
+				IconPath:       "",
+				LogoPath:       "",
+				CoverPath:      "",
+				BannerPath:     "",
+				HeroPath:       "",
 				Tags:           []string{"Gaming", "ROM", rom.Platform},
 			}
 		}
@@ -220,11 +208,11 @@ func ProcessShortcuts(options *Options) error {
 				Executable:     cli.Quote(rom.Executable),
 				LaunchOptions:  rom.LaunchOptions,
 				RelativePath:   rom.RelativePath,
-				IconURL:        "",
-				LogoURL:        "",
-				CoverURL:       "",
-				BannerURL:      "",
-				HeroURL:        "",
+				IconPath:       "",
+				LogoPath:       "",
+				CoverPath:      "",
+				BannerPath:     "",
+				HeroPath:       "",
 				Tags:           []string{"Gaming", "ROM", rom.Platform},
 			}
 

@@ -33,16 +33,17 @@ window.addEventListener('load', async () => {
     function renderImageSelectors(element) {
         $$('[data-select-image]', element).map((item) => {
 
+            const fieldKey = item.dataset.selectImage
             const currentValue = item.dataset.currentValue
             const currentImage = item.dataset.currentImage
-            const imageType = item.dataset.selectImage
+            const imageType = item.dataset.imageType
             const imageLabel = specifications[imageType].label
             const imageWidth = specifications[imageType].width
             const imageHeight = specifications[imageType].height
 
             const html = `
                 <small>${imageLabel}</small>
-                <input type="hidden" name="${imageType}" value="${currentValue}" />
+                <input type="hidden" name="${fieldKey}" value="${currentValue}" />
                 <img loading="lazy" src="${currentImage}"
                     alt="${imageLabel}" width="${imageWidth}" height="${imageHeight}"/>
                 <span class="select">${currentValue ? 'Change image' : 'Select image'}</span>
@@ -230,7 +231,7 @@ window.addEventListener('load', async () => {
 
         // Retrieve image details from rendered block
         const blockElement = event.target.closest('[data-select-image]')
-        const imageType = blockElement.dataset.selectImage
+        const imageType = blockElement.dataset.imageType
         const currentValue = blockElement.dataset.currentValue
         const currentImage = blockElement.dataset.currentImage
 

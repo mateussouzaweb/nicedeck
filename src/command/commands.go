@@ -288,11 +288,11 @@ func addShortcut(context Context) error {
 	executable := context.Arg("--executable", "")
 	launchOptions := context.Arg("--launch-options", "")
 	relativePath := context.Arg("--relative-path", "")
-	iconURL := context.Arg("--icon-url", "")
-	logoURL := context.Arg("--logo-url", "")
-	coverURL := context.Arg("--cover-url", "")
-	bannerURL := context.Arg("--banner-url", "")
-	heroURL := context.Arg("--hero-url", "")
+	iconPath := context.Arg("--icon-path", "")
+	logoPath := context.Arg("--logo-path", "")
+	coverPath := context.Arg("--cover-path", "")
+	bannerPath := context.Arg("--banner-path", "")
+	heroPath := context.Arg("--hero-path", "")
 	tags := context.Arg("--tags", "")
 
 	if ID == "" {
@@ -312,11 +312,11 @@ func addShortcut(context Context) error {
 		Executable:     cli.Quote(executable),
 		LaunchOptions:  launchOptions,
 		RelativePath:   relativePath,
-		IconURL:        iconURL,
-		LogoURL:        logoURL,
-		CoverURL:       coverURL,
-		BannerURL:      bannerURL,
-		HeroURL:        heroURL,
+		IconPath:       iconPath,
+		LogoPath:       logoPath,
+		CoverPath:      coverPath,
+		BannerPath:     bannerPath,
+		HeroPath:       heroPath,
 		Tags:           strings.Split(tags, ","),
 	}
 
@@ -372,11 +372,11 @@ func modifyShortcut(context Context) error {
 	executable := context.Arg("--executable", shortcut.Executable)
 	launchOptions := context.Arg("--launch-options", shortcut.LaunchOptions)
 	relativePath := context.Arg("--relative-path", shortcut.RelativePath)
-	iconURL := context.Arg("--icon-url", shortcut.IconURL)
-	logoURL := context.Arg("--logo-url", shortcut.LogoURL)
-	coverURL := context.Arg("--cover-url", shortcut.CoverURL)
-	bannerURL := context.Arg("--banner-url", shortcut.BannerURL)
-	heroURL := context.Arg("--hero-url", shortcut.HeroURL)
+	iconPath := context.Arg("--icon-path", shortcut.IconPath)
+	logoPath := context.Arg("--logo-path", shortcut.LogoPath)
+	coverPath := context.Arg("--cover-path", shortcut.CoverPath)
+	bannerPath := context.Arg("--banner-path", shortcut.BannerPath)
+	heroPath := context.Arg("--hero-path", shortcut.HeroPath)
 	tags := context.Arg("--tags", strings.Join(shortcut.Tags, ","))
 
 	// Update shortcut
@@ -388,19 +388,12 @@ func modifyShortcut(context Context) error {
 		shortcut.Executable = cli.Quote(executable)
 		shortcut.LaunchOptions = launchOptions
 		shortcut.RelativePath = relativePath
-		shortcut.IconURL = iconURL
-		shortcut.LogoURL = logoURL
-		shortcut.CoverURL = coverURL
-		shortcut.BannerURL = bannerURL
-		shortcut.HeroURL = heroURL
+		shortcut.IconPath = iconPath
+		shortcut.LogoPath = logoPath
+		shortcut.CoverPath = coverPath
+		shortcut.BannerPath = bannerPath
+		shortcut.HeroPath = heroPath
 		shortcut.Tags = strings.Split(tags, ",")
-
-		// Empty images to download again
-		shortcut.IconPath = ""
-		shortcut.LogoPath = ""
-		shortcut.CoverPath = ""
-		shortcut.BannerPath = ""
-		shortcut.HeroPath = ""
 
 		err := library.Shortcuts.Update(shortcut, true)
 		if err != nil {

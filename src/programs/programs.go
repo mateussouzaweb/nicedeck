@@ -204,11 +204,11 @@ func Install(options *Options) error {
 			Executable:     cli.Quote(executable),
 			LaunchOptions:  strings.Join(arguments, " "),
 			RelativePath:   "",
-			IconURL:        program.IconURL,
-			LogoURL:        program.LogoURL,
-			CoverURL:       program.CoverURL,
-			BannerURL:      program.BannerURL,
-			HeroURL:        program.HeroURL,
+			IconPath:       program.IconURL,
+			LogoPath:       program.LogoURL,
+			CoverPath:      program.CoverURL,
+			BannerPath:     program.BannerURL,
+			HeroPath:       program.HeroURL,
 			Tags:           program.Tags,
 		}
 

@@ -46,11 +46,11 @@ add:
   --executable=[value]        executable for shortcut
   --launch-options=[value]    launch options for shortcut
   --relative-path=[value]     relative path for shortcut
-  --icon-url=[value]          icon URL for shortcut
-  --logo-url=[value]          logo URL for shortcut
-  --cover-url=[value]         cover URL for shortcut
-  --banner-url=[value]        banner URL for shortcut
-  --hero-url=[value]          hero URL for shortcut
+  --icon-path=[value]         icon path or URL for shortcut
+  --logo-path=[value]         logo path or URL for shortcut
+  --cover-path=[value]        cover path or URL for shortcut
+  --banner-path=[value]       banner path or URL for shortcut
+  --hero-path=[value]         hero path or URL for shortcut
   --tags=[value,value]        tags for shortcut, comma separated
 
 modify:
@@ -64,11 +64,11 @@ modify:
   --executable=[value]        executable for shortcut
   --launch-options=[value]    launch options for shortcut
   --relative-path=[value]     relative path for shortcut
-  --icon-url=[value]          icon URL for shortcut
-  --logo-url=[value]          logo URL for shortcut
-  --cover-url=[value]         cover URL for shortcut
-  --banner-url=[value]        banner URL for shortcut
-  --hero-url=[value]          hero URL for shortcut
+  --icon-path=[value]         icon path or URL for shortcut
+  --logo-path=[value]         logo path or URL for shortcut
+  --cover-path=[value]        cover path or URL for shortcut
+  --banner-path=[value]       banner path or URL for shortcut
+  --hero-path=[value]         hero path or URL for shortcut
   --tags=[value,value]        tags for shortcut, comma separated
 
 install:

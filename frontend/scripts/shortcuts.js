@@ -205,23 +205,28 @@ window.addEventListener('load', async () => {
                 <h4>Images:</h4>
                 <div class="images">
                     <div class="column">
-                        <div data-select-image="cover"
+                        <div data-select-image="coverPath"
+                            data-image-type="cover"
                             data-current-value=""
                             data-current-image=""></div>
                     </div>
                     <div class="column">
-                        <div data-select-image="banner"
+                        <div data-select-image="bannerPath"
+                            data-image-type="banner"
                             data-current-value=""
                             data-current-image=""></div>
-                        <div data-select-image="hero"
+                        <div data-select-image="heroPath"
+                            data-image-type="hero"
                             data-current-value=""
                             data-current-image=""></div>
-                        <div data-select-image="logo"
+                        <div data-select-image="logoPath"
+                            data-image-type="logo"
                             data-current-value=""
                             data-current-image=""></div>
                     </div>
                     <div class="column icon">
-                        <div data-select-image="icon"
+                        <div data-select-image="iconPath"
+                            data-image-type="icon"
                             data-current-value=""
                             data-current-image=""></div>
                     </div>
@@ -287,23 +292,28 @@ window.addEventListener('load', async () => {
                 <span>Images:</span>
                 <div class="images">
                     <div class="column">
-                        <div data-select-image="cover"
+                        <div data-select-image="coverPath"
+                            data-image-type="cover"
                             data-current-value="${shortcut.coverPath}"
                             data-current-image="${coverImage}"></div>
                     </div>
                     <div class="column">
-                        <div data-select-image="banner"
+                        <div data-select-image="bannerPath"
+                            data-image-type="banner"
                             data-current-value="${shortcut.bannerPath}"
                             data-current-image="${bannerImage}"></div>
-                        <div data-select-image="hero"
+                        <div data-select-image="heroPath"
+                            data-image-type="hero"
                             data-current-value="${shortcut.heroPath}"
                             data-current-image="${heroImage}"></div>
-                        <div data-select-image="logo"
+                        <div data-select-image="logoPath"
+                            data-image-type="logo"
                             data-current-value="${shortcut.logoPath}"
                             data-current-image="${logoImage}"></div>
                     </div>
                     <div class="column icon">
-                        <div data-select-image="icon"
+                        <div data-select-image="iconPath"
+                            data-image-type="icon"
                             data-current-value="${shortcut.iconPath}"
                             data-current-image="${iconImage}"></div>
                     </div>
@@ -540,11 +550,11 @@ window.addEventListener('load', async () => {
             executable: data.get('executable'),
             launchOptions: data.get('launchOptions'),
             relativePath: data.get('relativePath'),
-            iconUrl: data.get('icon'),
-            logoUrl: data.get('logo'),
-            coverUrl: data.get('cover'),
-            bannerUrl: data.get('banner'),
-            heroUrl: data.get('hero'),
+            iconPath: data.get('iconPath'),
+            logoPath: data.get('logoPath'),
+            coverPath: data.get('coverPath'),
+            bannerPath: data.get('bannerPath'),
+            heroPath: data.get('heroPath'),
             tags: data.get('tags').split(',')
         }
 
@@ -589,11 +599,11 @@ window.addEventListener('load', async () => {
             executable: data.get('executable'),
             launchOptions: data.get('launchOptions'),
             relativePath: data.get('relativePath'),
-            iconUrl: data.get('icon'),
-            logoUrl: data.get('logo'),
-            coverUrl: data.get('cover'),
-            bannerUrl: data.get('banner'),
-            heroUrl: data.get('hero'),
+            iconPath: data.get('iconPath'),
+            logoPath: data.get('logoPath'),
+            coverPath: data.get('coverPath'),
+            bannerPath: data.get('bannerPath'),
+            heroPath: data.get('heroPath'),
             tags: data.get('tags').split(',')
         }
 

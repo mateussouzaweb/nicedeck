@@ -583,36 +583,26 @@ func (l *Library) Assets(specs *Internal, shortcut *Shortcut, action string, ove
 	// Handle images
 	// Process usually means copy image from path to path
 	iconImage := &Image{
-		SourcePath:      specs.IconPath,
-		SourceURL:       specs.IconURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%v_icon", shortcut.AppID),
 		Extensions:      []string{".png", ".ico"},
 	}
 	logoImage := &Image{
-		SourcePath:      specs.LogoPath,
-		SourceURL:       specs.LogoURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%v_logo", shortcut.AppID),
 		Extensions:      []string{".png"},
 	}
 	coverImage := &Image{
-		SourcePath:      specs.CoverPath,
-		SourceURL:       specs.CoverURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%vp", shortcut.AppID),
 		Extensions:      []string{".png", ".jpg"},
 	}
 	bannerImage := &Image{
-		SourcePath:      specs.BannerPath,
-		SourceURL:       specs.BannerURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%v", shortcut.AppID),
 		Extensions:      []string{".png", ".jpg"},
 	}
 	heroImage := &Image{
-		SourcePath:      specs.HeroPath,
-		SourceURL:       specs.HeroURL,
 		TargetDirectory: l.ImagesPath,
 		TargetName:      fmt.Sprintf("%v_hero", shortcut.AppID),
 		Extensions:      []string{".png", ".jpg"},
@@ -620,23 +610,23 @@ func (l *Library) Assets(specs *Internal, shortcut *Shortcut, action string, ove
 
 	// Sync all images based on the action
 	if action == "sync" || action == "add" {
-		err := iconImage.Process(overwrite)
+		err := iconImage.Process(specs.IconPath, overwrite)
 		if err != nil {
 			return err
 		}
-		err = logoImage.Process(overwrite)
+		err = logoImage.Process(specs.LogoPath, overwrite)
 		if err != nil {
 			return err
 		}
-		err = coverImage.Process(overwrite)
+		err = coverImage.Process(specs.CoverPath, overwrite)
 		if err != nil {
 			return err
 		}
-		err = bannerImage.Process(overwrite)
+		err = bannerImage.Process(specs.BannerPath, overwrite)
 		if err != nil {
 			return err
 		}
-		err = heroImage.Process(overwrite)
+		err = heroImage.Process(specs.HeroPath, overwrite)
 		if err != nil {
 			return err
 		}
