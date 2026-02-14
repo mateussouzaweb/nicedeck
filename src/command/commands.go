@@ -117,8 +117,18 @@ func scrapeData(context Context) error {
 		return fmt.Errorf("search terms is required")
 	}
 
+	// Create scrape options
+	options := scraper.ToOptions(
+		search,
+		context.Flag("--icon", false),
+		context.Flag("--logo", false),
+		context.Flag("--cover", false),
+		context.Flag("--banner", false),
+		context.Flag("--hero", false),
+	)
+
 	// Scrape term data
-	data, err := scraper.ScrapeFromName(search)
+	data, err := scraper.Scrape(options)
 	if err != nil {
 		return err
 	}

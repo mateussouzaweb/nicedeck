@@ -19,7 +19,8 @@ import (
 func ScrapeShortcut(shortcut *shortcuts.Shortcut) (bool, error) {
 
 	// Scrape additional ROM information
-	scrape, err := scraper.ScrapeFromName(shortcut.Name)
+	options := scraper.ToOptions(shortcut.Name, true, true, true, true, true)
+	scrape, err := scraper.Scrape(options)
 	if err != nil {
 		return false, err
 	}

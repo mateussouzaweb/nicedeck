@@ -24,6 +24,11 @@ OPTIONS:
 
 scrape:
   --search=[term]             search term
+  --icon                      include search for icon image
+  --logo                      include search for logo image
+  --cover                     include search for cover image
+  --banner                    include search for banner image
+  --hero                      include search for hero image
 
 launch:
   --id=[ID]                   shortcut ID

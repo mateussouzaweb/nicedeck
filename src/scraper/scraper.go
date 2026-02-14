@@ -21,7 +21,7 @@ type ScrapeResult struct {
 }
 
 // Scrape information such as images from given app or game name
-func ScrapeFromName(name string) (*ScrapeResult, error) {
+func Scrape(options *Options) (*ScrapeResult, error) {
 
 	result := &ScrapeResult{
 		IconURLs:   []string{},
@@ -32,7 +32,7 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 	}
 
 	// Find reference and correct name
-	search, err := steamgriddb.SearchByTerm(name)
+	search, err := steamgriddb.SearchByTerm(options.Search)
 	if err != nil {
 		return result, err
 	}
@@ -51,110 +51,120 @@ func ScrapeFromName(name string) (*ScrapeResult, error) {
 	}
 
 	// Find icon
-	icon, err := steamgriddb.GetImagesByID(
-		"icon",
-		fmt.Sprintf("%v", result.ScraperID),
-		&steamgriddb.ImagesParams{
-			Dimensions: []string{"24", "32", "40", "48", "56", "64", "72", "80", "96", "100", "144", "192"},
-			Mimes:      []string{"image/png", "image/vnd.microsoft.icon"},
-			Types:      []string{"static"},
-			Nsfw:       "false",
-			Humor:      "false",
-			Epilepsy:   "false",
-		},
-	)
-	if err != nil {
-		return result, err
-	}
-	if icon.Success && len(icon.Data) > 0 {
-		for _, item := range icon.Data {
-			result.IconURLs = append(result.IconURLs, item.URL)
+	if options.Icon {
+		icon, err := steamgriddb.GetImagesByID(
+			"icon",
+			fmt.Sprintf("%v", result.ScraperID),
+			&steamgriddb.ImagesParams{
+				Dimensions: []string{"24", "32", "40", "48", "56", "64", "72", "80", "96", "100", "144", "192"},
+				Mimes:      []string{"image/png", "image/vnd.microsoft.icon"},
+				Types:      []string{"static"},
+				Nsfw:       "false",
+				Humor:      "false",
+				Epilepsy:   "false",
+			},
+		)
+		if err != nil {
+			return result, err
+		}
+		if icon.Success && len(icon.Data) > 0 {
+			for _, item := range icon.Data {
+				result.IconURLs = append(result.IconURLs, item.URL)
+			}
 		}
 	}
 
 	// Find logo
-	logo, err := steamgriddb.GetImagesByID(
-		"logo",
-		fmt.Sprintf("%v", result.ScraperID),
-		&steamgriddb.ImagesParams{
-			Mimes:    []string{"image/png"},
-			Types:    []string{"static"},
-			Nsfw:     "false",
-			Humor:    "false",
-			Epilepsy: "false",
-		},
-	)
-	if err != nil {
-		return result, err
-	}
-	if logo.Success && len(logo.Data) > 0 {
-		for _, item := range logo.Data {
-			result.LogoURLs = append(result.LogoURLs, item.URL)
+	if options.Logo {
+		logo, err := steamgriddb.GetImagesByID(
+			"logo",
+			fmt.Sprintf("%v", result.ScraperID),
+			&steamgriddb.ImagesParams{
+				Mimes:    []string{"image/png"},
+				Types:    []string{"static"},
+				Nsfw:     "false",
+				Humor:    "false",
+				Epilepsy: "false",
+			},
+		)
+		if err != nil {
+			return result, err
+		}
+		if logo.Success && len(logo.Data) > 0 {
+			for _, item := range logo.Data {
+				result.LogoURLs = append(result.LogoURLs, item.URL)
+			}
 		}
 	}
 
 	// Find cover
-	cover, err := steamgriddb.GetImagesByID(
-		"cover",
-		fmt.Sprintf("%v", result.ScraperID),
-		&steamgriddb.ImagesParams{
-			Mimes:      []string{"image/png", "image/jpeg"},
-			Types:      []string{"static"},
-			Dimensions: []string{"600x900"},
-			Nsfw:       "false",
-			Humor:      "false",
-			Epilepsy:   "false",
-		},
-	)
-	if err != nil {
-		return result, err
-	}
-	if cover.Success && len(cover.Data) > 0 {
-		for _, item := range cover.Data {
-			result.CoverURLs = append(result.CoverURLs, item.URL)
+	if options.Cover {
+		cover, err := steamgriddb.GetImagesByID(
+			"cover",
+			fmt.Sprintf("%v", result.ScraperID),
+			&steamgriddb.ImagesParams{
+				Mimes:      []string{"image/png", "image/jpeg"},
+				Types:      []string{"static"},
+				Dimensions: []string{"600x900"},
+				Nsfw:       "false",
+				Humor:      "false",
+				Epilepsy:   "false",
+			},
+		)
+		if err != nil {
+			return result, err
+		}
+		if cover.Success && len(cover.Data) > 0 {
+			for _, item := range cover.Data {
+				result.CoverURLs = append(result.CoverURLs, item.URL)
+			}
 		}
 	}
 
 	// Find banner
-	banner, err := steamgriddb.GetImagesByID(
-		"banner",
-		fmt.Sprintf("%v", result.ScraperID),
-		&steamgriddb.ImagesParams{
-			Mimes:      []string{"image/png", "image/jpeg"},
-			Types:      []string{"static"},
-			Dimensions: []string{"920x430", "460x215"},
-			Nsfw:       "false",
-			Humor:      "false",
-			Epilepsy:   "false",
-		},
-	)
-	if err != nil {
-		return result, err
-	}
-	if banner.Success && len(banner.Data) > 0 {
-		for _, item := range banner.Data {
-			result.BannerURLs = append(result.BannerURLs, item.URL)
+	if options.Banner {
+		banner, err := steamgriddb.GetImagesByID(
+			"banner",
+			fmt.Sprintf("%v", result.ScraperID),
+			&steamgriddb.ImagesParams{
+				Mimes:      []string{"image/png", "image/jpeg"},
+				Types:      []string{"static"},
+				Dimensions: []string{"920x430", "460x215"},
+				Nsfw:       "false",
+				Humor:      "false",
+				Epilepsy:   "false",
+			},
+		)
+		if err != nil {
+			return result, err
+		}
+		if banner.Success && len(banner.Data) > 0 {
+			for _, item := range banner.Data {
+				result.BannerURLs = append(result.BannerURLs, item.URL)
+			}
 		}
 	}
 
 	// Find hero
-	hero, err := steamgriddb.GetImagesByID(
-		"hero",
-		fmt.Sprintf("%v", result.ScraperID),
-		&steamgriddb.ImagesParams{
-			Mimes:    []string{"image/png", "image/jpeg"},
-			Types:    []string{"static"},
-			Nsfw:     "false",
-			Humor:    "false",
-			Epilepsy: "false",
-		},
-	)
-	if err != nil {
-		return result, err
-	}
-	if hero.Success && len(hero.Data) > 0 {
-		for _, item := range hero.Data {
-			result.HeroURLs = append(result.HeroURLs, item.URL)
+	if options.Hero {
+		hero, err := steamgriddb.GetImagesByID(
+			"hero",
+			fmt.Sprintf("%v", result.ScraperID),
+			&steamgriddb.ImagesParams{
+				Mimes:    []string{"image/png", "image/jpeg"},
+				Types:    []string{"static"},
+				Nsfw:     "false",
+				Humor:    "false",
+				Epilepsy: "false",
+			},
+		)
+		if err != nil {
+			return result, err
+		}
+		if hero.Success && len(hero.Data) > 0 {
+			for _, item := range hero.Data {
+				result.HeroURLs = append(result.HeroURLs, item.URL)
+			}
 		}
 	}
 

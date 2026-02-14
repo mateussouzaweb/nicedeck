@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -694,10 +695,22 @@ func scrapeData(context *Context) error {
 	result := ScrapeDataResult{}
 
 	// Bind data
-	term := context.Request.URL.Query().Get("term")
+	termParam := context.Request.URL.Query().Get("term")
+	typeParam := context.Request.URL.Query().Get("type")
+	types := strings.Split(typeParam, ",")
+
+	// Create scrape options
+	options := scraper.ToOptions(
+		termParam,
+		slices.Contains(types, "icon"),
+		slices.Contains(types, "logo"),
+		slices.Contains(types, "cover"),
+		slices.Contains(types, "banner"),
+		slices.Contains(types, "hero"),
+	)
 
 	// Scrape term data
-	data, err := scraper.ScrapeFromName(term)
+	data, err := scraper.Scrape(options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
