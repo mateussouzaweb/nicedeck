@@ -58,6 +58,7 @@ interface Shortcut {
 	bannerPath: string
 	heroPath: string
 	tags: string[]
+	timestamp: number
 }
 
 interface ScrapeResult {

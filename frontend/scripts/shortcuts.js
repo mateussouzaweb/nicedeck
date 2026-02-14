@@ -23,16 +23,27 @@ window.addEventListener('load', async () => {
     }
 
     /**
-     * Retrieve image with given path
+     * Retrieve shortcut image with given type
+     * @param {Shortcut} shortcut
      * @param {String} type
-     * @param {String} path
      * @returns {String}
      */
-    function getImage(type, path) {
-        path = (path) ? String(path) : `/img/default/${type}.png`
+    function getImage(shortcut, type) {
+        const pathMap = {
+            cover: shortcut.coverPath,
+            banner: shortcut.bannerPath,
+            hero: shortcut.heroPath,
+            icon: shortcut.iconPath,
+            logo: shortcut.logoPath,
+            default: `/img/default/${type}.png`
+        }
+
+        const path = pathMap[type] ? pathMap[type] : pathMap['default']
         const url = path.replace(library.imagesPath, `/grid/image`)
         const domain = window.location.origin
-        return domain + url + '?t=' + library.timestamp
+        const timestamp = shortcut.timestamp
+
+        return domain + url + '?t=' + timestamp
     }
 
     /**
@@ -115,7 +126,7 @@ window.addEventListener('load', async () => {
         })
 
         const items = filtered.map((shortcut) => {
-            const coverImage = getImage('cover', shortcut.coverPath)
+            const coverImage = getImage(shortcut, 'cover')
 
             return `
             <article class="item shortcut" title="${shortcut.name}">
@@ -259,7 +270,7 @@ window.addEventListener('load', async () => {
             <div class="group">
                 <label for="relativePath">Relative Path:</label>
                 <textarea class="resizable" id="relativePath" name="relativePath"></textarea>
-            </div>            
+            </div>
         `
 
         content.innerHTML = html
@@ -278,11 +289,11 @@ window.addEventListener('load', async () => {
         const subTitle = $('.header h3 small', modal)
         const content = $('.content', modal)
 
-        const coverImage = getImage('cover', shortcut.coverPath)
-        const bannerImage = getImage('banner', shortcut.bannerPath)
-        const heroImage = getImage('hero', shortcut.heroPath)
-        const iconImage = getImage('icon', shortcut.iconPath)
-        const logoImage = getImage('logo', shortcut.logoPath)
+        const coverImage = getImage(shortcut, 'cover')
+        const bannerImage = getImage(shortcut, 'banner')
+        const heroImage = getImage(shortcut, 'hero')
+        const iconImage = getImage(shortcut, 'icon')
+        const logoImage = getImage(shortcut, 'logo')
         const html = `
             <div class="group">
                 <label for="name">Name:</label>
