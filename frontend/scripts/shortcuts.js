@@ -198,36 +198,8 @@ window.addEventListener('load', async () => {
                 <textarea id="id" name="id"></textarea>
             </div>
             <div class="group">
-                <label for="program">Program:</label>
-                <textarea id="program" name="program"></textarea>
-            </div>
-            <div class="group">
                 <label for="name">Name:</label>
                 <textarea id="name" name="name" required data-search-artworks></textarea>
-            </div>
-            <div class="group">
-                <label for="description">Description:</label>
-                <textarea id="description" name="description"></textarea>
-            </div>
-            <div class="group">
-                <label for="startDirectory">Start Directory:</label>
-                <textarea class="resizable" id="startDirectory" name="startDirectory" required></textarea>
-            </div>
-            <div class="group">
-                <label for="executable">Executable:</label>
-                <textarea class="resizable" id="executable" name="executable" required></textarea>
-            </div>
-            <div class="group">
-                <label for="launchOptions">Launch Options:</label>
-                <textarea class="resizable" id="launchOptions" name="launchOptions"></textarea>
-            </div>
-            <div class="group">
-                <label for="relativePath">Relative Path:</label>
-                <textarea class="resizable" id="relativePath" name="relativePath"></textarea>
-            </div>
-            <div class="group">
-                <label for="tags">Tags:</label>
-                <textarea id="tags" name="tags"></textarea>
             </div>
             <div class="group">
                 <h4>Images:</h4>
@@ -255,6 +227,34 @@ window.addEventListener('load', async () => {
                     </div>
                 </div>
             </div>
+            <div class="group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description"></textarea>
+            </div>
+            <div class="group">
+                <label for="tags">Tags:</label>
+                <textarea id="tags" name="tags"></textarea>
+            </div>
+            <div class="group">
+                <label for="program">Program:</label>
+                <textarea id="program" name="program"></textarea>
+            </div>
+            <div class="group">
+                <label for="startDirectory">Start Directory:</label>
+                <textarea class="resizable" id="startDirectory" name="startDirectory" required></textarea>
+            </div>
+            <div class="group">
+                <label for="executable">Executable:</label>
+                <textarea class="resizable" id="executable" name="executable" required></textarea>
+            </div>
+            <div class="group">
+                <label for="launchOptions">Launch Options:</label>
+                <textarea class="resizable" id="launchOptions" name="launchOptions"></textarea>
+            </div>
+            <div class="group">
+                <label for="relativePath">Relative Path:</label>
+                <textarea class="resizable" id="relativePath" name="relativePath"></textarea>
+            </div>            
         `
 
         content.innerHTML = html
@@ -280,36 +280,8 @@ window.addEventListener('load', async () => {
         const logoImage = getImage('logo', shortcut.logoPath)
         const html = `
             <div class="group">
-                <label for="program">Program:</label>
-                <textarea id="program" name="program">${shortcut.program}</textarea>
-            </div>
-            <div class="group">
                 <label for="name">Name:</label>
                 <textarea id="name" name="name" required data-search-artworks>${shortcut.name}</textarea>
-            </div>
-            <div class="group">
-                <label for="description">Description:</label>
-                <textarea id="description" name="description">${shortcut.description}</textarea>
-            </div>
-            <div class="group">
-                <label for="startDirectory">Start Directory:</label>
-                <textarea class="resizable" id="startDirectory" name="startDirectory" required>${shortcut.startDirectory}</textarea>
-            </div>
-            <div class="group">
-                <label for="executable">Executable:</label>
-                <textarea class="resizable" id="executable" name="executable" required>${shortcut.executable}</textarea>
-            </div>
-            <div class="group">
-                <label for="launchOptions">Launch Options:</label>
-                <textarea class="resizable" id="launchOptions" name="launchOptions">${shortcut.launchOptions}</textarea>
-            </div>
-            <div class="group">
-                <label for="relativePath">Relative Path:</label>
-                <textarea class="resizable" id="relativePath" name="relativePath">${shortcut.relativePath}</textarea>
-            </div>
-            <div class="group">
-                <label for="tags">Tags:</label>
-                <textarea id="tags" name="tags">${shortcut.tags.join(',')}</textarea>
             </div>
             <div class="group">
                 <span>Images:</span>
@@ -336,6 +308,34 @@ window.addEventListener('load', async () => {
                             data-current-image="${iconImage}"></div>
                     </div>
                 </div>
+            </div>
+            <div class="group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description">${shortcut.description}</textarea>
+            </div>
+            <div class="group">
+                <label for="tags">Tags:</label>
+                <textarea id="tags" name="tags">${shortcut.tags.join(',')}</textarea>
+            </div>
+            <div class="group">
+                <label for="program">Program:</label>
+                <textarea id="program" name="program">${shortcut.program}</textarea>
+            </div>
+            <div class="group">
+                <label for="startDirectory">Start Directory:</label>
+                <textarea class="resizable" id="startDirectory" name="startDirectory" required>${shortcut.startDirectory}</textarea>
+            </div>
+            <div class="group">
+                <label for="executable">Executable:</label>
+                <textarea class="resizable" id="executable" name="executable" required>${shortcut.executable}</textarea>
+            </div>
+            <div class="group">
+                <label for="launchOptions">Launch Options:</label>
+                <textarea class="resizable" id="launchOptions" name="launchOptions">${shortcut.launchOptions}</textarea>
+            </div>
+            <div class="group">
+                <label for="relativePath">Relative Path:</label>
+                <textarea class="resizable" id="relativePath" name="relativePath">${shortcut.relativePath}</textarea>
             </div>
         `
 
