@@ -270,19 +270,6 @@ func GetStates(options *Options) []*State {
 		},
 	})
 
-	// Citron
-	states = append(states, &State{
-		Platform: "SWITCH",
-		Emulator: "Citron",
-		Type:     "folder",
-		Path:     "$STATE/Citron/nand/user/save",
-		Source: []string{
-			"$SHARE/citron/nand/user/save",
-			"$CONFIG/citron/nand/user/save",
-			"$EMULATORS/Citron/user/nand/user/save",
-		},
-	})
-
 	// Eden
 	states = append(states, &State{
 		Platform: "SWITCH",

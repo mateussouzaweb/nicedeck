@@ -114,7 +114,6 @@ Console Emulators:
 - Nintendo DS - [MelonDS](https://melonds.kuribo64.net)
 - Nintendo Game Boy Advance - [mGBA](https://mgba.io)
 - Nintendo GameCube - [Dolphin](https://dolphin-emu.org)
-- Nintendo Switch - [Citron](https://citron-emu.org)
 - Nintendo Switch - [Eden](https://eden-emu.dev)
 - Nintendo Switch - [Ryujinx](https://ryujinx.app)
 - Nintendo Wii - [Dolphin](https://dolphin-emu.org)

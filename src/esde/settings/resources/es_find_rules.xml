@@ -24,12 +24,6 @@
             <entry>$EMULATORS\Cemu\Cemu.exe</entry>
         </rule>
     </emulator>
-    <emulator name="CITRON">
-        <rule type="staticpath">
-            <entry>$EMULATORS/Citron/Citron.AppImage</entry>
-            <entry>$EMULATORS\Citron\citron.exe</entry>
-        </rule>
-    </emulator>
     <emulator name="DOLPHIN">
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/org.DolphinEmu.dolphin-emu</entry>

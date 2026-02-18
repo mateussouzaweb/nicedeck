@@ -176,11 +176,6 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 		Console: "Nintendo Switch",
 		Folder:  "SWITCH",
 		Emulators: []*Emulator{{
-			Name:          "Citron",
-			Program:       "citron",
-			Extensions:    ".nca .nro .nso .nsp .xci",
-			LaunchOptions: "-f -g ${ROM}",
-		}, {
 			Name:          "Eden",
 			Program:       "eden",
 			Extensions:    ".nca .nro .nso .nsp .xci",

@@ -7,7 +7,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/programs/assets"
-	"github.com/mateussouzaweb/nicedeck/src/programs/forgejo"
 	"github.com/mateussouzaweb/nicedeck/src/programs/github"
 	"github.com/mateussouzaweb/nicedeck/src/programs/gitlab"
 	"github.com/mateussouzaweb/nicedeck/src/programs/website"
@@ -107,48 +106,6 @@ func Cemu() *Program {
 				cli.ArchVariant(
 					"cemu-*-windows-x64.zip", // amd64
 					"cemu-*-windows-x64.zip", // arm64 (WIP)
-				),
-			),
-		}),
-	}
-}
-
-// Installer for Citron
-func Citron() *Program {
-	return &Program{
-		ID:          "citron",
-		Name:        "Citron",
-		Description: "Emulator for Nintendo Switch",
-		Category:    "Emulators",
-		Tags:        []string{"Gaming", "Emulator"},
-		Flags:       []string{},
-		Folders:     []string{"$EMULATORS", "$STATE/Citron", "$ROMS/SWITCH", "$BIOS/SWITCH"},
-		Website:     "https://citron-emu.org",
-		IconURL:     assets.Icon("e47cf05ff3fa2a1a4a4ee22e02ade796.png"),
-		LogoURL:     assets.Logo("bc14e96f34edcda0aa5d04b3634405d2.png"),
-		CoverURL:    assets.Cover("f9065c4db2e5945e8e71e94234119a62.png"),
-		BannerURL:   assets.Banner("c4d3e48c9b104390b762019ccd9174e5.png"),
-		HeroURL:     assets.Hero("c24f9ae141fa02c7fa1deea7e1149557.png"),
-		Package: packaging.Best(&linux.AppImage{
-			AppID:     "citron",
-			AppName:   "$EMULATORS/Citron/Citron.AppImage",
-			Arguments: packaging.NoArguments(),
-			Source: github.Release(
-				"https://github.com/pkgforge-dev/Citron-AppImage",
-				cli.ArchVariant(
-					"Citron-*-anylinux-x86_64.AppImage",  // amd64
-					"Citron-*-anylinux-aarch64.AppImage", // arm64
-				),
-			),
-		}, &windows.Executable{
-			AppID:     "Citron",
-			AppExe:    "$EMULATORS/Citron/citron.exe",
-			Arguments: packaging.NoArguments(),
-			Source: forgejo.Release(
-				"https://git.citron-emu.org", "Citron/Emulator",
-				cli.ArchVariant(
-					"citron-windows-*.zip", // amd64
-					"citron-windows-*.zip", // arm64 (WIP)
 				),
 			),
 		}),
