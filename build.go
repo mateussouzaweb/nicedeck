@@ -7,106 +7,38 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 )
 
-// Cmd creates a new build command with the provided script
-func Cmd(script string) *build.Command {
-	cmd := cli.Command(script)
-	return &build.Command{
-		Callback: func() error {
-			return cmd.Run()
-		},
-	}
-}
-
-// Env create a new build context with given environment variables
-func Env(env ...string) *build.Context {
-	return build.Env(env...)
-}
-
 // Main build process
 func main() {
 
-	// Linux build process
-	linux := build.New(Env(
-		"GOOS=linux",
-	)).Add(&build.Step{
-		ID:      "build-linux-amd64",
-		Name:    "Building Linux AMD64",
-		Context: Env("GOARCH=amd64"),
-		Command: Cmd("go build -o bin/nicedeck-linux-amd64 cmd/main.go"),
-	}).Add(&build.Step{
-		ID:      "build-linux-arm64",
-		Name:    "Building Linux ARM64",
-		Context: Env("GOARCH=arm64"),
-		Command: Cmd("go build -o bin/nicedeck-linux-arm64 cmd/main.go"),
-	})
-
-	// MacOS build process
-	macos := build.New(Env(
-		"GOOS=darwin",
-	)).Add(&build.Step{
-		ID:      "build-macos-amd64",
-		Name:    "Building MacOS Intel",
-		Context: Env("GOARCH=amd64"),
-		Command: Cmd("go build -o bin/nicedeck-macos-amd64 cmd/main.go"),
-	}).Add(&build.Step{
-		ID:      "build-macos-arm64",
-		Name:    "Building MacOS ARM64",
-		Context: Env("GOARCH=arm64"),
-		Command: Cmd("go build -o bin/nicedeck-macos-arm64 cmd/main.go"),
-	})
-
-	// MacOS .app bundle build process
-	macosApp := build.New(Env()).Add(&build.Step{
-		ID:      "build-macos-app",
-		Name:    "Building MacOS App",
-		Context: Env(),
-		Command: Cmd("go run packaging/macos/build.go"),
-	})
-
-	// Windows build process
-	windows := build.New(Env(
-		"GOOS=windows",
-	)).Add(&build.Step{
-		ID:      "build-windows-cli-amd64",
-		Name:    "Building Windows CLI AMD64",
-		Context: Env("GOARCH=amd64"),
-		Command: Cmd("go build -o bin/nicedeck-windows-cli-amd64.exe cmd/main.go"),
-	}).Add(&build.Step{
-		ID:      "build-windows-cli-arm64",
-		Name:    "Building Windows CLI ARM64",
-		Context: Env("GOARCH=arm64"),
-		Command: Cmd("go build -o bin/nicedeck-windows-cli-arm64.exe cmd/main.go"),
-	}).Add(&build.Step{
-		ID:      "build-windows-amd64",
-		Name:    "Building Windows AMD64",
-		Context: Env("GOARCH=amd64"),
-		Command: Cmd("go build -ldflags=\"-H windowsgui\" -o bin/nicedeck-windows-amd64.exe cmd/main.go"),
-	}).Add(&build.Step{
-		ID:      "build-windows-arm64",
-		Name:    "Building Windows ARM64",
-		Context: Env("GOARCH=arm64"),
-		Command: Cmd("go build -ldflags=\"-H windowsgui\" -o bin/nicedeck-windows-arm64.exe cmd/main.go"),
-	})
-
 	// Main build process that combines all platforms
-	all := build.New(Env())
+	all := build.New(build.Env())
 	all.Add(&build.Step{
-		ID:      "clean",
+		ID:      "clean-previous-builds",
 		Name:    "Clean up previous builds",
-		Command: Cmd("[ -d bin/ ] && rm -r bin/ || true"),
+		Command: build.Cmd("[ -d bin/ ] && rm -r bin/ || true"),
 	}).Add(&build.Step{
 		ID:      "create-bin-directory",
 		Name:    "Create bin directory",
-		Command: Cmd("mkdir -p bin/"),
-	}).Add(
-		linux,
-		macos,
-		macosApp,
-		windows,
-	).Add(&build.Step{
+		Command: build.Cmd("mkdir -p bin/"),
+	}).Add(&build.Step{
+		ID:      "build-linux",
+		Name:    "Build Linux",
+		Context: build.Env(),
+		Command: build.Cmd("go run packaging/linux/build.go"),
+	}).Add(&build.Step{
+		ID:      "build-macos",
+		Name:    "Build MacOS",
+		Context: build.Env(),
+		Command: build.Cmd("go run packaging/macos/build.go"),
+	}).Add(&build.Step{
+		ID:      "build-windows",
+		Name:    "Build Windows",
+		Context: build.Env(),
+		Command: build.Cmd("go run packaging/windows/build.go"),
+	}).Add(&build.Step{
 		ID:      "set-permissions",
 		Name:    "Make everything executable",
-		Command: Cmd("chmod +x bin/*"),
+		Command: build.Cmd("chmod +x bin/*"),
 	})
 
 	// Exit with proper code

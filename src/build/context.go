@@ -52,7 +52,7 @@ func (c *Context) Run(callback func() error) error {
 	defer func() {
 		doneErr := c.Done()
 		if doneErr != nil {
-			doneErr = fmt.Errorf("context error: %w", c.Done())
+			doneErr = fmt.Errorf("context error: %w", doneErr)
 			errors.Join(err, doneErr)
 		}
 	}()

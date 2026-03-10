@@ -2,6 +2,8 @@ package build
 
 import (
 	"fmt"
+
+	"github.com/mateussouzaweb/nicedeck/src/cli"
 )
 
 // Represents a command to be executed in the build process
@@ -22,4 +24,14 @@ func (c *Command) Run() error {
 	}
 
 	return nil
+}
+
+// Cmd creates a new build command with the provided script.
+func Cmd(script string, args ...any) *Command {
+	cmd := cli.Command(fmt.Sprintf(script, args...))
+	return &Command{
+		Callback: func() error {
+			return cmd.Run()
+		},
+	}
 }
