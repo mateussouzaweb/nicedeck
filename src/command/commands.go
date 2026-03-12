@@ -18,14 +18,15 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
 	"github.com/mateussouzaweb/nicedeck/src/server"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
+	"github.com/mateussouzaweb/nicedeck/src/version"
 )
 
 //go:embed resources/*
 var resourcesContent embed.FS
 
 // Print application version
-func printVersion(context Context) error {
-	cli.Printf(cli.ColorDefault, "%s\n", context.Version)
+func printVersion(_ Context) error {
+	cli.Printf(cli.ColorDefault, "%s\n", version.Get())
 	return nil
 }
 
@@ -85,10 +86,10 @@ func listPlatforms(_ Context) error {
 }
 
 // List user shortcuts
-func listShortcuts(context Context) error {
+func listShortcuts(_ Context) error {
 
 	// Init user library
-	err := library.Init(context.Version)
+	err := library.Init()
 	if err != nil {
 		return err
 	}
@@ -144,10 +145,10 @@ func scrapeData(context Context) error {
 }
 
 // Sync library
-func syncLibrary(context Context) error {
+func syncLibrary(_ Context) error {
 
 	// Init user library
-	err := library.Init(context.Version)
+	err := library.Init()
 	if err != nil {
 		return err
 	}
@@ -184,7 +185,7 @@ func launchShortcut(context Context) error {
 	}
 
 	// Init user library
-	err := library.Init(context.Version)
+	err := library.Init()
 	if err != nil {
 		return err
 	}
@@ -218,7 +219,7 @@ func createShortcut(context Context) error {
 	name := context.Arg("--name", "")
 
 	// Init user library
-	err := library.Init(context.Version)
+	err := library.Init()
 	if err != nil {
 		return err
 	}
@@ -263,7 +264,7 @@ func createShortcut(context Context) error {
 func addShortcut(context Context) error {
 
 	// Init user library
-	err := library.Init(context.Version)
+	err := library.Init()
 	if err != nil {
 		return err
 	}
@@ -340,7 +341,7 @@ func modifyShortcut(context Context) error {
 	}
 
 	// Init user library
-	err := library.Init(context.Version)
+	err := library.Init()
 	if err != nil {
 		return err
 	}
@@ -428,7 +429,7 @@ func installPrograms(context Context) error {
 	}
 
 	// Init user library
-	err := library.Init(context.Version)
+	err := library.Init()
 	if err != nil {
 		return err
 	}
@@ -468,7 +469,7 @@ func removePrograms(context Context) error {
 	}
 
 	// Init user library
-	err := library.Init(context.Version)
+	err := library.Init()
 	if err != nil {
 		return err
 	}
@@ -550,7 +551,7 @@ func processROMs(context Context) error {
 	}
 
 	// Init user library
-	err := library.Init(context.Version)
+	err := library.Init()
 	if err != nil {
 		return err
 	}
@@ -606,7 +607,6 @@ func runServer(context Context) error {
 	// Init server
 	go func() {
 		errors.Join(err, server.Init(
-			context.Version,
 			developmentMode,
 			listenAddress,
 			ready,

@@ -23,6 +23,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
+	"github.com/mateussouzaweb/nicedeck/src/version"
 )
 
 var gridFS fs.FS
@@ -751,10 +752,10 @@ func openLink(context *Context) error {
 }
 
 // Setup server endpoints and shutdown channel
-func Setup(version string, developmentMode bool, shutdown chan bool) error {
+func Setup(developmentMode bool, shutdown chan bool) error {
 
 	// Init user library
-	err := library.Init(version)
+	err := library.Init()
 	if err != nil {
 		return err
 	}
@@ -832,7 +833,7 @@ func Setup(version string, developmentMode bool, shutdown chan bool) error {
 
 	// Print version command
 	Add("GET", "/api/version", func(context *Context) error {
-		return context.Status(http.StatusOK).String(version)
+		return context.Status(http.StatusOK).String(version.Get())
 	})
 
 	// Specific routes

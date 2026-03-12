@@ -9,8 +9,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/command"
 )
 
-var version = "0.3.1"
-
 // Main command
 func main() {
 
@@ -31,7 +29,7 @@ func main() {
 
 	// Run command
 	go func() {
-		err := command.Run(version, os.Args[1:], done)
+		err := command.Run(os.Args[1:], done)
 		if err != nil {
 			cli.Printf(cli.ColorFatal, "Error: %s\n", err.Error())
 			exitCode = 1

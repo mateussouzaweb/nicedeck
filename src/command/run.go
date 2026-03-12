@@ -8,7 +8,7 @@ import (
 )
 
 // Run command based on given arguments
-func Run(version string, args []string, done chan bool) error {
+func Run(args []string, done chan bool) error {
 
 	// Retrieve args and command to run
 	command := cli.Arg(args, "0", "server")
@@ -21,9 +21,8 @@ func Run(version string, args []string, done chan bool) error {
 
 	// Create context
 	context := Context{
-		Args:    args,
-		Version: version,
-		Done:    done,
+		Args: args,
+		Done: done,
 	}
 
 	// Process required command

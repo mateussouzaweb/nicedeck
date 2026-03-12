@@ -7,10 +7,11 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
+	"github.com/mateussouzaweb/nicedeck/src/version"
 )
 
 // Init library by ensure desired environment paths
-func Init(version string) error {
+func Init() error {
 
 	// Retrieve relevant user directories
 	homeDir, err := os.UserHomeDir()
@@ -59,7 +60,7 @@ func Init(version string) error {
 	// Print debug information
 	cli.Printf(cli.ColorNotice, "NiceDeck\n")
 	cli.Printf(cli.ColorNotice, "\n")
-	cli.Printf(cli.ColorNotice, "- Version: %s\n", version)
+	cli.Printf(cli.ColorNotice, "- Version: %s\n", version.Get())
 	cli.Printf(cli.ColorNotice, "- OS: %s-%s\n", runtime.GOOS, runtime.GOARCH)
 	cli.Printf(cli.ColorNotice, "- Home: %s\n", cli.GetEnv("HOME", ""))
 	cli.Printf(cli.ColorNotice, "- Config: %s\n", cli.GetEnv("CONFIG", ""))

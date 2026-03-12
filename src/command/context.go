@@ -9,9 +9,8 @@ import (
 
 // Context struct
 type Context struct {
-	Version string
-	Args    []string
-	Done    chan bool
+	Args []string
+	Done chan bool
 }
 
 // Retrieve argument with given keys or in given index position

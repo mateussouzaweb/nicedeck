@@ -72,7 +72,7 @@ func Start(address string, listener net.Listener, ready chan bool) error {
 }
 
 // Init server
-func Init(version string, developmentMode bool, address string, ready chan bool, shutdown chan bool) error {
+func Init(developmentMode bool, address string, ready chan bool, shutdown chan bool) error {
 
 	// Initiate listener when possible
 	addressInUse := false
@@ -107,7 +107,7 @@ func Init(version string, developmentMode bool, address string, ready chan bool,
 	}
 
 	// Setup the server with shutdown channel
-	err = Setup(version, developmentMode, shutdown)
+	err = Setup(developmentMode, shutdown)
 	if err != nil {
 		return err
 	}
