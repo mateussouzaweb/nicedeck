@@ -7,6 +7,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/programs/assets"
+	"github.com/mateussouzaweb/nicedeck/src/programs/forgejo"
 	"github.com/mateussouzaweb/nicedeck/src/programs/github"
 	"github.com/mateussouzaweb/nicedeck/src/programs/gitlab"
 	"github.com/mateussouzaweb/nicedeck/src/programs/website"
@@ -229,8 +230,9 @@ func Eden() *Program {
 			AppID:     "eden",
 			AppName:   "$EMULATORS/Eden/Eden.AppImage",
 			Arguments: packaging.NoArguments(),
-			Source: github.Release(
-				"https://github.com/eden-emulator/Releases",
+			Source: forgejo.Release(
+				"https://git.eden-emu.dev",
+				"eden-emu/eden",
 				cli.ArchVariant(
 					"Eden-Linux-*-amd64-gcc-standard.AppImage",   // amd64
 					"Eden-Linux-*-aarch64-gcc-standard.AppImage", // arm64
@@ -240,8 +242,9 @@ func Eden() *Program {
 			AppID:     "eden",
 			AppName:   "$EMULATORS/Eden/Eden.app",
 			Arguments: packaging.NoArguments(),
-			Source: github.Release(
-				"https://github.com/eden-emulator/Releases",
+			Source: forgejo.Release(
+				"https://git.eden-emu.dev",
+				"eden-emu/eden",
 				cli.ArchVariant(
 					"Eden-macOS-*.tar.gz", // amd64 (WIP)
 					"Eden-macOS-*.tar.gz", // arm64
@@ -251,8 +254,9 @@ func Eden() *Program {
 			AppID:     "Eden",
 			AppExe:    "$EMULATORS/Eden/eden.exe",
 			Arguments: packaging.NoArguments(),
-			Source: github.Release(
-				"https://github.com/eden-emulator/Releases",
+			Source: forgejo.Release(
+				"https://git.eden-emu.dev",
+				"eden-emu/eden",
 				cli.ArchVariant(
 					"Eden-Windows-*-amd64-msvc-standard.zip", // amd64
 					"Eden-Windows-*-arm64-msvc-standard.zip", // arm64
