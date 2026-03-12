@@ -14,6 +14,9 @@ ENV LANG=en_US.utf8
 RUN apt update && apt install -y \
     build-essential g++ pkg-config git curl wget zip unzip
 
+# Install LLVM & Clang for Windows resource compilation
+RUN apt install -y llvm clang
+
 # Install GitHub CLI
 RUN mkdir -p -m 755 /etc/apt/keyrings \
     && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
