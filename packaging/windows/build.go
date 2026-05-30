@@ -63,7 +63,7 @@ func buildResourceSyso(workingDir string, architecture string) func() error {
 		}
 
 		compileCommand := cli.Command(fmt.Sprintf(
-			`llvm-windres-18 --target=%s %s -O coff -o %s`,
+			`llvm-windres --target=%s %s -O coff -o %s`,
 			target, appRcDestination, sysoDestination,
 		))
 
