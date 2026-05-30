@@ -10,8 +10,8 @@ import (
 )
 
 // Installer for Brave Browser
-func BraveBrowser() *Program {
-	return &Program{
+func BraveBrowser() *packaging.Program {
+	return &packaging.Program{
 		ID:          "brave-browser",
 		Name:        "Brave Browser",
 		Description: "Web browser",
@@ -46,8 +46,8 @@ func BraveBrowser() *Program {
 }
 
 // Installer for Firefox
-func Firefox() *Program {
-	return &Program{
+func Firefox() *packaging.Program {
+	return &packaging.Program{
 		ID:          "firefox",
 		Name:        "Firefox",
 		Description: "Web browser",
@@ -82,8 +82,8 @@ func Firefox() *Program {
 }
 
 // Installer for Google Chrome
-func GoogleChrome() *Program {
-	return &Program{
+func GoogleChrome() *packaging.Program {
+	return &packaging.Program{
 		ID:          "google-chrome",
 		Name:        "Google Chrome",
 		Description: "Web browser",
@@ -114,13 +114,13 @@ func GoogleChrome() *Program {
 }
 
 // Installer for Microsoft Edge
-func MicrosoftEdge() *Program {
+func MicrosoftEdge() *packaging.Program {
 	flags := []string{}
 	if cli.IsWindows() {
 		flags = append(flags, "--system")
 	}
 
-	return &Program{
+	return &packaging.Program{
 		ID:          "microsoft-edge",
 		Name:        "Microsoft Edge",
 		Description: "Web browser",

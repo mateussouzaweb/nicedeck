@@ -11,8 +11,8 @@ import (
 )
 
 // Installer for Discord
-func Discord() *Program {
-	return &Program{
+func Discord() *packaging.Program {
+	return &packaging.Program{
 		ID:          "discord",
 		Name:        "Discord",
 		Description: "Voice and text chat software",
@@ -47,8 +47,8 @@ func Discord() *Program {
 }
 
 // Installer for NiceDeck
-func NiceDeck() *Program {
-	return &Program{
+func NiceDeck() *packaging.Program {
+	return &packaging.Program{
 		ID:          "nicedeck",
 		Name:        "NiceDeck",
 		Description: "Steam companion app and library manager",
@@ -100,8 +100,8 @@ func NiceDeck() *Program {
 }
 
 // Installer for ProtonPlus
-func ProtonPlus() *Program {
-	return &Program{
+func ProtonPlus() *packaging.Program {
+	return &packaging.Program{
 		ID:          "protonplus",
 		Name:        "ProtonPlus",
 		Description: "Wine and Proton-based compatibility tools manager",

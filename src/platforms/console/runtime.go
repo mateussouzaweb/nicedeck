@@ -6,6 +6,7 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 )
 
@@ -13,7 +14,7 @@ import (
 type Runtime struct {
 	Platform *Platform
 	Emulator *Emulator
-	Program  *programs.Program
+	Program  *packaging.Program
 }
 
 // Find runtime specs for ROM based on their path
@@ -22,7 +23,7 @@ func FindRuntime(romPath string, options *Options) (*Runtime, error) {
 	result := &Runtime{
 		Platform: &Platform{},
 		Emulator: &Emulator{},
-		Program:  &programs.Program{},
+		Program:  &packaging.Program{},
 	}
 
 	romPath = strings.ToLower(romPath)

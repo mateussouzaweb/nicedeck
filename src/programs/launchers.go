@@ -14,8 +14,8 @@ import (
 )
 
 // Installer for Amazon Games
-func AmazonGames() *Program {
-	return &Program{
+func AmazonGames() *packaging.Program {
+	return &packaging.Program{
 		ID:          "amazon-games",
 		Name:        "Amazon Games",
 		Description: "Store and launcher for Amazon Games",
@@ -46,8 +46,8 @@ func AmazonGames() *Program {
 }
 
 // Installer for Blizzard Battle.net
-func BattleNet() *Program {
-	return &Program{
+func BattleNet() *packaging.Program {
+	return &packaging.Program{
 		ID:          "battle-net",
 		Name:        "Battle.net",
 		Description: "Store and launcher for Blizzard Games",
@@ -92,8 +92,8 @@ func BattleNet() *Program {
 }
 
 // Installer for Bottles
-func Bottles() *Program {
-	return &Program{
+func Bottles() *packaging.Program {
+	return &packaging.Program{
 		ID:          "bottles",
 		Name:        "Bottles",
 		Description: "Run Windows in a Bottle",
@@ -117,8 +117,8 @@ func Bottles() *Program {
 }
 
 // Installer for EA App
-func EAApp() *Program {
-	return &Program{
+func EAApp() *packaging.Program {
+	return &packaging.Program{
 		ID:          "ea-app",
 		Name:        "EA App",
 		Description: "Store and launcher for Electronic Arts Games",
@@ -160,8 +160,8 @@ func EAApp() *Program {
 }
 
 // Installer for Epic Games
-func EpicGames() *Program {
-	return &Program{
+func EpicGames() *packaging.Program {
+	return &packaging.Program{
 		ID:          "epic-games",
 		Name:        "Epic Games",
 		Description: "Store and launcher for Epic Games",
@@ -200,8 +200,8 @@ func EpicGames() *Program {
 }
 
 // Installer for ES-DE
-func ESDE() *Program {
-	return &Program{
+func ESDE() *packaging.Program {
+	return &packaging.Program{
 		ID:          "es-de",
 		Name:        "ES-DE",
 		Description: "Frontend for browsing and launching emulated games",
@@ -220,8 +220,8 @@ func ESDE() *Program {
 }
 
 // Installer for GOG Galaxy
-func GOGGalaxy() *Program {
-	return &Program{
+func GOGGalaxy() *packaging.Program {
+	return &packaging.Program{
 		ID:          "gog-galaxy",
 		Name:        "GOG Galaxy",
 		Description: "Store and launcher for GOG Games",
@@ -263,8 +263,8 @@ func GOGGalaxy() *Program {
 }
 
 // Installer for Heroic Games Launcher
-func HeroicGamesLauncher() *Program {
-	return &Program{
+func HeroicGamesLauncher() *packaging.Program {
+	return &packaging.Program{
 		ID:          "heroic-games",
 		Name:        "Heroic Games Launcher",
 		Description: "Launcher for Epic Games, GOG and Prime Gaming",
@@ -296,8 +296,8 @@ func HeroicGamesLauncher() *Program {
 }
 
 // Installer for Lutris
-func Lutris() *Program {
-	return &Program{
+func Lutris() *packaging.Program {
+	return &packaging.Program{
 		ID:          "lutris",
 		Name:        "Lutris",
 		Description: "Play all your games on Linux",
@@ -321,8 +321,8 @@ func Lutris() *Program {
 }
 
 // Installer for Valve Steam
-func Steam() *Program {
-	return &Program{
+func Steam() *packaging.Program {
+	return &packaging.Program{
 		ID:          "steam",
 		Name:        "Steam",
 		Description: "Store and launcher for Steam Games",
@@ -341,8 +341,8 @@ func Steam() *Program {
 }
 
 // Installer for Ubisoft Connect
-func UbisoftConnect() *Program {
-	return &Program{
+func UbisoftConnect() *packaging.Program {
+	return &packaging.Program{
 		ID:          "ubisoft-connect",
 		Name:        "Ubisoft Connect",
 		Description: "Store and launcher for Ubisoft Games",

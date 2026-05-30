@@ -10,8 +10,8 @@ import (
 )
 
 // Installer for Chiaki-NG
-func ChiakiNG() *Program {
-	return &Program{
+func ChiakiNG() *packaging.Program {
+	return &packaging.Program{
 		ID:          "chiaki-ng",
 		Name:        "Chiaki-NG",
 		Description: "Client for PlayStation Remote Play",
@@ -42,13 +42,13 @@ func ChiakiNG() *Program {
 }
 
 // Installer for GeForce NOW
-func GeForceNow() *Program {
+func GeForceNow() *packaging.Program {
 	flags := []string{}
 	if cli.IsLinux() {
 		flags = append(flags, "--browser-shortcut")
 	}
 
-	return &Program{
+	return &packaging.Program{
 		ID:          "geforce-now",
 		Name:        "GeForce NOW",
 		Description: "Client for GeForce Now",
@@ -89,8 +89,8 @@ func GeForceNow() *Program {
 }
 
 // Installer for Moonlight Game Streaming
-func MoonlightGameStreaming() *Program {
-	return &Program{
+func MoonlightGameStreaming() *packaging.Program {
+	return &packaging.Program{
 		ID:          "moonlight",
 		Name:        "Moonlight Game Streaming",
 		Description: "Play your PC games remotely",
@@ -121,8 +121,8 @@ func MoonlightGameStreaming() *Program {
 }
 
 // Installer for Xbox Cloud Gaming
-func XboxCloudGaming() *Program {
-	return &Program{
+func XboxCloudGaming() *packaging.Program {
+	return &packaging.Program{
 		ID:          "xbox-cloud-gaming",
 		Name:        "Xbox Cloud Gaming",
 		Description: "Client for Xbox Cloud Gaming",

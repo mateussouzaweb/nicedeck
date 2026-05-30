@@ -14,29 +14,11 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
-// Program struct
-type Program struct {
-	ID          string            `json:"id"`
-	Name        string            `json:"name"`
-	Description string            `json:"description"`
-	Category    string            `json:"category"`
-	Tags        []string          `json:"tags"`
-	Folders     []string          `json:"folders"`
-	Flags       []string          `json:"flags"`
-	Website     string            `json:"website"`
-	IconURL     string            `json:"iconUrl"`
-	LogoURL     string            `json:"logoUrl"`
-	CoverURL    string            `json:"coverUrl"`
-	BannerURL   string            `json:"bannerUrl"`
-	HeroURL     string            `json:"heroUrl"`
-	Package     packaging.Package `json:"-"`
-}
-
 // Retrieve list of available programs to install
-func GetPrograms() ([]*Program, error) {
+func GetPrograms() ([]*packaging.Program, error) {
 
-	var programs []*Program
-	var available []*Program
+	var programs []*packaging.Program
+	var available []*packaging.Program
 
 	// Retrieve all possible programs
 	programs = append(programs, AmazonGames())
@@ -105,10 +87,10 @@ func GetPrograms() ([]*Program, error) {
 }
 
 // Retrieve program with given ID
-func GetProgramByID(id string) (*Program, error) {
+func GetProgramByID(id string) (*packaging.Program, error) {
 
 	programs, err := GetPrograms()
-	notFound := &Program{
+	notFound := &packaging.Program{
 		Package: &packaging.Missing{},
 	}
 

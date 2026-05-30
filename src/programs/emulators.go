@@ -14,8 +14,8 @@ import (
 )
 
 // Installer for Azahar
-func Azahar() *Program {
-	return &Program{
+func Azahar() *packaging.Program {
+	return &packaging.Program{
 		ID:          "azahar",
 		Name:        "Azahar",
 		Description: "Emulator for Nintendo 3DS",
@@ -67,8 +67,8 @@ func Azahar() *Program {
 }
 
 // Installer for Cemu
-func Cemu() *Program {
-	return &Program{
+func Cemu() *packaging.Program {
+	return &packaging.Program{
 		ID:          "cemu",
 		Name:        "Cemu",
 		Description: "Emulator for Nintendo Wii U",
@@ -114,8 +114,8 @@ func Cemu() *Program {
 }
 
 // Installer for Dolphin
-func Dolphin() *Program {
-	return &Program{
+func Dolphin() *packaging.Program {
+	return &packaging.Program{
 		ID:          "dolphin",
 		Name:        "Dolphin Emulator",
 		Description: "Emulator for Nintendo GameCube and Nintendo Wii",
@@ -161,8 +161,8 @@ func Dolphin() *Program {
 }
 
 // Installer for DuckStation
-func DuckStation() *Program {
-	return &Program{
+func DuckStation() *packaging.Program {
+	return &packaging.Program{
 		ID:          "duckstation",
 		Name:        "DuckStation",
 		Description: "Emulator for Sony Playtation 1",
@@ -211,8 +211,8 @@ func DuckStation() *Program {
 }
 
 // Installer for Eden
-func Eden() *Program {
-	return &Program{
+func Eden() *packaging.Program {
+	return &packaging.Program{
 		ID:          "eden",
 		Name:        "Eden Emulator",
 		Description: "Emulator for Nintendo Switch",
@@ -267,8 +267,8 @@ func Eden() *Program {
 }
 
 // Installer for Flycast
-func Flycast() *Program {
-	return &Program{
+func Flycast() *packaging.Program {
+	return &packaging.Program{
 		ID:          "flycast",
 		Name:        "Flycast",
 		Description: "Emulator for Sega Dreamcast",
@@ -314,8 +314,8 @@ func Flycast() *Program {
 }
 
 // Installer for MelonDS
-func MelonDS() *Program {
-	return &Program{
+func MelonDS() *packaging.Program {
+	return &packaging.Program{
 		ID:          "melonds",
 		Name:        "MelonDS",
 		Description: "Emulator for Nintendo DS",
@@ -361,8 +361,8 @@ func MelonDS() *Program {
 }
 
 // Installer for mGBA
-func MGBA() *Program {
-	return &Program{
+func MGBA() *packaging.Program {
+	return &packaging.Program{
 		ID:          "mgba",
 		Name:        "MGBA",
 		Description: "Emulator for Nintendo Game Boy Advance",
@@ -408,8 +408,8 @@ func MGBA() *Program {
 }
 
 // Installer for PCSX2
-func PCSX2() *Program {
-	return &Program{
+func PCSX2() *packaging.Program {
+	return &packaging.Program{
 		ID:          "pcsx2",
 		Name:        "PCSX2",
 		Description: "Emulator for Sony Playstation 2",
@@ -455,8 +455,8 @@ func PCSX2() *Program {
 }
 
 // Installer for PPSSPP
-func PPSSPP() *Program {
-	return &Program{
+func PPSSPP() *packaging.Program {
+	return &packaging.Program{
 		ID:          "ppsspp",
 		Name:        "PPSSPP",
 		Description: "Emulator for Sony Playstation Portable",
@@ -505,8 +505,8 @@ func PPSSPP() *Program {
 }
 
 // Installer for Redream
-func Redream() *Program {
-	return &Program{
+func Redream() *packaging.Program {
+	return &packaging.Program{
 		ID:          "redream",
 		Name:        "Redream",
 		Description: "Emulator for Sega Dreamcast",
@@ -561,8 +561,8 @@ func Redream() *Program {
 }
 
 // Installer for RPCS3
-func RPCS3() *Program {
-	return &Program{
+func RPCS3() *packaging.Program {
+	return &packaging.Program{
 		ID:          "rpcs3",
 		Name:        "RPCS3",
 		Description: "Emulator for Sony Playstation 3",
@@ -611,8 +611,8 @@ func RPCS3() *Program {
 }
 
 // Installer for Ryujinx
-func Ryujinx() *Program {
-	return &Program{
+func Ryujinx() *packaging.Program {
+	return &packaging.Program{
 		ID:          "ryujinx",
 		Name:        "Ryujinx",
 		Description: "Emulator for Nintendo Switch",
@@ -664,8 +664,8 @@ func Ryujinx() *Program {
 }
 
 // Installer for ShadPS4
-func ShadPS4() *Program {
-	return &Program{
+func ShadPS4() *packaging.Program {
+	return &packaging.Program{
 		ID:          "shadps4",
 		Name:        "ShadPS4",
 		Description: "Emulator for Sony Playstation 4",
@@ -711,8 +711,8 @@ func ShadPS4() *Program {
 }
 
 // Installer for Simple64
-func Simple64() *Program {
-	return &Program{
+func Simple64() *packaging.Program {
+	return &packaging.Program{
 		ID:          "simple64",
 		Name:        "Simple64",
 		Description: "Emulator for Nintendo 64",
@@ -747,8 +747,8 @@ func Simple64() *Program {
 }
 
 // Installer for Vita3K
-func Vita3K() *Program {
-	return &Program{
+func Vita3K() *packaging.Program {
+	return &packaging.Program{
 		ID:          "vita3k",
 		Name:        "Vita3k",
 		Description: "Emulator for Sony Playstation Vita",
@@ -800,8 +800,8 @@ func Vita3K() *Program {
 }
 
 // Installer for Xemu
-func Xemu() *Program {
-	return &Program{
+func Xemu() *packaging.Program {
+	return &packaging.Program{
 		ID:          "xemu",
 		Name:        "Xemu",
 		Description: "Emulator for Microsoft Xbox",
@@ -847,8 +847,8 @@ func Xemu() *Program {
 }
 
 // Installer for Xenia
-func Xenia() *Program {
-	return &Program{
+func Xenia() *packaging.Program {
+	return &packaging.Program{
 		ID:          "xenia",
 		Name:        "Xenia",
 		Description: "Emulator for Microsoft Xbox 360",

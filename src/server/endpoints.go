@@ -16,6 +16,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/frontend"
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/library"
+	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/platforms"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/native"
@@ -120,9 +121,9 @@ func syncLibrary(context *Context) error {
 
 // List platforms result
 type ListProgramsResult struct {
-	Status string              `json:"status"`
-	Error  string              `json:"error"`
-	Data   []*programs.Program `json:"data"`
+	Status string               `json:"status"`
+	Error  string               `json:"error"`
+	Data   []*packaging.Program `json:"data"`
 }
 
 // List programs action
