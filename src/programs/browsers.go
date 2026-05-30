@@ -28,6 +28,7 @@ func BraveBrowser() *packaging.Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.brave.Browser",
+			Overrides: []string{"--filesystem=/run/udev:ro"},
 			Arguments: packaging.NoArguments(),
 		}, &linux.Binary{
 			AppID:     "brave-browser",
@@ -64,6 +65,7 @@ func Firefox() *packaging.Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "org.mozilla.firefox",
+			Overrides: []string{"--filesystem=/run/udev:ro"},
 			Arguments: packaging.NoArguments(),
 		}, &linux.Binary{
 			AppID:     "firefox",
@@ -100,6 +102,7 @@ func GoogleChrome() *packaging.Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.google.Chrome",
+			Overrides: []string{"--filesystem=/run/udev:ro"},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
 			AppID:     "google-chrome",
@@ -137,6 +140,7 @@ func MicrosoftEdge() *packaging.Program {
 		Package: packaging.Best(&linux.Flatpak{
 			Namespace: "system",
 			AppID:     "com.microsoft.Edge",
+			Overrides: []string{"--filesystem=/run/udev:ro"},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
 			AppID:     "microsoft-edge",

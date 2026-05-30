@@ -139,12 +139,7 @@ func Install(options *Options) error {
 
 		// Determine if can install package
 		canInstallPackage := true
-		if slices.Contains(program.Flags, "--browser-shortcut") {
-			if slices.Contains(program.Flags, "--installed") {
-				cli.Printf(cli.ColorWarn, "Skipping browser installation because it already is installed.\n")
-				canInstallPackage = false
-			}
-		} else if slices.Contains(program.Flags, "--system") {
+		if slices.Contains(program.Flags, "--system") {
 			cli.Printf(cli.ColorWarn, "Skipping %s installation because it already is provided from system.\n", program.Name)
 			canInstallPackage = false
 		}
@@ -165,7 +160,7 @@ func Install(options *Options) error {
 		// These packages do not create shortcuts by default
 		if program.Package.Alias() == "" {
 			program.Tags = append(program.Tags, "Desktop")
-		} else if slices.Contains(program.Flags, "--browser-shortcut") {
+		} else if slices.Contains(program.Flags, "--web") {
 			program.Tags = append(program.Tags, "Desktop")
 		}
 
@@ -241,10 +236,7 @@ func Remove(options *Options) error {
 
 		// Determine if can remove package
 		canRemovePackage := true
-		if slices.Contains(program.Flags, "--browser-shortcut") {
-			cli.Printf(cli.ColorWarn, "Note: Only the %s shortcut was be removed because it is a browser shortcut.\n", program.Name)
-			canRemovePackage = false
-		} else if slices.Contains(program.Flags, "--system") {
+		if slices.Contains(program.Flags, "--system") {
 			cli.Printf(cli.ColorWarn, "Note: %s is provided by the system and cannot removed.\n", program.Name)
 			canRemovePackage = false
 		} else if slices.Contains(program.Flags, "--nicedeck") {

@@ -1,7 +1,6 @@
 package programs
 
 import (
-	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/macos"
@@ -43,18 +42,13 @@ func ChiakiNG() *packaging.Program {
 
 // Installer for GeForce NOW
 func GeForceNow() *packaging.Program {
-	flags := []string{}
-	if cli.IsLinux() {
-		flags = append(flags, "--browser-shortcut")
-	}
-
 	return &packaging.Program{
 		ID:          "geforce-now",
 		Name:        "GeForce NOW",
 		Description: "Client for GeForce Now",
 		Category:    "Streaming",
 		Tags:        []string{"Gaming", "Streaming"},
-		Flags:       flags,
+		Flags:       []string{},
 		Folders:     []string{},
 		Website:     "https://www.nvidia.com/geforce-now",
 		IconURL:     assets.Icon("3632435cf99eec2a53ee7e4d8eeab451.png"),
@@ -62,10 +56,10 @@ func GeForceNow() *packaging.Program {
 		CoverURL:    assets.Cover("acc90c264f09d151c7a09da4c06877e8.png"),
 		BannerURL:   assets.Banner("8cd586dd25cd66b50db63e51b5f44dcd.png"),
 		HeroURL:     assets.Hero("5e7e6e76699ea804c65b0c37974c660c.jpg"),
-		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
-			AppID:     "com.google.Chrome",
-			Overrides: []string{"--filesystem=/run/udev:ro"},
+		Package: packaging.Best(&linux.Web{
+			AppID:   "geforce-now",
+			AppURL:  "https://play.geforcenow.com",
+			Wrapper: MicrosoftEdge(),
 			Arguments: &packaging.Arguments{
 				Install: []string{},
 				Remove:  []string{},
@@ -73,7 +67,6 @@ func GeForceNow() *packaging.Program {
 					"--window-size=1024,640",
 					"--force-device-scale-factor=1.25",
 					"--device-scale-factor=1.25",
-					"--app=https://play.geforcenow.com",
 				},
 			},
 		}, &macos.Homebrew{
@@ -128,7 +121,7 @@ func XboxCloudGaming() *packaging.Program {
 		Description: "Client for Xbox Cloud Gaming",
 		Category:    "Streaming",
 		Tags:        []string{"Gaming", "Streaming"},
-		Flags:       []string{"--browser-shortcut"},
+		Flags:       []string{},
 		Folders:     []string{},
 		Website:     "https://www.xbox.com/cloud-gaming",
 		IconURL:     assets.Icon("164f545c22e17e5e9298b1c84b9e3e1e.png"),
@@ -136,10 +129,10 @@ func XboxCloudGaming() *packaging.Program {
 		CoverURL:    assets.Cover("8a0657375c4d4024a7d9d5cc84b3c490.png"),
 		BannerURL:   assets.Banner("2b16dcbe37a15a4932affb27447d7e21.png"),
 		HeroURL:     assets.Hero("f6ba16107e08c04fc684308ab18d207a.png"),
-		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
-			AppID:     "com.microsoft.Edge",
-			Overrides: []string{"--filesystem=/run/udev:ro"},
+		Package: packaging.Best(&linux.Web{
+			AppID:   "xbox-cloud-gaming",
+			AppURL:  "https://www.xbox.com/play",
+			Wrapper: MicrosoftEdge(),
 			Arguments: &packaging.Arguments{
 				Install: []string{},
 				Remove:  []string{},
@@ -147,25 +140,18 @@ func XboxCloudGaming() *packaging.Program {
 					"--window-size=1024,640",
 					"--force-device-scale-factor=1.25",
 					"--device-scale-factor=1.25",
-					"--app=https://www.xbox.com/play",
 				},
 			},
-		}, &macos.Homebrew{
-			AppID:   "microsoft-edge",
-			AppName: "Microsoft Edge.app",
-			Arguments: &packaging.Arguments{
-				Install:  []string{},
-				Remove:   []string{},
-				Shortcut: []string{"--app=https://www.xbox.com/play"},
-			},
-		}, &windows.WinGet{
-			AppID:  "Microsoft.Edge",
-			AppExe: "$PROGRAMS_X86/Microsoft/Edge/Application/msedge.exe",
-			Arguments: &packaging.Arguments{
-				Install:  []string{},
-				Remove:   []string{},
-				Shortcut: []string{"--app=https://www.xbox.com/play"},
-			},
+		}, &macos.Web{
+			AppID:     "xbox-cloud-gaming",
+			AppURL:    "https://www.xbox.com/play",
+			Wrapper:   MicrosoftEdge(),
+			Arguments: packaging.NoArguments(),
+		}, &windows.Web{
+			AppID:     "xbox-cloud-gaming",
+			AppURL:    "https://www.xbox.com/play",
+			Wrapper:   MicrosoftEdge(),
+			Arguments: packaging.NoArguments(),
 		}),
 	}
 }
