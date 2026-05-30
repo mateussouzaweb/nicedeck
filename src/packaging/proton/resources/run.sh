@@ -11,6 +11,15 @@ STEAM_RUNTIME=$(realpath "@{STEAM_RUNTIME}")
 PROTON_RUNTIME=$(realpath "@{PROTON_RUNTIME}")
 WINE_BINARY=$(realpath "@{WINE_BINARY}")
 
+# When running Steam in Flatpak, need to use paths inside sandbox environment
+if [[ "$INSTALL_TYPE" == "flatpak" ]]; then
+  SEARCH="/.var/app/$FLATPAK_ID/"
+  STEAM_PATH="${STEAM_PATH/$SEARCH//}"
+  STEAM_RUNTIME="${STEAM_RUNTIME/$SEARCH//}"
+  PROTON_RUNTIME="${PROTON_RUNTIME/$SEARCH//}"
+  WINE_BINARY="${WINE_BINARY/$SEARCH//}"
+fi
+
 # Determine environment variables, command and its arguments
 if [[ "$1" == "wine" ]]; then
   export WINEPREFIX="$WINE_PATH"
