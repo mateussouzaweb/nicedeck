@@ -720,7 +720,7 @@ func Simple64() *Program {
 		Tags:        []string{"Gaming", "Emulator"},
 		Flags:       []string{},
 		Folders:     []string{"$EMULATORS", "$STATE/Simple64", "$ROMS/N64", "$BIOS/N64"},
-		Website:     "https://simple64.github.io",
+		Website:     "https://github.com/simple64/simple64",
 		IconURL:     assets.Icon("0ace2e260c8163925254bc878b9eb8ca.png"),
 		LogoURL:     assets.Logo("8f6bf2012d96ef9678f8d3a8f27ce358.png"),
 		CoverURL:    assets.Cover("48eeb385ea71aadccce10e2d294879b0.png"),
