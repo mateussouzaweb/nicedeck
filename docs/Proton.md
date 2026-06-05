@@ -53,7 +53,7 @@ To execute Wine programs, open the terminal and run commands like:
 
 # Manipulate DPI size directly from CLI
 # Valid values for DPI are: 96, 120, 144, 192
-"$HOME/Games/Proton/run.sh" wine reg add "HCU\\Control Panel\\Desktop" /v LogPixels /t REG_DWORD /d "192" /f
+"$HOME/Games/Proton/run.sh" wine reg add "HKCU\\Control Panel\\Desktop" /v LogPixels /t REG_DWORD /d "192" /f
 ```
 
 For more details, please check the official [Wine documentation](https://gitlab.winehq.org/wine/wine/-/wikis/Commands).
