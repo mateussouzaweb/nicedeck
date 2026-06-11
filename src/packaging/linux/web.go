@@ -29,7 +29,7 @@ func (w *Web) Available() bool {
 
 // Return package flag path
 func (w *Web) Flag() string {
-	baseFlags := filepath.Join(fs.ExpandPath("$CONFIG"), ".browser")
+	baseFlags := filepath.Join(fs.ExpandPath("$CONFIG"), ".web")
 	appFlag := fmt.Sprintf("%s-%s.flag", w.Wrapper.ID, w.AppID)
 	flag := filepath.Join(baseFlags, appFlag)
 	return flag
