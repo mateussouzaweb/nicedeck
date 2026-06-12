@@ -58,7 +58,7 @@ func (e *Executable) Install() error {
 		cli.Debug("Running install for %s\n", e.AppID)
 
 		// Run install script
-		executable := e.Installer
+		executable := fs.ExpandPath(e.Installer)
 		arguments := e.Arguments.Install
 		directory := filepath.Dir(executable)
 
@@ -86,7 +86,7 @@ func (e *Executable) Remove() error {
 		cli.Debug("Running uninstall for %s\n", e.AppID)
 
 		// Run uninstall script
-		executable := e.Uninstaller
+		executable := fs.ExpandPath(e.Uninstaller)
 		arguments := e.Arguments.Remove
 		directory := filepath.Dir(executable)
 

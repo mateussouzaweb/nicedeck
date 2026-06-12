@@ -277,7 +277,7 @@ func (p *Proton) Remove() error {
 // Installed verification
 func (p *Proton) Installed() (bool, error) {
 
-	launcher := p.RealPath(p.Launcher)
+	launcher := fs.ExpandPath(p.RealPath(p.Launcher))
 	exist, err := fs.FileExist(launcher)
 	if err != nil {
 		return false, err

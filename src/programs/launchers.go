@@ -1,6 +1,8 @@
 package programs
 
 import (
+	"fmt"
+
 	"github.com/mateussouzaweb/nicedeck/src/esde"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
@@ -80,7 +82,7 @@ func BattleNet() *packaging.Program {
 			Arguments: &packaging.Arguments{
 				Install: []string{
 					"--locale=en-US",
-					fs.ExpandPath("--location=\"$PROGRAMS_X86/Battle.net\""),
+					fmt.Sprintf("--location=\"%s\"", fs.ExpandPath("$PROGRAMS_X86/Battle.net")),
 				},
 				Remove:   []string{},
 				Shortcut: []string{},
@@ -108,7 +110,9 @@ func Bottles() *packaging.Program {
 		Package: packaging.Best(&linux.Flatpak{
 			AppID:     "com.usebottles.bottles",
 			Namespace: "system",
-			Overrides: []string{fs.ExpandPath("--filesystem=$GAMES")},
+			Overrides: []string{
+				fmt.Sprintf("--filesystem=%s", fs.ExpandPath("$GAMES")),
+			},
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -276,7 +280,9 @@ func HeroicGamesLauncher() *packaging.Program {
 		Package: packaging.Best(&linux.Flatpak{
 			AppID:     "com.heroicgameslauncher.hgl",
 			Namespace: "system",
-			Overrides: []string{fs.ExpandPath("--filesystem=$GAMES")},
+			Overrides: []string{
+				fmt.Sprintf("--filesystem=%s", fs.ExpandPath("$GAMES")),
+			},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
 			AppID:     "heroic",
@@ -309,7 +315,9 @@ func Lutris() *packaging.Program {
 		Package: packaging.Best(&linux.Flatpak{
 			AppID:     "net.lutris.Lutris",
 			Namespace: "system",
-			Overrides: []string{fs.ExpandPath("--filesystem=$GAMES")},
+			Overrides: []string{
+				fmt.Sprintf("--filesystem=%s", fs.ExpandPath("$GAMES")),
+			},
 			Arguments: packaging.NoArguments(),
 		}),
 	}

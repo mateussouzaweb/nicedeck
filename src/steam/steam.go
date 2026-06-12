@@ -18,7 +18,7 @@ func GetPackage() packaging.Package {
 		AppID:     "com.valvesoftware.Steam",
 		Namespace: "system",
 		Overrides: []string{
-			fs.ExpandPath("--filesystem=$GAMES"),
+			fmt.Sprintf("--filesystem=%s", fs.ExpandPath("$GAMES")),
 			"--talk-name=org.freedesktop.Flatpak",
 			"--system-talk-name=org.freedesktop.NetworkManager",
 		},
@@ -27,7 +27,7 @@ func GetPackage() packaging.Package {
 		AppID:     "com.valvesoftware.Steam",
 		Namespace: "user",
 		Overrides: []string{
-			fs.ExpandPath("--filesystem=$GAMES"),
+			fmt.Sprintf("--filesystem=%s", fs.ExpandPath("$GAMES")),
 			"--talk-name=org.freedesktop.Flatpak",
 			"--system-talk-name=org.freedesktop.NetworkManager",
 		},

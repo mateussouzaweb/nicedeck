@@ -5,6 +5,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 )
 
@@ -45,9 +46,26 @@ func NormalizePath(path string) string {
 }
 
 // Expand path and return the normalized value
+// Accepts and resolves environment variables and glob patterns
 func ExpandPath(path string) string {
 	path = os.ExpandEnv(path)
-	return NormalizePath(path)
+	path = NormalizePath(path)
+
+	// When path contains glob patterns, try to find the file that matches the pattern and return it
+	// This is useful when the folder or file name is not fixed, but the pattern is fixed
+	if strings.ContainsAny(path, "*?[") {
+		matches, err := filepath.Glob(path)
+		if err != nil || len(matches) == 0 {
+			return path
+		}
+
+		// Pick the lexically last match, which tends to correspond to the
+		// highest version number for typical "vX.Y" style naming
+		sort.Strings(matches)
+		return matches[len(matches)-1]
+	}
+
+	return path
 }
 
 // Find real path for expected file or directory
