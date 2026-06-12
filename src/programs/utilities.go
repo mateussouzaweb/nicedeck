@@ -85,9 +85,11 @@ func NiceDeck() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "NiceDeck",
-			AppExe:    "$APPLICATIONS/NiceDeck/nicedeck.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "NiceDeck",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$APPLICATIONS/NiceDeck/nicedeck.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mateussouzaweb/nicedeck",
 				cli.ArchVariant(

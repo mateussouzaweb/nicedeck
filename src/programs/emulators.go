@@ -52,9 +52,11 @@ func Azahar() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "Azahar",
-			AppExe:    "$EMULATORS/Azahar/azahar.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "Azahar",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/Azahar/azahar.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/azahar-emu/azahar",
 				cli.ArchVariant(
@@ -99,9 +101,11 @@ func Cemu() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "Cemu",
-			AppExe:    "$EMULATORS/Cemu/Cemu.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "Cemu",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/Cemu/Cemu.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/cemu-project/Cemu",
 				cli.ArchVariant(
@@ -146,9 +150,11 @@ func Dolphin() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "Dolphin",
-			AppExe:    "$EMULATORS/Dolphin/Dolphin.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "Dolphin",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/Dolphin/Dolphin.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: website.Release(
 				"https://dolphin-emu.org/download/", "",
 				cli.ArchVariant(
@@ -193,8 +199,10 @@ func DuckStation() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID: "DuckStation",
-			AppExe: cli.ArchVariant(
+			AppID:       "DuckStation",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher: cli.ArchVariant(
 				"$EMULATORS/DuckStation/duckstation-qt-x64-ReleaseLTCG.exe",   // amd64
 				"$EMULATORS/DuckStation/duckstation-qt-ARM64-ReleaseLTCG.exe", // arm64
 			),
@@ -251,9 +259,11 @@ func Eden() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "Eden",
-			AppExe:    "$EMULATORS/Eden/eden.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "Eden",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/Eden/eden.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: forgejo.Release(
 				"https://git.eden-emu.dev",
 				"eden-emu/eden",
@@ -299,9 +309,11 @@ func Flycast() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "Flycast",
-			AppExe:    "$EMULATORS/Flycast/flycast.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "Flycast",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/Flycast/flycast.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/flyinghead/flycast",
 				cli.ArchVariant(
@@ -346,9 +358,11 @@ func MelonDS() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "MelonDS",
-			AppExe:    "$EMULATORS/MelonDS/melonDS.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "MelonDS",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/MelonDS/melonDS.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/melonDS-emu/melonDS",
 				cli.ArchVariant(
@@ -393,9 +407,11 @@ func MGBA() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "MGBA",
-			AppExe:    "$EMULATORS/MGBA/mGBA.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "MGBA",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/MGBA/mGBA.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mgba-emu/mgba",
 				cli.ArchVariant(
@@ -440,9 +456,11 @@ func PCSX2() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "PCSX2",
-			AppExe:    "$EMULATORS/PCSX2/pcsx2-qt.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "PCSX2",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/PCSX2/pcsx2-qt.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/PCSX2/pcsx2",
 				cli.ArchVariant(
@@ -487,8 +505,10 @@ func PPSSPP() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID: "PPSSPP",
-			AppExe: cli.ArchVariant(
+			AppID:       "PPSSPP",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher: cli.ArchVariant(
 				"$EMULATORS/PPSSPP/PPSSPPWindows64.exe",    // amd64
 				"$EMULATORS/PPSSPP/PPSSPPWindowsARM64.exe", // arm64
 			),
@@ -545,9 +565,11 @@ func Redream() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "Redream",
-			AppExe:    "$EMULATORS/Redream/redream.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "Redream",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/Redream/redream.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: website.Release(
 				"https://redream.io/download",
 				"https://redream.io/",
@@ -596,9 +618,11 @@ func RPCS3() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "RPCS3",
-			AppExe:    "$EMULATORS/RPCS3/rpcs3.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "RPCS3",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/RPCS3/rpcs3.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/RPCS3/rpcs3-binaries-win",
 				cli.ArchVariant(
@@ -649,9 +673,11 @@ func Ryujinx() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "Ryujinx",
-			AppExe:    "$EMULATORS/Ryujinx/Ryujinx.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "Ryujinx",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/Ryujinx/Ryujinx.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: gitlab.Release(
 				"https://git.ryujinx.app", "1",
 				cli.ArchVariant(
@@ -696,9 +722,11 @@ func ShadPS4() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "ShadPS4",
-			AppExe:    "$EMULATORS/ShadPS4/shadPS4QtLauncher.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "ShadPS4",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/ShadPS4/shadPS4QtLauncher.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/shadps4-emu/shadps4-qtlauncher",
 				cli.ArchVariant(
@@ -732,9 +760,11 @@ func Simple64() *packaging.Program {
 			Overrides: []string{"--filesystem=host"},
 			Arguments: packaging.NoArguments(),
 		}, &windows.Executable{
-			AppID:     "Simple64",
-			AppExe:    "$EMULATORS/Simple64/simple64-gui.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "Simple64",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/Simple64/simple64-gui.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/simple64/simple64",
 				cli.ArchVariant(
@@ -785,9 +815,11 @@ func Vita3K() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "Vita3K",
-			AppExe:    "$EMULATORS/Vita3K/Vita3K.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "Vita3K",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/Vita3K/Vita3K.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/Vita3K/Vita3K",
 				cli.ArchVariant(
@@ -832,9 +864,11 @@ func Xemu() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "Xemu",
-			AppExe:    "$EMULATORS/Xemu/xemu.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "Xemu",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/Xemu/xemu.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/xemu-project/xemu",
 				cli.ArchVariant(
@@ -874,9 +908,11 @@ func Xenia() *packaging.Program {
 				),
 			),
 		}, &windows.Executable{
-			AppID:     "Xenia",
-			AppExe:    "$EMULATORS/Xenia/xenia_canary.exe",
-			Arguments: packaging.NoArguments(),
+			AppID:       "Xenia",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/Xenia/xenia_canary.exe",
+			Arguments:   packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/xenia-canary/xenia-canary-releases",
 				cli.ArchVariant(

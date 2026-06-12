@@ -68,9 +68,11 @@ func GetPackage() packaging.Package {
 		Arguments: packaging.NoArguments(),
 		Source:    Release("macOSApple", "dmg"),
 	}, &windows.Executable{
-		AppID:     "ES-DE",
-		AppExe:    "$APPLICATIONS/ES-DE/ES-DE.exe",
-		Arguments: packaging.NoArguments(),
-		Source:    Release("WindowsPortable", "zip"),
+		AppID:       "ES-DE",
+		Installer:   "",
+		Uninstaller: "",
+		Launcher:    "$APPLICATIONS/ES-DE/ES-DE.exe",
+		Arguments:   packaging.NoArguments(),
+		Source:      Release("WindowsPortable", "zip"),
 	})
 }
