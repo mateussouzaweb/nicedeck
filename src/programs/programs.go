@@ -51,6 +51,7 @@ func GetPrograms() ([]*packaging.Program, error) {
 	programs = append(programs, PPSSPP())
 	programs = append(programs, ProtonPlus())
 	programs = append(programs, Redream())
+	programs = append(programs, RockstarGamesLauncher())
 	programs = append(programs, RPCS3())
 	programs = append(programs, Ryujinx())
 	programs = append(programs, ShadPS4())

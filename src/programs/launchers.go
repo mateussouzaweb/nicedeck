@@ -323,6 +323,40 @@ func Lutris() *packaging.Program {
 	}
 }
 
+// Installer for Rockstar Games Launcher
+func RockstarGamesLauncher() *packaging.Program {
+	return &packaging.Program{
+		ID:          "rockstar-games-launcher",
+		Name:        "Rockstar Games Launcher",
+		Description: "Store and launcher for Rockstar Games",
+		Category:    "Gaming",
+		Tags:        []string{"Gaming", "Utilities", "Store"},
+		Flags:       []string{},
+		Folders:     []string{},
+		Website:     "https://socialclub.rockstargames.com/rockstar-games-launcher",
+		IconURL:     assets.Icon("9ac02e8dee903da68d3e0dd0af2cb976.png"),
+		LogoURL:     assets.Logo("72cd5befa49bb037eaccaaf9a6192cd7.png"),
+		CoverURL:    assets.Cover("2bc672f0fd9c47a0e2951faadd55d235.png"),
+		BannerURL:   assets.Banner("7e75c1d8e99a454eb443e86d28c979ea.png"),
+		HeroURL:     assets.Hero("e14a79a0a67da822e7445954ddf3e63d.png"),
+		Package: packaging.Best(&proton.Proton{
+			AppID:       "rockstar-games-launcher",
+			Installer:   "C:/Downloads/RockstarGamesLauncher.exe",
+			Uninstaller: "C:/Program Files/Rockstar Games/Launcher/uninstall.exe",
+			Launcher:    "C:/Program Files/Rockstar Games/Launcher/Launcher.exe",
+			Arguments:   packaging.NoArguments(),
+			Source:      website.Link("https://gamedownloads.rockstargames.com/public/installer/Rockstar-Games-Launcher.exe"),
+		}, &windows.Executable{
+			AppID:       "RockstarGamesLauncher",
+			Installer:   "C:/Downloads/RockstarGamesLauncher.exe",
+			Uninstaller: "$PROGRAMS/Rockstar Games/Launcher/uninstall.exe",
+			Launcher:    "$PROGRAMS/Rockstar Games/Launcher/Launcher.exe",
+			Arguments:   packaging.NoArguments(),
+			Source:      website.Link("https://gamedownloads.rockstargames.com/public/installer/Rockstar-Games-Launcher.exe"),
+		}),
+	}
+}
+
 // Installer for Valve Steam
 func Steam() *packaging.Program {
 	return &packaging.Program{

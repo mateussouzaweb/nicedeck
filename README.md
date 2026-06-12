@@ -140,6 +140,7 @@ Game Launchers and Stores:
 - [Lutris](https://lutris.net)
 - [Steam](https://store.steampowered.com)
 - [Ubisoft Connect](https://www.ubisoft.com/ubisoft-connect)
+- [Rockstar Games Launcher](https://socialclub.rockstargames.com/rockstar-games-launcher)
 
 Streaming:
 
