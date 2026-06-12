@@ -12,7 +12,7 @@ import (
 // WinGet struct
 type WinGet struct {
 	AppID     string               `json:"appId"`
-	AppExe    string               `json:"appExe"`
+	Launcher  string               `json:"launcher"`
 	Arguments *packaging.Arguments `json:"arguments"`
 }
 
@@ -83,7 +83,7 @@ func (w *WinGet) Installed() (bool, error) {
 
 // Return executable file path
 func (w *WinGet) Executable() string {
-	return fs.ExpandPath(w.AppExe)
+	return fs.ExpandPath(w.Launcher)
 }
 
 // Return executable alias file path

@@ -12,7 +12,7 @@ import (
 // Web struct
 type Web struct {
 	AppID     string               `json:"appId"`
-	AppURL    string               `json:"appURL"`
+	URL       string               `json:"url"`
 	Wrapper   *packaging.Program   `json:"wrapper"`
 	Arguments *packaging.Arguments `json:"arguments"`
 }
@@ -100,6 +100,6 @@ func (w *Web) Alias() string {
 func (w *Web) Args() []string {
 	args := w.Wrapper.Package.Args()
 	args = append(args, w.Arguments.Shortcut...)
-	args = append(args, fmt.Sprintf("--app=%s", w.AppURL))
+	args = append(args, fmt.Sprintf("--app=%s", w.URL))
 	return args
 }

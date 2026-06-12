@@ -26,21 +26,21 @@ func BraveBrowser() *packaging.Program {
 		BannerURL:   assets.Banner("5ac7b3d023885d0d49e05a32f16c3d54.png"),
 		HeroURL:     assets.Hero("776c2a30d4402b8c5126edd7ad111c5e.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "com.brave.Browser",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=/run/udev:ro"},
 			Arguments: packaging.NoArguments(),
 		}, &linux.Binary{
 			AppID:     "brave-browser",
-			AppBin:    "/usr/bin/brave-browser",
+			Launcher:  "/usr/bin/brave-browser",
 			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
 			AppID:     "brave-browser",
-			AppName:   "Brave Browser.app",
+			Launcher:  "/Applications/Brave Browser.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "Brave.Brave",
-			AppExe:    "$APPDATA/Local/BraveSoftware/Brave-Browser/Application/brave.exe",
+			Launcher:  "$APPDATA/Local/BraveSoftware/Brave-Browser/Application/brave.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -63,21 +63,21 @@ func Firefox() *packaging.Program {
 		BannerURL:   assets.Banner("9384fe92aef7ea0128be2c916ed07cea.png"),
 		HeroURL:     assets.Hero("a318166b8539611449bf21ddc297a783.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "org.mozilla.firefox",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=/run/udev:ro"},
 			Arguments: packaging.NoArguments(),
 		}, &linux.Binary{
 			AppID:     "firefox",
-			AppBin:    "/usr/bin/firefox",
+			Launcher:  "/usr/bin/firefox",
 			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
 			AppID:     "firefox",
-			AppName:   "Firefox.app",
+			Launcher:  "/Applications/Firefox.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "Mozilla.Firefox",
-			AppExe:    "$PROGRAMS/Mozilla Firefox/firefox.exe",
+			Launcher:  "$PROGRAMS/Mozilla Firefox/firefox.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -100,17 +100,17 @@ func GoogleChrome() *packaging.Program {
 		BannerURL:   assets.Banner("d40c243072a2d2957b3484e775f1f925.png"),
 		HeroURL:     assets.Hero("c24f9ae141fa02c7fa1deea7e1149557.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "com.google.Chrome",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=/run/udev:ro"},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
 			AppID:     "google-chrome",
-			AppName:   "Google Chrome.app",
+			Launcher:  "/Applications/Google Chrome.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "Google.Chrome",
-			AppExe:    "$PROGRAMS/Google/Chrome/Application/chrome.exe",
+			Launcher:  "$PROGRAMS/Google/Chrome/Application/chrome.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -138,17 +138,17 @@ func MicrosoftEdge() *packaging.Program {
 		BannerURL:   assets.Banner("0656137651272c4bc984747f7a3e8c2d.png"),
 		HeroURL:     assets.Hero("2c81a094d632c8b510c6c676eec4c358.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "com.microsoft.Edge",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=/run/udev:ro"},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
 			AppID:     "microsoft-edge",
-			AppName:   "Microsoft Edge.app",
+			Launcher:  "/Applications/Microsoft Edge.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "Microsoft.Edge",
-			AppExe:    "$PROGRAMS_X86/Microsoft/Edge/Application/msedge.exe",
+			Launcher:  "$PROGRAMS_X86/Microsoft/Edge/Application/msedge.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}

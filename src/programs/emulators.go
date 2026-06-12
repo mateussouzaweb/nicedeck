@@ -31,7 +31,7 @@ func Azahar() *packaging.Program {
 		HeroURL:     assets.Hero("bc6f714aa3dfeef9320a838b79515c2d.png"),
 		Package: packaging.Best(&linux.AppImage{
 			AppID:     "azahar",
-			AppName:   "$EMULATORS/Azahar/azahar.AppImage",
+			Launcher:  "$EMULATORS/Azahar/azahar.AppImage",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/azahar-emu/azahar",
@@ -42,7 +42,7 @@ func Azahar() *packaging.Program {
 			),
 		}, &macos.Application{
 			AppID:     "azahar",
-			AppName:   "$EMULATORS/Azahar/Azahar.app",
+			Launcher:  "$EMULATORS/Azahar/Azahar.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/azahar-emu/azahar",
@@ -85,13 +85,13 @@ func Cemu() *packaging.Program {
 		BannerURL:   assets.Banner("86fb4d9e1de18ebdb6fc534de828d605.png"),
 		HeroURL:     assets.Hero("d5da28d4865fb92720359db84e0dd0dd.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "info.cemu.Cemu",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=host"},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Application{
 			AppID:     "cemu",
-			AppName:   "$EMULATORS/Cemu/Cemu.app",
+			Launcher:  "$EMULATORS/Cemu/Cemu.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/cemu-project/Cemu",
@@ -134,13 +134,13 @@ func Dolphin() *packaging.Program {
 		BannerURL:   assets.Banner("cbec7ddbb30e261abd365bf9f814647d.png"),
 		HeroURL:     assets.Hero("c24f9ae141fa02c7fa1deea7e1149557.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "org.DolphinEmu.dolphin-emu",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=host"},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Application{
 			AppID:     "dolphin",
-			AppName:   "$EMULATORS/Dolphin/Dolphin.app",
+			Launcher:  "$EMULATORS/Dolphin/Dolphin.app",
 			Arguments: packaging.NoArguments(),
 			Source: website.Release(
 				"https://dolphin-emu.org/download/", "",
@@ -183,13 +183,13 @@ func DuckStation() *packaging.Program {
 		BannerURL:   assets.Banner("9c94e659c62b84bf7b39c599b61bc7d3.png"),
 		HeroURL:     assets.Hero("127f12c937b4baf0a8922eb1384391cf.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "org.duckstation.DuckStation",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=host"},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Application{
 			AppID:     "duckstation",
-			AppName:   "$EMULATORS/DuckStation/DuckStation.app",
+			Launcher:  "$EMULATORS/DuckStation/DuckStation.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/stenzek/duckstation",
@@ -236,7 +236,7 @@ func Eden() *packaging.Program {
 		HeroURL:     assets.Hero("a960ee65d36125cfe5f126bd326ff75b.png"),
 		Package: packaging.Best(&linux.AppImage{
 			AppID:     "eden",
-			AppName:   "$EMULATORS/Eden/Eden.AppImage",
+			Launcher:  "$EMULATORS/Eden/Eden.AppImage",
 			Arguments: packaging.NoArguments(),
 			Source: forgejo.Release(
 				"https://git.eden-emu.dev",
@@ -248,7 +248,7 @@ func Eden() *packaging.Program {
 			),
 		}, &macos.Application{
 			AppID:     "eden",
-			AppName:   "$EMULATORS/Eden/Eden.app",
+			Launcher:  "$EMULATORS/Eden/Eden.app",
 			Arguments: packaging.NoArguments(),
 			Source: forgejo.Release(
 				"https://git.eden-emu.dev",
@@ -293,13 +293,13 @@ func Flycast() *packaging.Program {
 		BannerURL:   assets.Banner("46b3feb0521b4d823847ebbd4dd58ea6.png"),
 		HeroURL:     assets.Hero("c24f9ae141fa02c7fa1deea7e1149557.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "org.flycast.Flycast",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=host"},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Application{
 			AppID:     "flycast",
-			AppName:   "$EMULATORS/Flycast/Flycast.app",
+			Launcher:  "$EMULATORS/Flycast/Flycast.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/flyinghead/flycast",
@@ -342,13 +342,13 @@ func MelonDS() *packaging.Program {
 		BannerURL:   assets.Banner("0ec19bac435cd0ab3fcd2160491b0c7b.png"),
 		HeroURL:     assets.Hero("c24f9ae141fa02c7fa1deea7e1149557.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "net.kuribo64.melonDS",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=host"},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Application{
 			AppID:     "melonds",
-			AppName:   "$EMULATORS/MelonDS/melonDS.app",
+			Launcher:  "$EMULATORS/MelonDS/melonDS.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/melonDS-emu/melonDS",
@@ -391,13 +391,13 @@ func MGBA() *packaging.Program {
 		BannerURL:   assets.Banner("7088b9d5b6a444224cf6380dcfe61554.png"),
 		HeroURL:     assets.Hero("d470133ccf31f9bfdc1dcb45a30c73b1.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "io.mgba.mGBA",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=host"},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Application{
 			AppID:     "mgba",
-			AppName:   "$EMULATORS/MGBA/mGBA.app",
+			Launcher:  "$EMULATORS/MGBA/mGBA.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mgba-emu/mgba",
@@ -440,13 +440,13 @@ func PCSX2() *packaging.Program {
 		BannerURL:   assets.Banner("f3a71cf60765edd14269d28819d15327.png"),
 		HeroURL:     assets.Hero("9cc25407f209e031babdac7d3c520ccb.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "net.pcsx2.PCSX2",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=host"},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Application{
 			AppID:     "pcsx2",
-			AppName:   "$EMULATORS/PCSX2/PCSX2.app",
+			Launcher:  "$EMULATORS/PCSX2/PCSX2.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/PCSX2/pcsx2",
@@ -489,13 +489,13 @@ func PPSSPP() *packaging.Program {
 		BannerURL:   assets.Banner("88a52c0d85339a377918fdc1ae9dc922.png"),
 		HeroURL:     assets.Hero("b51ecba56e03d4181e0006ff1e8a5355.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "org.ppsspp.PPSSPP",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=host"},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Application{
 			AppID:     "ppsspp",
-			AppName:   "$EMULATORS/PPSSPP/PPSSPPSDL.app",
+			Launcher:  "$EMULATORS/PPSSPP/PPSSPPSDL.app",
 			Arguments: packaging.NoArguments(),
 			Source: website.Release(
 				"https://www.ppsspp.org/download/", "",
@@ -542,7 +542,7 @@ func Redream() *packaging.Program {
 		HeroURL:     assets.Hero("4853deb8a06838c502fc6cb6ce91f704.png"),
 		Package: packaging.Best(&linux.Binary{
 			AppID:     "redream",
-			AppBin:    "$EMULATORS/Redream/redream",
+			Launcher:  "$EMULATORS/Redream/redream",
 			Arguments: packaging.NoArguments(),
 			Source: website.Release(
 				"https://redream.io/download",
@@ -554,7 +554,7 @@ func Redream() *packaging.Program {
 			),
 		}, &macos.Application{
 			AppID:     "redream",
-			AppName:   "$EMULATORS/Redream/redream.app",
+			Launcher:  "$EMULATORS/Redream/redream.app",
 			Arguments: packaging.NoArguments(),
 			Source: website.Release(
 				"https://redream.io/download",
@@ -599,13 +599,13 @@ func RPCS3() *packaging.Program {
 		BannerURL:   assets.Banner("cddaf8b03288749c50afecad7ac3c9a4.png"),
 		HeroURL:     assets.Hero("15c58997f6690dddb7c501e062a2d1ab.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "net.rpcs3.RPCS3",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=host"},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Application{
 			AppID:     "rpcs3",
-			AppName:   "$EMULATORS/RPCS3/RPCS3.app",
+			Launcher:  "$EMULATORS/RPCS3/RPCS3.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				cli.ArchVariant(
@@ -652,7 +652,7 @@ func Ryujinx() *packaging.Program {
 		HeroURL:     assets.Hero("573185e7a57bcdcd68d7895cf83ffe66.png"),
 		Package: packaging.Best(&linux.AppImage{
 			AppID:     "ryujinx",
-			AppName:   "$EMULATORS/Ryujinx/Ryujinx.AppImage",
+			Launcher:  "$EMULATORS/Ryujinx/Ryujinx.AppImage",
 			Arguments: packaging.NoArguments(),
 			Source: gitlab.Release(
 				"https://git.ryujinx.app", "1",
@@ -663,7 +663,7 @@ func Ryujinx() *packaging.Program {
 			),
 		}, &macos.Application{
 			AppID:     "ryujinx",
-			AppName:   "$EMULATORS/Ryujinx/Ryujinx.app",
+			Launcher:  "$EMULATORS/Ryujinx/Ryujinx.app",
 			Arguments: packaging.NoArguments(),
 			Source: gitlab.Release(
 				"https://git.ryujinx.app", "1",
@@ -706,13 +706,13 @@ func ShadPS4() *packaging.Program {
 		BannerURL:   assets.Banner("21483d9d9aca5bd442f292cef7bab951.png"),
 		HeroURL:     assets.Hero("cc5e9cea0a79b962c20a9231e65a06ef.jpg"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "net.shadps4.shadPS4",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=host"},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Application{
 			AppID:     "shadps4",
-			AppName:   "$EMULATORS/ShadPS4/shadPS4QtLauncher.app",
+			Launcher:  "$EMULATORS/ShadPS4/shadPS4QtLauncher.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/shadps4-emu/shadps4-qtlauncher",
@@ -755,8 +755,8 @@ func Simple64() *packaging.Program {
 		BannerURL:   assets.Banner("e128d1f12ec88795b0a5853d7c754608.png"),
 		HeroURL:     assets.Hero("73888d1bde775303c1749e63e3312a64.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "io.github.simple64.simple64",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=host"},
 			Arguments: packaging.NoArguments(),
 		}, &windows.Executable{
@@ -794,7 +794,7 @@ func Vita3K() *packaging.Program {
 		HeroURL:     assets.Hero("5e98be1eed79374e1edd72f4b1d838b4.png"),
 		Package: packaging.Best(&linux.AppImage{
 			AppID:     "vita3k",
-			AppName:   "$EMULATORS/Vita3K/Vita3K.AppImage",
+			Launcher:  "$EMULATORS/Vita3K/Vita3K.AppImage",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/Vita3K/Vita3K",
@@ -805,7 +805,7 @@ func Vita3K() *packaging.Program {
 			),
 		}, &macos.Application{
 			AppID:     "vita3k",
-			AppName:   "$EMULATORS/Vita3K/Vita3K.app",
+			Launcher:  "$EMULATORS/Vita3K/Vita3K.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/Vita3K/Vita3K",
@@ -848,13 +848,13 @@ func Xemu() *packaging.Program {
 		BannerURL:   assets.Banner("5b74752b25bd07933b10b2098970f990.png"),
 		HeroURL:     assets.Hero("aa0994c4263018600494efceae69087a.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "app.xemu.xemu",
+			Namespace: "system",
 			Overrides: []string{"--filesystem=host"},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Application{
 			AppID:     "xemu",
-			AppName:   "$EMULATORS/Xemu/xemu.app",
+			Launcher:  "$EMULATORS/Xemu/xemu.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/xemu-project/xemu",
@@ -898,7 +898,7 @@ func Xenia() *packaging.Program {
 		HeroURL:     assets.Hero("2958ef004a18f50b380a87d1cfe5366d.png"),
 		Package: packaging.Best(&linux.Binary{
 			AppID:     "xenia",
-			AppBin:    "$EMULATORS/Xenia/xenia_canary",
+			Launcher:  "$EMULATORS/Xenia/xenia_canary",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/xenia-canary/xenia-canary-releases",

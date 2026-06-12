@@ -59,12 +59,12 @@ func Release(releaseType string, format string) *packaging.Source {
 func GetPackage() packaging.Package {
 	return packaging.Best(&linux.AppImage{
 		AppID:     "es-de",
-		AppName:   "$APPLICATIONS/ES-DE/ES-DE.AppImage",
+		Launcher:  "$APPLICATIONS/ES-DE/ES-DE.AppImage",
 		Arguments: packaging.NoArguments(),
 		Source:    Release("LinuxAppImage", "file"),
 	}, &macos.Application{
 		AppID:     "es-de",
-		AppName:   "$APPLICATIONS/ES-DE/ES-DE.app",
+		Launcher:  "$APPLICATIONS/ES-DE/ES-DE.app",
 		Arguments: packaging.NoArguments(),
 		Source:    Release("macOSApple", "dmg"),
 	}, &windows.Executable{

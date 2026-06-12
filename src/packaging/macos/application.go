@@ -11,7 +11,7 @@ import (
 // Application struct
 type Application struct {
 	AppID     string               `json:"appId"`
-	AppName   string               `json:"appName"`
+	Launcher  string               `json:"launcher"`
 	Arguments *packaging.Arguments `json:"arguments"`
 	Source    *packaging.Source    `json:"source"`
 }
@@ -56,7 +56,7 @@ func (a *Application) Remove() error {
 // Installed verification
 func (a *Application) Installed() (bool, error) {
 
-	// AppName.app files are considered a directory
+	// NAME.app files are considered a directory
 	exist, err := fs.DirectoryExist(a.Executable())
 	if err != nil {
 		return false, err
@@ -69,7 +69,7 @@ func (a *Application) Installed() (bool, error) {
 
 // Return executable file path
 func (a *Application) Executable() string {
-	return fs.ExpandPath(a.AppName)
+	return fs.ExpandPath(a.Launcher)
 }
 
 // Return executable alias file path

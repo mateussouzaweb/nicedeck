@@ -13,7 +13,7 @@ import (
 // Homebrew struct
 type Homebrew struct {
 	AppID     string               `json:"appId"`
-	AppName   string               `json:"appName"`
+	Launcher  string               `json:"launcher"`
 	Arguments *packaging.Arguments `json:"arguments"`
 }
 
@@ -76,10 +76,7 @@ func (h *Homebrew) Installed() (bool, error) {
 
 // Return executable file path
 func (h *Homebrew) Executable() string {
-	return fs.NormalizePath(fmt.Sprintf(
-		`/Applications/%s`,
-		h.AppName,
-	))
+	return fs.ExpandPath(h.Launcher)
 }
 
 // Return executable alias file path

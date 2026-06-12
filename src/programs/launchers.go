@@ -31,7 +31,6 @@ func AmazonGames() *packaging.Program {
 		HeroURL:     assets.Hero("a21e85aedf84619520f0c5e30bd55042.png"),
 		Package: packaging.Best(&proton.Proton{
 			AppID:       "amazon-games",
-			AppName:     "AmazonGames",
 			Installer:   "C:/Downloads/AmazonGamesSetup.exe",
 			Uninstaller: "C:/users/steamuser/AppData/Local/Amazon Games/App/Uninstall Amazon Games.exe",
 			Launcher:    "C:/users/steamuser/AppData/Local/Amazon Games/App/Amazon Games.exe",
@@ -39,7 +38,7 @@ func AmazonGames() *packaging.Program {
 			Source:      website.Link("https://download.amazongames.com/AmazonGamesSetup.exe"),
 		}, &windows.WinGet{
 			AppID:     "Amazon.Games",
-			AppExe:    "$APPDATA/Local/Amazon Games/App/Amazon Games.exe",
+			Launcher:  "$APPDATA/Local/Amazon Games/App/Amazon Games.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -63,7 +62,6 @@ func BattleNet() *packaging.Program {
 		HeroURL:     assets.Hero("9f319422ca17b1082ea49820353f14ab.jpg"),
 		Package: packaging.Best(&proton.Proton{
 			AppID:       "battle-net",
-			AppName:     "BattleNet",
 			Installer:   "C:/Downloads/Battle.net-Setup.exe",
 			Uninstaller: "C:/ProgramData/Battle.net/Agent/Blizzard Uninstaller.exe",
 			Launcher:    "C:/Program Files (x86)/Battle.net/Battle.net.exe",
@@ -74,11 +72,11 @@ func BattleNet() *packaging.Program {
 			),
 		}, &macos.Homebrew{
 			AppID:     "battle-net",
-			AppName:   "Battle.net.app",
+			Launcher:  "/Applications/Battle.net.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "Blizzard.BattleNet",
-			AppExe: "$PROGRAMS_X86/Battle.net/Battle.net.exe",
+			AppID:    "Blizzard.BattleNet",
+			Launcher: "$PROGRAMS_X86/Battle.net/Battle.net.exe",
 			Arguments: &packaging.Arguments{
 				Install: []string{
 					"--locale=en-US",
@@ -108,8 +106,8 @@ func Bottles() *packaging.Program {
 		BannerURL:   assets.Banner("123a00ca793f7db5b771574116bc061f.png"),
 		HeroURL:     assets.Hero("c24f9ae141fa02c7fa1deea7e1149557.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "com.usebottles.bottles",
+			Namespace: "system",
 			Overrides: []string{fs.ExpandPath("--filesystem=$GAMES")},
 			Arguments: packaging.NoArguments(),
 		}),
@@ -134,7 +132,6 @@ func EAApp() *packaging.Program {
 		HeroURL:     assets.Hero("6458ed5e1bb03b8da47c065c2f647b26.png"),
 		Package: packaging.Best(&proton.Proton{
 			AppID:       "ea-app",
-			AppName:     "EA",
 			Installer:   "C:/Downloads/EAappInstaller.exe",
 			Uninstaller: "C:/Downloads/EAappInstaller.exe",
 			Launcher:    "C:/Program Files/Electronic Arts/EA Desktop/EA Desktop/EADesktop.exe",
@@ -149,11 +146,11 @@ func EAApp() *packaging.Program {
 			),
 		}, &macos.Homebrew{
 			AppID:     "ea",
-			AppName:   "EA app.app",
+			Launcher:  "/Applications/EA app.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "ElectronicArts.EADesktop",
-			AppExe:    "$PROGRAMS/Electronic Arts/EA Desktop/EA Desktop/EADesktop.exe",
+			Launcher:  "$PROGRAMS/Electronic Arts/EA Desktop/EA Desktop/EADesktop.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -177,7 +174,6 @@ func EpicGames() *packaging.Program {
 		HeroURL:     assets.Hero("164fbf608021ece8933758ee2b28dd7d.png"),
 		Package: packaging.Best(&proton.Proton{
 			AppID:       "epic-games",
-			AppName:     "EpicGames",
 			Installer:   "C:/Downloads/EpicGamesLauncherInstaller.msi",
 			Uninstaller: "C:/Downloads/EpicGamesLauncherInstaller.msi",
 			Launcher:    "C:/Program Files/Epic Games/Launcher/Portal/Binaries/Win64/EpicGamesLauncher.exe",
@@ -189,11 +185,11 @@ func EpicGames() *packaging.Program {
 			Source: website.Link("https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi"),
 		}, &macos.Homebrew{
 			AppID:     "epic-games",
-			AppName:   "Epic Games Launcher.app",
+			Launcher:  "/Applications/Epic Games Launcher.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "EpicGames.EpicGamesLauncher",
-			AppExe:    "$PROGRAMS/Epic Games/Launcher/Portal/Binaries/Win64/EpicGamesLauncher.exe",
+			Launcher:  "$PROGRAMS/Epic Games/Launcher/Portal/Binaries/Win64/EpicGamesLauncher.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -237,7 +233,6 @@ func GOGGalaxy() *packaging.Program {
 		HeroURL:     assets.Hero("01ccb68a74dd1edfbccbd76d86dbd51f.png"),
 		Package: packaging.Best(&proton.Proton{
 			AppID:       "gog-galaxy",
-			AppName:     "GOG",
 			Installer:   "C:/Downloads/GOG_Galaxy_2.0.exe",
 			Uninstaller: "C:/Program Files (x86)/GOG Galaxy/unins000.exe",
 			Launcher:    "C:/Program Files (x86)/GOG Galaxy/GalaxyClient.exe",
@@ -252,11 +247,11 @@ func GOGGalaxy() *packaging.Program {
 			),
 		}, &macos.Homebrew{
 			AppID:     "gog-galaxy",
-			AppName:   "GOG Galaxy.app",
+			Launcher:  "/Applications/GOG Galaxy.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "GOG.Galaxy",
-			AppExe:    "$PROGRAMS_X86/GOG Galaxy/GalaxyClient.exe",
+			Launcher:  "$PROGRAMS_X86/GOG Galaxy/GalaxyClient.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -279,17 +274,17 @@ func HeroicGamesLauncher() *packaging.Program {
 		BannerURL:   assets.Banner("94e8e64cdefe77dcc168855c54f14acd.png"),
 		HeroURL:     assets.Hero("bee5ca2551bf346f067a3ac16057bc40.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "com.heroicgameslauncher.hgl",
+			Namespace: "system",
 			Overrides: []string{fs.ExpandPath("--filesystem=$GAMES")},
 			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
 			AppID:     "heroic",
-			AppName:   "Heroic.app",
+			Launcher:  "/Applications/Heroic.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "HeroicGamesLauncher.HeroicGamesLauncher",
-			AppExe:    "$APPDATA/Local/Programs/heroic/Heroic.exe",
+			Launcher:  "$APPDATA/Local/Programs/heroic/Heroic.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -312,8 +307,8 @@ func Lutris() *packaging.Program {
 		BannerURL:   assets.Banner("3c5bf5a314017c84acae32394125cf26.png"),
 		HeroURL:     assets.Hero("3b7f06487067b9aa2393a438dd095edc.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "net.lutris.Lutris",
+			Namespace: "system",
 			Overrides: []string{fs.ExpandPath("--filesystem=$GAMES")},
 			Arguments: packaging.NoArguments(),
 		}),
@@ -358,7 +353,6 @@ func UbisoftConnect() *packaging.Program {
 		HeroURL:     assets.Hero("b1d49d65692f373bd3ae6ed4af9eda30.png"),
 		Package: packaging.Best(&proton.Proton{
 			AppID:       "ubisoft-connect",
-			AppName:     "Ubisoft",
 			Installer:   "C:/Downloads/UbisoftConnectInstaller.exe",
 			Uninstaller: "C:/Program Files (x86)/Ubisoft/Ubisoft Game Launcher/Uninstall.exe",
 			Launcher:    "C:/Program Files (x86)/Ubisoft/Ubisoft Game Launcher/UbisoftConnect.exe",
@@ -370,7 +364,7 @@ func UbisoftConnect() *packaging.Program {
 			Source: website.Link("https://static3.cdn.ubi.com/orbit/launcher_installer/UbisoftConnectInstaller.exe"),
 		}, &windows.WinGet{
 			AppID:     "Ubisoft.Connect",
-			AppExe:    "$PROGRAMS_X86/Ubisoft/Ubisoft Game Launcher/UbisoftConnect.exe",
+			Launcher:  "$PROGRAMS_X86/Ubisoft/Ubisoft Game Launcher/UbisoftConnect.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}

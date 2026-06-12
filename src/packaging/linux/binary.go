@@ -13,14 +13,14 @@ import (
 // Binary struct
 type Binary struct {
 	AppID     string               `json:"appId"`
-	AppBin    string               `json:"appBin"`
+	Launcher  string               `json:"launcher"`
 	Arguments *packaging.Arguments `json:"arguments"`
 	Source    *packaging.Source    `json:"source"`
 }
 
 // Return package runtime
 func (b *Binary) Runtime() string {
-	if strings.HasPrefix(b.AppBin, "/usr/bin") {
+	if strings.HasPrefix(b.Launcher, "/usr/bin") {
 		return "system"
 	}
 
@@ -82,7 +82,7 @@ func (b *Binary) Installed() (bool, error) {
 
 // Return executable file path
 func (b *Binary) Executable() string {
-	return fs.ExpandPath(b.AppBin)
+	return fs.ExpandPath(b.Launcher)
 }
 
 // Return executable alias file path

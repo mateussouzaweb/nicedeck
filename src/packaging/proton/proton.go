@@ -20,7 +20,6 @@ var resourcesContent embed.FS
 // Proton struct
 type Proton struct {
 	AppID       string               `json:"appId"`
-	AppName     string               `json:"appName"`
 	Installer   string               `json:"installer"`
 	Uninstaller string               `json:"uninstaller"`
 	Launcher    string               `json:"launcher"`
@@ -227,7 +226,7 @@ func (p *Proton) Install() error {
 		return err
 	}
 
-	cli.Debug("Running install for %s\n", p.AppName)
+	cli.Debug("Running install for %s\n", p.AppID)
 
 	// Run install script
 	arguments := []string{cli.Quote(p.Installer)}
@@ -252,7 +251,7 @@ func (p *Proton) Install() error {
 // Remove package
 func (p *Proton) Remove() error {
 
-	cli.Debug("Running uninstall for %s\n", p.AppName)
+	cli.Debug("Running uninstall for %s\n", p.AppID)
 	runFile := p.Executable()
 
 	// Remove package by perform the uninstall command

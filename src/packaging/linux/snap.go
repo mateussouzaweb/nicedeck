@@ -12,7 +12,6 @@ import (
 // Snap struct
 type Snap struct {
 	AppID     string               `json:"appId"`
-	AppBin    string               `json:"appBin"`
 	Channel   string               `json:"channel"`
 	Arguments *packaging.Arguments `json:"arguments"`
 }
@@ -68,7 +67,7 @@ func (s *Snap) Installed() (bool, error) {
 func (s *Snap) Executable() string {
 	return fs.NormalizePath(fmt.Sprintf(
 		`/snap/bin/%s`,
-		s.AppBin,
+		s.AppID,
 	))
 }
 

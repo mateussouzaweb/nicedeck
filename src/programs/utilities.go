@@ -27,16 +27,16 @@ func Discord() *packaging.Program {
 		BannerURL:   assets.Banner("1974a767627527a2f88ea3f2818676d7.png"),
 		HeroURL:     assets.Hero("f5af8de6802460753a75a4692d255641.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "com.discordapp.Discord",
+			Namespace: "system",
 			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
 			AppID:     "discord",
-			AppName:   "Discord.app",
+			Launcher:  "/Applications/Discord.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
-			AppID:  "Discord.Discord",
-			AppExe: "$APPDATA/Local/Discord/Update.exe",
+			AppID:    "Discord.Discord",
+			Launcher: "$APPDATA/Local/Discord/Update.exe",
 			Arguments: &packaging.Arguments{
 				Install:  []string{},
 				Remove:   []string{},
@@ -64,7 +64,7 @@ func NiceDeck() *packaging.Program {
 		HeroURL:     assets.Hero("4f71036295e627bf8dff9e06d8602d06.png"),
 		Package: packaging.Best(&linux.Binary{
 			AppID:     "nicedeck",
-			AppBin:    "$APPLICATIONS/NiceDeck/nicedeck",
+			Launcher:  "$APPLICATIONS/NiceDeck/nicedeck",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mateussouzaweb/nicedeck",
@@ -75,7 +75,7 @@ func NiceDeck() *packaging.Program {
 			),
 		}, &macos.Application{
 			AppID:     "nicedeck",
-			AppName:   "$APPLICATIONS/NiceDeck/NiceDeck.app",
+			Launcher:  "$APPLICATIONS/NiceDeck/NiceDeck.app",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mateussouzaweb/nicedeck",
@@ -118,8 +118,8 @@ func ProtonPlus() *packaging.Program {
 		BannerURL:   assets.Banner("217caa6f1839e19191655c0ed782754a.png"),
 		HeroURL:     assets.Hero("76d89f46aab1d736a03ca408f0c5ef50.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "com.vysp3r.ProtonPlus",
+			Namespace: "system",
 			Arguments: packaging.NoArguments(),
 		}),
 	}

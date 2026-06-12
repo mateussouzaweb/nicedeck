@@ -25,16 +25,16 @@ func ChiakiNG() *packaging.Program {
 		BannerURL:   assets.Banner("9111ec4aae8cd54acf89f011eee3c164.png"),
 		HeroURL:     assets.Hero("9884dfd73a2471545e0c3f8c14177a04.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "io.github.streetpea.Chiaki4deck",
+			Namespace: "system",
 			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
 			AppID:     "streetpea/streetpea/chiaki-ng",
-			AppName:   "chiaki-ng.app",
+			Launcher:  "/Applications/chiaki-ng.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "StreetPea.chiaki-ng",
-			AppExe:    "$PROGRAMS/chiaki-ng/chiaki.exe",
+			Launcher:  "$PROGRAMS/chiaki-ng/chiaki.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -58,7 +58,7 @@ func GeForceNow() *packaging.Program {
 		HeroURL:     assets.Hero("5e7e6e76699ea804c65b0c37974c660c.jpg"),
 		Package: packaging.Best(&linux.Web{
 			AppID:   "geforce-now",
-			AppURL:  "https://play.geforcenow.com",
+			URL:     "https://play.geforcenow.com",
 			Wrapper: MicrosoftEdge(),
 			Arguments: &packaging.Arguments{
 				Install: []string{},
@@ -71,11 +71,11 @@ func GeForceNow() *packaging.Program {
 			},
 		}, &macos.Homebrew{
 			AppID:     "nvidia-geforce-now",
-			AppName:   "GeForceNOW.app",
+			Launcher:  "/Applications/GeForceNOW.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "Nvidia.GeForceNow",
-			AppExe:    "$APPDATA/Local/NVIDIA Corporation/GeForceNOW/CEF/GeForceNOW.exe",
+			Launcher:  "$APPDATA/Local/NVIDIA Corporation/GeForceNOW/CEF/GeForceNOW.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -98,16 +98,16 @@ func MoonlightGameStreaming() *packaging.Program {
 		BannerURL:   assets.Banner("8a8f67cacf3e3d2d63614f515a2079b8.png"),
 		HeroURL:     assets.Hero("0afefa2281c2f8b0b86d6332e2cdbe7d.png"),
 		Package: packaging.Best(&linux.Flatpak{
-			Namespace: "system",
 			AppID:     "com.moonlight_stream.Moonlight",
+			Namespace: "system",
 			Arguments: packaging.NoArguments(),
 		}, &macos.Homebrew{
 			AppID:     "moonlight",
-			AppName:   "Moonlight.app",
+			Launcher:  "/Applications/Moonlight.app",
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "MoonlightGameStreamingProject.Moonlight",
-			AppExe:    "$PROGRAMS/Moonlight Game Streaming/Moonlight.exe",
+			Launcher:  "$PROGRAMS/Moonlight Game Streaming/Moonlight.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
@@ -131,7 +131,7 @@ func XboxCloudGaming() *packaging.Program {
 		HeroURL:     assets.Hero("f6ba16107e08c04fc684308ab18d207a.png"),
 		Package: packaging.Best(&linux.Web{
 			AppID:   "xbox-cloud-gaming",
-			AppURL:  "https://www.xbox.com/play",
+			URL:     "https://www.xbox.com/play",
 			Wrapper: MicrosoftEdge(),
 			Arguments: &packaging.Arguments{
 				Install: []string{},
@@ -144,12 +144,12 @@ func XboxCloudGaming() *packaging.Program {
 			},
 		}, &macos.Web{
 			AppID:     "xbox-cloud-gaming",
-			AppURL:    "https://www.xbox.com/play",
+			URL:       "https://www.xbox.com/play",
 			Wrapper:   MicrosoftEdge(),
 			Arguments: packaging.NoArguments(),
 		}, &windows.Web{
 			AppID:     "xbox-cloud-gaming",
-			AppURL:    "https://www.xbox.com/play",
+			URL:       "https://www.xbox.com/play",
 			Wrapper:   MicrosoftEdge(),
 			Arguments: packaging.NoArguments(),
 		}),

@@ -12,7 +12,7 @@ import (
 // AppImage struct
 type AppImage struct {
 	AppID     string               `json:"appId"`
-	AppName   string               `json:"appName"`
+	Launcher  string               `json:"launcher"`
 	Arguments *packaging.Arguments `json:"arguments"`
 	Source    *packaging.Source    `json:"source"`
 }
@@ -77,7 +77,7 @@ func (a *AppImage) Installed() (bool, error) {
 
 // Return executable file path
 func (a *AppImage) Executable() string {
-	return fs.ExpandPath(a.AppName)
+	return fs.ExpandPath(a.Launcher)
 }
 
 // Return executable alias file path

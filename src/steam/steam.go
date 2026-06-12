@@ -15,8 +15,8 @@ import (
 // Retrieve Steam package
 func GetPackage() packaging.Package {
 	return packaging.Best(&linux.Flatpak{
-		Namespace: "system",
 		AppID:     "com.valvesoftware.Steam",
+		Namespace: "system",
 		Overrides: []string{
 			fs.ExpandPath("--filesystem=$GAMES"),
 			"--talk-name=org.freedesktop.Flatpak",
@@ -24,8 +24,8 @@ func GetPackage() packaging.Package {
 		},
 		Arguments: packaging.NoArguments(),
 	}, &linux.Flatpak{
-		Namespace: "user",
 		AppID:     "com.valvesoftware.Steam",
+		Namespace: "user",
 		Overrides: []string{
 			fs.ExpandPath("--filesystem=$GAMES"),
 			"--talk-name=org.freedesktop.Flatpak",
@@ -34,15 +34,15 @@ func GetPackage() packaging.Package {
 		Arguments: packaging.NoArguments(),
 	}, &linux.Binary{
 		AppID:     "steam",
-		AppBin:    "/usr/bin/steam",
+		Launcher:  "/usr/bin/steam",
 		Arguments: packaging.NoArguments(),
 	}, &macos.Homebrew{
 		AppID:     "steam",
-		AppName:   "Steam.app",
+		Launcher:  "/Applications/Steam.app",
 		Arguments: packaging.NoArguments(),
 	}, &windows.WinGet{
 		AppID:     "Valve.Steam",
-		AppExe:    "$PROGRAMS_X86/Steam/Steam.exe",
+		Launcher:  "$PROGRAMS_X86/Steam/Steam.exe",
 		Arguments: packaging.NoArguments(),
 	})
 }
