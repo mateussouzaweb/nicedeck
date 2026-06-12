@@ -138,7 +138,7 @@ func EAApp() *packaging.Program {
 			AppID:       "ea-app",
 			Installer:   "C:/Downloads/EAappInstaller.exe",
 			Uninstaller: "C:/Downloads/EAappInstaller.exe",
-			Launcher:    "C:/Program Files/Electronic Arts/EA Desktop/EA Desktop/EADesktop.exe",
+			Launcher:    "C:/Program Files/Electronic Arts/EA Desktop/*/EA Desktop/EADesktop.exe",
 			Arguments: &packaging.Arguments{
 				Install:  []string{"/quiet"},
 				Remove:   []string{"/uninstall", "/quiet"},
@@ -154,7 +154,7 @@ func EAApp() *packaging.Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "ElectronicArts.EADesktop",
-			Launcher:  "$PROGRAMS/Electronic Arts/EA Desktop/EA Desktop/EADesktop.exe",
+			Launcher:  "$PROGRAMS/Electronic Arts/EA Desktop/*/EA Desktop/EADesktop.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
