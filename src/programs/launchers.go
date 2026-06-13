@@ -290,7 +290,7 @@ func HeroicGamesLauncher() *packaging.Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "HeroicGamesLauncher.HeroicGamesLauncher",
-			Launcher:  "$APPDATA/Local/Programs/heroic/Heroic.exe",
+			Launcher:  "$PROGRAMS/Heroic/Heroic.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
