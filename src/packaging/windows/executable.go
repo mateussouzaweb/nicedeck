@@ -57,11 +57,9 @@ func (e *Executable) Install() error {
 	if e.Installer != "" {
 		cli.Debug("Running install for %s\n", e.AppID)
 
-		// Run install script
 		executable := fs.ExpandPath(e.Installer)
 		arguments := e.Arguments.Install
 		directory := filepath.Dir(executable)
-
 		context := &cli.Context{
 			WorkingDirectory: directory,
 			Executable:       executable,
@@ -81,15 +79,13 @@ func (e *Executable) Install() error {
 // Remove package
 func (e *Executable) Remove() error {
 
-	// When uninstaller is needed, run uninstaller
+	// Remove package by perform the uninstall command
 	if e.Uninstaller != "" {
 		cli.Debug("Running uninstall for %s\n", e.AppID)
 
-		// Run uninstall script
 		executable := fs.ExpandPath(e.Uninstaller)
 		arguments := e.Arguments.Remove
 		directory := filepath.Dir(executable)
-
 		context := &cli.Context{
 			WorkingDirectory: directory,
 			Executable:       executable,
@@ -105,9 +101,19 @@ func (e *Executable) Remove() error {
 
 	// Remove executable parent folder
 	// Because package is located in its own folder
-	err := fs.RemoveDirectory(filepath.Dir(e.Executable()))
+	directory := filepath.Dir(e.Executable())
+	err := fs.RemoveDirectory(directory)
 	if err != nil {
 		return err
+	}
+
+	// Remove installer file
+	// Because installer is placed in another location
+	if e.Installer != "" {
+		err := fs.RemoveFile(fs.ExpandPath(e.Installer))
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
