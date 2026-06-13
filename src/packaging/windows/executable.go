@@ -138,6 +138,12 @@ func (e *Executable) Executable() string {
 
 // Return executable alias file path
 func (e *Executable) Alias() string {
+
+	// When has installer, report executable as alias
+	if e.Installer != "" {
+		return e.Executable()
+	}
+
 	return ""
 }
 
