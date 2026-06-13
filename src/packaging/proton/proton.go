@@ -279,6 +279,23 @@ func (p *Proton) Remove() error {
 		}
 	}
 
+	// Remove launcher parent folder
+	// Because package is located in its own folder
+	directory := filepath.Dir(fs.ExpandPath(p.Launcher))
+	err := fs.RemoveDirectory(directory)
+	if err != nil {
+		return err
+	}
+
+	// Remove installer file
+	// Because installer is placed in another location
+	if p.Installer != "" {
+		err := fs.RemoveFile(fs.ExpandPath(p.Installer))
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
