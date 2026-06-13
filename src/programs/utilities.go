@@ -57,7 +57,7 @@ func NiceDeck() *packaging.Program {
 		Flags:       []string{"--nicedeck"},
 		Folders:     []string{},
 		Website:     "https://github.com/mateussouzaweb/nicedeck",
-		IconURL:     assets.Icon("84ad88e9ffaeb60e8a2c83b6c108debd.png"),
+		IconURL:     assets.Icon("5bf6538c9b2123df1c89b006b4e627b5.png"),
 		LogoURL:     assets.Logo("784ac91d0f3747ed26cd45781e9f20f3.png"),
 		CoverURL:    assets.Cover("4113a973e756a0a1d9ca6653dcec0462.png"),
 		BannerURL:   assets.Banner("b685f1ed7e9a7b8bbd3280104179cee3.png"),
