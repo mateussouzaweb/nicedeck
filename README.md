@@ -161,4 +161,4 @@ Browsers:
 - [Google Chrome](https://www.google.com/intl/en_us/chrome)
 - [Microsoft Edge](https://www.microsoft.com/en-us/edge)
 
-Please not that NiceDeck will not offer support for all emulation softwares out there - we focus only on emulators for single consoles. If you want to emulate older consoles, please consider [RetroArch](https://www.retroarch.com), [OpenEmu](https://openemu.org/) or something else.
+Please not that NiceDeck will not offer support for all emulation softwares out there - we focus only on emulators for single consoles. If you want to emulate older consoles, please consider [RetroArch](https://www.retroarch.com), [Ares](https://ares-emu.net), [OpenEmu](https://openemu.org) or something else.
