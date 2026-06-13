@@ -214,18 +214,20 @@ func (p *Proton) Install() error {
 	// When no need for installer, download from source
 	// When installer is needed, download from source and makes verification to check at the installer file
 	if p.Source != nil && p.Installer != "" {
-		originalLauncher := p.Launcher
-		p.Launcher = p.Installer
-		defer func() {
-			p.Launcher = originalLauncher
-		}()
+		defer func(launcher string) {
+			p.Launcher = launcher
+			p.Source.Destination = ""
+		}(p.Launcher)
 
+		p.Launcher = p.Installer
+		p.Source.Destination = p.RealPath(p.Installer)
 		err := p.Source.Download(p)
 		if err != nil {
 			return err
 		}
 
 	} else if p.Source != nil {
+		p.Source.Destination = p.RealPath(p.Launcher)
 		err := p.Source.Download(p)
 		if err != nil {
 			return err

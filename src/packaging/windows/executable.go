@@ -35,12 +35,13 @@ func (e *Executable) Install() error {
 	// When no need for installer, download from source
 	// When installer is needed, download from source and makes verification to check at the installer file
 	if e.Source != nil && e.Installer != "" {
-		originalLauncher := e.Launcher
-		e.Launcher = e.Installer
-		defer func() {
-			e.Launcher = originalLauncher
-		}()
+		defer func(launcher string) {
+			e.Launcher = launcher
+			e.Source.Destination = ""
+		}(e.Launcher)
 
+		e.Launcher = e.Installer
+		e.Source.Destination = fs.ExpandPath(e.Installer)
 		err := e.Source.Download(e)
 		if err != nil {
 			return err
