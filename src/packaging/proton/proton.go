@@ -172,22 +172,6 @@ func (p *Proton) Install() error {
 		return fmt.Errorf("proton install missing, please install proton first")
 	}
 
-	// Download install from source
-	// Makes verification to check at the installer file
-	if p.Source != nil {
-		originalLauncher := p.Launcher
-		p.Launcher = p.Installer
-		defer func() {
-			p.Launcher = originalLauncher
-		}()
-
-		p.Source.Destination = p.RealPath(p.Installer)
-		err := p.Source.Download(p)
-		if err != nil {
-			return err
-		}
-	}
-
 	// Create run executable script to avoid NiceDeck direct dependency
 	// Will be used to launch applications
 	runFile := filepath.Join(dataPath, "run.sh")
@@ -226,23 +210,46 @@ func (p *Proton) Install() error {
 		return err
 	}
 
-	cli.Debug("Running install for %s\n", p.AppID)
+	// Download program from source
+	// When no need for installer, download from source
+	// When installer is needed, download from source and makes verification to check at the installer file
+	if p.Source != nil && p.Installer != "" {
+		originalLauncher := p.Launcher
+		p.Launcher = p.Installer
+		defer func() {
+			p.Launcher = originalLauncher
+		}()
 
-	// Run install script
-	arguments := []string{cli.Quote(p.Installer)}
-	arguments = append(arguments, p.Arguments.Install...)
-	directory := filepath.Dir(p.RealPath(p.Installer))
+		err := p.Source.Download(p)
+		if err != nil {
+			return err
+		}
 
-	context := &cli.Context{
-		WorkingDirectory: directory,
-		Executable:       runFile,
-		Arguments:        arguments,
-		Environment:      []string{},
+	} else if p.Source != nil {
+		err := p.Source.Download(p)
+		if err != nil {
+			return err
+		}
 	}
 
-	err = context.Run()
-	if err != nil {
-		return err
+	// When installer is needed, run installer
+	if p.Installer != "" {
+		cli.Debug("Running install for %s\n", p.AppID)
+
+		arguments := []string{cli.Quote(p.Installer)}
+		arguments = append(arguments, p.Arguments.Install...)
+		directory := filepath.Dir(p.RealPath(p.Installer))
+		context := &cli.Context{
+			WorkingDirectory: directory,
+			Executable:       runFile,
+			Arguments:        arguments,
+			Environment:      []string{},
+		}
+
+		err = context.Run()
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -251,24 +258,25 @@ func (p *Proton) Install() error {
 // Remove package
 func (p *Proton) Remove() error {
 
-	cli.Debug("Running uninstall for %s\n", p.AppID)
-	runFile := p.Executable()
-
 	// Remove package by perform the uninstall command
-	arguments := []string{cli.Quote(p.Uninstaller)}
-	arguments = append(arguments, p.Arguments.Remove...)
-	directory := filepath.Dir(p.RealPath(p.Uninstaller))
+	if p.Uninstaller != "" {
+		cli.Debug("Running uninstall for %s\n", p.AppID)
 
-	context := &cli.Context{
-		WorkingDirectory: directory,
-		Executable:       runFile,
-		Arguments:        arguments,
-		Environment:      []string{},
-	}
+		runFile := p.Executable()
+		arguments := []string{cli.Quote(p.Uninstaller)}
+		arguments = append(arguments, p.Arguments.Remove...)
+		directory := filepath.Dir(p.RealPath(p.Uninstaller))
+		context := &cli.Context{
+			WorkingDirectory: directory,
+			Executable:       runFile,
+			Arguments:        arguments,
+			Environment:      []string{},
+		}
 
-	err := context.Run()
-	if err != nil {
-		return err
+		err := context.Run()
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
