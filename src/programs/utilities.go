@@ -21,7 +21,7 @@ func Discord() *packaging.Program {
 		Flags:       []string{},
 		Folders:     []string{},
 		Website:     "https://discord.com/",
-		IconURL:     assets.Icon("0b105cf1504c4e241fcc6d519ea962fb.ico"),
+		IconURL:     assets.Icon("f30402d250ee0d24b57be8e69299e1f9.png"),
 		LogoURL:     assets.Logo("91bb27109949e95a96c563d2d4222604.png"),
 		CoverURL:    assets.Cover("657c5f18a3319eedbb05dda3d66e3e4b.png"),
 		BannerURL:   assets.Banner("1974a767627527a2f88ea3f2818676d7.png"),
