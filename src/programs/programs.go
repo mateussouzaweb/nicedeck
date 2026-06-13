@@ -156,6 +156,8 @@ func Install(options *Options) error {
 			cli.Printf(cli.ColorSuccess, "%s installed!\n", program.Name)
 		}
 
+		cli.Printf(cli.ColorNotice, "Creating shortcut for %s...\n", program.Name)
+
 		// Add desktop flag or tag to control automatic shortcut creation
 		// Based on formats that requires desktop shortcut creation
 		// These packages do not create shortcuts by default
@@ -227,6 +229,7 @@ func Remove(options *Options) error {
 		shortcut := library.Shortcuts.Find(program.Name, executable)
 
 		if shortcut.ID != "" {
+			cli.Printf(cli.ColorNotice, "Removing shortcut for %s...\n", program.Name)
 			err = library.Shortcuts.Remove(shortcut)
 			if err != nil {
 				return err
