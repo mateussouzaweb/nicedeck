@@ -1,6 +1,6 @@
 # Additional Tips and Tricks
 
-Here are a few tips and tricks to expand the features of NiceDeck in your device:
+Here are a few tips and tricks to expand the features of NiceDeck on your device:
 
 ## KDE Context Service Menu
 
@@ -35,7 +35,7 @@ Exec=$PROTON_RUN "%u"
 EOF
 ```
 
-Once you set up this context menu, you will see two new options on files management context menu: "Add to Library" and "Run with Proton".
+Once you set up this context menu, you will see two new options in the file management context menu: "Add to Library" and "Run with Proton".
 
 If you need to remove the service menu in the future, just remove the file:
 
