@@ -236,10 +236,11 @@ func Extract7z(source string, destination string) error {
 		)
 	} else if cli.IsWindows() {
 		script = fmt.Sprintf(``+
-			`$sevenZip = "C:\Program Files\7-Zip\7z.exe";`+
+			`$sevenZip = "%s";`+
 			`$archive = "%s";`+
 			`$destination = "%s";`+
 			`& "$sevenZip" x "$archive" -o"$destination" -y`,
+			ExpandPath("$HOMEDRIVE/Program Files/7-Zip/7z.exe"),
 			source,
 			destination,
 		)
