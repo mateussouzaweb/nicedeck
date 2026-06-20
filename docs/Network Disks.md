@@ -116,7 +116,6 @@ mkdir -p $HOME/Games
 ln -s /var/mnt/shared/Games/ROMs $HOME/Games/ROMs
 ln -s /var/mnt/shared/Games/BIOS $HOME/Games/BIOS
 ln -s /var/mnt/shared/Games/State $HOME/Games/State
-ln -s /var/mnt/shared/Games/Windows $HOME/Games/Windows
 ```
 
 That is it! NiceDeck will be able to detect and parse your games from the network-mounted folders.
@@ -138,39 +137,43 @@ $SMBPassword = "password"
 $DriveLetter = "Z:"
 $TaskScriptDir = "C:\Scripts"
 $TaskScriptPath = "$TaskScriptDir\mount-smb-shared.ps1"
-$TaskName = "Automount SMB Share"
+$TaskName = "Automount SMB Shared"
 
-# Create folders
-Write-Host "Creating script directory..." -ForegroundColor Cyan
-New-Item -ItemType Directory -Force -Path $TaskScriptDir | Out-Null
-
-# Save secure credentials
+# Save credentials
 Write-Host "Saving SMB credentials securely to Windows Credential Manager..." -ForegroundColor Cyan
 cmdkey /add:$SMBServer /user:$SMBUsername /pass:$SMBPassword | Out-Null
+
+# Create folders
+Write-Host "Creating mount script directory..." -ForegroundColor Cyan
+New-Item -ItemType Directory -Force -Path $TaskScriptDir | Out-Null
 
 # Create the background mounting script
 $ScriptContent = @"
 # Clear existing or broken mappings on this drive letter
-If (Get-PSDrive -Name ($DriveLetter -replace ':','') -ErrorAction SilentlyContinue) {
-    Remove-PSDrive -Name ($DriveLetter -replace ':','') -Force | Out-Null
+If (Get-PSDrive -Name ("$DriveLetter" -replace ':','') -ErrorAction SilentlyContinue) {
+    Remove-PSDrive -Name ("$DriveLetter" -replace ':','') -Force | Out-Null
 }
+
 # Use net use to permanently bind the drive letter globally across user sessions
-net use $DriveLetter "$SMBSource" /persistent:yes
+net use "$DriveLetter" "$SMBSource" /persistent:yes
 "@
 
 Write-Host "Generating background mount script..." -ForegroundColor Cyan
 Set-Content -Path $TaskScriptPath -Value $ScriptContent -Force
+
+Write-Host "Making mount script executable..." -ForegroundColor Cyan
+Unblock-File -Path $TaskScriptPath
 
 # Define the action: Run the PowerShell script silently in the background
 $Action = New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-NoProfile -WindowStyle Hidden -File `"$TaskScriptPath`""
 $Trigger = New-ScheduledTaskTrigger -AtLogOn
 $Settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -RunOnlyIfNetworkAvailable
 
-Write-Host "Configuring Windows Task Scheduler (The Automount Engine)..." -ForegroundColor Cyan
+Write-Host "Configuring Task Scheduler..." -ForegroundColor Cyan
 Register-ScheduledTask -TaskName $TaskName -Action $Action -Trigger $Trigger -Settings $Settings -Force | Out-Null
 
 # Start it immediately
-Write-Host "Starting the Automount Task right now to verify..." -ForegroundColor Green
+Write-Host "Starting the automount task" -ForegroundColor Green
 Start-ScheduledTask -TaskName $TaskName
 Write-Host "Done! Check 'This PC' in File Explorer. Your $DriveLetter drive is now persistently automated." -ForegroundColor Green
 ```
@@ -186,14 +189,13 @@ New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\Games" | Out-Null
 cmd /c mklink /d "$env:USERPROFILE\Games\ROMs" "Z:\Games\ROMs"
 cmd /c mklink /d "$env:USERPROFILE\Games\BIOS" "Z:\Games\BIOS"
 cmd /c mklink /d "$env:USERPROFILE\Games\State" "Z:\Games\State"
-cmd /c mklink /d "$env:USERPROFILE\Games\Windows" "Z:\Games\Windows"
 ```
 
 That is it! NiceDeck will be able to detect and parse your games from the network-mounted folders.
 
 ## Setup on MacOS
 
-MacOS doesn't ship with an automounter as straightforward as systemd or Task Scheduler for this use case, but `launchd` (Apple's service manager) combined with `mount_smbfs` achieves the same result: the share mounts itself in the background after login, once the NAS is actually reachable on the network.
+MacOS doesn't ship with an automounter feature, but `launchd` (Apple's service manager) combined with `mount_smbfs` achieves the same result: the share mounts itself in the background after login, once the NAS is actually reachable on the network.
 
 Open **Terminal** and run the following script to set up the network folder with SMB:
 
@@ -208,7 +210,7 @@ SMB_PASSWORD="password"
 SMB_DESTINATION="/Volumes/Shared"
 SCRIPT_DIR="$HOME/Scripts"
 SCRIPT_PATH="$SCRIPT_DIR/mount-smb-shared.sh"
-PLIST_NAME="com.nicedeck.mount-smb-shared"
+PLIST_NAME="com.samba.mount-smb-shared"
 PLIST_PATH="$HOME/Library/LaunchAgents/$PLIST_NAME.plist"
 
 # Make sure folders exist
@@ -271,7 +273,6 @@ mkdir -p $HOME/Games
 ln -s /Volumes/Shared/Games/ROMs $HOME/Games/ROMs
 ln -s /Volumes/Shared/Games/BIOS $HOME/Games/BIOS
 ln -s /Volumes/Shared/Games/State $HOME/Games/State
-ln -s /Volumes/Shared/Games/Windows $HOME/Games/Windows
 ```
 
 That is it! NiceDeck will be able to detect and parse your games from the network-mounted folders.
