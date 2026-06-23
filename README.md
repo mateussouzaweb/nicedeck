@@ -131,7 +131,6 @@ Game Launchers and Stores:
 
 - [Amazon Games](https://gaming.amazon.com)
 - [Battle.net](https://us.shop.battle.net)
-- [Bottles](https://usebottles.com)
 - [EA App](https://www.ea.com/ea-app)
 - [Epic Games](https://store.epicgames.com)
 - [ES-DE](https://es-de.org)

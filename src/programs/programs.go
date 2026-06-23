@@ -25,7 +25,6 @@ func GetPrograms() ([]*packaging.Program, error) {
 	programs = append(programs, Azahar())
 	programs = append(programs, BattleNet())
 	programs = append(programs, BraveBrowser())
-	programs = append(programs, Bottles())
 	programs = append(programs, Cemu())
 	programs = append(programs, ChiakiNG())
 	programs = append(programs, Discord())

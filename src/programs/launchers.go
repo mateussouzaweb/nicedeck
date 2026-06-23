@@ -91,33 +91,6 @@ func BattleNet() *packaging.Program {
 	}
 }
 
-// Installer for Bottles
-func Bottles() *packaging.Program {
-	return &packaging.Program{
-		ID:          "bottles",
-		Name:        "Bottles",
-		Description: "Run Windows in a Bottle",
-		Category:    "Gaming",
-		Tags:        []string{"Gaming", "Utilities"},
-		Flags:       []string{},
-		Folders:     []string{},
-		Website:     "https://usebottles.com",
-		IconURL:     assets.Icon("7c5c040ae5d810d39deebbc55a06ff3f.png"),
-		LogoURL:     assets.Logo("92491efa7cda6552f740334c9e601855.png"),
-		CoverURL:    assets.Cover("8845e5d69c0f8a1d4b30334afb030214.png"),
-		BannerURL:   assets.Banner("123a00ca793f7db5b771574116bc061f.png"),
-		HeroURL:     assets.Hero("c24f9ae141fa02c7fa1deea7e1149557.png"),
-		Package: packaging.Best(&linux.Flatpak{
-			AppID:     "com.usebottles.bottles",
-			Namespace: "system",
-			Overrides: []string{
-				fmt.Sprintf("--filesystem=%s", fs.ExpandPath("$GAMES")),
-			},
-			Arguments: packaging.NoArguments(),
-		}),
-	}
-}
-
 // Installer for EA App
 func EAApp() *packaging.Program {
 	return &packaging.Program{
