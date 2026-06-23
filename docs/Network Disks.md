@@ -11,9 +11,13 @@ When streaming games directly over a home network, choosing the correct network 
 
 Please be aware that gaming with network disks has its own limitations due to network speeds:
 
-- A standard 1 Gbps connection caps out at ~115 MB/s, so you need to calculate how many seconds the game assets will take to load.
+- Your connection speed determines how fast game assets can load. Here are the theoretical maximum transfer speeds per connection type:
+  - 1 Gbps → ~115 MB/s
+  - 2.5 Gbps → ~286 MB/s
+  - 5 Gbps → ~572 MB/s
+  - 10 Gbps → ~1144 MB/s
 - Small files, like retro games (GBA, PS1, ...) tend to work well on 1 Gbps because the assets are small and load almost instantly into RAM. Bandwidth is rarely saturated in such cases.
-- Massive or uncompressed files, such as modern AAA titles or games with installs larger than 50 GB, will require a 2.5 Gbps to 10 Gbps network. Modern assets stream dynamically from storage while playing, so a slow network will cause texture pop-in or stuttering.
+- Massive or uncompressed files, such as modern AAA titles, will require a 2.5 Gbps to 10 Gbps network. Modern assets stream dynamically from storage while playing, so a slow network will cause texture pop-in or stuttering.
 - Wi-Fi can also greatly affect performance — stick to Wi-Fi 6 or use cables when possible.
 - While playing, network bandwidth can be saturated, especially on bigger games. When the network is saturated, it will affect the network speed for all devices.
 
@@ -119,6 +123,21 @@ ln -s /var/mnt/shared/Games/State $HOME/Games/State
 ```
 
 That is it! NiceDeck will be able to detect and parse your games from the network-mounted folders.
+
+## Setup on SteamOS
+
+If you are using SteamOS, the Linux guide will not work due to system locks.
+To be able to perform the process, you need to define a user password and temporarily unlock the system:
+
+```bash
+# Set user password
+passwd
+
+# Temporary unlock system
+sudo steamos-readonly disable
+```
+
+Please be aware that once you upgrade the system, SteamOS will remove your modifications, so you need to set it up again after OS update.
 
 ## Setup on Windows
 
