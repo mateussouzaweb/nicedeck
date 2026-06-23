@@ -48,7 +48,7 @@ func GetSynchronizables(options *Options) ([]*Synchronizable, error) {
 
 		// Source are in multiple locations due to multiple runtimes and operating systems
 		// To ensure compatibility, we process just the first valid location for source
-		for _, sourcePath := range state.Source {
+		for _, sourcePath := range state.Source.Paths() {
 
 			source, err := fs.GetInfo(sourcePath)
 			if err != nil {
