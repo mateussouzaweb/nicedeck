@@ -74,28 +74,11 @@ For more details, please check the official [Wine documentation](https://gitlab.
 
 ## Tweaking the Environment with Extras
 
-The Proton run script available at `$HOME/Games/Proton/run.sh` will be updated every time you install a program with Proton.
-If you want to customize the run process before launching it, create the file `$HOME/Games/Proton/extra.sh` and put your customizations inside it.
+The Proton run script available at `$HOME/Games/Proton/run.sh` will be updated every time you install a program with Proton - you should avoid doing modifications in that file. 
 
-For reference, here are a few customizations that you can do in the `$HOME/Games/Proton/extra.sh` file:
+If you want to customize the Proton run process before launching, such as activating the Game Mode, customizing the prefix or anything else, modify the file `$HOME/Games/Proton/extra.sh` and put your customizations inside it. For convenience we have put a few modification samples in it.
 
-```bash
-#!/bin/bash
-
-# Activate GameMode
-# Debug: gamemoded -s && gamemodelist
-if [[ "$1" != "wine" ]]; then
-  ARGUMENTS=("gamemoderun" "${ARGUMENTS[@]}")
-fi
-
-# Replace Proton Experimental with Proton-CachyOS Latest
-PROTON_SEARCH="steamapps/common/Proton - Experimental"
-PROTON_REPLACE="compatibilitytools.d/Proton-CachyOS Latest"
-COMMAND=("${COMMAND[@]/$PROTON_SEARCH/$PROTON_REPLACE}")
-ARGUMENTS=("${ARGUMENTS[@]/$PROTON_SEARCH/$PROTON_REPLACE}")
-```
-
-Once you set the content in the file, the Proton layer will automatically load it before running the final launch command.
+Once you set the modifications in the file, the Proton layer will automatically load it before running the final launch command.
 
 ## Games Compatibility with Proton
 

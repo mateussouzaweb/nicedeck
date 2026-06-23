@@ -210,6 +210,18 @@ func (p *Proton) Install() error {
 		return err
 	}
 
+	// Copy extra executable for custom modifications
+	// File is created only if not exist yet
+	err = fs.CopyEmbedded(
+		resourcesContent,
+		"resources/extra.sh",
+		filepath.Join(dataPath, "extra.sh"),
+		false, // Do not overwrite existing
+	)
+	if err != nil {
+		return err
+	}
+
 	// Download program from source
 	// When no need for installer, download from source
 	// When installer is needed, download from source and makes verification to check at the installer file
