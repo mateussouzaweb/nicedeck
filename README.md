@@ -110,7 +110,7 @@ Console Emulators:
 - Microsoft Xbox - [Xemu](https://xemu.app)
 - Microsoft Xbox 360 - [Xenia](https://xenia.jp)
 - Nintendo 3DS - [Azahar](https://azahar-emu.org)
-- Nintendo 64 - [Simple64](https://github.com/simple64/simple64)
+- Nintendo 64 - [Gopher64](https://github.com/gopher64/gopher64)
 - Nintendo DS - [MelonDS](https://melonds.kuribo64.net)
 - Nintendo Game Boy Advance - [mGBA](https://mgba.io)
 - Nintendo GameCube - [Dolphin](https://dolphin-emu.org)

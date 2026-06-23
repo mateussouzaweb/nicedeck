@@ -80,10 +80,10 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 		Console: "Nintendo 64",
 		Folder:  "N64",
 		Emulators: []*Emulator{{
-			Name:          "Simple64",
-			Program:       "simple64",
+			Name:          "Gopher64",
+			Program:       "gopher64",
 			Extensions:    ".bin .d64 .n64 .ndd .u1 .v64 .z64 .7z .zip",
-			LaunchOptions: "--nogui ${ROM}",
+			LaunchOptions: "-f ${ROM}",
 		}},
 	})
 

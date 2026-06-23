@@ -325,6 +325,48 @@ func Flycast() *packaging.Program {
 	}
 }
 
+// Installer for Gopher64
+func Gopher64() *packaging.Program {
+	return &packaging.Program{
+		ID:          "gopher64",
+		Name:        "Gopher64",
+		Description: "Emulator for Nintendo 64",
+		Category:    "Emulators",
+		Tags:        []string{"Gaming", "Emulator"},
+		Flags:       []string{},
+		Folders:     []string{"$EMULATORS", "$STATE/Gopher64", "$ROMS/N64", "$BIOS/N64"},
+		Website:     "https://github.com/gopher64/gopher64",
+		IconURL:     assets.Icon("8d4eadd3ef860106996a64d85b86bf8f.png"),
+		LogoURL:     assets.Logo("9ccc9d3060d556f4b01af55fa0fa6c86.png"),
+		CoverURL:    assets.Cover("cbe8e5c0c6637bfd35ef7e118d8b503c.png"),
+		BannerURL:   assets.Banner("924a62b56da4bc854f1857a7bddc9316.png"),
+		HeroURL:     assets.Hero("24fb80299cb67e57544daa5d9b522de0.png"),
+		Package: packaging.Best(&linux.Flatpak{
+			AppID:     "io.github.gopher64.gopher64",
+			Namespace: "system",
+			Overrides: []string{"--filesystem=host"},
+			Arguments: packaging.NoArguments(),
+		}, &macos.Homebrew{
+			AppID:     "gopher64",
+			Launcher:  "/Applications/Gopher64.app",
+			Arguments: packaging.NoArguments(),
+		}, &windows.Executable{
+			AppID:       "Gopher64",
+			Installer:   "",
+			Uninstaller: "",
+			Launcher:    "$EMULATORS/Gopher64/gopher64.exe",
+			Arguments:   packaging.NoArguments(),
+			Source: github.Release(
+				"https://github.com/gopher64/gopher64",
+				cli.ArchVariant(
+					"gopher64-windows-x86_64.exe",  // amd64
+					"gopher64-windows-aarch64.exe", // arm64
+				),
+			),
+		}),
+	}
+}
+
 // Installer for MelonDS
 func MelonDS() *packaging.Program {
 	return &packaging.Program{
@@ -732,44 +774,6 @@ func ShadPS4() *packaging.Program {
 				cli.ArchVariant(
 					"shadPS4QtLauncher-win64-qt-*.zip", // amd64
 					"shadPS4QtLauncher-win64-qt-*.zip", // arm64 (WIP)
-				),
-			),
-		}),
-	}
-}
-
-// Installer for Simple64
-func Simple64() *packaging.Program {
-	return &packaging.Program{
-		ID:          "simple64",
-		Name:        "Simple64",
-		Description: "Emulator for Nintendo 64",
-		Category:    "Emulators",
-		Tags:        []string{"Gaming", "Emulator"},
-		Flags:       []string{},
-		Folders:     []string{"$EMULATORS", "$STATE/Simple64", "$ROMS/N64", "$BIOS/N64"},
-		Website:     "https://github.com/simple64/simple64",
-		IconURL:     assets.Icon("0ace2e260c8163925254bc878b9eb8ca.png"),
-		LogoURL:     assets.Logo("8f6bf2012d96ef9678f8d3a8f27ce358.png"),
-		CoverURL:    assets.Cover("48eeb385ea71aadccce10e2d294879b0.png"),
-		BannerURL:   assets.Banner("e128d1f12ec88795b0a5853d7c754608.png"),
-		HeroURL:     assets.Hero("73888d1bde775303c1749e63e3312a64.png"),
-		Package: packaging.Best(&linux.Flatpak{
-			AppID:     "io.github.simple64.simple64",
-			Namespace: "system",
-			Overrides: []string{"--filesystem=host"},
-			Arguments: packaging.NoArguments(),
-		}, &windows.Executable{
-			AppID:       "Simple64",
-			Installer:   "",
-			Uninstaller: "",
-			Launcher:    "$EMULATORS/Simple64/simple64-gui.exe",
-			Arguments:   packaging.NoArguments(),
-			Source: github.Release(
-				"https://github.com/simple64/simple64",
-				cli.ArchVariant(
-					"simple64-win64-*.zip", // amd64
-					"simple64-win64-*.zip", // arm64 (WIP)
 				),
 			),
 		}),

@@ -57,6 +57,14 @@
             <entry>$EMULATORS\Flycast\flycast.exe</entry>
         </rule>
     </emulator>
+    <emulator name="GOPHER64">
+        <rule type="staticpath">
+            <entry>/var/lib/flatpak/exports/bin/io.github.gopher64.gopher64</entry>
+            <entry>~/.local/share/flatpak/exports/bin/io.github.gopher64.gopher64</entry>
+            <entry>$APPLICATIONS/Gopher64.app</entry>
+            <entry>$EMULATORS\Gopher64\gopher64.exe</entry>
+        </rule>
+    </emulator>
     <emulator name="MELONDS">
         <rule type="staticpath">
             <entry>/var/lib/flatpak/exports/bin/net.kuribo64.melonDS</entry>
@@ -127,14 +135,7 @@
             <entry>$EMULATORS\ShadPS4\shadPS4QtLauncher.exe</entry>
         </rule>
     </emulator>
-    <emulator name="SIMPLE64">
-        <rule type="staticpath">
-            <entry>/var/lib/flatpak/exports/bin/io.github.simple64.simple64</entry>
-            <entry>~/.local/share/flatpak/exports/bin/io.github.simple64.simple64</entry>
-            <entry>$EMULATORS\Simple64\simple64-gui.exe</entry>
-        </rule>
-    </emulator>
-        <emulator name="VITA3K">
+    <emulator name="VITA3K">
         <rule type="staticpath">
             <entry>$EMULATORS/Vita3K/Vita3K.AppImage</entry>
             <entry>$EMULATORS/Vita3K/Vita3K.app</entry>

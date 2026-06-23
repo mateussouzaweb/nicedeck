@@ -15,7 +15,6 @@ func GetStates(options *Options) []*State {
 	// The following emulators store saves and states on ROMs directory:
 	// - MGBA (user can leave at it is or configure emulator)
 	// - MelonDS (user can leave at it is or configure emulator)
-	// - Simple64 (cannot be configured as it does not provide options)
 	states := []*State{}
 
 	// Azahar
@@ -150,6 +149,29 @@ func GetStates(options *Options) []*State {
 			"$SHARE/melonDS/states",
 			"$CONFIG/melonDS/states",
 			"$EMULATORS/MelonDS/states",
+		},
+	})
+
+	// Gopher64
+	states = append(states, &State{
+		Platform: "N64",
+		Emulator: "Gopher64",
+		Type:     "folder",
+		Path:     "$STATE/Gopher64/saves",
+		Source: []string{
+			"$VAR/io.github.gopher64.gopher64/data/gopher64/saves",
+			"$HOME/Library/Containers/io.github.gopher64.gopher64/Data/Library/Application Support/gopher64/saves",
+			"$APPDATA/Roaming/gopher64/saves",
+		},
+	}, &State{
+		Platform: "N64",
+		Emulator: "Gopher64",
+		Type:     "folder",
+		Path:     "$STATE/Gopher64/states",
+		Source: []string{
+			"$VAR/io.github.gopher64.gopher64/data/gopher64/states",
+			"$HOME/Library/Containers/io.github.gopher64.gopher64/Data/Library/Application Support/gopher64/states",
+			"$APPDATA/Roaming/gopher64/states",
 		},
 	})
 
