@@ -42,7 +42,6 @@ func GetPrograms() ([]*packaging.Program, error) {
 	programs = append(programs, GoogleChrome())
 	programs = append(programs, Gopher64())
 	programs = append(programs, HeroicGamesLauncher())
-	programs = append(programs, Lutris())
 	programs = append(programs, MelonDS())
 	programs = append(programs, MGBA())
 	programs = append(programs, MicrosoftEdge())

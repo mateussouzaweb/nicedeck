@@ -296,33 +296,6 @@ func HeroicGamesLauncher() *packaging.Program {
 	}
 }
 
-// Installer for Lutris
-func Lutris() *packaging.Program {
-	return &packaging.Program{
-		ID:          "lutris",
-		Name:        "Lutris",
-		Description: "Play all your games on Linux",
-		Category:    "Gaming",
-		Tags:        []string{"Gaming", "Utilities"},
-		Flags:       []string{},
-		Folders:     []string{},
-		Website:     "https://lutris.net",
-		IconURL:     assets.Icon("8d060abe1e38ab179742bd3af495f407.png"),
-		LogoURL:     assets.Logo("bbd451c375fb5b293a9b1f082bf8d024.png"),
-		CoverURL:    assets.Cover("3b0d861c2cf5ed4d7b139ee277c8a04a.png"),
-		BannerURL:   assets.Banner("3c5bf5a314017c84acae32394125cf26.png"),
-		HeroURL:     assets.Hero("3b7f06487067b9aa2393a438dd095edc.png"),
-		Package: packaging.Best(&linux.Flatpak{
-			AppID:     "net.lutris.Lutris",
-			Namespace: "system",
-			Overrides: []string{
-				fmt.Sprintf("--filesystem=%s", fs.ExpandPath("$GAMES")),
-			},
-			Arguments: packaging.NoArguments(),
-		}),
-	}
-}
-
 // Installer for Rockstar Games Launcher
 func RockstarGamesLauncher() *packaging.Program {
 	return &packaging.Program{

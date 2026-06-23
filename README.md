@@ -137,7 +137,6 @@ Game Launchers and Stores:
 - [ES-DE](https://es-de.org)
 - [GOG Galaxy](https://www.gog.com/galaxy)
 - [Heroic Games Launcher](https://heroicgameslauncher.com)
-- [Lutris](https://lutris.net)
 - [Steam](https://store.steampowered.com)
 - [Ubisoft Connect](https://www.ubisoft.com/ubisoft-connect)
 - [Rockstar Games Launcher](https://socialclub.rockstargames.com/rockstar-games-launcher)
