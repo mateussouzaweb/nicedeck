@@ -76,7 +76,7 @@ For more details, please check the official [Wine documentation](https://gitlab.
 
 The Proton run script available at `$HOME/Games/Proton/run.sh` will be updated every time you install a program with Proton - you should avoid doing modifications in that file. 
 
-If you want to customize the Proton run process before launching, such as activating the Game Mode, customizing the prefix or anything else, modify the file `$HOME/Games/Proton/extra.sh` and put your customizations inside it. For convenience we have put a few modification samples in it.
+If you want to customize the Proton run process before launching, such as activating the Game Mode, customizing the prefix or anything else, modify the file `$HOME/Games/Proton/run.extra.sh` and put your customizations inside it. For convenience we have put a few modification samples in it.
 
 Once you set the modifications in the file, the Proton layer will automatically load it before running the final launch command.
 

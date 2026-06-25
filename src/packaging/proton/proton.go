@@ -214,8 +214,8 @@ func (p *Proton) Install() error {
 	// File is created only if not exist yet
 	err = fs.CopyEmbedded(
 		resourcesContent,
-		"resources/extra.sh",
-		filepath.Join(dataPath, "extra.sh"),
+		"resources/run.extra.sh",
+		filepath.Join(dataPath, "run.extra.sh"),
 		false, // Do not expand environment variables
 		false, // Do not overwrite existing
 	)

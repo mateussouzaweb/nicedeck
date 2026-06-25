@@ -57,12 +57,9 @@ if [[ "$INSTALL_TYPE" == "flatpak" ]]; then
   )
 fi
 
-# Extra scripting support. You can use this file to:
-# - Add custom environment variables by exporting them in the extra.sh file
-# - Modify the command and its arguments by modifying the "$COMMAND" and "$ARGUMENTS" arrays
-# - Set wrapper arguments by modifying the "$@" array
-if [[ -f "$DATA_PATH/extra.sh" ]]; then
-  source "$DATA_PATH/extra.sh"
+# Extra scripting support
+if [[ -f "$DATA_PATH/run.extra.sh" ]]; then
+  source "$DATA_PATH/run.extra.sh"
 fi
 
 # Execute the command
