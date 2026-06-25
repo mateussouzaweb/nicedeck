@@ -18,7 +18,8 @@ func WriteTemplates(destinationPath string) error {
 		resourcesContent,
 		"resources/controller.vdf",
 		filepath.Join(destinationPath, "controller_neptune_nicedeck.vdf"),
-		true,
+		false, // Do not expand environment variables
+		true,  // Overwrite existing
 	)
 
 	if err != nil {

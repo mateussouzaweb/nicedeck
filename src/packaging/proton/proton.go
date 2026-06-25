@@ -216,6 +216,7 @@ func (p *Proton) Install() error {
 		resourcesContent,
 		"resources/extra.sh",
 		filepath.Join(dataPath, "extra.sh"),
+		false, // Do not expand environment variables
 		false, // Do not overwrite existing
 	)
 	if err != nil {

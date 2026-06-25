@@ -18,6 +18,7 @@ func WriteSettings(destinationPath string) error {
 		resourcesContent,
 		"resources/es_settings.xml",
 		filepath.Join(destinationPath, "settings", "es_settings.xml"),
+		true,  // Expand environment variables
 		false, // Do not overwrite existing
 	)
 
@@ -30,7 +31,8 @@ func WriteSettings(destinationPath string) error {
 		resourcesContent,
 		"resources/es_systems.xml",
 		filepath.Join(destinationPath, "custom_systems", "es_systems.xml"),
-		true,
+		true, // Expand environment variables
+		true, // Overwrite existing
 	)
 
 	if err != nil {
@@ -42,7 +44,8 @@ func WriteSettings(destinationPath string) error {
 		resourcesContent,
 		"resources/es_find_rules.xml",
 		filepath.Join(destinationPath, "custom_systems", "es_find_rules.xml"),
-		true,
+		true, // Expand environment variables
+		true, // Overwrite existing
 	)
 
 	if err != nil {

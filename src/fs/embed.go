@@ -11,17 +11,19 @@ import (
 )
 
 // Copy file from given embedded source path into destination path
-// Embedded copy always expand environment variables on destination path
-func CopyEmbedded(source embed.FS, path string, destination string, overwriteExisting bool) error {
+// Embedded copy can expand environment variables on destination path
+func CopyEmbedded(source embed.FS, path string, destination string, expandEnv bool, overwriteExisting bool) error {
 
 	// Read embedded content
-	embedded, err := source.ReadFile(path)
+	content, err := source.ReadFile(path)
 	if err != nil {
 		return err
 	}
 
 	// Expand embedded to replace variables
-	content := []byte(os.ExpandEnv(string(embedded)))
+	if expandEnv {
+		content = []byte(os.ExpandEnv(string(content)))
+	}
 
 	// Check if destination file exists
 	destinationExist, err := FileExist(destination)
