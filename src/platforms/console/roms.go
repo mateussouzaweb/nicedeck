@@ -72,7 +72,22 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 	// Valid, fill ROM data with runtime
 	executable := runtime.Program.Package.Executable()
 	launchOptions := runtime.Emulator.LaunchOptions
-	launchOptions = strings.Replace(launchOptions, "${ROM}", cli.Quote(finalPath), 1)
+	launchOptions = strings.Replace(
+		launchOptions, "${ROM}", cli.Quote(finalPath), 1,
+	)
+
+	// Special support to inject ROM file content instead of path
+	// The file usually represents the ROM ID for the emulator
+	if strings.Contains(launchOptions, "${CONTENT}") {
+		content, err := os.ReadFile(finalPath)
+		if err != nil {
+			return rom, err
+		}
+
+		launchOptions = strings.Replace(
+			launchOptions, "${CONTENT}", cli.Quote(string(content)), 1,
+		)
+	}
 
 	title := name + " [" + runtime.Platform.Name + "]"
 	description := "ROM for " + runtime.Platform.Name

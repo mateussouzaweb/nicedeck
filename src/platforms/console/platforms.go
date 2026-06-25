@@ -166,8 +166,8 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 		Emulators: []*Emulator{{
 			Name:          "Vita3K",
 			Program:       "vita3k",
-			Extensions:    ".vpk",
-			LaunchOptions: "-F -r ${ROM}",
+			Extensions:    ".psvita",
+			LaunchOptions: "-F -r ${CONTENT}",
 		}},
 	})
 

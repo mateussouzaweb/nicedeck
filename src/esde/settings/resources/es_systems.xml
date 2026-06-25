@@ -104,8 +104,8 @@
         <name>psvita</name>
         <fullname>Sony PlayStation Vita</fullname>
         <path>%ROMPATH%/PSVITA</path>
-        <extension>.vpk .VPK</extension>
-        <command label="VITA3K">%EMULATOR_VITA3K% -F -r %ROM%</command>
+        <extension>.psvita .PSVITA</extension>
+        <command label="VITA3K">%EMULATOR_VITA3K% -F -r %INJECT%=%BASENAME%.psvita</command>
         <platform>psvita</platform>
         <theme>psvita</theme>
     </system>
