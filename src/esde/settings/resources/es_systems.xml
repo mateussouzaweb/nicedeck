@@ -87,7 +87,7 @@
         <fullname>Sony PlayStation 4</fullname>
         <path>%ROMPATH%/PS4</path>
         <extension>.ps4 .PS4</extension>
-        <command label="SHADPS4">%EMULATOR_SHADPS4% -g %ROM%</command>
+        <command label="SHADPS4">%EMULATOR_SHADPS4% -d -g %ROM%</command>
         <platform>ps4</platform>
         <theme>ps4</theme>
     </system>

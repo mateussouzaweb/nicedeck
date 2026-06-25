@@ -143,7 +143,7 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Name:          "ShadPS4",
 			Program:       "shadps4",
 			Extensions:    ".ps4",
-			LaunchOptions: "-g ${ROM}",
+			LaunchOptions: "-d -g ${ROM}",
 		}},
 	})
 
