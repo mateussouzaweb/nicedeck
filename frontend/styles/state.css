@@ -41,8 +41,10 @@
     background: #FFF;
     text-align: left;
 }
-#state .list .table td.empty {
+#state .list .table td.first {
     text-align: center;
+}
+#state .list .table td.empty {
     padding: 15px;
 }
 #state .list .table span {
@@ -50,9 +52,8 @@
     margin-bottom: 5px;
     word-break: break-all;
 }
-#state .list .table input:disabled {
-  background-color: #f5f5f5;
-  color: #a0a0a0;
-  cursor: not-allowed;
-  border: 1px solid #d9d9d9;
+#state .list .table input {
+    accent-color: #0e6e2f;
+    cursor: not-allowed;
+    pointer-events: none;
 }

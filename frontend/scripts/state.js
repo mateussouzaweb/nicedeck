@@ -73,11 +73,12 @@ window.addEventListener('load', async () => {
 
         const html = []
         html.push('<table class="table">')
-        html.push(`<tr>
-            <th>#</th>
-            <th>Platform</th>
-            <th>Source</th>
-            <th>Destination</th>
+        html.push(
+            `<tr>
+                <th title="Recommended" width="42">#</th>
+                <th>Platform</th>
+                <th>Source</th>
+                <th>Destination</th>
             </tr>`)
 
         state.map((stateItem) => {
@@ -88,9 +89,9 @@ window.addEventListener('load', async () => {
             const destination = stateItem.destination
 
             html.push(
-            `<tr>
-                <td>
-                    <input type="checkbox" ${recommended ? 'disabled checked="checked"' : 'disabled'} />
+                `<tr>
+                <td class="first">
+                    ${recommended ? '<input type="checkbox" readonly checked="checked" />' : '<small>-</small>'}
                 </td>
                 <td>
                     <b>${platform}</b><br/>
@@ -98,20 +99,23 @@ window.addEventListener('load', async () => {
                 </td>
                 <td>
                     <span>${source.path}</span><br/>
-                    <small>Size: ${source.size} ${source.exist ? '' : '(no exist)'}</small><br/>
+                    <small>Size: ${source.size} bytes ${source.exist ? '' : '(no exist)'}</small><br/>
                     <small>Modified: ${source.modifiedTime}</small>
                 </td>
                 <td>
                     <span>${destination.path}</span><br/>
-                    <small>Size: ${destination.size} ${destination.exist ? '' : '(no exist)'}</small><br/>
+                    <small>Size: ${destination.size} bytes ${destination.exist ? '' : '(no exist)'}</small><br/>
                     <small>Modified: ${destination.modifiedTime}</small>
                 </td>
             </tr>`)
         })
 
-        if (state.length == 0){
-            html.push(`<tr>
-                <td class="empty" colspan="4">No valid state data detected to perform action.</td>
+        if (state.length == 0) {
+            html.push(
+                `<tr>
+                <td class="first empty" colspan="4">
+                    No valid state data detected to perform action.
+                </td>
             </tr>`)
         }
 

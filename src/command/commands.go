@@ -538,9 +538,9 @@ func listState(context Context) error {
 			`Platform: %s (%s)`+"\n"+
 			`Recommended: %s`+"\n"+
 			`Source: %s`+"\n"+
-			`Size: %d bytes%s | Modified Time: %d`+"\n"+
+			`Size: %d bytes%s | Modified: %d`+"\n"+
 			`Destination: %s`+"\n"+
-			`Size: %d bytes%s | Modified Time: %d`+"\n",
+			`Size: %d bytes%s | Modified: %d`+"\n",
 			item.Platform,
 			item.Type,
 			transform(item.Recommended, "YES", "NO"),
