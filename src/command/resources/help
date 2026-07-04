@@ -15,6 +15,7 @@ add             add a new shortcut to library
 modify          update or delete shortcut with given ID
 install         install or update programs
 remove          remove previously installed programs
+list-state      list emulators state for given action
 backup-state    backup emulators state
 restore-state   restore emulators state
 process-roms    process emulators ROMs
@@ -78,6 +79,11 @@ install:
 remove:
   --programs=[value,...]      list of programs to remove
   --preferences=[value,...]   preferences when removing programs
+
+list-state:
+  --action=[backup|restore]   expected action to perform
+  --platforms=[value,...]     platforms to include in list state
+  --preferences=[value,...]   preferences when listing state
 
 backup-state:
   --platforms=[value,...]     platforms to backup emulators state

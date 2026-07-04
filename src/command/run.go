@@ -54,6 +54,8 @@ func Run(args []string, done chan bool) error {
 		err = installPrograms(context)
 	case "remove":
 		err = removePrograms(context)
+	case "list-state":
+		err = listState(context)
 	case "backup-state":
 		err = backupState(context)
 	case "restore-state":

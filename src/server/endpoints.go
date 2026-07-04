@@ -558,6 +558,55 @@ func removePrograms(context *Context) error {
 	return context.Status(200).JSON(result)
 }
 
+// List state result
+type ListStateResult struct {
+	Status string                  `json:"status"`
+	Error  string                  `json:"error"`
+	Data   []*state.Synchronizable `json:"data"`
+}
+
+// List state action
+func listState(context *Context) error {
+
+	result := ListStateResult{}
+
+	// Bind data
+	query := context.Request.URL.Query()
+	action := query.Get("action")
+	platformsParam := query.Get("platforms")
+	preferencesParam := query.Get("preferences")
+
+	// Create and validate options
+	platforms := strings.Split(platformsParam, ",")
+	preferences := strings.Split(preferencesParam, ",")
+	options := state.ToOptions(action, platforms, preferences)
+
+	if options.Action == "" {
+		err := fmt.Errorf("action is required")
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+	if len(options.Platforms) == 0 {
+		err := fmt.Errorf("platform list is required")
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Retrieve synchronizable results
+	data, err := state.GetSynchronizables(options)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	result.Status = "OK"
+	result.Data = data
+	return context.Status(http.StatusOK).JSON(result)
+}
+
 // Backup state data
 type BackupStateData struct {
 	Platforms   []string `json:"platforms"`
@@ -585,8 +634,8 @@ func backupState(context *Context) error {
 	}
 
 	// Process synchronization
-	options := state.ToOptions(data.Platforms, data.Preferences)
-	err = state.SyncState("backup", options)
+	options := state.ToOptions("backup", data.Platforms, data.Preferences)
+	err = state.SyncState(options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -624,8 +673,8 @@ func restoreState(context *Context) error {
 	}
 
 	// Process synchronization
-	options := state.ToOptions(data.Platforms, data.Preferences)
-	err = state.SyncState("restore", options)
+	options := state.ToOptions("restore", data.Platforms, data.Preferences)
+	err = state.SyncState(options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -840,6 +889,7 @@ func Setup(developmentMode bool, shutdown chan bool) error {
 	// Specific routes
 	Add("GET", "/api/programs", listPrograms)
 	Add("GET", "/api/platforms", listPlatforms)
+	Add("GET", "/api/state", listState)
 	Add("GET", "/api/shortcuts", listShortcuts)
 	Add("GET", "/api/scrape", scrapeData)
 	Add("POST", "/api/library/load", loadLibrary)

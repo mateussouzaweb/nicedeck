@@ -2,14 +2,16 @@ package state
 
 // Options struct
 type Options struct {
+	Action      string   `json:"action"`
 	Platforms   []string `json:"platforms"`
 	Preferences []string `json:"preferences"`
 }
 
 // Transform values into valid options
-func ToOptions(platforms []string, preferences []string) *Options {
+func ToOptions(action string, platforms []string, preferences []string) *Options {
 
 	options := Options{
+		Action:      action,
 		Platforms:   platforms,
 		Preferences: preferences,
 	}

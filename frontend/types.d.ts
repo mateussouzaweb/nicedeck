@@ -42,6 +42,22 @@ interface NativePlatform {
 	launchOptions: string
 }
 
+interface PathInfo {
+	path: string
+	type: string
+	exist: boolean
+	size: number
+	modifiedTime: number
+}
+
+interface Synchronizable {
+	platform: string
+	type: string
+	source: PathInfo
+	destination: PathInfo
+	recommended: boolean
+}
+
 interface Shortcut {
 	id: string
 	program: string
@@ -187,6 +203,18 @@ interface RemoveProgramsData {
 interface RemoveProgramsResult {
 	status: string
 	error: string
+}
+
+interface ListStateParams extends URLSearchParams {
+	action: string
+	platform: string
+	preferences: string
+}
+
+interface ListStateResult {
+	status: string
+	error: string
+	data: Synchronizable[]
 }
 
 interface BackupStateData {

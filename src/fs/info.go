@@ -6,12 +6,13 @@ import (
 	"path/filepath"
 )
 
+// Info struct
 type Info struct {
-	Path         string
-	Type         string
-	Exist        bool
-	Size         int64
-	ModifiedTime int64
+	Path         string `json:"path"`
+	Type         string `json:"type"`
+	Exist        bool   `json:"exist"`
+	Size         int64  `json:"size"`
+	ModifiedTime int64  `json:"modifiedTime"`
 }
 
 // Returns information about a file or folder path

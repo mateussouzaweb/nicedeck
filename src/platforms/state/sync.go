@@ -7,14 +7,16 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 )
 
+// Synchronizable struct
 type Synchronizable struct {
-	Platform    string
-	Type        string
-	Source      *fs.Info
-	Destination *fs.Info
+	Platform    string   `json:"platform"`
+	Type        string   `json:"type"`
+	Source      *fs.Info `json:"source"`
+	Destination *fs.Info `json:"destination"`
+	Recommended bool     `json:"recommended"`
 }
 
-// Return synchronizable states based on given options
+// Return synchronizable items based on given options
 func GetSynchronizables(options *Options) ([]*Synchronizable, error) {
 
 	var result []*Synchronizable
@@ -27,63 +29,139 @@ func GetSynchronizables(options *Options) ([]*Synchronizable, error) {
 			continue
 		}
 
-		// By default, destination is the path defined in state as safe location
-		// In restore action, destination and source path are inverted
-		destination, err := fs.GetInfo(state.Path)
-		if err != nil {
-			return result, err
-		}
-
-		// When destination path exist, ensure that it has the expected type to be processable
-		// This is important to avoid synchronization issues
-		if destination.Exist {
-			if state.Type == "file" && destination.Type != "file" {
-				cli.Debug("Skipping file with invalid type: %s\n", destination.Path)
-				continue
-			} else if state.Type == "folder" && destination.Type != "folder" {
-				cli.Debug("Skipping folder with invalid type: %s\n", destination.Path)
-				continue
-			}
-		}
-
-		// Source are in multiple locations due to multiple runtimes and operating systems
-		// To ensure compatibility, we process just the first valid location for source
-		for _, sourcePath := range state.Source.Paths() {
-
-			source, err := fs.GetInfo(sourcePath)
+		// Backup action copy from platform source to state destination
+		if options.Action == "backup" {
+			destination, err := fs.GetInfo(state.Destination)
 			if err != nil {
 				return result, err
 			}
 
-			// Ensure that source exist to be processable
-			if state.Type == "file" && source.Exist == false {
-				cli.Debug("Skipping file not detected: %s\n", source.Path)
-				continue
-			} else if state.Type == "folder" && source.Exist == false {
-				cli.Debug("Skipping folder not detected: %s\n", source.Path)
-				continue
+			// Check destination
+			if destination.Exist {
+				if state.Type == "file" && destination.Type != "file" {
+					cli.Debug("Skipping file with invalid type: %s\n", destination.Path)
+					continue
+				} else if state.Type == "folder" && destination.Type != "folder" {
+					cli.Debug("Skipping folder with invalid type: %s\n", destination.Path)
+					continue
+				}
 			}
 
-			// Ensure that source has the expected type to be processable
-			if state.Type == "file" && source.Type != "file" {
-				cli.Debug("Skipping file with invalid type: %s\n", source.Path)
-				continue
-			} else if state.Type == "folder" && source.Type != "folder" {
-				cli.Debug("Skipping folder with invalid type: %s\n", source.Path)
-				continue
+			// Source are in multiple locations due to multiple runtimes and operating systems
+			// To ensure compatibility, we process just the first valid location for source
+			for _, sourcePath := range state.Source.Paths() {
+
+				source, err := fs.GetInfo(sourcePath)
+				if err != nil {
+					return result, err
+				}
+
+				// Ensure that source exist to be processable
+				if state.Type == "file" && source.Exist == false {
+					cli.Debug("Skipping file not detected: %s\n", source.Path)
+					continue
+				} else if state.Type == "folder" && source.Exist == false {
+					cli.Debug("Skipping folder not detected: %s\n", source.Path)
+					continue
+				}
+
+				// Ensure that source has the expected type to be processable
+				if state.Type == "file" && source.Type != "file" {
+					cli.Debug("Skipping file with invalid type: %s\n", source.Path)
+					continue
+				} else if state.Type == "folder" && source.Type != "folder" {
+					cli.Debug("Skipping folder with invalid type: %s\n", source.Path)
+					continue
+				}
+
+				// Check if sync is recommended
+				recommended := false
+				if source.ModifiedTime > destination.ModifiedTime {
+					recommended = true
+				}
+
+				// Append synchronizable information
+				result = append(result, &Synchronizable{
+					Platform:    state.Platform,
+					Type:        state.Type,
+					Source:      source,
+					Destination: destination,
+					Recommended: recommended,
+				})
+
+				// Ensure that only the first valid result will be processed
+				break
 			}
 
-			// Append synchronizable information
-			result = append(result, &Synchronizable{
-				Platform:    state.Platform,
-				Type:        state.Type,
-				Source:      source,
-				Destination: destination,
-			})
+			continue
+		}
 
-			// Ensure that only the first valid result will be processed
-			break
+		// Restore action copy from state destination to platform source
+		// This is the inverse of the backup action
+		if options.Action == "restore" {
+			source, err := fs.GetInfo(state.Destination)
+			if err != nil {
+				return result, err
+			}
 
+			// Check source
+			if source.Exist {
+				if state.Type == "file" && source.Type != "file" {
+					cli.Debug("Skipping file with invalid type: %s\n", source.Path)
+					continue
+				} else if state.Type == "folder" && source.Type != "folder" {
+					cli.Debug("Skipping folder with invalid type: %s\n", source.Path)
+					continue
+				}
+			}
+
+			// Destination are in multiple locations due to multiple runtimes and operating systems
+			// To ensure compatibility, we process just the first valid location for destination
+			for _, destinationPath := range state.Source.Paths() {
+
+				destination, err := fs.GetInfo(destinationPath)
+				if err != nil {
+					return result, err
+				}
+
+				// Ensure that destination exist to be processable
+				if state.Type == "file" && destination.Exist == false {
+					cli.Debug("Skipping file not detected: %s\n", destination.Path)
+					continue
+				} else if state.Type == "folder" && destination.Exist == false {
+					cli.Debug("Skipping folder not detected: %s\n", destination.Path)
+					continue
+				}
+
+				// Ensure that destination has the expected type to be processable
+				if state.Type == "file" && destination.Type != "file" {
+					cli.Debug("Skipping file with invalid type: %s\n", destination.Path)
+					continue
+				} else if state.Type == "folder" && destination.Type != "folder" {
+					cli.Debug("Skipping folder with invalid type: %s\n", destination.Path)
+					continue
+				}
+
+				// Check if sync is recommended
+				recommended := false
+				if source.ModifiedTime > destination.ModifiedTime {
+					recommended = true
+				}
+
+				// Append synchronizable information
+				result = append(result, &Synchronizable{
+					Platform:    state.Platform,
+					Type:        state.Type,
+					Source:      source,
+					Destination: destination,
+					Recommended: recommended,
+				})
+
+				// Ensure that only the first valid result will be processed
+				break
+			}
+
+			continue
 		}
 	}
 
@@ -91,7 +169,7 @@ func GetSynchronizables(options *Options) ([]*Synchronizable, error) {
 }
 
 // Sync state of each platform
-func SyncState(action string, options *Options) error {
+func SyncState(options *Options) error {
 
 	// Get synchronizable information based on state and options
 	synchronizable, err := GetSynchronizables(options)
@@ -102,17 +180,14 @@ func SyncState(action string, options *Options) error {
 	// Process each synchronizable item
 	for _, item := range synchronizable {
 
+		// Skip items that source not exist
+		if !item.Source.Exist {
+			continue
+		}
+
 		// Fill source and destination information
 		source := item.Source.Path
 		destination := item.Destination.Path
-
-		// Default action is copy from source to destination path as backup method
-		// However, user can choose to restore state with optional preference
-		// When using restore method, invert path information
-		if action == "restore" {
-			source = item.Destination.Path
-			destination = item.Source.Path
-		}
 
 		// Process file or folder state
 		switch item.Type {

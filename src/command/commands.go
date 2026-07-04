@@ -497,6 +497,69 @@ func removePrograms(context Context) error {
 	return nil
 }
 
+// List state
+func listState(context Context) error {
+
+	// Retrieve command details
+	action := context.Arg("--action", "")
+	include := context.Multiple("--platforms", ",")
+	preferences := context.Multiple("--preferences", ",")
+
+	if action == "" {
+		return fmt.Errorf("action is required")
+	}
+	if len(include) == 0 {
+		return fmt.Errorf("platform list is required")
+	}
+
+	// Init user library
+	err := library.Init()
+	if err != nil {
+		return err
+	}
+
+	// Retrieve synchronizable results
+	options := state.ToOptions(action, include, preferences)
+	result, err := state.GetSynchronizables(options)
+	if err != nil {
+		return err
+	}
+
+	// Print results
+	transform := func(condition bool, value string, alternative string) string {
+		if condition {
+			return value
+		}
+		return alternative
+	}
+
+	for _, item := range result {
+		entryResult := fmt.Sprintf(``+
+			`Platform: %s (%s)`+"\n"+
+			`Recommended: %s`+"\n"+
+			`Source: %s`+"\n"+
+			`Size: %d bytes%s | Modified Time: %d`+"\n"+
+			`Destination: %s`+"\n"+
+			`Size: %d bytes%s | Modified Time: %d`+"\n",
+			item.Platform,
+			item.Type,
+			transform(item.Recommended, "YES", "NO"),
+			item.Source.Path,
+			int(item.Source.Size),
+			transform(item.Source.Exist, "", "(no exist)"),
+			int(item.Source.ModifiedTime),
+			item.Destination.Path,
+			int(item.Destination.Size),
+			transform(item.Destination.Exist, "", "(no exist)"),
+			int(item.Destination.ModifiedTime),
+		)
+
+		cli.Printf(cli.ColorDefault, "%s\n", entryResult)
+	}
+
+	return nil
+}
+
 // Backup state
 func backupState(context Context) error {
 
@@ -509,8 +572,8 @@ func backupState(context Context) error {
 	}
 
 	// Process synchronization
-	options := state.ToOptions(include, preferences)
-	err := state.SyncState("backup", options)
+	options := state.ToOptions("backup", include, preferences)
+	err := state.SyncState(options)
 	if err != nil {
 		return err
 	}
@@ -530,8 +593,8 @@ func restoreState(context Context) error {
 	}
 
 	// Process synchronization
-	options := state.ToOptions(include, preferences)
-	err := state.SyncState("restore", options)
+	options := state.ToOptions("restore", include, preferences)
+	err := state.SyncState(options)
 	if err != nil {
 		return err
 	}

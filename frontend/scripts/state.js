@@ -20,7 +20,7 @@ window.addEventListener('load', async () => {
 
         const options = platforms.map((platform) => {
             return `<label class="checkbox" title="${platform.name}">
-                <input type="checkbox" name="platforms[]" value="${platform.value}" />
+                <input type="checkbox" name="platforms[]" value="${platform.value}" checked="checked" />
                 <div class="area">
                     <div class="icon">
                         <img loading="lazy" src="/img/platforms/${platform.key}.png" alt="${platform.name}" width="96" height="96" />
@@ -49,11 +49,85 @@ window.addEventListener('load', async () => {
 
     }
 
+    /**
+     * Load and show state preview
+     */
+    async function loadState() {
+
+        const form = $('#state form')
+        const data = new FormData(form)
+        const action = data.getAll('action')
+        const platforms = data.getAll('platforms[]')
+        const preferences = data.getAll('preferences[]')
+
+        /** @type {ListStateParams} */
+        const params = new URLSearchParams({
+            action: action,
+            platforms: platforms.join(','),
+            preferences: preferences.join(',')
+        })
+
+        /** @type {ListStateResult} */
+        const request = await requestJson('GET', '/api/state?' + params.toString())
+        const state = request.data || []
+
+        const html = []
+        html.push('<table class="table">')
+        html.push(`<tr>
+            <th>#</th>
+            <th>Platform</th>
+            <th>Source</th>
+            <th>Destination</th>
+            </tr>`)
+
+        state.map((stateItem) => {
+            const platform = stateItem.platform
+            const type = stateItem.type
+            const recommended = stateItem.recommended
+            const source = stateItem.source
+            const destination = stateItem.destination
+
+            html.push(
+            `<tr>
+                <td>
+                    <input type="checkbox" ${recommended ? 'disabled checked="checked"' : 'disabled'} />
+                </td>
+                <td>
+                    <b>${platform}</b><br/>
+                    <small>(${type})</small>
+                </td>
+                <td>
+                    <span>${source.path}</span><br/>
+                    <small>Size: ${source.size} ${source.exist ? '' : '(no exist)'}</small><br/>
+                    <small>Modified: ${source.modifiedTime}</small>
+                </td>
+                <td>
+                    <span>${destination.path}</span><br/>
+                    <small>Size: ${destination.size} ${destination.exist ? '' : '(no exist)'}</small><br/>
+                    <small>Modified: ${destination.modifiedTime}</small>
+                </td>
+            </tr>`)
+        })
+
+        if (state.length == 0){
+            html.push(`<tr>
+                <td class="empty" colspan="4">No valid state data detected to perform action.</td>
+            </tr>`)
+        }
+
+        html.push('</table>')
+
+        const destination = $('#state .list')
+        destination.innerHTML = html.join('')
+
+    }
+
     on('#state .select-all', 'click', (event) => {
         event.preventDefault()
         const parent = event.target.closest('.group')
         const inputs = $$('input[type="checkbox"]', parent)
         inputs.map((input) => input.checked = "checked")
+        loadState()
     })
 
     on('#state .clear-all', 'click', (event) => {
@@ -61,6 +135,11 @@ window.addEventListener('load', async () => {
         const parent = event.target.closest('.group')
         const inputs = $$('input[type="checkbox"]', parent)
         inputs.map((input) => input.checked = "")
+        loadState()
+    })
+
+    on('#state .radio input, #state .checkbox input', 'change', () => {
+        loadState()
     })
 
     on('#state form', 'submit', async (event) => {
@@ -75,17 +154,20 @@ window.addEventListener('load', async () => {
 
         const data = new FormData(form)
         const action = data.getAll('action')
+        const platforms = data.getAll('platforms[]')
+        const preferences = data.getAll('preferences[]')
 
         /** @type {SyncStateData} */
         const body = {
-            platforms: data.getAll('platforms[]'),
-            preferences: data.getAll('preferences[]')
+            platforms: platforms,
+            preferences: preferences
         }
 
         await window.runAndCaptureConsole(button, true, async () => {
             try {
                 /** @type {BackupStateResult|RestoreStateResult} */
                 await requestJson('POST', `/api/state/${action}`, JSON.stringify(body))
+                await loadState()
             } catch (error) {
                 window.showError(error)
             }
@@ -94,6 +176,7 @@ window.addEventListener('load', async () => {
 
     try {
         await loadPlatforms()
+        await loadState()
     } catch (error) {
         window.showError(error)
     }
