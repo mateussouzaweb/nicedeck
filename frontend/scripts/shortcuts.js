@@ -127,6 +127,9 @@ window.addEventListener('load', async () => {
 
         const items = filtered.map((shortcut) => {
             const coverImage = getImage(shortcut, 'cover')
+            const tags = (shortcut.tags || []).map((tag) => {
+                return (tag) ? `<small class="tag">${tag}</small>` : ''
+            }).join('')
 
             return `
             <article class="item shortcut" title="${shortcut.name}">
@@ -135,6 +138,7 @@ window.addEventListener('load', async () => {
                         <img loading="lazy" src="${coverImage}" alt="${shortcut.name}" width="600" height="900"/>
                     </div>
                     <div class="info">
+                        <div class="tags">${tags}</div>
                         <div class="title">
                             <h4>${shortcut.name}</h4>
                         </div>

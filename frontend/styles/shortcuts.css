@@ -166,6 +166,23 @@
     width: 100%;
 }
 
+#shortcuts #list .info .tags {
+    display: block;
+    padding: 10px 0 5px 0;
+    text-align: center;
+}
+#shortcuts #list .info .tags .tag {
+    background: #FFF;
+    border: 1px solid #000;
+    border-radius: 3px;
+    color: #000;
+    display: inline-block;
+    font-size: 10px;
+    margin: 2px;
+    padding: 2px 5px;
+    vertical-align: middle;
+}
+
 #shortcuts #list .info {
     align-items: stretch;
     border-top: 1px solid #000;
