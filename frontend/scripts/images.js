@@ -117,6 +117,7 @@ window.addEventListener('load', async () => {
 
         try {
 
+             /** @type {ScrapeDataParams} */
             const params = new URLSearchParams({
                 type: imageType,
                 term: searchTerm

@@ -247,6 +247,11 @@ interface ProcessROMsResult {
 	error: string
 }
 
+interface ScrapeDataParams extends URLSearchParams {
+	type: string
+	term: string
+}
+
 interface ScrapeDataResult {
 	status: string
 	error: string
