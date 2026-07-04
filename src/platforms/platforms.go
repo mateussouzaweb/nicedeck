@@ -124,7 +124,7 @@ func ProcessShortcut(name string, path string, options *Options) (*shortcuts.Sho
 				CoverPath:      "",
 				BannerPath:     "",
 				HeroPath:       "",
-				Tags:           []string{"Gaming", "ROM", rom.Platform},
+				Tags:           []string{"ROM", rom.Platform},
 			}
 		}
 
@@ -213,7 +213,7 @@ func ProcessShortcuts(options *Options) error {
 				CoverPath:      "",
 				BannerPath:     "",
 				HeroPath:       "",
-				Tags:           []string{"Gaming", "ROM", rom.Platform},
+				Tags:           []string{"ROM", rom.Platform},
 			}
 
 			// Scrape additional ROM information
