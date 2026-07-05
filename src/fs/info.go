@@ -55,6 +55,17 @@ func GetInfo(path string) (*Info, error) {
 	// Return the most recent modified time for all files available in the directory
 	if stat.IsDir() {
 
+		// Evaluate symlink to retrieve real path
+		realPath, err := filepath.EvalSymlinks(info.Path)
+		if err != nil {
+			return info, err
+		} else {
+			info.Path = realPath
+		}
+
+		// Reset size to calculate based on directory files
+		info.Size = 0
+
 		// Note: walkDir does not follow symbolic links
 		filepath.WalkDir(info.Path, func(filePath string, dir os.DirEntry, err error) error {
 
@@ -78,6 +89,9 @@ func GetInfo(path string) (*Info, error) {
 			if fileInfo.ModTime().Unix() > info.ModifiedTime {
 				info.ModifiedTime = fileInfo.ModTime().Unix()
 			}
+
+			// Increase size of the folder
+			info.Size += fileInfo.Size()
 
 			return nil
 		})
