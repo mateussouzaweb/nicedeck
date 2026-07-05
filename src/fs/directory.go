@@ -103,5 +103,17 @@ func CopyDirectory(source string, destination string) error {
 		}
 	}
 
+	// Apply access and modification times to directory
+	err = os.Chtimes(destination, stat.ModTime(), stat.ModTime())
+	if err != nil {
+		return err
+	}
+
+	// Apply copied permissions to directory
+	err = os.Chmod(destination, stat.Mode())
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
