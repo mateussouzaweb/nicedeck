@@ -10,7 +10,6 @@ permissions:
 
 env:
   CI: true
-  SAVE_ARTIFACT: false
 
 jobs:
   check-commit:
@@ -83,7 +82,9 @@ jobs:
 
   build-binaries:
     name: Build Binaries
-    needs: [extract-information, create-release]
+    needs:
+      - extract-information
+      - create-release
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/mateussouzaweb/nicedeck:master
@@ -112,8 +113,20 @@ jobs:
           set -- $FILES
           gh release upload "$TAG" "$@" --clobber
 
+  publish-release:
+    name: Publish Release
+    needs:
+      - extract-information
+      - create-release
+      - build-binaries
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout
+        name: Checkout repository
+        uses: actions/checkout@v6
+
       - id: publish-release
-        name: Publish Release
+        name: Publish release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
