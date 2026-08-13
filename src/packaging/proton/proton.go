@@ -113,7 +113,8 @@ func (p *Proton) DrivePath() string {
 
 // Retrieve real path for given path
 func (p *Proton) RealPath(path string) string {
-	return strings.Replace(path, "C:", p.DrivePath(), 1)
+	path = strings.Replace(path, "C:", p.DrivePath(), 1)
+	return fs.ExpandPath(path)
 }
 
 // Retrieve virtual path for given path
@@ -296,7 +297,7 @@ func (p *Proton) Remove() error {
 
 	// Remove launcher parent folder
 	// Because package is located in its own folder
-	directory := filepath.Dir(fs.ExpandPath(p.Launcher))
+	directory := filepath.Dir(p.RealPath(p.Launcher))
 	err := fs.RemoveDirectory(directory)
 	if err != nil {
 		return err
@@ -305,7 +306,7 @@ func (p *Proton) Remove() error {
 	// Remove installer file
 	// Because installer is placed in another location
 	if p.Installer != "" {
-		err := fs.RemoveFile(fs.ExpandPath(p.Installer))
+		err := fs.RemoveFile(p.RealPath(p.Installer))
 		if err != nil {
 			return err
 		}
@@ -317,7 +318,7 @@ func (p *Proton) Remove() error {
 // Installed verification
 func (p *Proton) Installed() (bool, error) {
 
-	launcher := fs.ExpandPath(p.RealPath(p.Launcher))
+	launcher := p.RealPath(p.Launcher)
 	exist, err := fs.FileExist(launcher)
 	if err != nil {
 		return false, err
