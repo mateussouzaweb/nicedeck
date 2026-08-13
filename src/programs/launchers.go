@@ -294,7 +294,7 @@ func RockstarGamesLauncher() *packaging.Program {
 			Source:      website.Link("https://gamedownloads.rockstargames.com/public/installer/Rockstar-Games-Launcher.exe"),
 		}, &windows.Executable{
 			AppID:       "RockstarGamesLauncher",
-			Installer:   "$HOMEDRIVE/Downloads/RockstarGamesLauncher.exe",
+			Installer:   "$DOWNLOADS/RockstarGamesLauncher.exe",
 			Uninstaller: "$PROGRAMS/Rockstar Games/Launcher/uninstall.exe",
 			Launcher:    "$PROGRAMS/Rockstar Games/Launcher/Launcher.exe",
 			Arguments:   packaging.NoArguments(),
