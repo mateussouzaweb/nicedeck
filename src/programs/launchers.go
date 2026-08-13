@@ -33,9 +33,9 @@ func AmazonGames() *packaging.Program {
 		HeroURL:     assets.Hero("a21e85aedf84619520f0c5e30bd55042.png"),
 		Package: packaging.Best(&proton.Proton{
 			AppID:       "amazon-games",
-			Installer:   "C:/Downloads/AmazonGamesSetup.exe",
-			Uninstaller: "C:/users/steamuser/AppData/Local/Amazon Games/App/Uninstall Amazon Games.exe",
-			Launcher:    "C:/users/steamuser/AppData/Local/Amazon Games/App/Amazon Games.exe",
+			Installer:   "$DOWNLOADS/AmazonGamesSetup.exe",
+			Uninstaller: "$APPDATA/Local/Amazon Games/App/Uninstall Amazon Games.exe",
+			Launcher:    "$APPDATA/Local/Amazon Games/App/Amazon Games.exe",
 			Arguments:   packaging.NoArguments(),
 			Source:      website.Link("https://download.amazongames.com/AmazonGamesSetup.exe"),
 		}, &windows.WinGet{
@@ -64,9 +64,9 @@ func BattleNet() *packaging.Program {
 		HeroURL:     assets.Hero("9f319422ca17b1082ea49820353f14ab.jpg"),
 		Package: packaging.Best(&proton.Proton{
 			AppID:       "battle-net",
-			Installer:   "C:/Downloads/Battle.net-Setup.exe",
-			Uninstaller: "C:/ProgramData/Battle.net/Agent/Blizzard Uninstaller.exe",
-			Launcher:    "C:/Program Files (x86)/Battle.net/Battle.net.exe",
+			Installer:   "$DOWNLOADS/Battle.net-Setup.exe",
+			Uninstaller: "$PROGRAM_DATA/Battle.net/Agent/Blizzard Uninstaller.exe",
+			Launcher:    "$PROGRAMS_X86/Battle.net/Battle.net.exe",
 			Arguments:   packaging.NoArguments(),
 			Source: website.Release(
 				"https://download.battle.net/?product=bnetdesk", "",
@@ -109,9 +109,9 @@ func EAApp() *packaging.Program {
 		HeroURL:     assets.Hero("6458ed5e1bb03b8da47c065c2f647b26.png"),
 		Package: packaging.Best(&proton.Proton{
 			AppID:       "ea-app",
-			Installer:   "C:/Downloads/EAappInstaller.exe",
-			Uninstaller: "C:/Downloads/EAappInstaller.exe",
-			Launcher:    "C:/Program Files/Electronic Arts/EA Desktop/*/EA Desktop/EADesktop.exe",
+			Installer:   "$DOWNLOADS/EAappInstaller.exe",
+			Uninstaller: "$DOWNLOADS/EAappInstaller.exe",
+			Launcher:    "$PROGRAMS/Electronic Arts/EA Desktop/*/EA Desktop/EADesktop.exe",
 			Arguments: &packaging.Arguments{
 				Install:  []string{"/quiet"},
 				Remove:   []string{"/uninstall", "/quiet"},
@@ -151,9 +151,9 @@ func EpicGames() *packaging.Program {
 		HeroURL:     assets.Hero("164fbf608021ece8933758ee2b28dd7d.png"),
 		Package: packaging.Best(&proton.Proton{
 			AppID:       "epic-games",
-			Installer:   "C:/Downloads/EpicGamesLauncherInstaller.msi",
-			Uninstaller: "C:/Downloads/EpicGamesLauncherInstaller.msi",
-			Launcher:    "C:/Program Files/Epic Games/Launcher/Portal/Binaries/Win64/EpicGamesLauncher.exe",
+			Installer:   "$DOWNLOADS/EpicGamesLauncherInstaller.msi",
+			Uninstaller: "$DOWNLOADS/EpicGamesLauncherInstaller.msi",
+			Launcher:    "$PROGRAMS/Epic Games/Launcher/Portal/Binaries/Win64/EpicGamesLauncher.exe",
 			Arguments: &packaging.Arguments{
 				Install:  []string{"-opengl"},
 				Remove:   []string{"-opengl"},
@@ -210,9 +210,9 @@ func GOGGalaxy() *packaging.Program {
 		HeroURL:     assets.Hero("01ccb68a74dd1edfbccbd76d86dbd51f.png"),
 		Package: packaging.Best(&proton.Proton{
 			AppID:       "gog-galaxy",
-			Installer:   "C:/Downloads/GOG_Galaxy_2.0.exe",
-			Uninstaller: "C:/Program Files/GOG Galaxy/unins000.exe",
-			Launcher:    "C:/Program Files/GOG Galaxy/GalaxyClient.exe",
+			Installer:   "$DOWNLOADS/GOG_Galaxy_2.0.exe",
+			Uninstaller: "$PROGRAMS/GOG Galaxy/unins000.exe",
+			Launcher:    "$PROGRAMS/GOG Galaxy/GalaxyClient.exe",
 			Arguments: &packaging.Arguments{
 				Install:  []string{"/silent"},
 				Remove:   []string{"/SILENT"},
@@ -287,9 +287,9 @@ func RockstarGamesLauncher() *packaging.Program {
 		HeroURL:     assets.Hero("e14a79a0a67da822e7445954ddf3e63d.png"),
 		Package: packaging.Best(&proton.Proton{
 			AppID:       "rockstar-games-launcher",
-			Installer:   "C:/Downloads/RockstarGamesLauncher.exe",
-			Uninstaller: "C:/Program Files/Rockstar Games/Launcher/uninstall.exe",
-			Launcher:    "C:/Program Files/Rockstar Games/Launcher/Launcher.exe",
+			Installer:   "$DOWNLOADS/RockstarGamesLauncher.exe",
+			Uninstaller: "$PROGRAMS/Rockstar Games/Launcher/uninstall.exe",
+			Launcher:    "$PROGRAMS/Rockstar Games/Launcher/Launcher.exe",
 			Arguments:   packaging.NoArguments(),
 			Source:      website.Link("https://gamedownloads.rockstargames.com/public/installer/Rockstar-Games-Launcher.exe"),
 		}, &windows.Executable{
@@ -341,9 +341,9 @@ func UbisoftConnect() *packaging.Program {
 		HeroURL:     assets.Hero("b1d49d65692f373bd3ae6ed4af9eda30.png"),
 		Package: packaging.Best(&proton.Proton{
 			AppID:       "ubisoft-connect",
-			Installer:   "C:/Downloads/UbisoftConnectInstaller.exe",
-			Uninstaller: "C:/Program Files (x86)/Ubisoft/Ubisoft Game Launcher/Uninstall.exe",
-			Launcher:    "C:/Program Files (x86)/Ubisoft/Ubisoft Game Launcher/UbisoftConnect.exe",
+			Installer:   "$DOWNLOADS/UbisoftConnectInstaller.exe",
+			Uninstaller: "$PROGRAMS_X86/Ubisoft/Ubisoft Game Launcher/Uninstall.exe",
+			Launcher:    "$PROGRAMS_X86/Ubisoft/Ubisoft Game Launcher/UbisoftConnect.exe",
 			Arguments: &packaging.Arguments{
 				Install:  []string{"/S"},
 				Remove:   []string{},

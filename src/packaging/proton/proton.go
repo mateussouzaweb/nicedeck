@@ -113,13 +113,25 @@ func (p *Proton) DrivePath() string {
 
 // Retrieve real path for given path
 func (p *Proton) RealPath(path string) string {
+
+	// Set environment variables for Proton runtime
+	// These variables are used to expand paths inside Proton runtime
+	cli.SetEnv("APPDATA", "C:/users/steamuser/AppData", true)
+	cli.SetEnv("DOWNLOADS", "C:/Downloads", true)
+	cli.SetEnv("PROGRAM_DATA", "C:/ProgramData", true)
+	cli.SetEnv("PROGRAMS", "C:/Program Files", true)
+	cli.SetEnv("PROGRAMS_X86", "C:/Program Files (x86)", true)
+
+	path = fs.ExpandPath(path)
 	path = strings.Replace(path, "C:", p.DrivePath(), 1)
-	return fs.ExpandPath(path)
+	return path
 }
 
 // Retrieve virtual path for given path
 func (p *Proton) VirtualPath(path string) string {
-	return strings.Replace(path, p.DrivePath(), "C:", 1)
+	path = p.RealPath(path)
+	path = strings.Replace(path, p.DrivePath(), "C:", 1)
+	return path
 }
 
 // Install package
@@ -252,7 +264,7 @@ func (p *Proton) Install() error {
 	if p.Installer != "" {
 		cli.Debug("Running install for %s\n", p.AppID)
 
-		arguments := []string{cli.Quote(p.Installer)}
+		arguments := []string{cli.Quote(p.VirtualPath(p.Installer))}
 		arguments = append(arguments, p.Arguments.Install...)
 		directory := filepath.Dir(p.RealPath(p.Installer))
 		context := &cli.Context{
@@ -279,7 +291,7 @@ func (p *Proton) Remove() error {
 		cli.Debug("Running uninstall for %s\n", p.AppID)
 
 		runFile := p.Executable()
-		arguments := []string{cli.Quote(p.Uninstaller)}
+		arguments := []string{cli.Quote(p.VirtualPath(p.Uninstaller))}
 		arguments = append(arguments, p.Arguments.Remove...)
 		directory := filepath.Dir(p.RealPath(p.Uninstaller))
 		context := &cli.Context{
@@ -344,7 +356,7 @@ func (p *Proton) Alias() string {
 
 // Return executable arguments
 func (p *Proton) Args() []string {
-	arguments := []string{cli.Quote(p.Launcher)}
+	arguments := []string{cli.Quote(p.VirtualPath(p.Launcher))}
 	arguments = append(arguments, p.Arguments.Shortcut...)
 	return arguments
 }
