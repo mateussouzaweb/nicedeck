@@ -211,8 +211,8 @@ func GOGGalaxy() *packaging.Program {
 		Package: packaging.Best(&proton.Proton{
 			AppID:       "gog-galaxy",
 			Installer:   "C:/Downloads/GOG_Galaxy_2.0.exe",
-			Uninstaller: "C:/Program Files (x86)/GOG Galaxy/unins000.exe",
-			Launcher:    "C:/Program Files (x86)/GOG Galaxy/GalaxyClient.exe",
+			Uninstaller: "C:/Program Files/GOG Galaxy/unins000.exe",
+			Launcher:    "C:/Program Files/GOG Galaxy/GalaxyClient.exe",
 			Arguments: &packaging.Arguments{
 				Install:  []string{"/silent"},
 				Remove:   []string{"/SILENT"},
@@ -228,7 +228,7 @@ func GOGGalaxy() *packaging.Program {
 			Arguments: packaging.NoArguments(),
 		}, &windows.WinGet{
 			AppID:     "GOG.Galaxy",
-			Launcher:  "$PROGRAMS_X86/GOG Galaxy/GalaxyClient.exe",
+			Launcher:  "$PROGRAMS/GOG Galaxy/GalaxyClient.exe",
 			Arguments: packaging.NoArguments(),
 		}),
 	}
