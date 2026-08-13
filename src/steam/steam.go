@@ -36,6 +36,10 @@ func GetPackage() packaging.Package {
 		AppID:     "steam",
 		Launcher:  "/usr/bin/steam",
 		Arguments: packaging.NoArguments(),
+	}, &linux.Binary{
+		AppID:     "steam",
+		Launcher:  "/usr/games/steam",
+		Arguments: packaging.NoArguments(),
 	}, &macos.Homebrew{
 		AppID:     "steam",
 		Launcher:  "/Applications/Steam.app",
