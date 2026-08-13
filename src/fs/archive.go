@@ -240,7 +240,7 @@ func Extract7z(source string, destination string) error {
 			`$archive = "%s";`+
 			`$destination = "%s";`+
 			`& "$sevenZip" x "$archive" -o"$destination" -y`,
-			ExpandPath("$HOMEDRIVE/Program Files/7-Zip/7z.exe"),
+			ExpandPath("$PROGRAMS/7-Zip/7z.exe"),
 			source,
 			destination,
 		)
