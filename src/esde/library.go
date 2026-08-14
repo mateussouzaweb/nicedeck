@@ -80,6 +80,18 @@ func (l *Library) Save() error {
 		return err
 	}
 
+	// Write find rules
+	err = settings.WriteFindRules(l.BasePath)
+	if err != nil {
+		return err
+	}
+
+	// Write systems
+	err = settings.WriteSystems(l.BasePath)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
