@@ -45,6 +45,13 @@ func printHelp(_ Context) error {
 // List available programs
 func listPrograms(_ Context) error {
 
+	// Init user library
+	err := library.Init()
+	if err != nil {
+		return err
+	}
+
+	// List available programs
 	list, err := programs.GetPrograms()
 	if err != nil {
 		return err
@@ -59,6 +66,12 @@ func listPrograms(_ Context) error {
 
 // List available platforms
 func listPlatforms(_ Context) error {
+
+	// Init user library
+	err := library.Init()
+	if err != nil {
+		return err
+	}
 
 	// List console platforms
 	consoleOptions := &console.Options{}
@@ -571,9 +584,15 @@ func backupState(context Context) error {
 		return fmt.Errorf("platform list is required")
 	}
 
+	// Init user library
+	err := library.Init()
+	if err != nil {
+		return err
+	}
+
 	// Process synchronization
 	options := state.ToOptions("backup", include, preferences)
-	err := state.SyncState(options)
+	err = state.SyncState(options)
 	if err != nil {
 		return err
 	}
@@ -592,9 +611,15 @@ func restoreState(context Context) error {
 		return fmt.Errorf("platform list is required")
 	}
 
+	// Init user library
+	err := library.Init()
+	if err != nil {
+		return err
+	}
+
 	// Process synchronization
 	options := state.ToOptions("restore", include, preferences)
-	err := state.SyncState(options)
+	err = state.SyncState(options)
 	if err != nil {
 		return err
 	}
