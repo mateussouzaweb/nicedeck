@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 )
 
 // ROM struct
@@ -70,6 +71,7 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 	}
 
 	// Valid, fill ROM data with runtime
+	executable := fs.ExpandPath(runtime.Emulator.Executable)
 	launchOptions := runtime.Emulator.LaunchOptions
 	launchOptions = strings.Replace(
 		launchOptions, "${ROM}", cli.Quote(finalPath), 1,
@@ -103,7 +105,7 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 	rom.Platform = runtime.Platform.Name
 	rom.Emulator = runtime.Emulator.Name
 	rom.Program = runtime.Emulator.Program
-	rom.Executable = runtime.Emulator.Executable
+	rom.Executable = executable
 	rom.LaunchOptions = launchOptions
 
 	return rom, nil
