@@ -1,12 +1,12 @@
 package console
 
 import (
+	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 )
 
 // Emulator struct
 type Emulator struct {
-	Type          string `json:"type"`
 	Name          string `json:"name"`
 	Program       string `json:"program"`
 	Available     bool   `json:"available"`
@@ -16,12 +16,30 @@ type Emulator struct {
 	LaunchOptions string `json:"launchOptions"`
 }
 
+// Custom emulator struct
+type CustomEmulator struct {
+	Name          string `json:"name"`
+	Platform      string `json:"platform"`
+	Program       string `json:"program"`
+	Executable    string `json:"executable"`
+	Extensions    string `json:"extensions"`
+	LaunchOptions string `json:"launchOptions"`
+}
+
 // Platform struct
 type Platform struct {
+	Type      string      `json:"type"`
 	Name      string      `json:"name"`
 	Console   string      `json:"console"`
 	Folder    string      `json:"folder"`
 	Emulators []*Emulator `json:"emulators"`
+}
+
+// Custom platform struct
+type CustomPlatform struct {
+	Name    string `json:"name"`
+	Console string `json:"console"`
+	Folder  string `json:"folder"`
 }
 
 // Retrieve system platform specs.
@@ -31,11 +49,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	platforms := []*Platform{}
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "3DS",
 		Console: "Nintendo 3DS",
 		Folder:  "3DS",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "Azahar",
 			Program:       "azahar",
 			Available:     false,
@@ -47,11 +65,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "DC",
 		Console: "Sega Dreamcast",
 		Folder:  "DC",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "Flycast",
 			Program:       "flycast",
 			Available:     false,
@@ -60,7 +78,6 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Extensions:    ".chd .cdi .iso .elf .cue .gdi .lst .dat .m3u .7z .zip",
 			LaunchOptions: "-config window:fullscreen=yes ${ROM}",
 		}, {
-			Type:          "program",
 			Name:          "Redream",
 			Program:       "redream",
 			Available:     false,
@@ -72,11 +89,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "GBA",
 		Console: "Nintendo Game Boy Advance",
 		Folder:  "GBA",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "MGBA",
 			Program:       "mgba",
 			Available:     false,
@@ -88,11 +105,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "GC",
 		Console: "Nintendo GameCube",
 		Folder:  "GC",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "Dolphin Emulator",
 			Program:       "dolphin",
 			Available:     false,
@@ -104,11 +121,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "N64",
 		Console: "Nintendo 64",
 		Folder:  "N64",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "Gopher64",
 			Program:       "gopher64",
 			Available:     false,
@@ -120,11 +137,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "NDS",
 		Console: "Nintendo DS",
 		Folder:  "NDS",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "MelonDS",
 			Program:       "melonds",
 			Available:     false,
@@ -136,11 +153,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "PS1",
 		Console: "Sony PlayStation 1",
 		Folder:  "PS1",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "DuckStation",
 			Program:       "duckstation",
 			Available:     false,
@@ -152,11 +169,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "PS2",
 		Console: "Sony PlayStation 2",
 		Folder:  "PS2",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "PCSX2",
 			Program:       "pcsx2",
 			Available:     false,
@@ -168,11 +185,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "PS3",
 		Console: "Sony PlayStation 3",
 		Folder:  "PS3",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "RPCS3",
 			Program:       "rpcs3",
 			Available:     false,
@@ -184,11 +201,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "PS4",
 		Console: "Sony PlayStation 4",
 		Folder:  "PS4",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "ShadPS4",
 			Program:       "shadps4",
 			Available:     false,
@@ -200,11 +217,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "PSP",
 		Console: "Sony PlayStation Portable",
 		Folder:  "PSP",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "PPSSPP",
 			Program:       "ppsspp",
 			Available:     false,
@@ -216,11 +233,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "PSVITA",
 		Console: "Sony PlayStation Vita",
 		Folder:  "PSVITA",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "Vita3K",
 			Program:       "vita3k",
 			Available:     false,
@@ -232,11 +249,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "SWITCH",
 		Console: "Nintendo Switch",
 		Folder:  "SWITCH",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "Eden",
 			Program:       "eden",
 			Available:     false,
@@ -245,7 +262,6 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 			Extensions:    ".nca .nro .nso .nsp .xci",
 			LaunchOptions: "-f -g ${ROM}",
 		}, {
-			Type:          "program",
 			Name:          "Ryujinx",
 			Program:       "ryujinx",
 			Available:     false,
@@ -257,11 +273,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "WII",
 		Console: "Nintendo Wii",
 		Folder:  "WII",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "Dolphin",
 			Program:       "dolphin",
 			Available:     false,
@@ -273,11 +289,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "WIIU",
 		Console: "Nintendo Wii U",
 		Folder:  "WIIU",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "Cemu",
 			Program:       "cemu",
 			Available:     false,
@@ -289,11 +305,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "XBOX",
 		Console: "Microsoft Xbox",
 		Folder:  "XBOX",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "Xemu",
 			Program:       "xemu",
 			Available:     false,
@@ -305,11 +321,11 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 	})
 
 	platforms = append(platforms, &Platform{
+		Type:    "native",
 		Name:    "X360",
 		Console: "Microsoft Xbox 360",
 		Folder:  "X360",
 		Emulators: []*Emulator{{
-			Type:          "program",
 			Name:          "Xenia",
 			Program:       "xenia",
 			Available:     false,
@@ -320,27 +336,71 @@ func GetPlatforms(options *Options) ([]*Platform, error) {
 		}},
 	})
 
-	// Fill information on each emulator based on their attributes
+	// Fill information on each emulator based on their program attributes
 	for _, platform := range platforms {
 		for _, emulator := range platform.Emulators {
-
-			// Emulators that are based on program state
-			if emulator.Type == "program" {
-				program, err := programs.GetProgramByID(emulator.Program)
-				if err != nil {
-					return platforms, err
-				}
-
-				installed, err := program.Package.Installed()
-				if err != nil {
-					return platforms, err
-				}
-
-				emulator.Installed = installed
-				emulator.Available = program.Package.Available()
-				emulator.Executable = program.Package.Executable()
+			program, err := programs.GetProgramByID(emulator.Program)
+			if err != nil {
+				return platforms, err
 			}
 
+			installed, err := program.Package.Installed()
+			if err != nil {
+				return platforms, err
+			}
+
+			emulator.Installed = installed
+			emulator.Available = program.Package.Available()
+			emulator.Executable = program.Package.Executable()
+		}
+	}
+
+	// Read custom platforms from configuration file
+	customPlatformsFile := fs.ExpandPath("$APPLICATIONS/NiceDeck/custom/platforms.json")
+	customPlatforms := make([]CustomPlatform, 0)
+	err := fs.ReadJSON(customPlatformsFile, &customPlatforms)
+	if err != nil {
+		return platforms, err
+	}
+
+	// Merge custom platforms with the built-in platforms
+	for _, customPlatform := range customPlatforms {
+		platform := &Platform{
+			Type:      "custom",
+			Name:      customPlatform.Name,
+			Console:   customPlatform.Console,
+			Folder:    customPlatform.Folder,
+			Emulators: []*Emulator{},
+		}
+
+		platforms = append(platforms, platform)
+	}
+
+	// Read custom emulators from configuration file
+	customEmulatorsFile := fs.ExpandPath("$APPLICATIONS/NiceDeck/custom/emulators.json")
+	customEmulators := make([]CustomEmulator, 0)
+	err = fs.ReadJSON(customEmulatorsFile, &customEmulators)
+	if err != nil {
+		return platforms, err
+	}
+
+	// Merge custom emulators into platforms
+	// Custom emulators are prioritized over the default ones
+	for _, customEmulator := range customEmulators {
+		emulator := &Emulator{
+			Name:          customEmulator.Name,
+			Program:       customEmulator.Program,
+			Available:     true, // Custom emulators are always available
+			Installed:     true, // Custom emulators are always installed
+			Executable:    customEmulator.Executable,
+			Extensions:    customEmulator.Extensions,
+			LaunchOptions: customEmulator.LaunchOptions,
+		}
+
+		for _, platform := range platforms {
+			if customEmulator.Platform == platform.Name {
+				platform.Emulators = append([]*Emulator{emulator}, platform.Emulators...)
+			}
 		}
 	}
 

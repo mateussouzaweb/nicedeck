@@ -1,5 +1,7 @@
 package state
 
+import "github.com/mateussouzaweb/nicedeck/src/fs"
+
 // State struct
 type State struct {
 	Platform    string  `json:"platform"`
@@ -9,8 +11,17 @@ type State struct {
 	Source      *Source `json:"source"`
 }
 
+// Custom state struct
+type CustomState struct {
+	Platform    string `json:"platform"`
+	Emulator    string `json:"emulator"`
+	Type        string `json:"type"`
+	Source      string `json:"source"`
+	Destination string `json:"destination"`
+}
+
 // Retrieve save state of each platform
-func GetStates(options *Options) []*State {
+func GetStates(options *Options) ([]*State, error) {
 
 	// The following emulators store saves and states on ROMs directory:
 	// - MGBA (user can leave at it is or configure emulator)
@@ -479,5 +490,30 @@ func GetStates(options *Options) []*State {
 		},
 	})
 
-	return states
+	// Read custom states from configuration file
+	customFile := fs.ExpandPath("$APPLICATIONS/NiceDeck/custom/states.json")
+	customStates := make([]CustomState, 0)
+	err := fs.ReadJSON(customFile, &customStates)
+	if err != nil {
+		return states, err
+	}
+
+	// Merge custom states with the built-in states
+	for _, customState := range customStates {
+		state := &State{
+			Platform:    customState.Platform,
+			Emulator:    customState.Emulator,
+			Type:        customState.Type,
+			Destination: customState.Destination,
+			Source: &Source{
+				Linux:   []string{customState.Source},
+				MacOS:   []string{customState.Source},
+				Windows: []string{customState.Source},
+			},
+		}
+
+		states = append(states, state)
+	}
+
+	return states, nil
 }

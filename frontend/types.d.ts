@@ -22,11 +22,15 @@ interface Program {
 interface ConsoleEmulator {
 	name: string
 	program: string
+	available: boolean
+	installed: boolean
+	executable: string
 	extensions: string
 	launchOptions: string
 }
 
 interface ConsolePlatform {
+	type: string
 	name: string
 	console: string
 	folder: string

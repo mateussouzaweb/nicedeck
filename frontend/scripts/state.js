@@ -11,11 +11,16 @@ window.addEventListener('load', async () => {
         const platforms = []
 
         request.console.map((platform) => {
-            platforms.push({
-                key: platform.console.toLowerCase().replaceAll(' ', '-'),
+            const key = platform.console.toLowerCase().replaceAll(' ', '-')
+            const custom = platform.type === 'custom'
+            const option = {
+                key: key,
                 name: platform.console,
-                value: platform.name
-            })
+                value: platform.name,
+                image: `/img/platforms/${custom ? 'custom' : key}.png`
+            }
+
+            platforms.push(option)
         })
 
         const options = platforms.map((platform) => {
@@ -23,7 +28,7 @@ window.addEventListener('load', async () => {
                 <input type="checkbox" name="platforms[]" value="${platform.value}" checked="checked" />
                 <div class="area">
                     <div class="icon">
-                        <img loading="lazy" src="/img/platforms/${platform.key}.png" alt="${platform.name}" width="96" height="96" />
+                        <img loading="lazy" src="${platform.image}" alt="${platform.name}" width="96" height="96" />
                     </div>
                     <div class="info">
                         <b>${platform.value}</b>

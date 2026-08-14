@@ -21,8 +21,13 @@ func GetSynchronizables(options *Options) ([]*Synchronizable, error) {
 
 	var result []*Synchronizable
 
+	states, err := GetStates(options)
+	if err != nil {
+		return result, err
+	}
+
 	// Process each state
-	for _, state := range GetStates(options) {
+	for _, state := range states {
 
 		// Check if should process this platform
 		if !slices.Contains(options.Platforms, state.Platform) {
