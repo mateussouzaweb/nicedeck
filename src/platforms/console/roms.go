@@ -70,7 +70,6 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 	}
 
 	// Valid, fill ROM data with runtime
-	executable := runtime.Program.Package.Executable()
 	launchOptions := runtime.Emulator.LaunchOptions
 	launchOptions = strings.Replace(
 		launchOptions, "${ROM}", cli.Quote(finalPath), 1,
@@ -104,7 +103,7 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 	rom.Platform = runtime.Platform.Name
 	rom.Emulator = runtime.Emulator.Name
 	rom.Program = runtime.Emulator.Program
-	rom.Executable = executable
+	rom.Executable = runtime.Emulator.Executable
 	rom.LaunchOptions = launchOptions
 
 	return rom, nil

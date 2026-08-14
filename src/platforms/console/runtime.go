@@ -5,16 +5,12 @@ import (
 	"path/filepath"
 	"slices"
 	"strings"
-
-	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/programs"
 )
 
 // Runtime struct
 type Runtime struct {
 	Platform *Platform
 	Emulator *Emulator
-	Program  *packaging.Program
 }
 
 // Find runtime specs for ROM based on their path
@@ -23,7 +19,6 @@ func FindRuntime(romPath string, options *Options) (*Runtime, error) {
 	result := &Runtime{
 		Platform: &Platform{},
 		Emulator: &Emulator{},
-		Program:  &packaging.Program{},
 	}
 
 	romPath = strings.ToLower(romPath)
@@ -80,15 +75,9 @@ func FindRuntime(romPath string, options *Options) (*Runtime, error) {
 
 			if !strings.HasPrefix(romPath, subFolder) {
 				continue
-			}
-
-			program, err := programs.GetProgramByID(emulator.Program)
-			if err != nil {
-				return result, err
 			} else {
 				result.Platform = platform
 				result.Emulator = emulator
-				result.Program = program
 				return result, nil
 			}
 		}
@@ -96,18 +85,9 @@ func FindRuntime(romPath string, options *Options) (*Runtime, error) {
 		// Default case that will use the installed emulator
 		// Check and use the first emulator that is installed for the platform
 		for _, emulator := range emulators {
-			program, err := programs.GetProgramByID(emulator.Program)
-			if err != nil {
-				return result, err
-			}
-
-			installed, err := program.Package.Installed()
-			if err != nil {
-				return result, err
-			} else if installed {
+			if emulator.Installed {
 				result.Platform = platform
 				result.Emulator = emulator
-				result.Program = program
 				return result, nil
 			}
 		}
@@ -115,13 +95,9 @@ func FindRuntime(romPath string, options *Options) (*Runtime, error) {
 		// Last case that will use the available emulator
 		// Check and use the first emulator that is available for the platform
 		for _, emulator := range emulators {
-			program, err := programs.GetProgramByID(emulator.Program)
-			if err != nil {
-				return result, err
-			} else if program.Package.Available() {
+			if emulator.Available {
 				result.Platform = platform
 				result.Emulator = emulator
-				result.Program = program
 				return result, nil
 			}
 		}
