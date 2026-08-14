@@ -23,6 +23,9 @@ func (b *Binary) Runtime() string {
 	if strings.HasPrefix(b.Launcher, "/usr/bin") {
 		return "system"
 	}
+	if strings.HasPrefix(b.Launcher, "/usr/games") {
+		return "system"
+	}
 
 	return "native"
 }
