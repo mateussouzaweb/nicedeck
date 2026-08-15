@@ -114,16 +114,18 @@ func (p *Proton) DrivePath() string {
 // Retrieve real path for given path
 func (p *Proton) RealPath(path string) string {
 
+	drivePath := p.DrivePath()
+
 	// Set environment variables for Proton runtime
 	// These variables are used to expand paths inside Proton runtime
-	cli.SetEnv("APPDATA", "C:/users/steamuser/AppData", true)
-	cli.SetEnv("DOWNLOADS", "C:/Downloads", true)
-	cli.SetEnv("PROGRAM_DATA", "C:/ProgramData", true)
-	cli.SetEnv("PROGRAMS", "C:/Program Files", true)
-	cli.SetEnv("PROGRAMS_X86", "C:/Program Files (x86)", true)
+	cli.SetEnv("APPDATA", filepath.Join(drivePath, "users", "steamuser", "AppData"), true)
+	cli.SetEnv("DOWNLOADS", filepath.Join(drivePath, "Downloads"), true)
+	cli.SetEnv("PROGRAM_DATA", filepath.Join(drivePath, "ProgramData"), true)
+	cli.SetEnv("PROGRAMS", filepath.Join(drivePath, "Program Files"), true)
+	cli.SetEnv("PROGRAMS_X86", filepath.Join(drivePath, "Program Files (x86)"), true)
 
-	path = fs.ExpandPath(path)
 	path = strings.Replace(path, "C:", p.DrivePath(), 1)
+	path = fs.ExpandPath(path)
 	return path
 }
 
