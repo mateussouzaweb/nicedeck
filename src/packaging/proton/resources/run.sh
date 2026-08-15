@@ -30,7 +30,16 @@ else
   export STEAM_COMPAT_CLIENT_INSTALL_PATH="$STEAM_PATH"
   export STEAM_COMPAT_DATA_PATH="$DATA_PATH"
   COMMAND=("$STEAM_RUNTIME")
-  ARGUMENTS=("$PROTON_RUNTIME" "run")
+  ARGUMENTS=("--verb=run" "--" "$PROTON_RUNTIME" "run")
+fi
+
+# Make sure data path has the necessary structure
+if [[ ! -f "$DATA_PATH/version" ]]; then
+  mkdir -p "$DRIVE_PATH"
+  mkdir -p "$WINE_PATH/dosdevices"
+  echo "11.0-100" > "$DATA_PATH/version"
+  ln -sfr "$DRIVE_PATH" "$WINE_PATH/dosdevices/c:"
+  ln -sf "/" "$WINE_PATH/dosdevices/z:"
 fi
 
 # Replace C: with driver path
@@ -39,13 +48,22 @@ if [[ "$1" =~ ^[Cc]: ]]; then
   set -- "${1/c:/$DRIVE_PATH}" "${@:2}"
 fi
 
+# Check if the argument contains an asterisk and expand glob safely
+if [[ "$1" == *"*"* && ! -e "$1" ]]; then
+  VALUE=$(echo "$1" | tr -d '"' | tr -d "'")
+  MATCHED=$(compgen -G "$VALUE" | head -n 1)
+  if [[ -e "${MATCHED}" ]]; then
+    set -- "${MATCHED}" "${@:2}"
+  fi
+fi
+
 # Go to target working directory based on executable path if defined
 # This step is required for some games / applications
 if [[ -n "$1" && "$1" == /* && -e "$1" ]]; then
   cd "$(dirname "$1")" || exit 1
 fi
 
-# Wrapper for Flatpak compatibility
+# Apply wrapper for Flatpak compatibility
 if [[ "$INSTALL_TYPE" == "flatpak" ]]; then
   COMMAND=(
     /usr/bin/flatpak run

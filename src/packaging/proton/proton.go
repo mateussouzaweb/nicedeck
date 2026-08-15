@@ -45,7 +45,7 @@ func (p *Proton) SteamRuntime() (string, error) {
 		return "", err
 	}
 
-	runtime = filepath.Join(runtime, "ubuntu12_32", "steam-runtime", "run.sh")
+	runtime = filepath.Join(runtime, "steamapps", "common", "SteamLinuxRuntime_4", "_v2-entry-point")
 	return runtime, nil
 }
 
@@ -175,6 +175,16 @@ func (p *Proton) Install() error {
 	wineBinary, err := p.WineBinary()
 	if err != nil {
 		return err
+	}
+
+	// Make sure that Runtime is installed
+	// When missing, request Runtime installation from Steam URL handler
+	runtimeInstalled, err := fs.FileExist(steamRuntime)
+	if err != nil {
+		return err
+	} else if !runtimeInstalled {
+		defer cli.Open("steam://install/4183110") // SteamLinuxRuntime 4
+		return fmt.Errorf("steam runtime install missing, please install steam runtime first")
 	}
 
 	// Make sure that Proton is installed

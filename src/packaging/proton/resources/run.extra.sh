@@ -10,7 +10,6 @@
 # Optional global variable definitions 
 # PROTON="10"
 # GAMEMODE="1"
-# XDG_OPEN="1"
 
 # Replace Proton Experimental with another version
 # Example: PROTON="10" %command%
@@ -41,34 +40,4 @@ fi
 # Debug: gamemoded -s && gamemodelist
 if [[ "$GAMEMODE" == "1" ]] && [[ "$1" != "wine" ]]; then
   ARGUMENTS=("gamemoderun" "${ARGUMENTS[@]}")
-fi
-
-# Fix PATH and STEAM_COMPAT_MOUNTS for Proton compatibility
-# Required to make xdg-open works with KDE system
-# Please note that this is not required when running Steam flatpak
-# Example: XDG_OPEN=1 %command%
-if [[ "$XDG_OPEN" == "1" ]] && [[ "$INSTALL_TYPE" != "flatpak" ]]; then
-
-  export PATH="$DATA_PATH/bin:$PATH"
-  export STEAM_COMPAT_MOUNTS="$DATA_PATH/bin"
-
-  mkdir -p "$DATA_PATH/bin"
-  touch "$DATA_PATH/bin/xdg-open"
-  chmod +x "$DATA_PATH/bin/xdg-open"
-  cat > "$DATA_PATH/bin/xdg-open" <<'EOF'
-#!/bin/bash
-case "$1" in
-  http://*|https://*)
-    exec gdbus call --session \
-      --dest=org.freedesktop.portal.Desktop \
-      --object-path /org/freedesktop/portal/desktop \
-      --method org.freedesktop.portal.OpenURI.OpenURI \
-      "" "$1" "{}"
-    ;;
-  *)
-    exec /usr/bin/xdg-open "$@"
-    ;;
-esac
-EOF
-
 fi
