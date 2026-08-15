@@ -15,7 +15,7 @@ import (
 )
 
 // Parse and process shortcut with given path
-func ProcessShortcut(name string, path string, options *platforms.Options) (*shortcuts.Shortcut, error) {
+func ProcessPlatformShortcut(name string, path string, options *platforms.Options) (*shortcuts.Shortcut, error) {
 
 	includeNative := true
 	includeConsole := true
@@ -117,7 +117,7 @@ func ProcessShortcut(name string, path string, options *platforms.Options) (*sho
 }
 
 // Parse and process shortcuts for given platforms
-func ProcessShortcuts(options *platforms.Options) error {
+func ProcessPlatformShortcuts(options *platforms.Options) error {
 
 	theOptions := console.ToOptions(options.Platforms, options.Preferences)
 

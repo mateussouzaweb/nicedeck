@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/fs"
-	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
+	"github.com/mateussouzaweb/nicedeck/src/platforms"
 )
 
 // Sample XML for es_find_rules.xml
@@ -50,9 +50,8 @@ type Rule struct {
 // Write find rules for ES-DE
 func WriteFindRules(destinationPath string) error {
 
-	// Get platforms from console package
-	options := &console.Options{}
-	platforms, err := console.GetPlatforms(options)
+	// Get console platforms
+	consolePlatforms, err := platforms.GetConsoles()
 	if err != nil {
 		return err
 	}
@@ -77,7 +76,7 @@ func WriteFindRules(destinationPath string) error {
 	}
 
 	// Add emulators to RuleList
-	for _, platform := range platforms {
+	for _, platform := range consolePlatforms {
 		for _, emulator := range platform.Emulators {
 			ruleList.Emulators = append(ruleList.Emulators, Emulator{
 				XMLName: xml.Name{Local: "emulator"},

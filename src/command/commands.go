@@ -11,8 +11,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/management"
 	"github.com/mateussouzaweb/nicedeck/src/platforms"
-	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
-	"github.com/mateussouzaweb/nicedeck/src/platforms/native"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/state"
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 	"github.com/mateussouzaweb/nicedeck/src/scraper"
@@ -74,8 +72,7 @@ func listPlatforms(_ Context) error {
 	}
 
 	// List console platforms
-	consoleOptions := &console.Options{}
-	consoleList, err := console.GetPlatforms(consoleOptions)
+	consoleList, err := platforms.GetConsoles()
 	if err != nil {
 		return err
 	}
@@ -85,8 +82,7 @@ func listPlatforms(_ Context) error {
 	}
 
 	// List native platforms
-	nativeOptions := &native.Options{}
-	nativeList, err := native.GetPlatforms(nativeOptions)
+	nativeList, err := platforms.GetSystemNative()
 	if err != nil {
 		return err
 	}
@@ -249,8 +245,10 @@ func createShortcut(context Context) error {
 	}()
 
 	// Process shortcut for path
-	options := &platforms.Options{}
-	shortcut, err := management.ProcessShortcut(
+	include := []string{}
+	preferences := []string{}
+	options := platforms.ToOptions(include, preferences)
+	shortcut, err := management.ProcessPlatformShortcut(
 		name,
 		path,
 		options,
@@ -657,7 +655,7 @@ func processROMs(context Context) error {
 
 	// Process ROMs to add/update/remove
 	options := platforms.ToOptions(include, preferences)
-	err = management.ProcessShortcuts(options)
+	err = management.ProcessPlatformShortcuts(options)
 	if err != nil {
 		return err
 	}

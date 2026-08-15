@@ -158,8 +158,7 @@ func listPlatforms(context *Context) error {
 	result := ListPlatformsResult{}
 
 	// Retrieve console platforms
-	consoleOptions := &console.Options{}
-	consoleList, err := console.GetPlatforms(consoleOptions)
+	consoleList, err := platforms.GetConsoles()
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -167,8 +166,7 @@ func listPlatforms(context *Context) error {
 	}
 
 	// Retrieve native platforms
-	nativeOptions := &native.Options{}
-	nativeList, err := native.GetPlatforms(nativeOptions)
+	nativeList, err := platforms.GetSystemNative()
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -278,8 +276,10 @@ func createShortcut(context *Context) error {
 	}
 
 	// Process shortcut for path
-	options := &platforms.Options{}
-	shortcut, err := management.ProcessShortcut(
+	include := []string{}
+	preferences := []string{}
+	options := platforms.ToOptions(include, preferences)
+	shortcut, err := management.ProcessPlatformShortcut(
 		data.Name,
 		data.Path,
 		options,
@@ -713,7 +713,7 @@ func processROMs(context *Context) error {
 
 	// Process ROMs to add/update/remove
 	options := platforms.ToOptions(data.Platforms, data.Preferences)
-	err = management.ProcessShortcuts(options)
+	err = management.ProcessPlatformShortcuts(options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()

@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/fs"
-	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
+	"github.com/mateussouzaweb/nicedeck/src/platforms"
 )
 
 // Sample XML for es_systems.xml
@@ -75,8 +75,7 @@ var platformThemeMap = map[string]string{
 func WriteSystems(destinationPath string) error {
 
 	// Get platforms from console package
-	options := &console.Options{}
-	platforms, err := console.GetPlatforms(options)
+	consolePlatforms, err := platforms.GetConsoles()
 	if err != nil {
 		return err
 	}
@@ -87,7 +86,7 @@ func WriteSystems(destinationPath string) error {
 		Systems: []System{},
 	}
 
-	for _, platform := range platforms {
+	for _, platform := range consolePlatforms {
 
 		extensions := []string{}
 		commands := []Command{}
