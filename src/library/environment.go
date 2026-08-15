@@ -10,7 +10,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/version"
 )
 
-// Init library by ensure desired environment paths
+// Init library by setting environment paths
 func Init() error {
 
 	// Retrieve relevant user directories

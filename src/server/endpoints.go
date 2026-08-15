@@ -15,7 +15,7 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/frontend"
 	"github.com/mateussouzaweb/nicedeck/src/cli"
-	"github.com/mateussouzaweb/nicedeck/src/library"
+	"github.com/mateussouzaweb/nicedeck/src/management"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/platforms"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
@@ -50,7 +50,7 @@ func loadLibrary(context *Context) error {
 	result := LoadLibraryResult{}
 
 	// Load user library
-	err := library.Load()
+	err := management.LoadLibrary()
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -58,12 +58,12 @@ func loadLibrary(context *Context) error {
 	}
 
 	// Create FS with loaded images path
-	imagesPath := library.Shortcuts.ImagesPath
+	imagesPath := management.GetShortcutsImagesPath()
 	gridFS = os.DirFS(imagesPath)
 	gridHandler = http.FileServer(http.FS(gridFS))
 
 	data := LibraryData{
-		ImagesPath: library.Shortcuts.ImagesPath,
+		ImagesPath: imagesPath,
 	}
 
 	// Print loaded data
@@ -85,7 +85,7 @@ func saveLibrary(context *Context) error {
 	result := SaveLibraryResult{}
 
 	// Save user library
-	err := library.Save()
+	err := management.SaveLibrary()
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -108,7 +108,7 @@ func syncLibrary(context *Context) error {
 	result := SyncLibraryResult{}
 
 	// Sync user library
-	err := library.Sync()
+	err := management.SyncLibrary()
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -190,7 +190,7 @@ type ListShortcutsResult struct {
 
 // List shortcuts action
 func listShortcuts(context *Context) error {
-	data := library.Shortcuts.All()
+	data := management.GetShortcuts()
 	result := ListShortcutsResult{}
 	result.Status = "OK"
 	result.Data = data
@@ -223,7 +223,7 @@ func launchShortcut(context *Context) error {
 	}
 
 	// Find shortcut reference
-	shortcut := library.Shortcuts.Get(data.ID)
+	shortcut := management.GetShortcut(data.ID)
 	if shortcut.ID == "" {
 		err := fmt.Errorf("could not found shortcut with ID: %s", data.ID)
 		result.Status = "ERROR"
@@ -232,7 +232,7 @@ func launchShortcut(context *Context) error {
 	}
 
 	// Launch the shortcut
-	err = library.Shortcuts.Launch(shortcut)
+	err = management.LaunchShortcut(shortcut)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -279,7 +279,7 @@ func createShortcut(context *Context) error {
 
 	// Process shortcut for path
 	options := &platforms.Options{}
-	shortcut, err := platforms.ProcessShortcut(
+	shortcut, err := management.ProcessShortcut(
 		data.Name,
 		data.Path,
 		options,
@@ -297,7 +297,7 @@ func createShortcut(context *Context) error {
 	}
 
 	// Add shortcut
-	err = library.Shortcuts.Set(shortcut, true)
+	err = management.SetShortcut(shortcut, true)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -373,7 +373,7 @@ func addShortcut(context *Context) error {
 		Tags:           data.Tags,
 	}
 
-	err = library.Shortcuts.Set(shortcut, true)
+	err = management.SetShortcut(shortcut, true)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -426,7 +426,7 @@ func modifyShortcut(context *Context) error {
 	}
 
 	// Find shortcut reference
-	shortcut := library.Shortcuts.Get(data.ID)
+	shortcut := management.GetShortcut(data.ID)
 	if shortcut.ID == "" {
 		err := fmt.Errorf("could not found shortcut with ID: %s", data.ID)
 		result.Status = "ERROR"
@@ -450,7 +450,7 @@ func modifyShortcut(context *Context) error {
 		shortcut.HeroPath = data.HeroPath
 		shortcut.Tags = data.Tags
 
-		err := library.Shortcuts.Update(shortcut, true)
+		err := management.UpdateShortcut(shortcut, true)
 		if err != nil {
 			result.Status = "ERROR"
 			result.Error = err.Error()
@@ -462,7 +462,7 @@ func modifyShortcut(context *Context) error {
 
 	// Delete shortcut
 	if data.Action == "delete" {
-		err := library.Shortcuts.Remove(shortcut)
+		err := management.RemoveShortcut(shortcut)
 		if err != nil {
 			result.Status = "ERROR"
 			result.Error = err.Error()
@@ -504,7 +504,7 @@ func installPrograms(context *Context) error {
 
 	// Install programs in the list
 	options := programs.ToOptions(data.Programs, data.Preferences)
-	err = programs.Install(options)
+	err = management.InstallPrograms(options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -545,7 +545,7 @@ func removePrograms(context *Context) error {
 
 	// Remove programs in the list
 	options := programs.ToOptions(data.Programs, data.Preferences)
-	err = programs.Remove(options)
+	err = management.RemovePrograms(options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -595,7 +595,7 @@ func listState(context *Context) error {
 	}
 
 	// Retrieve synchronizable results
-	data, err := state.GetSynchronizables(options)
+	data, err := management.GetState(options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -635,7 +635,7 @@ func backupState(context *Context) error {
 
 	// Process synchronization
 	options := state.ToOptions("backup", data.Platforms, data.Preferences)
-	err = state.SyncState(options)
+	err = management.SyncState(options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -674,7 +674,7 @@ func restoreState(context *Context) error {
 
 	// Process synchronization
 	options := state.ToOptions("restore", data.Platforms, data.Preferences)
-	err = state.SyncState(options)
+	err = management.SyncState(options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -713,7 +713,7 @@ func processROMs(context *Context) error {
 
 	// Process ROMs to add/update/remove
 	options := platforms.ToOptions(data.Platforms, data.Preferences)
-	err = platforms.ProcessShortcuts(options)
+	err = management.ProcessShortcuts(options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -752,7 +752,7 @@ func scrapeData(context *Context) error {
 	)
 
 	// Scrape term data
-	data, err := scraper.Scrape(options)
+	data, err := management.ScrapeData(options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -805,7 +805,7 @@ func openLink(context *Context) error {
 func Setup(developmentMode bool, shutdown chan bool) error {
 
 	// Init user library
-	err := library.Init()
+	err := management.InitLibrary()
 	if err != nil {
 		return err
 	}

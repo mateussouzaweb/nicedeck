@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
-	"github.com/mateussouzaweb/nicedeck/src/library"
+	"github.com/mateussouzaweb/nicedeck/src/management"
 	"github.com/mateussouzaweb/nicedeck/src/platforms"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/native"
@@ -46,7 +46,7 @@ func printHelp(_ Context) error {
 func listPrograms(_ Context) error {
 
 	// Init user library
-	err := library.Init()
+	err := management.InitLibrary()
 	if err != nil {
 		return err
 	}
@@ -68,7 +68,7 @@ func listPrograms(_ Context) error {
 func listPlatforms(_ Context) error {
 
 	// Init user library
-	err := library.Init()
+	err := management.InitLibrary()
 	if err != nil {
 		return err
 	}
@@ -102,19 +102,19 @@ func listPlatforms(_ Context) error {
 func listShortcuts(_ Context) error {
 
 	// Init user library
-	err := library.Init()
+	err := management.InitLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Load user library
-	err = library.Load()
+	err = management.LoadLibrary()
 	if err != nil {
 		return err
 	}
 
 	// List available shortcuts
-	shortcuts := library.Shortcuts.All()
+	shortcuts := management.GetShortcuts()
 	for _, shortcut := range shortcuts {
 		cli.Printf(cli.ColorDefault, "%s - %s\n", shortcut.ID, shortcut.Name)
 	}
@@ -142,7 +142,7 @@ func scrapeData(context Context) error {
 	)
 
 	// Scrape term data
-	data, err := scraper.Scrape(options)
+	data, err := management.ScrapeData(options)
 	if err != nil {
 		return err
 	}
@@ -161,24 +161,24 @@ func scrapeData(context Context) error {
 func syncLibrary(_ Context) error {
 
 	// Init user library
-	err := library.Init()
+	err := management.InitLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Load user library
-	err = library.Load()
+	err = management.LoadLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Make sure to save library on finish
 	defer func() {
-		errors.Join(err, library.Save())
+		errors.Join(err, management.SaveLibrary())
 	}()
 
 	// Sync library
-	err = library.Sync()
+	err = management.SyncLibrary()
 	if err != nil {
 		return err
 	}
@@ -198,25 +198,25 @@ func launchShortcut(context Context) error {
 	}
 
 	// Init user library
-	err := library.Init()
+	err := management.InitLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Load user library
-	err = library.Load()
+	err = management.LoadLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Find shortcut reference
-	shortcut := library.Shortcuts.Get(referenceID)
+	shortcut := management.GetShortcut(referenceID)
 	if shortcut.ID == "" {
 		return fmt.Errorf("could not found shortcut with ID: %s", referenceID)
 	}
 
 	// Launch the shortcut
-	return library.Shortcuts.Launch(shortcut)
+	return management.LaunchShortcut(shortcut)
 }
 
 // Parse and create a new shortcut from path
@@ -232,25 +232,25 @@ func createShortcut(context Context) error {
 	name := context.Arg("--name", "")
 
 	// Init user library
-	err := library.Init()
+	err := management.InitLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Load user library
-	err = library.Load()
+	err = management.LoadLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Make sure to save library on finish
 	defer func() {
-		errors.Join(err, library.Save())
+		errors.Join(err, management.SaveLibrary())
 	}()
 
 	// Process shortcut for path
 	options := &platforms.Options{}
-	shortcut, err := platforms.ProcessShortcut(
+	shortcut, err := management.ProcessShortcut(
 		name,
 		path,
 		options,
@@ -263,7 +263,7 @@ func createShortcut(context Context) error {
 	}
 
 	// Add shortcut
-	err = library.Shortcuts.Set(shortcut, true)
+	err = management.SetShortcut(shortcut, true)
 	if err != nil {
 		return err
 	}
@@ -277,20 +277,20 @@ func createShortcut(context Context) error {
 func addShortcut(context Context) error {
 
 	// Init user library
-	err := library.Init()
+	err := management.InitLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Load user library
-	err = library.Load()
+	err = management.LoadLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Make sure to save library on finish
 	defer func() {
-		errors.Join(err, library.Save())
+		errors.Join(err, management.SaveLibrary())
 	}()
 
 	// Retrieve data
@@ -334,7 +334,7 @@ func addShortcut(context Context) error {
 		Tags:           strings.Split(tags, ","),
 	}
 
-	err = library.Shortcuts.Set(shortcut, true)
+	err = management.SetShortcut(shortcut, true)
 	if err != nil {
 		return err
 	}
@@ -354,26 +354,26 @@ func modifyShortcut(context Context) error {
 	}
 
 	// Init user library
-	err := library.Init()
+	err := management.InitLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Load user library
-	err = library.Load()
+	err = management.LoadLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Find shortcut reference
-	shortcut := library.Shortcuts.Get(referenceID)
+	shortcut := management.GetShortcut(referenceID)
 	if shortcut.ID == "" {
 		return fmt.Errorf("could not found shortcut with ID: %s", referenceID)
 	}
 
 	// Make sure to save library on finish
 	defer func() {
-		errors.Join(err, library.Save())
+		errors.Join(err, management.SaveLibrary())
 	}()
 
 	// Retrieve action and data
@@ -409,7 +409,7 @@ func modifyShortcut(context Context) error {
 		shortcut.HeroPath = heroPath
 		shortcut.Tags = strings.Split(tags, ",")
 
-		err := library.Shortcuts.Update(shortcut, true)
+		err := management.UpdateShortcut(shortcut, true)
 		if err != nil {
 			return err
 		}
@@ -419,7 +419,7 @@ func modifyShortcut(context Context) error {
 
 	// Delete shortcut
 	if delete {
-		err := library.Shortcuts.Remove(shortcut)
+		err := management.RemoveShortcut(shortcut)
 		if err != nil {
 			return err
 		}
@@ -442,25 +442,25 @@ func installPrograms(context Context) error {
 	}
 
 	// Init user library
-	err := library.Init()
+	err := management.InitLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Load user library
-	err = library.Load()
+	err = management.LoadLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Make sure to save library on finish
 	defer func() {
-		errors.Join(err, library.Save())
+		errors.Join(err, management.SaveLibrary())
 	}()
 
 	// Install programs in the list
 	options := programs.ToOptions(include, preferences)
-	err = programs.Install(options)
+	err = management.InstallPrograms(options)
 	if err != nil {
 		return err
 	}
@@ -482,25 +482,25 @@ func removePrograms(context Context) error {
 	}
 
 	// Init user library
-	err := library.Init()
+	err := management.InitLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Load user library
-	err = library.Load()
+	err = management.LoadLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Make sure to save library on finish
 	defer func() {
-		errors.Join(err, library.Save())
+		errors.Join(err, management.SaveLibrary())
 	}()
 
 	// Remove programs in the list
 	options := programs.ToOptions(include, preferences)
-	err = programs.Remove(options)
+	err = management.RemovePrograms(options)
 	if err != nil {
 		return err
 	}
@@ -526,14 +526,14 @@ func listState(context Context) error {
 	}
 
 	// Init user library
-	err := library.Init()
+	err := management.InitLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Retrieve synchronizable results
 	options := state.ToOptions(action, include, preferences)
-	result, err := state.GetSynchronizables(options)
+	result, err := management.GetState(options)
 	if err != nil {
 		return err
 	}
@@ -585,14 +585,14 @@ func backupState(context Context) error {
 	}
 
 	// Init user library
-	err := library.Init()
+	err := management.InitLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Process synchronization
 	options := state.ToOptions("backup", include, preferences)
-	err = state.SyncState(options)
+	err = management.SyncState(options)
 	if err != nil {
 		return err
 	}
@@ -612,14 +612,14 @@ func restoreState(context Context) error {
 	}
 
 	// Init user library
-	err := library.Init()
+	err := management.InitLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Process synchronization
 	options := state.ToOptions("restore", include, preferences)
-	err = state.SyncState(options)
+	err = management.SyncState(options)
 	if err != nil {
 		return err
 	}
@@ -639,25 +639,25 @@ func processROMs(context Context) error {
 	}
 
 	// Init user library
-	err := library.Init()
+	err := management.InitLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Load user library
-	err = library.Load()
+	err = management.LoadLibrary()
 	if err != nil {
 		return err
 	}
 
 	// Make sure to save library on finish
 	defer func() {
-		errors.Join(err, library.Save())
+		errors.Join(err, management.SaveLibrary())
 	}()
 
 	// Process ROMs to add/update/remove
 	options := platforms.ToOptions(include, preferences)
-	err = platforms.ProcessShortcuts(options)
+	err = management.ProcessShortcuts(options)
 	if err != nil {
 		return err
 	}

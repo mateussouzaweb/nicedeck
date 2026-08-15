@@ -1,4 +1,4 @@
-package platforms
+package management
 
 import (
 	"fmt"
@@ -8,52 +8,14 @@ import (
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
-	"github.com/mateussouzaweb/nicedeck/src/library"
+	"github.com/mateussouzaweb/nicedeck/src/platforms"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/native"
-	"github.com/mateussouzaweb/nicedeck/src/scraper"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 )
 
-// Scrape data from shortcut and return if was found
-func ScrapeShortcut(shortcut *shortcuts.Shortcut) (bool, error) {
-
-	// Scrape additional ROM information
-	options := scraper.ToOptions(shortcut.Name, true, true, true, true, true)
-	scrape, err := scraper.Scrape(options)
-	if err != nil {
-		return false, err
-	}
-
-	// Skip if scrape not found anything...
-	if scrape.Name == "" {
-		return false, nil
-	}
-
-	// Determine best name and images for the shortcut
-	shortcut.Name = scrape.Name
-
-	if len(scrape.IconURLs) > 0 {
-		shortcut.IconPath = scrape.IconURLs[0]
-	}
-	if len(scrape.LogoURLs) > 0 {
-		shortcut.LogoPath = scrape.LogoURLs[0]
-	}
-	if len(scrape.CoverURLs) > 0 {
-		shortcut.CoverPath = scrape.CoverURLs[0]
-	}
-	if len(scrape.BannerURLs) > 0 {
-		shortcut.BannerPath = scrape.BannerURLs[0]
-	}
-	if len(scrape.HeroURLs) > 0 {
-		shortcut.HeroPath = scrape.HeroURLs[0]
-	}
-
-	return true, nil
-}
-
 // Parse and process shortcut with given path
-func ProcessShortcut(name string, path string, options *Options) (*shortcuts.Shortcut, error) {
+func ProcessShortcut(name string, path string, options *platforms.Options) (*shortcuts.Shortcut, error) {
 
 	includeNative := true
 	includeConsole := true
@@ -155,7 +117,7 @@ func ProcessShortcut(name string, path string, options *Options) (*shortcuts.Sho
 }
 
 // Parse and process shortcuts for given platforms
-func ProcessShortcuts(options *Options) error {
+func ProcessShortcuts(options *platforms.Options) error {
 
 	theOptions := console.ToOptions(options.Platforms, options.Preferences)
 
@@ -165,7 +127,7 @@ func ProcessShortcuts(options *Options) error {
 	// First, find all existing ROMs path
 	// We read the current list of ROMs from the library
 	existing := []string{}
-	for _, shortcut := range library.Shortcuts.All() {
+	for _, shortcut := range GetShortcuts() {
 		if slices.Contains(shortcut.Tags, "ROM") {
 			existing = append(existing, shortcut.RelativePath)
 		}
@@ -235,7 +197,7 @@ func ProcessShortcuts(options *Options) error {
 
 			// Avoid duplicates by checking on existing library
 			// This process also allow switching emulators on existing shortcut
-			for _, existing := range library.Shortcuts.All() {
+			for _, existing := range GetShortcuts() {
 
 				// Check if shortcut is managed ROM
 				if !slices.Contains(existing.Tags, "ROM") {
@@ -255,7 +217,7 @@ func ProcessShortcuts(options *Options) error {
 			}
 
 			// Add or update into shortcuts library
-			err = library.Shortcuts.Set(shortcut, false)
+			err = SetShortcut(shortcut, false)
 			if err != nil {
 				return err
 			}
@@ -269,7 +231,7 @@ func ProcessShortcuts(options *Options) error {
 
 	// Clean shortcuts for not found ROMs
 	cli.Printf(cli.ColorNotice, "Checking for removed ROMs.\n")
-	for _, shortcut := range library.Shortcuts.All() {
+	for _, shortcut := range GetShortcuts() {
 
 		// Check if shortcut is managed ROM
 		if !slices.Contains(shortcut.Tags, "ROM") {
@@ -290,7 +252,7 @@ func ProcessShortcuts(options *Options) error {
 
 		// If not found, remove the shortcuts
 		cli.Printf(cli.ColorNotice, "Removing shortcut for not detected ROM: %s\n", shortcut.RelativePath)
-		err := library.Shortcuts.Remove(shortcut)
+		err := RemoveShortcut(shortcut)
 		if err != nil {
 			return err
 		}
