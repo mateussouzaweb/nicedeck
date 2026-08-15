@@ -3,7 +3,7 @@ package programs
 import (
 	"fmt"
 
-	"github.com/mateussouzaweb/nicedeck/src/esde"
+	"github.com/mateussouzaweb/nicedeck/src/esde/esde"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"

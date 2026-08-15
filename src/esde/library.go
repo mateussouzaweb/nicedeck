@@ -2,6 +2,7 @@ package esde
 
 import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
+	"github.com/mateussouzaweb/nicedeck/src/esde/esde"
 	"github.com/mateussouzaweb/nicedeck/src/esde/settings"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
@@ -67,7 +68,7 @@ func (l *Library) Save() error {
 	}
 
 	// Check if ES-DE is installed
-	installed, err := GetPackage().Installed()
+	installed, err := esde.GetPackage().Installed()
 	if err != nil {
 		return err
 	} else if !installed {
