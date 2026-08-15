@@ -32,10 +32,10 @@ File: `$HOME/Games/Applications/NiceDeck/custom/emulators.json`
 
 ```json
 [{
-    "name": "SuperZNES",
+    "name": "SuperZSNES",
     "platform": "SNES",
-    "program": "superznes",
-    "executable": "$EMULATORS/SuperZNES/SUPERZNES",
+    "program": "superzsnes",
+    "executable": "$EMULATORS/SuperZSNES/SUPERZSNES",
     "extensions": ".bin .bml .bs .bsx .dx2 .fig .gd3 .gd7 .mgd .sfc .smc .st .swc .7z .zip",
     "launchOptions": "${ROM}"
 }]
@@ -53,10 +53,10 @@ File: `$HOME/Games/Applications/NiceDeck/custom/states.json`
 ```json
 [{
     "platform": "SNES",
-    "emulator": "SuperZNES",
+    "emulator": "SuperZSNES",
     "type": "folder",
-    "source": "$EMULATORS/SuperZNES/data",
-    "destination": "$STATE/SuperZNES/data"
+    "source": "$EMULATORS/SuperZSNES/data",
+    "destination": "$STATE/SuperZSNES/data"
 }]
 ```
 
