@@ -18,12 +18,6 @@ import (
 // <string name="ThemeTransitions" value="automatic" />
 // <string name="ThemeVariant" value="withoutVideos" />
 
-// Settings represents the root element for ES-DE settings
-type Settings struct {
-	XMLName xml.Name  `xml:"root"`
-	Strings []Setting `xml:"string"`
-}
-
 // Setting represents a single configuration string
 type Setting struct {
 	XMLName xml.Name `xml:"string"`
@@ -34,49 +28,38 @@ type Setting struct {
 // Write settings for ES-DE
 func WriteSettings(destinationPath string) error {
 
-	settings := Settings{
-		XMLName: xml.Name{Local: "root"},
-		Strings: []Setting{
-			{
-				XMLName: xml.Name{Local: "string"},
-				Name:    "InputControllerType",
-				Value:   "xbox360",
-			},
-			{
-				XMLName: xml.Name{Local: "string"},
-				Name:    "ROMDirectory",
-				Value:   fs.ExpandPath("$ROMS/"),
-			},
-			{
-				XMLName: xml.Name{Local: "string"},
-				Name:    "Theme",
-				Value:   "linear-es-de",
-			},
-			{
-				XMLName: xml.Name{Local: "string"},
-				Name:    "ThemeAspectRatio",
-				Value:   "automatic",
-			},
-			{
-				XMLName: xml.Name{Local: "string"},
-				Name:    "ThemeColorScheme",
-				Value:   "dark",
-			},
-			{
-				XMLName: xml.Name{Local: "string"},
-				Name:    "ThemeSet",
-				Value:   "linear-es-de",
-			},
-			{
-				XMLName: xml.Name{Local: "string"},
-				Name:    "ThemeTransitions",
-				Value:   "automatic",
-			},
-			{
-				XMLName: xml.Name{Local: "string"},
-				Name:    "ThemeVariant",
-				Value:   "withoutVideos",
-			},
+	settings := []Setting{
+		{
+			Name:  "InputControllerType",
+			Value: "xbox360",
+		},
+		{
+			Name:  "ROMDirectory",
+			Value: fs.ExpandPath("$ROMS/"),
+		},
+		{
+			Name:  "Theme",
+			Value: "linear-es-de",
+		},
+		{
+			Name:  "ThemeAspectRatio",
+			Value: "automatic",
+		},
+		{
+			Name:  "ThemeColorScheme",
+			Value: "dark",
+		},
+		{
+			Name:  "ThemeSet",
+			Value: "linear-es-de",
+		},
+		{
+			Name:  "ThemeTransitions",
+			Value: "automatic",
+		},
+		{
+			Name:  "ThemeVariant",
+			Value: "withoutVideos",
 		},
 	}
 

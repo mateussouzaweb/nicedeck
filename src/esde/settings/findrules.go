@@ -58,13 +58,10 @@ func WriteFindRules(destinationPath string) error {
 
 	// ES Find Rules
 	ruleList := RuleList{
-		XMLName: xml.Name{Local: "ruleList"},
 		Emulators: []Emulator{{
-			XMLName: xml.Name{Local: "emulator"},
-			Name:    "OS-SHELL",
+			Name: "OS-SHELL",
 			Rules: []Rule{{
-				XMLName: xml.Name{Local: "rule"},
-				Type:    "systempath",
+				Type: "systempath",
 				Entries: []string{
 					"zsh",
 					"bash",
@@ -79,11 +76,9 @@ func WriteFindRules(destinationPath string) error {
 	for _, platform := range consolePlatforms {
 		for _, emulator := range platform.Emulators {
 			ruleList.Emulators = append(ruleList.Emulators, Emulator{
-				XMLName: xml.Name{Local: "emulator"},
-				Name:    strings.ToUpper(emulator.Name),
+				Name: strings.ToUpper(emulator.Name),
 				Rules: []Rule{
 					{
-						XMLName: xml.Name{Local: "rule"},
 						Type:    "staticpath",
 						Entries: []string{fs.ExpandPath(emulator.Executable)},
 					},

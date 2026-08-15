@@ -82,7 +82,6 @@ func WriteSystems(destinationPath string) error {
 
 	// ES Systems
 	systemList := SystemList{
-		XMLName: xml.Name{Local: "systemList"},
 		Systems: []System{},
 	}
 
@@ -101,9 +100,8 @@ func WriteSystems(destinationPath string) error {
 			commandValue := fmt.Sprintf("%%EMULATOR_%s%% %s", strings.ToUpper(emulator.Name), emulator.LaunchOptions)
 			commandValue = strings.ReplaceAll(commandValue, "${ROM}", "%ROM%") // Ensure %ROM% is preserved
 			commands = append(commands, Command{
-				XMLName: xml.Name{Local: "command"},
-				Label:   strings.ToUpper(emulator.Name),
-				Value:   commandValue,
+				Label: strings.ToUpper(emulator.Name),
+				Value: commandValue,
 			})
 
 		}
@@ -119,7 +117,6 @@ func WriteSystems(destinationPath string) error {
 		}
 
 		systemList.Systems = append(systemList.Systems, System{
-			XMLName:   xml.Name{Local: "system"},
 			Name:      strings.ToLower(platform.Name),
 			FullName:  strings.ToLower(platform.Console),
 			Platform:  theme,
