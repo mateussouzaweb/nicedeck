@@ -24,17 +24,11 @@ func FindRuntime(romPath string, options *Options) (*Runtime, error) {
 	romPath = strings.ToLower(romPath)
 	romExtension := filepath.Ext(romPath)
 
-	// Retrieve platforms
-	platforms, err := GetPlatforms(options)
-	if err != nil {
-		return result, err
-	}
-
 	// Search in every retrieved platform
 	// Platform and emulator are determined by the folder initial path
 	// Program is determined by installation status or availability
 	// This model also work in cases when games are in sub-folders
-	for _, platform := range platforms {
+	for _, platform := range options.Platforms {
 		separator := string(os.PathSeparator)
 		mainFolder := strings.ToLower(platform.Folder + separator)
 

@@ -35,12 +35,6 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 	extension := filepath.Ext(path)
 	name := strings.TrimSuffix(file, extension)
 
-	// Find available platforms
-	platforms, err := GetPlatforms(options)
-	if err != nil {
-		return rom, err
-	}
-
 	// Replace placeholder with real data on given value
 	replaceData := func(value string) string {
 		value = strings.Replace(value, "${ROM}", cli.Quote(path), 1)
@@ -49,7 +43,7 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 	}
 
 	// Find runtime based on file data
-	for _, platform := range platforms {
+	for _, platform := range options.Platforms {
 		valid := strings.Split(platform.Extensions, " ")
 		if !slices.Contains(valid, strings.ToLower(extension)) {
 			continue

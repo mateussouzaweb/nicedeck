@@ -182,7 +182,7 @@ func FilterROMs(roms []*ROM, existing []string, options *Options) []*ROM {
 		// Add to the list if ROM matches platform condition
 		if len(options.Platforms) == 0 {
 			addToList = true
-		} else if slices.Contains(options.Platforms, rom.Platform) {
+		} else if slices.Contains(options.Include, rom.Platform) {
 			addToList = true
 		} else {
 			cli.Debug("No platform match. ROM skipped to the process list: %s\n", rom.RelativePath)

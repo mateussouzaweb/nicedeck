@@ -17,7 +17,7 @@ type Platform struct {
 }
 
 // Retrieve system platform specs
-func GetPlatforms(options *Options) ([]*Platform, error) {
+func GetPlatforms() ([]*Platform, error) {
 
 	platforms := []*Platform{}
 

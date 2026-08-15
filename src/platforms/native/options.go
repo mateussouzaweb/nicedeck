@@ -2,17 +2,24 @@ package native
 
 // Options struct
 type Options struct {
-	Platforms   []string `json:"platforms"`
-	Preferences []string `json:"preferences"`
+	Platforms   []*Platform `json:"platforms"`
+	Preferences []string    `json:"preferences"`
 }
 
 // Transform values into valid options
-func ToOptions(platforms []string, preferences []string) *Options {
+func ToOptions(preferences []string) (*Options, error) {
 
-	options := Options{
-		Platforms:   platforms,
+	options := &Options{
 		Preferences: preferences,
+		Platforms:   []*Platform{},
 	}
 
-	return &options
+	platforms, err := GetPlatforms()
+	if err != nil {
+		return options, err
+	} else {
+		options.Platforms = platforms
+	}
+
+	return options, nil
 }

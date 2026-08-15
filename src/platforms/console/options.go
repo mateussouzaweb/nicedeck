@@ -8,10 +8,11 @@ import (
 
 // Options struct
 type Options struct {
-	Platforms   []string         `json:"platforms"`
-	Preferences []string         `json:"preferences"`
 	RootPath    string           `json:"rootPath"`
+	Platforms   []*Platform      `json:"platforms"`
+	Include     []string         `json:"include"`
 	Exclude     []*regexp.Regexp `json:"exclude"`
+	Preferences []string         `json:"preferences"`
 }
 
 // Check if path should be excluded based on options
@@ -27,12 +28,20 @@ func (o *Options) ShouldExclude(path string) bool {
 }
 
 // Transform values into valid options
-func ToOptions(platforms []string, preferences []string) *Options {
+func ToOptions(include []string, preferences []string) (*Options, error) {
 
-	options := Options{
-		Platforms:   platforms,
+	options := &Options{
+		Include:     include,
 		Preferences: preferences,
 		RootPath:    fs.ExpandPath("$ROMS"),
+		Platforms:   []*Platform{},
+	}
+
+	platforms, err := GetPlatforms()
+	if err != nil {
+		return options, err
+	} else {
+		options.Platforms = platforms
 	}
 
 	// Files with these name patterns will be ignored
@@ -50,5 +59,5 @@ func ToOptions(platforms []string, preferences []string) *Options {
 		compile("(?i)Track [1-9][0-9]"),      // Track 10 - 99 of some games
 	}
 
-	return &options
+	return options, nil
 }

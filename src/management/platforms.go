@@ -29,7 +29,11 @@ func ProcessPlatformShortcut(name string, path string, options *platforms.Option
 	// Try to parse a native ROM
 	if shortcut.ID == "" && includeNative {
 
-		theOptions := native.ToOptions(options.Platforms, options.Preferences)
+		theOptions, err := native.ToOptions(options.Preferences)
+		if err != nil {
+			return shortcut, err
+		}
+
 		rom, err := native.ParseROM(path, theOptions)
 		if err != nil {
 			return shortcut, err
@@ -61,7 +65,11 @@ func ProcessPlatformShortcut(name string, path string, options *platforms.Option
 	// Try to parse a console ROM
 	if shortcut.ID == "" && includeConsole {
 
-		theOptions := console.ToOptions(options.Platforms, options.Preferences)
+		theOptions, err := console.ToOptions(options.Include, options.Preferences)
+		if err != nil {
+			return shortcut, err
+		}
+
 		rom, err := console.ParseROM(path, theOptions)
 		if err != nil {
 			return shortcut, err
@@ -119,7 +127,10 @@ func ProcessPlatformShortcut(name string, path string, options *platforms.Option
 // Parse and process shortcuts for given platforms
 func ProcessPlatformShortcuts(options *platforms.Options) error {
 
-	theOptions := console.ToOptions(options.Platforms, options.Preferences)
+	theOptions, err := console.ToOptions(options.Include, options.Preferences)
+	if err != nil {
+		return err
+	}
 
 	// Determine if should include ROMs even if scraper was not able to detect it
 	optionalScraper := slices.Contains(theOptions.Preferences, "optional-scraper")

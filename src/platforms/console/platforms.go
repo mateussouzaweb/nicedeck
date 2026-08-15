@@ -44,7 +44,7 @@ type CustomPlatform struct {
 
 // Retrieve system platform specs.
 // This list is almost a copy of ES-DE systems
-func GetPlatforms(options *Options) ([]*Platform, error) {
+func GetPlatforms() ([]*Platform, error) {
 
 	platforms := []*Platform{}
 
