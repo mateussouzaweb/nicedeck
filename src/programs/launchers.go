@@ -12,7 +12,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging/windows"
 	"github.com/mateussouzaweb/nicedeck/src/programs/assets"
 	"github.com/mateussouzaweb/nicedeck/src/programs/website"
-	"github.com/mateussouzaweb/nicedeck/src/steam"
+	"github.com/mateussouzaweb/nicedeck/src/steam/steam"
 )
 
 // Installer for Amazon Games

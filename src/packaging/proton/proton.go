@@ -11,7 +11,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
-	"github.com/mateussouzaweb/nicedeck/src/steam"
+	"github.com/mateussouzaweb/nicedeck/src/steam/steam"
 )
 
 //go:embed resources/*

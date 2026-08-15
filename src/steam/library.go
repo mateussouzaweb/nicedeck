@@ -12,6 +12,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging/linux"
 	"github.com/mateussouzaweb/nicedeck/src/shortcuts"
 	"github.com/mateussouzaweb/nicedeck/src/steam/controller"
+	"github.com/mateussouzaweb/nicedeck/src/steam/steam"
 	"github.com/mateussouzaweb/nicedeck/src/steam/vdf"
 )
 
@@ -66,7 +67,7 @@ func (l *Library) Load() error {
 	l.Shortcuts = make([]*Shortcut, 0)
 
 	// Check if Steam is installed
-	steamPackage := GetPackage()
+	steamPackage := steam.GetPackage()
 	installed, err := steamPackage.Installed()
 	if err != nil {
 		return err
@@ -82,7 +83,7 @@ func (l *Library) Load() error {
 	}
 
 	// Retrieve base path
-	l.BasePath, err = GetBasePath()
+	l.BasePath, err = steam.GetBasePath()
 	if err != nil {
 		return err
 	}
@@ -95,7 +96,7 @@ func (l *Library) Load() error {
 
 	// Retrieve user config path
 	if l.ConfigPath == "" {
-		l.ConfigPath, err = GetConfigPath()
+		l.ConfigPath, err = steam.GetConfigPath()
 		if err != nil {
 			return err
 		}
@@ -277,7 +278,7 @@ func (l *Library) Save() error {
 	}
 
 	// Make sure Steam on flatpak has the necessary permission
-	steamPackage := GetPackage()
+	steamPackage := steam.GetPackage()
 	if _, ok := steamPackage.(*linux.Flatpak); ok {
 		err := steamPackage.(*linux.Flatpak).ApplyOverrides()
 		if err != nil {
