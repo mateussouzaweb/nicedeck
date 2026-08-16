@@ -45,7 +45,9 @@ func (p *Proton) SteamRuntime() (string, error) {
 		return "", err
 	}
 
-	runtime = filepath.Join(runtime, "steamapps", "common", "SteamLinuxRuntime_4", "_v2-entry-point")
+	version := "SteamLinuxRuntime_4"
+	runtime = filepath.Join(runtime, "steamapps", "common")
+	runtime = filepath.Join(runtime, version, "_v2-entry-point")
 	return runtime, nil
 }
 
@@ -58,17 +60,8 @@ func (p *Proton) ProtonPath() (string, error) {
 	}
 
 	// Prefix is not customizable for now
-	implementation := "native"
 	version := "Proton - Experimental"
-
-	// Native runtime, such as Proton - Experimental
-	if implementation == "native" {
-		path = filepath.Join(path, "steamapps", "common", version)
-		return path, nil
-	}
-
-	// Custom runtime, such as Proton-GE
-	path = filepath.Join(path, "compatibilitytools.d", version)
+	path = filepath.Join(path, "steamapps", "common", version)
 	return path, nil
 }
 
@@ -195,6 +188,48 @@ func (p *Proton) Install() error {
 	} else if !protonInstalled {
 		defer cli.Open("steam://install/1493710") // Proton Experimental
 		return fmt.Errorf("proton install missing, please install proton first")
+	}
+
+	// Make sure that data path has the necessary structure first
+	// Steam Runtime now requires this basic folder structure
+	versionFile := filepath.Join(dataPath, "version")
+	versionExist, err := fs.FileExist(versionFile)
+	if err != nil {
+		return err
+	} else if !versionExist {
+
+		// Create data folder
+		err = os.MkdirAll(dataPath, 0774)
+		if err != nil {
+			return err
+		}
+
+		// Create wine dosdevices folder
+		err = os.MkdirAll(filepath.Join(winePath, "dosdevices"), 0774)
+		if err != nil {
+			return err
+		}
+
+		// Create c: relative symbolic link to drive_c folder
+		cDevicePath := filepath.Join(winePath, "dosdevices", "c:")
+		err = fs.MakeSymlink("../drive_c", cDevicePath)
+		if err != nil {
+			return err
+		}
+
+		// Create z: symbolic link that points to OS / folder
+		zDevicePath := filepath.Join(winePath, "dosdevices", "z:")
+		err = fs.MakeSymlink("/", zDevicePath)
+		if err != nil {
+			return err
+		}
+
+		// Write version file
+		err := fs.WriteFile(versionFile, "11.0-100")
+		if err != nil {
+			return err
+		}
+
 	}
 
 	// Create run executable script to avoid NiceDeck direct dependency
