@@ -9,7 +9,6 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs/assets"
 	"github.com/mateussouzaweb/nicedeck/src/programs/forgejo"
 	"github.com/mateussouzaweb/nicedeck/src/programs/github"
-	"github.com/mateussouzaweb/nicedeck/src/programs/gitlab"
 	"github.com/mateussouzaweb/nicedeck/src/programs/website"
 )
 
@@ -696,8 +695,8 @@ func Ryujinx() *packaging.Program {
 			AppID:     "ryujinx",
 			Launcher:  "$EMULATORS/Ryujinx/Ryujinx.AppImage",
 			Arguments: packaging.NoArguments(),
-			Source: gitlab.Release(
-				"https://git.ryujinx.app", "1",
+			Source: forgejo.Release(
+				"https://git.ryujinx.app", "projects/Ryubing",
 				cli.ArchVariant(
 					"ryujinx-*-x64.AppImage",   // amd64
 					"ryujinx-*-arm64.AppImage", // arm64
@@ -707,12 +706,9 @@ func Ryujinx() *packaging.Program {
 			AppID:     "ryujinx",
 			Launcher:  "$EMULATORS/Ryujinx/Ryujinx.app",
 			Arguments: packaging.NoArguments(),
-			Source: gitlab.Release(
-				"https://git.ryujinx.app", "1",
-				cli.ArchVariant(
-					"ryujinx-*-macos_universal.app.tar.gz", // amd64
-					"ryujinx-*-macos_universal.app.tar.gz", // arm64
-				),
+			Source: forgejo.Release(
+				"https://git.ryujinx.app", "projects/Ryubing",
+				"ryujinx-*-macos_universal.app.tar.gz", // amd64 + arm64
 			),
 		}, &windows.Executable{
 			AppID:       "Ryujinx",
@@ -720,8 +716,8 @@ func Ryujinx() *packaging.Program {
 			Uninstaller: "",
 			Launcher:    "$EMULATORS/Ryujinx/Ryujinx.exe",
 			Arguments:   packaging.NoArguments(),
-			Source: gitlab.Release(
-				"https://git.ryujinx.app", "1",
+			Source: forgejo.Release(
+				"https://git.ryujinx.app", "projects/Ryubing",
 				cli.ArchVariant(
 					"ryujinx-*-win_x64.zip", // amd64
 					"ryujinx-*-win_x64.zip", // arm64 (WIP)
