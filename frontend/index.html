@@ -136,7 +136,7 @@
             <section class="tab" id="state">
                 <form action="#">
                     <div class="group">
-                        <p>Please choose the action that you want to perform with the emulator state:</p>
+                        <p>Please choose the action that you want to perform with the stored state:</p>
                         <label class="radio">
                             <input type="radio" name="action" value="backup" checked="checked" />
                             <span>Backup State</span>
@@ -156,6 +156,7 @@
                         <div class="platforms"></div>
                     </div>
                     <div class="group">
+                        <p class="alert"><b>NOTE:</b> The resulting list contains only states that can be synchronized right now. Ensure the emulator has created its base folder structure before attempting to restore a state.</p>
                         <div class="list"></div>
                     </div>
                     <div class="actions">

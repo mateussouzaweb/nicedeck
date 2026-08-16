@@ -26,6 +26,14 @@
     flex-flow: column;
 }
 
+#state .alert {
+    background: rgba(245, 220, 170, 0.30);
+    border: 1px solid #cf9e20;
+    border-radius: 5px;
+    margin: 15px 0;
+    padding: 15px;
+}
+
 #state .list .table {
     border-collapse: collapse;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
