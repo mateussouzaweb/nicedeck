@@ -8,7 +8,7 @@ Steam companion app for console emulation, better gaming experience and addition
 
 NiceDeck is a solid alternative for automated installation programs like [EmuDeck](https://github.com/dragoonDorise/EmuDeck) and [RetroDeck](https://github.com/XargonWan/RetroDECK). It tries to keep things as simple as possible by focusing on installing the recommended programs and emulators, managing your ROMs library by providing shortcuts, automatically adding them to the ``Steam Library`` and handling your gaming state with backups.
 
-NiceDeck was originally created for Steam Deck, but works on Linux, Windows and MacOS.
+NiceDeck was originally created for Steam OS, but works on Linux, Windows and MacOS.
 
 Some features of NiceDeck:
 
@@ -17,7 +17,7 @@ Some features of NiceDeck:
 - Installation for applications and software using the best official packaging source.
 - Each piece of software is independent and is maintained / updated directly by its developers.
 - Simplified structure for emulators, where you should see only the ``ROMs`` and ``BIOS`` folders for the emulators that you installed.
-- Installed programs available on the ``Steam Library`` (allowing usage on ``Gaming Mode`` at Steam Deck and ``Big Picture`` mode on Desktop).
+- Installed programs available on the ``Steam Library`` (allowing usage on ``Gaming Mode`` at Steam OS and ``Big Picture`` mode on Desktop).
 - Built-in parser to grab information and add ROMs to the ``Steam Library`` automatically.
 - Beautiful and automated cover images for shortcuts in the ``Steam Library``.
 - Built-in tool to backup and restore saved game progress and states on each emulator.
@@ -29,7 +29,7 @@ Some features of NiceDeck:
 Here are the requirement details based on your device or operating system:
 
 Steam OS:
-- No additional requirements, everything is included on Steam OS devices like the Steam Deck.
+- No additional requirements, everything is included on Steam OS devices like the Steam Deck or Steam Machine.
 
 Linux:
 - You can also run NiceDeck in any Linux distribution that supports [Flatpak](https://flatpak.org/) with the [Flathub](https://flathub.org) repository enabled, but make sure to install the ``flatpak-xdg-utils`` package too.
@@ -47,13 +47,13 @@ Once you have solved the system dependencies, just download and run NiceDeck!
 
 ## Installation and Usage
 
-NOTE: You need to go into ``Desktop Mode`` in Steam Deck to follow these instructions.
+NOTE: You need to go into ``Desktop Mode`` in Steam OS to follow these instructions.
 
 In general, we recommend that you **install and set up Steam first** in order to have the necessary Steam folders in your system to sync the library before trying to install any other additional software within NiceDeck.
 
 Go to the project [RELEASES](https://github.com/mateussouzaweb/nicedeck/releases) page and download the latest version of NiceDeck for your operating system:
 
-- Steam Deck: ``nicedeck-linux-amd64``.
+- Steam OS: ``nicedeck-linux-amd64``.
 - Linux x86: ``nicedeck-linux-amd64``.
 - Linux ARM: ``nicedeck-linux-arm64``.
 - MacOS Apple Silicon: ``nicedeck-macos-universal.zip``.
@@ -85,11 +85,11 @@ Programs and Emulators:
 - With the exception of ``ES-DE``, NiceDeck **will not pre-configure additional software and emulators**.
 - This means that you should run the configuration process for each emulator, including placing BIOS files and tweaking settings before using it.
 - Consult the official guide of each program if you need assistance to correctly configure it.
-- On Steam Deck, some programs will require a secondary switch to ``Desktop Mode`` in order to tweak advanced settings given the limitations of ``Gaming Mode``.
+- On Steam OS, some programs will require a secondary switch to ``Desktop Mode`` in order to tweak advanced settings given the limitations of ``Gaming Mode``.
 
 Steam Library:
 
-- You need to restart Steam or the Steam Deck device for changes to take effect in your ``Steam Library``.
+- You need to restart Steam application or the Steam OS device for changes to take effect in your ``Steam Library``.
 - Once programs and ROMs are available in the ``Steam Library``, you can use the collections feature to better filter and manage your games.
 
 Controller Layout:

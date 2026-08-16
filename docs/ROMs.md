@@ -4,9 +4,9 @@ NiceDeck has the ability to automatically find and add your ROMs to the ``Steam 
 
 ## ROMs Path and Organization
 
-To start, you must copy your ROMs to the Steam Deck. Use the table below to guide you on where you should put your ROMs based on their consoles:
+To start, place your ROMs in the target folder: ``$HOME/Games/ROMs`` (aka ``$ROMS``).
 
-NOTE: ``$ROMS`` represents your ROMs directory, located at ``$HOME/Games/ROMs``.
+Use the table below to guide you on where you should put your ROMs based on their consoles:
 
 | Console                   | Emulator                | ROMs Folder       |
 |---------------------------|-------------------------|-------------------|
@@ -49,7 +49,7 @@ You also must know that **every available ROM** inside the included folders will
 - ``$ROMS/GBA/Favorites`` - Games that will be included by the parser
 - ``$ROMS/GBA/Others`` - Other non-favorite games that will be ignored by the parser
 
-Once you've decided on the best ROM organization for you and copied your ROMs to the Steam Deck, it's time to run the parser.
+Once you've decided on the best ROM organization for you and copied your ROMs to the target folder, it's time to run the parser.
 
 ## Using the Parser
 
