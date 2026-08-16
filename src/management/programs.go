@@ -72,6 +72,11 @@ func InstallPrograms(options *programs.Options) error {
 			program.Tags = append(program.Tags, "Desktop")
 		}
 
+		// Add Proton tag for programs running with Proton
+		if program.Package.Runtime() == "proton" {
+			program.Tags = append(program.Tags, "Proton")
+		}
+
 		// Retrieve shortcut information
 		executable := program.Package.Executable()
 		arguments := program.Package.Args()
