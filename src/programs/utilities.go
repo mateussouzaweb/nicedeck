@@ -79,10 +79,7 @@ func NiceDeck() *packaging.Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/mateussouzaweb/nicedeck",
-				cli.ArchVariant(
-					"nicedeck-macos-universal.zip", // amd64
-					"nicedeck-macos-universal.zip", // arm64
-				),
+				"nicedeck-macos-universal.zip", // amd64 + arm64
 			),
 		}, &windows.Executable{
 			AppID:       "NiceDeck",

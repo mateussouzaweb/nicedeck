@@ -143,10 +143,7 @@ func Dolphin() *packaging.Program {
 			Arguments: packaging.NoArguments(),
 			Source: website.Release(
 				"https://dolphin-emu.org/download/", "",
-				cli.ArchVariant(
-					"https://dl.dolphin-emu.org/releases/*/dolphin-*-universal.dmg", // amd64
-					"https://dl.dolphin-emu.org/releases/*/dolphin-*-universal.dmg", // arm64
-				),
+				"https://dl.dolphin-emu.org/releases/*/dolphin-*-universal.dmg", // amd64 + arm64
 			),
 		}, &windows.Executable{
 			AppID:       "Dolphin",
@@ -393,10 +390,7 @@ func MelonDS() *packaging.Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/melonDS-emu/melonDS",
-				cli.ArchVariant(
-					"macOS-universal.zip", // amd64
-					"macOS-universal.zip", // arm64
-				),
+				"macOS-universal.zip", // amd64 + arm64
 			),
 		}, &windows.Executable{
 			AppID:       "MelonDS",
@@ -600,10 +594,7 @@ func Redream() *packaging.Program {
 			Source: website.Release(
 				"https://redream.io/download",
 				"https://redream.io/",
-				cli.ArchVariant(
-					"download/redream.universal-mac-v*-*-*.tar.gz", // amd64
-					"download/redream.universal-mac-v*-*-*.tar.gz", // arm64
-				),
+				"download/redream.universal-mac-v*-*-*.tar.gz", // amd64 + arm64
 			),
 		}, &windows.Executable{
 			AppID:       "Redream",
@@ -858,10 +849,7 @@ func Xemu() *packaging.Program {
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
 				"https://github.com/xemu-project/xemu",
-				cli.ArchVariant(
-					"xemu-macos-universal-release.zip", // amd64
-					"xemu-macos-universal-release.zip", // arm64
-				),
+				"xemu-macos-universal-release.zip", // amd64 + arm64
 			),
 		}, &windows.Executable{
 			AppID:       "Xemu",
