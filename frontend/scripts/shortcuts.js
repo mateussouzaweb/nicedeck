@@ -110,7 +110,7 @@ window.addEventListener('load', async () => {
             let valid = true
 
             if (filters.tags.length) {
-                valid = valid && filters.tags.every((tag) => {
+                valid = valid && filters.tags.some((tag) => {
                     return shortcut.tags.includes(tag)
                 })
             }
