@@ -136,23 +136,26 @@ window.addEventListener('load', async () => {
                 <div class="area">
                     <div class="image">
                         <img loading="lazy" src="${coverImage}" alt="${shortcut.name}" width="600" height="900"/>
-                    </div>
-                    <div class="info">
-                        <div class="tags">${tags}</div>
-                        <div class="title">
-                            <h4>${shortcut.name}</h4>
-                        </div>
                         <div class="actions">
                             <button type="button" data-launch-shortcut="${shortcut.id}" title="Launch">
                                 <img src="./img/icons/launch.svg" alt="Launch" width="24" height="24" />
+                                <span>Launch</span>
                             </button>
                             <button type="button" data-update-shortcut="${shortcut.id}" title="Update">
                                 <img src="./img/icons/update.svg" alt="Update" width="24" height="24" />
+                                <span>Update</span>
                             </button>
                             <button type="button" data-delete-shortcut="${shortcut.id}" title="Delete">
                                 <img src="./img/icons/delete.svg" alt="Delete" width="24" height="24" />
+                                <span>Delete</span>
                             </button>
                         </div>
+                    </div>
+                    <div class="info">
+                        <div class="title">
+                            <h4>${shortcut.name}</h4>
+                        </div>
+                        <div class="tags">${tags}</div>
                     </div>
                 </div>
             </article>`
@@ -444,6 +447,23 @@ window.addEventListener('load', async () => {
         window.showModal(modal)
     })
 
+    on('#shortcuts .shortcut', 'pointerdown', (event) => {
+        const shortcut = event.target.closest('.shortcut')
+        const active = $('#shortcuts .shortcut.active')
+
+        if (active && active !== shortcut){
+            active.classList.remove('active')
+        }
+        if (event.pointerType === 'mouse') {
+            return;
+        }
+
+        window.setTimeout(() => {
+            shortcut.classList.add('active')
+        }, 100)
+
+    })
+
     on('#shortcuts [data-launch-shortcut]', 'click', async (event) => {
         event.preventDefault()
 
@@ -478,24 +498,33 @@ window.addEventListener('load', async () => {
         window.setTimeout(() => {
             window.hideModal(modal)
         }, 1000)
+
     })
 
     on('#shortcuts [data-update-shortcut]', 'click', async (event) => {
-
         event.preventDefault()
-        const element = event.target.closest('[data-update-shortcut]')
-        const shortcut = getShortcut(element.dataset.updateShortcut)
 
+        const button = event.target.closest('[data-update-shortcut]')
+
+        if (button.disabled) {
+            return
+        }
+
+        const shortcut = getShortcut(button.dataset.updateShortcut)
         await renderUpdateShortcut(shortcut)
 
     })
 
     on('#shortcuts [data-delete-shortcut]', 'click', (event) => {
-
         event.preventDefault()
-        const element = event.target.closest('[data-delete-shortcut]')
-        const shortcut = getShortcut(element.dataset.deleteShortcut)
 
+        const button = event.target.closest('[data-delete-shortcut]')
+
+        if (button.disabled) {
+            return
+        }
+
+        const shortcut = getShortcut(button.dataset.deleteShortcut)
         const modal = $('#modal-delete-shortcut')
         const subTitle = $('.header h3 small', modal)
         const content = $('.content', modal)

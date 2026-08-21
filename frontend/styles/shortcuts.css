@@ -136,8 +136,9 @@
 #shortcuts #list .area {
     align-items: stretch;
     background: #FFF;
-    border: 2px solid #000;
+    border: 1px solid #000;
     border-radius: 5px;
+    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.15);
     display: flex;
     flex-flow: column;
     height: 100%;
@@ -159,33 +160,18 @@
     border-radius: 2px 2px 0 0;
     display: block;
     overflow: hidden;
+    padding: 5px 5px 0;
+    position: relative;
 }
-#shortcuts #list .image img {
+#shortcuts #list .image > img {
+    border-radius: 5px;
     display: block;
     height: auto;
     width: 100%;
 }
 
-#shortcuts #list .info .tags {
-    display: block;
-    padding: 10px 0 5px 0;
-    text-align: center;
-}
-#shortcuts #list .info .tags .tag {
-    background: #FFF;
-    border: 1px solid #000;
-    border-radius: 3px;
-    color: #000;
-    display: inline-block;
-    font-size: 10px;
-    margin: 2px;
-    padding: 2px 5px;
-    vertical-align: middle;
-}
-
 #shortcuts #list .info {
     align-items: stretch;
-    border-top: 1px solid #000;
     display: flex;
     flex: 1;
     flex-flow: column;
@@ -202,32 +188,79 @@
     margin: 0;
     padding: 0;
 }
-#shortcuts #list .info .actions {
-    border-radius: 0 0 5px 5px;
-    border-top: 1px solid #CCC;
-    display: flex;
-    justify-content: stretch;
-    margin-top: 0;
-    padding: 10px 9px;
+#shortcuts #list .info .tags {
+    display: block;
+    padding: 0px 0 10px 0;
+    text-align: center;
 }
-#shortcuts #list .info .actions button {
+#shortcuts #list .info .tags .tag {
+    background: #FFF;
+    border: 1px solid #000;
+    border-radius: 3px;
+    color: #000;
+    display: inline-block;
+    font-size: 11px;
+    margin: 2px;
+    padding: 2px 5px;
+    vertical-align: middle;
+}
+
+#shortcuts #list .actions {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.80);
+    border-radius: 2px 2px 0 0;
+    bottom: 0;
+    display: flex;
+    flex-flow: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    left: 0;
+    margin-top: 0;
+    opacity: 0;
+    padding: 9px;
+    position: absolute;
+    pointer-events: none;
+    right: 0;
+    top: 0;
+    transition: opacity 0.2s ease-in-out;
+    visibility: hidden;
+}
+#shortcuts #list .actions button {
     background: #000;
     border: 0;
     border-radius: 5px;
     color: #FFF;
     cursor: pointer;
-    flex: 1;
-    font-size: 100%;
-    font-weight: bold;
+    flex: 0;
+    font-size: 90%;
+    font-weight: normal;
     margin: 1px;
-    padding: 5px;
+    padding: 8px 15px;
     text-align: center;
     vertical-align: middle;
-    width: auto;
+    width: 120px;
 }
-#shortcuts #list .info .actions button img {
+#shortcuts #list .actions button img {
     display: inline-block;
     vertical-align: middle;
+}
+#shortcuts #list .actions button span {
+    display: inline-block;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+#shortcuts #list .item.active .actions {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+}
+
+@media (hover: hover) {
+    #shortcuts #list .item:hover .actions {
+        opacity: 1;
+        pointer-events: auto;
+        visibility: visible;
+    }
 }
 
 #modal-launch-shortcut .inside {
