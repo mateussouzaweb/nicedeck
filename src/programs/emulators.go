@@ -884,28 +884,36 @@ func Xenia() *packaging.Program {
 		CoverURL:    assets.Cover("e43e55468f8cfee48d517b2c49cecd08.png"),
 		BannerURL:   assets.Banner("1962bcb00dc1bf1b5bcb334257ff3701.png"),
 		HeroURL:     assets.Hero("2958ef004a18f50b380a87d1cfe5366d.png"),
-		Package: packaging.Best(&linux.Binary{
+		Package: packaging.Best(&linux.AppImage{
 			AppID:     "xenia",
-			Launcher:  "$EMULATORS/Xenia/xenia_canary",
+			Launcher:  "$EMULATORS/Xenia/xenia_edge.AppImage",
 			Arguments: packaging.NoArguments(),
 			Source: github.Release(
-				"https://github.com/xenia-canary/xenia-canary-releases",
+				"https://github.com/has207/xenia-edge",
 				cli.ArchVariant(
-					"xenia_canary_linux.tar.xz", // amd64
-					"xenia_canary_linux.tar.xz", // arm64 (WIP)
+					"xenia_edge_linux.AppImage", // amd64
+					"xenia_edge_linux.AppImage", // arm64 (WIP)
 				),
+			),
+		}, &macos.Application{
+			AppID:     "xenia",
+			Launcher:  "$EMULATORS/Xenia/Xenia-edge.app",
+			Arguments: packaging.NoArguments(),
+			Source: github.Release(
+				"https://github.com/has207/xenia-edge",
+				"xenia_edge_macos.dmg", // amd64 + arm64
 			),
 		}, &windows.Executable{
 			AppID:       "Xenia",
 			Installer:   "",
 			Uninstaller: "",
-			Launcher:    "$EMULATORS/Xenia/xenia_canary.exe",
+			Launcher:    "$EMULATORS/Xenia/xenia_edge.exe",
 			Arguments:   packaging.NoArguments(),
 			Source: github.Release(
-				"https://github.com/xenia-canary/xenia-canary-releases",
+				"https://github.com/has207/xenia-edge",
 				cli.ArchVariant(
-					"xenia_canary_windows.zip", // amd64
-					"xenia_canary_windows.zip", // arm64 (WIP)
+					"xenia_edge_windows.zip", // amd64
+					"xenia_edge_windows.zip", // arm64 (WIP)
 				),
 			),
 		}),
