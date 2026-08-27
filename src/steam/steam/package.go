@@ -44,7 +44,7 @@ func GetPackage() packaging.Package {
 		Arguments: packaging.NoArguments(),
 	}, &windows.WinGet{
 		AppID:     "Valve.Steam",
-		Launcher:  "$PROGRAMS_X86/Steam/Steam.exe",
+		Launcher:  "$PROGRAMS_X86/Steam/steam.exe",
 		Arguments: packaging.NoArguments(),
 	})
 }
