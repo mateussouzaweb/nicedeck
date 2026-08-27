@@ -67,6 +67,18 @@ func CreateShortcut(shortcut *shortcuts.Shortcut, destination string) error {
 		iconPath = shortcut.IconPath
 	}
 
+	// Try to convert .png to .ico
+	if strings.HasSuffix(shortcut.IconPath, ".png") {
+		iconName := strings.TrimSuffix(shortcut.IconPath, ".png")
+		iconDestination := fmt.Sprintf("%s_desktop.ico", iconName)
+		err := ConvertPngToIco(shortcut.IconPath, iconDestination)
+		if err != nil {
+			return err
+		} else {
+			iconPath = iconDestination
+		}
+	}
+
 	// Write system shortcut on location using PowerShell
 	script := fmt.Sprintf(``+
 		`$WshShell = New-Object -COMObject WScript.Shell;`+
@@ -96,6 +108,13 @@ func CreateShortcut(shortcut *shortcuts.Shortcut, destination string) error {
 func RemoveShortcut(shortcut *shortcuts.Shortcut, destination string) error {
 
 	err := fs.RemoveFile(destination)
+	if err != nil {
+		return err
+	}
+
+	desktopIcon := strings.TrimSuffix(shortcut.IconPath, ".png")
+	desktopIcon = fmt.Sprintf("%s_desktop.ico", desktopIcon)
+	err = fs.RemoveFile(desktopIcon)
 	if err != nil {
 		return err
 	}
