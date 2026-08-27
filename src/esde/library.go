@@ -72,6 +72,7 @@ func (l *Library) Save() error {
 	if err != nil {
 		return err
 	} else if !installed {
+		cli.Debug("ES-DE installation not detected\n")
 		return nil
 	}
 

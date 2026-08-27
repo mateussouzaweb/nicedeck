@@ -72,6 +72,7 @@ func (l *Library) Load() error {
 	if err != nil {
 		return err
 	} else if !installed {
+		cli.Debug("Steam installation not detected\n")
 		return nil
 	}
 
