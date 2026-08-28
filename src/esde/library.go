@@ -119,6 +119,15 @@ func (l *Library) Update(shortcut *Shortcut, overwriteAssets bool) error {
 	return nil
 }
 
+// Set shortcut on library to either add or update
+func (l *Library) Set(shortcut *Shortcut, overwriteAssets bool) error {
+	if _, ok := l.References[shortcut.ID]; !ok {
+		return l.Add(shortcut)
+	} else {
+		return l.Update(shortcut, overwriteAssets)
+	}
+}
+
 // Remove shortcut from the library
 func (l *Library) Remove(shortcut *Shortcut) error {
 	delete(l.References, shortcut.ID)

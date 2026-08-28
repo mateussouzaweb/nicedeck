@@ -30,11 +30,6 @@ func SetShortcut(shortcut *shortcuts.Shortcut, overwriteAssets bool) error {
 	return library.Shortcuts.Set(shortcut, overwriteAssets)
 }
 
-// Update shortcut on library
-func UpdateShortcut(shortcut *shortcuts.Shortcut, overwriteAssets bool) error {
-	return library.Shortcuts.Update(shortcut, overwriteAssets)
-}
-
 // Remove shortcut from the library
 func RemoveShortcut(shortcut *shortcuts.Shortcut) error {
 	return library.Shortcuts.Remove(shortcut)

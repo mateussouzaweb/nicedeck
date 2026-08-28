@@ -532,6 +532,28 @@ func (l *Library) Update(reference *Internal, overwriteAssets bool) error {
 	return nil
 }
 
+// Set shortcut on library to either add or update
+func (l *Library) Set(reference *Internal, overwriteAssets bool) error {
+
+	// Skip if library is not available
+	if !l.Available() {
+		return nil
+	}
+
+	// Transform reference shortcut into Steam shortcut
+	shortcut, err := l.Transform(reference)
+	if err != nil {
+		return err
+	}
+
+	// Use checksums presence for faster lookup
+	if _, ok := l.Checksums[shortcut.AppID]; !ok {
+		return l.Add(reference)
+	} else {
+		return l.Update(reference, overwriteAssets)
+	}
+}
+
 // Remove shortcut from the library
 func (l *Library) Remove(reference *Internal) error {
 

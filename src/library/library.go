@@ -32,6 +32,7 @@ type Synchronizable interface {
 	Export() []*Shortcut
 	Add(*Shortcut) error
 	Update(*Shortcut, bool) error
+	Set(*Shortcut, bool) error
 	Remove(*Shortcut) error
 }
 
@@ -123,14 +124,8 @@ func Save() error {
 
 		// Perform synchronization based on recent history only
 		for _, history := range Shortcuts.History {
-			if history.Action == "added" {
-				err := library.Add(history.Result)
-				if err != nil {
-					return err
-				}
-			}
-			if history.Action == "updated" {
-				err := library.Update(history.Result, true)
+			if history.Action == "added" || history.Action == "updated" {
+				err := library.Set(history.Result, true)
 				if err != nil {
 					return err
 				}

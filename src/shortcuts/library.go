@@ -165,7 +165,6 @@ func (l *Library) Add(shortcut *Shortcut) error {
 func (l *Library) Update(shortcut *Shortcut, overwriteAssets bool) error {
 
 	// Check if already exist an app with the same reference
-	found := false
 	for index, item := range l.Shortcuts {
 		if item.ID != shortcut.ID {
 			continue
@@ -188,19 +187,13 @@ func (l *Library) Update(shortcut *Shortcut, overwriteAssets bool) error {
 			Result:   shortcut,
 		})
 
-		found = true
 		break
-	}
-
-	// Append to the library if not exist
-	if !found {
-		return fmt.Errorf("shortcut not found")
 	}
 
 	return nil
 }
 
-// Set shortcut into library by adding or updating it
+// Set shortcut on library to either add or update
 func (l *Library) Set(shortcut *Shortcut, overwriteAssets bool) error {
 	existing := l.Get(shortcut.ID)
 

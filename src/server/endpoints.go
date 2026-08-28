@@ -450,7 +450,7 @@ func modifyShortcut(context *Context) error {
 		shortcut.HeroPath = data.HeroPath
 		shortcut.Tags = data.Tags
 
-		err := management.UpdateShortcut(shortcut, true)
+		err := management.SetShortcut(shortcut, true)
 		if err != nil {
 			result.Status = "ERROR"
 			result.Error = err.Error()

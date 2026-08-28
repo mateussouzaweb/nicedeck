@@ -407,7 +407,7 @@ func modifyShortcut(context Context) error {
 		shortcut.HeroPath = heroPath
 		shortcut.Tags = strings.Split(tags, ",")
 
-		err := management.UpdateShortcut(shortcut, true)
+		err := management.SetShortcut(shortcut, true)
 		if err != nil {
 			return err
 		}
