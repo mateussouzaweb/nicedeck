@@ -272,18 +272,9 @@ func Sync() error {
 	// libraries = append(libraries, EpicGames)
 	// libraries = append(libraries, GOG)
 
-	// Perform synchronization process to main shortcuts library
-	// Please note that shortcuts library is already loaded
-	// Load and compare libraries to find differences
-	// Then, apply differences to main shortcuts library
-	// Process is done gradually for each additional library
+	// Merge shortcuts from all additional libraries into one global list
+	merged := map[string]*Shortcut{}
 	for _, library := range libraries {
-
-		// Load library data
-		err := library.Load()
-		if err != nil {
-			return err
-		}
 
 		// Skip partial libraries
 		// These libraries cannot submit data to main library
@@ -291,32 +282,63 @@ func Sync() error {
 			continue
 		}
 
-		cli.Debug("Synchronizing %s to library\n", library.String())
+		// Load library data
+		err := library.Load()
+		if err != nil {
+			return err
+		}
 
-		// Compare library with main shortcuts library
-		exported := Fill(library.Export())
-		diff := Compare(Shortcuts.All(), exported)
+		// Merge library shortcuts into global list
+		shortcuts := Fill(library.Export())
+		for _, shortcut := range shortcuts {
+			if shortcut == nil || shortcut.ID == "" {
+				continue
+			}
 
-		// Apply differences to main shortcuts library
-		for _, shortcut := range diff.Added {
-			err := Shortcuts.Add(shortcut)
-			if err != nil {
-				return err
+			// Use the newest shortcut for duplicated entries
+			current, ok := merged[shortcut.ID]
+			if !ok || shortcut.Timestamp > current.Timestamp {
+				merged[shortcut.ID] = shortcut
 			}
 		}
-		for _, shortcut := range diff.Updated {
-			err := Shortcuts.Update(shortcut, false)
-			if err != nil {
-				return err
-			}
+
+	}
+
+	// Perform synchronization process to main shortcuts library
+	// Please note that shortcuts library is already loaded
+	// Compare main list with global list to find differences
+	// Then, apply differences to main shortcuts library
+	exported := make([]*Shortcut, 0, len(merged))
+	for _, shortcut := range merged {
+		exported = append(exported, shortcut)
+	}
+
+	diff := Compare(Shortcuts.All(), exported)
+
+	// Apply differences to main shortcuts library
+	for _, shortcut := range diff.Added {
+		err := Shortcuts.Add(shortcut)
+		if err != nil {
+			return err
 		}
+	}
+	for _, shortcut := range diff.Updated {
+		err := Shortcuts.Update(shortcut, false)
+		if err != nil {
+			return err
+		}
+	}
+
+	// Perform removals only when global list has something inside it
+	// We treat the global list as a non-authoritative source
+	// When empty, main shortcuts library is the preferred list
+	if len(exported) > 0 {
 		for _, shortcut := range diff.Removed {
 			err := Shortcuts.Remove(shortcut)
 			if err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// Clear history after synchronization
@@ -328,6 +350,12 @@ func Sync() error {
 	for _, library := range libraries {
 
 		cli.Debug("Synchronizing library to %s\n", library.String())
+
+		// Load library data
+		err := library.Load()
+		if err != nil {
+			return err
+		}
 
 		// Compare library with main shortcuts library
 		current := Fill(library.Export())
@@ -354,7 +382,7 @@ func Sync() error {
 		}
 
 		// Save library
-		err := library.Save()
+		err = library.Save()
 		if err != nil {
 			return err
 		}
