@@ -39,21 +39,23 @@ func GetPlatforms() ([]*Platform, error) {
 		Source:    &packaging.Source{},
 	}
 
-	proton.Launcher = proton.Executable()
-	protonInstalled, err := proton.Installed()
-	if err != nil {
-		return platforms, err
-	}
+	if proton.Available() {
+		proton.Launcher = proton.Executable()
+		protonInstalled, err := proton.Installed()
+		if err != nil {
+			return platforms, err
+		}
 
-	if proton.Available() && protonInstalled {
-		platforms = append(platforms, &Platform{
-			Name:           "Linux",
-			Runtime:        "Proton",
-			Extensions:     ".exe .msi .bat .cmd",
-			StartDirectory: proton.DataPath(),
-			Executable:     proton.Executable(),
-			LaunchOptions:  "${ROM}",
-		})
+		if protonInstalled {
+			platforms = append(platforms, &Platform{
+				Name:           "Linux",
+				Runtime:        "Proton",
+				Extensions:     ".exe .msi .bat .cmd",
+				StartDirectory: proton.DataPath(),
+				Executable:     proton.Executable(),
+				LaunchOptions:  "${ROM}",
+			})
+		}
 	}
 
 	// MacOS
