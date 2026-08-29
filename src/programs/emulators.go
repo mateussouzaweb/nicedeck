@@ -141,9 +141,8 @@ func Dolphin() *packaging.Program {
 			AppID:     "dolphin",
 			Launcher:  "$EMULATORS/Dolphin/Dolphin.app",
 			Arguments: packaging.NoArguments(),
-			Source: website.Release(
-				"https://dolphin-emu.org/download/", "",
-				"https://dl.dolphin-emu.org/releases/*/dolphin-*-universal.dmg", // amd64 + arm64
+			Source: website.Link(
+				"https://dl.dolphin-emu.org/releases/2606a/dolphin-2606a-universal.dmg", // amd64 + arm64
 			),
 		}, &windows.Executable{
 			AppID:       "Dolphin",
@@ -151,13 +150,10 @@ func Dolphin() *packaging.Program {
 			Uninstaller: "",
 			Launcher:    "$EMULATORS/Dolphin/Dolphin.exe",
 			Arguments:   packaging.NoArguments(),
-			Source: website.Release(
-				"https://dolphin-emu.org/download/", "",
-				cli.ArchVariant(
-					"https://dl.dolphin-emu.org/releases/*/dolphin-*-x64.7z",   // amd64
-					"https://dl.dolphin-emu.org/releases/*/dolphin-*-ARM64.7z", // arm64
-				),
-			),
+			Source: website.Link(cli.ArchVariant(
+				"https://dl.dolphin-emu.org/releases/2606a/dolphin-2606a-x64.7z",   // amd64
+				"https://dl.dolphin-emu.org/releases/2606a/dolphin-2606a-arm64.7z", // arm64
+			)),
 		}),
 	}
 }
