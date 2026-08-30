@@ -211,7 +211,7 @@ func GetPlatforms() ([]*Platform, error) {
 			Available:     false,
 			Installed:     false,
 			Executable:    "",
-			Extensions:    ".ps4",
+			Extensions:    ".ps4 .zar",
 			LaunchOptions: "-d -g ${ROM}",
 		}},
 	})
