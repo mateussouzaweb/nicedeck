@@ -730,11 +730,17 @@ func ShadPS4() *packaging.Program {
 		CoverURL:    assets.Cover("72251a01ac19b84c2208c2a6f18a17da.png"),
 		BannerURL:   assets.Banner("21483d9d9aca5bd442f292cef7bab951.png"),
 		HeroURL:     assets.Hero("cc5e9cea0a79b962c20a9231e65a06ef.jpg"),
-		Package: packaging.Best(&linux.Flatpak{
+		Package: packaging.Best(&linux.AppImage{
 			AppID:     "net.shadps4.shadPS4",
-			Namespace: "system",
-			Overrides: []string{"--filesystem=host"},
+			Launcher:  "$EMULATORS/ShadPS4/shadPS4QtLauncher-qt.AppImage",
 			Arguments: packaging.NoArguments(),
+			Source: github.Release(
+				"https://github.com/shadps4-emu/shadps4-qtlauncher",
+				cli.ArchVariant(
+					"shadPS4QtLauncher-linux-qt-*.zip", // amd64
+					"shadPS4QtLauncher-linux-qt-*.zip", // arm64 (WIP)
+				),
+			),
 		}, &macos.Application{
 			AppID:     "shadps4",
 			Launcher:  "$EMULATORS/ShadPS4/shadPS4QtLauncher.app",
