@@ -57,6 +57,7 @@ func ToOptions(include []string, preferences []string) (*Options, error) {
 		compile("(?i)Disc [1-9][0-9]"),       // Disc 10 - 99 of some games
 		compile("(?i)Track 0?[1-9]"),         // Track 01 - 09 of some games
 		compile("(?i)Track [1-9][0-9]"),      // Track 10 - 99 of some games
+		compile("(?i)-patch(.ps4|.zar)?$"),   // PS4 patches
 	}
 
 	return options, nil
