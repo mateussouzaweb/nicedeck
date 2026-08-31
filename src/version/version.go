@@ -2,5 +2,5 @@ package version
 
 // Get current version of the application
 func Get() string {
-	return "0.5.6"
+	return "0.5.7"
 }
