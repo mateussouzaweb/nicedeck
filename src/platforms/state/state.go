@@ -279,18 +279,46 @@ func GetStates(options *Options) ([]*State, error) {
 	})
 
 	// ShadPS4
+	// Emulator save state in users.json file and home folder
+	// We also sync the play_time.txt file for convenience
 	states = append(states, &State{
 		Platform:    "PS4",
 		Emulator:    "ShadPS4",
-		Type:        "folder",
-		Destination: "$STATE/ShadPS4/saves",
+		Type:        "file",
+		Destination: "$STATE/ShadPS4/users.json",
 		Source: &Source{
 			Linux: []string{
-				"$VAR/net.shadps4.shadPS4/data/shadps4/saves",
-				"$SHARE/shadps4/saves",
+				"$VAR/net.shadps4.shadPS4/data/shadps4/users.json",
+				"$SHARE/shadPS4/users.json",
 			},
-			MacOS:   []string{"$CONFIG/shadps4/saves"},
-			Windows: []string{"$EMULATORS/ShadPS4/user/saves"},
+			MacOS:   []string{"$CONFIG/shadPS4/users.json"},
+			Windows: []string{"$APPDATA/Roaming/shadPS4/users.json"},
+		},
+	}, &State{
+		Platform:    "PS4",
+		Emulator:    "ShadPS4",
+		Type:        "file",
+		Destination: "$STATE/ShadPS4/play_time.txt",
+		Source: &Source{
+			Linux: []string{
+				"$VAR/net.shadps4.shadPS4/data/shadps4/play_time.txt",
+				"$SHARE/shadPS4/play_time.txt",
+			},
+			MacOS:   []string{"$CONFIG/shadPS4/play_time.txt"},
+			Windows: []string{"$APPDATA/Roaming/shadPS4/play_time.txt"},
+		},
+	}, &State{
+		Platform:    "PS4",
+		Emulator:    "ShadPS4",
+		Type:        "folder",
+		Destination: "$STATE/ShadPS4/home",
+		Source: &Source{
+			Linux: []string{
+				"$VAR/net.shadps4.shadPS4/data/shadps4/home",
+				"$SHARE/shadPS4/home",
+			},
+			MacOS:   []string{"$CONFIG/shadPS4/home"},
+			Windows: []string{"$APPDATA/Roaming/shadPS4/home"},
 		},
 	})
 
