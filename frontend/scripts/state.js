@@ -25,7 +25,7 @@ window.addEventListener('load', async () => {
 
         const options = platforms.map((platform) => {
             return `<label class="checkbox" title="${platform.name}">
-                <input type="checkbox" name="platforms[]" value="${platform.value}" checked="checked" />
+                <input type="checkbox" name="platforms[]" value="${platform.value}" />
                 <div class="area">
                     <div class="icon">
                         <img loading="lazy" src="${platform.image}" alt="${platform.name}" width="96" height="96" />
