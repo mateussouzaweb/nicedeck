@@ -625,8 +625,8 @@ func restoreState(context Context) error {
 	return nil
 }
 
-// Process ROMs
-func processROMs(context Context) error {
+// Process platforms
+func processPlatforms(context Context) error {
 
 	// Retrieve command details
 	include := context.Multiple("--platforms", ",")
@@ -653,7 +653,7 @@ func processROMs(context Context) error {
 		errors.Join(err, management.SaveLibrary())
 	}()
 
-	// Process ROMs to add/update/remove
+	// Process platforms to add/update/remove shortcuts in the library
 	options := platforms.ToOptions(include, preferences)
 	err = management.ProcessPlatformShortcuts(options)
 	if err != nil {

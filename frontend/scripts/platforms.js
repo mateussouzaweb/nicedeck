@@ -1,4 +1,4 @@
-// ROMs
+// Platforms
 window.addEventListener('load', async () => {
 
     /**
@@ -10,14 +10,29 @@ window.addEventListener('load', async () => {
         const request = await requestJson('GET', '/api/platforms')
         const platforms = []
 
-        request.console.map((platform) => {
+        request.console.filter((platform) => {
+            return platform.type === 'native'
+        }).map((platform) => {
             const key = platform.console.toLowerCase().replaceAll(' ', '-')
-            const custom = platform.type === 'custom'
             const option = {
                 key: key,
                 name: platform.console,
                 value: platform.name,
-                image: `/img/platforms/${custom ? 'custom' : key}.png`
+                image: `/img/platforms/${key}.png`
+            }
+
+            platforms.push(option)
+        })
+
+        request.console.filter((platform) => {
+            return platform.type === 'custom'
+        }).map((platform) => {
+            const key = platform.console.toLowerCase().replaceAll(' ', '-')
+            const option = {
+                key: key,
+                name: platform.console,
+                value: platform.name,
+                image: `/img/platforms/custom.png`
             }
 
             platforms.push(option)
@@ -49,29 +64,29 @@ window.addEventListener('load', async () => {
         options.push('<div class="fill"></div>')
         options.push('<div class="fill"></div>')
 
-        const destination = $('#roms .platforms')
+        const destination = $('#platforms .platforms')
         destination.innerHTML = options.join('')
 
     }
 
-    on('#roms .select-all', 'click', (event) => {
+    on('#platforms .select-all', 'click', (event) => {
         event.preventDefault()
         const parent = event.target.closest('.group')
         const inputs = $$('input[type="checkbox"]', parent)
         inputs.map((input) => input.checked = "checked")
     })
 
-    on('#roms .clear-all', 'click', (event) => {
+    on('#platforms .clear-all', 'click', (event) => {
         event.preventDefault()
         const parent = event.target.closest('.group')
         const inputs = $$('input[type="checkbox"]', parent)
         inputs.map((input) => input.checked = "")
     })
 
-    on('#roms form', 'submit', async (event) => {
+    on('#platforms form', 'submit', async (event) => {
         event.preventDefault()
 
-        const form = $('#roms form')
+        const form = $('#platforms form')
         const button = $('button[type="submit"]', form)
 
         if (button.disabled) {
@@ -80,7 +95,7 @@ window.addEventListener('load', async () => {
 
         const data = new FormData(form)
 
-        /** @type {ProcessROMsData} */
+        /** @type {ProcessPlatformsData} */
         const body = {
             platforms: data.getAll('platforms[]'),
             preferences: data.getAll('preferences[]')
@@ -90,8 +105,8 @@ window.addEventListener('load', async () => {
             try {
                 /** @type {LoadLibraryResult} */
                 await requestJson('POST', '/api/library/load')
-                /** @type {ProcessROMsResult} */
-                await requestJson('POST', '/api/roms', JSON.stringify(body))
+                /** @type {ProcessPlatformsResult} */
+                await requestJson('POST', '/api/platforms/process', JSON.stringify(body))
             } catch (error) {
                 window.showError(error)
             }

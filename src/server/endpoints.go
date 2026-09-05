@@ -144,6 +144,88 @@ func listPrograms(context *Context) error {
 	return context.Status(http.StatusOK).JSON(result)
 }
 
+// Install programs data
+type InstallProgramsData struct {
+	Programs    []string `json:"programs"`
+	Preferences []string `json:"preferences"`
+}
+
+// Install programs result
+type InstallProgramsResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
+// Install programs action
+func installPrograms(context *Context) error {
+
+	result := InstallProgramsResult{}
+
+	// Bind data
+	data := InstallProgramsData{}
+	err := context.Bind(&data)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Install programs in the list
+	options := programs.ToOptions(data.Programs, data.Preferences)
+	err = management.InstallPrograms(options)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	cli.Printf(cli.ColorSuccess, "Process finished!\n")
+
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
+}
+
+// Remove programs data
+type RemoveProgramsData struct {
+	Programs    []string `json:"programs"`
+	Preferences []string `json:"preferences"`
+}
+
+// Remove programs result
+type RemoveProgramsResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
+// Remove programs actions
+func removePrograms(context *Context) error {
+
+	result := RemoveProgramsResult{}
+
+	// Bind data
+	data := RemoveProgramsData{}
+	err := context.Bind(&data)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Remove programs in the list
+	options := programs.ToOptions(data.Programs, data.Preferences)
+	err = management.RemovePrograms(options)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	cli.Printf(cli.ColorSuccess, "Remove process finished!\n")
+
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
+}
+
 // List platforms result
 type ListPlatformsResult struct {
 	Status  string              `json:"status"`
@@ -177,6 +259,172 @@ func listPlatforms(context *Context) error {
 	result.Console = consoleList
 	result.Native = nativeList
 	return context.Status(http.StatusOK).JSON(result)
+}
+
+// Process platforms data
+type ProcessPlatformsData struct {
+	Platforms   []string `json:"platforms"`
+	Preferences []string `json:"preferences"`
+}
+
+// Process platforms result
+type ProcessPlatformsResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
+// Process platforms action (to update library)
+func processPlatforms(context *Context) error {
+
+	result := ProcessPlatformsResult{}
+
+	// Bind data
+	data := ProcessPlatformsData{}
+	err := context.Bind(&data)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Process platforms to add/update/remove shortcuts in the library
+	options := platforms.ToOptions(data.Platforms, data.Preferences)
+	err = management.ProcessPlatformShortcuts(options)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
+}
+
+// List state result
+type ListStateResult struct {
+	Status string                  `json:"status"`
+	Error  string                  `json:"error"`
+	Data   []*state.Synchronizable `json:"data"`
+}
+
+// List state action
+func listState(context *Context) error {
+
+	result := ListStateResult{}
+
+	// Bind data
+	query := context.Request.URL.Query()
+	action := query.Get("action")
+	platformsParam := query.Get("platforms")
+	preferencesParam := query.Get("preferences")
+
+	// Create and validate options
+	platforms := strings.Split(platformsParam, ",")
+	preferences := strings.Split(preferencesParam, ",")
+	options := state.ToOptions(action, platforms, preferences)
+
+	if options.Action == "" {
+		err := fmt.Errorf("action is required")
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+	if len(options.Platforms) == 0 {
+		err := fmt.Errorf("platform list is required")
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Retrieve synchronizable results
+	data, err := management.GetState(options)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	result.Status = "OK"
+	result.Data = data
+	return context.Status(http.StatusOK).JSON(result)
+}
+
+// Backup state data
+type BackupStateData struct {
+	Platforms   []string `json:"platforms"`
+	Preferences []string `json:"preferences"`
+}
+
+// Backup state result
+type BackupStateResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
+// Backup state action
+func backupState(context *Context) error {
+
+	result := BackupStateResult{}
+
+	// Bind data
+	data := BackupStateData{}
+	err := context.Bind(&data)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Process synchronization
+	options := state.ToOptions("backup", data.Platforms, data.Preferences)
+	err = management.SyncState(options)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
+}
+
+// Restore state data
+type RestoreStateData struct {
+	Platforms   []string `json:"platforms"`
+	Preferences []string `json:"preferences"`
+}
+
+// Restore state result
+type RestoreStateResult struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
+// Restore state action
+func restoreState(context *Context) error {
+
+	result := RestoreStateResult{}
+
+	// Bind data
+	data := RestoreStateData{}
+	err := context.Bind(&data)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Process synchronization
+	options := state.ToOptions("restore", data.Platforms, data.Preferences)
+	err = management.SyncState(options)
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	result.Status = "OK"
+	return context.Status(200).JSON(result)
 }
 
 // List shortcuts result
@@ -476,254 +724,6 @@ func modifyShortcut(context *Context) error {
 	return context.Status(200).JSON(result)
 }
 
-// Install programs data
-type InstallProgramsData struct {
-	Programs    []string `json:"programs"`
-	Preferences []string `json:"preferences"`
-}
-
-// Install programs result
-type InstallProgramsResult struct {
-	Status string `json:"status"`
-	Error  string `json:"error"`
-}
-
-// Install programs action
-func installPrograms(context *Context) error {
-
-	result := InstallProgramsResult{}
-
-	// Bind data
-	data := InstallProgramsData{}
-	err := context.Bind(&data)
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	// Install programs in the list
-	options := programs.ToOptions(data.Programs, data.Preferences)
-	err = management.InstallPrograms(options)
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	cli.Printf(cli.ColorSuccess, "Process finished!\n")
-
-	result.Status = "OK"
-	return context.Status(200).JSON(result)
-}
-
-// Remove programs data
-type RemoveProgramsData struct {
-	Programs    []string `json:"programs"`
-	Preferences []string `json:"preferences"`
-}
-
-// Remove programs result
-type RemoveProgramsResult struct {
-	Status string `json:"status"`
-	Error  string `json:"error"`
-}
-
-// Remove programs actions
-func removePrograms(context *Context) error {
-
-	result := RemoveProgramsResult{}
-
-	// Bind data
-	data := RemoveProgramsData{}
-	err := context.Bind(&data)
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	// Remove programs in the list
-	options := programs.ToOptions(data.Programs, data.Preferences)
-	err = management.RemovePrograms(options)
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	cli.Printf(cli.ColorSuccess, "Remove process finished!\n")
-
-	result.Status = "OK"
-	return context.Status(200).JSON(result)
-}
-
-// List state result
-type ListStateResult struct {
-	Status string                  `json:"status"`
-	Error  string                  `json:"error"`
-	Data   []*state.Synchronizable `json:"data"`
-}
-
-// List state action
-func listState(context *Context) error {
-
-	result := ListStateResult{}
-
-	// Bind data
-	query := context.Request.URL.Query()
-	action := query.Get("action")
-	platformsParam := query.Get("platforms")
-	preferencesParam := query.Get("preferences")
-
-	// Create and validate options
-	platforms := strings.Split(platformsParam, ",")
-	preferences := strings.Split(preferencesParam, ",")
-	options := state.ToOptions(action, platforms, preferences)
-
-	if options.Action == "" {
-		err := fmt.Errorf("action is required")
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-	if len(options.Platforms) == 0 {
-		err := fmt.Errorf("platform list is required")
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	// Retrieve synchronizable results
-	data, err := management.GetState(options)
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	result.Status = "OK"
-	result.Data = data
-	return context.Status(http.StatusOK).JSON(result)
-}
-
-// Backup state data
-type BackupStateData struct {
-	Platforms   []string `json:"platforms"`
-	Preferences []string `json:"preferences"`
-}
-
-// Backup state result
-type BackupStateResult struct {
-	Status string `json:"status"`
-	Error  string `json:"error"`
-}
-
-// Backup state action
-func backupState(context *Context) error {
-
-	result := BackupStateResult{}
-
-	// Bind data
-	data := BackupStateData{}
-	err := context.Bind(&data)
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	// Process synchronization
-	options := state.ToOptions("backup", data.Platforms, data.Preferences)
-	err = management.SyncState(options)
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	result.Status = "OK"
-	return context.Status(200).JSON(result)
-}
-
-// Restore state data
-type RestoreStateData struct {
-	Platforms   []string `json:"platforms"`
-	Preferences []string `json:"preferences"`
-}
-
-// Restore state result
-type RestoreStateResult struct {
-	Status string `json:"status"`
-	Error  string `json:"error"`
-}
-
-// Restore state action
-func restoreState(context *Context) error {
-
-	result := RestoreStateResult{}
-
-	// Bind data
-	data := RestoreStateData{}
-	err := context.Bind(&data)
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	// Process synchronization
-	options := state.ToOptions("restore", data.Platforms, data.Preferences)
-	err = management.SyncState(options)
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	result.Status = "OK"
-	return context.Status(200).JSON(result)
-}
-
-// Process ROMs data
-type ProcessROMsData struct {
-	Platforms   []string `json:"platforms"`
-	Preferences []string `json:"preferences"`
-}
-
-// Process ROMS result
-type ProcessROMsResult struct {
-	Status string `json:"status"`
-	Error  string `json:"error"`
-}
-
-// Process ROMs action (to update library)
-func processROMs(context *Context) error {
-
-	result := ProcessROMsResult{}
-
-	// Bind data
-	data := ProcessROMsData{}
-	err := context.Bind(&data)
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	// Process ROMs to add/update/remove
-	options := platforms.ToOptions(data.Platforms, data.Preferences)
-	err = management.ProcessPlatformShortcuts(options)
-	if err != nil {
-		result.Status = "ERROR"
-		result.Error = err.Error()
-		return context.Status(400).JSON(result)
-	}
-
-	result.Status = "OK"
-	return context.Status(200).JSON(result)
-}
-
 // Scrape data result
 type ScrapeDataResult struct {
 	Status string                `json:"status"`
@@ -887,23 +887,28 @@ func Setup(developmentMode bool, shutdown chan bool) error {
 	})
 
 	// Specific routes
-	Add("GET", "/api/programs", listPrograms)
-	Add("GET", "/api/platforms", listPlatforms)
-	Add("GET", "/api/state", listState)
-	Add("GET", "/api/shortcuts", listShortcuts)
-	Add("GET", "/api/scrape", scrapeData)
 	Add("POST", "/api/library/load", loadLibrary)
 	Add("POST", "/api/library/save", saveLibrary)
 	Add("POST", "/api/library/sync", syncLibrary)
+
+	Add("GET", "/api/programs", listPrograms)
+	Add("POST", "/api/programs/install", installPrograms)
+	Add("POST", "/api/programs/remove", removePrograms)
+
+	Add("GET", "/api/platforms", listPlatforms)
+	Add("POST", "/api/platforms/process", processPlatforms)
+
+	Add("GET", "/api/state", listState)
+	Add("POST", "/api/state/backup", backupState)
+	Add("POST", "/api/state/restore", restoreState)
+
+	Add("GET", "/api/shortcuts", listShortcuts)
 	Add("POST", "/api/shortcut/launch", launchShortcut)
 	Add("POST", "/api/shortcut/create", createShortcut)
 	Add("POST", "/api/shortcut/add", addShortcut)
 	Add("POST", "/api/shortcut/modify", modifyShortcut)
-	Add("POST", "/api/programs/install", installPrograms)
-	Add("POST", "/api/programs/remove", removePrograms)
-	Add("POST", "/api/state/backup", backupState)
-	Add("POST", "/api/state/restore", restoreState)
-	Add("POST", "/api/roms", processROMs)
+
+	Add("GET", "/api/scrape", scrapeData)
 	Add("POST", "/api/link/open", openLink)
 
 	// Grid image request

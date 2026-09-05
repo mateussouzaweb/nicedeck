@@ -1,0 +1,27 @@
+#platforms .mass-actions {
+    font-size: 85%;
+}
+#platforms .mass-actions .select-all,
+#platforms .mass-actions .clear-all {
+    cursor: pointer;
+}
+#platforms .mass-actions .separator {
+    display: inline-block;
+    opacity: 0.15;
+    padding: 0 5px;
+}
+
+#platforms .platforms {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0 -5px;
+}
+
+#platforms .platforms label.checkbox,
+#platforms .platforms .fill {
+    flex: 1 1 10%;
+    min-width: 90px;
+}
+#platforms .platforms label.checkbox .area {
+    flex-flow: column;
+}

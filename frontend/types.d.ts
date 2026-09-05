@@ -241,12 +241,12 @@ interface RestoreStateResult {
 	error: string
 }
 
-interface ProcessROMsData {
+interface ProcessPlatformsData {
 	platforms: string[]
 	preferences: string[]
 }
 
-interface ProcessROMsResult {
+interface ProcessPlatformsResult {
 	status: string
 	error: string
 }

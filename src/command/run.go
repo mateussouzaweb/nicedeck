@@ -60,8 +60,8 @@ func Run(args []string, done chan bool) error {
 		err = backupState(context)
 	case "restore-state":
 		err = restoreState(context)
-	case "process-roms":
-		err = processROMs(context)
+	case "process-platforms":
+		err = processPlatforms(context)
 	case "server":
 		err = runServer(context)
 	default:

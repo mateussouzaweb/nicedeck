@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="./styles/images.css">
     <link rel="stylesheet" href="./styles/modal.css">
     <link rel="stylesheet" href="./styles/programs.css">
-    <link rel="stylesheet" href="./styles/roms.css">
+    <link rel="stylesheet" href="./styles/platforms.css">
     <link rel="stylesheet" href="./styles/shortcuts.css">
     <link rel="stylesheet" href="./styles/state.css">
     <link rel="stylesheet" href="./styles/tabs.css">
@@ -34,9 +34,9 @@
                         <img src="./img/icons/programs.svg" alt="Programs" width="24" height="24" />
                         <span>Programs</span>
                     </li>
-                    <li data-tab="roms" title="ROMs">
-                        <img src="./img/icons/roms.svg" alt="ROMs" width="24" height="24" />
-                        <span>ROMs</span>
+                    <li data-tab="platforms" title="Platforms">
+                        <img src="./img/icons/platforms.svg" alt="Platforms" width="24" height="24" />
+                        <span>Platforms</span>
                     </li>
                     <li data-tab="state" title="State">
                         <img src="./img/icons/state.svg" alt="State" width="24" height="24" />
@@ -68,7 +68,7 @@
 
                 <ul>
                     <li>First time here? Install applications and emulators from the <b>programs</b> section.</li>
-                    <li>Automatically add emulated games to your library at the <b>ROMs</b> section.</li>
+                    <li>Automatically add emulated and third-party games to your library at the <b>platforms</b> section.</li>
                     <li>Need to backup or restore your progress in games? Use the <b>state</b> section.</li>
                     <li>Customize launch shortcuts individually on the <b>shortcuts</b> tab.</li>
                 </ul>
@@ -102,10 +102,10 @@
                 </form>
             </section>
 
-            <section class="tab" id="roms">
+            <section class="tab" id="platforms">
                 <form action="#">
                     <div class="group">
-                        <p>Please select the gaming platforms to process ROMs and create shortcuts:</p>
+                        <p>Please select the gaming platforms and launchers to detect games, process ROMs and create shortcuts:</p>
                         <p class="mass-actions">
                             <span class="select-all">SELECT ALL</span>
                             <span class="separator">/</span>
@@ -126,7 +126,7 @@
                     </div>
                     <div class="actions">
                         <button type="submit">
-                            <span>Process ROMs</span>
+                            <span>Process Platforms</span>
                             <span>Processing...</span>
                         </button>
                     </div>
@@ -185,7 +185,7 @@
                     <div class="tags">
                         <label>
                             <span>Platforms &bull; Tags</span>
-                            <img src="./img/icons/platforms.svg" alt="" width="24" height="24" />
+                            <img src="./img/icons/tags.svg" alt="" width="24" height="24" />
                         </label>
                         <div class="dropdown"></div>
                     </div>
@@ -384,7 +384,7 @@
     <script type="text/javascript" src="./scripts/images.js"></script>
     <script type="text/javascript" src="./scripts/modal.js"></script>
     <script type="text/javascript" src="./scripts/programs.js"></script>
-    <script type="text/javascript" src="./scripts/roms.js"></script>
+    <script type="text/javascript" src="./scripts/platforms.js"></script>
     <script type="text/javascript" src="./scripts/shortcuts.js"></script>
     <script type="text/javascript" src="./scripts/shutdown.js"></script>
     <script type="text/javascript" src="./scripts/state.js"></script>
