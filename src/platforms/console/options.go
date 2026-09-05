@@ -31,10 +31,11 @@ func (o *Options) ShouldExclude(path string) bool {
 func ToOptions(include []string, preferences []string) (*Options, error) {
 
 	options := &Options{
-		Include:     include,
-		Preferences: preferences,
 		RootPath:    fs.ExpandPath("$ROMS"),
 		Platforms:   []*Platform{},
+		Include:     include,
+		Exclude:     []*regexp.Regexp{},
+		Preferences: preferences,
 	}
 
 	platforms, err := GetPlatforms()
@@ -46,7 +47,7 @@ func ToOptions(include []string, preferences []string) (*Options, error) {
 
 	// Files with these name patterns will be ignored
 	compile := regexp.MustCompile
-	options.Exclude = []*regexp.Regexp{
+	options.Exclude = append(options.Exclude,
 		compile("(?i)[\\\\/]Updates[\\\\/]"), // Updates folder
 		compile("(?i)[\\\\/]Mods[\\\\/]"),    // Mods folder
 		compile("(?i)[\\\\/]DLCs[\\\\/]"),    // DLCs folder
@@ -58,7 +59,7 @@ func ToOptions(include []string, preferences []string) (*Options, error) {
 		compile("(?i)Track 0?[1-9]"),         // Track 01 - 09 of some games
 		compile("(?i)Track [1-9][0-9]"),      // Track 10 - 99 of some games
 		compile("(?i)-patch(.ps4|.zar)?$"),   // PS4 patches
-	}
+	)
 
 	return options, nil
 }

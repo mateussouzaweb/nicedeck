@@ -11,17 +11,39 @@
     padding: 0 5px;
 }
 
-#platforms .platforms {
+#platforms .platforms .group {
     display: flex;
     flex-flow: row wrap;
     margin: 0 -5px;
 }
+#platforms .platforms .group + .group {
+    margin-top: 20px;
+}
+
+#platforms .platforms .group-info {
+    display: flex;
+    align-items: center;
+    flex-basis: 100%;
+    margin: 5px;
+}
+#platforms .platforms .group-info h4 {
+    margin: 0 20px 0 0;
+    flex: 0;
+    font-size: 1.25rem;
+}
+#platforms .platforms .group-info p {
+    margin: 0;
+    flex: 1;
+}
 
 #platforms .platforms label.checkbox,
 #platforms .platforms .fill {
-    flex: 1 1 10%;
+    flex: 1 1 12%;
     min-width: 90px;
 }
 #platforms .platforms label.checkbox .area {
     flex-flow: column;
+}
+#platforms .platforms label.checkbox .area .icon img {
+    max-width: 70px;
 }

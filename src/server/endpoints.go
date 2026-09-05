@@ -19,6 +19,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/packaging"
 	"github.com/mateussouzaweb/nicedeck/src/platforms"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
+	"github.com/mateussouzaweb/nicedeck/src/platforms/launcher"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/native"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/state"
 	"github.com/mateussouzaweb/nicedeck/src/programs"
@@ -228,10 +229,11 @@ func removePrograms(context *Context) error {
 
 // List platforms result
 type ListPlatformsResult struct {
-	Status  string              `json:"status"`
-	Error   string              `json:"error"`
-	Console []*console.Platform `json:"console"`
-	Native  []*native.Platform  `json:"native"`
+	Status   string               `json:"status"`
+	Error    string               `json:"error"`
+	Console  []*console.Platform  `json:"console"`
+	Launcher []*launcher.Platform `json:"launcher"`
+	Native   []*native.Platform   `json:"native"`
 }
 
 // List platforms action
@@ -241,6 +243,14 @@ func listPlatforms(context *Context) error {
 
 	// Retrieve console platforms
 	consoleList, err := platforms.GetConsoles()
+	if err != nil {
+		result.Status = "ERROR"
+		result.Error = err.Error()
+		return context.Status(400).JSON(result)
+	}
+
+	// Retrieve launchers platforms
+	launcherList, err := platforms.GetLaunchers()
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -257,6 +267,7 @@ func listPlatforms(context *Context) error {
 
 	result.Status = "OK"
 	result.Console = consoleList
+	result.Launcher = launcherList
 	result.Native = nativeList
 	return context.Status(http.StatusOK).JSON(result)
 }
@@ -289,7 +300,7 @@ func processPlatforms(context *Context) error {
 
 	// Process platforms to add/update/remove shortcuts in the library
 	options := platforms.ToOptions(data.Platforms, data.Preferences)
-	err = management.ProcessPlatformShortcuts(options)
+	err = management.ProcessPlatforms(options)
 	if err != nil {
 		result.Status = "ERROR"
 		result.Error = err.Error()
@@ -527,7 +538,7 @@ func createShortcut(context *Context) error {
 	include := []string{}
 	preferences := []string{}
 	options := platforms.ToOptions(include, preferences)
-	shortcut, err := management.ProcessPlatformShortcut(
+	shortcut, err := management.PlatformToShortcut(
 		data.Name,
 		data.Path,
 		options,

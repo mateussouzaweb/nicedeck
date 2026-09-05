@@ -10,26 +10,8 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/fs"
 )
 
-// ROM struct
-type ROM struct {
-	Path          string `json:"path"`
-	RelativePath  string `json:"relativePath"`
-	Directory     string `json:"directory"`
-	File          string `json:"file"`
-	Extension     string `json:"extension"`
-	Name          string `json:"name"`
-	Title         string `json:"title"`
-	Description   string `json:"description"`
-	Platform      string `json:"platform"`
-	Console       string `json:"console"`
-	Emulator      string `json:"emulator"`
-	Program       string `json:"program"`
-	Executable    string `json:"executable"`
-	LaunchOptions string `json:"launchOptions"`
-}
-
-// Find ROM details based on the given path
-func ParseROM(path string, options *Options) (*ROM, error) {
+// Parse ROM details based on the given path
+func Parse(path string, options *Options) (*ROM, error) {
 
 	rom := &ROM{}
 
@@ -72,6 +54,7 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 
 	// Valid, fill ROM data with runtime
 	executable := fs.ExpandPath(runtime.Emulator.Executable)
+	startDirectory := filepath.Dir(executable)
 	launchOptions := runtime.Emulator.LaunchOptions
 	launchOptions = strings.Replace(
 		launchOptions, "${ROM}", cli.Quote(finalPath), 1,
@@ -93,8 +76,8 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 	title := name + " [" + runtime.Platform.Name + "]"
 	description := "ROM for " + runtime.Platform.Name
 
+	rom.Reference = relativePath
 	rom.Path = finalPath
-	rom.RelativePath = relativePath
 	rom.Directory = directory
 	rom.File = file
 	rom.Extension = extension
@@ -105,6 +88,7 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 	rom.Platform = runtime.Platform.Name
 	rom.Emulator = runtime.Emulator.Name
 	rom.Program = runtime.Emulator.Program
+	rom.StartDirectory = startDirectory
 	rom.Executable = executable
 	rom.LaunchOptions = launchOptions
 
@@ -112,7 +96,7 @@ func ParseROM(path string, options *Options) (*ROM, error) {
 }
 
 // Find ROMs in folder and return the list of detected games
-func ParseROMs(options *Options) ([]*ROM, error) {
+func Find(options *Options) ([]*ROM, error) {
 
 	var results []*ROM
 
@@ -143,7 +127,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 
 		// Parse individual ROM file
 		cli.Debug("Detected: %s\n", realPath)
-		rom, err := ParseROM(realPath, options)
+		rom, err := Parse(realPath, options)
 		if err != nil {
 			return err
 		} else if rom.Name == "" {
@@ -168,7 +152,7 @@ func ParseROMs(options *Options) ([]*ROM, error) {
 }
 
 // Filter ROMs that match given requirements and return the list to process
-func FilterROMs(roms []*ROM, existing []string, options *Options) []*ROM {
+func Filter(list []*ROM, existing []string, options *Options) []*ROM {
 
 	var toProcess []*ROM
 
@@ -176,30 +160,30 @@ func FilterROMs(roms []*ROM, existing []string, options *Options) []*ROM {
 	rebuild := slices.Contains(options.Preferences, "rebuild")
 
 	// Fill the list of ROMs to process
-	for _, rom := range roms {
+	for _, item := range list {
 		addToList := false
 
 		// Add to the list if ROM matches platform condition
 		if len(options.Platforms) == 0 {
 			addToList = true
-		} else if slices.Contains(options.Include, rom.Platform) {
+		} else if slices.Contains(options.Include, item.Platform) {
 			addToList = true
 		} else {
-			cli.Debug("No platform match. ROM skipped to the process list: %s\n", rom.RelativePath)
+			cli.Debug("No platform match. ROM skipped to the process list: %s\n", item.Reference)
 		}
 
 		// When is not rebuilding, include only new detected ROMs
 		if !rebuild {
-			if slices.Contains(existing, rom.RelativePath) {
-				cli.Debug("Existing. ROM skipped to the process list: %s\n", rom.RelativePath)
+			if slices.Contains(existing, item.Reference) {
+				cli.Debug("Existing. ROM skipped to the process list: %s\n", item.Reference)
 				addToList = false
 			}
 		}
 
 		// Finally, if valid, add to the list of ROMs to process
 		if addToList {
-			cli.Debug("ROM added to the process list: %s\n", rom.RelativePath)
-			toProcess = append(toProcess, rom)
+			cli.Debug("ROM added to the process list: %s\n", item.Reference)
+			toProcess = append(toProcess, item)
 		}
 	}
 

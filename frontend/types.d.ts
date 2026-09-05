@@ -37,6 +37,12 @@ interface ConsolePlatform {
 	emulators: ConsoleEmulator[]
 }
 
+interface LauncherPlatform {
+	name: string
+	launcher: string
+	program: string
+}
+
 interface NativePlatform {
 	name: string
 	runtime: string
@@ -118,6 +124,7 @@ interface ListPlatformsResult {
 	status: string
 	error: string
 	console: ConsolePlatform[]
+	launcher: LauncherPlatform[]
 	native: NativePlatform[]
 }
 

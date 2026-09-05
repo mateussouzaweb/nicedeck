@@ -268,6 +268,16 @@ func listPlatforms(_ Context) error {
 		cli.Printf(cli.ColorDefault, "%s - %s\n", platform.Name, platform.Console)
 	}
 
+	// List launchers platforms
+	launcherList, err := platforms.GetLaunchers()
+	if err != nil {
+		return err
+	}
+
+	for _, platform := range launcherList {
+		cli.Printf(cli.ColorDefault, "%s - %s\n", platform.Name, platform.Launcher)
+	}
+
 	// List native platforms
 	nativeList, err := platforms.GetSystemNative()
 	if err != nil {
@@ -311,7 +321,7 @@ func processPlatforms(context Context) error {
 
 	// Process platforms to add/update/remove shortcuts in the library
 	options := platforms.ToOptions(include, preferences)
-	err = management.ProcessPlatformShortcuts(options)
+	err = management.ProcessPlatforms(options)
 	if err != nil {
 		return err
 	}
@@ -491,7 +501,7 @@ func launchShortcut(context Context) error {
 	return management.LaunchShortcut(shortcut)
 }
 
-// Parse and create a new shortcut from path
+// Create a new shortcut from path
 func createShortcut(context Context) error {
 
 	// Retrieve path
@@ -524,7 +534,7 @@ func createShortcut(context Context) error {
 	include := []string{}
 	preferences := []string{}
 	options := platforms.ToOptions(include, preferences)
-	shortcut, err := management.ProcessPlatformShortcut(
+	shortcut, err := management.PlatformToShortcut(
 		name,
 		path,
 		options,

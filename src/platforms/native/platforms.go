@@ -28,7 +28,7 @@ func GetPlatforms() ([]*Platform, error) {
 			Runtime:        "Native",
 			Extensions:     ".AppImage .desktop .sh",
 			StartDirectory: "${DIRECTORY}",
-			Executable:     "${ROM}",
+			Executable:     "${PATH}",
 			LaunchOptions:  "",
 		})
 	}
@@ -53,7 +53,7 @@ func GetPlatforms() ([]*Platform, error) {
 				Extensions:     ".exe .msi .bat .cmd",
 				StartDirectory: proton.DataPath(),
 				Executable:     proton.Executable(),
-				LaunchOptions:  "${ROM}",
+				LaunchOptions:  "${PATH}",
 			})
 		}
 	}
@@ -65,7 +65,7 @@ func GetPlatforms() ([]*Platform, error) {
 			Runtime:        "Native",
 			Extensions:     ".app .sh",
 			StartDirectory: "${DIRECTORY}",
-			Executable:     "${ROM}",
+			Executable:     "${PATH}",
 			LaunchOptions:  "",
 		})
 	}
@@ -77,7 +77,7 @@ func GetPlatforms() ([]*Platform, error) {
 			Runtime:        "Native",
 			Extensions:     ".exe .msi .bat .cmd .lnk",
 			StartDirectory: "${DIRECTORY}",
-			Executable:     "${ROM}",
+			Executable:     "${PATH}",
 			LaunchOptions:  "",
 		})
 	}

@@ -2,6 +2,7 @@ package platforms
 
 import (
 	"github.com/mateussouzaweb/nicedeck/src/platforms/console"
+	"github.com/mateussouzaweb/nicedeck/src/platforms/launcher"
 	"github.com/mateussouzaweb/nicedeck/src/platforms/native"
 )
 
@@ -10,7 +11,12 @@ func GetConsoles() ([]*console.Platform, error) {
 	return console.GetPlatforms()
 }
 
-// Retrieve system native platform specs
+// Get launcher platforms specs
+func GetLaunchers() ([]*launcher.Platform, error) {
+	return launcher.GetPlatforms()
+}
+
+// Get system native platforms specs
 func GetSystemNative() ([]*native.Platform, error) {
 	return native.GetPlatforms()
 }

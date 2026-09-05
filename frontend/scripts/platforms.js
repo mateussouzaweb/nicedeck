@@ -8,64 +8,88 @@ window.addEventListener('load', async () => {
 
         /** @type {ListPlatformsResult} */
         const request = await requestJson('GET', '/api/platforms')
-        const platforms = []
+        const html = []
 
-        request.console.filter((platform) => {
+        const toKey = (name) => {
+            return name.toLowerCase().replaceAll(' ', '-')
+        }
+
+        const append = (category, platforms) => {
+            if (platforms.length === 0) {
+                return
+            }
+
+            html.push(
+            `<section class="group">
+                <div class="group-info">
+                    <h4>${category}</h4>
+                    <p class="mass-actions">
+                        <span class="select-all">SELECT ALL</span>
+                        <span class="separator">/</span>
+                        <span class="clear-all">CLEAR</span>
+                    </p>
+                </div>`)
+
+            platforms.map((platform) => {
+                html.push( `<label class="checkbox" title="${platform.name}">
+                    <input type="checkbox" name="platforms[]" value="${platform.value}" checked="checked" />
+                    <div class="area">
+                        <div class="icon">
+                            <img loading="lazy" src="${platform.image}" alt="${platform.name}" width="96" height="96" />
+                        </div>
+                        <div class="info">
+                            <b>${platform.value}</b>
+                        </div>
+                    </div>
+                </label>`
+                )
+            })
+
+            html.push(`<div class="fill"></div>`)
+            html.push(`<div class="fill"></div>`)
+            html.push(`<div class="fill"></div>`)
+            html.push(`<div class="fill"></div>`)
+            html.push(`<div class="fill"></div>`)
+            html.push(`<div class="fill"></div>`)
+            html.push(`<div class="fill"></div>`)
+            html.push(`<div class="fill"></div>`)
+            html.push(`</section>`)
+        }
+
+        append('Consoles', request.console.filter((platform) => {
             return platform.type === 'native'
         }).map((platform) => {
-            const key = platform.console.toLowerCase().replaceAll(' ', '-')
-            const option = {
+            const key = toKey(platform.console)
+            return {
                 key: key,
                 name: platform.console,
                 value: platform.name,
                 image: `/img/platforms/${key}.png`
             }
+        }))
 
-            platforms.push(option)
-        })
+        append('Launchers', request.launcher.map((platform) => {
+            return {
+                key: toKey(platform.launcher),
+                name: platform.launcher,
+                value: platform.name,
+                image: `/img/programs/${platform.program}.png`
+            }
+        }))
 
-        request.console.filter((platform) => {
+        append('Custom', request.console.filter((platform) => {
             return platform.type === 'custom'
         }).map((platform) => {
-            const key = platform.console.toLowerCase().replaceAll(' ', '-')
-            const option = {
-                key: key,
+            return {
+                key: toKey(platform.console),
                 name: platform.console,
                 value: platform.name,
                 image: `/img/platforms/custom.png`
             }
-
-            platforms.push(option)
-        })
-
-        const options = platforms.map((platform) => {
-            return `<label class="checkbox" title="${platform.name}">
-                <input type="checkbox" name="platforms[]" value="${platform.value}" checked="checked" />
-                <div class="area">
-                    <div class="icon">
-                        <img loading="lazy" src="${platform.image}" alt="${platform.name}" width="96" height="96" />
-                    </div>
-                    <div class="info">
-                        <b>${platform.value}</b>
-                    </div>
-                </div>
-            </label>`
-        })
-
-        // Empty elements for flexbox
-        options.push('<div class="fill"></div>')
-        options.push('<div class="fill"></div>')
-        options.push('<div class="fill"></div>')
-        options.push('<div class="fill"></div>')
-        options.push('<div class="fill"></div>')
-        options.push('<div class="fill"></div>')
-        options.push('<div class="fill"></div>')
-        options.push('<div class="fill"></div>')
-        options.push('<div class="fill"></div>')
-        options.push('<div class="fill"></div>')
+        }))
 
         const destination = $('#platforms .platforms')
-        destination.innerHTML = options.join('')
+        destination.innerHTML = html.join('')
 
     }
 
