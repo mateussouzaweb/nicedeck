@@ -71,6 +71,14 @@ func (l *Library) Load() error {
 		}
 	}
 
+	// @Deprecated: Migrate relativePath to reference
+	for _, shortcut := range l.Shortcuts {
+		if shortcut.RelativePath != "" {
+			shortcut.Reference = shortcut.RelativePath
+			shortcut.RelativePath = ""
+		}
+	}
+
 	// Make sure images path exists
 	err = os.MkdirAll(l.ImagesPath, 0755)
 	if err != nil {

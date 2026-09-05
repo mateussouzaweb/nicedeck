@@ -275,8 +275,8 @@ window.addEventListener('load', async () => {
                 <textarea class="resizable" id="launchOptions" name="launchOptions"></textarea>
             </div>
             <div class="group">
-                <label for="relativePath">Relative Path:</label>
-                <textarea class="resizable" id="relativePath" name="relativePath"></textarea>
+                <label for="reference">Reference:</label>
+                <textarea class="resizable" id="reference" name="reference"></textarea>
             </div>
         `
 
@@ -362,8 +362,8 @@ window.addEventListener('load', async () => {
                 <textarea class="resizable" id="launchOptions" name="launchOptions">${shortcut.launchOptions}</textarea>
             </div>
             <div class="group">
-                <label for="relativePath">Relative Path:</label>
-                <textarea class="resizable" id="relativePath" name="relativePath">${shortcut.relativePath}</textarea>
+                <label for="reference">Reference:</label>
+                <textarea class="resizable" id="reference" name="reference">${shortcut.reference}</textarea>
             </div>
         `
 
@@ -593,7 +593,7 @@ window.addEventListener('load', async () => {
             startDirectory: data.get('startDirectory'),
             executable: data.get('executable'),
             launchOptions: data.get('launchOptions'),
-            relativePath: data.get('relativePath'),
+            reference: data.get('reference'),
             iconPath: data.get('iconPath'),
             logoPath: data.get('logoPath'),
             coverPath: data.get('coverPath'),
@@ -642,7 +642,7 @@ window.addEventListener('load', async () => {
             startDirectory: data.get('startDirectory'),
             executable: data.get('executable'),
             launchOptions: data.get('launchOptions'),
-            relativePath: data.get('relativePath'),
+            reference: data.get('reference'),
             iconPath: data.get('iconPath'),
             logoPath: data.get('logoPath'),
             coverPath: data.get('coverPath'),

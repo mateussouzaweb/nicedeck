@@ -55,7 +55,7 @@ func PlatformToShortcut(name string, path string, options *platforms.Options) (*
 				StartDirectory: cli.Quote(rom.StartDirectory),
 				Executable:     cli.Quote(rom.Executable),
 				LaunchOptions:  rom.LaunchOptions,
-				RelativePath:   rom.Reference,
+				Reference:      rom.Reference,
 				IconPath:       "",
 				LogoPath:       "",
 				CoverPath:      "",
@@ -94,7 +94,7 @@ func PlatformToShortcut(name string, path string, options *platforms.Options) (*
 				StartDirectory: cli.Quote(game.StartDirectory),
 				Executable:     cli.Quote(game.Executable),
 				LaunchOptions:  game.LaunchOptions,
-				RelativePath:   game.Reference,
+				Reference:      game.Reference,
 				IconPath:       "",
 				LogoPath:       "",
 				CoverPath:      "",
@@ -133,7 +133,7 @@ func PlatformToShortcut(name string, path string, options *platforms.Options) (*
 				StartDirectory: cli.Quote(app.StartDirectory),
 				Executable:     cli.Quote(app.Executable),
 				LaunchOptions:  app.LaunchOptions,
-				RelativePath:   app.Reference,
+				Reference:      app.Reference,
 				IconPath:       "",
 				LogoPath:       "",
 				CoverPath:      "",
@@ -186,12 +186,12 @@ func ProcessConsolePlatforms(options *platforms.Options) error {
 		"optional-scraper",
 	)
 
-	// First, find all existing ROMs path
+	// First, find all existing ROMs references
 	// We read the current list of ROMs from the library
 	existing := []string{}
 	for _, shortcut := range GetShortcuts() {
 		if slices.Contains(shortcut.Tags, "ROM") {
-			existing = append(existing, shortcut.RelativePath)
+			existing = append(existing, shortcut.Reference)
 		}
 	}
 
@@ -230,7 +230,7 @@ func ProcessConsolePlatforms(options *platforms.Options) error {
 				StartDirectory: cli.Quote(rom.StartDirectory),
 				Executable:     cli.Quote(rom.Executable),
 				LaunchOptions:  rom.LaunchOptions,
-				RelativePath:   rom.Reference,
+				Reference:      rom.Reference,
 				IconPath:       "",
 				LogoPath:       "",
 				CoverPath:      "",
@@ -265,8 +265,8 @@ func ProcessConsolePlatforms(options *platforms.Options) error {
 					continue
 				}
 
-				// Check for matching ROM relative path
-				if existing.RelativePath != shortcut.RelativePath {
+				// Check for matching ROM reference
+				if existing.Reference != shortcut.Reference {
 					continue
 				}
 
@@ -302,7 +302,7 @@ func ProcessConsolePlatforms(options *platforms.Options) error {
 		// Check if the ROM of the shortcut is on the list of parsed ROMs
 		found := false
 		for _, rom := range parsed {
-			if shortcut.RelativePath == rom.Reference {
+			if shortcut.Reference == rom.Reference {
 				found = true
 				break
 			}
@@ -312,7 +312,7 @@ func ProcessConsolePlatforms(options *platforms.Options) error {
 		}
 
 		// If not found, remove the shortcuts
-		cli.Printf(cli.ColorNotice, "Removing shortcut for not detected console ROM: %s\n", shortcut.RelativePath)
+		cli.Printf(cli.ColorNotice, "Removing shortcut for not detected console ROM: %s\n", shortcut.Reference)
 		err := RemoveShortcut(shortcut)
 		if err != nil {
 			return err
@@ -346,7 +346,7 @@ func ProcessLauncherPlatforms(options *platforms.Options) error {
 	existing := []string{}
 	for _, shortcut := range GetShortcuts() {
 		if slices.Contains(shortcut.Tags, "Game") {
-			existing = append(existing, shortcut.RelativePath)
+			existing = append(existing, shortcut.Reference)
 		}
 	}
 
@@ -385,7 +385,7 @@ func ProcessLauncherPlatforms(options *platforms.Options) error {
 				StartDirectory: cli.Quote(game.StartDirectory),
 				Executable:     cli.Quote(game.Executable),
 				LaunchOptions:  game.LaunchOptions,
-				RelativePath:   game.Reference,
+				Reference:      game.Reference,
 				IconPath:       "",
 				LogoPath:       "",
 				CoverPath:      "",
@@ -416,8 +416,8 @@ func ProcessLauncherPlatforms(options *platforms.Options) error {
 					continue
 				}
 
-				// Check for matching game relative path
-				if existing.RelativePath != shortcut.RelativePath {
+				// Check for matching game reference
+				if existing.Reference != shortcut.Reference {
 					continue
 				}
 
@@ -453,7 +453,7 @@ func ProcessLauncherPlatforms(options *platforms.Options) error {
 		// Check if the game of the shortcut is on the list of parsed games
 		found := false
 		for _, game := range parsed {
-			if shortcut.RelativePath == game.Reference {
+			if shortcut.Reference == game.Reference {
 				found = true
 				break
 			}
@@ -463,7 +463,7 @@ func ProcessLauncherPlatforms(options *platforms.Options) error {
 		}
 
 		// If not found, remove the shortcuts
-		cli.Printf(cli.ColorNotice, "Removing shortcut for not detected launcher game: %s\n", shortcut.RelativePath)
+		cli.Printf(cli.ColorNotice, "Removing shortcut for not detected launcher game: %s\n", shortcut.Reference)
 		err := RemoveShortcut(shortcut)
 		if err != nil {
 			return err
@@ -492,12 +492,12 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 		"optional-scraper",
 	)
 
-	// First, find all existing apps path
+	// First, find all existing apps references
 	// We read the current list of apps from the library
 	existing := []string{}
 	for _, shortcut := range GetShortcuts() {
 		if slices.Contains(shortcut.Tags, "App") {
-			existing = append(existing, shortcut.RelativePath)
+			existing = append(existing, shortcut.Reference)
 		}
 	}
 
@@ -536,7 +536,7 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 				StartDirectory: cli.Quote(app.StartDirectory),
 				Executable:     cli.Quote(app.Executable),
 				LaunchOptions:  app.LaunchOptions,
-				RelativePath:   app.Reference,
+				Reference:      app.Reference,
 				IconPath:       "",
 				LogoPath:       "",
 				CoverPath:      "",
@@ -568,8 +568,8 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 					continue
 				}
 
-				// Check for matching App relative path
-				if existing.RelativePath != shortcut.RelativePath {
+				// Check for matching app reference
+				if existing.Reference != shortcut.Reference {
 					continue
 				}
 
@@ -605,7 +605,7 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 		// Check if the app of the shortcut is on the list of parsed apps
 		found := false
 		for _, app := range parsed {
-			if shortcut.RelativePath == app.Path {
+			if shortcut.Reference == app.Reference {
 				found = true
 				break
 			}
@@ -615,7 +615,7 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 		}
 
 		// If not found, remove the shortcuts
-		cli.Printf(cli.ColorNotice, "Removing shortcut for not detected app: %s\n", shortcut.RelativePath)
+		cli.Printf(cli.ColorNotice, "Removing shortcut for not detected app: %s\n", shortcut.Reference)
 		err := RemoveShortcut(shortcut)
 		if err != nil {
 			return err

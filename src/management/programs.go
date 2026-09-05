@@ -92,7 +92,7 @@ func InstallPrograms(options *programs.Options) error {
 			StartDirectory: cli.Quote(startDirectory),
 			Executable:     cli.Quote(executable),
 			LaunchOptions:  strings.Join(arguments, " "),
-			RelativePath:   "",
+			Reference:      "",
 			IconPath:       program.IconURL,
 			LogoPath:       program.LogoURL,
 			CoverPath:      program.CoverURL,

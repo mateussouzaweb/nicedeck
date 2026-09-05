@@ -76,7 +76,7 @@ interface Shortcut {
 	startDirectory: string
 	executable: string
 	launchOptions: string
-	relativePath: string
+	reference: string
 	iconPath: string
 	logoPath: string
 	coverPath: string
@@ -161,7 +161,7 @@ interface AddShortcutData {
 	startDirectory: string
 	executable: string
 	launchOptions: string
-	relativePath: string
+	reference: string
 	iconPath: string
 	logoPath: string
 	coverPath: string
@@ -184,7 +184,7 @@ interface ModifyShortcutData {
 	startDirectory: string
 	executable: string
 	launchOptions: string
-	relativePath: string
+	reference: string
 	iconPath: string
 	logoPath: string
 	coverPath: string

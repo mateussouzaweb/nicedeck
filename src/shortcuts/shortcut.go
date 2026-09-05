@@ -9,7 +9,7 @@ type Shortcut struct {
 	StartDirectory string   `json:"startDirectory"`
 	Executable     string   `json:"executable"`
 	LaunchOptions  string   `json:"launchOptions"`
-	RelativePath   string   `json:"relativePath"`
+	Reference      string   `json:"reference"`
 	IconPath       string   `json:"iconPath"`
 	LogoPath       string   `json:"logoPath"`
 	CoverPath      string   `json:"coverPath"`
@@ -17,6 +17,9 @@ type Shortcut struct {
 	HeroPath       string   `json:"heroPath"`
 	Tags           []string `json:"tags"`
 	Timestamp      int64    `json:"timestamp"`
+
+	// @Deprecated: RelativePath is deprecated and will be removed in future versions. Use Reference instead.
+	RelativePath string `json:"relativePath"`
 }
 
 // Safely merge shortcuts
@@ -39,8 +42,8 @@ func (s *Shortcut) Merge(source *Shortcut) {
 	if source.LaunchOptions != "" {
 		s.LaunchOptions = source.LaunchOptions
 	}
-	if source.RelativePath != "" {
-		s.RelativePath = source.RelativePath
+	if source.Reference != "" {
+		s.Reference = source.Reference
 	}
 	if source.IconPath != "" {
 		s.IconPath = source.IconPath

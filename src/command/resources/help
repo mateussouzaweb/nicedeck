@@ -80,7 +80,7 @@ add-shortcut:
   --start-directory=[value]   start directory for shortcut
   --executable=[value]        executable for shortcut
   --launch-options=[value]    launch options for shortcut
-  --relative-path=[value]     relative path for shortcut
+  --reference=[value]         external reference for shortcut
   --icon-path=[value]         icon path or URL for shortcut
   --logo-path=[value]         logo path or URL for shortcut
   --cover-path=[value]        cover path or URL for shortcut
@@ -98,7 +98,7 @@ modify-shortcut:
   --start-directory=[value]   start directory for shortcut
   --executable=[value]        executable for shortcut
   --launch-options=[value]    launch options for shortcut
-  --relative-path=[value]     relative path for shortcut
+  --reference=[value]         external reference for shortcut
   --icon-path=[value]         icon path or URL for shortcut
   --logo-path=[value]         logo path or URL for shortcut
   --cover-path=[value]        cover path or URL for shortcut

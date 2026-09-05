@@ -585,7 +585,7 @@ func addShortcut(context Context) error {
 	startDirectory := context.Arg("--start-directory", "")
 	executable := context.Arg("--executable", "")
 	launchOptions := context.Arg("--launch-options", "")
-	relativePath := context.Arg("--relative-path", "")
+	reference := context.Arg("--reference", "")
 	iconPath := context.Arg("--icon-path", "")
 	logoPath := context.Arg("--logo-path", "")
 	coverPath := context.Arg("--cover-path", "")
@@ -609,7 +609,7 @@ func addShortcut(context Context) error {
 		StartDirectory: cli.Quote(startDirectory),
 		Executable:     cli.Quote(executable),
 		LaunchOptions:  launchOptions,
-		RelativePath:   relativePath,
+		Reference:      reference,
 		IconPath:       iconPath,
 		LogoPath:       logoPath,
 		CoverPath:      coverPath,
@@ -669,7 +669,7 @@ func modifyShortcut(context Context) error {
 	startDirectory := context.Arg("--start-directory", shortcut.StartDirectory)
 	executable := context.Arg("--executable", shortcut.Executable)
 	launchOptions := context.Arg("--launch-options", shortcut.LaunchOptions)
-	relativePath := context.Arg("--relative-path", shortcut.RelativePath)
+	reference := context.Arg("--reference", shortcut.Reference)
 	iconPath := context.Arg("--icon-path", shortcut.IconPath)
 	logoPath := context.Arg("--logo-path", shortcut.LogoPath)
 	coverPath := context.Arg("--cover-path", shortcut.CoverPath)
@@ -685,7 +685,7 @@ func modifyShortcut(context Context) error {
 		shortcut.StartDirectory = cli.Quote(startDirectory)
 		shortcut.Executable = cli.Quote(executable)
 		shortcut.LaunchOptions = launchOptions
-		shortcut.RelativePath = relativePath
+		shortcut.Reference = reference
 		shortcut.IconPath = iconPath
 		shortcut.LogoPath = logoPath
 		shortcut.CoverPath = coverPath
