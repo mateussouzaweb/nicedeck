@@ -40,82 +40,45 @@ func printHelp(_ Context) error {
 	return nil
 }
 
-// List available programs
-func listPrograms(_ Context) error {
+// Run server
+func runServer(context Context) error {
 
-	// Init user library
-	err := management.InitLibrary()
-	if err != nil {
-		return err
-	}
+	var err error
 
-	// List available programs
-	list, err := programs.GetPrograms()
-	if err != nil {
-		return err
-	}
+	// Retrieve server options
+	displayMode := context.Arg("--gui", "")
+	developmentMode := context.Flag("--dev", false)
+	listenAddress := context.Arg("--address", "127.0.0.1:14935")
+	targetURL := "http://" + listenAddress
 
-	for _, program := range list {
-		cli.Printf(cli.ColorDefault, "%s - %s\n", program.ID, program.Name)
-	}
+	// Open UI with target URL when ready
+	ready := make(chan bool, 1)
+	go func() {
+		<-ready
 
-	return nil
-}
+		// Headless mode
+		if displayMode == "headless" {
+			cli.Printf(cli.ColorWarn, "Running in headless mode...\n")
+			cli.Printf(cli.ColorWarn, "Please open the following link in the navigator to use the app: %s\n", targetURL)
+			return
+		}
 
-// List available platforms
-func listPlatforms(_ Context) error {
+		// Browser mode
+		errors.Join(err, cli.Open(targetURL))
+	}()
 
-	// Init user library
-	err := management.InitLibrary()
-	if err != nil {
-		return err
-	}
+	// Init server
+	go func() {
+		errors.Join(err, server.Init(
+			developmentMode,
+			listenAddress,
+			ready,
+			context.Done,
+		))
+	}()
 
-	// List console platforms
-	consoleList, err := platforms.GetConsoles()
-	if err != nil {
-		return err
-	}
-
-	for _, platform := range consoleList {
-		cli.Printf(cli.ColorDefault, "%s - %s\n", platform.Name, platform.Console)
-	}
-
-	// List native platforms
-	nativeList, err := platforms.GetSystemNative()
-	if err != nil {
-		return err
-	}
-
-	for _, platform := range nativeList {
-		cli.Printf(cli.ColorDefault, "%s - %s\n", platform.Name, platform.Runtime)
-	}
-
-	return nil
-}
-
-// List user shortcuts
-func listShortcuts(_ Context) error {
-
-	// Init user library
-	err := management.InitLibrary()
-	if err != nil {
-		return err
-	}
-
-	// Load user library
-	err = management.LoadLibrary()
-	if err != nil {
-		return err
-	}
-
-	// List available shortcuts
-	shortcuts := management.GetShortcuts()
-	for _, shortcut := range shortcuts {
-		cli.Printf(cli.ColorDefault, "%s - %s\n", shortcut.ID, shortcut.Name)
-	}
-
-	return nil
+	context.Wait()
+	return err
 }
 
 // Scrape data
@@ -180,6 +143,319 @@ func syncLibrary(_ Context) error {
 	}
 
 	cli.Printf(cli.ColorSuccess, "Libraries synchronized!\n")
+
+	return nil
+}
+
+// List available programs
+func listPrograms(_ Context) error {
+
+	// Init user library
+	err := management.InitLibrary()
+	if err != nil {
+		return err
+	}
+
+	// List available programs
+	list, err := programs.GetPrograms()
+	if err != nil {
+		return err
+	}
+
+	for _, program := range list {
+		cli.Printf(cli.ColorDefault, "%s - %s\n", program.ID, program.Name)
+	}
+
+	return nil
+}
+
+// Install programs
+func installPrograms(context Context) error {
+
+	// Retrieve command details
+	include := context.Multiple("--programs", ",")
+	preferences := context.Multiple("--preferences", ",")
+
+	if len(include) == 0 {
+		return fmt.Errorf("programs list is required")
+	}
+
+	// Init user library
+	err := management.InitLibrary()
+	if err != nil {
+		return err
+	}
+
+	// Load user library
+	err = management.LoadLibrary()
+	if err != nil {
+		return err
+	}
+
+	// Make sure to save library on finish
+	defer func() {
+		errors.Join(err, management.SaveLibrary())
+	}()
+
+	// Install programs in the list
+	options := programs.ToOptions(include, preferences)
+	err = management.InstallPrograms(options)
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Process finished!\n")
+
+	return nil
+}
+
+// Remove programs
+func removePrograms(context Context) error {
+
+	// Retrieve command details
+	include := context.Multiple("--programs", ",")
+	preferences := context.Multiple("--preferences", ",")
+
+	if len(include) == 0 {
+		return fmt.Errorf("programs list is required")
+	}
+
+	// Init user library
+	err := management.InitLibrary()
+	if err != nil {
+		return err
+	}
+
+	// Load user library
+	err = management.LoadLibrary()
+	if err != nil {
+		return err
+	}
+
+	// Make sure to save library on finish
+	defer func() {
+		errors.Join(err, management.SaveLibrary())
+	}()
+
+	// Remove programs in the list
+	options := programs.ToOptions(include, preferences)
+	err = management.RemovePrograms(options)
+	if err != nil {
+		return err
+	}
+
+	cli.Printf(cli.ColorSuccess, "Remove process finished!\n")
+
+	return nil
+}
+
+// List available platforms
+func listPlatforms(_ Context) error {
+
+	// Init user library
+	err := management.InitLibrary()
+	if err != nil {
+		return err
+	}
+
+	// List console platforms
+	consoleList, err := platforms.GetConsoles()
+	if err != nil {
+		return err
+	}
+
+	for _, platform := range consoleList {
+		cli.Printf(cli.ColorDefault, "%s - %s\n", platform.Name, platform.Console)
+	}
+
+	// List native platforms
+	nativeList, err := platforms.GetSystemNative()
+	if err != nil {
+		return err
+	}
+
+	for _, platform := range nativeList {
+		cli.Printf(cli.ColorDefault, "%s - %s\n", platform.Name, platform.Runtime)
+	}
+
+	return nil
+}
+
+// Process platforms
+func processPlatforms(context Context) error {
+
+	// Retrieve command details
+	include := context.Multiple("--platforms", ",")
+	preferences := context.Multiple("--preferences", ",")
+
+	if len(include) == 0 {
+		return fmt.Errorf("platform list is required")
+	}
+
+	// Init user library
+	err := management.InitLibrary()
+	if err != nil {
+		return err
+	}
+
+	// Load user library
+	err = management.LoadLibrary()
+	if err != nil {
+		return err
+	}
+
+	// Make sure to save library on finish
+	defer func() {
+		errors.Join(err, management.SaveLibrary())
+	}()
+
+	// Process platforms to add/update/remove shortcuts in the library
+	options := platforms.ToOptions(include, preferences)
+	err = management.ProcessPlatformShortcuts(options)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// List state
+func listState(context Context) error {
+
+	// Retrieve command details
+	action := context.Arg("--action", "")
+	include := context.Multiple("--platforms", ",")
+	preferences := context.Multiple("--preferences", ",")
+
+	if action == "" {
+		return fmt.Errorf("action is required")
+	}
+	if len(include) == 0 {
+		return fmt.Errorf("platform list is required")
+	}
+
+	// Init user library
+	err := management.InitLibrary()
+	if err != nil {
+		return err
+	}
+
+	// Retrieve synchronizable results
+	options := state.ToOptions(action, include, preferences)
+	result, err := management.GetState(options)
+	if err != nil {
+		return err
+	}
+
+	// Print results
+	transform := func(condition bool, value string, alternative string) string {
+		if condition {
+			return value
+		}
+		return alternative
+	}
+
+	for _, item := range result {
+		entryResult := fmt.Sprintf(``+
+			`Platform: %s (%s)`+"\n"+
+			`Recommended: %s`+"\n"+
+			`Source: %s`+"\n"+
+			`Size: %d bytes%s | Modified: %d`+"\n"+
+			`Destination: %s`+"\n"+
+			`Size: %d bytes%s | Modified: %d`+"\n",
+			item.Platform,
+			item.Type,
+			transform(item.Recommended, "YES", "NO"),
+			item.Source.Path,
+			int(item.Source.Size),
+			transform(item.Source.Exist, "", "(no exist)"),
+			int(item.Source.ModifiedTime),
+			item.Destination.Path,
+			int(item.Destination.Size),
+			transform(item.Destination.Exist, "", "(no exist)"),
+			int(item.Destination.ModifiedTime),
+		)
+
+		cli.Printf(cli.ColorDefault, "%s\n", entryResult)
+	}
+
+	return nil
+}
+
+// Backup state
+func backupState(context Context) error {
+
+	// Retrieve command details
+	preferences := context.Multiple("--preferences", ",")
+	include := context.Multiple("--platforms", ",")
+
+	if len(include) == 0 {
+		return fmt.Errorf("platform list is required")
+	}
+
+	// Init user library
+	err := management.InitLibrary()
+	if err != nil {
+		return err
+	}
+
+	// Process synchronization
+	options := state.ToOptions("backup", include, preferences)
+	err = management.SyncState(options)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Restore state
+func restoreState(context Context) error {
+
+	// Retrieve command details
+	include := context.Multiple("--platforms", ",")
+	preferences := context.Multiple("--preferences", ",")
+
+	if len(include) == 0 {
+		return fmt.Errorf("platform list is required")
+	}
+
+	// Init user library
+	err := management.InitLibrary()
+	if err != nil {
+		return err
+	}
+
+	// Process synchronization
+	options := state.ToOptions("restore", include, preferences)
+	err = management.SyncState(options)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// List user shortcuts
+func listShortcuts(_ Context) error {
+
+	// Init user library
+	err := management.InitLibrary()
+	if err != nil {
+		return err
+	}
+
+	// Load user library
+	err = management.LoadLibrary()
+	if err != nil {
+		return err
+	}
+
+	// List available shortcuts
+	shortcuts := management.GetShortcuts()
+	for _, shortcut := range shortcuts {
+		cli.Printf(cli.ColorDefault, "%s - %s\n", shortcut.ID, shortcut.Name)
+	}
 
 	return nil
 }
@@ -426,280 +702,4 @@ func modifyShortcut(context Context) error {
 	}
 
 	return nil
-}
-
-// Install programs
-func installPrograms(context Context) error {
-
-	// Retrieve command details
-	include := context.Multiple("--programs", ",")
-	preferences := context.Multiple("--preferences", ",")
-
-	if len(include) == 0 {
-		return fmt.Errorf("programs list is required")
-	}
-
-	// Init user library
-	err := management.InitLibrary()
-	if err != nil {
-		return err
-	}
-
-	// Load user library
-	err = management.LoadLibrary()
-	if err != nil {
-		return err
-	}
-
-	// Make sure to save library on finish
-	defer func() {
-		errors.Join(err, management.SaveLibrary())
-	}()
-
-	// Install programs in the list
-	options := programs.ToOptions(include, preferences)
-	err = management.InstallPrograms(options)
-	if err != nil {
-		return err
-	}
-
-	cli.Printf(cli.ColorSuccess, "Process finished!\n")
-
-	return nil
-}
-
-// Remove programs
-func removePrograms(context Context) error {
-
-	// Retrieve command details
-	include := context.Multiple("--programs", ",")
-	preferences := context.Multiple("--preferences", ",")
-
-	if len(include) == 0 {
-		return fmt.Errorf("programs list is required")
-	}
-
-	// Init user library
-	err := management.InitLibrary()
-	if err != nil {
-		return err
-	}
-
-	// Load user library
-	err = management.LoadLibrary()
-	if err != nil {
-		return err
-	}
-
-	// Make sure to save library on finish
-	defer func() {
-		errors.Join(err, management.SaveLibrary())
-	}()
-
-	// Remove programs in the list
-	options := programs.ToOptions(include, preferences)
-	err = management.RemovePrograms(options)
-	if err != nil {
-		return err
-	}
-
-	cli.Printf(cli.ColorSuccess, "Remove process finished!\n")
-
-	return nil
-}
-
-// List state
-func listState(context Context) error {
-
-	// Retrieve command details
-	action := context.Arg("--action", "")
-	include := context.Multiple("--platforms", ",")
-	preferences := context.Multiple("--preferences", ",")
-
-	if action == "" {
-		return fmt.Errorf("action is required")
-	}
-	if len(include) == 0 {
-		return fmt.Errorf("platform list is required")
-	}
-
-	// Init user library
-	err := management.InitLibrary()
-	if err != nil {
-		return err
-	}
-
-	// Retrieve synchronizable results
-	options := state.ToOptions(action, include, preferences)
-	result, err := management.GetState(options)
-	if err != nil {
-		return err
-	}
-
-	// Print results
-	transform := func(condition bool, value string, alternative string) string {
-		if condition {
-			return value
-		}
-		return alternative
-	}
-
-	for _, item := range result {
-		entryResult := fmt.Sprintf(``+
-			`Platform: %s (%s)`+"\n"+
-			`Recommended: %s`+"\n"+
-			`Source: %s`+"\n"+
-			`Size: %d bytes%s | Modified: %d`+"\n"+
-			`Destination: %s`+"\n"+
-			`Size: %d bytes%s | Modified: %d`+"\n",
-			item.Platform,
-			item.Type,
-			transform(item.Recommended, "YES", "NO"),
-			item.Source.Path,
-			int(item.Source.Size),
-			transform(item.Source.Exist, "", "(no exist)"),
-			int(item.Source.ModifiedTime),
-			item.Destination.Path,
-			int(item.Destination.Size),
-			transform(item.Destination.Exist, "", "(no exist)"),
-			int(item.Destination.ModifiedTime),
-		)
-
-		cli.Printf(cli.ColorDefault, "%s\n", entryResult)
-	}
-
-	return nil
-}
-
-// Backup state
-func backupState(context Context) error {
-
-	// Retrieve command details
-	preferences := context.Multiple("--preferences", ",")
-	include := context.Multiple("--platforms", ",")
-
-	if len(include) == 0 {
-		return fmt.Errorf("platform list is required")
-	}
-
-	// Init user library
-	err := management.InitLibrary()
-	if err != nil {
-		return err
-	}
-
-	// Process synchronization
-	options := state.ToOptions("backup", include, preferences)
-	err = management.SyncState(options)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// Restore state
-func restoreState(context Context) error {
-
-	// Retrieve command details
-	include := context.Multiple("--platforms", ",")
-	preferences := context.Multiple("--preferences", ",")
-
-	if len(include) == 0 {
-		return fmt.Errorf("platform list is required")
-	}
-
-	// Init user library
-	err := management.InitLibrary()
-	if err != nil {
-		return err
-	}
-
-	// Process synchronization
-	options := state.ToOptions("restore", include, preferences)
-	err = management.SyncState(options)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// Process platforms
-func processPlatforms(context Context) error {
-
-	// Retrieve command details
-	include := context.Multiple("--platforms", ",")
-	preferences := context.Multiple("--preferences", ",")
-
-	if len(include) == 0 {
-		return fmt.Errorf("platform list is required")
-	}
-
-	// Init user library
-	err := management.InitLibrary()
-	if err != nil {
-		return err
-	}
-
-	// Load user library
-	err = management.LoadLibrary()
-	if err != nil {
-		return err
-	}
-
-	// Make sure to save library on finish
-	defer func() {
-		errors.Join(err, management.SaveLibrary())
-	}()
-
-	// Process platforms to add/update/remove shortcuts in the library
-	options := platforms.ToOptions(include, preferences)
-	err = management.ProcessPlatformShortcuts(options)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// Run server
-func runServer(context Context) error {
-
-	var err error
-
-	// Retrieve server options
-	displayMode := context.Arg("--gui", "")
-	developmentMode := context.Flag("--dev", false)
-	listenAddress := context.Arg("--address", "127.0.0.1:14935")
-	targetURL := "http://" + listenAddress
-
-	// Open UI with target URL when ready
-	ready := make(chan bool, 1)
-	go func() {
-		<-ready
-
-		// Headless mode
-		if displayMode == "headless" {
-			cli.Printf(cli.ColorWarn, "Running in headless mode...\n")
-			cli.Printf(cli.ColorWarn, "Please open the following link in the navigator to use the app: %s\n", targetURL)
-			return
-		}
-
-		// Browser mode
-		errors.Join(err, cli.Open(targetURL))
-	}()
-
-	// Init server
-	go func() {
-		errors.Join(err, server.Init(
-			developmentMode,
-			listenAddress,
-			ready,
-			context.Done,
-		))
-	}()
-
-	context.Wait()
-	return err
 }

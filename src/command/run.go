@@ -32,38 +32,38 @@ func Run(args []string, done chan bool) error {
 		err = printVersion(context)
 	case "help":
 		err = printHelp(context)
-	case "programs":
-		err = listPrograms(context)
-	case "platforms":
-		err = listPlatforms(context)
-	case "shortcuts":
-		err = listShortcuts(context)
+	case "server":
+		err = runServer(context)
 	case "scrape":
 		err = scrapeData(context)
 	case "sync":
 		err = syncLibrary(context)
-	case "launch":
-		err = launchShortcut(context)
-	case "create":
-		err = createShortcut(context)
-	case "add":
-		err = addShortcut(context)
-	case "modify":
-		err = modifyShortcut(context)
-	case "install":
+	case "list-programs":
+		err = listPrograms(context)
+	case "install-programs":
 		err = installPrograms(context)
-	case "remove":
+	case "remove-programs":
 		err = removePrograms(context)
+	case "list-platforms":
+		err = listPlatforms(context)
+	case "process-platforms":
+		err = processPlatforms(context)
 	case "list-state":
 		err = listState(context)
 	case "backup-state":
 		err = backupState(context)
 	case "restore-state":
 		err = restoreState(context)
-	case "process-platforms":
-		err = processPlatforms(context)
-	case "server":
-		err = runServer(context)
+	case "list-shortcuts":
+		err = listShortcuts(context)
+	case "launch-shortcut":
+		err = launchShortcut(context)
+	case "create-shortcut":
+		err = createShortcut(context)
+	case "add-shortcut":
+		err = addShortcut(context)
+	case "modify-shortcut":
+		err = modifyShortcut(context)
 	default:
 		err = fmt.Errorf("could not find command: %s", command)
 	}

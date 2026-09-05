@@ -2,26 +2,35 @@ Usage: nicedeck [COMMAND] [OPTIONS]
 
 COMMAND:
 
-version              print version information
-help                 print application help
-programs             list available programs
-platforms            list available platforms
-shortcuts            list current user shortcuts
-sync                 sync internal library with external libraries
-scrape               scrape data on SteamGridDB
-launch               launch shortcut with given ID
-create               create a new shortcut from given path
-add                  add a new shortcut to library
-modify               update or delete shortcut with given ID
-install              install or update programs
-remove               remove previously installed programs
-list-state           list emulators state for given action
-backup-state         backup emulators state
-restore-state        restore emulators state
-process-platforms    process platform ROMs
-server               start server for GUI usage (default)
+version                       print version information
+help                          print application help
+server                        start server for GUI usage (default)
+scrape                        scrape data on SteamGridDB
+sync                          sync internal library with external libraries
+
+list-programs                 list available programs
+install-programs              install or update programs
+remove-programs               remove previously installed programs
+
+list-platforms                list available platforms
+process-platforms             process platforms ROMs
+
+list-state                    list emulators state for given action
+backup-state                  backup emulators state
+restore-state                 restore emulators state
+
+list-shortcuts                list current user shortcuts
+launch-shortcut               launch shortcut with given ID
+create-shortcut               create a new shortcut from given path
+add-shortcut                  add a new shortcut to library
+modify-shortcut               update or delete shortcut with given ID
 
 OPTIONS:
+
+server:
+  --gui=[value]               GUI mode (default|headless)
+  --address=[value]           custom address for the server
+  --dev                       enable development mode for static resources
 
 scrape:
   --search=[term]             search term
@@ -31,14 +40,39 @@ scrape:
   --banner                    include search for banner image
   --hero                      include search for hero image
 
-launch:
+install-programs:
+  --programs=[value,...]      list of programs to install
+  --preferences=[value,...]   preferences when installing programs
+
+remove-programs:
+  --programs=[value,...]      list of programs to remove
+  --preferences=[value,...]   preferences when removing programs
+
+process-platforms:
+  --platforms=[value,...]     platforms to process the ROMs
+  --preferences=[value,...]   preferences when processing ROMs (rebuild)
+
+list-state:
+  --action=[backup|restore]   expected action to perform
+  --platforms=[value,...]     platforms to include in list state
+  --preferences=[value,...]   preferences when listing state
+
+backup-state:
+  --platforms=[value,...]     platforms to backup emulators state
+  --preferences=[value,...]   preferences when synchronizing state
+
+restore-state:
+  --platforms=[value,...]     platforms to restore emulators state
+  --preferences=[value,...]   preferences when synchronizing state
+
+launch-shortcut:
   --id=[ID]                   shortcut ID
 
-create:
+create-shortcut:
   --name=[value]              name for shortcut
   --path=[value]              file path for shortcut
 
-add:
+add-shortcut:
   --id=[ID]                   shortcut ID
   --program=[value]           program for shortcut
   --name=[value]              name for shortcut
@@ -54,7 +88,7 @@ add:
   --hero-path=[value]         hero path or URL for shortcut
   --tags=[value,value]        tags for shortcut, comma separated
 
-modify:
+modify-shortcut:
   --update                    update shortcut
   --delete                    delete shortcut
   --id=[ID]                   shortcut ID
@@ -71,33 +105,3 @@ modify:
   --banner-path=[value]       banner path or URL for shortcut
   --hero-path=[value]         hero path or URL for shortcut
   --tags=[value,value]        tags for shortcut, comma separated
-
-install:
-  --programs=[value,...]      list of programs to install
-  --preferences=[value,...]   preferences when installing programs
-
-remove:
-  --programs=[value,...]      list of programs to remove
-  --preferences=[value,...]   preferences when removing programs
-
-list-state:
-  --action=[backup|restore]   expected action to perform
-  --platforms=[value,...]     platforms to include in list state
-  --preferences=[value,...]   preferences when listing state
-
-backup-state:
-  --platforms=[value,...]     platforms to backup emulators state
-  --preferences=[value,...]   preferences when synchronizing state
-
-restore-state:
-  --platforms=[value,...]     platforms to restore emulators state
-  --preferences=[value,...]   preferences when synchronizing state
-
-process-platforms:
-  --platforms=[value,...]     platforms to process the ROMs
-  --preferences=[value,...]   preferences when processing ROMs (rebuild)
-
-server:
-  --gui=[value]               GUI mode (default|headless)
-  --address=[value]           custom address for the server
-  --dev                       enable development mode for static resources
