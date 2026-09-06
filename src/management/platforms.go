@@ -139,7 +139,7 @@ func PlatformToShortcut(name string, path string, options *platforms.Options) (*
 				CoverPath:      "",
 				BannerPath:     "",
 				HeroPath:       "",
-				Tags:           []string{app.Runtime},
+				Tags:           []string{"App", app.Runtime},
 			}
 		}
 
@@ -542,7 +542,7 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 				CoverPath:      "",
 				BannerPath:     "",
 				HeroPath:       "",
-				Tags:           []string{"App", app.Platform},
+				Tags:           []string{"App", app.Runtime},
 			}
 
 			// Scrape additional ROM information
