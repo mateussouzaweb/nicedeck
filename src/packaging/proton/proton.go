@@ -113,7 +113,7 @@ func (p *Proton) RealPath(path string) string {
 	// These variables are used to expand paths inside Proton runtime
 	cli.SetEnv("APPDATA", filepath.Join(drivePath, "users", "steamuser", "AppData"), true)
 	cli.SetEnv("DOWNLOADS", filepath.Join(drivePath, "Downloads"), true)
-	cli.SetEnv("PROGRAM_DATA", filepath.Join(drivePath, "ProgramData"), true)
+	cli.SetEnv("PROGRAMDATA", filepath.Join(drivePath, "ProgramData"), true)
 	cli.SetEnv("PROGRAMS", filepath.Join(drivePath, "Program Files"), true)
 	cli.SetEnv("PROGRAMS_X86", filepath.Join(drivePath, "Program Files (x86)"), true)
 

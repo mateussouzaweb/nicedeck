@@ -45,6 +45,7 @@ func Init() error {
 		cli.SetEnv("APPDATA", filepath.Dir(configDir), true)
 		cli.SetEnv("DOCUMENTS", fs.ExpandPath("$HOME/Documents"), true)
 		cli.SetEnv("DOWNLOADS", fs.ExpandPath("$HOMEDRIVE/Downloads"), true)
+		cli.SetEnv("PROGRAMDATA", fs.ExpandPath("$HOMEDRIVE/ProgramData"), true)
 		cli.SetEnv("PROGRAMS", fs.ExpandPath("$HOMEDRIVE/Program Files"), true)
 		cli.SetEnv("PROGRAMS_X86", fs.ExpandPath("$HOMEDRIVE/Program Files (x86)"), true)
 		cli.SetEnv("START_MENU", fs.ExpandPath("$CONFIG/Microsoft/Windows/Start Menu/Programs"), true)
@@ -79,12 +80,13 @@ func Init() error {
 	}
 
 	if cli.IsWindows() {
-		cli.Printf(cli.ColorNotice, "- App Data: %s\n", cli.GetEnv("APPDATA", ""))
+		cli.Printf(cli.ColorNotice, "- AppData: %s\n", cli.GetEnv("APPDATA", ""))
 		cli.Printf(cli.ColorNotice, "- Documents: %s\n", cli.GetEnv("DOCUMENTS", ""))
 		cli.Printf(cli.ColorNotice, "- Downloads: %s\n", cli.GetEnv("DOWNLOADS", ""))
+		cli.Printf(cli.ColorNotice, "- ProgramData: %s\n", cli.GetEnv("PROGRAMDATA", ""))
 		cli.Printf(cli.ColorNotice, "- Programs: %s\n", cli.GetEnv("PROGRAMS", ""))
-		cli.Printf(cli.ColorNotice, "- Programs X86: %s\n", cli.GetEnv("PROGRAMS_X86", ""))
-		cli.Printf(cli.ColorNotice, "- Start Menu: %s\n", cli.GetEnv("START_MENU", ""))
+		cli.Printf(cli.ColorNotice, "- ProgramsX86: %s\n", cli.GetEnv("PROGRAMS_X86", ""))
+		cli.Printf(cli.ColorNotice, "- StartMenu: %s\n", cli.GetEnv("START_MENU", ""))
 	}
 
 	cli.Printf(cli.ColorNotice, "\n")

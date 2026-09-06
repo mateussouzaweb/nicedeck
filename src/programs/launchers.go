@@ -65,7 +65,7 @@ func BattleNet() *packaging.Program {
 		Package: packaging.Best(&proton.Proton{
 			AppID:       "battle-net",
 			Installer:   "$DOWNLOADS/Battle.net-Setup.exe",
-			Uninstaller: "$PROGRAM_DATA/Battle.net/Agent/Blizzard Uninstaller.exe",
+			Uninstaller: "$PROGRAMDATA/Battle.net/Agent/Blizzard Uninstaller.exe",
 			Launcher:    "$PROGRAMS_X86/Battle.net/Battle.net.exe",
 			Arguments:   packaging.NoArguments(),
 			Source: website.Release(
