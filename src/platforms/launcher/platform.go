@@ -16,6 +16,7 @@ func GetPlatforms() ([]*Platform, error) {
 
 	platforms := []*Platform{}
 	platforms = append(platforms, EpicPlatform())
+	platforms = append(platforms, GOGPlatform())
 
 	return platforms, nil
 }
