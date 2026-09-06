@@ -36,6 +36,8 @@ func Find(options *Options) ([]*game.Game, error) {
 
 	var results []*game.Game
 
+	cli.Printf(cli.ColorNotice, "Checking for games from launchers.\n")
+
 	for _, platform := range options.Platforms {
 
 		// Skip not included platforms to gain performance

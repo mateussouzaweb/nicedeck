@@ -501,7 +501,7 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 		}
 	}
 
-	// Detect available apps with parser in all folders / systems
+	// Detect available apps with parser
 	parsed, err := native.Find(theOptions)
 	if err != nil {
 		return err
@@ -563,7 +563,7 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 			// This process also allow switching emulators on existing shortcut
 			for _, existing := range GetShortcuts() {
 
-				// Check if shortcut is managed App
+				// Check if shortcut is managed app
 				if !slices.Contains(existing.Tags, "App") {
 					continue
 				}

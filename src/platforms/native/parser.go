@@ -56,6 +56,7 @@ func Parse(path string, options *Options) (*App, error) {
 // Find applications in folder and return the list of detected applications
 func Find(options *Options) ([]*App, error) {
 	var results []*App
+	cli.Printf(cli.ColorNotice, "Checking for native applications.\n")
 	return results, nil
 }
 

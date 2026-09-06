@@ -107,7 +107,7 @@ func Find(options *Options) ([]*ROM, error) {
 		return results, err
 	}
 
-	cli.Printf(cli.ColorNotice, "Checking for ROMs available at: %s\n", root)
+	cli.Printf(cli.ColorNotice, "Checking for ROMs available at: %s.\n", root)
 
 	// Note: walkDir does not follow symbolic links
 	err = filepath.WalkDir(realRoot, func(realPath string, dir os.DirEntry, err error) error {
