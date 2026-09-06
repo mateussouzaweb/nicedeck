@@ -218,7 +218,7 @@ func ProcessConsolePlatforms(options *platforms.Options) error {
 		// Process each ROM to add or update
 		for index, rom := range filtered {
 
-			cli.Printf(cli.ColorNotice, "Processing ROM [%d/%d]: %s\n", index+1, total, rom.Reference)
+			cli.Printf(cli.ColorNotice, "Processing ROM [%d/%d]: %s / %s\n", index+1, total, rom.Platform, rom.Name)
 
 			// Create shortcut information
 			shortcutID := shortcuts.GenerateID(rom.Name, rom.Executable)
@@ -373,7 +373,7 @@ func ProcessLauncherPlatforms(options *platforms.Options) error {
 		// Process each ROM to add or update
 		for index, game := range filtered {
 
-			cli.Printf(cli.ColorNotice, "Processing game [%d/%d]: %s\n", index+1, total, game.Name)
+			cli.Printf(cli.ColorNotice, "Processing game [%d/%d]: %s / %s\n", index+1, total, game.Launcher, game.Name)
 
 			// Create shortcut information
 			shortcutID := shortcuts.GenerateID(game.Name, game.Executable)
@@ -524,7 +524,7 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 		// Process each app to add or update
 		for index, app := range filtered {
 
-			cli.Printf(cli.ColorNotice, "Processing app [%d/%d]: %s\n", index+1, total, app.Reference)
+			cli.Printf(cli.ColorNotice, "Processing app [%d/%d]: %s\n", index+1, total, app.Name)
 
 			// Create shortcut information
 			shortcutID := shortcuts.GenerateID(app.Name, app.Executable)

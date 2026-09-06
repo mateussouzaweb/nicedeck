@@ -1,4 +1,4 @@
-package game
+package launcher
 
 // Game struct
 type Game struct {

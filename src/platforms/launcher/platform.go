@@ -1,9 +1,7 @@
 package launcher
 
-import "github.com/mateussouzaweb/nicedeck/src/platforms/launcher/game"
-
 // Scanner function type
-type Scanner func() ([]*game.Game, error)
+type Scanner func() ([]*Game, error)
 
 // Platform struct
 type Platform struct {
@@ -15,6 +13,9 @@ type Platform struct {
 
 // Retrieve launcher platform specs
 func GetPlatforms() ([]*Platform, error) {
+
 	platforms := []*Platform{}
+	platforms = append(platforms, EpicPlatform())
+
 	return platforms, nil
 }

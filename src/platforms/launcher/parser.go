@@ -4,13 +4,12 @@ import (
 	"slices"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
-	"github.com/mateussouzaweb/nicedeck/src/platforms/launcher/game"
 )
 
 // Parse game details based on the given reference
-func Parse(reference string, options *Options) (*game.Game, error) {
+func Parse(reference string, options *Options) (*Game, error) {
 
-	result := &game.Game{}
+	result := &Game{}
 
 	// Find games in launchers and return the list of detected games
 	games, err := Find(options)
@@ -32,9 +31,9 @@ func Parse(reference string, options *Options) (*game.Game, error) {
 }
 
 // Find games in launchers and return the list of detected games
-func Find(options *Options) ([]*game.Game, error) {
+func Find(options *Options) ([]*Game, error) {
 
-	var results []*game.Game
+	var results []*Game
 
 	cli.Printf(cli.ColorNotice, "Checking for games from launchers.\n")
 
@@ -60,9 +59,9 @@ func Find(options *Options) ([]*game.Game, error) {
 }
 
 // Filter games that match given requirements and return the list to process
-func Filter(list []*game.Game, existing []string, options *Options) []*game.Game {
+func Filter(list []*Game, existing []string, options *Options) []*Game {
 
-	var toProcess []*game.Game
+	var toProcess []*Game
 
 	// Rebuild option will include every ROM in the platform
 	rebuild := slices.Contains(options.Preferences, "rebuild")
