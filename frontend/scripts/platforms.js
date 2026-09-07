@@ -20,7 +20,7 @@ window.addEventListener('load', async () => {
             }
 
             html.push(
-            `<section class="group">
+            `<section class="group group-${category.toLowerCase()}">
                 <div class="group-info">
                     <h4>${category}</h4>
                     <p class="mass-actions">

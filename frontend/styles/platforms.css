@@ -38,9 +38,14 @@
 
 #platforms .platforms label.checkbox,
 #platforms .platforms .fill {
-    flex: 1 1 12%;
+    flex: 1 1 10%;
     min-width: 90px;
 }
+#platforms .platforms .group-launchers label.checkbox,
+#platforms .platforms .group-launchers .fill {
+    min-width: 140px;
+}
+
 #platforms .platforms label.checkbox .area {
     flex-flow: column;
 }
