@@ -108,17 +108,41 @@ func (p *Proton) DrivePath() string {
 func (p *Proton) RealPath(path string) string {
 
 	drivePath := p.DrivePath()
+	homePath := filepath.Join(drivePath, "users", "steamuser")
 
 	// Set environment variables for Proton runtime
 	// These variables are used to expand paths inside Proton runtime
-	cli.SetEnv("APPDATA", filepath.Join(drivePath, "users", "steamuser", "AppData"), true)
-	cli.SetEnv("DOWNLOADS", filepath.Join(drivePath, "Downloads"), true)
-	cli.SetEnv("PROGRAMDATA", filepath.Join(drivePath, "ProgramData"), true)
-	cli.SetEnv("PROGRAMS", filepath.Join(drivePath, "Program Files"), true)
-	cli.SetEnv("PROGRAMS_X86", filepath.Join(drivePath, "Program Files (x86)"), true)
+	// All values are restored when function returns the value
+	envRestore := map[string]string{}
+	envTemporary := map[string]string{
+		"HOMEDRIVE":    drivePath,
+		"HOME":         homePath,
+		"CONFIG":       filepath.Join(homePath, "AppData", "Roaming"),
+		"CACHE":        filepath.Join(homePath, "AppData", "Local"),
+		"APPDATA":      filepath.Join(homePath, "AppData"),
+		"DOCUMENTS":    filepath.Join(homePath, "Documents"),
+		"DOWNLOADS":    filepath.Join(drivePath, "Downloads"),
+		"PROGRAMDATA":  filepath.Join(drivePath, "ProgramData"),
+		"PROGRAMS":     filepath.Join(drivePath, "Program Files"),
+		"PROGRAMS_X86": filepath.Join(drivePath, "Program Files (x86)"),
+		"START_MENU":   filepath.Join(homePath, "AppData", "Roaming", "Microsoft", "Windows", "Start Menu", "Programs"),
+	}
 
+	defer func() {
+		for key, value := range envRestore {
+			cli.SetEnv(key, value, true)
+		}
+	}()
+
+	for key, value := range envTemporary {
+		envRestore[key] = cli.GetEnv(key, "")
+		cli.SetEnv(key, value, true)
+	}
+
+	// Expand path to retrieve final value
 	path = strings.Replace(path, "C:", p.DrivePath(), 1)
 	path = fs.ExpandPath(path)
+
 	return path
 }
 
