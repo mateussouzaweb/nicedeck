@@ -47,6 +47,7 @@ func Parse(path string, options *Options) (*App, error) {
 		app.StartDirectory = replaceData(platform.StartDirectory)
 		app.Executable = replaceData(platform.Executable)
 		app.LaunchOptions = replaceData(platform.LaunchOptions)
+		app.Tags = []string{"App", platform.Runtime}
 		break
 	}
 

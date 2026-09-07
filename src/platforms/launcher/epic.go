@@ -29,6 +29,12 @@ func EpicPlatform() *Platform {
 	name := "Epic Games"
 	launcher := "Epic Games Launcher"
 	programID := "epic-games"
+	tags := []string{"Epic Games"}
+
+	// On Linux, runs with Proton
+	if cli.IsLinux() {
+		tags = append(tags, "Proton")
+	}
 
 	// ReadManifest file content and return as Manifest struct
 	readManifest := func(path string) (*EpicManifest, error) {
@@ -125,6 +131,7 @@ func EpicPlatform() *Platform {
 				StartDirectory: cli.Quote(filepath.Dir(executable)),
 				Executable:     cli.Quote(executable),
 				LaunchOptions:  launchOptions,
+				Tags:           tags,
 			}
 
 			results = append(results, game)

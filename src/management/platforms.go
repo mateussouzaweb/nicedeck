@@ -61,7 +61,7 @@ func PlatformToShortcut(name string, path string, options *platforms.Options) (*
 				CoverPath:      "",
 				BannerPath:     "",
 				HeroPath:       "",
-				Tags:           []string{"ROM", rom.Platform},
+				Tags:           rom.Tags,
 			}
 		}
 
@@ -100,7 +100,7 @@ func PlatformToShortcut(name string, path string, options *platforms.Options) (*
 				CoverPath:      "",
 				BannerPath:     "",
 				HeroPath:       "",
-				Tags:           []string{"Game", game.Platform},
+				Tags:           game.Tags,
 			}
 		}
 
@@ -139,7 +139,7 @@ func PlatformToShortcut(name string, path string, options *platforms.Options) (*
 				CoverPath:      "",
 				BannerPath:     "",
 				HeroPath:       "",
-				Tags:           []string{"App", app.Runtime},
+				Tags:           app.Tags,
 			}
 		}
 
@@ -186,11 +186,16 @@ func ProcessConsolePlatforms(options *platforms.Options) error {
 		"optional-scraper",
 	)
 
+	// Return if shortcut is managed from this platform type
+	isManaged := func(shortcut *shortcuts.Shortcut) bool {
+		return slices.Contains(shortcut.Tags, "ROM")
+	}
+
 	// First, find all existing ROMs references
 	// We read the current list of ROMs from the library
 	existing := []string{}
 	for _, shortcut := range GetShortcuts() {
-		if slices.Contains(shortcut.Tags, "ROM") {
+		if isManaged(shortcut) {
 			existing = append(existing, shortcut.Reference)
 		}
 	}
@@ -236,7 +241,7 @@ func ProcessConsolePlatforms(options *platforms.Options) error {
 				CoverPath:      "",
 				BannerPath:     "",
 				HeroPath:       "",
-				Tags:           []string{"ROM", rom.Platform},
+				Tags:           rom.Tags,
 			}
 
 			// Scrape additional ROM information
@@ -261,7 +266,7 @@ func ProcessConsolePlatforms(options *platforms.Options) error {
 			for _, existing := range GetShortcuts() {
 
 				// Check if shortcut is managed ROM
-				if !slices.Contains(existing.Tags, "ROM") {
+				if !isManaged(existing) {
 					continue
 				}
 
@@ -295,7 +300,7 @@ func ProcessConsolePlatforms(options *platforms.Options) error {
 	for _, shortcut := range GetShortcuts() {
 
 		// Check if shortcut is managed ROM
-		if !slices.Contains(shortcut.Tags, "ROM") {
+		if !isManaged(shortcut) {
 			continue
 		}
 
@@ -341,11 +346,16 @@ func ProcessLauncherPlatforms(options *platforms.Options) error {
 		"optional-scraper",
 	)
 
+	// Return if shortcut is managed from this platform type
+	isManaged := func(shortcut *shortcuts.Shortcut) bool {
+		return slices.Contains(shortcut.Tags, "Game")
+	}
+
 	// First, find all existing games references
 	// We read the current list of games from the library
 	existing := []string{}
 	for _, shortcut := range GetShortcuts() {
-		if slices.Contains(shortcut.Tags, "Game") {
+		if isManaged(shortcut) {
 			existing = append(existing, shortcut.Reference)
 		}
 	}
@@ -391,7 +401,7 @@ func ProcessLauncherPlatforms(options *platforms.Options) error {
 				CoverPath:      "",
 				BannerPath:     "",
 				HeroPath:       "",
-				Tags:           []string{"Game", game.Platform},
+				Tags:           game.Tags,
 			}
 
 			// Scrape additional ROM information
@@ -412,7 +422,7 @@ func ProcessLauncherPlatforms(options *platforms.Options) error {
 			for _, existing := range GetShortcuts() {
 
 				// Check if shortcut is managed game
-				if !slices.Contains(existing.Tags, "Game") {
+				if !isManaged(existing) {
 					continue
 				}
 
@@ -446,7 +456,7 @@ func ProcessLauncherPlatforms(options *platforms.Options) error {
 	for _, shortcut := range GetShortcuts() {
 
 		// Check if shortcut is managed game
-		if !slices.Contains(shortcut.Tags, "Game") {
+		if !isManaged(shortcut) {
 			continue
 		}
 
@@ -492,11 +502,16 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 		"optional-scraper",
 	)
 
+	// Return if shortcut is managed from this platform type
+	isManaged := func(shortcut *shortcuts.Shortcut) bool {
+		return slices.Contains(shortcut.Tags, "App")
+	}
+
 	// First, find all existing apps references
 	// We read the current list of apps from the library
 	existing := []string{}
 	for _, shortcut := range GetShortcuts() {
-		if slices.Contains(shortcut.Tags, "App") {
+		if isManaged(shortcut) {
 			existing = append(existing, shortcut.Reference)
 		}
 	}
@@ -542,7 +557,7 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 				CoverPath:      "",
 				BannerPath:     "",
 				HeroPath:       "",
-				Tags:           []string{"App", app.Runtime},
+				Tags:           app.Tags,
 			}
 
 			// Scrape additional ROM information
@@ -564,7 +579,7 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 			for _, existing := range GetShortcuts() {
 
 				// Check if shortcut is managed app
-				if !slices.Contains(existing.Tags, "App") {
+				if !isManaged(existing) {
 					continue
 				}
 
@@ -598,7 +613,7 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 	for _, shortcut := range GetShortcuts() {
 
 		// Check if shortcut is managed App
-		if !slices.Contains(shortcut.Tags, "App") {
+		if !isManaged(shortcut) {
 			continue
 		}
 

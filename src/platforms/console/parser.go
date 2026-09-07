@@ -91,6 +91,7 @@ func Parse(path string, options *Options) (*ROM, error) {
 	rom.StartDirectory = startDirectory
 	rom.Executable = executable
 	rom.LaunchOptions = launchOptions
+	rom.Tags = []string{"ROM", runtime.Platform.Name}
 
 	return rom, nil
 }

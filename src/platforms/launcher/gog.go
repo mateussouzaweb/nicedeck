@@ -35,6 +35,12 @@ func GOGPlatform() *Platform {
 	name := "GOG"
 	launcher := "GOG Galaxy"
 	programID := "gog-galaxy"
+	tags := []string{"GOG"}
+
+	// On Linux, runs with Proton
+	if cli.IsLinux() {
+		tags = append(tags, "Proton")
+	}
 
 	// Read game info file content and return as info struct
 	readGameInfo := func(path string) (*GOGGameInfo, error) {
@@ -156,6 +162,7 @@ func GOGPlatform() *Platform {
 					StartDirectory: cli.Quote(filepath.Dir(executable)),
 					Executable:     cli.Quote(executable),
 					LaunchOptions:  cli.Quote(launchOptions),
+					Tags:           tags,
 				}
 
 				results = append(results, game)

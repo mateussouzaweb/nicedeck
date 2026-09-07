@@ -39,6 +39,12 @@ func AmazonPlatform() *Platform {
 	name := "Amazon"
 	launcher := "Amazon Games"
 	programID := "amazon-games"
+	tags := []string{"Amazon"}
+
+	// On Linux, runs with Proton
+	if cli.IsLinux() {
+		tags = append(tags, "Proton")
+	}
 
 	// ReadProductData file content and return as struct
 	readProductData := func(path string) (*AmazonProductData, error) {
@@ -171,6 +177,7 @@ func AmazonPlatform() *Platform {
 				StartDirectory: cli.Quote(filepath.Dir(executable)),
 				Executable:     cli.Quote(executable),
 				LaunchOptions:  cli.Quote(launchOptions),
+				Tags:           tags,
 			}
 
 			results = append(results, game)

@@ -44,7 +44,11 @@ func Find(options *Options) ([]*Game, error) {
 			return nil, err
 		}
 
-		results = append(results, games...)
+		// Add game tag and append to final results
+		for _, game := range games {
+			game.Tags = append([]string{"Game"}, game.Tags...)
+			results = append(results, game)
+		}
 	}
 
 	return results, nil
