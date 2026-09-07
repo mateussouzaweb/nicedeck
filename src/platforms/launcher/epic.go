@@ -32,7 +32,8 @@ func EpicPlatform() *Platform {
 	tags := []string{"Epic Games"}
 
 	// On Linux, runs with Proton
-	if cli.IsLinux() {
+	useProton := cli.IsLinux()
+	if useProton {
 		tags = append(tags, "Proton")
 	}
 
@@ -68,8 +69,8 @@ func EpicPlatform() *Platform {
 			executable = filepath.Join(executable, "Contents", "MacOS", "EpicGamesLauncher")
 		}
 
-		// Linux (Proton) runtime requires special handling for the manifest path
-		if cli.IsLinux() {
+		// Proton runtime requires special handling for the manifests path
+		if useProton {
 			protonPackage := program.Package.(*proton.Proton)
 			manifestsPath = protonPackage.RealPath("$PROGRAMDATA/Epic/EpicGamesLauncher/Data/Manifests")
 		} else if cli.IsMacOS() {

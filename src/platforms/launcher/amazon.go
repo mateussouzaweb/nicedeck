@@ -42,7 +42,8 @@ func AmazonPlatform() *Platform {
 	tags := []string{"Amazon"}
 
 	// On Linux, runs with Proton
-	if cli.IsLinux() {
+	useProton := cli.IsLinux()
+	if useProton {
 		tags = append(tags, "Proton")
 	}
 
@@ -85,16 +86,12 @@ func AmazonPlatform() *Platform {
 			return results, err
 		}
 
-		// Linux (Proton) runtime requires special handling for games path
-		if cli.IsLinux() {
+		// Proton runtime requires special handling for library path
+		if useProton {
 			protonPackage := program.Package.(*proton.Proton)
 			libraryPath = protonPackage.RealPath("$HOMEDRIVE/Amazon Games/Library")
 		} else if cli.IsWindows() {
 			libraryPath = fs.ExpandPath("$HOMEDRIVE/Amazon Games/Library")
-		} else if cli.IsMacOS() {
-			// There is no MacOS application yet
-			// libraryPath = fs.ExpandPath("$HOME/Library/Application Support/Amazon Games/Library")
-			return results, nil
 		} else {
 			return results, nil
 		}
@@ -161,8 +158,8 @@ func AmazonPlatform() *Platform {
 			executable := filepath.Join(gamePath, fuel.Main.Command)
 			launchOptions := strings.Join(fuel.Main.Args, " ")
 
-			// Linux (Proton) must use the proton as executable
-			if cli.IsLinux() {
+			// Proton must use the wrapper as executable
+			if useProton {
 				launchOptions = fmt.Sprintf("%s %s", executable, launchOptions)
 				executable = program.Package.Executable()
 			}

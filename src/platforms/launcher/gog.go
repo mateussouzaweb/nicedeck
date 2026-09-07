@@ -38,7 +38,8 @@ func GOGPlatform() *Platform {
 	tags := []string{"GOG"}
 
 	// On Linux, runs with Proton
-	if cli.IsLinux() {
+	useProton := cli.IsLinux()
+	if useProton {
 		tags = append(tags, "Proton")
 	}
 
@@ -69,8 +70,8 @@ func GOGPlatform() *Platform {
 			return results, err
 		}
 
-		// Linux (Proton) runtime requires special handling for games path
-		if cli.IsLinux() {
+		// Proton runtime requires special handling for games path
+		if useProton {
 			protonPackage := program.Package.(*proton.Proton)
 			gamesPath = protonPackage.RealPath("$PROGRAMS/GOG Galaxy/Games")
 		} else if cli.IsMacOS() {
@@ -146,8 +147,8 @@ func GOGPlatform() *Platform {
 					continue
 				}
 
-				// Linux (Proton) must use the proton as executable
-				if cli.IsLinux() {
+				// Proton must use the wrapper as executable
+				if useProton {
 					launchOptions = executable
 					executable = program.Package.Executable()
 				}
