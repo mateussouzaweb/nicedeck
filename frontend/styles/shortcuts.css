@@ -45,6 +45,9 @@
     max-width: 200px;
     position: relative;
 }
+#shortcuts #filters .tags.hidden {
+    display: none;
+}
 #shortcuts #filters .tags > label {
     align-items: center;
     background: #FFF;

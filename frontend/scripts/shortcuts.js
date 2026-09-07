@@ -4,12 +4,6 @@ window.addEventListener('load', async () => {
     /** @type {Library[]} */
     let library = {}
 
-    /** @type {ConsolePlatform[]} */
-    let consolePlatforms = []
-
-    /** @type {NativePlatform[]} */
-    let nativePlatforms = []
-
     /** @type {Shortcut[]} */
     let shortcuts = []
 
@@ -69,12 +63,6 @@ window.addEventListener('load', async () => {
         })
 
         const tags = []
-        consolePlatforms.map((platform) => {
-            tags.push(platform.name)
-        })
-        nativePlatforms.map((platform) => {
-            tags.push(platform.runtime)
-        })
         shortcuts.map((shortcut) => {
             tags.push(...shortcut.tags)
         })
@@ -91,6 +79,13 @@ window.addEventListener('load', async () => {
 
         const destination = $('#shortcuts .tags .dropdown')
         destination.innerHTML = options.join('')
+
+        const area = $('#shortcuts .tags')
+        if (options.length == 0){
+            area.classList.add('hidden')
+        } else {
+            area.classList.remove('hidden')
+        }
 
     }
 
@@ -393,15 +388,10 @@ window.addEventListener('load', async () => {
             /** @type {LoadLibraryResult} */
             const libraryRequest = await requestJson('POST', '/api/library/load')
 
-            /** @type {LoadLibraryResult} */
-            const platformsRequest = await requestJson('GET', '/api/platforms')
-
             /** @type {ListShortcutsResult} */
             const shortcutsRequest = await requestJson('GET', '/api/shortcuts')
 
             library = libraryRequest.data
-            consolePlatforms = platformsRequest.console
-            nativePlatforms = platformsRequest.native
             shortcuts = shortcutsRequest.data
 
             await renderFilters()
