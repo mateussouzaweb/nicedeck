@@ -24,6 +24,8 @@ func GetShortcutPath(shortcut *shortcuts.Shortcut) string {
 		"Utilities",
 	}
 	replaces := map[string]string{
+		"App":       "Utilities",
+		"Game":      "Gaming",
 		"ROM":       "Gaming",
 		"Emulator":  "Gaming",
 		"Streaming": "Utilities",
