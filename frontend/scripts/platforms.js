@@ -56,15 +56,14 @@ window.addEventListener('load', async () => {
             html.push(`</section>`)
         }
 
-        append('Consoles', request.console.filter((platform) => {
-            return platform.type === 'native'
-        }).map((platform) => {
+        append('Consoles', request.console.map((platform) => {
             const key = toKey(platform.console)
+            const isCustom = platform.type === 'custom'
             return {
                 key: key,
                 name: platform.console,
                 value: platform.name,
-                image: `/img/platforms/${key}.png`
+                image: `/img/platforms/${isCustom ? 'custom' : key}.png`
             }
         }))
 
@@ -74,17 +73,6 @@ window.addEventListener('load', async () => {
                 name: platform.launcher,
                 value: platform.name,
                 image: `/img/programs/${platform.program}.png`
-            }
-        }))
-
-        append('Custom', request.console.filter((platform) => {
-            return platform.type === 'custom'
-        }).map((platform) => {
-            return {
-                key: toKey(platform.console),
-                name: platform.console,
-                value: platform.name,
-                image: `/img/platforms/custom.png`
             }
         }))
 
