@@ -36,10 +36,10 @@ type AmazonFuel struct {
 // Amazon Games platform definition
 func AmazonPlatform() *Platform {
 
-	name := "Amazon"
+	name := "Amazon Games"
 	launcher := "Amazon Games"
 	programID := "amazon-games"
-	tags := []string{"Amazon"}
+	tags := []string{"Amazon Games"}
 
 	// On Linux, runs with Proton
 	useProton := cli.IsLinux()
