@@ -37,22 +37,14 @@ func Find(options *Options) ([]*Game, error) {
 
 	cli.Printf(cli.ColorNotice, "Checking for games from launchers.\n")
 
+	// Scan each platform for games
 	for _, platform := range options.Platforms {
-
-		// Skip not included platforms to gain performance
-		if !slices.Contains(options.Include, platform.Name) {
-			continue
-		}
-
-		// Scan the platform for games
 		games, err := platform.Scan()
 		if err != nil {
 			return nil, err
 		}
 
-		// Append the detected games to the results list
 		results = append(results, games...)
-
 	}
 
 	return results, nil
