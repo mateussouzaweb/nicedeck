@@ -15,6 +15,7 @@ type Platform struct {
 func GetPlatforms() ([]*Platform, error) {
 
 	platforms := []*Platform{}
+	platforms = append(platforms, AmazonPlatform())
 	platforms = append(platforms, EpicPlatform())
 	platforms = append(platforms, GOGPlatform())
 
