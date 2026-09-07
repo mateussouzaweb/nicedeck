@@ -26,7 +26,7 @@ type EpicManifest struct {
 // Epic Games Launcher platform definition
 func EpicPlatform() *Platform {
 
-	name := "EpicGames"
+	name := "Epic Games"
 	launcher := "Epic Games Launcher"
 	programID := "epic-games"
 
