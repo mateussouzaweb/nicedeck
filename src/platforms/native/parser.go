@@ -47,7 +47,13 @@ func Parse(path string, options *Options) (*App, error) {
 		app.StartDirectory = replaceData(platform.StartDirectory)
 		app.Executable = replaceData(platform.Executable)
 		app.LaunchOptions = replaceData(platform.LaunchOptions)
-		app.Tags = []string{"App", platform.Runtime}
+		app.Tags = []string{"App"}
+
+		// Only include runtime tag when not native
+		if platform.Runtime != "Native" {
+			app.Tags = append(app.Tags, platform.Runtime)
+		}
+
 		break
 	}
 
