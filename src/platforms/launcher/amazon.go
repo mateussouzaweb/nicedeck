@@ -23,14 +23,14 @@ type AmazonProductData struct {
 
 // Each amazon game has a fuel.json file inside the game directory
 // Amazon fuel.json file struct is just a JSON file
-type AmazonFuelMain struct {
+type AmazonFuelCommand struct {
 	Command string   `json:"Command"`
 	Args    []string `json:"Args"`
 }
 type AmazonFuel struct {
-	SchemaVersion string          `json:"SchemaVersion"`
-	PostInstall   []string        `json:"PostInstall"`
-	Main          *AmazonFuelMain `json:"Main"`
+	SchemaVersion string               `json:"SchemaVersion"`
+	PostInstall   []*AmazonFuelCommand `json:"PostInstall"`
+	Main          *AmazonFuelCommand   `json:"Main"`
 }
 
 // Amazon Games platform definition
@@ -63,7 +63,7 @@ func AmazonPlatform() *Platform {
 	readFuel := func(path string) (*AmazonFuel, error) {
 
 		fuel := &AmazonFuel{
-			Main: &AmazonFuelMain{},
+			Main: &AmazonFuelCommand{},
 		}
 
 		err := fs.ReadJSON(path, fuel)
