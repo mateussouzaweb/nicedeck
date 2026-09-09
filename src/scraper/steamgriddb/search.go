@@ -2,6 +2,7 @@ package steamgriddb
 
 import (
 	"net/url"
+	"regexp"
 )
 
 // SearchByTermResult struct
@@ -13,6 +14,10 @@ type SearchByTermResult struct {
 
 // Search game or application by term or name
 func SearchByTerm(term string) (*SearchByTermResult, error) {
+
+	// Remove trademarks
+	trademarkRegex := regexp.MustCompile(`(?i)[™®©℠]|\((TM|R|C)\)`)
+	term = trademarkRegex.ReplaceAllString(term, "")
 
 	// Yes, escape twice for better results
 	term = url.QueryEscape(term)
