@@ -129,12 +129,14 @@ func EAPlatform() *Platform {
 
 			// Determine executable and launch options
 			executable := fmt.Sprintf("origin2://game/launch?offerIds=%s&autoDownload=1&authCode=&cmdParams=", gameID)
+			startDirectory := gamePath
 			launchOptions := ""
 
 			// Proton must use the wrapper as executable
 			if useProton {
 				launchOptions = executable
 				executable = program.Package.Executable()
+				startDirectory = filepath.Dir(executable)
 			}
 
 			// Add game to resulting list
@@ -145,7 +147,7 @@ func EAPlatform() *Platform {
 				Platform:       name,
 				Launcher:       launcher,
 				Program:        programID,
-				StartDirectory: cli.Quote(filepath.Dir(executable)),
+				StartDirectory: cli.Quote(startDirectory),
 				Executable:     cli.Quote(executable),
 				LaunchOptions:  cli.Quote(launchOptions),
 				Tags:           tags,

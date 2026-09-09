@@ -141,12 +141,14 @@ func BattleNetPlatform() *Platform {
 
 			// Determine executable and launch options
 			executable := fmt.Sprintf("battlenet://%s", productDB.Code)
+			startDirectory := gamePath
 			launchOptions := ""
 
 			// Proton must use the wrapper as executable
 			if useProton {
 				launchOptions = executable
 				executable = program.Package.Executable()
+				startDirectory = filepath.Dir(executable)
 			}
 
 			// Add game to resulting list
@@ -157,7 +159,7 @@ func BattleNetPlatform() *Platform {
 				Platform:       name,
 				Launcher:       launcher,
 				Program:        programID,
-				StartDirectory: cli.Quote(filepath.Dir(executable)),
+				StartDirectory: cli.Quote(startDirectory),
 				Executable:     cli.Quote(executable),
 				LaunchOptions:  cli.Quote(launchOptions),
 				Tags:           tags,

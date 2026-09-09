@@ -163,11 +163,13 @@ func AmazonPlatform() *Platform {
 			// Alternative option: amazon-games://play/${productId}
 			executable := filepath.Join(gamePath, fuel.Main.Command)
 			launchOptions := strings.Join(fuel.Main.Args, " ")
+			startDirectory := gamePath
 
 			// Proton must use the wrapper as executable
 			if useProton {
 				launchOptions = fmt.Sprintf("%s %s", executable, launchOptions)
 				executable = program.Package.Executable()
+				startDirectory = filepath.Dir(executable)
 			}
 
 			// Add game to resulting list
@@ -178,7 +180,7 @@ func AmazonPlatform() *Platform {
 				Platform:       name,
 				Launcher:       launcher,
 				Program:        programID,
-				StartDirectory: cli.Quote(filepath.Dir(executable)),
+				StartDirectory: cli.Quote(startDirectory),
 				Executable:     cli.Quote(executable),
 				LaunchOptions:  cli.Quote(launchOptions),
 				Tags:           tags,

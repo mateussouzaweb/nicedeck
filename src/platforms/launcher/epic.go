@@ -106,6 +106,7 @@ func EpicPlatform() *Platform {
 
 			// Determine executable and launch options
 			launchOptions := ""
+			startDirectory := manifest.InstallLocation
 			executable := strings.TrimSpace(fmt.Sprintf(
 				"com.epicgames.launcher://apps/%s:%s:%s?action=launch&silent=true",
 				manifest.CatalogNamespace,
@@ -117,6 +118,7 @@ func EpicPlatform() *Platform {
 			if useProton {
 				launchOptions = executable
 				executable = program.Package.Executable()
+				startDirectory = filepath.Dir(executable)
 			}
 
 			// Add game to resulting list
@@ -127,7 +129,7 @@ func EpicPlatform() *Platform {
 				Platform:       name,
 				Launcher:       launcher,
 				Program:        programID,
-				StartDirectory: cli.Quote(filepath.Dir(executable)),
+				StartDirectory: cli.Quote(startDirectory),
 				Executable:     cli.Quote(executable),
 				LaunchOptions:  launchOptions,
 				Tags:           tags,
