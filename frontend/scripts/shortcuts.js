@@ -41,15 +41,20 @@ window.addEventListener('load', async () => {
     }
 
     /**
-     * Check if text contains given term
-     * @param {String} text
+     * Check if shortcut contains given term
+     * @param {Shortcut} shortcut
      * @param {String} term
      * @returns {Boolean}
      */
-    function containsText(text, term) {
-        return String(text).toLowerCase().includes(
-            String(term).toLowerCase()
-        )
+    function containsText(shortcut, term) {
+        [
+            shortcut.name, 
+            shortcut.reference
+        ].some((text) => {
+            return String(text).toLowerCase().includes(
+                String(term).toLowerCase()
+            )
+        })
     }
 
     /**
@@ -110,9 +115,7 @@ window.addEventListener('load', async () => {
                 })
             }
             if (filters.search) {
-                valid = valid && containsText(
-                    shortcut.name, filters.search
-                )
+                valid = valid && containsText(shortcut, filters.search)
             }
 
             return valid
