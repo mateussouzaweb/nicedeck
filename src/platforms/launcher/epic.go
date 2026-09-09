@@ -105,19 +105,18 @@ func EpicPlatform() *Platform {
 			}
 
 			// Determine executable and launch options
-			executable := program.Package.Executable()
-			args := program.Package.Args()
-			launchOptions := strings.TrimSpace(fmt.Sprintf(
-				"%s com.epicgames.launcher://apps/%s:%s:%s?action=launch&silent=true",
-				strings.Join(args, " "),
+			launchOptions := ""
+			executable := strings.TrimSpace(fmt.Sprintf(
+				"com.epicgames.launcher://apps/%s:%s:%s?action=launch&silent=true",
 				manifest.CatalogNamespace,
 				manifest.CatalogItemId,
 				manifest.AppName,
 			))
 
-			// MacOS must use the executable inside the app bundle
-			if cli.IsMacOS() {
-				executable = filepath.Join(executable, "Contents", "MacOS", "EpicGamesLauncher")
+			// Proton must use the wrapper as executable
+			if useProton {
+				launchOptions = executable
+				executable = program.Package.Executable()
 			}
 
 			// Add game to resulting list
