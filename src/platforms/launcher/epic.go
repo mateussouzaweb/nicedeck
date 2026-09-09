@@ -11,9 +11,10 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 )
 
-// EpicGames stores games installed in manifest files
-// Manifest file is name as "$NAME.item", but they are just like JSON files
+// Epic manifest struct
+// Each game contains the manifest JSON file on game directory
 // Declares only relevant fields to reduce struct
+// File: $FOLDER/$KEY.item
 type EpicManifest struct {
 	AppName          string `json:"AppName"`
 	CatalogNamespace string `json:"CatalogNamespace"`
@@ -23,7 +24,7 @@ type EpicManifest struct {
 	LaunchExecutable string `json:"LaunchExecutable"`
 }
 
-// Epic Games Launcher platform definition
+// Epic Games platform definition
 func EpicPlatform() *Platform {
 
 	name := "Epic Games"
@@ -37,39 +38,31 @@ func EpicPlatform() *Platform {
 		tags = append(tags, "Proton")
 	}
 
-	// ReadManifest file content and return as Manifest struct
+	// ReadManifest file content and return as struct
 	readManifest := func(path string) (*EpicManifest, error) {
 
 		manifest := &EpicManifest{}
 		err := fs.ReadJSON(path, manifest)
 		if err != nil {
-			return nil, err
+			return manifest, err
 		}
 
 		return manifest, nil
 	}
 
-	// Scan function to retrieve installed games from Epic Games Launcher
+	// Scan function to retrieve installed games from launcher
 	scan := func() ([]*Game, error) {
 
 		results := []*Game{}
 		manifestsPath := ""
 
-		// Get the Epic Games Launcher program to retrieve its executable and arguments
+		// Get the program to retrieve its executable and arguments
 		program, err := programs.GetProgramByID(programID)
 		if err != nil {
 			return results, err
 		}
 
-		executable := program.Package.Executable()
-		args := program.Package.Args()
-
-		// MacOS must use the executable inside the app bundle
-		if cli.IsMacOS() {
-			executable = filepath.Join(executable, "Contents", "MacOS", "EpicGamesLauncher")
-		}
-
-		// Proton runtime requires special handling for the manifests path
+		// Proton runtime requires special handling for manifests path
 		if useProton {
 			protonPackage := program.Package.(*proton.Proton)
 			manifestsPath = protonPackage.RealPath("$PROGRAMDATA/Epic/EpicGamesLauncher/Data/Manifests")
@@ -97,23 +90,23 @@ func EpicPlatform() *Platform {
 			return results, err
 		}
 
-		// Iterate through the manifest files and process each one
+		// Iterate through the entries and process each one
 		for _, entry := range entries {
 
-			// Read the manifest file and parse its content
+			// Read manifest content
 			manifest, err := readManifest(entry)
 			if err != nil {
 				return results, err
 			}
 
-			// Skip if manifest is empty
+			// Skip when no info detected
 			if manifest.AppName == "" || manifest.LaunchExecutable == "" {
 				continue
-			} else {
-				cli.Debug("Detected: %s / %s\n", launcher, manifest.AppName)
 			}
 
-			// Create a new game object based on the manifest
+			// Determine executable and launch options
+			executable := program.Package.Executable()
+			args := program.Package.Args()
 			launchOptions := strings.TrimSpace(fmt.Sprintf(
 				"%s com.epicgames.launcher://apps/%s:%s:%s?action=launch&silent=true",
 				strings.Join(args, " "),
@@ -122,6 +115,12 @@ func EpicPlatform() *Platform {
 				manifest.AppName,
 			))
 
+			// MacOS must use the executable inside the app bundle
+			if cli.IsMacOS() {
+				executable = filepath.Join(executable, "Contents", "MacOS", "EpicGamesLauncher")
+			}
+
+			// Add game to resulting list
 			game := &Game{
 				Reference:      fmt.Sprintf("%s:%s", programID, manifest.AppName),
 				Name:           manifest.DisplayName,

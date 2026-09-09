@@ -11,9 +11,7 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 )
 
-// GOG stores game information in json files
-// Info file is name as "goggame-*.info" inside the game folder
-// Declares only relevant fields to reduce struct
+// GOG game playtask struct
 type GOGGamePlayTask struct {
 	Category  string `json:"category"`
 	IsPrimary bool   `json:"isPrimary"`
@@ -22,6 +20,10 @@ type GOGGamePlayTask struct {
 	Type      string `json:"type"`
 }
 
+// GOG game info struct
+// Each game contains the game info file on game directory
+// Declares only relevant fields to reduce struct
+// File: $FOLDER/goggame-*.info
 type GOGGameInfo struct {
 	RootGameId string             `json:"rootGameId"`
 	GameID     string             `json:"gameId"`
@@ -43,7 +45,7 @@ func GOGPlatform() *Platform {
 		tags = append(tags, "Proton")
 	}
 
-	// Read game info file content and return as info struct
+	// ReadGameInfo file content and return as struct
 	readGameInfo := func(path string) (*GOGGameInfo, error) {
 
 		info := &GOGGameInfo{
@@ -52,56 +54,57 @@ func GOGPlatform() *Platform {
 
 		err := fs.ReadJSON(path, info)
 		if err != nil {
-			return nil, err
+			return info, err
 		}
 
 		return info, nil
 	}
 
-	// Scan function to retrieve installed games from GOG
+	// Scan function to retrieve installed games from launcher
 	scan := func() ([]*Game, error) {
 
 		results := []*Game{}
-		gamesPath := ""
+		libraryPath := ""
 
-		// Get the GOG program to retrieve its executable and arguments
+		// Get the program to retrieve its executable and arguments
 		program, err := programs.GetProgramByID(programID)
 		if err != nil {
 			return results, err
 		}
 
-		// Proton runtime requires special handling for games path
+		// Proton runtime requires special handling for library path
 		if useProton {
 			protonPackage := program.Package.(*proton.Proton)
-			gamesPath = protonPackage.RealPath("$PROGRAMS/GOG Galaxy/Games")
+			libraryPath = protonPackage.RealPath("$PROGRAMS/GOG Galaxy/Games")
 		} else if cli.IsMacOS() {
-			gamesPath = fs.ExpandPath("$HOME/Library/Application Support/GOG Galaxy/Games")
+			libraryPath = fs.ExpandPath("$HOME/Library/Application Support/GOG Galaxy/Games")
 		} else if cli.IsWindows() {
-			gamesPath = fs.ExpandPath("$PROGRAMS/GOG Galaxy/Games")
+			libraryPath = fs.ExpandPath("$PROGRAMS/GOG Galaxy/Games")
 		} else {
 			return results, nil
 		}
 
-		// Check if the games directory exists
-		exist, err := fs.DirectoryExist(gamesPath)
+		// Check if the library directory exists
+		exist, err := fs.DirectoryExist(libraryPath)
 		if err != nil {
 			return results, err
 		} else if !exist {
 			return results, nil
 		}
 
-		// Read the contents of the games directory
-		entries, err := os.ReadDir(gamesPath)
+		// Read the contents of the library directory
+		entries, err := os.ReadDir(libraryPath)
 		if err != nil {
 			return results, err
 		} else if len(entries) == 0 {
 			return results, err
 		}
 
-		// Iterate through the sub folders and process each one
+		// Iterate through the entries and process each one
 		for _, entry := range entries {
 
-			gamePath := filepath.Join(gamesPath, entry.Name())
+			// Accept only folders
+			gamePath := filepath.Join(libraryPath, entry.Name())
 			info, err := entry.Info()
 			if err != nil {
 				return results, err
@@ -109,66 +112,66 @@ func GOGPlatform() *Platform {
 				continue
 			}
 
-			// Find game info file in folder
-			files, err := filepath.Glob(filepath.Join(gamePath, "goggame-*.info"))
+			// Find game info files in folder
+			globPattern := filepath.Join(gamePath, "goggame-*.info")
+			files, err := filepath.Glob(globPattern)
 			if err != nil {
 				return results, err
 			} else if len(files) == 0 {
 				continue
 			}
 
-			for _, gameFile := range files {
-
-				// Read the info file and parse its content
-				gameInfo, err := readGameInfo(gameFile)
-				if err != nil {
-					return results, err
-				}
-
-				// Skip if info file is empty
-				if gameInfo.GameID == "" {
-					continue
-				} else {
-					cli.Debug("Detected: %s / %s\n", launcher, gameInfo.Name)
-				}
-
-				// Determine executable and launch options
-				executable := ""
-				launchOptions := ""
-				for _, playTask := range gameInfo.PlayTasks {
-					if playTask.IsPrimary && playTask.Path != "" {
-						executable = filepath.Join(gamePath, playTask.Path)
-						break
-					}
-				}
-
-				// Skip when executable could not be found
-				if executable == "" {
-					continue
-				}
-
-				// Proton must use the wrapper as executable
-				if useProton {
-					launchOptions = executable
-					executable = program.Package.Executable()
-				}
-
-				game := &Game{
-					Reference:      fmt.Sprintf("%s:%s", programID, gameInfo.GameID),
-					Name:           gameInfo.Name,
-					Description:    fmt.Sprintf("Installed via %s", launcher),
-					Platform:       name,
-					Launcher:       launcher,
-					Program:        programID,
-					StartDirectory: cli.Quote(filepath.Dir(executable)),
-					Executable:     cli.Quote(executable),
-					LaunchOptions:  cli.Quote(launchOptions),
-					Tags:           tags,
-				}
-
-				results = append(results, game)
-				break
+			// Read the game info content
+			// Only the first file result is relevant
+			gameFile := files[0]
+			gameInfo, err := readGameInfo(gameFile)
+			if err != nil {
+				return results, err
 			}
+
+			// Skip when no info detected
+			if gameInfo.GameID == "" {
+				continue
+			}
+
+			// Determine executable and launch options
+			executable := ""
+			launchOptions := ""
+
+			// Executable is read from main playTask
+			for _, playTask := range gameInfo.PlayTasks {
+				if playTask.IsPrimary && playTask.Path != "" {
+					executable = filepath.Join(gamePath, playTask.Path)
+					break
+				}
+			}
+
+			// Skip when executable could not be found
+			if executable == "" {
+				continue
+			}
+
+			// Proton must use the wrapper as executable
+			if useProton {
+				launchOptions = executable
+				executable = program.Package.Executable()
+			}
+
+			// Add game to resulting list
+			game := &Game{
+				Reference:      fmt.Sprintf("%s:%s", programID, gameInfo.GameID),
+				Name:           gameInfo.Name,
+				Description:    fmt.Sprintf("Installed via %s", launcher),
+				Platform:       name,
+				Launcher:       launcher,
+				Program:        programID,
+				StartDirectory: cli.Quote(filepath.Dir(executable)),
+				Executable:     cli.Quote(executable),
+				LaunchOptions:  cli.Quote(launchOptions),
+				Tags:           tags,
+			}
+
+			results = append(results, game)
 		}
 
 		return results, nil

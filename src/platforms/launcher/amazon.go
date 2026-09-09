@@ -12,8 +12,9 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 )
 
-// Amazon stores per game product data on __InstallData__ folder
-// File is named as product_data.json
+// Amazon product data struct
+// Each game contains the product data file on game directory
+// File: __InstallData__/$FOLDER/product_data.json
 type AmazonProductData struct {
 	ProductId        string `json:"ProductId"`
 	InstalledVersion string `json:"InstalledVersion"`
@@ -21,12 +22,15 @@ type AmazonProductData struct {
 	State            string `json:"State"`
 }
 
-// Each amazon game has a fuel.json file inside the game directory
-// Amazon fuel.json file struct is just a JSON file
+// Amazon fuel command struct
 type AmazonFuelCommand struct {
 	Command string   `json:"Command"`
 	Args    []string `json:"Args"`
 }
+
+// Amazon fuel struct
+// Each game contains the launch details file on game directory
+// File: $FOLDER/fuel.json
 type AmazonFuel struct {
 	SchemaVersion string               `json:"SchemaVersion"`
 	PostInstall   []*AmazonFuelCommand `json:"PostInstall"`
@@ -53,7 +57,7 @@ func AmazonPlatform() *Platform {
 		data := &AmazonProductData{}
 		err := fs.ReadJSON(path, data)
 		if err != nil {
-			return nil, err
+			return data, err
 		}
 
 		return data, nil
@@ -63,24 +67,25 @@ func AmazonPlatform() *Platform {
 	readFuel := func(path string) (*AmazonFuel, error) {
 
 		fuel := &AmazonFuel{
-			Main: &AmazonFuelCommand{},
+			PostInstall: make([]*AmazonFuelCommand, 0),
+			Main:        &AmazonFuelCommand{},
 		}
 
 		err := fs.ReadJSON(path, fuel)
 		if err != nil {
-			return nil, err
+			return fuel, err
 		}
 
 		return fuel, nil
 	}
 
-	// Scan function to retrieve installed games from Amazon Games
+	// Scan function to retrieve installed games from launcher
 	scan := func() ([]*Game, error) {
 
 		results := []*Game{}
 		libraryPath := ""
 
-		// Get the Amazon Games program to retrieve its executable and arguments
+		// Get the program to retrieve its executable and arguments
 		program, err := programs.GetProgramByID(programID)
 		if err != nil {
 			return results, err
@@ -112,19 +117,20 @@ func AmazonPlatform() *Platform {
 			return results, err
 		}
 
-		// Iterate through the sub folders and process each one
+		// Iterate through the entries and process each one
 		for _, entry := range entries {
 
-			// Skip __InstallData__ folder
-			if entry.Name() == "__InstallData__" {
-				continue
-			}
-
+			// Accept only folders
 			gamePath := filepath.Join(libraryPath, entry.Name())
 			info, err := entry.Info()
 			if err != nil {
 				return results, err
 			} else if !info.IsDir() {
+				continue
+			}
+
+			// Skip __InstallData__ folder
+			if entry.Name() == "__InstallData__" {
 				continue
 			}
 
@@ -135,19 +141,19 @@ func AmazonPlatform() *Platform {
 				return results, err
 			}
 
-			// Skip when no fuel detected
+			// Skip when no info detected
 			if fuel.Main.Command == "" {
 				continue
 			}
 
-			// Read product data
+			// Read product data content
 			productDataFile := filepath.Join(libraryPath, "__InstallData__", entry.Name(), "product_data.json")
 			productData, err := readProductData(productDataFile)
 			if err != nil {
 				return results, err
 			}
 
-			// Skip when no product data detected
+			// Skip when no info detected
 			if productData.ProductId == "" {
 				continue
 			}
@@ -164,6 +170,7 @@ func AmazonPlatform() *Platform {
 				executable = program.Package.Executable()
 			}
 
+			// Add game to resulting list
 			game := &Game{
 				Reference:      fmt.Sprintf("%s:%s", programID, productData.ProductId),
 				Name:           entry.Name(),

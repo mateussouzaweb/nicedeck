@@ -12,13 +12,16 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/programs"
 )
 
-// Amazon stores per game install data on __Installer folder
-// File is named as installerdata.xml
-// Declares only relevant fields to reduce struct
+// EA installer data game title struct
 type EAInstallerDataGameTitle struct {
 	Locale string `xml:"locale,attr"`
 	Value  string `xml:",chardata"`
 }
+
+// EA installer data struct
+// Each game contains the installer data file on game directory
+// Declares only relevant fields to reduce struct
+// File: $FOLDER/__Installer/installerdata.xml
 type EAInstallerData struct {
 	XMLName    xml.Name                    `xml:"DiPManifest"`
 	Version    string                      `xml:"version,attr"`
@@ -44,24 +47,25 @@ func EAPlatform() *Platform {
 	readInstallerData := func(path string) (*EAInstallerData, error) {
 
 		data := &EAInstallerData{
-			ContentIDs: []string{},
+			ContentIDs: make([]string, 0),
 			GameTitles: make([]*EAInstallerDataGameTitle, 0),
 		}
+
 		err := fs.ReadXML(path, data)
 		if err != nil {
-			return nil, err
+			return data, err
 		}
 
 		return data, nil
 	}
 
-	// Scan function to retrieve installed games from EA App
+	// Scan function to retrieve installed games from launcher
 	scan := func() ([]*Game, error) {
 
 		results := []*Game{}
 		libraryPath := ""
 
-		// Get the EA App program to retrieve its executable and arguments
+		// Get the program to retrieve its executable and arguments
 		program, err := programs.GetProgramByID(programID)
 		if err != nil {
 			return results, err
@@ -95,9 +99,10 @@ func EAPlatform() *Platform {
 			return results, err
 		}
 
-		// Iterate through the sub folders and process each one
+		// Iterate through the entries and process each one
 		for _, entry := range entries {
 
+			// Accept only folders
 			gamePath := filepath.Join(libraryPath, entry.Name())
 			info, err := entry.Info()
 			if err != nil {
@@ -113,12 +118,12 @@ func EAPlatform() *Platform {
 				return results, err
 			}
 
-			// Skip when no content ID detected
+			// Skip when no info detected
 			if len(installerData.ContentIDs) == 0 {
 				continue
 			}
 
-			// Read game ID
+			// Determine game ID
 			// First entry is the main game, secondary are DLCs
 			gameID := installerData.ContentIDs[0]
 
@@ -128,10 +133,11 @@ func EAPlatform() *Platform {
 
 			// Proton must use the wrapper as executable
 			if useProton {
-				launchOptions = fmt.Sprintf("%s %s", executable, launchOptions)
+				launchOptions = executable
 				executable = program.Package.Executable()
 			}
 
+			// Add game to resulting list
 			game := &Game{
 				Reference:      fmt.Sprintf("%s:%s", programID, gameID),
 				Name:           entry.Name(),

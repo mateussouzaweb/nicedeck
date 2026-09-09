@@ -11,13 +11,13 @@ func Parse(reference string, options *Options) (*Game, error) {
 
 	result := &Game{}
 
-	// Find games in launchers and return the list of detected games
+	// Find games in launchers
 	games, err := Find(options)
 	if err != nil {
 		return result, err
 	}
 
-	// Check if the given reference matches any of the detected ROMs
+	// Check if the given reference matches any of the games
 	for _, item := range games {
 		if item.Reference == reference {
 			return item, nil
@@ -46,6 +46,7 @@ func Find(options *Options) ([]*Game, error) {
 
 		// Add game tag and append to final results
 		for _, game := range games {
+			cli.Debug("Detected: %s / %s\n", game.Launcher, game.Name)
 			game.Tags = append([]string{"Game"}, game.Tags...)
 			results = append(results, game)
 		}
