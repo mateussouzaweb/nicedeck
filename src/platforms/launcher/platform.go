@@ -16,9 +16,11 @@ func GetPlatforms() ([]*Platform, error) {
 
 	platforms := []*Platform{}
 	platforms = append(platforms, AmazonPlatform())
+	platforms = append(platforms, BattleNetPlatform())
 	platforms = append(platforms, EAPlatform())
 	platforms = append(platforms, EpicPlatform())
 	platforms = append(platforms, GOGPlatform())
+	platforms = append(platforms, UbisoftPlatform())
 
 	return platforms, nil
 }
