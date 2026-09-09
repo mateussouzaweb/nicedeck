@@ -122,15 +122,6 @@ func EAPlatform() *Platform {
 			// First entry is the main game, secondary are DLCs
 			gameID := installerData.ContentIDs[0]
 
-			// Read game title
-			gameTitle := entry.Name()
-			for _, option := range installerData.GameTitles {
-				if option.Locale == "en_US" {
-					gameTitle = option.Value
-					break
-				}
-			}
-
 			// Determine executable and launch options
 			executable := fmt.Sprintf("origin2://game/launch?offerIds=%s&autoDownload=1&authCode=&cmdParams=", gameID)
 			launchOptions := ""
@@ -143,7 +134,7 @@ func EAPlatform() *Platform {
 
 			game := &Game{
 				Reference:      fmt.Sprintf("%s:%s", programID, gameID),
-				Name:           gameTitle,
+				Name:           entry.Name(),
 				Description:    fmt.Sprintf("Installed via %s", launcher),
 				Platform:       name,
 				Launcher:       launcher,
