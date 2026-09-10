@@ -177,6 +177,15 @@ window.addEventListener('load', async () => {
         const destination = $('#shortcuts #list')
         destination.innerHTML = items.join('')
 
+        const count = $('#shortcuts #count')
+        if (shortcuts.length == 0) {
+            count.innerHTML = `No shortcuts available.`  
+        } else if (shortcuts.length == 1) {
+            count.innerHTML = `Showing ${filtered.length} of ${shortcuts.length} shortcut.`
+        } else {
+            count.innerHTML = `Showing ${filtered.length} of ${shortcuts.length} shortcuts.`
+        }
+
     }
 
     /**
