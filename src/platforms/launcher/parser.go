@@ -39,7 +39,7 @@ func Find(options *Options) ([]*Game, error) {
 
 	// Scan each platform for games
 	for _, platform := range options.Platforms {
-		games, err := platform.Scan()
+		games, err := platform.Scan(options)
 		if err != nil {
 			return nil, err
 		}

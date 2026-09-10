@@ -57,7 +57,7 @@ func UbisoftPlatform() *Platform {
 	}
 
 	// Scan function to retrieve installed games from launcher
-	scan := func() ([]*Game, error) {
+	scan := func(options *Options) ([]*Game, error) {
 
 		results := []*Game{}
 		libraryPath := ""

@@ -1,7 +1,7 @@
 package launcher
 
 // Scanner function type
-type Scanner func() ([]*Game, error)
+type Scanner func(options *Options) ([]*Game, error)
 
 // Platform struct
 type Platform struct {
