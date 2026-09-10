@@ -10,6 +10,8 @@ import (
 type Platform struct {
 	Name           string `json:"name"`
 	Runtime        string `json:"runtime"`
+	Available      bool   `json:"available"`
+	Installed      bool   `json:"installed"`
 	Extensions     string `json:"extensions"`
 	StartDirectory string `json:"startDirectory"`
 	Executable     string `json:"executable"`
@@ -26,6 +28,8 @@ func GetPlatforms() ([]*Platform, error) {
 		platforms = append(platforms, &Platform{
 			Name:           "Linux",
 			Runtime:        "Native",
+			Available:      true,
+			Installed:      true,
 			Extensions:     ".AppImage .desktop .sh",
 			StartDirectory: "${DIRECTORY}",
 			Executable:     "${PATH}",
@@ -46,16 +50,16 @@ func GetPlatforms() ([]*Platform, error) {
 			return platforms, err
 		}
 
-		if protonInstalled {
-			platforms = append(platforms, &Platform{
-				Name:           "Linux",
-				Runtime:        "Proton",
-				Extensions:     ".exe .msi .bat .cmd",
-				StartDirectory: proton.DataPath(),
-				Executable:     proton.Executable(),
-				LaunchOptions:  "${PATH}",
-			})
-		}
+		platforms = append(platforms, &Platform{
+			Name:           "Linux",
+			Runtime:        "Proton",
+			Available:      true,
+			Installed:      protonInstalled,
+			Extensions:     ".exe .msi .bat .cmd",
+			StartDirectory: proton.DataPath(),
+			Executable:     proton.Executable(),
+			LaunchOptions:  "${PATH}",
+		})
 	}
 
 	// MacOS
@@ -63,6 +67,8 @@ func GetPlatforms() ([]*Platform, error) {
 		platforms = append(platforms, &Platform{
 			Name:           "MacOS",
 			Runtime:        "Native",
+			Available:      true,
+			Installed:      true,
 			Extensions:     ".app .sh",
 			StartDirectory: "${DIRECTORY}",
 			Executable:     "${PATH}",
@@ -75,6 +81,8 @@ func GetPlatforms() ([]*Platform, error) {
 		platforms = append(platforms, &Platform{
 			Name:           "Windows",
 			Runtime:        "Native",
+			Available:      true,
+			Installed:      true,
 			Extensions:     ".exe .msi .bat .cmd .lnk",
 			StartDirectory: "${DIRECTORY}",
 			Executable:     "${PATH}",

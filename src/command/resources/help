@@ -50,7 +50,7 @@ remove-programs:
 
 process-platforms:
   --platforms=[value,...]     platforms to process the ROMs
-  --preferences=[value,...]   preferences when processing ROMs (rebuild)
+  --preferences=[value,...]   preferences when processing ROMs (rebuild, include-missing, optional-scraper)
 
 list-state:
   --action=[backup|restore]   expected action to perform

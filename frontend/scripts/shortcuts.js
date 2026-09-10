@@ -752,6 +752,6 @@ window.addEventListener('load', async () => {
         window.showError(error)
     }
 
-    window.loadShortcuts = loadShortcuts
+    window.reloadShortcuts = loadShortcuts
 
 })

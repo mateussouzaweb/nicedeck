@@ -24,6 +24,9 @@ func FindRuntime(romPath string, options *Options) (*Runtime, error) {
 	romPath = strings.ToLower(romPath)
 	romExtension := filepath.Ext(romPath)
 
+	// Include missing option will add ROMs even when the emulator is missing
+	includeMissing := slices.Contains(options.Preferences, "include-missing")
+
 	// Search in every retrieved platform
 	// Platform and emulator are determined by the folder initial path
 	// Program is determined by installation status or availability
@@ -89,7 +92,7 @@ func FindRuntime(romPath string, options *Options) (*Runtime, error) {
 		// Last case that will use the available emulator
 		// Check and use the first emulator that is available for the platform
 		for _, emulator := range emulators {
-			if emulator.Available {
+			if emulator.Available && includeMissing {
 				result.Platform = platform
 				result.Emulator = emulator
 				return result, nil

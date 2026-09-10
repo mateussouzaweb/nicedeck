@@ -10,7 +10,9 @@ window.addEventListener('load', async () => {
         const request = await requestJson('GET', '/api/platforms')
         const platforms = []
 
-        request.console.map((platform) => {
+        request.console.filter((platform) => {
+            return platform.available
+        }).map((platform) => {
             const key = platform.console.toLowerCase().replaceAll(' ', '-')
             const custom = platform.type === 'custom'
             const option = {
@@ -188,6 +190,11 @@ window.addEventListener('load', async () => {
         await loadState()
     } catch (error) {
         window.showError(error)
+    }
+
+    window.reloadState = async() => {
+        await loadPlatforms()
+        await loadState()
     }
 
 })

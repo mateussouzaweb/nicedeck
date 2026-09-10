@@ -14,6 +14,9 @@ func Parse(path string, options *Options) (*App, error) {
 
 	app := &App{}
 
+	// Include missing option will add application even when the platform is missing
+	includeMissing := slices.Contains(options.Preferences, "include-missing")
+
 	// Parse basic application information
 	directory := filepath.Dir(path)
 	file := filepath.Base(path)
@@ -29,6 +32,15 @@ func Parse(path string, options *Options) (*App, error) {
 
 	// Find runtime based on file data
 	for _, platform := range options.Platforms {
+
+		// Platform validation
+		if !platform.Available {
+			continue
+		} else if !platform.Installed && !includeMissing {
+			continue
+		}
+
+		// Check based on file extension
 		valid := strings.Split(platform.Extensions, " ")
 		if !slices.Contains(valid, strings.ToLower(extension)) {
 			continue

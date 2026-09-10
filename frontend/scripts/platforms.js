@@ -56,7 +56,9 @@ window.addEventListener('load', async () => {
             html.push(`</section>`)
         }
 
-        append('Consoles', request.console.map((platform) => {
+        append('Consoles', request.console.filter((platform) => {
+            return platform.available
+        }).map((platform) => {
             const key = toKey(platform.console)
             const isCustom = platform.type === 'custom'
             return {
@@ -67,7 +69,9 @@ window.addEventListener('load', async () => {
             }
         }))
 
-        append('Launchers', request.launcher.map((platform) => {
+        append('Launchers', request.launcher.filter((platform) => {
+            return platform.available
+        }).map((platform) => {
             return {
                 key: toKey(platform.launcher),
                 name: platform.launcher,
@@ -132,7 +136,7 @@ window.addEventListener('load', async () => {
         })
 
         try {
-            await window.loadShortcuts()
+            await window.reloadShortcuts()
         } catch (error) {
             window.showError(error)
         }
@@ -143,5 +147,7 @@ window.addEventListener('load', async () => {
     } catch (error) {
         window.showError(error)
     }
+
+    window.reloadPlatforms = loadPlatforms
 
 })

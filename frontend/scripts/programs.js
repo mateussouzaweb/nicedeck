@@ -121,7 +121,9 @@ window.addEventListener('load', async () => {
 
         try {
             await loadPrograms()
-            await window.loadShortcuts()
+            await window.reloadPlatforms()
+            await window.reloadState()
+            await window.reloadShortcuts()
         } catch (error) {
             window.showError(error)
         }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"slices"
 
 	"github.com/mateussouzaweb/nicedeck/src/cli"
 	"github.com/mateussouzaweb/nicedeck/src/fs"
@@ -32,7 +33,7 @@ type GOGGameInfo struct {
 }
 
 // GOG platform definition
-func GOGPlatform() *Platform {
+func GOGPlatform() (*Platform, error) {
 
 	name := "GOG"
 	launcher := "GOG Galaxy"
@@ -43,6 +44,18 @@ func GOGPlatform() *Platform {
 	useProton := cli.IsLinux()
 	if useProton {
 		tags = append(tags, "Proton")
+	}
+
+	// Get the program details
+	program, err := programs.GetProgramByID(programID)
+	if err != nil {
+		return &Platform{}, err
+	}
+
+	available := program.Package.Available()
+	installed, err := program.Package.Installed()
+	if err != nil {
+		return &Platform{}, err
 	}
 
 	// ReadGameInfo file content and return as struct
@@ -66,10 +79,15 @@ func GOGPlatform() *Platform {
 		results := []*Game{}
 		libraryPath := ""
 
-		// Get the program to retrieve its executable and arguments
-		program, err := programs.GetProgramByID(programID)
-		if err != nil {
-			return results, err
+		// Skip if program not available
+		if !available {
+			return results, nil
+		}
+
+		// Include missing option will add games even when the launcher is missing
+		includeMissing := slices.Contains(options.Preferences, "include-missing")
+		if !installed && !includeMissing {
+			return results, nil
 		}
 
 		// Proton runtime requires special handling for library path
@@ -180,9 +198,11 @@ func GOGPlatform() *Platform {
 	}
 
 	return &Platform{
-		Name:     name,
-		Launcher: launcher,
-		Program:  programID,
-		Scan:     scan,
-	}
+		Name:      name,
+		Launcher:  launcher,
+		Program:   programID,
+		Available: available,
+		Installed: installed,
+		Scan:      scan,
+	}, nil
 }

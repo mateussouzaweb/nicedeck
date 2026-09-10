@@ -34,6 +34,8 @@ interface ConsolePlatform {
 	name: string
 	console: string
 	folder: string
+	available: boolean
+	installed: boolean
 	emulators: ConsoleEmulator[]
 }
 
@@ -41,11 +43,15 @@ interface LauncherPlatform {
 	name: string
 	launcher: string
 	program: string
+	available: boolean
+	installed: boolean
 }
 
 interface NativePlatform {
 	name: string
 	runtime: string
+	available: boolean
+	installed: boolean
 	extensions: string
 	startDirectory: string
 	executable: string
