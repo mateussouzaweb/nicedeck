@@ -240,6 +240,16 @@ func GetPlatforms() ([]*Platform, error) {
 
 	platforms = append(platforms, &Platform{
 		Type:      "native",
+		Name:      "PS5",
+		Console:   "Sony PlayStation 5",
+		Folder:    "PS5",
+		Available: false,
+		Installed: false,
+		Emulators: []*Emulator{},
+	})
+
+	platforms = append(platforms, &Platform{
+		Type:      "native",
 		Name:      "PSP",
 		Console:   "Sony PlayStation Portable",
 		Folder:    "PSP",
@@ -370,6 +380,16 @@ func GetPlatforms() ([]*Platform, error) {
 			Extensions:    ".iso .zar",
 			LaunchOptions: "--fullscreen=true ${ROM}",
 		}},
+	})
+
+	platforms = append(platforms, &Platform{
+		Type:      "native",
+		Name:      "XONE",
+		Console:   "Microsoft Xbox One",
+		Folder:    "XONE",
+		Available: false,
+		Installed: false,
+		Emulators: []*Emulator{},
 	})
 
 	// Fill information on each emulator based on their program attributes

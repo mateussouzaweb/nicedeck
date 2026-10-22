@@ -12,6 +12,7 @@ Use the table below to guide you on where you should put your ROMs based on thei
 |---------------------------|-------------------------|-------------------|
 | Microsoft Xbox            | Xemu                    | ``$ROMS/XBOX``    |
 | Microsoft Xbox 360        | Xenia                   | ``$ROMS/X360``    |
+| Microsoft Xbox One        | --                      | ``$ROMS/XONE``    |
 | Nintendo 3DS              | Azahar                  | ``$ROMS/3DS``     |
 | Nintendo 64               | Gopher64                | ``$ROMS/N64``     |
 | Nintendo DS               | MelonDS                 | ``$ROMS/DS``      |
@@ -25,6 +26,7 @@ Use the table below to guide you on where you should put your ROMs based on thei
 | Sony Playstation 2        | PCSX2                   | ``$ROMS/PS2``     |
 | Sony Playstation 3        | RPCS3                   | ``$ROMS/PS3``     |
 | Sony Playstation 4        | ShadPS4                 | ``$ROMS/PS4``     |
+| Sony Playstation 5        | --                      | ``$ROMS/PS5``     |
 | Sony Playstation Portable | PPSSPP                  | ``$ROMS/PSP``     |
 | Sony Playstation Vita     | Vita3K                  | ``$ROMS/PSVITA``  |
 
