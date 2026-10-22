@@ -6,7 +6,7 @@ Steam companion app for console emulation, better gaming experience and addition
 
 [PROGRAM SCREENSHOTS](./screenshots/)
 
-NiceDeck is a solid alternative for automated installation programs like [EmuDeck](https://github.com/dragoonDorise/EmuDeck) and [RetroDeck](https://github.com/XargonWan/RetroDECK). It tries to keep things as simple as possible by focusing on installing the recommended programs and emulators, managing your ROMs library by providing shortcuts, automatically adding them to the ``Steam Library`` and handling your gaming state with backups.
+NiceDeck is a program that automates the installation and maintenance of emulators, game launchers, and other programs. It keeps things simple by installing recommended programs and emulators for you, automatically managing your ROM library and installed games from third-party launchers, adding shortcuts to the ``Steam Library``, and backing up and restoring your game save data when needed.
 
 NiceDeck was originally created for Steam OS, but works on Linux, Windows and MacOS.
 
@@ -18,7 +18,7 @@ Some features of NiceDeck:
 - Each piece of software is independent and is maintained / updated directly by its developers.
 - Simplified structure for emulators, where you should see only the ``ROMs`` and ``BIOS`` folders for the emulators that you installed.
 - Installed programs available on the ``Steam Library`` (allowing usage on ``Gaming Mode`` at Steam OS and ``Big Picture`` mode on Desktop).
-- Built-in parser to grab information and add ROMs to the ``Steam Library`` automatically.
+- Built-in parser to grab information and add ROMs and installed games to the ``Steam Library`` automatically.
 - Beautiful and automated cover images for shortcuts in the ``Steam Library``.
 - Built-in tool to backup and restore saved game progress and states on each emulator.
 - Correct and workable ``ES-DE`` settings, with systems and rules to run games using the installed emulators.
@@ -70,6 +70,8 @@ On MacOS, extract the downloaded zip file to obtain the application: ``NiceDeck.
 
 Once you follow these instructions, double click on the program to start it. With the program running you can finally install the desired programs, parse your ROMs or manage Steam shortcuts from the GUI.
 
+For more advanced details, see check the [documentation](./docs/).
+
 ## Important Notes
 
 Folders and Structure:
@@ -77,8 +79,8 @@ Folders and Structure:
 - NiceDeck will create the ``$HOME/Games`` folder with a basic structure for emulation and general gaming.
 - You can optionally map external disks or MicroSD cards with symbolic links in the games folder to keep data separated from the main drive.
 - Once you have installed the desired emulators, place the ``BIOS`` and ``ROMs`` for each emulator in their respective folders.
-- Make sure to read the [ROMs documentation](docs/ROMs.md) to learn how to organize and parse your ROMs.
-- For additional gaming on Linux, make sure to read the [Proton documentation](docs/Proton.md) to learn how to use the Proton layer.
+- Make sure to read the [ROMs documentation](./docs/ROMs.md) to learn how to organize and parse your ROMs.
+- For additional gaming on Linux, make sure to read the [Proton documentation](./docs/Proton.md) to learn how to use the Proton layer.
 
 Programs and Emulators:
 

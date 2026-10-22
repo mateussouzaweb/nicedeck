@@ -2,7 +2,12 @@
 
 ## Linux Specific Issues
 
-Luckily, there is not much here, but you should read the [Proton](./Proton.md) section for more insights about that specific implementation.
+Luckily, there are few Linux specific issues, but you should read the [Proton](./Proton.md) section for more details on how it is implemented.
+
+You may run into issues when running AppImage programs as Steam shortcuts:
+
+- Some AppImages were created for FUSE 2 and refuse to load inside Steam as shortcuts.
+- To make these programs work, enable the extract-and-run behavior in the shortcut's launch options in NiceDeck, for example: `APPIMAGE_EXTRACT_AND_RUN=1 %command%`
 
 ## Windows Specific Issues
 

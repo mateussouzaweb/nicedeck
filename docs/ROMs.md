@@ -61,6 +61,10 @@ The parser can take some time to finish on its first run, based on the size of y
 
 Wait for the process to complete and we are DONE! You can start gaming!
 
+## Extending the Parser
+
+NiceDeck allow you to manually add support for new platforms, emulators and ROMs formats. If the emulator or platform that you want is not available yet in the official list, see the [extending platforms](./Extending%20Platforms.md) section to learn how to extend the parser.
+
 ## Organizing Your Collection inside Steam Library
 
 After running the parser and opening Steam again, you will notice that the ROMs will be available in the "Uncategorized" collection. That is fine for some people, but if you want to make it better, you'll need to do some manual work.
