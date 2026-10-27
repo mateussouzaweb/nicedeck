@@ -47,7 +47,7 @@ window.addEventListener('load', async () => {
      * @returns {Boolean}
      */
     function containsText(shortcut, term) {
-        [
+        return [
             shortcut.name, 
             shortcut.reference
         ].some((text) => {
