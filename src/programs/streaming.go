@@ -113,6 +113,38 @@ func MoonlightGameStreaming() *packaging.Program {
 	}
 }
 
+// Installer for Steam Link
+func SteamLink() *packaging.Program {
+	return &packaging.Program{
+		ID:          "steam-link",
+		Name:        "Steam Link",
+		Description: "Remote play technology for Steam",
+		Category:    "Streaming",
+		Tags:        []string{"Gaming", "Streaming"},
+		Flags:       []string{},
+		Folders:     []string{},
+		Website:     "https://store.steampowered.com/remoteplay",
+		IconURL:     assets.Icon("cf4bd3ef37c6b6d676b52c9b324de2d2.png"),
+		LogoURL:     assets.Logo("d07f3d227bb2eaeaa9575eef6ea74931.png"),
+		CoverURL:    assets.Cover("93c70872cc8e93b4ad218b4e37809c8e.png"),
+		BannerURL:   assets.Banner("16ea7c70e8fdde43ca5814ed8dcb437d.png"),
+		HeroURL:     assets.Hero("33ead3e335e920423af6cda0b1458ff8.png"),
+		Package: packaging.Best(&linux.Flatpak{
+			AppID:     "com.valvesoftware.SteamLink",
+			Namespace: "system",
+			Arguments: packaging.NoArguments(),
+		}, &macos.Homebrew{
+			AppID:     "steam-link",
+			Launcher:  "/Applications/Steam Link.app",
+			Arguments: packaging.NoArguments(),
+		}, &windows.WinGet{
+			AppID:     "Valve.SteamLink",
+			Launcher:  "$PROGRAMS_X86/Steam Link/SteamLink.exe",
+			Arguments: packaging.NoArguments(),
+		}),
+	}
+}
+
 // Installer for Xbox Cloud Gaming
 func XboxCloudGaming() *packaging.Program {
 	return &packaging.Program{

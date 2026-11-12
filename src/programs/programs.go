@@ -47,6 +47,7 @@ func GetPrograms() ([]*packaging.Program, error) {
 	programs = append(programs, Ryujinx())
 	programs = append(programs, ShadPS4())
 	programs = append(programs, Steam())
+	programs = append(programs, SteamLink())
 	programs = append(programs, UbisoftConnect())
 	programs = append(programs, Vita3K())
 	programs = append(programs, XboxCloudGaming())
