@@ -8,21 +8,21 @@ import (
 
 // Shortcut struct
 type Shortcut struct {
-	AppID               uint     `json:"appId"`
+	AppID               uint32   `json:"appId"`
 	AppName             string   `json:"appName"`
 	StartDir            string   `json:"startDir"`
 	Exe                 string   `json:"exe"`
 	LaunchOptions       string   `json:"launchOptions"`
 	ShortcutPath        string   `json:"shortcutPath"`
 	Icon                string   `json:"icon"`
-	IsHidden            uint     `json:"isHidden"`
-	AllowDesktopConfig  uint     `json:"allowDesktopConfig"`
-	AllowOverlay        uint     `json:"allowOverlay"`
-	OpenVR              uint     `json:"openVr"`
-	DevKit              uint     `json:"devKit"`
+	IsHidden            uint32   `json:"isHidden"`
+	AllowDesktopConfig  uint32   `json:"allowDesktopConfig"`
+	AllowOverlay        uint32   `json:"allowOverlay"`
+	OpenVR              uint32   `json:"openVr"`
+	DevKit              uint32   `json:"devKit"`
 	DevKitGameID        string   `json:"devKitGameId"`
-	DevKitOverrideAppID uint     `json:"devKitOverrideAppId"`
-	LastPlayTime        uint     `json:"lastPlayTime"`
+	DevKitOverrideAppID uint32   `json:"devKitOverrideAppId"`
+	LastPlayTime        uint32   `json:"lastPlayTime"`
 	Tags                []string `json:"tags"`
 	Timestamp           int64    `json:"timestamp"`
 }

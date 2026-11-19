@@ -22,17 +22,17 @@ type Internal = shortcuts.Shortcut
 
 // Library struct
 type Library struct {
-	DatabasePath  string          `json:"databasePath"`
-	BasePath      string          `json:"basePath"`
-	Runtime       string          `json:"runtime"`
-	AccountId     string          `json:"accountId"`
-	AccountName   string          `json:"accountName"`
-	ConfigPath    string          `json:"configPath"`
-	ImagesPath    string          `json:"imagesPath"`
-	ShortcutsPath string          `json:"shortcutsPath"`
-	Checksums     map[uint]string `json:"checksums"`
-	Timestamps    map[uint]int64  `json:"timestamps"`
-	Shortcuts     []*Shortcut     `json:"-"`
+	DatabasePath  string            `json:"databasePath"`
+	BasePath      string            `json:"basePath"`
+	Runtime       string            `json:"runtime"`
+	AccountId     string            `json:"accountId"`
+	AccountName   string            `json:"accountName"`
+	ConfigPath    string            `json:"configPath"`
+	ImagesPath    string            `json:"imagesPath"`
+	ShortcutsPath string            `json:"shortcutsPath"`
+	Checksums     map[uint32]string `json:"checksums"`
+	Timestamps    map[uint32]int64  `json:"timestamps"`
+	Shortcuts     []*Shortcut       `json:"-"`
 }
 
 // String representation of the library
@@ -62,8 +62,8 @@ func (l *Library) Load() error {
 	l.ConfigPath = ""
 	l.ImagesPath = ""
 	l.ShortcutsPath = ""
-	l.Checksums = make(map[uint]string, 0)
-	l.Timestamps = make(map[uint]int64, 0)
+	l.Checksums = make(map[uint32]string, 0)
+	l.Timestamps = make(map[uint32]int64, 0)
 	l.Shortcuts = make([]*Shortcut, 0)
 
 	// Check if Steam is installed
@@ -156,91 +156,45 @@ func (l *Library) Load() error {
 
 	// Read VDF to resulting map
 	buffer := bytes.NewBuffer(content)
-	data, err := vdf.ReadVdf(buffer)
+	data, err := vdf.ParseBinary(buffer)
 	if err != nil {
 		return err
 	}
 
 	// Map to struct of shortcuts
 	// We don't care about positioning
-	found := data["shortcuts"].(vdf.Vdf)
-	for _, item := range found {
-		item := item.(vdf.Vdf)
-
-		// Make sure has data
-		if _, ok := item["appid"]; !ok {
-			item["appid"] = uint(0)
-		}
-		if _, ok := item["AppName"]; !ok {
-			item["AppName"] = ""
-		}
-		if _, ok := item["StartDir"]; !ok {
-			item["StartDir"] = ""
-		}
-		if _, ok := item["Exe"]; !ok {
-			item["Exe"] = ""
-		}
-		if _, ok := item["LaunchOptions"]; !ok {
-			item["LaunchOptions"] = ""
-		}
-		if _, ok := item["ShortcutPath"]; !ok {
-			item["ShortcutPath"] = ""
-		}
-		if _, ok := item["icon"]; !ok {
-			item["icon"] = ""
-		}
-		if _, ok := item["IsHidden"]; !ok {
-			item["IsHidden"] = uint(0)
-		}
-		if _, ok := item["AllowDesktopConfig"]; !ok {
-			item["AllowDesktopConfig"] = uint(0)
-		}
-		if _, ok := item["AllowOverlay"]; !ok {
-			item["AllowOverlay"] = uint(0)
-		}
-		if _, ok := item["OpenVR"]; !ok {
-			item["OpenVR"] = uint(0)
-		}
-		if _, ok := item["Devkit"]; !ok {
-			item["Devkit"] = uint(0)
-		}
-		if _, ok := item["DevkitGameID"]; !ok {
-			item["DevkitGameID"] = ""
-		}
-		if _, ok := item["DevkitOverrideAppID"]; !ok {
-			item["DevkitOverrideAppID"] = uint(0)
-		}
-		if _, ok := item["LastPlayTime"]; !ok {
-			item["LastPlayTime"] = uint(0)
-		}
-		if _, ok := item["tags"]; !ok {
-			item["tags"] = vdf.Vdf{}
+	found := data.Object("shortcuts")
+	for key := range found {
+		item := found.Object(key)
+		if item == nil {
+			continue
 		}
 
 		// Create tag list
 		tags := []string{}
-		for _, tag := range item["tags"].(vdf.Vdf) {
-			tags = append(tags, tag.(string))
+		tagValues := item.Object("tags")
+		for key := range tagValues {
+			tags = append(tags, tagValues.String(key))
 		}
 
 		// Convert to manageable shortcut
 		// Timestamp will be filled during indexing
 		shortcut := Shortcut{
-			AppID:               item["appid"].(uint),
-			AppName:             item["AppName"].(string),
-			StartDir:            item["StartDir"].(string),
-			Exe:                 item["Exe"].(string),
-			LaunchOptions:       item["LaunchOptions"].(string),
-			ShortcutPath:        item["ShortcutPath"].(string),
-			Icon:                item["icon"].(string),
-			IsHidden:            item["IsHidden"].(uint),
-			AllowDesktopConfig:  item["AllowDesktopConfig"].(uint),
-			AllowOverlay:        item["AllowOverlay"].(uint),
-			OpenVR:              item["OpenVR"].(uint),
-			DevKit:              item["Devkit"].(uint),
-			DevKitGameID:        item["DevkitGameID"].(string),
-			DevKitOverrideAppID: item["DevkitOverrideAppID"].(uint),
-			LastPlayTime:        item["LastPlayTime"].(uint),
+			AppID:               item.Uint32("appid"),
+			AppName:             item.String("AppName"),
+			StartDir:            item.String("StartDir"),
+			Exe:                 item.String("Exe"),
+			LaunchOptions:       item.String("LaunchOptions"),
+			ShortcutPath:        item.String("ShortcutPath"),
+			Icon:                item.String("icon"),
+			IsHidden:            item.Uint32("IsHidden"),
+			AllowDesktopConfig:  item.Uint32("AllowDesktopConfig"),
+			AllowOverlay:        item.Uint32("AllowOverlay"),
+			OpenVR:              item.Uint32("OpenVR"),
+			DevKit:              item.Uint32("Devkit"),
+			DevKitGameID:        item.String("DevkitGameID"),
+			DevKitOverrideAppID: item.Uint32("DevkitOverrideAppID"),
+			LastPlayTime:        item.Uint32("LastPlayTime"),
 			Tags:                tags,
 			Timestamp:           0,
 		}
@@ -299,16 +253,16 @@ func (l *Library) Save() error {
 
 	// Save updated Steam shortcuts to VDF file
 	// Create VDF specs from shortcuts
-	items := make(vdf.Vdf)
+	items := make(vdf.VdfBinary)
 	for index, shortcut := range l.Shortcuts {
 
-		tags := make(vdf.Vdf)
+		tags := make(vdf.VdfBinary)
 		for tagIndex, tag := range shortcut.Tags {
 			position := fmt.Sprintf("%v", tagIndex)
 			tags[position] = tag
 		}
 
-		item := vdf.Vdf{}
+		item := vdf.VdfBinary{}
 		item["appid"] = shortcut.AppID
 		item["AppName"] = shortcut.AppName
 		item["StartDir"] = shortcut.StartDir
@@ -331,13 +285,13 @@ func (l *Library) Save() error {
 
 	}
 
-	data := vdf.Vdf{}
+	data := vdf.VdfBinary{}
 	data["shortcuts"] = items
 
 	cli.Debug("Writing VDF at %s\n", l.ShortcutsPath)
 
 	// Transform VDF into bytes
-	content, err := vdf.WriteVdf(data)
+	content, err := vdf.WriteBinary(data)
 	if err != nil {
 		return err
 	}
@@ -371,7 +325,7 @@ func (l *Library) Index() error {
 	// Use internal checksum and timestamp to detect changes
 	// Necessary because Steam does not store change timestamp per shortcut
 	// Finally, clean up any checksum and timestamp that no longer exist
-	processed := make(map[uint]bool, 0)
+	processed := make(map[uint32]bool, 0)
 	timestamp := time.Now().UTC().Unix()
 
 	for _, shortcut := range l.Shortcuts {
@@ -423,7 +377,7 @@ func (l *Library) Export() []*Internal {
 	for _, shortcut := range l.Shortcuts {
 
 		internal := &Internal{}
-		internal.ID = shortcuts.FromUint(shortcut.AppID)
+		internal.ID = shortcuts.FromUint(uint(shortcut.AppID))
 		internal.Name = shortcut.AppName
 		internal.StartDirectory = shortcut.StartDir
 		internal.Executable = CleanExec(shortcut.Exe)
@@ -441,7 +395,7 @@ func (l *Library) Export() []*Internal {
 func (l *Library) Transform(reference *Internal) (*Shortcut, error) {
 
 	shortcut := &Shortcut{}
-	shortcut.AppID = shortcuts.ToUint(reference.ID)
+	shortcut.AppID = uint32(shortcuts.ToUint(reference.ID))
 	shortcut.AppName = reference.Name
 	shortcut.StartDir = reference.StartDirectory
 	shortcut.Exe = EnsureExec(l.Runtime, reference.Executable)
