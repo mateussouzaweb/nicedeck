@@ -18,9 +18,6 @@ type Shortcut struct {
 	HeroPath       string   `json:"heroPath"`
 	Tags           []string `json:"tags"`
 	Timestamp      int64    `json:"timestamp"`
-
-	// @Deprecated: RelativePath is deprecated and will be removed in future versions. Use Reference instead.
-	RelativePath string `json:"relativePath"`
 }
 
 // Safely merge shortcuts

@@ -72,14 +72,6 @@ func (l *Library) Load() error {
 		}
 	}
 
-	// @Deprecated: Migrate relativePath to reference
-	for _, shortcut := range l.Shortcuts {
-		if shortcut.RelativePath != "" {
-			shortcut.Reference = shortcut.RelativePath
-			shortcut.RelativePath = ""
-		}
-	}
-
 	// @Temporary: Automatically define platform on shortcut for empty results
 	for _, shortcut := range l.Shortcuts {
 		if shortcut.Platform == "" {
