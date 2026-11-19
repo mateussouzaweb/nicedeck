@@ -3,6 +3,7 @@ package shortcuts
 // Shortcut struct
 type Shortcut struct {
 	ID             string   `json:"id"`
+	Platform       string   `json:"platform"`
 	Program        string   `json:"program"`
 	Name           string   `json:"name"`
 	Description    string   `json:"description"`
@@ -24,6 +25,9 @@ type Shortcut struct {
 
 // Safely merge shortcuts
 func (s *Shortcut) Merge(source *Shortcut) {
+	if source.Platform != "" {
+		s.Platform = source.Platform
+	}
 	if source.Program != "" {
 		s.Program = source.Program
 	}

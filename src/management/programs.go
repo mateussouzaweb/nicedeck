@@ -72,8 +72,11 @@ func InstallPrograms(options *programs.Options) error {
 			program.Tags = append(program.Tags, "Desktop")
 		}
 
-		// Add Proton tag for programs running with Proton
+		// Define program platform that match native behavior
+		// Also add tag for programs running with Proton
+		platform := "System"
 		if program.Package.Runtime() == "proton" {
+			platform = "Proton"
 			program.Tags = append(program.Tags, "Proton")
 		}
 
@@ -86,6 +89,7 @@ func InstallPrograms(options *programs.Options) error {
 		// Create final shortcut specs
 		shortcut := &shortcuts.Shortcut{
 			ID:             shortcutID,
+			Platform:       platform,
 			Program:        program.ID,
 			Name:           program.Name,
 			Description:    program.Description,

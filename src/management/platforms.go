@@ -49,6 +49,7 @@ func PlatformToShortcut(name string, path string, options *platforms.Options) (*
 			shortcutID := shortcuts.GenerateID(rom.Name, rom.Executable)
 			shortcut = &shortcuts.Shortcut{
 				ID:             shortcutID,
+				Platform:       rom.Platform,
 				Program:        rom.Program,
 				Name:           rom.Name,
 				Description:    rom.Description,
@@ -88,6 +89,7 @@ func PlatformToShortcut(name string, path string, options *platforms.Options) (*
 			shortcutID := shortcuts.GenerateID(game.Name, game.Executable)
 			shortcut = &shortcuts.Shortcut{
 				ID:             shortcutID,
+				Platform:       game.Platform,
 				Program:        game.Program,
 				Name:           game.Name,
 				Description:    game.Description,
@@ -127,6 +129,7 @@ func PlatformToShortcut(name string, path string, options *platforms.Options) (*
 			shortcutID := shortcuts.GenerateID(app.Name, app.Executable)
 			shortcut = &shortcuts.Shortcut{
 				ID:             shortcutID,
+				Platform:       app.Platform,
 				Program:        strings.ToLower(app.Runtime),
 				Name:           app.Name,
 				Description:    app.Description,
@@ -229,6 +232,7 @@ func ProcessConsolePlatforms(options *platforms.Options) error {
 			shortcutID := shortcuts.GenerateID(rom.Name, rom.Executable)
 			shortcut := &shortcuts.Shortcut{
 				ID:             shortcutID,
+				Platform:       rom.Platform,
 				Program:        rom.Program,
 				Name:           rom.Name,
 				Description:    rom.Description,
@@ -389,6 +393,7 @@ func ProcessLauncherPlatforms(options *platforms.Options) error {
 			shortcutID := shortcuts.GenerateID(game.Name, game.Executable)
 			shortcut := &shortcuts.Shortcut{
 				ID:             shortcutID,
+				Platform:       game.Platform,
 				Program:        game.Program,
 				Name:           game.Name,
 				Description:    game.Description,
@@ -545,6 +550,7 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 			shortcutID := shortcuts.GenerateID(app.Name, app.Executable)
 			shortcut := &shortcuts.Shortcut{
 				ID:             shortcutID,
+				Platform:       app.Platform,
 				Program:        strings.ToLower(app.Name),
 				Name:           app.Name,
 				Description:    app.Description,

@@ -572,6 +572,7 @@ func createShortcut(context *Context) error {
 // Add shortcut data
 type AddShortcutData struct {
 	ID             string   `json:"id"`
+	Platform       string   `json:"platform"`
 	Program        string   `json:"program"`
 	Name           string   `json:"name"`
 	Description    string   `json:"description"`
@@ -617,6 +618,7 @@ func addShortcut(context *Context) error {
 	// Add shortcut
 	shortcut := &shortcuts.Shortcut{
 		ID:             data.ID,
+		Platform:       data.Platform,
 		Program:        data.Program,
 		Name:           data.Name,
 		Description:    data.Description,
@@ -649,6 +651,7 @@ func addShortcut(context *Context) error {
 type ModifyShortcutData struct {
 	Action         string   `json:"action"`
 	ID             string   `json:"id"`
+	Platform       string   `json:"platform"`
 	Program        string   `json:"program"`
 	Name           string   `json:"name"`
 	Description    string   `json:"description"`
@@ -695,6 +698,7 @@ func modifyShortcut(context *Context) error {
 
 	// Update shortcut
 	if data.Action == "update" {
+		shortcut.Platform = data.Platform
 		shortcut.Program = data.Program
 		shortcut.Name = data.Name
 		shortcut.Description = data.Description

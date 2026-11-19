@@ -76,6 +76,7 @@ interface Synchronizable {
 
 interface Shortcut {
 	id: string
+	platform: string
 	program: string
 	name: string
 	description: string
@@ -161,6 +162,7 @@ interface CreateShortcutResult {
 
 interface AddShortcutData {
 	id: string
+	platform: string
 	program: string
 	name: string
 	description: string
@@ -184,6 +186,7 @@ interface AddShortcutResult {
 interface ModifyShortcutData {
 	action: string
 	id: string
+	platform: string
 	program: string
 	name: string
 	description: string

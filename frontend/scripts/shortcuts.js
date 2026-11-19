@@ -266,6 +266,10 @@ window.addEventListener('load', async () => {
                 <textarea id="tags" name="tags"></textarea>
             </div>
             <div class="group">
+                <label for="platform">Platform:</label>
+                <textarea id="platform" name="platform"></textarea>
+            </div>
+            <div class="group">
                 <label for="program">Program:</label>
                 <textarea id="program" name="program"></textarea>
             </div>
@@ -351,6 +355,10 @@ window.addEventListener('load', async () => {
             <div class="group">
                 <label for="tags">Tags:</label>
                 <textarea id="tags" name="tags">${shortcut.tags.join(',')}</textarea>
+            </div>
+            <div class="group">
+                <label for="platform">Platform:</label>
+                <textarea id="platform" name="platform">${shortcut.platform}</textarea>
             </div>
             <div class="group">
                 <label for="program">Program:</label>
@@ -589,6 +597,7 @@ window.addEventListener('load', async () => {
         /** @type {AddShortcutData} */
         const body = {
             id: data.get('id'),
+            platform: data.get('platform'),
             program: data.get('program'),
             name: data.get('name'),
             description: data.get('description'),
@@ -638,6 +647,7 @@ window.addEventListener('load', async () => {
         const body = {
             action: 'update',
             id: shortcut.id,
+            platform: data.get('platform'),
             program: data.get('program'),
             name: data.get('name'),
             description: data.get('description'),

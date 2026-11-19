@@ -61,8 +61,10 @@ func Parse(path string, options *Options) (*App, error) {
 		app.LaunchOptions = replaceData(platform.LaunchOptions)
 		app.Tags = []string{"App"}
 
-		// Only include runtime tag when not native
+		// Personalize platform and tags when is not system native (Proton)
+		// Please note that programs match the same behavior
 		if platform.Runtime != "Native" {
+			app.Platform = platform.Runtime
 			app.Tags = append(app.Tags, platform.Runtime)
 		}
 

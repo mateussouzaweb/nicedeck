@@ -74,6 +74,7 @@ create-shortcut:
 
 add-shortcut:
   --id=[ID]                   shortcut ID
+  --platform=[value]          platform of the shortcut
   --program=[value]           program for shortcut
   --name=[value]              name for shortcut
   --description=[value]       description for shortcut
@@ -92,6 +93,7 @@ modify-shortcut:
   --update                    update shortcut
   --delete                    delete shortcut
   --id=[ID]                   shortcut ID
+  --platform=[value]          platform of the shortcut
   --program=[value]           program for shortcut
   --name=[value]              name for shortcut
   --description=[value]       description for shortcut

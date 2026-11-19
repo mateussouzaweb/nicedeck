@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"slices"
 	"sort"
 	"time"
 
@@ -76,6 +77,24 @@ func (l *Library) Load() error {
 		if shortcut.RelativePath != "" {
 			shortcut.Reference = shortcut.RelativePath
 			shortcut.RelativePath = ""
+		}
+	}
+
+	// @Temporary: Automatically define platform on shortcut for empty results
+	for _, shortcut := range l.Shortcuts {
+		if shortcut.Platform == "" {
+			if slices.Contains(shortcut.Tags, "ROM") || slices.Contains(shortcut.Tags, "Game") {
+				tagIndex := slices.IndexFunc(shortcut.Tags, func(tag string) bool {
+					return tag != "ROM" && tag != "Game"
+				})
+				if tagIndex != -1 {
+					shortcut.Platform = shortcut.Tags[tagIndex]
+				}
+			} else if slices.Contains(shortcut.Tags, "Proton") {
+				shortcut.Platform = "Proton"
+			} else {
+				shortcut.Platform = "System"
+			}
 		}
 	}
 

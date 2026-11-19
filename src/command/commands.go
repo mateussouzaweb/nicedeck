@@ -579,6 +579,7 @@ func addShortcut(context Context) error {
 
 	// Retrieve data
 	ID := context.Arg("--id", "")
+	platform := context.Arg("--platform", "")
 	program := context.Arg("--program", "")
 	name := context.Arg("--name", "")
 	description := context.Arg("--description", "")
@@ -603,6 +604,7 @@ func addShortcut(context Context) error {
 	// Add shortcut
 	shortcut := &shortcuts.Shortcut{
 		ID:             ID,
+		Platform:       platform,
 		Program:        program,
 		Name:           name,
 		Description:    description,
@@ -663,6 +665,7 @@ func modifyShortcut(context Context) error {
 	// Retrieve action and data
 	update := context.Flag("--update", false)
 	delete := context.Flag("--delete", false)
+	platform := context.Arg("--platform", shortcut.Platform)
 	program := context.Arg("--program", shortcut.Program)
 	name := context.Arg("--name", shortcut.Name)
 	description := context.Arg("--description", shortcut.Description)
@@ -679,6 +682,7 @@ func modifyShortcut(context Context) error {
 
 	// Update shortcut
 	if update {
+		shortcut.Platform = platform
 		shortcut.Program = program
 		shortcut.Name = name
 		shortcut.Description = description

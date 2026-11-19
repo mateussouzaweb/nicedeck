@@ -26,7 +26,7 @@ func GetPlatforms() ([]*Platform, error) {
 	// Linux
 	if cli.IsLinux() {
 		platforms = append(platforms, &Platform{
-			Name:           "Linux",
+			Name:           "System",
 			Runtime:        "Native",
 			Available:      true,
 			Installed:      true,
@@ -51,7 +51,7 @@ func GetPlatforms() ([]*Platform, error) {
 		}
 
 		platforms = append(platforms, &Platform{
-			Name:           "Linux",
+			Name:           "System",
 			Runtime:        "Proton",
 			Available:      true,
 			Installed:      protonInstalled,
@@ -65,7 +65,7 @@ func GetPlatforms() ([]*Platform, error) {
 	// MacOS
 	if cli.IsMacOS() {
 		platforms = append(platforms, &Platform{
-			Name:           "MacOS",
+			Name:           "System",
 			Runtime:        "Native",
 			Available:      true,
 			Installed:      true,
@@ -79,7 +79,7 @@ func GetPlatforms() ([]*Platform, error) {
 	// Windows
 	if cli.IsWindows() {
 		platforms = append(platforms, &Platform{
-			Name:           "Windows",
+			Name:           "System",
 			Runtime:        "Native",
 			Available:      true,
 			Installed:      true,
