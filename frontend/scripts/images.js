@@ -173,7 +173,7 @@ window.addEventListener('load', async () => {
 
     }
 
-    on('#modal-select-image [data-search]', 'change', async (event) => {
+    on('#modal-select-image [data-search]', 'input', debounce(async (event) => {
 
         const modal = $('#modal-select-image')
         const form = $('form', modal)
@@ -185,7 +185,7 @@ window.addEventListener('load', async () => {
         const searchTerm = event.target.value
         searchForResults(searchTerm)
 
-    })
+    }, 500))
 
     on('#modal-select-image form', 'submit', async (event) => {
         event.preventDefault()

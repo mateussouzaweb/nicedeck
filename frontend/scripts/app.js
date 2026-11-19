@@ -50,6 +50,20 @@ function on(selector, event, callback) {
 }
 
 /**
+ * Debouce callback until given delay is matched
+ * @param {Function} callback 
+ * @param {Number} delay 
+ * @returns {Function}
+ */
+function debounce(callback, delay) {
+    let timeoutId
+    return (...args) => {
+        clearTimeout(timeoutId)
+        timeoutId = setTimeout(() => callback(...args), delay)
+    }
+}
+
+/**
  * Make API request
  * @param {String} method 
  * @param {String} endpoint 

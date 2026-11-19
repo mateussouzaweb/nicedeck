@@ -423,13 +423,21 @@ window.addEventListener('load', async () => {
 
     }
 
-    on('#shortcuts #filters input', 'change', async () => {
+    on('#shortcuts #filters .tags input', 'change', async () => {
         try {
             await renderShortcuts()
         } catch (error) {
             window.showError(error)
         }
     })
+
+    on('#shortcuts #filters .search input', 'input', debounce(async () => {
+        try {
+            await renderShortcuts()
+        } catch (error) {
+            window.showError(error)
+        }
+    }, 500))
 
     on('#shortcuts > form', 'submit', async (event) => {
         event.preventDefault()
