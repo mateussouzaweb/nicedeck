@@ -35,11 +35,17 @@
 }
 #shortcuts #filters .search {
     flex: 1;
+    position: relative;
 }
 #shortcuts #filters .search input {
     width: 100%;
 }
-
+#shortcuts #filters .search img {
+    pointer-events: none;
+    position: absolute;
+    right: 8px;
+    top: calc(50% - 12px);
+}
 #shortcuts #filters .tags {
     flex: 1 0 auto;
     max-width: 200px;
