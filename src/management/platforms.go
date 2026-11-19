@@ -581,7 +581,6 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 			}
 
 			// Avoid duplicates by checking on existing library
-			// This process also allow switching emulators on existing shortcut
 			for _, existing := range GetShortcuts() {
 
 				// Check if shortcut is managed app
@@ -618,7 +617,7 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 	cli.Printf(cli.ColorNotice, "Checking for removed apps.\n")
 	for _, shortcut := range GetShortcuts() {
 
-		// Check if shortcut is managed App
+		// Check if shortcut is managed app
 		if !isManaged(shortcut) {
 			continue
 		}
@@ -635,9 +634,17 @@ func ProcessNativePlatforms(options *platforms.Options) error {
 			continue
 		}
 
-		// If not found, remove the shortcuts
+		// If not found on parsed list, check if shortcut executable still exists
+		exists, err := fs.FileExist(shortcut.Executable)
+		if err != nil {
+			return err
+		} else if exists {
+			continue
+		}
+
+		// When not exists, remove the shortcuts
 		cli.Printf(cli.ColorNotice, "Removing shortcut for not detected app: %s\n", shortcut.Reference)
-		err := RemoveShortcut(shortcut)
+		err = RemoveShortcut(shortcut)
 		if err != nil {
 			return err
 		}
