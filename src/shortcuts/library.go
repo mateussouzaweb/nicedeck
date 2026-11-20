@@ -157,6 +157,11 @@ func (l *Library) Launch(shortcut *Shortcut) error {
 	return context.Run()
 }
 
+// Check if shortcut is supported by the library
+func (l *Library) Supports(shortcut *Shortcut) bool {
+	return true
+}
+
 // Add shortcut to the library
 func (l *Library) Add(shortcut *Shortcut) error {
 

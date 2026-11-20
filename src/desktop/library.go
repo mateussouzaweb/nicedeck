@@ -73,14 +73,13 @@ func (l *Library) Export() []*Shortcut {
 	return results
 }
 
+// Check if shortcut is supported by the library
+func (l *Library) Supports(shortcut *Shortcut) bool {
+	return slices.Contains(shortcut.Tags, "Desktop")
+}
+
 // Add shortcut to the library
 func (l *Library) Add(shortcut *Shortcut) error {
-
-	// Skip if not tagged for desktop but keep reference
-	if !slices.Contains(shortcut.Tags, "Desktop") {
-		l.References[shortcut.ID] = ""
-		return nil
-	}
 
 	// Update shortcut if already present
 	if l.References[shortcut.ID] != "" {
@@ -115,11 +114,6 @@ func (l *Library) Add(shortcut *Shortcut) error {
 
 // Update shortcut on library
 func (l *Library) Update(shortcut *Shortcut, overwriteAssets bool) error {
-
-	// Remove shortcut if not tagged for desktop
-	if !slices.Contains(shortcut.Tags, "Desktop") {
-		return l.Remove(shortcut)
-	}
 
 	// Add shortcut if not present yet
 	if l.References[shortcut.ID] == "" {

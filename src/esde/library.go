@@ -107,6 +107,11 @@ func (l *Library) Export() []*Shortcut {
 	return results
 }
 
+// Check if shortcut is supported by the library
+func (l *Library) Supports(shortcut *Shortcut) bool {
+	return false
+}
+
 // Add shortcut to the library
 func (l *Library) Add(shortcut *Shortcut) error {
 	l.References[shortcut.ID] = ""

@@ -30,7 +30,6 @@ type Library struct {
 	ConfigPath    string            `json:"configPath"`
 	ImagesPath    string            `json:"imagesPath"`
 	ShortcutsPath string            `json:"shortcutsPath"`
-	Natives       map[uint32]bool   `json:"natives"`
 	Checksums     map[uint32]string `json:"checksums"`
 	Timestamps    map[uint32]int64  `json:"timestamps"`
 	Shortcuts     []*Shortcut       `json:"-"`
@@ -63,7 +62,6 @@ func (l *Library) Load() error {
 	l.ConfigPath = ""
 	l.ImagesPath = ""
 	l.ShortcutsPath = ""
-	l.Natives = make(map[uint32]bool, 0)
 	l.Checksums = make(map[uint32]string, 0)
 	l.Timestamps = make(map[uint32]int64, 0)
 	l.Shortcuts = make([]*Shortcut, 0)
@@ -348,11 +346,6 @@ func (l *Library) Index() error {
 		}
 	}
 
-	// Native games are defined as processed to avoid cleanup
-	for appID := range l.Natives {
-		processed[appID] = true
-	}
-
 	// Remove entries that no longer exist
 	for appID := range l.Checksums {
 		if _, ok := processed[appID]; !ok {
@@ -377,16 +370,6 @@ func (l *Library) Export() []*Internal {
 	// Skip export if library is not available
 	if !l.Available() {
 		return results
-	}
-
-	// Generate internal shortcut from native games
-	// Main library can use the ID to fill additional details
-	for appID := range l.Natives {
-		internal := &Internal{}
-		internal.ID = shortcuts.FromUint(uint(appID))
-		internal.Timestamp = l.Timestamps[appID]
-
-		results = append(results, internal)
 	}
 
 	// Generate a new internal shortcut from Steam shortcut
@@ -422,6 +405,11 @@ func (l *Library) Transform(reference *Internal) (*Shortcut, error) {
 	return shortcut, nil
 }
 
+// Check if shortcut is supported by the library
+func (l *Library) Supports(reference *Internal) bool {
+	return reference.Platform != "Steam"
+}
+
 // Add shortcut to the library
 func (l *Library) Add(reference *Internal) error {
 
@@ -434,16 +422,6 @@ func (l *Library) Add(reference *Internal) error {
 	shortcut, err := l.Transform(reference)
 	if err != nil {
 		return err
-	}
-
-	// Track native games without creating custom Steam shortcuts
-	// When not native, add as custom shortcut to the library
-	if reference.Platform == "Steam" {
-		cli.Debug("Adding shortcut tracked as Steam native: %v\n", shortcut.AppID)
-		l.Natives[shortcut.AppID] = true
-		l.Checksums[shortcut.AppID] = shortcut.Checksum()
-		l.Timestamps[shortcut.AppID] = shortcut.Timestamp
-		return nil
 	}
 
 	cli.Debug("Adding shortcut to Steam: %v\n", shortcut.AppID)
@@ -473,15 +451,6 @@ func (l *Library) Update(reference *Internal, overwriteAssets bool) error {
 	shortcut, err := l.Transform(reference)
 	if err != nil {
 		return err
-	}
-
-	// Native games only update tracking metadata
-	if reference.Platform == "Steam" {
-		cli.Debug("Updating shortcut tracked as Steam native: %v\n", shortcut.AppID)
-		l.Natives[shortcut.AppID] = true
-		l.Checksums[shortcut.AppID] = shortcut.Checksum()
-		l.Timestamps[shortcut.AppID] = reference.Timestamp
-		return nil
 	}
 
 	// Find and update existing shortcut
@@ -554,16 +523,6 @@ func (l *Library) Remove(reference *Internal) error {
 	shortcut, err := l.Transform(reference)
 	if err != nil {
 		return err
-	}
-
-	// Handle removal of a native game
-	// Please note that it does not remove it from Steam
-	if reference.Platform == "Steam" || l.Natives[shortcut.AppID] {
-		cli.Debug("Removing shortcut tracked as Steam native: %v\n", shortcut.AppID)
-		delete(l.Natives, shortcut.AppID)
-		delete(l.Checksums, shortcut.AppID)
-		delete(l.Timestamps, shortcut.AppID)
-		return nil
 	}
 
 	// Find and remove shortcut

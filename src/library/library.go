@@ -30,6 +30,7 @@ type Synchronizable interface {
 	Load() error
 	Save() error
 	Export() []*Shortcut
+	Supports(*Shortcut) bool
 	Add(*Shortcut) error
 	Update(*Shortcut, bool) error
 	Set(*Shortcut, bool) error
@@ -41,9 +42,6 @@ var Shortcuts = &shortcuts.Library{}
 var Steam = &steam.Library{}
 var ESDE = &esde.Library{}
 var Desktop = &desktop.Library{}
-
-// var EpicGames = &epic.Library{}
-// var GOG = &gog.Library{}
 
 // Load library from config path
 func Load() error {
@@ -109,8 +107,6 @@ func Save() error {
 	libraries = append(libraries, Steam)
 	libraries = append(libraries, ESDE)
 	libraries = append(libraries, Desktop)
-	// libraries = append(libraries, EpicGames)
-	// libraries = append(libraries, GOG)
 
 	for _, library := range libraries {
 
@@ -123,13 +119,31 @@ func Save() error {
 		}
 
 		// Perform synchronization based on recent history only
+		// Removal must happen even when shortcut is not supported
 		for _, history := range Shortcuts.History {
-			if history.Action == "added" || history.Action == "updated" {
-				err := library.Set(history.Result, true)
-				if err != nil {
-					return err
+			if history.Action == "added" {
+				if library.Supports(history.Result) {
+					err := library.Set(history.Result, true)
+					if err != nil {
+						return err
+					}
 				}
 			}
+
+			if history.Action == "updated" {
+				if library.Supports(history.Result) {
+					err := library.Set(history.Result, true)
+					if err != nil {
+						return err
+					}
+				} else {
+					err = library.Remove(history.Original)
+					if err != nil {
+						return err
+					}
+				}
+			}
+
 			if history.Action == "removed" {
 				err := library.Remove(history.Original)
 				if err != nil {
@@ -269,8 +283,6 @@ func Sync() error {
 	libraries = append(libraries, Steam)
 	libraries = append(libraries, ESDE)
 	libraries = append(libraries, Desktop)
-	// libraries = append(libraries, EpicGames)
-	// libraries = append(libraries, GOG)
 
 	// Merge shortcuts from all additional libraries into one global list
 	merged := map[string]*Shortcut{}
@@ -306,14 +318,44 @@ func Sync() error {
 
 	// Perform synchronization process to main shortcuts library
 	// Please note that shortcuts library is already loaded
-	// Compare main list with global list to find differences
-	// Then, apply differences to main shortcuts library
 	exported := make([]*Shortcut, 0, len(merged))
 	for _, shortcut := range merged {
 		exported = append(exported, shortcut)
 	}
 
-	diff := Compare(Shortcuts.All(), exported)
+	// Filter to include only the shortcuts who are supported by the main library
+	desired := make([]*Shortcut, 0)
+	for _, shortcut := range exported {
+		if Shortcuts.Supports(shortcut) {
+			desired = append(desired, shortcut)
+		}
+	}
+
+	// Some shortcuts are available only on the main library because are not support in additional libraries
+	// These shortcuts should be preserved and added to desired list to avoid their removal
+	for _, shortcut := range Shortcuts.All() {
+		if _, found := merged[shortcut.ID]; found {
+			continue
+		}
+
+		externalManaged := false
+		for _, library := range libraries {
+			if library.Mode() != "FULL" {
+				continue
+			}
+			if library.Supports(shortcut) {
+				externalManaged = true
+				break
+			}
+		}
+
+		if !externalManaged {
+			desired = append(desired, shortcut)
+		}
+	}
+
+	// Compare main list with global list to find differences
+	diff := Compare(Shortcuts.All(), desired)
 
 	// Apply differences to main shortcuts library
 	for _, shortcut := range diff.Added {
@@ -330,6 +372,7 @@ func Sync() error {
 	}
 
 	// Perform removals only when global list has something inside it
+	// Removal must happen even when shortcut is not supported
 	// We treat the global list as a non-authoritative source
 	// When empty, main shortcuts library is the preferred list
 	if len(exported) > 0 {
@@ -358,8 +401,17 @@ func Sync() error {
 		}
 
 		// Compare library with main shortcuts library
+		// Results are filtered to include only the shortcuts support for this library
+		// Removal will happen when shortcut is not supported by the library
 		current := Fill(library.Export())
-		diff := Compare(current, Shortcuts.All())
+		desired := make([]*Shortcut, 0)
+		for _, shortcut := range Shortcuts.All() {
+			if library.Supports(shortcut) {
+				desired = append(desired, shortcut)
+			}
+		}
+
+		diff := Compare(current, desired)
 
 		// Apply differences to additional library
 		for _, shortcut := range diff.Added {
