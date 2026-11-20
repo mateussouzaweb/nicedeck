@@ -83,6 +83,14 @@ func (l *Library) Load() error {
 		return err
 	}
 
+	// Make sure data is valid
+	if l.Checksums == nil {
+		l.Checksums = make(map[uint32]string, 0)
+	}
+	if l.Timestamps == nil {
+		l.Timestamps = make(map[uint32]int64, 0)
+	}
+
 	// Retrieve base path
 	l.BasePath, err = steam.GetBasePath()
 	if err != nil {

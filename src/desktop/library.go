@@ -48,6 +48,11 @@ func (l *Library) Load() error {
 		return err
 	}
 
+	// Make sure data is valid
+	if l.References == nil {
+		l.References = make(map[string]string, 0)
+	}
+
 	return nil
 }
 

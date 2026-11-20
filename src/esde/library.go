@@ -47,6 +47,11 @@ func (l *Library) Load() error {
 		return err
 	}
 
+	// Make sure data is valid
+	if l.References == nil {
+		l.References = make(map[string]string, 0)
+	}
+
 	// Windows portable version uses application path
 	if cli.IsWindows() {
 		l.BasePath = fs.ExpandPath("$APPLICATIONS/ES-DE/ES-DE")

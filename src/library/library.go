@@ -187,8 +187,8 @@ func Fill(list []*Shortcut) []*Shortcut {
 func Compare(current []*Shortcut, compare []*Shortcut) Diff {
 
 	// Compare with maps for fast lookup O(1)
-	currentMap := make(map[string]bool)
-	compareMap := make(map[string]bool)
+	currentMap := make(map[string]bool, 0)
+	compareMap := make(map[string]bool, 0)
 
 	// Fill lookup tables
 	for _, shortcut := range current {
