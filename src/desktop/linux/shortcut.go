@@ -19,7 +19,7 @@ func GetShortcutPath(shortcut *shortcuts.Shortcut) string {
 }
 
 // Create a desktop entry from shortcut data
-func CreateShortcut(shortcut *shortcuts.Shortcut, destination string, overwriteAssets bool) error {
+func CreateShortcut(shortcut *shortcuts.Shortcut, destination string) error {
 
 	// Prepare execution context
 	context := shortcuts.PrepareContext(shortcut)

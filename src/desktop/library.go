@@ -94,7 +94,7 @@ func (l *Library) Add(shortcut *Shortcut) error {
 
 	if cli.IsLinux() {
 		path = linux.GetShortcutPath(shortcut)
-		err = linux.CreateShortcut(shortcut, path, false)
+		err = linux.CreateShortcut(shortcut, path)
 	} else if cli.IsMacOS() {
 		path = macos.GetShortcutPath(shortcut)
 		err = macos.CreateShortcut(shortcut, path)
@@ -148,7 +148,7 @@ func (l *Library) Update(shortcut *Shortcut, overwriteAssets bool) error {
 	// Write system shortcut
 	var err error
 	if cli.IsLinux() {
-		err = linux.CreateShortcut(shortcut, path, true)
+		err = linux.CreateShortcut(shortcut, path)
 	} else if cli.IsMacOS() {
 		err = macos.CreateShortcut(shortcut, path)
 	} else if cli.IsWindows() {
