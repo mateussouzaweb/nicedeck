@@ -15,7 +15,10 @@ The table below shows which launchers are supported on each operating system:
 | EA Games      | Yes     | Yes   | Untested     |
 | Epic Games    | Yes     | Yes   | Untested     |
 | GOG           | Yes     | Yes   | Untested     |
+| Steam         | Yes     | Yes   | Untested     |
 | Ubisoft Games | Yes     | Yes   | Untested     |
+
+Please note that detected games from Steam are not added or updated on the Steam Library - use it only when launching games outside Steam.
 
 ## Tips
 

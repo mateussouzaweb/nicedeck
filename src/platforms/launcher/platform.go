@@ -59,12 +59,12 @@ func GetPlatforms() ([]*Platform, error) {
 	}
 
 	// Steam Games
-	// steam, err := SteamPlatform()
-	// if err != nil {
-	// 	return platforms, err
-	// } else {
-	// 	platforms = append(platforms, steam)
-	// }
+	steam, err := SteamPlatform()
+	if err != nil {
+		return platforms, err
+	} else {
+		platforms = append(platforms, steam)
+	}
 
 	// Ubisoft Games
 	ubisoft, err := UbisoftPlatform()
