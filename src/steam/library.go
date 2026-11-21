@@ -272,14 +272,11 @@ func (l *Library) Save() error {
 		return err
 	}
 
-	// Write controller template
-	controllerTemplatesPaths := filepath.Join(
-		l.BasePath, "controller_base", "templates",
-	)
-
-	err = controller.WriteTemplates(controllerTemplatesPaths)
+	// Set default controller layout for newer shortcuts
+	// Process does not replace values already defined, such as user selections
+	err = controller.AssignController(l.BasePath, l.AccountId, l.Shortcuts)
 	if err != nil {
-		return fmt.Errorf("could not perform Steam controller setup: %s", err)
+		return fmt.Errorf("could not assign Steam controller layout: %w", err)
 	}
 
 	cli.Printf(cli.ColorNotice, "Note: Steam library has been updated.\n")
