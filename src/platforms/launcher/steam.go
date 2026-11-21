@@ -65,16 +65,9 @@ func SteamPlatform() (*Platform, error) {
 
 	// Read Steam library and installation manifest file
 	readManifest := func(path string) (vdf.Vdf, error) {
-
-		file, err := os.Open(path)
+		data, err := vdf.ParseText(path)
 		if err != nil {
-			return nil, err
-		}
-		defer file.Close()
-
-		data, err := vdf.Parse(file)
-		if err != nil {
-			return nil, fmt.Errorf("error while reading Steam manifest %s: %w", path, err)
+			return data, fmt.Errorf("error while reading Steam manifest %s: %w", path, err)
 		}
 
 		return data, nil

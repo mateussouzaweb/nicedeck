@@ -1,9 +1,7 @@
 package steam
 
 import (
-	"bytes"
 	"fmt"
-	"os"
 	"path/filepath"
 	"time"
 
@@ -16,9 +14,10 @@ import (
 	"github.com/mateussouzaweb/nicedeck/src/steam/vdf"
 )
 
-// Internal aliases
+// Aliases
 type Image = shortcuts.Image
 type Internal = shortcuts.Shortcut
+type Shortcut = steam.Shortcut
 
 // Library struct
 type Library struct {
@@ -145,26 +144,7 @@ func (l *Library) Load() error {
 	// Shortcuts file can possible be updated by other services or Steam UI
 	// Because the library represents the Steam data
 	// We always read shortcuts from Steam source data
-
-	// Check if VDF file exist
-	exist, err := fs.FileExist(l.ShortcutsPath)
-	if err != nil {
-		return err
-	} else if !exist {
-		return nil
-	}
-
-	cli.Debug("Reading VDF at %s\n", l.ShortcutsPath)
-
-	// Read VDF file content
-	content, err := os.ReadFile(l.ShortcutsPath)
-	if err != nil {
-		return err
-	}
-
-	// Read VDF to resulting map
-	buffer := bytes.NewBuffer(content)
-	data, err := vdf.ParseBinary(buffer)
+	data, err := vdf.ParseBinary(l.ShortcutsPath)
 	if err != nil {
 		return err
 	}
@@ -173,8 +153,8 @@ func (l *Library) Load() error {
 	// We don't care about positioning
 	found := data.Object("shortcuts")
 	for key := range found {
-		item := found.Object(key)
-		if item == nil {
+		item, ok := found[key].(vdf.Vdf)
+		if !ok || item == nil {
 			continue
 		}
 
@@ -212,6 +192,7 @@ func (l *Library) Load() error {
 	}
 
 	// Index shortcuts to detect external changes
+	// Process also clean stale metadata
 	err = l.Index()
 	if err != nil {
 		return err
@@ -249,28 +230,17 @@ func (l *Library) Save() error {
 		}
 	}
 
-	// Write controller template
-	controllerTemplatesPaths := filepath.Join(
-		l.BasePath, "controller_base", "templates",
-	)
-
-	err = controller.WriteTemplates(controllerTemplatesPaths)
-	if err != nil {
-		return fmt.Errorf("could not perform Steam controller setup: %s", err)
-	}
-
-	// Save updated Steam shortcuts to VDF file
 	// Create VDF specs from shortcuts
-	items := make(vdf.VdfBinary)
+	items := make(vdf.Vdf)
 	for index, shortcut := range l.Shortcuts {
 
-		tags := make(vdf.VdfBinary)
+		tags := make(vdf.Vdf)
 		for tagIndex, tag := range shortcut.Tags {
 			position := fmt.Sprintf("%v", tagIndex)
 			tags[position] = tag
 		}
 
-		item := vdf.VdfBinary{}
+		item := vdf.Vdf{}
 		item["appid"] = shortcut.AppID
 		item["AppName"] = shortcut.AppName
 		item["StartDir"] = shortcut.StartDir
@@ -293,21 +263,23 @@ func (l *Library) Save() error {
 
 	}
 
-	data := vdf.VdfBinary{}
+	data := vdf.Vdf{}
 	data["shortcuts"] = items
 
-	cli.Debug("Writing VDF at %s\n", l.ShortcutsPath)
-
-	// Transform VDF into bytes
-	content, err := vdf.WriteBinary(data)
+	// Save updated Steam shortcuts to VDF file
+	err = vdf.WriteBinary(l.ShortcutsPath, data)
 	if err != nil {
 		return err
 	}
 
-	// Write content to VDF file
-	err = fs.WriteFile(l.ShortcutsPath, content.String())
+	// Write controller template
+	controllerTemplatesPaths := filepath.Join(
+		l.BasePath, "controller_base", "templates",
+	)
+
+	err = controller.WriteTemplates(controllerTemplatesPaths)
 	if err != nil {
-		return err
+		return fmt.Errorf("could not perform Steam controller setup: %s", err)
 	}
 
 	cli.Printf(cli.ColorNotice, "Note: Steam library has been updated.\n")
