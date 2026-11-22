@@ -31,5 +31,26 @@ func PrepareContext(shortcut *Shortcut) *cli.Context {
 		context.Arguments = []string{shortcut.LaunchOptions}
 	}
 
+	// Detect if executable is a URL link to switch executable to URL opener
+	// In that case, additional arguments are not accepted by URLs
+	isURL := strings.Contains(context.Executable, "://")
+	if isURL && (cli.IsLinux() || cli.IsMacOS()) {
+		context.Arguments = []string{context.Executable}
+
+		if cli.IsLinux() {
+			context.Executable = "xdg-open"
+		} else {
+			context.Executable = "open"
+		}
+	}
+
+	// On MacOS, enforce the open command with executable as argument
+	// Behavior shares application command preparation with desktop app bundles
+	if !isURL && cli.IsMacOS() {
+		arguments := []string{"-n", context.Executable, "--args"}
+		context.Arguments = append(arguments, context.Arguments...)
+		context.Executable = "open"
+	}
+
 	return context
 }

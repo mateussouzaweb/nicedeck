@@ -31,16 +31,9 @@ func (c *Context) Run() error {
 	arguments := strings.Join(c.Arguments, " ")
 	script := ""
 
-	if IsLinux() {
+	if IsLinux() || IsMacOS() {
 		script = fmt.Sprintf(
 			`cd "%s" && exec "%s" %s`,
-			c.WorkingDirectory,
-			c.Executable,
-			arguments,
-		)
-	} else if IsMacOS() {
-		script = fmt.Sprintf(
-			`cd "%s" && open -n "%s" --args %s`,
 			c.WorkingDirectory,
 			c.Executable,
 			arguments,

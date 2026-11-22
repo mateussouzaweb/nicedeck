@@ -104,10 +104,9 @@ func WriteBundle(destination string, bundle *Bundle) error {
 	}
 
 	// Create launcher script for the appBundle
-	// Please note that this launcher script expect to call another .app
 	launcherScript := fmt.Sprintf(``+
 		`#!/bin/bash`+"\n"+
-		`cd "%s" && %s open -n "%s" --args %s`,
+		`cd "%s" && %s exec "%s" %s`,
 		cli.Unquote(bundle.WorkingDirectory),
 		strings.Join(bundle.Environment, " "),
 		cli.Unquote(bundle.Executable),

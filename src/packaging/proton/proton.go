@@ -345,7 +345,7 @@ func (p *Proton) Install() error {
 			Environment:      []string{},
 		}
 
-		err = context.Run()
+		err := context.Run()
 		if err != nil {
 			return err
 		}
