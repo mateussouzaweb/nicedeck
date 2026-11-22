@@ -127,7 +127,7 @@ window.addEventListener('load', async () => {
             const coverImage = getImage(shortcut, 'cover')
             const tags = (shortcut.tags || []).map((tag) => {
                 return (tag) ? `<small class="tag">${tag}</small>` : ''
-            }).join('')
+            }).join(' ')
 
             return `
             <article class="item shortcut" title="${shortcut.name}">

@@ -18,6 +18,18 @@ body {
     padding: 10px;
 }
 
+.tag {
+    background: transparent;
+    border: 1px solid #000;
+    border-radius: 5px;
+    color: #000;
+    display: inline-block;
+    font-size: 95%;
+    line-height: 95%;
+    padding: 3px 5px;
+    vertical-align: middle;
+}
+
 header {
     background: #cdb3d3;
     border-bottom: 1px solid #000;

@@ -47,19 +47,15 @@
     min-width: 72px;
 }
 
-#programs #list .checkbox .flags {
-    margin: 3px -3px -3px;
+#programs #list .checkbox .tags {
+    margin: 5px 0 0;
 }
-#programs #list .checkbox .flags span {
-    border: 1px solid #000;
+#programs #list .checkbox .tags .tag {
     border-radius: 3px;
-    display: inline-block;
-    font-size: smaller;
-    margin: 2px;
-    padding: 2px 5px;
-    vertical-align: middle;
+    font-size: 90%;
+    margin: 2px 0;
 }
-#programs #list .checkbox .flags .flag-installed {
+#programs #list .checkbox .tags .tag-installed {
     background-color: #000;
     color: #FFF;
 }
@@ -73,43 +69,32 @@
     right: 5px;
     z-index: 2;
 }
-#programs #list .area:hover .details, 
+#programs #list .details img {
+    filter: invert(1);
+}
+#programs #list .area:hover .details,
 #programs #list .area .details:hover {
     opacity: 1;
 }
 
-#modal-details-program .icon {
+#modal-details-program .columns .icon {
+    background: #000;
+    border-radius: 5px;
     display: inline-block;
+    padding: 5px;
     vertical-align: top;
 }
-#modal-details-program .icon + .info {
+#modal-details-program .columns .info {
     display: inline-block;
     line-height: 120%;
     vertical-align: middle;
+    margin-top: 0;
     padding: 15px;
 }
-#modal-details-program .info + .info {
-    margin-top: 15px;
+#modal-details-program .info {
+    margin-top: 10px;
 }
-
-#modal-details-program .tags,
-#modal-details-program .folders,
-#modal-details-program .flags {
-    display: inline-block;
-    vertical-align: middle;
-}
-#modal-details-program .tags .tag,
-#modal-details-program .folders .folder,
-#modal-details-program .flags .flag {
-    background: rgba(255, 255, 255, 0.5);
-    border: 1px solid #CCC;
-    border-radius: 5px;
-    color: #000;
-    display: inline-block;
-    margin: 2px;
-    padding: 3px 8px;
-    vertical-align: middle;
-}
-#modal-details-program .folders .folder {
-    font-style: italic;
+#modal-details-program .tags {
+    display: block;
+    margin-top: 6px;
 }

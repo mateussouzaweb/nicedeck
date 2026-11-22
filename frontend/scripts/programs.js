@@ -16,7 +16,7 @@ window.addEventListener('load', async () => {
     /**
      * Render programs in HTML
      */
-    async function renderPrograms(){
+    async function renderPrograms() {
 
         const html = []
         const append = (category) => {
@@ -38,8 +38,8 @@ window.addEventListener('load', async () => {
 
                 const flags = program.flags.map((flag) => {
                     flag = flag.replaceAll('--', '')
-                    return `<span class="flag flag-${flag}">${flag}</span>`
-                }).join('')
+                    return `<span class="tag tag-${flag}">${flag}</span>`
+                }).join(' ')
 
                 html.push(
                 `<label class="checkbox" title="${program.name}">
@@ -51,7 +51,7 @@ window.addEventListener('load', async () => {
                         <div class="info">
                             <b>${program.name}</b><br/>
                             <small>${program.description}</small>
-                            <div class="flags">${flags}</div>
+                            <div class="tags">${flags}</div>
                         </div>
                         <div class="details" data-details-program="${program.id}" title="Details">
                             <img src="./img/icons/info.svg" alt="Details" width="20" height="20" />
@@ -90,30 +90,33 @@ window.addEventListener('load', async () => {
 
         const tags = program.tags.map((tag) => {
             return `<span class="tag">${tag}</span>`
-        }).join('')
-        
+        }).join(' ')
+
         const flags = program.flags.map((flag) => {
             code = flag.replaceAll('--', '')
-            return `<span class="flag flag-${code}">${flag}</span>`
-        }).join('')
+            return `<span class="tag tag-${code}">${flag}</span>`
+        }).join(' ')
 
         const folders = program.folders.map((folder) => {
-            return `<span class="folder">${folder}</span>`
-        }).join('')
+            return `<span class="tag">${folder}</span>`
+        }).join(' ')
 
+        const image = `/img/programs/${program.id}.png`
         const html = `
-            <div class="icon">
-                <img loading="lazy" src="/img/programs/${program.id}.png" alt="${program.name}" width="96" height="96" />
+            <div class="columns">
+                <div class="icon">
+                    <img loading="lazy" src="${image}" alt="${program.name}" width="96" height="96" />
+                </div>
+                <div class="info">
+                    <h4><b>${program.name}</b></h4>
+                    <span>Description:</span> ${program.description}<br/>
+                    <span>Website:</span> <a target="_blank" href="${program.website}" title="Visit">${program.website}</a>
+                </div>
             </div>
             <div class="info">
-                <h4><b>${program.name}</b></h4>
-                <span>Description:</span> ${program.description}<br/>
-                <span>Website:</span> <a target="_blank" href="${program.website}" title="Visit">${program.website}</a>
-            </div>
-            <div class="info">
-                ${ tags ? `<span>Tags:</span> <div class="tags">${tags}</div><br/>` : `` }
-                ${ flags ? `<span>Flags:</span> <div class="flags">${flags}</div><br/>` : `` }
-                ${ folders ? `<span>Folders:</span> <div class="folders">${folders}</div>` : `` }
+                ${tags ? `<div class="tags"><span>Tags:</span> ${tags}</div>` : ``}
+                ${flags ? `<div class="tags"><span>Flags:</span> ${flags}</div>` : ``}
+                ${folders ? `<div class="tags"><span>Folders:</span> ${folders}</div>` : ``}
             </div>
         `
 
@@ -135,6 +138,18 @@ window.addEventListener('load', async () => {
 
     }
 
+    on('#programs [data-details-program]', 'click', async (event) => {
+        event.preventDefault()
+
+        const button = event.target.closest('[data-details-program]')
+        if (button.disabled) {
+            return
+        }
+
+        const program = getProgram(button.dataset.detailsProgram)
+        await renderProgramDetails(program)
+    })
+
     on('#programs .select-all', 'click', (event) => {
         event.preventDefault()
         const parent = event.target.closest('.group')
@@ -147,18 +162,6 @@ window.addEventListener('load', async () => {
         const parent = event.target.closest('.group')
         const inputs = $$('input[type="checkbox"]', parent)
         inputs.map((input) => input.checked = "")
-    })
-
-    on('#programs [data-details-program]', 'click', async (event) => {
-        event.preventDefault()
-
-        const button = event.target.closest('[data-details-program]')
-        if (button.disabled) {
-            return
-        }
-
-        const program = getProgram(button.dataset.detailsProgram)
-        await renderProgramDetails(program)
     })
 
     on('#programs form', 'submit', async (event) => {

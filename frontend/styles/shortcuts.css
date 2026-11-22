@@ -41,6 +41,7 @@
     width: 100%;
 }
 #shortcuts #filters .search img {
+    filter: invert(1);
     pointer-events: none;
     position: absolute;
     right: 8px;
@@ -50,6 +51,9 @@
     flex: 1 0 auto;
     max-width: 200px;
     position: relative;
+}
+#shortcuts #filters .tags img {
+    filter: invert(1);
 }
 #shortcuts #filters .tags.hidden {
     display: none;
@@ -199,19 +203,15 @@
 }
 #shortcuts #list .info .tags {
     display: block;
-    padding: 0px 0 10px 0;
+    padding: 0px 4px 10px 4px;
     text-align: center;
 }
 #shortcuts #list .info .tags .tag {
     background: #FFF;
-    border: 1px solid #000;
     border-radius: 3px;
-    color: #000;
-    display: inline-block;
     font-size: 11px;
-    margin: 2px;
-    padding: 2px 5px;
-    vertical-align: middle;
+    line-height: 11px;
+    margin: 2px 0;
 }
 
 #shortcuts #list .actions {
