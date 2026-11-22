@@ -52,3 +52,47 @@
 #platforms .platforms label.checkbox .area .icon img {
     max-width: 70px;
 }
+
+#platforms .platforms .details {
+    cursor: pointer;
+    opacity: 0;
+    padding: 5px;
+    position: absolute;
+    transition: opacity ease-in-out 0.1s;
+    top: 0px;
+    right: 0px;
+    z-index: 2;
+}
+#platforms .platforms .area:hover .details, 
+#platforms .platforms .area .details:hover {
+    opacity: 1;
+}
+
+#modal-details-platform .columns .icon {
+    background: #000;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 5px 15px;
+    vertical-align: top;
+}
+#modal-details-platform .columns .info {
+    display: inline-block;
+    line-height: 120%;
+    margin-top: 0;
+    padding: 15px;
+    vertical-align: middle;
+}
+
+#modal-details-platform .emulator {
+    background: rgba(0, 0, 0, 0.025);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(0, 0, 0, 0.20);
+    border-radius: 5px;
+    line-height: 120%;
+    margin-top: 10px;
+    padding: 15px;
+    display: block;
+}
+#modal-details-platform .emulator .tag {
+    margin: 2px 0;
+}

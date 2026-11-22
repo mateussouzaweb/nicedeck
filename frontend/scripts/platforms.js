@@ -1,19 +1,57 @@
 // Platforms
 window.addEventListener('load', async () => {
 
+    /** @type {ConsolePlatform[]} */
+    let consoles = []
+
+    /** @type {LaunchersPlatform[]} */
+    let launchers = []
+
+    /** @type {NativePlatform[]} */
+    let natives = []
+
     /**
-     * Load and show available platforms in the software
+     * Retrieve console platform by name
+     * @param {String} name
+     * @returns {ConsolePlatform}
      */
-    async function loadPlatforms() {
+    function getConsole(name) {
+        return consoles.find((item) => String(item.name) === String(name))
+    }
 
-        /** @type {ListPlatformsResult} */
-        const request = await requestJson('GET', '/api/platforms')
+    /**
+     * Retrieve launcher platform by name
+     * @param {String} name
+     * @returns {LauncherPlatform}
+     */
+    function getLauncher(name) {
+        return launchers.find((item) => String(item.name) === String(name))
+    }
+
+    /**
+     * Retrieve native platform by name
+     * @param {String} name
+     * @returns {NativePlatform}
+     */
+    function getNative(name) {
+        return natives.find((item) => String(item.name) === String(name))
+    }
+
+    /**
+     * Turn name into consistent key
+     * @param {String} name
+     * @returns {String}
+     */
+    const toKey = (name) => {
+        return name.toLowerCase().replaceAll(' ', '-')
+    }
+
+    /**
+     * Render platforms in HTML
+     */
+    async function renderPlatforms() {
+
         const html = []
-
-        const toKey = (name) => {
-            return name.toLowerCase().replaceAll(' ', '-')
-        }
-
         const append = (category, platforms) => {
             if (platforms.length === 0) {
                 return
@@ -40,6 +78,9 @@ window.addEventListener('load', async () => {
                         <div class="info">
                             <b>${platform.value}</b>
                         </div>
+                        <div class="details" data-details-platform="${platform.value}" title="Details">
+                            <img src="./img/icons/info.svg" alt="Details" width="20" height="20" />
+                        </div>
                     </div>
                 </label>`
                 )
@@ -56,9 +97,7 @@ window.addEventListener('load', async () => {
             html.push(`</section>`)
         }
 
-        append('Consoles', request.console.filter((platform) => {
-            return platform.available
-        }).map((platform) => {
+        append('Consoles', consoles.map((platform) => {
             const key = toKey(platform.console)
             const isCustom = platform.type === 'custom'
             return {
@@ -69,9 +108,7 @@ window.addEventListener('load', async () => {
             }
         }))
 
-        append('Launchers', request.launcher.filter((platform) => {
-            return platform.available
-        }).map((platform) => {
+        append('Launchers', launchers.map((platform) => {
             return {
                 key: toKey(platform.launcher),
                 name: platform.launcher,
@@ -84,6 +121,128 @@ window.addEventListener('load', async () => {
         destination.innerHTML = html.join('')
 
     }
+
+    /**
+     * Render platform details modal
+     * @param {String} name
+     */
+    async function renderPlatformDetails(name) {
+
+        const modal = $('#modal-details-platform')
+        const content = $('.content', modal)
+        const html = []
+
+        const console = getConsole(name)
+        const launcher = getLauncher(name)
+        const native = getNative(name)
+
+        if( native ){
+
+            html.push(`
+                <div class="columns">
+                    <div class="info">
+                        <h4><b>${native.name}</b></h4>
+                        <span>Installed:</span> ${native.installed ? 'Yes': 'No'}<br/>
+                        <span>Runtime:</span> ${native.runtime}<br/>
+                        <span>Extensions:</span> <span class="tag">${native.extensions}</span>
+                    </div>
+                </div>
+            `)
+
+        } else if( launcher ){
+
+            const image = `/img/programs/${launcher.program}.png`
+
+            html.push(`
+                <div class="columns">
+                    <div class="icon">
+                        <img loading="lazy" src="${image}" alt="${launcher.name}" width="96" height="96" />
+                    </div>
+                    <div class="info">
+                        <h4><b>${launcher.name}</b></h4>
+                        <span>Launcher:</span> ${launcher.launcher}<br/>
+                        <span>Installed:</span> ${launcher.installed ? 'Yes': 'No'}
+                    </div>
+                </div>
+            `)
+
+        } else if( console ){
+
+            const key = toKey(console.console)
+            const isCustom = console.type === 'custom'
+            const image = `/img/platforms/${isCustom ? 'custom' : key}.png`
+            const folder = `$ROMS/${console.folder}`
+
+            const emulators = console.emulators.map((emulator) => {
+                return `<div class="emulator">
+                    <span>Emulator:</span> ${emulator.name}<br/>
+                    <span>Installed:</span> ${emulator.installed ? 'Yes': 'No'}<br/>
+                    <span>Folders:</span> <span class="tag">${folder}</span> <span class="tag">${folder}/${emulator.name}</span><br/>
+                    <span>Extensions:</span> <span class="tag">${emulator.extensions}</span><br/>
+                    <span>Launch Format:</span> <span class="tag">${emulator.launchOptions}</span>
+                </div>`
+            }).join('')
+
+            html.push(`
+                <div class="columns">
+                    <div class="icon">
+                        <img loading="lazy" src="${image}" alt="${console.name}" width="96" height="96" />
+                    </div>
+                    <div class="info">
+                        <h4><b>${console.name}</b></h4>
+                        <span>Console:</span> ${console.console}<br/>
+                        <span>Type:</span> ${isCustom ? 'Custom' : 'Native'}<br/>
+                        <span>Folder:</span> <span class="tag">$ROMS</span>
+                    </div>
+                </div>
+                <div class="emulators">
+                    ${emulators}
+                </div>
+            `)
+
+        }
+
+        modal.dataset.platform = name
+        content.innerHTML = html.join('')
+        window.showModal(modal)
+
+    }
+
+    /**
+     * Load and show available platforms in the software
+     */
+    async function loadPlatforms() {
+
+        /** @type {ListPlatformsResult} */
+        const request = await requestJson('GET', '/api/platforms')
+
+        consoles = request.console.filter((platform) => {
+            return platform.available
+        })
+
+        launchers = request.launcher.filter((platform) => {
+            return platform.available
+        })
+
+        natives = request.native.filter((platform) => {
+            return platform.available
+        })
+
+        await renderPlatforms()
+
+    }
+
+    on('#platforms [data-details-platform]', 'click', async (event) => {
+        event.preventDefault()
+
+        const button = event.target.closest('[data-details-platform]')
+        if (button.disabled) {
+            return
+        }
+
+        const name = button.dataset.detailsPlatform
+        await renderPlatformDetails(name)
+    })
 
     on('#platforms .select-all', 'click', (event) => {
         event.preventDefault()
