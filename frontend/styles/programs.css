@@ -63,3 +63,53 @@
     background-color: #000;
     color: #FFF;
 }
+
+#programs #list .details {
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    transition: opacity ease-in-out 0.2s;
+    top: 5px;
+    right: 5px;
+    z-index: 2;
+}
+#programs #list .area:hover .details, 
+#programs #list .area .details:hover {
+    opacity: 1;
+}
+
+#modal-details-program .icon {
+    display: inline-block;
+    vertical-align: top;
+}
+#modal-details-program .icon + .info {
+    display: inline-block;
+    line-height: 120%;
+    vertical-align: middle;
+    padding: 15px;
+}
+#modal-details-program .info + .info {
+    margin-top: 15px;
+}
+
+#modal-details-program .tags,
+#modal-details-program .folders,
+#modal-details-program .flags {
+    display: inline-block;
+    vertical-align: middle;
+}
+#modal-details-program .tags .tag,
+#modal-details-program .folders .folder,
+#modal-details-program .flags .flag {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    color: #000;
+    display: inline-block;
+    margin: 2px;
+    padding: 3px 8px;
+    vertical-align: middle;
+}
+#modal-details-program .folders .folder {
+    font-style: italic;
+}

@@ -1,14 +1,22 @@
 // Programs
 window.addEventListener('load', async () => {
 
-    /**
-     * Load and show available programs in the software
-     */
-    async function loadPrograms() {
+    /** @type {Program[]} */
+    let programs = []
 
-        /** @type {ListProgramsResult} */
-        const request = await requestJson('GET', '/api/programs')
-        const programs = request.data
+    /**
+     * Retrieve program by id
+     * @param {String} id
+     * @returns {Program}
+     */
+    function getProgram(id) {
+        return programs.find((item) => String(item.id) === String(id))
+    }
+
+    /**
+     * Render programs in HTML
+     */
+    async function renderPrograms(){
 
         const html = []
         const append = (category) => {
@@ -28,7 +36,7 @@ window.addEventListener('load', async () => {
                     return
                 }
 
-                var flags = program.flags.map((flag) => {
+                const flags = program.flags.map((flag) => {
                     flag = flag.replaceAll('--', '')
                     return `<span class="flag flag-${flag}">${flag}</span>`
                 }).join('')
@@ -44,6 +52,9 @@ window.addEventListener('load', async () => {
                             <b>${program.name}</b><br/>
                             <small>${program.description}</small>
                             <div class="flags">${flags}</div>
+                        </div>
+                        <div class="details" data-details-program="${program.id}" title="Details">
+                            <img src="./img/icons/info.svg" alt="Details" width="20" height="20" />
                         </div>
                     </div>
                 </label>`)
@@ -68,6 +79,62 @@ window.addEventListener('load', async () => {
 
     }
 
+    /**
+     * Render program details modal
+     * @param {Program} program
+     */
+    async function renderProgramDetails(program) {
+
+        const modal = $('#modal-details-program')
+        const content = $('.content', modal)
+
+        const tags = program.tags.map((tag) => {
+            return `<span class="tag">${tag}</span>`
+        }).join('')
+        
+        const flags = program.flags.map((flag) => {
+            code = flag.replaceAll('--', '')
+            return `<span class="flag flag-${code}">${flag}</span>`
+        }).join('')
+
+        const folders = program.folders.map((folder) => {
+            return `<span class="folder">${folder}</span>`
+        }).join('')
+
+        const html = `
+            <div class="icon">
+                <img loading="lazy" src="/img/programs/${program.id}.png" alt="${program.name}" width="96" height="96" />
+            </div>
+            <div class="info">
+                <h4><b>${program.name}</b></h4>
+                <span>Description:</span> ${program.description}<br/>
+                <span>Website:</span> <a target="_blank" href="${program.website}" title="Visit">${program.website}</a>
+            </div>
+            <div class="info">
+                ${ tags ? `<span>Tags:</span> <div class="tags">${tags}</div><br/>` : `` }
+                ${ flags ? `<span>Flags:</span> <div class="flags">${flags}</div><br/>` : `` }
+                ${ folders ? `<span>Folders:</span> <div class="folders">${folders}</div>` : `` }
+            </div>
+        `
+
+        modal.dataset.program = program.id
+        content.innerHTML = html
+        window.showModal(modal)
+
+    }
+
+    /**
+     * Load and show available programs in the software
+     */
+    async function loadPrograms() {
+
+        /** @type {ListProgramsResult} */
+        const request = await requestJson('GET', '/api/programs')
+        programs = request.data
+        renderPrograms()
+
+    }
+
     on('#programs .select-all', 'click', (event) => {
         event.preventDefault()
         const parent = event.target.closest('.group')
@@ -80,6 +147,18 @@ window.addEventListener('load', async () => {
         const parent = event.target.closest('.group')
         const inputs = $$('input[type="checkbox"]', parent)
         inputs.map((input) => input.checked = "")
+    })
+
+    on('#programs [data-details-program]', 'click', async (event) => {
+        event.preventDefault()
+
+        const button = event.target.closest('[data-details-program]')
+        if (button.disabled) {
+            return
+        }
+
+        const program = getProgram(button.dataset.detailsProgram)
+        await renderProgramDetails(program)
     })
 
     on('#programs form', 'submit', async (event) => {
